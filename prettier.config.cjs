@@ -40,7 +40,41 @@ const customOverrides = {
   quoteProps: 'consistent',
 };
 
+// Import sorting plugin configuration
+// This replaces ESLint's simple-import-sort for more reliable import sorting
+
 module.exports = {
   ...prettierDefaults,
   ...customOverrides,
+  plugins: ['@ianvs/prettier-plugin-sort-imports'],
+  importOrder: [
+    // React & External Packages (specific ones first)
+    '^react',
+    '^@react',
+    '^@finografic',
+    '^@workspace',
+    // Other external packages
+    '^@',
+    '<THIRD_PARTY_MODULES>',
+    // Internal absolute imports: components, providers, pages
+    '^(pages|components|lib)(/.*|$)',
+    // Hooks, routes, providers, queries
+    '^(hooks|routes|providers|queries)(/.*|$)',
+    // Utils, types, constants, config
+    '^(utils)(/.*|$)',
+    '^(types|constants)(/.*|$)',
+    '^(config|dev-tools)(/.*|$)',
+    // Relative imports (parent directories)
+    '^\\.\\.(?!/?$)',
+    '^\\.\\./?$',
+    '^\\./(?=.*/)(?!/?$)',
+    '^\\.(?!/?$)',
+    '^\\./?$',
+    // Styles (CSS imports last)
+    '^(styles)',
+    '^.+\\.s?css$',
+    '^.+\\.styles$',
+  ],
+  importOrderSeparation: true, // Add blank lines between groups
+  importOrderSortSpecifiers: true, // Sort imports within each group
 };

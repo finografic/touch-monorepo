@@ -144,6 +144,118 @@ These rules are intentionally disabled to improve developer experience:
 - `unused-imports/no-unused-imports` - Manual import management preferred
 - `style/jsx-one-expression-per-line` - Let Prettier format expressions
 
+## Import Sorting - HYBRID APPROACH (ESLint + Prettier)
+
+### ✅ Current Solution: Both ESLint and Prettier
+
+**Import sorting uses BOTH ESLint and Prettier** for maximum reliability and enforcement:
+
+1. **ESLint (`simple-import-sort`)** - Provides granular control and detailed error reporting
+2. **Prettier (`@ianvs/prettier-plugin-sort-imports`)** - Better at detecting errors and enforcing rules on save
+
+This hybrid approach gives you:
+- **Granular control** from ESLint's detailed grouping rules
+- **Better error detection** from Prettier's plugin
+- **Automatic enforcement** on save via Prettier
+- **Redundancy** - if one fails, the other still works
+
+### Configuration
+
+**ESLint Configuration** (`apps/client/eslint.config.mjs`):
+
+```typescript
+import simpleImportSort from 'eslint-plugin-simple-import-sort';
+
+export default fino({
+  plugins: {
+    'simple-import-sort': simpleImportSort,
+  },
+  rules: {
+    'simple-import-sort/imports': [
+      ERROR,
+      {
+        groups: [
+          // React imports + React-related packages
+          ['^react', '^@react', '^@finografic', '^@workspace'],
+          // Internal absolute imports: components, providers, pages
+          ['^@?\\w', '^(pages|components|lib)(/.*|$)'],
+          // Hooks, routes, providers, queries
+          ['^(hooks|routes|providers|queries)(/.*|$)'],
+          // Side effect imports
+          ['^\\u0000'],
+          // Relative imports + styles
+          [
+            '^(utils)',
+            '^(types|constants)',
+            '^(config|dev-tools)',
+            '^\\.\\.(?!/?$)',
+            '^\\.\\./?$',
+            '^\\./(?=.*/)(?!/?$)',
+            '^\\.(?!/?$)',
+            '^\\./?$',
+            '^(styles)',
+            '^.+\\.s?css$',
+            '^.+\\.styles$',
+          ],
+        ],
+      },
+    ],
+    'simple-import-sort/exports': ERROR,
+  },
+});
+```
+
+**Prettier Configuration** (`prettier.config.cjs`):
+
+```javascript
+module.exports = {
+  // ... other prettier config
+  plugins: ['@ianvs/prettier-plugin-sort-imports'],
+  importOrder: [
+    // React & External Packages
+    '^react',
+    '^@react',
+    '^@finografic',
+    '^@workspace',
+    '^@',
+    '<THIRD_PARTY_MODULES>',
+    // Internal imports (matches ESLint groups)
+    '^(pages|components|lib)(/.*|$)',
+    '^(hooks|routes|providers|queries)(/.*|$)',
+    '^(utils)(/.*|$)',
+    '^(types|constants)(/.*|$)',
+    '^(config|dev-tools)(/.*|$)',
+    // Relative imports
+    '^\\.\\.(?!/?$)',
+    '^\\.\\./?$',
+    '^\\./(?=.*/)(?!/?$)',
+    '^\\.(?!/?$)',
+    '^\\./?$',
+    // Styles
+    '^(styles)',
+    '^.+\\.s?css$',
+    '^.+\\.styles$',
+  ],
+};
+```
+
+### How It Works
+
+- **On Save**: Prettier automatically sorts imports when you save (via `formatOnSave`)
+- **ESLint Check**: ESLint validates import order and reports detailed errors
+- **Both Together**: ESLint provides the rules, Prettier enforces them on save
+- **Redundancy**: If one system fails, the other still works
+
+### If Import Sorting Stops Working
+
+1. **Check ESLint config**: Verify `simple-import-sort` plugin is registered in `fino()` call
+2. **Check Prettier config**: Verify `@ianvs/prettier-plugin-sort-imports` is in `plugins` array
+3. **Rebuild project**: `pnpm install` or full rebuild often fixes transient issues
+4. **Restart VS Code**: Sometimes plugins need a restart to reload
+5. **Check both systems**: Run `pnpm lint.fix` (ESLint) and `npx prettier --write` (Prettier)
+
+---
+
 ## ESLint Config Structure - CRITICAL RULES
 
 ### ⚠️ DO NOT Modify ESLint Config Structure
@@ -153,13 +265,13 @@ These rules are intentionally disabled to improve developer experience:
 This is a **CRITICAL RULE** that has caused import sorting to break multiple times. The pattern below **MUST NEVER BE USED**:
 
 ```typescript
-// ❌ NEVER DO THIS - This breaks ESLint completely
-// This pattern breaks plugin registration and causes simple-import-sort to stop working
+// ❌ OLD APPROACH - This caused constant breakage
+// ESLint plugin registration issues made this unreliable
 const finoConfig = fino({ ... });
 const baseConfig = Array.isArray(finoConfig) ? finoConfig : [finoConfig];
 const configWithPlugin = baseConfig.map((config) => ({
   ...config,
-  plugins: { ...config.plugins, 'plugin-name': plugin },
+  plugins: { ...config.plugins, 'simple-import-sort': plugin },
 }));
 export default configWithPlugin;
 ```
@@ -169,7 +281,6 @@ export default configWithPlugin;
 ```typescript
 // ✅ CORRECT - Plugin directly in fino() call
 // This is the ONLY pattern that works reliably
-// This is the FINAL WORKING VERSION - tested and confirmed working
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import { ERROR, fino, OFF } from '@finografic/eslint-config';
 import globals from 'globals';
@@ -190,57 +301,22 @@ export default fino({
   formatters: true,
   typescript: true,
   rules: {
-    'fino/top-level-function': OFF,
-    'no-undef': [ERROR, { typeof: true }],
-    'node/prefer-global/process': [ERROR, 'always'],
-    'regexp/prefer-w': OFF,
-    'style/no-multi-spaces': OFF,
-    'ts/no-unused-vars': OFF,
-    'ts/consistent-type-imports': [
-      ERROR,
-      {
-        prefer: 'type-imports',
-        disallowTypeAnnotations: true,
-        fixStyle: 'separate-type-imports',
-      },
-    ],
-    'jsdoc/check-alignment': OFF,
-    'unused-imports/no-unused-imports': OFF,
-    'prefer-arrow-callback': OFF,
-    'test/prefer-lowercase-title': OFF,
-
-    // Disable JSX parentheses rules that conflict with Prettier
-    'style/jsx-wrap-multilines': OFF,
-
-    // Disable conflicting rules with simple-import-sort
-    'perfectionist/sort-named-imports': OFF,
-    'perfectionist/sort-object-types': OFF,
-    'perfectionist/sort-objects': OFF,
-    'perfectionist/sort-imports': OFF,
-
-    // Disable other import-related rules that conflict
-    'import/order': OFF,
-    'import/sort-imports': OFF,
-    'sort-imports': OFF,
-
-    // Disable unused import removal rules
-    'import/no-unused-modules': OFF,
-    'import/no-unresolved': OFF,
+    // ... other rules
 
     // Import sorting rules
     'simple-import-sort/imports': [
       ERROR,
       {
         groups: [
-          // React imports + React-related packages (merged)
+          // React imports + React-related packages
           ['^react', '^@react', '^@finografic', '^@workspace'],
           // Internal absolute imports: components, providers, pages
           ['^@?\\w', '^(pages|components|lib)(/.*|$)'],
-          // The rest of internal absolute imports
+          // Hooks, routes, providers, queries
           ['^(hooks|routes|providers|queries)(/.*|$)'],
           // Side effect imports
           ['^\\u0000'],
-          // All relative imports (parent + same-folder + styles merged)
+          // Relative imports + styles
           [
             '^(utils)',
             '^(types|constants)',
@@ -258,7 +334,6 @@ export default fino({
       },
     ],
     'simple-import-sort/exports': ERROR,
-    'style/jsx-one-expression-per-line': OFF,
   },
 });
 ```
@@ -283,15 +358,13 @@ These rules conflict with `simple-import-sort` and cause it to stop working comp
 - The issue is subtle - ESLint may still run but plugins won't be recognized
 - **This has broken multiple times** - always use the direct structure
 
-### If Import Sorting Stops Working
+### Why This Matters
 
-1. **First**: Check the config structure matches the correct pattern above (exact match required)
-2. **Second**: Verify that `import/no-duplicates` and `fino/import-dedupe` are NOT present in rules
-3. **Third**: Try rebuilding the project (`pnpm install` or full rebuild) - this often fixes transient issues
-4. **Fourth**: Check `@finografic/eslint-config` version - latest version (9.18.4+) works correctly
-5. **Fifth**: Compare with git history or backup to verify structure matches the working version
-6. **Never**: Manually merge configs - always use the direct structure shown above
-7. **Never**: Add `import/no-duplicates` or `fino/import-dedupe` - these break simple-import-sort
+- The `fino()` wrapper from `@finografic/eslint-config` handles plugin registration internally
+- Manually merging configs after `fino()` breaks plugin registration completely
+- This causes `simple-import-sort` and other plugins to stop working
+- The issue is subtle - ESLint may still run but plugins won't be recognized
+- **This has broken multiple times** - always use the direct structure
 
 ### Troubleshooting Checklist
 
@@ -301,15 +374,19 @@ These rules conflict with `simple-import-sort` and cause it to stop working comp
 - [ ] No spreading or combining of config objects after `fino()` returns
 - [ ] `import/no-duplicates` rule is NOT present (conflicts with simple-import-sort)
 - [ ] `fino/import-dedupe` rule is NOT present (conflicts with simple-import-sort)
-- [ ] Config structure matches the exact working version shown above
+- [ ] ESLint config structure matches the exact working version shown above
+- [ ] Prettier plugin is installed and configured in `prettier.config.cjs`
+- [ ] Both ESLint and Prettier import order configs are aligned
 - [ ] Project has been rebuilt after any config changes (`pnpm install` or full rebuild)
 
 ## Best Practices
 
-1. **Don't manually fix import order** - Use `pnpm lint.fix`
+1. **Don't manually fix import order** - Use `pnpm lint.fix` or let Prettier format on save
 2. **Don't add/remove JSX parentheses** - Let Prettier handle it
 3. **Group imports logically** - Follow the grouping rules above
-4. **Blank lines between import groups** - Improves readability
+4. **Blank lines between import groups** - Improves readability (handled automatically)
 5. **Run lint fix before committing** - Ensures consistent code style
 6. **Never modify ESLint config structure** - Keep plugins directly in `fino()` call
+7. **Keep ESLint and Prettier configs aligned** - Both should use the same import order groups
+8. **Use both systems together** - ESLint for rules, Prettier for enforcement on save
 

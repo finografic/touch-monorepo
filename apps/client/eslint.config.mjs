@@ -5,6 +5,9 @@ import { ERROR, fino, OFF } from '@finografic/eslint-config';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import globals from 'globals';
 
+// NOTE: Import sorting is now handled by Prettier plugin (@ianvs/prettier-plugin-sort-imports)
+// This is more reliable than ESLint plugins which have registration issues
+
 export default fino({
   ignores: ['**/*.md', '**/*.mdx', '**/*.json', '**/*.jsonc'],
   plugins: {
