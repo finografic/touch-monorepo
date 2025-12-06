@@ -23,6 +23,7 @@ export const AdminTestPage: React.FC = () => {
     resetSection,
     saveSection,
     isSectionDirty,
+    addNewItem,
   } = useProductTranslationSections();
 
   const [activeTab, setActiveTab] = useState<SectionKey>('drinkTypes');
@@ -63,6 +64,10 @@ export const AdminTestPage: React.FC = () => {
       message: 'Changes reset',
     });
   }, [activeTab, resetSection, toast]);
+
+  const handleAddNew = useCallback(() => {
+    addNewItem(activeTab);
+  }, [activeTab, addNewItem]);
 
   if (isLoading || !activeSection) {
     return (
@@ -113,6 +118,7 @@ export const AdminTestPage: React.FC = () => {
                 items={section.items}
                 supportedLanguages={supportedLanguages}
                 onItemChange={handleItemChange}
+                onAddNew={handleAddNew}
                 onSave={handleSave}
                 onReset={handleReset}
                 isDirty={isSectionDirty(section.key)}

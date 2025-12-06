@@ -37,7 +37,7 @@ export const styles = css`
   }
 
   .button-delete {
-    color: ${colors.red};
+    color: ${colors.danger};
   }
 
   .icon-edit,
@@ -99,4 +99,3 @@ export const styles = css`
     }
   }
 `;
-

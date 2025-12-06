@@ -17,7 +17,7 @@ import { useToast } from 'components/Toast';
 import type { LanguageInfo } from 'types/models/supported-language.model';
 import { getLanguageFieldName } from '../../TranslationsProductPage/utils/translation-helpers';
 import { slugify } from 'utils/string.utils';
-import { TrashIcon } from 'styles/icons';
+import { PlusIcon, TrashIcon } from 'styles/icons';
 import 'primereact/resources/themes/lara-light-cyan/theme.css';
 import 'primereact/resources/primereact.min.css';
 import { styles } from './ProductTranslationsTable.styles';
@@ -38,6 +38,7 @@ export interface ProductTranslationsTableProps {
   items: TranslationItem[];
   supportedLanguages: LanguageInfo[];
   onItemChange: (itemId: string, fieldName: string, value: string) => void;
+  onAddNew?: () => void;
   onSave?: () => Promise<any>;
   onReset?: () => void;
   isDirty?: boolean;
@@ -64,12 +65,18 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
   items,
   supportedLanguages,
   onItemChange,
+  onAddNew,
   onSave,
   onReset,
   isDirty = false,
 }) => {
   const { t } = useTranslation();
   const { toast } = useToast();
+
+  // Ref for DataTable to programmatically control row editing
+  const dataTableRef = useRef<any>(null);
+  // Track previous items length to detect new items
+  const prevItemsLengthRef = useRef<number>(items.length);
 
   // Find es-ES language field name
   const esESFieldName = useMemo(() => {
@@ -243,6 +250,62 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
     }
   }, [onSave, toast]);
 
+  const handleAddNew = useCallback(() => {
+    if (!onAddNew) return;
+    onAddNew();
+  }, [onAddNew]);
+
+  // Effect to start editing when a new row is added (detected by items length increase)
+  useEffect(() => {
+    const currentLength = items.length;
+    const prevLength = prevItemsLengthRef.current;
+
+    // If items increased, a new item was added
+    if (currentLength > prevLength && dataTableRef.current) {
+      const newItem = items[currentLength - 1]; // Last item is the new one
+
+      if (newItem) {
+        // Start editing the new row after a brief delay to ensure DOM is updated
+        setTimeout(() => {
+          try {
+            if (dataTableRef.current) {
+              dataTableRef.current.startRowEdit(newItem);
+            }
+
+            // Focus the es-ES field after editor is rendered
+            setTimeout(() => {
+              if (esESFieldName) {
+                // Find the es-ES input in the editing row
+                const editingRow = document.querySelector('.p-datatable-tbody tr.p-row-editing');
+                if (editingRow) {
+                  // Find the es-ES column index
+                  const esESIndex = supportedLanguages.findIndex((lang) => lang.isoCode === 'es-ES');
+                  if (esESIndex >= 0) {
+                    // Name column is first (index 0), then language columns start at index 1
+                    // +1 for name column, +1 for nth-child (1-based)
+                    const cellIndex = 2 + esESIndex;
+                    const esESCell = editingRow.querySelector(
+                      `td:nth-child(${cellIndex}) .p-cell-editor input`,
+                    );
+                    if (esESCell) {
+                      (esESCell as HTMLInputElement).focus();
+                      (esESCell as HTMLInputElement).select();
+                    }
+                  }
+                }
+              }
+            }, 200);
+          } catch (error) {
+            console.warn('Failed to start row edit programmatically:', error);
+          }
+        }, 100);
+      }
+    }
+
+    // Update previous length
+    prevItemsLengthRef.current = currentLength;
+  }, [items, esESFieldName, supportedLanguages]);
+
   // ============================================================================
   // Body Templates (Custom Cell Renderers)
   // ============================================================================
@@ -330,11 +393,25 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
                 {t('ui.buttons.save')}
               </Button>
             )}
+            {onAddNew && (
+              <Button
+                type="button"
+                variant="solid"
+                color="info"
+                onClick={handleAddNew}
+                size="sm"
+                aria-label={t('ui.buttons.addNew') || 'Add new translation entry'}
+                title={t('ui.buttons.addNew') || 'Add new translation entry'}
+              >
+                <PlusIcon />
+              </Button>
+            )}
           </Flex>
         )}
       </Flex>
 
       <DataTable
+        ref={dataTableRef}
         value={items}
         editMode="row"
         dataKey="id"

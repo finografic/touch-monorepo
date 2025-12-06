@@ -308,6 +308,38 @@ export const useProductTranslationSections = () => {
     [sections, initialSections, supportedLanguages],
   );
 
+  const addNewItem = useCallback(
+    (sectionKey: SectionKey) => {
+      const section = sections.find((s) => s.key === sectionKey);
+      if (!section) return;
+
+      // Create a new empty item with a temporary ID
+      const newItem: TranslationItem = {
+        id: `temp-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
+        name: '',
+      };
+
+      // Initialize all language fields as empty strings
+      supportedLanguages.forEach((lang) => {
+        const fieldName = getLanguageFieldName(lang.isoCode);
+        newItem[fieldName] = '';
+      });
+
+      // Add the new item to the section
+      setSections((prev) =>
+        prev.map((s) =>
+          s.key === sectionKey
+            ? {
+                ...s,
+                items: [...s.items, newItem],
+              }
+            : s,
+        ),
+      );
+    },
+    [sections, supportedLanguages],
+  );
+
   return {
     sections,
     supportedLanguages,
@@ -316,5 +348,6 @@ export const useProductTranslationSections = () => {
     resetSection,
     saveSection,
     isSectionDirty,
+    addNewItem,
   };
 };
