@@ -2,7 +2,7 @@ import { createStore, type StoreApi, useStore } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 import { useShallow } from 'zustand/react/shallow';
 
-import { createSetters, createZustandContext } from 'utils/zustand';
+import { createSetters, createZustandContext } from '@finografic/zustand-context-creator';
 import type { HeartbeatStore, HeartbeatValues } from './HeartbeatContext.types';
 
 let heartbeatInterval: ReturnType<typeof setInterval> | null = null;

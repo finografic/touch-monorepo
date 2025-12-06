@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-import type { CreateSettersType } from 'utils/zustand';
+import type { CreateSettersType } from '@finografic/zustand-context-creator';
 import type { ContentKeys } from './ContentContext';
 
 export interface ContentValues {

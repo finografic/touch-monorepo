@@ -7,7 +7,7 @@ import { CONFIG_EXPIRY_TIME_MS } from 'config/app';
 
 import type { TimerBasic, TimerItem } from 'providers/TimersProvider/timer.types';
 
-import { createSetters, createZustandContext } from 'utils/zustand';
+import { createSetters, createZustandContext } from '@finografic/zustand-context-creator';
 import type { TimersStore, TimersValues } from './TimersContext.types';
 import type { RecallConfig } from './timer.types';
 

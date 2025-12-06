@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-import type { CreateSettersType } from 'utils/zustand';
+import type { CreateSettersType } from '@finografic/zustand-context-creator';
 import type { PaginationKeys, SETTER_PREFIX } from './PaginationContext';
 
 export interface PaginationValues {

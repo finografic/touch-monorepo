@@ -132,6 +132,7 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
         '@workspace/core/types',
         '@workspace/core/types/utils',
         '@workspace/i18n',
+        '@finografic/zustand-context-creator',
       ],
       esbuildOptions: {
         target: 'es2020',

@@ -81,9 +81,6 @@
     "messages/**/*.json",
     "project.inlang/**/*",
     "src/i18n/utils/**/*.ts",
-    "../../packages/core/src/types/countries.types.ts",
-    "../../config/i18n.config.ts",
-    "../../config/generated/**/*.ts",
     "env.client.ts",
     "vite.utils.ts"
   ],

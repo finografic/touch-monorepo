@@ -2,7 +2,7 @@ import { createStore, type StoreApi, useStore } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 import { useShallow } from 'zustand/react/shallow';
 
-import { createSetters, createZustandContext } from 'utils/zustand';
+import { createSetters, createZustandContext } from '@finografic/zustand-context-creator';
 import type { OrderFilters } from 'types/filters.types';
 import type { FlowTypeValue } from 'types/flow.types';
 import { FLOW_TYPES } from 'types/flow.types';

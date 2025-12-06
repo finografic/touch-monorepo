@@ -19,7 +19,7 @@ import { subscribeWithSelector } from 'zustand/middleware';
 import { useShallow } from 'zustand/react/shallow';
 import { authClient } from 'lib/auth-client';
 
-import { createSetters, createZustandContext } from 'utils/zustand';
+import { createSetters, createZustandContext } from '@finografic/zustand-context-creator';
 import type {
   AuthSessionData,
   AuthSignInParams,
