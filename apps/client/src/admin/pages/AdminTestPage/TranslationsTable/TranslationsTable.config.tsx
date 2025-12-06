@@ -1,45 +1,6 @@
-import type { CSSProperties } from 'react';
-import type { DataTableProps } from 'primereact/datatable';
+import type { TranslationsTableColumnConfig } from './TranslationsTable.types';
 
-import type { ColumnKey } from './TranslationsTable';
-
-// ============================================================================
-// Constants
-// ============================================================================
-
-export const PAGINATOR_NUM_ENTRIES = 50;
-
-export const PAGINATOR_PROPS = {
-  paginator: true,
-  rows: PAGINATOR_NUM_ENTRIES,
-  paginatorTemplate:
-    'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown',
-  currentPageReportTemplate: 'Showing {first} to {last} of {totalRecords} entries',
-  // rowsPerPageOptions: [25, 50, 100],
-} satisfies Partial<DataTableProps<any>>;
-
-export type TranslationsTableColumnBodyType =
-  | 'index'
-  | 'mode'
-  | 'drinkType'
-  | 'drinkSubtype'
-  | 'volume'
-  | 'containerType'
-  | 'temperature'
-  | 'actions';
-
-export interface TranslationsTableColumnConfig {
-  field: ColumnKey;
-  header: string;
-  sortable?: boolean;
-  filter?: boolean;
-  filterPlaceholder?: string;
-  style?: CSSProperties;
-  headerStyle?: CSSProperties;
-  bodyType: TranslationsTableColumnBodyType;
-}
-
-export const ORDERS_TABLE_COLUMNS: TranslationsTableColumnConfig[] = [
+export const TRANSLATIONS_TABLE_COLUMNS: TranslationsTableColumnConfig[] = [
   {
     field: 'displayIndex',
     header: '#',

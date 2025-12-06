@@ -5,11 +5,9 @@ import { ERROR, fino, OFF } from '@finografic/eslint-config';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import globals from 'globals';
 
-const baseConfig = fino({
+export default fino({
   ignores: ['**/*.md', '**/*.mdx', '**/*.json', '**/*.jsonc'],
   plugins: {
-    // 'react': reactPlugin,
-    // 'react-hooks': reactHooksPlugin,
     'simple-import-sort': simpleImportSort,
   },
   languageOptions: {
@@ -126,5 +124,3 @@ const baseConfig = fino({
     'style/jsx-one-expression-per-line': OFF,
   },
 });
-
-export default baseConfig;

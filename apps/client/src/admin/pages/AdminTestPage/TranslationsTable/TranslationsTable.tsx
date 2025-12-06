@@ -7,6 +7,7 @@ import type { ColumnProps } from 'primereact/column';
 import type { DataTableFilterMeta, DataTableProps } from 'primereact/datatable';
 import { DataTable } from 'primereact/datatable';
 
+import { PAGINATOR_PROPS } from 'admin/config/admin.tables.config';
 import { useAppConfig } from 'providers/AppConfigProvider';
 
 import type { OrderReadableWithIndex } from '../hooks/useOrdersFilter';
@@ -15,24 +16,21 @@ import { EditIcon, TrashIcon } from 'styles/icons';
 import 'primereact/resources/themes/lara-light-cyan/theme.css';
 import 'primereact/resources/primereact.min.css';
 import { styles } from './TranslationsTable.styles';
-import {
-  ORDERS_TABLE_COLUMNS,
-  type TranslationsTableColumnBodyType,
-  PAGINATOR_NUM_ENTRIES,
-} from './TranslationsTable.config';
+import { TRANSLATIONS_TABLE_COLUMNS } from './TranslationsTable.config';
+import type { TranslationsTableColumnBodyType } from './TranslationsTable.types';
 
 // ============================================================================
 // Constants
 // ============================================================================
 
-export const PAGINATOR_PROPS = {
-  paginator: true,
-  rows: PAGINATOR_NUM_ENTRIES,
-  paginatorTemplate:
-    'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown',
-  currentPageReportTemplate: 'Showing {first} to {last} of {totalRecords} entries',
-  // rowsPerPageOptions: [25, 50, 100],
-} satisfies Partial<DataTableProps<any>>;
+// export const PAGINATOR_PROPS = {
+//   paginator: true,
+//   rows: PAGINATOR_NUM_ENTRIES,
+//   paginatorTemplate:
+//     'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown',
+//   currentPageReportTemplate: 'Showing {first} to {last} of {totalRecords} entries',
+//   // rowsPerPageOptions: [25, 50, 100],
+// } satisfies Partial<DataTableProps<any>>;
 
 // ============================================================================
 // Column definition types
@@ -191,7 +189,7 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
         {...PAGINATOR_PROPS}
       >
         <Column selectionMode="multiple" headerStyle={{ width: '3rem' }} />
-        {ORDERS_TABLE_COLUMNS.map((column) => (
+        {TRANSLATIONS_TABLE_COLUMNS.map((column) => (
           <Column
             key={column.field}
             field={column.field === 'actions' ? undefined : column.field}

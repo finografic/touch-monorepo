@@ -144,6 +144,51 @@ These rules are intentionally disabled to improve developer experience:
 - `unused-imports/no-unused-imports` - Manual import management preferred
 - `style/jsx-one-expression-per-line` - Let Prettier format expressions
 
+## ESLint Config Structure - CRITICAL RULES
+
+### ⚠️ DO NOT Modify ESLint Config Structure
+
+**NEVER attempt to manually merge or combine ESLint configs after the `fino()` call.**
+
+```typescript
+// ❌ NEVER DO THIS - This breaks ESLint completely
+const finoConfig = fino({ ... });
+const baseConfig = Array.isArray(finoConfig) ? finoConfig : [finoConfig];
+const configWithPlugin = baseConfig.map((config) => ({
+  ...config,
+  plugins: { ...config.plugins, 'plugin-name': plugin },
+}));
+export default configWithPlugin;
+```
+
+**ALWAYS use the direct structure:**
+
+```typescript
+// ✅ CORRECT - Plugin directly in fino() call
+export default fino({
+  plugins: {
+    'simple-import-sort': simpleImportSort,
+  },
+  rules: {
+    'simple-import-sort/imports': [ERROR, { ... }],
+  },
+});
+```
+
+### Why This Matters
+
+- The `fino()` wrapper from `@finografic/eslint-config` handles plugin registration internally
+- Manually merging configs after `fino()` breaks plugin registration
+- This causes `simple-import-sort` and other plugins to stop working
+- The issue is subtle - ESLint may still run but plugins won't be recognized
+
+### If Import Sorting Stops Working
+
+1. **Check the config structure** - Ensure plugins are directly in `fino()` call
+2. **Check `@finografic/eslint-config` version** - Newer versions may have breaking changes
+3. **Compare with working backup** - Use git history or backup to verify structure
+4. **Never manually merge configs** - Always use the direct structure shown above
+
 ## Best Practices
 
 1. **Don't manually fix import order** - Use `pnpm lint.fix`
@@ -151,4 +196,5 @@ These rules are intentionally disabled to improve developer experience:
 3. **Group imports logically** - Follow the grouping rules above
 4. **Blank lines between import groups** - Improves readability
 5. **Run lint fix before committing** - Ensures consistent code style
+6. **Never modify ESLint config structure** - Keep plugins directly in `fino()` call
 

@@ -198,6 +198,28 @@ export const useProductTranslationSections = () => {
     [initialSections],
   );
 
+  // Helper function to check if an item is empty (all language fields are empty)
+  const isItemEmpty = useCallback(
+    (item: TranslationItem): boolean => {
+      // Check if name is empty
+      if (item.name && item.name.trim()) {
+        return false;
+      }
+
+      // Check if any language field has a value
+      for (const lang of supportedLanguages) {
+        const fieldName = getLanguageFieldName(lang.isoCode);
+        const value = item[fieldName];
+        if (value && typeof value === 'string' && value.trim()) {
+          return false;
+        }
+      }
+
+      return true;
+    },
+    [supportedLanguages],
+  );
+
   const saveSection = useCallback(
     async (sectionKey: SectionKey) => {
       const section = sections.find((s) => s.key === sectionKey);
@@ -207,13 +229,21 @@ export const useProductTranslationSections = () => {
         throw new Error(`Section ${sectionKey} not found`);
       }
 
+      // Filter out empty items (new items that are empty should not be saved)
+      const nonEmptyItems = section.items.filter((item) => !isItemEmpty(item));
+
       // Prepare updates by comparing with original data
       const updates: Array<{ id: string; updates: DrinkTypeUpdate | VolumeUpdate | ContainerTypeUpdate }> =
         [];
+      const deletions: string[] = []; // IDs of items that were emptied (existing items)
 
-      for (const item of section.items) {
+      for (const item of nonEmptyItems) {
         const originalItem = initialSection.items.find((orig) => orig.id === item.id);
-        if (!originalItem) continue;
+
+        // If item doesn't exist in original, it's a new item - skip (already filtered out empty ones)
+        if (!originalItem) {
+          continue;
+        }
 
         // Convert to JSON format for comparison
         const convertedItem = convertLegacyFieldsToTranslations(item, supportedLanguages);
@@ -226,7 +256,41 @@ export const useProductTranslationSections = () => {
         }
       }
 
-      if (updates.length === 0) {
+      // Find items that existed in original but are now empty (should be deleted)
+      for (const originalItem of initialSection.items) {
+        const currentItem = section.items.find((item) => item.id === originalItem.id);
+
+        // If item exists in original but is now empty, mark for deletion
+        if (currentItem && isItemEmpty(currentItem)) {
+          deletions.push(originalItem.id);
+        }
+      }
+
+      // Handle deletions by setting isActive to false (soft delete)
+      // TODO: If hard delete endpoints exist, use those instead
+      if (deletions.length > 0) {
+        const deleteUpdates = deletions.map((id) => {
+          // Try to find item in current section first, then fall back to original
+          const currentItem = section.items.find((i) => i.id === id);
+          const originalItem = initialSection.items.find((i) => i.id === id);
+          const item = currentItem || originalItem;
+
+          const deleteUpdate: any = {
+            id,
+            updates: { isActive: false },
+          };
+
+          // For drinkSubtypes, we need to include drinkTypeId
+          if (sectionKey === 'drinkSubtypes' && item?.drinkTypeId) {
+            deleteUpdate.drinkTypeId = item.drinkTypeId;
+          }
+
+          return deleteUpdate;
+        });
+        updates.push(...deleteUpdates);
+      }
+
+      if (updates.length === 0 && deletions.length === 0) {
         return { success: true, message: 'No changes to save' };
       }
 
@@ -237,10 +301,19 @@ export const useProductTranslationSections = () => {
       if (sectionKey === 'drinkSubtypes') {
         // Drink subtypes require drinkTypeId, so we need to include it in each update
         batchData[sectionKey] = updates.map((update: any) => {
-          const item = section.items.find((i) => i.id === update.id);
+          // If drinkTypeId is already in the update (from deleteUpdates), use it
+          if (update.drinkTypeId) {
+            return update;
+          }
+
+          // Otherwise, find it from the current or original item
+          const item = section.items.find((i) => i.id === update.id) ||
+                       initialSection.items.find((i) => i.id === update.id);
+
           if (!item?.drinkTypeId) {
             throw new Error(`drinkTypeId is required for drink subtype ${update.id}`);
           }
+
           return {
             ...update,
             drinkTypeId: item.drinkTypeId,
@@ -265,35 +338,47 @@ export const useProductTranslationSections = () => {
       }
 
       // Update initial sections to reflect saved state
-      // This keeps local state in sync with what was saved
-      // We update local state directly instead of refetching to avoid overwriting user input
+      // Remove empty items and deleted items from the saved state
+      const savedItems = nonEmptyItems.filter((item) => !deletions.includes(item.id));
+
       setInitialSections((prev) =>
         prev.map((s) =>
           s.key === sectionKey
             ? {
                 ...s,
-                items: section.items.map(cloneItem),
+                items: savedItems.map(cloneItem),
               }
             : s,
         ),
       );
 
       // Also update the current sections to match what was saved
-      // This ensures the form shows the saved values immediately
+      // Remove empty items and deleted items
       setSections((prev) =>
         prev.map((s) =>
           s.key === sectionKey
             ? {
                 ...s,
-                items: section.items.map(cloneItem),
+                items: savedItems.map(cloneItem),
               }
             : s,
         ),
       );
 
-      return { success: true, message: `Saved ${updates.length} item(s)` };
+      const updateCount = updates.length - deletions.length; // Don't count deletions as updates
+      const deleteCount = deletions.length;
+      let message = '';
+      if (updateCount > 0 && deleteCount > 0) {
+        message = `Saved ${updateCount} item(s) and deleted ${deleteCount} item(s)`;
+      } else if (updateCount > 0) {
+        message = `Saved ${updateCount} item(s)`;
+      } else if (deleteCount > 0) {
+        message = `Deleted ${deleteCount} item(s)`;
+      }
+
+      return { success: true, message };
     },
-    [sections, initialSections, supportedLanguages],
+    [sections, initialSections, supportedLanguages, isItemEmpty],
   );
 
   const isSectionDirty = useCallback(

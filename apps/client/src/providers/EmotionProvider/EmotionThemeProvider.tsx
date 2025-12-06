@@ -9,7 +9,10 @@ import { type ReactNode, useEffect, useState } from 'react';
 
 import { ThemeProvider } from '@emotion/react';
 
-import { oklchDarkTheme as darkTheme, oklchLightTheme as lightTheme } from 'styles/themes/generate-oklch-themes';
+import {
+  oklchDarkTheme as darkTheme,
+  oklchLightTheme as lightTheme,
+} from 'styles/themes/generate-oklch-themes';
 
 interface EmotionThemeProviderProps {
   children: ReactNode;
@@ -21,17 +24,14 @@ interface EmotionThemeProviderProps {
 export const EmotionThemeProvider = ({ children }: EmotionThemeProviderProps) => {
   const [theme, setTheme] = useState(lightTheme);
 
-  useEffect(() => {
-    // Set initial theme based on document attribute
+  useEffect(function initializeTheme() {
     const updateTheme = () => {
       const currentTheme = document.documentElement.getAttribute('data-theme');
       setTheme(currentTheme === 'dark' ? darkTheme : lightTheme);
     };
 
-    // Set initial theme
     updateTheme();
 
-    // Watch for theme changes
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {

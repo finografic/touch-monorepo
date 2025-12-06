@@ -21,7 +21,7 @@ export const AdminDashboardPageWithInterpolation: React.FC = () => {
       <p>{messages.admin.pages.dashboard.description}</p>
 
       {/* Interpolation - Welcome message with user name */}
-      <h2>{interpolate(messages.admin.welcome, { name: user?.username || 'Guest' })}</h2>
+      <h2>{interpolate(messages.admin.welcome, { name: user?.name || 'Guest' })}</h2>
 
       {/* Pluralization - Order count */}
       <p>{pluralize(orderCount, messages.admin.itemCount)}</p>
@@ -66,7 +66,7 @@ export const AdminDashboardPageWithHook: React.FC = () => {
       <h1>{messages.admin.pages.dashboard.title}</h1>
 
       {/* Interpolation */}
-      <h2>{t(messages.admin.welcome, { name: user?.username || 'Guest' })}</h2>
+      <h2>{t(messages.admin.welcome, { name: user?.name || 'Guest' })}</h2>
 
       {/* Pluralization */}
       <p>{plural(orderCount, messages.admin.itemCount)}</p>

@@ -22,6 +22,7 @@ import 'primereact/resources/themes/lara-light-cyan/theme.css';
 import 'primereact/resources/primereact.min.css';
 import { styles } from './ProductTranslationsTable.styles';
 import { PAGINATOR_NUM_ENTRIES } from './ProductTranslationsTable.config';
+import { PAGINATOR_NUM_ENTRIES as ADMIN_PAGINATOR_NUM_ENTRIES } from 'admin/config/admin.tables.config';
 
 // ============================================================================
 // Types
@@ -48,13 +49,17 @@ export interface ProductTranslationsTableProps {
 // Constants
 // ============================================================================
 
-export const PAGINATOR_PROPS = {
-  paginator: true,
-  rows: PAGINATOR_NUM_ENTRIES,
-  paginatorTemplate:
-    'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown',
-  currentPageReportTemplate: 'Showing {first} to {last} of {totalRecords} entries',
-} satisfies Partial<DataTableProps<any>>;
+// Get paginator props - hide paginator if items count is <= threshold
+const getPaginatorProps = (itemsCount: number) => {
+  const shouldShowPaginator = itemsCount > ADMIN_PAGINATOR_NUM_ENTRIES;
+  return {
+    paginator: shouldShowPaginator,
+    rows: ADMIN_PAGINATOR_NUM_ENTRIES,
+    paginatorTemplate:
+      'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown',
+    currentPageReportTemplate: 'Showing {first} to {last} of {totalRecords} entries',
+  } satisfies Partial<DataTableProps<any>>;
+};
 
 // ============================================================================
 // Component
@@ -422,7 +427,7 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
         className="product-translations-datatable"
         // stripedRows
         removableSort
-        {...PAGINATOR_PROPS}
+        {...getPaginatorProps(items.length)}
       >
         {/* Name column - read-only */}
         <Column

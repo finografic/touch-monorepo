@@ -87,7 +87,7 @@ export const DefrostTimer: React.FC<DefrostTimerProps> = ({ slotNumber, onComple
           {/* {process.env.NODE_ENV === 'development' && <TimerResetIcon />} */}
           {/* <strong>{formatTimeFromMs(remainingTime)}</strong> */}
           {defrost && defrost.status === 'processing' ? (
-            <strong>{formatTime(remainingTime)}</strong>
+            <span>{formatTime(remainingTime)}</span>
           ) : (
             <span>00:00</span>
           )}
