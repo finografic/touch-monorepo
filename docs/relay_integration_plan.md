@@ -593,20 +593,6 @@ RELAY_TIMEOUT=5000
 RELAY_RECONNECT_ATTEMPTS=5
 ```
 
-# ✅ NEW
-
-```bash
-# .env
-RELAY_ENABLED=true
-RELAY_PORT=/dev/ttyUSB0  # Linux/macOS
-# RELAY_PORT=COM3        # Windows
-RELAY_BAUD_RATE=9600
-RELAY_TIMEOUT=5000
-RELAY_RECONNECT_ATTEMPTS=5
-```
-
-### ✅ Configuration Service
-
 ```typescript
 // apps/server/src/config/relay.config.ts
 export const relayConfig = {
@@ -626,6 +612,35 @@ export const relayConfig = {
   ch340ProductId: '7523',
 };
 ```
+
+# ✅ NEW
+
+```bash
+# .env
+RELAY_ENABLED=true
+RELAY_NUM_RELAYS=16
+RELAY_RECONNECT_ATTEMPTS=5
+```
+
+```typescript
+// apps/server/src/config/relay.config.ts
+export const relayConfig = {
+  enabled: process.env.RELAY_ENABLED === 'true',
+  maxReconnectAttempts: parseInt(process.env.RELAY_RECONNECT_ATTEMPTS || '5'),
+  slotMapping: {
+    // Map UI slots to physical relays
+    1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8
+  },
+  // Device detection
+  ftdiVendorId: '0403',
+  ftdiProductId: '6001',
+  ch340VendorId: '1a86',
+  ch340ProductId: '7523',
+};
+```
+
+### ✅ Configuration Service
+
 
 ### ✅ Dependencies
 

@@ -7,11 +7,6 @@ const parseHexString = (hexStr: string): number => {
   return parseInt(cleaned, 16);
 };
 
-// Helper to format number as hex string without '0x' prefix (for display/logging)
-const formatHexString = (num: number): string => {
-  return num.toString(16).toLowerCase();
-};
-
 export const relayConfig = {
   enabled: env.RELAY_ENABLED,
   numRelays: env.RELAY_NUM_RELAYS,
@@ -20,9 +15,6 @@ export const relayConfig = {
   // Stored as numbers for HID device matching
   usbrelayVendorId: parseHexString(env.USBRELAY_VENDOR_ID),
   usbrelayProductId: parseHexString(env.USBRELAY_PRODUCT_ID),
-  // String versions for display/logging (without '0x' prefix)
-  usbrelayVendorIdString: formatHexString(parseHexString(env.USBRELAY_VENDOR_ID)),
-  usbrelayProductIdString: formatHexString(parseHexString(env.USBRELAY_PRODUCT_ID)),
 };
 
 export type RelayConfig = typeof relayConfig;
