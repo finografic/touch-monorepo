@@ -1,16 +1,14 @@
 import { useEffect, useMemo, useRef } from 'react';
 import type { RegionLocale } from '@workspace/i18n';
-
 import { useDataPoolProxy } from 'hooks/useDataPoolProxy';
 import { useFilters } from 'providers/FiltersProvider/useFilters';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { useOrders } from 'providers/OrdersProvider';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
-
 import type { DataEntry } from 'types/data.types';
-import type { OrderModel } from 'types/models/order.model';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
+import type { OrderModel } from 'types/models/order.model';
 import type { FilterKey } from 'types/slots.types';
 
 enum CHANGED {
@@ -38,7 +36,7 @@ interface DataPoolTrackingState {
 export const useRouteChangeHandler = () => {
   const { handleRouteChange } = useLayoutUi();
   const { currentSessionId, sessions } = useSession();
-  const { data, dataPool, dataFiltered, filters } = useFilters();
+  const { dataPool, filters } = useFilters();
   const { setFilters: setOrdersFilters } = useOrders();
   const { filterKey, loaderData, padsConfig } = useRouteConfig();
 
