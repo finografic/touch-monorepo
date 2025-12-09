@@ -45,7 +45,15 @@ export const batchTranslationEndpoints = {
     // Update drink types
     if (data.drinkTypes) {
       promises.push(
-        ...data.drinkTypes.map(({ id, updates }) => drinkTypeEndpoints.updateDrinkType(id, updates)),
+        ...data.drinkTypes.map(({ id, updates }) => {
+          const isNewItem = id.startsWith('temp-');
+          if (isNewItem) {
+            // Create new drink type using POST
+            return drinkTypeEndpoints.createDrinkType(updates);
+          }
+          // Update existing drink type using PATCH
+          return drinkTypeEndpoints.updateDrinkType(id, updates);
+        }),
       );
     }
 

@@ -136,19 +136,16 @@ export const useEditRow = ({
   }, [items, esESFieldName, debouncedUpdateName]);
 
   // Text editor for language fields
-  const textEditor = useCallback(
-    (options: ColumnEditorOptions) => {
-      return (
-        <InputText
-          type="text"
-          value={options.value || ''}
-          onChange={(e) => options.editorCallback?.(e.target.value)}
-          style={{ width: '100%' }}
-        />
-      );
-    },
-    [],
-  );
+  const textEditor = useCallback((options: ColumnEditorOptions) => {
+    return (
+      <InputText
+        type="text"
+        value={options.value || ''}
+        onChange={(e) => options.editorCallback?.(e.target.value)}
+        style={{ width: '100%' }}
+      />
+    );
+  }, []);
 
   // Custom editor for es-ES field that also updates the name field live
   const esESEditor = useCallback(
@@ -189,9 +186,7 @@ export const useEditRow = ({
       }
 
       // Find original data
-      const originalData = findOriginalData
-        ? findOriginalData(newData as TranslationItem)
-        : items[index];
+      const originalData = findOriginalData ? findOriginalData(newData as TranslationItem) : items[index];
 
       if (!originalData) return;
 
@@ -240,8 +235,14 @@ export const useEditRow = ({
         // Start editing the new row after a brief delay to ensure DOM is updated
         setTimeout(() => {
           try {
-            if (dataTableRef.current) {
-              dataTableRef.current.startRowEdit(newItem);
+            const table = dataTableRef.current;
+            if (table) {
+              // PrimeReact API difference: initRowEdit is the supported method; startRowEdit may not exist
+              if (typeof table.initRowEdit === 'function') {
+                table.initRowEdit(newItem);
+              } else if (typeof table.startRowEdit === 'function') {
+                table.startRowEdit(newItem);
+              }
             }
 
             // Focus the es-ES field after editor is rendered
@@ -285,4 +286,3 @@ export const useEditRow = ({
     esESFieldName,
   };
 };
-

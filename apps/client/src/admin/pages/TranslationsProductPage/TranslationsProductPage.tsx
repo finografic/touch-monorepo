@@ -25,6 +25,7 @@ export const TranslationsProductPage: React.FC = () => {
     isSectionDirty,
     addNewItem,
     deleteItem,
+    deleteItemImmediate,
   } = useProductTranslationSections();
 
   const [activeTab, setActiveTab] = useState<SectionKey>('drinkTypes');
@@ -66,15 +67,29 @@ export const TranslationsProductPage: React.FC = () => {
     });
   }, [activeTab, resetSection, toast]);
 
-  const handleAddNew = useCallback(() => {
-    addNewItem(activeTab);
-  }, [activeTab, addNewItem]);
+  const handleAddNew = useCallback(
+    (drinkTypeIdForSubtype?: string) => {
+      addNewItem(activeTab, drinkTypeIdForSubtype);
+    },
+    [activeTab, addNewItem],
+  );
 
   const handleDelete = useCallback(
     (itemId: string) => {
       deleteItem(activeTab, itemId);
     },
     [activeTab, deleteItem],
+  );
+
+  const handleDeleteImmediate = useCallback(
+    async (itemId: string, drinkTypeId?: string) => {
+      await deleteItemImmediate(activeTab, itemId, drinkTypeId);
+      toast({
+        variant: 'success',
+        message: 'Item deleted',
+      });
+    },
+    [activeTab, deleteItemImmediate, toast],
   );
 
   if (isLoading || !activeSection) {
@@ -127,6 +142,7 @@ export const TranslationsProductPage: React.FC = () => {
                   onSave={handleSave}
                   onReset={handleReset}
                   onDelete={handleDelete}
+                  onDeleteImmediate={handleDeleteImmediate}
                   isDirty={isSectionDirty(section.key)}
                 />
               ) : (
@@ -140,6 +156,7 @@ export const TranslationsProductPage: React.FC = () => {
                   onSave={handleSave}
                   onReset={handleReset}
                   onDelete={handleDelete}
+                  onDeleteImmediate={handleDeleteImmediate}
                   isDirty={isSectionDirty(section.key)}
                 />
               )}

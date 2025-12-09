@@ -115,4 +115,19 @@ export const drinkSubtypeEndpoints = {
       throw transformFetchError(error);
     }
   },
+
+  /**
+   * Delete a drink subtype
+   * Uses DELETE to /drink-types/{drinkTypeId}/subtypes/{id}
+   */
+  deleteDrinkSubtype: async (id: string, drinkTypeId: string): Promise<void> => {
+    try {
+      if (!drinkTypeId) {
+        throw new Error('drinkTypeId is required to delete drink subtypes');
+      }
+      await api.delete<void>(`/drink-types/${drinkTypeId}/subtypes/${id}`);
+    } catch (error) {
+      throw transformFetchError(error);
+    }
+  },
 } as const;

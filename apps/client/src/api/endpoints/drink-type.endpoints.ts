@@ -54,4 +54,40 @@ export const drinkTypeEndpoints = {
       throw transformFetchError(error);
     }
   },
+
+  /**
+   * Create a new drink type
+   * Uses POST to /drink-types
+   */
+  createDrinkType: async (updates: DrinkTypeUpdate): Promise<DrinkTypeTranslation> => {
+    try {
+      // Ensure required fields have defaults for new items
+      const createData = {
+        name: updates.name || '',
+        translations: updates.translations || {},
+        hasSubtypes: updates.hasSubtypes ?? false,
+        defaultTempConsume: (updates as any).defaultTempConsume ?? 5,
+        defaultTempFreeze: (updates as any).defaultTempFreeze ?? -2,
+        ...updates, // Allow overriding defaults
+      };
+
+      // Fetch client returns data directly
+      const data = await api.post<any>('/drink-types', createData);
+      return transformDrinkType(data);
+    } catch (error) {
+      throw transformFetchError(error);
+    }
+  },
+
+  /**
+   * Delete a drink type
+   * Uses DELETE to /drink-types/{id}
+   */
+  deleteDrinkType: async (id: string): Promise<void> => {
+    try {
+      await api.delete<void>(`/drink-types/${id}`);
+    } catch (error) {
+      throw transformFetchError(error);
+    }
+  },
 } as const;

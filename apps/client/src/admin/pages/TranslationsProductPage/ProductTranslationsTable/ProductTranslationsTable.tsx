@@ -38,6 +38,7 @@ export interface ProductTranslationsTableProps {
   onSave?: () => Promise<any>;
   onReset?: () => void;
   onDelete?: (itemId: string) => void;
+  onDeleteImmediate?: (itemId: string) => Promise<void>;
   isDirty?: boolean;
 }
 
@@ -71,6 +72,7 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
   onSave,
   onReset,
   onDelete,
+  onDeleteImmediate,
   isDirty = false,
 }) => {
   const { t } = useTranslation();
@@ -110,16 +112,20 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
   // ============================================================================
 
   const handleDelete = useCallback(
-    (itemId: string, itemName: string) => {
+    async (itemId: string, itemName: string) => {
       // eslint-disable-next-line no-alert
       const confirmDelete = window.confirm(
         `Are you sure you want to delete "${itemName}"? This action cannot be undone.`,
       );
-      if (confirmDelete && onDelete) {
-        onDelete(itemId);
+      if (confirmDelete) {
+        if (onDeleteImmediate) {
+          await onDeleteImmediate(itemId);
+        } else if (onDelete) {
+          onDelete(itemId);
+        }
       }
     },
-    [onDelete],
+    [onDelete, onDeleteImmediate],
   );
 
   const handleAddNew = useCallback(() => {

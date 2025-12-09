@@ -36,10 +36,11 @@ export interface ProductTranslationsTableExpandableProps {
   initialItems?: TranslationItem[]; // Original items for dirty field detection
   supportedLanguages: LanguageInfo[];
   onItemChange: (itemId: string, fieldName: string, value: string) => void;
-  onAddNew?: () => void;
+  onAddNew?: (drinkTypeIdForSubtype?: string) => void;
   onSave?: () => Promise<any>;
   onReset?: () => void;
-  onDelete?: (itemId: string) => void;
+  onDelete?: (itemId: string, drinkTypeId?: string) => void;
+  onDeleteImmediate?: (itemId: string, drinkTypeId?: string) => Promise<void>;
   isDirty?: boolean;
 }
 
@@ -73,6 +74,7 @@ export const ProductTranslationsTableExpandable: React.FC<ProductTranslationsTab
   onSave,
   onReset,
   onDelete,
+  onDeleteImmediate,
   isDirty = false,
 }) => {
   const { t } = useTranslation();
@@ -250,24 +252,26 @@ export const ProductTranslationsTableExpandable: React.FC<ProductTranslationsTab
   }, []);
 
   const handleDelete = useCallback(
-    (itemId: string, itemName: string) => {
+    async (itemId: string, itemName: string, drinkTypeId?: string) => {
       // eslint-disable-next-line no-alert
       const confirmDelete = window.confirm(
         `Are you sure you want to delete "${itemName}"? This action cannot be undone.`,
       );
-      if (confirmDelete && onDelete) {
-        onDelete(itemId);
+      if (confirmDelete) {
+        if (onDeleteImmediate) {
+          await onDeleteImmediate(itemId, drinkTypeId);
+        } else if (onDelete) {
+          onDelete(itemId, drinkTypeId);
+        }
       }
     },
-    [onDelete],
+    [onDelete, onDeleteImmediate],
   );
 
   const handleAddNew = useCallback(() => {
     if (!onAddNew) return;
 
     // If there's a currently opened group, ensure the new item will have the correct drinkTypeId
-    // The parent's addNewItem will create the item, but we need to set drinkTypeId after creation
-    // We'll handle this in the useEffect that detects new items
     if (!expandedRowRef.current) {
       toast({
         variant: 'warning',
@@ -277,7 +281,7 @@ export const ProductTranslationsTableExpandable: React.FC<ProductTranslationsTab
       return;
     }
 
-    onAddNew();
+    onAddNew(expandedRowRef.current);
   }, [onAddNew, toast]);
 
   // Effect to handle new items for expandable table (sets drinkTypeId and adds to expandedRows)
@@ -402,7 +406,9 @@ export const ProductTranslationsTableExpandable: React.FC<ProductTranslationsTab
       <div className="action-buttons">
         <button
           className="button button-delete"
-          onClick={() => handleDelete(rowData.id, rowData.name)}
+          onClick={() =>
+            handleDelete(rowData.id, rowData.name, rowData.drinkTypeId || (rowData as any)._drinkTypeId)
+          }
           type="button"
           aria-label="Delete"
         >

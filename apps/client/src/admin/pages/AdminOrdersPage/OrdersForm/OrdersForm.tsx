@@ -2,7 +2,6 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { Col, Row } from 'react-grid-system';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   ORDER_FORM_SCHEMA,
@@ -19,9 +18,7 @@ import { SelectCustom } from 'forms/SelectCustom';
 import { SelectSearchable } from 'forms/SelectSearchable/SelectSearchable';
 import { TemperatureInputField } from 'forms/TemperatureInputField';
 import { useToast } from 'components/Toast';
-
 import { useAppConfig } from 'providers/AppConfigProvider';
-
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import { MIN_TEMP_DIFFERENCE } from 'config/app';
 import { createMockDataHandlers } from './mock-orders.utils';
@@ -33,11 +30,11 @@ import {
 import {
   createTempItemHandlers,
   PROFILE_ITEM_VALUES_EMPTY,
-  type TempItems,
   useDropdownData,
+  type TempItems,
 } from './orders-form.utils';
-import { useAddNewItemHandlers } from './useAddNewItemHandlers';
 import { ProfilesPanel } from './ProfilesPanel';
+import { useAddNewItemHandlers } from './useAddNewItemHandlers';
 import 'primereact/resources/themes/lara-light-cyan/theme.css';
 import 'primereact/resources/primereact.min.css';
 import { styles } from './OrdersForm.styles';
@@ -345,7 +342,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                           handleSimpleFieldChange('drinkType', '');
                           handleSimpleFieldChange('drinkSubtype', '');
                         }}
-                        onAddNew={addNewItemHandlers.handleAddDrinkType}
+                        // onAddNew={addNewItemHandlers.handleAddDrinkType}
                         options={dropdownData.drinkTypeOptions}
                         placeholder="e.g., Coffee, Tea, Juice"
                         windowSize={15}
@@ -368,7 +365,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                         value={formValues.drinkSubtype}
                         onSelect={(value) => handleSimpleFieldChange('drinkSubtype', value)}
                         onClear={() => handleSimpleFieldChange('drinkSubtype', '')}
-                        onAddNew={addNewItemHandlers.handleAddDrinkSubtype}
+                        // onAddNew={addNewItemHandlers.handleAddDrinkSubtype}
                         options={dropdownData.drinkSubtypeOptions}
                         placeholder={
                           formValues.drinkType ? 'Select or add new subtype' : 'Select drink type first'
@@ -395,7 +392,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                         value={formValues.volume}
                         onSelect={(value) => handleSimpleFieldChange('volume', value)}
                         onClear={() => handleSimpleFieldChange('volume', '')}
-                        onAddNew={addNewItemHandlers.handleAddVolume}
+                        // onAddNew={addNewItemHandlers.handleAddVolume}
                         options={dropdownData.volumeOptions}
                         placeholder="e.g., 250ml, 500ml, 1L"
                         windowSize={15}
@@ -415,7 +412,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                         value={formValues.containerType}
                         onSelect={(value) => handleSimpleFieldChange('containerType', value)}
                         onClear={() => handleSimpleFieldChange('containerType', '')}
-                        onAddNew={addNewItemHandlers.handleAddContainerType}
+                        // onAddNew={addNewItemHandlers.handleAddContainerType}
                         options={dropdownData.containerTypeOptions}
                         placeholder="e.g., Cup, Bottle, Can"
                         windowSize={15}

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import type { ContainerTypeUpdate, DrinkSubtypeUpdate, DrinkTypeUpdate, VolumeUpdate } from 'api/endpoints';
-import { batchTranslationEndpoints } from 'api/endpoints';
+import { batchTranslationEndpoints, drinkSubtypeEndpoints, drinkTypeEndpoints } from 'api/endpoints';
 import { TRANSLATION_QUERY_KEYS, useGetAllTranslations } from 'api/hooks/useTranslations';
 import { useGetSupportedLanguages } from 'queries/supported-languages';
 import type { LanguageInfo } from 'types/models/supported-language.model';
@@ -255,9 +255,18 @@ export const useProductTranslationSections = () => {
             translations,
           };
 
+          // Provide required defaults for new drinkTypes
+          if (sectionKey === 'drinkTypes') {
+            newItemUpdate.hasSubtypes = item.hasSubtypes ?? false;
+            newItemUpdate.defaultTempConsume = (item as any).defaultTempConsume ?? 5;
+            newItemUpdate.defaultTempFreeze = (item as any).defaultTempFreeze ?? -2;
+          }
+
           // For drinkSubtypes, include drinkTypeId
           if (sectionKey === 'drinkSubtypes' && item.drinkTypeId) {
             newItemUpdate.drinkTypeId = item.drinkTypeId;
+            newItemUpdate.defaultTempConsume = (item as any).defaultTempConsume ?? 5;
+            newItemUpdate.defaultTempFreeze = (item as any).defaultTempFreeze ?? -2;
           }
 
           updates.push({ id: item.id, updates: newItemUpdate });
@@ -600,7 +609,7 @@ export const useProductTranslationSections = () => {
   );
 
   const addNewItem = useCallback(
-    (sectionKey: SectionKey) => {
+    (sectionKey: SectionKey, drinkTypeIdForSubtype?: string) => {
       const section = sections.find((s) => s.key === sectionKey);
       if (!section) return;
 
@@ -616,6 +625,11 @@ export const useProductTranslationSections = () => {
         newItem[fieldName] = '';
       });
 
+      // For subtypes, assign the current drinkTypeId so it appears in the correct group
+      if (sectionKey === 'drinkSubtypes' && drinkTypeIdForSubtype) {
+        newItem.drinkTypeId = drinkTypeIdForSubtype;
+      }
+
       // Add the new item to the section
       setSections((prev) =>
         prev.map((s) =>
@@ -629,6 +643,71 @@ export const useProductTranslationSections = () => {
       );
     },
     [sections, supportedLanguages],
+  );
+
+  /**
+   * Immediately delete an item (hard delete via DELETE) and refresh caches.
+   * For drinkSubtypes, drinkTypeId is required.
+   */
+  const deleteItemImmediate = useCallback(
+    async (sectionKey: SectionKey, itemId: string, drinkTypeId?: string) => {
+      if (!itemId) return;
+
+      // Call API immediately (hard delete)
+      if (sectionKey === 'drinkTypes') {
+        await drinkTypeEndpoints.deleteDrinkType(itemId);
+      } else if (sectionKey === 'drinkSubtypes') {
+        if (!drinkTypeId) {
+          throw new Error('drinkTypeId is required to delete a drink subtype');
+        }
+        await drinkSubtypeEndpoints.deleteDrinkSubtype(itemId, drinkTypeId);
+      } else if (sectionKey === 'volumes') {
+        // TODO: add volume delete endpoint when available (fallback to soft delete)
+        await batchTranslationEndpoints.batchUpdateTranslations({
+          volumes: [{ id: itemId, updates: { isActive: false } }],
+        });
+      } else if (sectionKey === 'containerTypes') {
+        // TODO: add container type delete endpoint when available (fallback to soft delete)
+        await batchTranslationEndpoints.batchUpdateTranslations({
+          containerTypes: [{ id: itemId, updates: { isActive: false } }],
+        });
+      }
+
+      // Remove from local state (sections and initialSections) to clear dirty flags
+      setSections((prev) =>
+        prev.map((s) =>
+          s.key === sectionKey ? { ...s, items: s.items.filter((item) => item.id !== itemId) } : s,
+        ),
+      );
+      setInitialSections((prev) =>
+        prev.map((s) =>
+          s.key === sectionKey ? { ...s, items: s.items.filter((item) => item.id !== itemId) } : s,
+        ),
+      );
+
+      // Invalidate translation queries
+      await queryClient.invalidateQueries({ queryKey: TRANSLATION_QUERY_KEYS.all });
+      const sectionQueryKey = TRANSLATION_QUERY_KEYS[sectionKey as keyof typeof TRANSLATION_QUERY_KEYS];
+      if (sectionQueryKey) {
+        await queryClient.invalidateQueries({ queryKey: sectionQueryKey });
+      }
+
+      // Invalidate data queries used elsewhere
+      if (sectionKey === 'drinkTypes') {
+        await queryClient.invalidateQueries({ queryKey: ['get-drink-types'] });
+      } else if (sectionKey === 'drinkSubtypes') {
+        await queryClient.invalidateQueries({ queryKey: ['get-drink-subtypes'] });
+        await queryClient.invalidateQueries({ queryKey: ['get-drink-types'] });
+      } else if (sectionKey === 'volumes') {
+        await queryClient.invalidateQueries({ queryKey: ['get-drink-volumes'] });
+      } else if (sectionKey === 'containerTypes') {
+        await queryClient.invalidateQueries({ queryKey: ['get-container-types'] });
+      }
+
+      // Allow re-init with fresh data if needed
+      isInitializedRef.current = false;
+    },
+    [queryClient],
   );
 
   const deleteItem = useCallback((sectionKey: SectionKey, itemId: string) => {
@@ -657,5 +736,6 @@ export const useProductTranslationSections = () => {
     isSectionDirty,
     addNewItem,
     deleteItem,
+    deleteItemImmediate,
   };
 };
