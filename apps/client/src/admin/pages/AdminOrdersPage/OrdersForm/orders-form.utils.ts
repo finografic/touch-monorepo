@@ -1,12 +1,10 @@
 import type React from 'react';
 import { useCallback, useMemo } from 'react';
-
 import { useGetContainerTypes } from 'queries/container-types';
 import { useGetDrinkSubtypes, useGetDrinkTypes } from 'queries/drink-types';
 import { useGetDrinkVolumes } from 'queries/drink-volumes';
 import { useGetModes } from 'queries/modes';
 import { useGetOrdersReadable } from 'queries/orders';
-
 import { slugify } from 'utils/string.utils';
 import type { ModeModel } from 'types/models/mode.model';
 import { SelectOptionDto } from 'types/models/select-option.model';
@@ -208,42 +206,3 @@ export const useDropdownData = ({ language, tempItems, formDrinkType }: UseDropd
 };
 
 export type UseDropdownDataReturn = ReturnType<typeof useDropdownData>;
-
-// ============================================================================
-// Temp Item Handlers
-// ============================================================================
-
-export const createTempItemHandlers = (setTempItems: React.Dispatch<React.SetStateAction<TempItems>>) => {
-  const handleAddNew = async (field: keyof TempItems, value: string): Promise<string> => {
-    if (!value.trim()) return value;
-
-    const displayValue = value.trim();
-    const kebabValue = slugify(displayValue);
-
-    setTempItems((prev) => ({
-      ...prev,
-      [field]: [...prev[field], { value: kebabValue, displayValue }],
-    }));
-
-    return kebabValue;
-  };
-
-  const handleAddSubtype = async (value: string, formDrinkType?: string): Promise<string> => {
-    if (!value.trim() || !formDrinkType) return value;
-
-    const displayValue = value.trim();
-    const kebabValue = slugify(displayValue);
-
-    setTempItems((prev) => ({
-      ...prev,
-      drinkSubtypes: [...prev.drinkSubtypes, { value: kebabValue, displayValue }],
-    }));
-
-    return kebabValue;
-  };
-
-  return {
-    handleAddNew,
-    handleAddSubtype,
-  };
-};
