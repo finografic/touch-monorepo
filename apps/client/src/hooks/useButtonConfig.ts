@@ -1,10 +1,13 @@
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { useButtonOperations } from 'hooks/button-operations';
 import { useButtonNavigation } from 'hooks/useButtonNavigation';
 import { useRouteMatching } from 'routes/hooks/useRouteMatching';
 import { useTimePageStore } from 'pages/TimePage/useTimePageStore';
+import { useMainPageOperations } from './button-operations/useMainPageOperations';
+import { useProductFlowOperations } from './button-operations/useProductFlowOperations';
+import { useTimeFlowOperations } from './button-operations/useTimeFlowOperations';
+import { useOperationState } from './button-operations/useOperationState';
 
 import { BUTTON_TYPE, type ButtonType, type PadActionProps } from 'types/button.types';
 import { ALTERNATIVE_PATHS, ROUTES_CONFIG } from 'config/routes';
@@ -24,20 +27,38 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
   const { handleNavigateBack, handleNavigateNext, getNavigationDisabled, isNavigationPending } =
     useButtonNavigation();
 
+  // Main Page ops
   const {
     handleCancelSelected,
     handleResetCompleted,
     handleSelectAll,
-    handleProgramTime,
-    handleProgramProduct,
     handleRepeatSelection,
-    handleCancelTimeSession,
-    handleCancelProductSession,
+    isPending: isMainPagePending,
+  } = useMainPageOperations();
+
+  // Time Flow ops
+  const {
+    handleProgramTime,
     handleStartTimeProcess,
+    handleCancelTimeSession,
+    isPending: isTimeFlowPending,
+  } = useTimeFlowOperations();
+
+  // Product Flow ops
+  const {
+    handleProgramProduct,
     handleStartProductProcess,
-    getOperationDisabled,
-    getOperationLoading,
-  } = useButtonOperations();
+    handleCancelProductSession,
+    isPending: isProductFlowPending,
+    isTemperatureLoading,
+  } = useProductFlowOperations();
+
+  const { getOperationDisabled, getOperationLoading, isOperationPending } = useOperationState(
+    isMainPagePending,
+    isTimeFlowPending,
+    isProductFlowPending,
+    isTemperatureLoading,
+  );
 
   // Get time from Zustand store for TimePage
   const timeSeconds = useTimePageStore((state) => state.timeSeconds);
@@ -129,13 +150,13 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
     (actionType: string): boolean => {
       // Navigation actions use their own pending state
       if (actionType === BUTTON_TYPE.NAVIGATE_BACK || actionType === BUTTON_TYPE.NAVIGATE_NEXT) {
-        return isNavigationPending;
+        return isNavigationPending || isOperationPending;
       }
 
       // Operation actions have their own loading logic
       return getOperationLoading(actionType as any);
     },
-    [isNavigationPending, getOperationLoading],
+    [isNavigationPending, isOperationPending, getOperationLoading],
   );
 
   const getButtonProps = useMemo(() => {

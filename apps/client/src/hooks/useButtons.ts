@@ -1,7 +1,9 @@
 import { BUTTON_TYPE } from 'types/button.types';
-import { useButtonOperations } from 'hooks/button-operations';
 import { useButtonConfig } from 'hooks/useButtonConfig';
 import { useButtonNavigation } from 'hooks/useButtonNavigation';
+import { useMainPageOperations } from './button-operations/useMainPageOperations';
+import { useProductFlowOperations } from './button-operations/useProductFlowOperations';
+import { useTimeFlowOperations } from './button-operations/useTimeFlowOperations';
 
 /**
  * Facade hook that provides a unified interface for button operations
@@ -11,14 +13,10 @@ export const useButtons = () => {
   const { footerButtons, contentButtons } = useButtonConfig();
   const { handleNavigateBack, handleNavigateNext, isNavigationPending } = useButtonNavigation();
 
-  const {
-    handleResetCompleted,
-    handleCancelSelected,
-    handleSelectAll,
-    handleProgramTime,
-    handleProgramProduct,
-    handleRepeatSelection,
-  } = useButtonOperations();
+  const { handleResetCompleted, handleCancelSelected, handleSelectAll, handleRepeatSelection } =
+    useMainPageOperations();
+  const { handleProgramTime } = useTimeFlowOperations();
+  const { handleProgramProduct } = useProductFlowOperations();
 
   // Unified button click handler
   const handleButtonClick = (actionType: string, args?: any) => {

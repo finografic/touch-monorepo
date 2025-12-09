@@ -4,7 +4,7 @@
 
 ## 📁 File Structure
 
-```
+```text
 hooks/
 ├── useButtonOperations.ts              (Legacy re-export for backward compatibility)
 └── button-operations/
@@ -39,18 +39,15 @@ The `useButtonOperations` hook has been refactored from a **600+ line monolithic
 
 ## 🏗️ Architecture
 
-### **1. Main Orchestrator** (`index.ts`)
+### **1. Barrel Only** (`index.ts`)
 
-Combines all flow-specific hooks into a unified API. Maintains backward compatibility with the original `useButtonOperations` hook.
+`index.ts` is now a pure barrel that re-exports the individual hooks. There is **no catch-all hook** here. Import the hook you need directly:
 
 ```typescript
-import { useButtonOperations } from 'hooks/button-operations';
-
-const {
-  handleProgramProduct,
-  handleStartProductProcess,
-  getOperationDisabled,
-} = useButtonOperations();
+import { useMainPageOperations } from 'hooks/button-operations';
+import { useTimeFlowOperations } from 'hooks/button-operations';
+import { useProductFlowOperations } from 'hooks/button-operations';
+import { useOperationState } from 'hooks/button-operations';
 ```
 
 ### **2. Flow-Specific Hooks**
