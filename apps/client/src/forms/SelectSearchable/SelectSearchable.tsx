@@ -36,6 +36,7 @@ export const SelectSearchable: React.FC<SearchableSelectProps> = ({
   value = '',
 }) => {
   const { colors } = useColors();
+  const canAddNew = allowAddNew && typeof onAddNew === 'function';
   const [displayValue, setDisplayValue] = useState(value);
   const [searchValue, setSearchValue] = useState('');
   const [isOpen, setIsOpen] = useState(false);
@@ -83,7 +84,7 @@ export const SelectSearchable: React.FC<SearchableSelectProps> = ({
   }, [options, searchValue]);
 
   // Determine which icon to show
-  const shouldShowAddIcon = allowAddNew && searchValue.trim().length > 3 && !exactMatch && !justAdded;
+  const shouldShowAddIcon = canAddNew && searchValue.trim().length > 3 && !exactMatch && !justAdded;
   const iconToShow = justAdded ? CheckIcon : shouldShowAddIcon ? PlusIcon : MagnifyingGlassIcon;
 
   // Simple sliding window
@@ -115,6 +116,7 @@ export const SelectSearchable: React.FC<SearchableSelectProps> = ({
   };
 
   const handleAddNew = () => {
+    if (!canAddNew) return;
     if (searchValue.trim() && onAddNew && !exactMatch) {
       const displayValue = searchValue.trim();
       const kebabValue = slugify(displayValue); // Convert to kebab-case for storage
@@ -368,10 +370,10 @@ export const SelectSearchable: React.FC<SearchableSelectProps> = ({
                   {searchValue ? `No options found for "${searchValue}"` : 'No options available'}
                 </span>
               </div>
-              <AddNewButton handleAddNew={handleAddNew} searchValue={searchValue} />
+              {canAddNew && <AddNewButton handleAddNew={handleAddNew} searchValue={searchValue} />}
             </>
           ) : (
-            <AddNewButton handleAddNew={handleAddNew} searchValue={searchValue} />
+            canAddNew && <AddNewButton handleAddNew={handleAddNew} searchValue={searchValue} />
           )}
 
           {/* Window info */}
