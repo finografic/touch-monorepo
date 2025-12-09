@@ -2,38 +2,29 @@
 
 📅 Oct 21, 2025
 
-## 📁 File Structure
+## 📁 File Structure (current, simplified)
 
 ```text
 hooks/
-├── useButtonOperations.ts              (Legacy re-export for backward compatibility)
 └── button-operations/
-    ├── index.ts                        (Main orchestrator - 90 lines)
-    ├── types.ts                        (Shared types - 15 lines)
-    ├── useMainPageOperations.ts        (MainPage operations - 170 lines)
-    ├── useTimeFlowOperations.ts        (Time flow operations - 150 lines)
-    ├── useProductFlowOperations.ts     (Product flow operations - 260 lines)
-    ├── useOperationState.ts            (Shared state logic - 160 lines)
-    └── README.md                       (This file)
+    ├── index.ts                        (barrel only; no orchestrator)
+    ├── button-operations.types.ts      (shared types)
+    ├── useMainPageOperations.ts        (MainPage operations)
+    ├── useTimeFlowOperations.ts        (Time flow operations)
+    ├── useProductFlowOperations.ts     (Product flow operations)
+    ├── useOperationState.ts            (Shared disabled/loading logic)
+    └── README.operations-hook.md       (This file)
 ```
 
 ## 🎯 Overview
 
-The `useButtonOperations` hook has been refactored from a **600+ line monolithic hook** into **5 focused, testable hooks** organized by user flow.
-
-### **Before** ❌
-
-- 669 lines in one file
-- 67 lines of hooks/state
-- 11 different operations mixed together
-- Hard to test, maintain, and understand
-
-### **After** ✅
-
-- ~845 lines split across 6 files (more readable)
-- Clear separation by user flow
-- Each hook is independently testable
-- Backward compatible API
+- No catch-all orchestrator. Import the specific hook you need.
+- `useButtonConfig` is the single place that builds button props (handlers + disabled/loading).
+- Source hooks per concern:
+  - Main page: `useMainPageOperations`
+  - Time flow: `useTimeFlowOperations`
+  - Product flow: `useProductFlowOperations`
+  - Disabled/loading: `useOperationState`
 
 ---
 
