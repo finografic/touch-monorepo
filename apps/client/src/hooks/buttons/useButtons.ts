@@ -1,4 +1,4 @@
-import { useButtonConfig } from 'hooks/useButtonConfig';
+import { useButtonConfig } from 'hooks/buttons/useButtonConfig';
 import type { PadActionProps } from 'types/button.types';
 
 interface UseButtonsReturn {

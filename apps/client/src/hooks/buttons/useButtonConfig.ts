@@ -1,15 +1,15 @@
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTimePageStore } from 'pages/TimePage/useTimePageStore';
-import { useButtonNavigation } from 'hooks/useButtonNavigation';
+import { useButtonNavigation } from 'hooks/buttons/useButtonNavigation';
 import { useRouteMatching } from 'routes/hooks/useRouteMatching';
 import { BUTTON_TYPE, type ButtonType, type PadActionProps } from 'types/button.types';
 import { ALTERNATIVE_PATHS, ROUTES_CONFIG } from 'config/routes';
 import { ALTERNATIVE_ROUTE_BUTTON_CONFIG, BUTTON_CONFIGS } from 'config/ui';
-import { useMainPageOperations } from './button-operations/useMainPageOperations';
-import { useOperationState } from './button-operations/useOperationState';
-import { useProductFlowOperations } from './button-operations/useProductFlowOperations';
-import { useTimeFlowOperations } from './button-operations/useTimeFlowOperations';
+import { useMainPageOperations } from './useMainPageOperations';
+import { useOperationState } from './useOperationState';
+import { useProductFlowOperations } from './useProductFlowOperations';
+import { useTimeFlowOperations } from './useTimeFlowOperations';
 
 interface UseButtonConfigReturn {
   footerButtons: PadActionProps[];
