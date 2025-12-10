@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Flex, Spinner, Tabs, Text } from '@radix-ui/themes';
 import { useQueryClient } from '@tanstack/react-query';
 import { useToast } from 'components/Toast';
+import { invalidateReferenceDataQueries } from 'queries/invalidateReferenceData';
 import { GET_ORDERS_READABLE_QUERYKEY } from 'queries/orders';
 import { AdminPageLayout, AdminSection } from '../..';
 import { useProductTranslationSections } from './hooks/useProductTranslationSections';
@@ -40,6 +41,9 @@ export const TranslationsProductPage: React.FC = () => {
       // Invalidate orders-readable query since orders reference drink types, subtypes, volumes, and container types
       // When these are deleted, any orders using them need to be refreshed
       await queryClient.invalidateQueries({ queryKey: GET_ORDERS_READABLE_QUERYKEY });
+
+      // Also invalidate reference data used by product flow dropdowns
+      await invalidateReferenceDataQueries(queryClient);
     },
     [queryClient],
   );

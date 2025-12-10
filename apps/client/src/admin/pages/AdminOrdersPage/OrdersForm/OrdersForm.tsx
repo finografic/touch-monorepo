@@ -32,6 +32,8 @@ import { ProfilesPanel } from './ProfilesPanel';
 import { useAddNewItemHandlers } from './useAddNewItemHandlers';
 import 'primereact/resources/themes/lara-light-cyan/theme.css';
 import 'primereact/resources/primereact.min.css';
+import { useQueryClient } from '@tanstack/react-query';
+import { invalidateReferenceDataQueries } from 'queries/invalidateReferenceData';
 import { styles } from './OrdersForm.styles';
 
 // ============================================================================
@@ -72,6 +74,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
   });
   const [canAddRow, setCanAddRow] = useState(false);
   const { currentLanguage } = useAppConfig();
+  const queryClient = useQueryClient();
 
   // ========================================================================
   // Form Setup
@@ -188,6 +191,10 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
         },
         setTempItems,
       })(data);
+
+      // Ensure reference dropdown data stays fresh after saves
+      await invalidateReferenceDataQueries(queryClient);
+
       // Show success message
       toast({
         variant: 'success',

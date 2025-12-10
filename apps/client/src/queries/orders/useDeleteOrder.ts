@@ -1,6 +1,7 @@
 import { transformFetchError } from '@workspace/core/api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from 'api';
+import { invalidateReferenceDataQueries } from 'queries/invalidateReferenceData';
 import { GET_ORDERS_READABLE_QUERYKEY } from 'queries/orders';
 
 /**
@@ -20,6 +21,7 @@ export const useDeleteOrder = () => {
     onSuccess: () => {
       // Invalidate queries to refetch fresh data
       queryClient.invalidateQueries({ queryKey: GET_ORDERS_READABLE_QUERYKEY });
+      void invalidateReferenceDataQueries(queryClient);
     },
   });
 };
