@@ -25,4 +25,3 @@ export const useOutsideRowEditCancel = (dataTableRef: React.MutableRefObject<any
     }
   });
 };
-
