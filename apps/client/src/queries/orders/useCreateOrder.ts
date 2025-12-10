@@ -1,7 +1,7 @@
 import { transformFetchError } from '@workspace/core/api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from 'api';
-import { GET_ORDERS_READABLE_QUERYKEY } from 'queries/orders';
+import { GET_ORDERS_QUERYKEY, GET_ORDERS_READABLE_QUERYKEY } from 'queries/orders';
 
 /**
  * Hook to create a new order
@@ -63,6 +63,7 @@ export const useCreateOrder = () => {
     },
     onSuccess: () => {
       // Invalidate queries to refetch fresh data
+      queryClient.invalidateQueries({ queryKey: GET_ORDERS_QUERYKEY });
       queryClient.invalidateQueries({ queryKey: GET_ORDERS_READABLE_QUERYKEY });
     },
   });
