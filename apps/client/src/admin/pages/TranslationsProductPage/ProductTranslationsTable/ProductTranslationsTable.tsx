@@ -6,6 +6,7 @@ import { useTableHeaders } from 'admin/hooks/useTableHeaders';
 import { Column } from 'primereact/column';
 import type { DataTableProps } from 'primereact/datatable';
 import { DataTable } from 'primereact/datatable';
+import { useOnClickOutside } from 'usehooks-ts';
 import { useToast } from 'components/Toast';
 import type { LanguageInfo } from 'types/models/supported-language.model';
 import { useDirtyFields } from '../hooks/useDirtyFields';
@@ -81,6 +82,7 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
 
   // Ref for DataTable to programmatically control row editing
   const dataTableRef = useRef<any>(null);
+  const tableContainerRef = useRef<HTMLDivElement | null>(null);
   // Track previous items length to detect new items
   const prevItemsLengthRef = useRef<number>(items.length);
 
@@ -105,6 +107,12 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
   const { handleSave } = useSaveHandler({
     onSave,
     errorMessage: 'Failed to save translations',
+  });
+
+  // Cancel row editing when clicking outside the table container
+  useOnClickOutside(tableContainerRef, () => {
+    log('CLICKED_OUTSIDE', 'red', dataTableRef.current);
+    dataTableRef.current?.closeEditingRows?.();
   });
 
   // ============================================================================
@@ -191,7 +199,7 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
   }, [supportedLanguages, isFieldDirty]);
 
   return (
-    <section css={styles} className="table-container">
+    <section ref={tableContainerRef} css={styles} className="table-container">
       <Flex justify="between" align="center" mb="4" gap="2">
         <Flex />
         <TableFormButtons onReset={onReset} onSave={handleSave} onAddNew={handleAddNew} isDirty={isDirty} />
