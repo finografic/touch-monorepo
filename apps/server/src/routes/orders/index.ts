@@ -9,5 +9,6 @@ export default createRouter()
   .openapi(routes.getOneReadable, handlers.getOneReadable)
   .openapi(routes.create, handlers.create)
   .openapi(routes.patch, handlers.patch)
+  .openapi(routes.cleanup, handlers.cleanup)
   .openapi(routes.remove, handlers.remove)
   .openapi(routes.getTemperatureProfiles, handlers.getTemperatureProfiles);

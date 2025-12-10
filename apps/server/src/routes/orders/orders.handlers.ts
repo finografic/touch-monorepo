@@ -1,11 +1,10 @@
 // @ts-nocheck - Bypassing complex type inference issues throughout this file
-import { eq, sql } from 'drizzle-orm';
-import * as HttpStatusCodes from 'stoker/http-status-codes';
-import * as HttpStatusPhrases from 'stoker/http-status-phrases';
-
 import { db } from 'db';
 import { orders } from 'db/schemas/orders.schema';
 import { temperature_profiles } from 'db/schemas/temperature_profiles.schema';
+import { eq, inArray, or, sql } from 'drizzle-orm';
+import * as HttpStatusCodes from 'stoker/http-status-codes';
+import * as HttpStatusPhrases from 'stoker/http-status-phrases';
 import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/zod.errors';
 import type { AppRouteHandler } from 'types/app.types';
 import type {
@@ -203,6 +202,43 @@ export const remove: AppRouteHandler<RemoveRoute> = async (context) => {
   }
 
   return context.body(null, HttpStatusCodes.NO_CONTENT);
+};
+
+export const cleanup: AppRouteHandler<CleanupRoute> = async (context) => {
+  const { drinkTypeIds, drinkSubtypeIds, volumeIds, containerTypeIds } = context.req.valid('json');
+
+  const conditions = [];
+  if (drinkTypeIds?.length) {
+    conditions.push(inArray(orders.drinkTypeId, drinkTypeIds));
+  }
+  if (drinkSubtypeIds?.length) {
+    conditions.push(inArray(orders.drinkSubtypeId, drinkSubtypeIds));
+  }
+  if (volumeIds?.length) {
+    conditions.push(inArray(orders.volumeId, volumeIds));
+  }
+  if (containerTypeIds?.length) {
+    conditions.push(inArray(orders.containerTypeId, containerTypeIds));
+  }
+
+  if (conditions.length === 0) {
+    return context.json(
+      {
+        message: 'No identifiers provided for cleanup',
+      },
+      HttpStatusCodes.BAD_REQUEST,
+    );
+  }
+
+  const whereCondition = conditions.reduce((acc, condition) => (acc ? or(acc, condition) : condition));
+  const result = await db.delete(orders).where(whereCondition);
+
+  return context.json(
+    {
+      deleted: result.changes ?? 0,
+    },
+    HttpStatusCodes.OK,
+  );
 };
 
 export const getTemperatureProfiles: AppRouteHandler<GetTemperatureProfilesRoute> = async (context) => {

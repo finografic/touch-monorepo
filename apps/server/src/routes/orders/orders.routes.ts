@@ -1,14 +1,13 @@
 import { createRoute, z } from '@hono/zod-openapi';
+import type { OrdersReadableView } from 'db/schemas/orders_readable_view.schema';
+import { orderSchemas } from 'db/schemas/orders.schema';
+import { temperatureProfileSchemas } from 'db/schemas/temperature_profiles.schema';
+import { IdCuidParamsSchema } from 'schemas/id-cuid-params.schema';
+import { IdUuidParamsSchema } from 'schemas/id-uuid-params.schema';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { jsonContent, jsonContentRequired } from 'stoker/openapi/helpers';
 import { createErrorSchema, IdParamsSchema } from 'stoker/openapi/schemas';
-
-import { orderSchemas } from 'db/schemas/orders.schema';
-import type { OrdersReadableView } from 'db/schemas/orders_readable_view.schema';
-import { temperatureProfileSchemas } from 'db/schemas/temperature_profiles.schema';
 import { notFoundSchema } from 'lib/zod.errors';
-import { IdCuidParamsSchema } from 'schemas/id-cuid-params.schema';
-import { IdUuidParamsSchema } from 'schemas/id-uuid-params.schema';
 
 const tags = ['DrinkOrders'];
 
@@ -168,6 +167,38 @@ export const remove = createRoute({
   },
 });
 
+// Bulk cleanup endpoint to delete orders by related type ids
+export const cleanup = createRoute({
+  path: '/orders/cleanup',
+  method: 'post',
+  tags,
+  request: {
+    body: jsonContentRequired(
+      z.object({
+        drinkTypeIds: z.array(z.string()).optional(),
+        drinkSubtypeIds: z.array(z.string()).optional(),
+        volumeIds: z.array(z.string()).optional(),
+        containerTypeIds: z.array(z.string()).optional(),
+      }),
+      'Identifiers of related entities whose orders should be deleted',
+    ),
+  },
+  responses: {
+    [HttpStatusCodes.OK]: jsonContent(
+      z.object({
+        deleted: z.number(),
+      }),
+      'Number of orders deleted',
+    ),
+    [HttpStatusCodes.BAD_REQUEST]: jsonContent(
+      z.object({
+        message: z.string(),
+      }),
+      'No identifiers provided',
+    ),
+  },
+});
+
 export const getTemperatureProfiles = createRoute({
   method: 'get',
   path: '/orders/:id/temperature-profiles',
@@ -202,5 +233,6 @@ export type GetOneReadableRoute = typeof getOneReadable;
 export type CreateRoute = typeof create;
 export type PatchRoute = typeof patch;
 export type RemoveRoute = typeof remove;
+export type CleanupRoute = typeof cleanup;
 
 export type GetTemperatureProfilesRoute = typeof getTemperatureProfiles;

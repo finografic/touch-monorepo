@@ -7,11 +7,13 @@
 ## ✅ Correct Pattern
 
 ### **Format:**
+
 ```typescript
 export const {HTTP_METHOD}_{ENDPOINT_SEGMENT}_QUERYKEY = ['{http-method}-{endpoint-segment}'] as const;
 ```
 
 ### **Naming Convention:**
+
 - Use **UPPER_SNAKE_CASE** for constant names
 - Use **lowercase-kebab-case** for the key value
 - **One key per HTTP method and endpoint combination**
@@ -45,6 +47,7 @@ export const GET_DRINK_SUBTYPES_QUERYKEY = ['get-drink-subtypes'] as const;
 ## ❌ Incorrect Patterns
 
 ### **DO NOT use dynamic functions:**
+
 ```typescript
 // ❌ WRONG - Dynamic functions
 export const ORDERS_READABLE_QUERY_KEYS = {
@@ -57,12 +60,14 @@ export const ORDERS_READABLE_QUERY_KEYS = {
 ```
 
 ### **DO NOT use template strings:**
+
 ```typescript
 // ❌ WRONG - Template strings
 export const GET_ORDER_QUERYKEY = (id: string) => [`get-order-${id}`] as const;
 ```
 
 ### **DO NOT include filters in the key name:**
+
 ```typescript
 // ❌ WRONG - Filters in key name
 export const GET_ORDERS_WITH_FILTERS_QUERYKEY = ['get-orders', { filters }] as const;
@@ -71,6 +76,7 @@ export const GET_ORDERS_WITH_FILTERS_QUERYKEY = ['get-orders', { filters }] as c
 ## 📋 Usage in Hooks
 
 ### **Query Hooks (useQuery):**
+
 ```typescript
 // ✅ CORRECT - Direct use for list queries
 export const useGetOrdersReadable = () => {
@@ -90,6 +96,7 @@ export const useGetOrderReadableById = ({ orderId }: { orderId: string }) => {
 ```
 
 ### **Mutation Hooks (useMutation):**
+
 ```typescript
 // ✅ CORRECT - Invalidate GET keys after mutations
 export const useCreateOrder = () => {

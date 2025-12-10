@@ -79,9 +79,7 @@ interface UseProductTranslationSectionsOptions {
   onDeleteCallback?: (context: DeleteCallbackContext) => Promise<void> | void;
 }
 
-export const useProductTranslationSections = (
-  options: UseProductTranslationSectionsOptions = {},
-) => {
+export const useProductTranslationSections = (options: UseProductTranslationSectionsOptions = {}) => {
   const { onDeleteCallback } = options;
   const queryClient = useQueryClient();
   const {
