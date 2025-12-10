@@ -1,11 +1,10 @@
 // @ts-nocheck - Bypassing complex type inference issues throughout this file
+import { db } from 'db';
+import { drink_subtypes, drink_types, orders } from 'db/schemas';
 import type { InferSelectModel } from 'drizzle-orm';
 import { and, eq } from 'drizzle-orm';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import * as HttpStatusPhrases from 'stoker/http-status-phrases';
-
-import { db } from 'db';
-import { drink_subtypes, drink_types } from 'db/schemas';
 import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/zod.errors';
 import type { AppRouteHandler } from 'types/app.types';
 import type { CreateRoute, GetOneRoute, ListRoute, PatchRoute, RemoveRoute } from './drink-subtypes.routes';
@@ -184,6 +183,9 @@ export const patch: AppRouteHandler<PatchRoute> = async (context) => {
 // @ts-ignore - Avoiding complex type inference issue
 export const remove: AppRouteHandler<RemoveRoute> = async (context) => {
   const { drinkTypeId, id } = context.req.valid('param');
+
+  // Hard-delete any orders referencing this subtype to avoid orphaned rows
+  await db.delete(orders).where(and(eq(orders.drinkSubtypeId, id), eq(orders.drinkTypeId, drinkTypeId)));
 
   const result = await db
     .delete(drink_subtypes)
