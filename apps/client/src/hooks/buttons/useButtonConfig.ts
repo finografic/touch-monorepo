@@ -1,12 +1,12 @@
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useMainPageOperations } from 'pages/MainPage/useMainPageOperations';
 import { useTimePageStore } from 'pages/TimePage/useTimePageStore';
 import { useRouteMatching } from 'routes/hooks/useRouteMatching';
 import { BUTTON_TYPE, type ButtonType, type PadActionProps } from 'types/button.types';
 import { ALTERNATIVE_PATHS, ROUTES_CONFIG } from 'config/routes';
 import { ALTERNATIVE_ROUTE_BUTTON_CONFIG, BUTTON_CONFIGS } from 'config/ui';
 import { useButtonNavigation } from './useButtonNavigation';
-import { useMainPageOperations } from './useMainPageOperations';
 import { useOperationState } from './useOperationState';
 import { useProductFlowOperations } from './useProductFlowOperations';
 import { useTimeFlowOperations } from './useTimeFlowOperations';

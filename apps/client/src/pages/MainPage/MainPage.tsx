@@ -2,7 +2,6 @@ import { useEffect, useMemo, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Flex, Spinner } from '@radix-ui/themes';
 import { PadAction } from 'components/Pads/PadAction/PadAction';
-import { useMainPageConfig } from 'hooks/buttons/useMainPageConfig';
 import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';
 import { useFiltersContext } from 'providers/FiltersProvider';
 import { useLayoutUi } from 'providers/LayoutUiProvider/LayoutUiContext';
@@ -15,6 +14,7 @@ import { NUM_ROWS_DEFAULT } from 'config/app';
 import { MainPageSlotGrid } from './MainPageSlotGrid/MainPageSlotGrid';
 import { styles } from './MainPage.styles';
 import type { SlotMeta } from './MainPage.types';
+import { useMainPageConfig } from './useMainPageConfig';
 
 export function MainPage() {
   const location = useLocation();

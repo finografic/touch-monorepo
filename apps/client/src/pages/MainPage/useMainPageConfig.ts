@@ -6,11 +6,11 @@ import { BUTTON_TYPE, type ButtonType } from 'types/button.types';
 import { ROUTES_CONFIG } from 'config/routes';
 import { PATHS } from 'config/routes/paths.constants';
 import { BUTTON_CONFIGS } from 'config/ui';
-import type { OperationActionType } from './button-operations.types';
+import type { OperationActionType } from 'hooks/buttons/button-operations.types';
 import { useMainPageOperations } from './useMainPageOperations';
-import { useOperationState } from './useOperationState';
-import { useProductFlowOperations } from './useProductFlowOperations';
-import { useTimeFlowOperations } from './useTimeFlowOperations';
+import { useOperationState } from 'hooks/buttons/useOperationState';
+import { useProductFlowOperations } from 'hooks/buttons/useProductFlowOperations';
+import { useTimeFlowOperations } from 'hooks/buttons/useTimeFlowOperations';
 
 /**
  * MainPage-specific content buttons configuration.
