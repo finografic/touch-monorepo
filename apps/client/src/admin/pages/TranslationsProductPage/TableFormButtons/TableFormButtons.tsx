@@ -1,11 +1,10 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-
 import { Flex } from '@radix-ui/themes';
+import { useDebouncedCallback } from 'use-debounce';
 import { Button } from 'components/Button';
-
-import { PlusIcon } from 'styles/icons';
 import { styles } from './TableFormButtons.styles';
+import { PlusIcon } from 'styles/icons';
 
 // ============================================================================
 // Types
@@ -29,13 +28,10 @@ export const TableFormButtons: React.FC<TableFormButtonsProps> = ({
   isDirty = false,
 }) => {
   const { t } = useTranslation();
+  const debouncedAddNew = useDebouncedCallback(() => onAddNew?.(), 500, { leading: true, trailing: false });
 
   return (
-    <Flex
-      css={styles}
-      // gap="2"
-      className="table-form-buttons"
-    >
+    <Flex css={styles} className="table-form-buttons">
       {onReset && (
         <Button type="button" variant="outline" color="grey" onClick={onReset} disabled={!isDirty} size="md">
           {t('ui.buttons.cancel')}
@@ -51,7 +47,7 @@ export const TableFormButtons: React.FC<TableFormButtonsProps> = ({
           type="button"
           variant="solid"
           color="info"
-          onClick={onAddNew}
+          onClick={debouncedAddNew}
           size="md"
           aria-label={t('ui.buttons.addNew') || 'Add new translation entry'}
           title={t('ui.buttons.addNew') || 'Add new translation entry'}
