@@ -34,7 +34,6 @@ export const useButtonsState = ({
   const completedTimers = timers.filter((timer) => timer.status === 'completed');
   const hasCompletedTimers = completedTimers.length > 0;
   const hasSelectedItems = selectedSlots.length > 0;
-  const isTimerSelected = selectedSlots.some(({ status }) => status === 'processing');
 
   // Combined pending state
   const isPending = isMainPagePending || isTimeFlowPending || isProductFlowPending;
@@ -86,8 +85,15 @@ export const useButtonsState = ({
         case BUTTON_TYPE.REPEAT_SELECTION: {
           // Check if recall config is active (exists and not expired)
           const hasActiveRecall = recallConfig !== null && !isRecallExpired;
-          // Enable only if: recall config active + orders selected + on main page
-          return !hasActiveRecall || numAnySelected === 0 || location.pathname !== PATHS.main || isPending;
+          const allSelectedBlocked = numAnySelected > 0 && numAvailableSelected === 0; // all selected are processing/completed
+          // Enable only if: recall config active + orders selected + on main page + at least one idle selected
+          return (
+            !hasActiveRecall ||
+            numAnySelected === 0 ||
+            allSelectedBlocked ||
+            location.pathname !== PATHS.main ||
+            isPending
+          );
         }
         case BUTTON_TYPE.CANCEL_TIME_SESSION:
           // Always enabled on TimePage
@@ -108,7 +114,8 @@ export const useButtonsState = ({
       selectedSlots,
       timers,
       profile?.temperatureProfiles?.length,
-      isTimerSelected,
+      recallConfig,
+      isRecallExpired,
     ],
   );
 
