@@ -1,9 +1,7 @@
 import { transformFetchError } from '@workspace/core/api';
-
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from 'api';
-
-import { ORDERS_READABLE_QUERY_KEYS } from 'queries/orders';
+import { GET_ORDERS_READABLE_QUERYKEY } from 'queries/orders';
 
 /**
  * Hook to create a new order
@@ -41,11 +39,11 @@ export const useCreateOrder = () => {
         console.log('Created order:', newOrder);
 
         // Step 2: Create temperature profiles if provided
-        if (temperatureProfiles.length > 0) {
+        if (temperatureProfiles.length > 0 && newOrder && typeof newOrder === 'object' && 'id' in newOrder) {
           const profilePromises = temperatureProfiles.map(async (profile) => {
-            console.log('Creating temperature profile for new order:', newOrder.id, profile);
+            console.log('Creating temperature profile for new order:', (newOrder as any).id, profile);
             return await api.post('/temperature-profiles', {
-              orderId: newOrder.id,
+              orderId: (newOrder as any).id,
               modeId: profile.modeId || 'default', // Fallback to default
               temperature: profile.temperature,
               timeA: profile.timeA,
@@ -65,7 +63,7 @@ export const useCreateOrder = () => {
     },
     onSuccess: () => {
       // Invalidate queries to refetch fresh data
-      queryClient.invalidateQueries({ queryKey: ORDERS_READABLE_QUERY_KEYS.lists() });
+      queryClient.invalidateQueries({ queryKey: GET_ORDERS_READABLE_QUERYKEY });
     },
   });
 };

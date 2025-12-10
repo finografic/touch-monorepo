@@ -1,7 +1,9 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Flex, Spinner, Tabs, Text } from '@radix-ui/themes';
+import { useQueryClient } from '@tanstack/react-query';
 import { useToast } from 'components/Toast';
+import { GET_ORDERS_READABLE_QUERYKEY } from 'queries/orders';
 import { AdminPageLayout, AdminSection } from '../..';
 import { useProductTranslationSections } from './hooks/useProductTranslationSections';
 import { ProductTranslationsTable } from './ProductTranslationsTable/ProductTranslationsTable';
@@ -13,6 +15,34 @@ type SectionKey = 'drinkSubtypes' | 'volumes' | 'drinkTypes' | 'containerTypes';
 export const TranslationsProductPage: React.FC = () => {
   const { t } = useTranslation();
   const { toast } = useToast();
+  const queryClient = useQueryClient();
+
+  // Callback for additional processes after deletion
+  const handleDeleteCallback = useCallback(
+    async (context: { sectionKey: SectionKey; itemId: string; drinkTypeId?: string; itemName?: string }) => {
+      // TODO: Add your additional cleanup/processes here
+      // Examples:
+      // - Clean up related data in other tables
+      // - Update other caches
+      // - Send notifications
+      // - Audit logging
+      // - Cascading deletes for related entities
+
+      console.log('Delete callback executed:', context);
+
+      // Example: If deleting a drink type, you might want to handle subtypes cleanup
+      // (though DB cascade should handle this, you might need UI updates)
+      if (context.sectionKey === 'drinkTypes') {
+        // Additional processes for drink type deletion
+        // e.g., invalidate related queries, update UI state, etc.
+      }
+
+      // Invalidate orders-readable query since orders reference drink types, subtypes, volumes, and container types
+      // When these are deleted, any orders using them need to be refreshed
+      await queryClient.invalidateQueries({ queryKey: GET_ORDERS_READABLE_QUERYKEY });
+    },
+    [queryClient],
+  );
 
   const {
     sections,
@@ -26,7 +56,9 @@ export const TranslationsProductPage: React.FC = () => {
     addNewItem,
     deleteItem,
     deleteItemImmediate,
-  } = useProductTranslationSections();
+  } = useProductTranslationSections({
+    onDeleteCallback: handleDeleteCallback,
+  });
 
   const [activeTab, setActiveTab] = useState<SectionKey>('drinkTypes');
 

@@ -1,9 +1,7 @@
 import { transformFetchError } from '@workspace/core/api';
-
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from 'api';
-
-import { ORDERS_READABLE_QUERY_KEYS } from 'queries/orders';
+import { GET_ORDERS_READABLE_QUERYKEY } from 'queries/orders';
 
 /**
  * Hook to delete an order
@@ -21,7 +19,7 @@ export const useDeleteOrder = () => {
     },
     onSuccess: () => {
       // Invalidate queries to refetch fresh data
-      queryClient.invalidateQueries({ queryKey: ORDERS_READABLE_QUERY_KEYS.lists() });
+      queryClient.invalidateQueries({ queryKey: GET_ORDERS_READABLE_QUERYKEY });
     },
   });
 };

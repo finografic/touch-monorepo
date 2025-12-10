@@ -1,10 +1,8 @@
-export const ORDERS_READABLE_QUERY_KEYS = {
-  all: ['orders-readable'] as const,
-  lists: () => [...ORDERS_READABLE_QUERY_KEYS.all, 'list'] as const,
-  list: (filters?: string) => [...ORDERS_READABLE_QUERY_KEYS.lists(), { filters }] as const,
-  details: () => [...ORDERS_READABLE_QUERY_KEYS.all, 'detail'] as const,
-  detail: (id: string) => [...ORDERS_READABLE_QUERY_KEYS.details(), id] as const,
-};
+export const GET_ORDERS_READABLE_QUERYKEY = ['get-orders-readable'] as const;
+export const GET_ORDER_READABLE_QUERYKEY = ['get-order-readable'] as const;
+export const POST_ORDER_READABLE_QUERYKEY = ['post-order-readable'] as const;
+export const PATCH_ORDER_READABLE_QUERYKEY = ['patch-order-readable'] as const;
+export const DELETE_ORDER_READABLE_QUERYKEY = ['delete-order-readable'] as const;
 
 export * from './useCreateOrder';
 export * from './useDeleteOrder';

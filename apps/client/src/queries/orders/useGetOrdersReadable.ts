@@ -1,10 +1,7 @@
 import { transformFetchError } from '@workspace/core/api';
-
 import { useQuery } from '@tanstack/react-query';
 import { api } from 'api';
-
-import { ORDERS_READABLE_QUERY_KEYS } from 'queries/orders';
-
+import { GET_ORDERS_READABLE_QUERYKEY } from 'queries/orders';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 
 /**
@@ -13,7 +10,7 @@ import type { OrderReadableModel } from 'types/models/order-readable.model';
  */
 export const useGetOrdersReadable = () => {
   return useQuery({
-    queryKey: ORDERS_READABLE_QUERY_KEYS.lists(),
+    queryKey: GET_ORDERS_READABLE_QUERYKEY,
     queryFn: async (): Promise<OrderReadableModel[]> => {
       try {
         // Fetch client returns data directly

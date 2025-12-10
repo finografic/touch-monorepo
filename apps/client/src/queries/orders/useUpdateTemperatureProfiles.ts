@@ -1,9 +1,7 @@
 import { transformFetchError } from '@workspace/core/api';
-
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from 'api';
-
-import { ORDERS_READABLE_QUERY_KEYS } from 'queries/orders';
+import { GET_ORDER_READABLE_QUERYKEY } from 'queries/orders';
 
 /**
  * Hook to update temperature profiles for an order
@@ -92,7 +90,7 @@ export const useUpdateTemperatureProfiles = () => {
         queryKey: ['temperature-profiles', 'by-order', orderId],
       });
       // Also invalidate the order readable data since it includes temperature profiles
-      queryClient.invalidateQueries({ queryKey: ORDERS_READABLE_QUERY_KEYS.detail(orderId) });
+      queryClient.invalidateQueries({ queryKey: [...GET_ORDER_READABLE_QUERYKEY, orderId] });
     },
   });
 };

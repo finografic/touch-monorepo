@@ -64,7 +64,25 @@ const areSectionsEqual = (
   return true;
 };
 
-export const useProductTranslationSections = () => {
+interface DeleteCallbackContext {
+  sectionKey: SectionKey;
+  itemId: string;
+  drinkTypeId?: string;
+  itemName?: string;
+}
+
+interface UseProductTranslationSectionsOptions {
+  /**
+   * Optional callback executed after successful deletion.
+   * Use this for additional cleanup, cascading deletes, or other post-deletion processes.
+   */
+  onDeleteCallback?: (context: DeleteCallbackContext) => Promise<void> | void;
+}
+
+export const useProductTranslationSections = (
+  options: UseProductTranslationSectionsOptions = {},
+) => {
+  const { onDeleteCallback } = options;
   const queryClient = useQueryClient();
   const {
     data: translationsData,
@@ -648,10 +666,17 @@ export const useProductTranslationSections = () => {
   /**
    * Immediately delete an item (hard delete via DELETE) and refresh caches.
    * For drinkSubtypes, drinkTypeId is required.
+   *
+   * After successful deletion, calls onDeleteCallback if provided for additional cleanup.
    */
   const deleteItemImmediate = useCallback(
     async (sectionKey: SectionKey, itemId: string, drinkTypeId?: string) => {
       if (!itemId) return;
+
+      // Find the item to get its name for the callback
+      const section = sections.find((s) => s.key === sectionKey);
+      const item = section?.items.find((i) => i.id === itemId);
+      const itemName = item?.name;
 
       // Call API immediately (hard delete)
       if (sectionKey === 'drinkTypes') {
@@ -704,10 +729,26 @@ export const useProductTranslationSections = () => {
         await queryClient.invalidateQueries({ queryKey: ['get-container-types'] });
       }
 
+      // Execute callback for additional cleanup/processes if provided
+      if (onDeleteCallback) {
+        try {
+          await onDeleteCallback({
+            sectionKey,
+            itemId,
+            drinkTypeId,
+            itemName,
+          });
+        } catch (error) {
+          console.error('Error in onDeleteCallback:', error);
+          // Don't throw - callback errors shouldn't break the delete flow
+          // but we log them for debugging
+        }
+      }
+
       // Allow re-init with fresh data if needed
       isInitializedRef.current = false;
     },
-    [queryClient],
+    [queryClient, sections, onDeleteCallback],
   );
 
   const deleteItem = useCallback((sectionKey: SectionKey, itemId: string) => {
