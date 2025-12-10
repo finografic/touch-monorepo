@@ -1,5 +1,5 @@
 // Barrel exports only – no orchestrator here. Import the specific hook you need.
-export type { OperationActionType } from './button-operations.types';
+export type { OperationActionType } from './button.types';
 export { useNavigationButtons } from './useNavigationButtons';
 export { useNavigationButtonsConfig } from './useNavigationButtonsConfig';
 export { useButtonsState } from './useButtonsState';

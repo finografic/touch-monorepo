@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { OperationActionType } from 'hooks/buttons/button-operations.types';
+import type { OperationActionType } from 'hooks/buttons/button.types';
 import { useButtonsState } from 'hooks/buttons/useButtonsState';
 import { useProductFlowOperations } from 'hooks/buttons/useProductFlowOperations';
 import { useTimeFlowOperations } from 'hooks/buttons/useTimeFlowOperations';

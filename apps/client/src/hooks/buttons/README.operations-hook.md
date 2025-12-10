@@ -1,95 +1,197 @@
-# Button Operations - Refactored Architecture
+# Button Hooks - Architecture & Organization
 
-📅 Oct 21, 2025
+📅 Updated: Current structure after refactoring
 
-## 📁 File Structure (current, simplified)
+## 📁 File Structure
 
 ```text
-hooks/
-└── button-operations/
-    ├── index.ts                        (barrel only; no orchestrator)
-    ├── button-operations.types.ts      (shared types)
-    ├── useMainPageOperations.ts        (MainPage operations)
-    ├── useTimeFlowOperations.ts        (Time flow operations)
-    ├── useProductFlowOperations.ts     (Product flow operations)
-    ├── useButtonsState.ts            (Shared disabled/loading logic)
-    └── README.operations-hook.md       (This file)
+hooks/buttons/
+├── index.ts                        (barrel exports only)
+├── button.types.ts                 (shared types)
+├── timer-filter.utils.ts           (utility functions)
+│
+├── useNavigationButtons.ts         (navigation handlers & logic)
+├── useNavigationButtonsConfig.ts   (navigation button config - uses useNavigationButtons)
+├── useButtonsState.ts              (button disabled/loading state management)
+│
+├── useTimeFlowOperations.ts        (Time flow operations)
+├── useProductFlowOperations.ts     (Product flow operations)
+│
+└── README.operations-hook.md       (This file)
+
+pages/MainPage/
+├── useMainPageOperations.ts        (MainPage-specific operations)
+└── useMainPageConfig.ts            (MainPage content buttons config)
 ```
 
-## 🎯 Overview
+## 🎯 Design Principles
 
-- No catch-all orchestrator. Import the specific hook you need.
-- `useButtonConfig` is the single place that builds button props (handlers + disabled/loading).
-- Source hooks per concern:
-  - Main page: `useMainPageOperations`
-  - Time flow: `useTimeFlowOperations`
-  - Product flow: `useProductFlowOperations`
-  - Disabled/loading: `useButtonsState`
+### **1. Semantic Naming**
+
+Hook names clearly indicate their purpose and relationships:
+- **`useNavigationButtons`** → Provides navigation handlers (`handleNavigateBack`, `handleNavigateNext`)
+- **`useNavigationButtonsConfig`** → Builds navigation button props (uses `useNavigationButtons`)
+- **`useButtonsState`** → Manages button disabled/loading states
+- **`useMainPageOperations`** → MainPage-specific operation handlers
+- **`useMainPageConfig`** → MainPage content buttons configuration
+
+The naming pattern `useX` → `useXConfig` makes dependencies obvious without reading code.
+
+### **2. Separation of Concerns**
+
+- **Navigation**: `useNavigationButtons` + `useNavigationButtonsConfig`
+- **State Management**: `useButtonsState`
+- **Flow Operations**: `useTimeFlowOperations`, `useProductFlowOperations`
+- **Page-Specific**: MainPage hooks co-located with the page component
+
+### **3. Co-location**
+
+Page-specific hooks live with their components:
+- `pages/MainPage/useMainPageOperations.ts`
+- `pages/MainPage/useMainPageConfig.ts`
+
+This makes it clear these hooks are only used by MainPage.
+
+## 🏗️ Hook Relationships
+
+### **Navigation Buttons Flow**
+
+```
+useNavigationButtons (handlers)
+    ↓
+useNavigationButtonsConfig (builds button props)
+    ↓
+FrontEndNavigation (renders footer buttons)
+```
+
+### **MainPage Buttons Flow**
+
+```
+useMainPageOperations (handlers)
+    ↓
+useMainPageConfig (builds content button props)
+    ↓
+MainPage (renders content buttons)
+```
+
+### **State Management**
+
+```
+useButtonsState (manages disabled/loading)
+    ↓
+Used by: useNavigationButtonsConfig, useMainPageConfig
+```
+
+## 📚 Hook Reference
+
+### **useNavigationButtons**
+
+Provides navigation handlers and disabled state logic.
+
+**Returns:**
+- `handleNavigateBack()` - Navigate to previous route
+- `handleNavigateNext()` - Navigate to next route
+- `getNavigationDisabled(actionType)` - Check if navigation is disabled
+- `isNavigationPending` - Navigation transition state
+
+**Used by:** `useNavigationButtonsConfig`
+
+```typescript
+import { useNavigationButtons } from 'hooks/buttons';
+
+const { handleNavigateBack, handleNavigateNext } = useNavigationButtons();
+```
 
 ---
 
-## 🏗️ Architecture
+### **useNavigationButtonsConfig**
 
-### **1. Barrel Only** (`index.ts`)
+Route-aware navigation buttons configuration. Builds footer button props based on current route.
 
-`index.ts` is now a pure barrel that re-exports the individual hooks. There is **no catch-all hook** here. Import the hook you need directly:
+**Returns:**
+- `footerButtons: PadActionProps[]` - Array of footer button props
 
-```typescript
-import { useMainPageOperations } from 'hooks/button-operations';
-import { useTimeFlowOperations } from 'hooks/button-operations';
-import { useProductFlowOperations } from 'hooks/button-operations';
-import { useButtonsState } from 'hooks/button-operations';
-```
+**Uses:**
+- `useNavigationButtons` - For navigation handlers
+- `useButtonsState` - For disabled/loading states
+- `useMainPageOperations` - For MainPage footer button handlers
+- `useTimeFlowOperations` - For time flow handlers
+- `useProductFlowOperations` - For product flow handlers
 
-### **2. Flow-Specific Hooks**
-
-#### **useMainPageOperations**
-
-Handles MainPage-specific operations:
-- ✅ `handleResetCompleted` - Clear all completed timers
-- ✅ `handleCancelSelected` - Cancel selected active timers
-- ✅ `handleSelectAll` - Select all MainPage slots
-- ✅ `handleRepeatSelection` - Repeat last saved configuration
-
-**Use case**: MainPage timer management and selection
+**Used by:** `FrontEndNavigation` component
 
 ```typescript
-import { useMainPageOperations } from 'hooks/button-operations';
+import { useNavigationButtonsConfig } from 'hooks/buttons';
 
-const { handleResetCompleted, handleSelectAll } = useMainPageOperations();
+const { footerButtons } = useNavigationButtonsConfig();
 ```
 
 ---
 
-#### **useTimeFlowOperations**
+### **useButtonsState**
 
-Handles Time Flow (Program Time):
-- ✅ `handleProgramTime` - Navigate from MainPage → TimePage
-- ✅ `handleStartTimeProcess` - Start timers from TimePage → MainPage
-- ✅ `handleCancelTimeSession` - Cancel time session and return to MainPage
+Centralized logic for determining button disabled/loading states across all flows.
 
-**Use case**: Time programming flow
+**Parameters (named, all optional, default to `false`):**
+- `isMainPagePending?: boolean`
+- `isTimeFlowPending?: boolean`
+- `isProductFlowPending?: boolean`
+- `isTemperatureLoading?: boolean`
+
+**Returns:**
+- `getOperationDisabled(actionType)` - Check if operation button is disabled
+- `getOperationLoading(actionType)` - Check if operation button is loading
+- `isOperationPending` - Combined pending state
+
+**Used by:** `useNavigationButtonsConfig`, `useMainPageConfig`
 
 ```typescript
-import { useTimeFlowOperations } from 'hooks/button-operations';
+import { useButtonsState } from 'hooks/buttons';
+
+const { getOperationDisabled, getOperationLoading } = useButtonsState({
+  isMainPagePending: true,
+  isTimeFlowPending: false,
+  // ... other states default to false
+});
+```
+
+---
+
+### **useTimeFlowOperations**
+
+Handles Time Flow operations (Program Time).
+
+**Returns:**
+- `handleProgramTime()` - Navigate from MainPage → TimePage
+- `handleStartTimeProcess(duration)` - Start timers from TimePage → MainPage
+- `handleCancelTimeSession()` - Cancel time session and return to MainPage
+- `isPending` - Operation pending state
+
+**Used by:** `useNavigationButtonsConfig`, `useMainPageConfig`
+
+```typescript
+import { useTimeFlowOperations } from 'hooks/buttons';
 
 const { handleProgramTime, handleStartTimeProcess } = useTimeFlowOperations();
 ```
 
 ---
 
-#### **useProductFlowOperations**
+### **useProductFlowOperations**
 
-Handles Product Flow (Program Product):
-- ✅ `handleProgramProduct` - Navigate from MainPage → DrinkType page
-- ✅ `handleStartProductProcess` - Start product process from DrinkType page
-- ✅ `handleStartProductProcess` - Finish product process from Temperature page
-- ✅ `handleCancelProductSession` - Cancel product session and return to MainPage
+Handles Product Flow operations (Program Product).
 
-**Use case**: Product programming flow (drink selection → temperature → timers)
+**Returns:**
+- `handleProgramProduct()` - Navigate from MainPage → DrinkType page
+- `handleStartProductProcess()` - Start product process from Temperature page
+- `handleCancelProductSession()` - Cancel product session and return to MainPage
+- `isTemperatureLoading` - Temperature control loading state
+- `isPending` - Operation pending state
+
+**Used by:** `useNavigationButtonsConfig`, `useMainPageConfig`
 
 ```typescript
-import { useProductFlowOperations } from 'hooks/button-operations';
+import { useProductFlowOperations } from 'hooks/buttons';
 
 const {
   handleProgramProduct,
@@ -100,95 +202,116 @@ const {
 
 ---
 
-#### **useButtonsState**
+### **useMainPageOperations** (in `pages/MainPage/`)
 
-Shared logic for determining operation disabled/loading states across all flows.
+MainPage-specific operation handlers.
 
-**Use case**: Centralized state management for button states
+**Returns:**
+- `handleResetCompleted()` - Clear all completed timers
+- `handleCancelSelected()` - Cancel selected active timers
+- `handleSelectAll()` - Select all MainPage slots
+- `handleRepeatSelection()` - Repeat last saved configuration
+- `isPending` - Operation pending state
 
-```typescript
-import { useButtonsState } from 'hooks/button-operations';
-
-const { getOperationDisabled, getOperationLoading } = useButtonsState(
-  mainPagePending,
-  timeFlowPending,
-  productFlowPending,
-  isTemperatureLoading,
-);
-```
-
----
-
-## 🔄 Migration Guide
-
-### **No Changes Required!**
-
-The refactoring is **100% backward compatible**. All existing imports will continue to work:
+**Used by:** `useMainPageConfig`, `useNavigationButtonsConfig`
 
 ```typescript
-// ✅ This still works exactly the same
-import { useButtonOperations } from 'hooks/button-operations/useButtonOperations';
-
-const {
-  handleProgramProduct,
-  handleStartProductProcess,
-  getOperationDisabled,
-} = useButtonOperations();
-```
-
-### **Optional: Use Specific Hooks**
-
-For better performance and clarity, you can import only what you need:
-
-```typescript
-// ✅ Recommended for new code
-import { useMainPageOperations } from 'hooks/button-operations';
+import { useMainPageOperations } from 'pages/MainPage/useMainPageOperations';
 
 const { handleResetCompleted, handleSelectAll } = useMainPageOperations();
 ```
 
 ---
 
-## 📊 Benefits
+### **useMainPageConfig** (in `pages/MainPage/`)
 
-### **1. Better Organization**
+MainPage-specific content buttons configuration.
 
-- **MainPage operations** are in `useMainPageOperations`
-- **Time flow** is in `useTimeFlowOperations`
-- **Product flow** is in `useProductFlowOperations`
-- **State logic** is in `useButtonsState`
+**Returns:**
+- `contentButtons: PadActionProps[]` - Array of content button props (PROGRAM_TIME, PROGRAM_PRODUCT, REPEAT_SELECTION)
 
-### **2. Easier Testing**
+**Uses:**
+- `useMainPageOperations` - For MainPage operation handlers
+- `useTimeFlowOperations` - For PROGRAM_TIME handler
+- `useProductFlowOperations` - For PROGRAM_PRODUCT handler
+- `useButtonsState` - For disabled/loading states
 
-Each hook can be tested independently without mocking the entire operation set.
+**Used by:** `MainPage` component
 
-### **3. Better Performance**
+```typescript
+import { useMainPageConfig } from 'pages/MainPage/useMainPageConfig';
 
-Components can import only the operations they need, reducing unnecessary re-renders.
+const { contentButtons } = useMainPageConfig();
+```
 
-### **4. Clearer Dependencies**
+---
 
-Each hook explicitly declares its dependencies, making it easier to understand data flow.
+## 📊 Benefits of This Structure
 
-### **5. Easier Maintenance**
+### **1. Self-Documenting Code**
 
-- Working on MainPage? Only touch `useMainPageOperations`
-- Adding a new time flow feature? Only modify `useTimeFlowOperations`
-- No risk of breaking unrelated features
+- Hook names clearly indicate purpose and relationships
+- `useNavigationButtons` → `useNavigationButtonsConfig` shows dependency
+- No need to read code to understand structure
+
+### **2. Easy Navigation**
+
+- Page-specific hooks are co-located with components
+- Shared hooks are in a central location
+- Clear separation between navigation, state, and operations
+
+### **3. Reduced Cognitive Load**
+
+- Each hook has a single, clear responsibility
+- Dependencies are obvious from naming
+- No guessing about which hook to use
+
+### **4. Better Maintainability**
+
+- Working on navigation? → `useNavigationButtons*` hooks
+- Working on MainPage? → `pages/MainPage/` hooks
+- Working on button states? → `useButtonsState`
+- Clear boundaries prevent accidental coupling
+
+### **5. Type Safety**
+
+- All hooks are properly typed
+- Named parameters with defaults reduce errors
+- TypeScript catches misuse at compile time
+
+---
+
+## 🔄 Import Patterns
+
+### **From hooks/buttons (shared hooks):**
+
+```typescript
+import { useNavigationButtons } from 'hooks/buttons';
+import { useNavigationButtonsConfig } from 'hooks/buttons';
+import { useButtonsState } from 'hooks/buttons';
+import { useTimeFlowOperations } from 'hooks/buttons';
+import { useProductFlowOperations } from 'hooks/buttons';
+```
+
+### **From pages/MainPage (page-specific):**
+
+```typescript
+import { useMainPageOperations } from 'pages/MainPage/useMainPageOperations';
+import { useMainPageConfig } from 'pages/MainPage/useMainPageConfig';
+```
 
 ---
 
 ## 🧪 Testing
 
-Each hook can now be tested independently:
+Each hook can be tested independently:
 
 ```typescript
-// Test MainPage operations
 import { renderHook } from '@testing-library/react';
-import { useMainPageOperations } from 'hooks/button-operations';
+import { useNavigationButtons } from 'hooks/buttons';
 
-test('handleResetCompleted clears all completed timers', () => {
-  const { result } = renderHook(() => useMainPageOperations());
+test('handleNavigateBack navigates to previous route', () => {
+  const { result } = renderHook(() => useNavigationButtons());
   // ... test logic
 });
 ```
@@ -207,17 +330,17 @@ test('handleResetCompleted clears all completed timers', () => {
 
 ## 📝 Notes
 
-- All operations maintain their original behavior
+- All hooks maintain their original behavior
 - No breaking changes to the API
-- The original `useButtonOperations.ts` now re-exports from the new structure
+- The barrel export (`index.ts`) provides convenient imports
 - TypeScript types are preserved and re-exported
+- Named parameters with defaults make hooks easier to use
 
 ---
 
 ## 🙋 Questions?
 
-If you have questions about this refactoring, check:
-1. The original implementation in git history
-2. The individual hook files for detailed comments
-3. The orchestrator (`index.ts`) for how everything connects
-
+If you have questions about this structure, check:
+1. The individual hook files for detailed comments
+2. The components that use these hooks
+3. The barrel export (`index.ts`) for available hooks

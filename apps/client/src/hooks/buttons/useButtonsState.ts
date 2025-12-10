@@ -6,7 +6,7 @@ import { useOrders } from 'providers/OrdersProvider';
 import { useTimers } from 'providers/TimersProvider';
 import { BUTTON_TYPE } from 'types/button.types';
 import { ALTERNATIVE_PATHS, PATHS } from 'config/routes';
-import type { OperationActionType } from './button-operations.types';
+import type { OperationActionType } from './button.types';
 
 interface UseOperationStateOptions {
   isMainPagePending?: boolean;
