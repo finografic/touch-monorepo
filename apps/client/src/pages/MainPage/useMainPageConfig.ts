@@ -1,16 +1,16 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import type { OperationActionType } from 'hooks/buttons/button-operations.types';
+import { useButtonsState } from 'hooks/buttons/useButtonsState';
+import { useProductFlowOperations } from 'hooks/buttons/useProductFlowOperations';
+import { useTimeFlowOperations } from 'hooks/buttons/useTimeFlowOperations';
 import { useRouteMatching } from 'routes/hooks/useRouteMatching';
 import type { PadActionProps } from 'types/button.types';
 import { BUTTON_TYPE, type ButtonType } from 'types/button.types';
 import { ROUTES_CONFIG } from 'config/routes';
 import { PATHS } from 'config/routes/paths.constants';
 import { BUTTON_CONFIGS } from 'config/ui';
-import type { OperationActionType } from 'hooks/buttons/button-operations.types';
 import { useMainPageOperations } from './useMainPageOperations';
-import { useOperationState } from 'hooks/buttons/useOperationState';
-import { useProductFlowOperations } from 'hooks/buttons/useProductFlowOperations';
-import { useTimeFlowOperations } from 'hooks/buttons/useTimeFlowOperations';
 
 /**
  * MainPage-specific content buttons configuration.
@@ -30,7 +30,7 @@ export const useMainPageConfig = (): { contentButtons: PadActionProps[] } => {
   } = useProductFlowOperations();
 
   // Get disabled/loading state (needs all pending states for accurate calculation)
-  const { getOperationDisabled, getOperationLoading } = useOperationState({
+  const { getOperationDisabled, getOperationLoading } = useButtonsState({
     isMainPagePending,
     isTimeFlowPending,
     isProductFlowPending,

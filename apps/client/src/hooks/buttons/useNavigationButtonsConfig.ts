@@ -6,27 +6,28 @@ import { useRouteMatching } from 'routes/hooks/useRouteMatching';
 import { BUTTON_TYPE, type ButtonType, type PadActionProps } from 'types/button.types';
 import { ALTERNATIVE_PATHS, ROUTES_CONFIG } from 'config/routes';
 import { ALTERNATIVE_ROUTE_BUTTON_CONFIG, BUTTON_CONFIGS } from 'config/ui';
-import { useButtonNavigation } from './useButtonNavigation';
-import { useOperationState } from './useOperationState';
+import { useButtonsState } from './useButtonsState';
+import { useNavigationButtons } from './useNavigationButtons';
 import { useProductFlowOperations } from './useProductFlowOperations';
 import { useTimeFlowOperations } from './useTimeFlowOperations';
 
-interface UseButtonConfigReturn {
+interface UseNavigationButtonsConfigReturn {
   footerButtons: PadActionProps[];
 }
 
 /**
- * Route-aware footer buttons configuration.
+ * Route-aware navigation buttons configuration.
  * Returns footer buttons based on current route from ROUTES_CONFIG.
+ * Uses useNavigationButtons for navigation handlers.
  * Used by FrontEndNavigation component.
  */
-export const useButtonConfig = (): UseButtonConfigReturn => {
+export const useNavigationButtonsConfig = (): UseNavigationButtonsConfigReturn => {
   const { matchRoute, currentPathname } = useRouteMatching();
   const { t } = useTranslation();
 
   // Get actions from both specialized hooks
   const { handleNavigateBack, handleNavigateNext, getNavigationDisabled, isNavigationPending } =
-    useButtonNavigation();
+    useNavigationButtons();
 
   // Main Page ops (only handlers used in footer buttons)
   const {
@@ -51,7 +52,7 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
     isTemperatureLoading,
   } = useProductFlowOperations();
 
-  const { getOperationDisabled, getOperationLoading, isOperationPending } = useOperationState({
+  const { getOperationDisabled, getOperationLoading, isOperationPending } = useButtonsState({
     isMainPagePending,
     isTimeFlowPending,
     isProductFlowPending,

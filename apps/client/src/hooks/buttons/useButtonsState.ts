@@ -18,7 +18,7 @@ interface UseOperationStateOptions {
 /**
  * Shared logic for determining operation disabled/loading states
  */
-export const useOperationState = ({
+export const useButtonsState = ({
   isMainPagePending = false,
   isTimeFlowPending = false,
   isProductFlowPending = false,

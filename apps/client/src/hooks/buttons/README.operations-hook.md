@@ -12,7 +12,7 @@ hooks/
     ├── useMainPageOperations.ts        (MainPage operations)
     ├── useTimeFlowOperations.ts        (Time flow operations)
     ├── useProductFlowOperations.ts     (Product flow operations)
-    ├── useOperationState.ts            (Shared disabled/loading logic)
+    ├── useButtonsState.ts            (Shared disabled/loading logic)
     └── README.operations-hook.md       (This file)
 ```
 
@@ -24,7 +24,7 @@ hooks/
   - Main page: `useMainPageOperations`
   - Time flow: `useTimeFlowOperations`
   - Product flow: `useProductFlowOperations`
-  - Disabled/loading: `useOperationState`
+  - Disabled/loading: `useButtonsState`
 
 ---
 
@@ -38,7 +38,7 @@ hooks/
 import { useMainPageOperations } from 'hooks/button-operations';
 import { useTimeFlowOperations } from 'hooks/button-operations';
 import { useProductFlowOperations } from 'hooks/button-operations';
-import { useOperationState } from 'hooks/button-operations';
+import { useButtonsState } from 'hooks/button-operations';
 ```
 
 ### **2. Flow-Specific Hooks**
@@ -100,16 +100,16 @@ const {
 
 ---
 
-#### **useOperationState**
+#### **useButtonsState**
 
 Shared logic for determining operation disabled/loading states across all flows.
 
 **Use case**: Centralized state management for button states
 
 ```typescript
-import { useOperationState } from 'hooks/button-operations';
+import { useButtonsState } from 'hooks/button-operations';
 
-const { getOperationDisabled, getOperationLoading } = useOperationState(
+const { getOperationDisabled, getOperationLoading } = useButtonsState(
   mainPagePending,
   timeFlowPending,
   productFlowPending,
@@ -156,7 +156,7 @@ const { handleResetCompleted, handleSelectAll } = useMainPageOperations();
 - **MainPage operations** are in `useMainPageOperations`
 - **Time flow** is in `useTimeFlowOperations`
 - **Product flow** is in `useProductFlowOperations`
-- **State logic** is in `useOperationState`
+- **State logic** is in `useButtonsState`
 
 ### **2. Easier Testing**
 

@@ -1,15 +1,13 @@
 import { useCallback, useTransition } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-
 import { useFiltersContext } from 'providers/FiltersProvider';
 import { useFilters } from 'providers/FiltersProvider/useFilters';
 import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useCurrentFlowStep, useRouteNavigation } from 'routes/hooks/useRouteNavigation';
-
-import type { TemperatureFilter } from 'types/temperature.types';
 import { BUTTON_TYPE } from 'types/button.types';
+import type { TemperatureFilter } from 'types/temperature.types';
 import { ALTERNATIVE_PATHS, PATHS } from 'config/routes';
 
 type NavigationActionType = typeof BUTTON_TYPE.NAVIGATE_BACK | typeof BUTTON_TYPE.NAVIGATE_NEXT;
@@ -21,7 +19,7 @@ interface UseButtonNavigationReturn {
   isNavigationPending: boolean;
 }
 
-export const useButtonNavigation = (): UseButtonNavigationReturn => {
+export const useNavigationButtons = (): UseButtonNavigationReturn => {
   const location = useLocation();
   const navigate = useNavigate();
   const [isPending, startTransition] = useTransition();
