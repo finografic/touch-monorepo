@@ -89,6 +89,7 @@ export const ProductTranslationsTableExpandable: React.FC<ProductTranslationsTab
   // Ref for DataTable to programmatically control row editing
   const dataTableRef = useRef<any>(null);
   const tableContainerRef = useRef<HTMLDivElement | null>(null);
+  const dataTableElementRef = useRef<HTMLDivElement | null>(null);
 
   // Track previous items length to detect new items
   const prevItemsLengthRef = useRef<number>(items.length);
@@ -235,10 +236,23 @@ export const ProductTranslationsTableExpandable: React.FC<ProductTranslationsTab
     errorMessage: 'Failed to save translations',
   });
 
+  // Capture the actual DataTable element to narrow the outside area
+  React.useEffect(() => {
+    const el = dataTableRef.current?.getElement?.();
+    if (el) {
+      dataTableElementRef.current = el as HTMLDivElement;
+    }
+  }, []);
+
   // Cancel row editing when clicking outside the table container
-  useOnClickOutside(tableContainerRef, () => {
-    log('CLICKED_OUTSIDE', 'red', dataTableRef.current);
-    dataTableRef.current?.closeEditingRows?.();
+  useOnClickOutside(dataTableElementRef, () => {
+    const dt = dataTableRef.current;
+    log('CLICKED_OUTSIDE', 'red', dt);
+    dt?.closeEditingRows?.();
+    const cancelBtn = dataTableElementRef.current?.querySelector('.p-row-editor-cancel');
+    if (cancelBtn instanceof HTMLElement) {
+      cancelBtn.click();
+    }
   });
 
   // ============================================================================
@@ -291,6 +305,34 @@ export const ProductTranslationsTableExpandable: React.FC<ProductTranslationsTab
 
     onAddNew(expandedRowRef.current);
   }, [onAddNew, toast]);
+
+  // Revert a row to its initial values (for cancel)
+  const handleRowEditCancel = useCallback(
+    (event: any) => {
+      const rowData = event?.data as TranslationItem | undefined;
+      if (!rowData) return;
+      if ((rowData as any)._isPlaceholder || rowData.id.startsWith('_placeholder_')) return;
+
+      const original = initialItems.find((item) => item.id === rowData.id);
+      if (!original) return;
+
+      // Restore name
+      if (original.name !== rowData.name) {
+        onItemChange(rowData.id, 'name', original.name);
+      }
+
+      // Restore language fields
+      supportedLanguages.forEach((lang) => {
+        const fieldName = getLanguageFieldName(lang.isoCode);
+        const currentVal = (rowData as any)[fieldName] || '';
+        const originalVal = (original as any)[fieldName] || '';
+        if (currentVal !== originalVal) {
+          onItemChange(rowData.id, fieldName, originalVal);
+        }
+      });
+    },
+    [initialItems, onItemChange, supportedLanguages],
+  );
 
   // Effect to handle new items for expandable table (sets drinkTypeId and adds to expandedRows)
   // Note: Auto-focus and row editing is handled by useEditRow hook
@@ -507,6 +549,7 @@ export const ProductTranslationsTableExpandable: React.FC<ProductTranslationsTab
         editMode="row"
         dataKey="id"
         onRowEditComplete={onRowEditComplete}
+        onRowEditCancel={handleRowEditCancel}
         rowClassName={(rowData) => {
           // Add class to placeholder rows so they can be hidden with CSS
           if ((rowData as any)._isPlaceholder || rowData.id.startsWith('_placeholder_')) {

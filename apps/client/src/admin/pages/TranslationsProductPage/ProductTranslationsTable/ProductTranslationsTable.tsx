@@ -17,6 +17,7 @@ import { getLanguageFieldName } from '../utils/translation-helpers';
 import { EditIcon, TrashIcon } from 'styles/icons';
 import 'primereact/resources/primereact.min.css';
 import 'primereact/resources/themes/lara-light-cyan/theme.css';
+import { Input } from 'forms/Input/Input';
 import { styles } from './ProductTranslationsTable.styles';
 
 // ============================================================================
@@ -83,6 +84,7 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
   // Ref for DataTable to programmatically control row editing
   const dataTableRef = useRef<any>(null);
   const tableContainerRef = useRef<HTMLDivElement | null>(null);
+  const dataTableElementRef = useRef<HTMLDivElement | null>(null);
   // Track previous items length to detect new items
   const prevItemsLengthRef = useRef<number>(items.length);
 
@@ -109,10 +111,51 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
     errorMessage: 'Failed to save translations',
   });
 
-  // Cancel row editing when clicking outside the table container
-  useOnClickOutside(tableContainerRef, () => {
-    log('CLICKED_OUTSIDE', 'red', dataTableRef.current);
-    dataTableRef.current?.closeEditingRows?.();
+  // Revert a row to its initial values (for cancel)
+  const handleRowEditCancel = useCallback(
+    (event: any) => {
+      const rowData = event?.data as TranslationItem | undefined;
+      if (!rowData) return;
+
+      const original = initialItems.find((item) => item.id === rowData.id);
+      if (!original) return;
+
+      // Restore name
+      if (original.name !== rowData.name) {
+        onItemChange(rowData.id, 'name', original.name);
+      }
+
+      // Restore language fields
+      supportedLanguages.forEach((lang) => {
+        const fieldName = getLanguageFieldName(lang.isoCode);
+        const currentVal = (rowData as any)[fieldName] || '';
+        const originalVal = (original as any)[fieldName] || '';
+        if (currentVal !== originalVal) {
+          onItemChange(rowData.id, fieldName, originalVal);
+        }
+      });
+    },
+    [initialItems, onItemChange, supportedLanguages],
+  );
+
+  // Capture the actual DataTable element to narrow the outside area
+  React.useEffect(() => {
+    const el = dataTableRef.current?.getElement?.();
+    if (el) {
+      dataTableElementRef.current = el as HTMLDivElement;
+    }
+  }, []);
+
+  // Cancel row editing when clicking outside the table
+  useOnClickOutside(dataTableElementRef, () => {
+    const dt = dataTableRef.current;
+    log('CLICKED_OUTSIDE', 'red', dt);
+    dt?.closeEditingRows?.();
+    // Fallback: trigger cancel icon if closeEditingRows is a no-op
+    const cancelBtn = dataTableElementRef.current?.querySelector('.p-row-editor-cancel');
+    if (cancelBtn instanceof HTMLElement) {
+      cancelBtn.click();
+    }
   });
 
   // ============================================================================
@@ -161,10 +204,17 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
       const value = rowData[fieldName] || '';
       const isDirty = isFieldDirty(rowData.id, fieldName);
       return (
-        <Text size="2" style={{ flex: 1 }} className={isDirty ? 'field-dirty' : ''}>
-          {value || '-'}
-        </Text>
+        <Input
+          value={value || '-'}
+          //  onChange={(e) => onItemChange(rowData.id, fieldName, e.target.value)}
+          className={isDirty ? 'field-dirty' : ''}
+        />
       );
+      // return (
+      //   <Text size="2" style={{ flex: 1 }} className={isDirty ? 'field-dirty' : ''}>
+      //     {value || '-'}
+      //   </Text>
+      // );
     };
   };
 
@@ -211,6 +261,7 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
         editMode="row"
         dataKey="id"
         onRowEditComplete={onRowEditComplete}
+        onRowEditCancel={handleRowEditCancel}
         emptyMessage="No translations found"
         className="product-translations-datatable"
         removableSort
