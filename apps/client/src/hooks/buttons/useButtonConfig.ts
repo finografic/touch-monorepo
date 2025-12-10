@@ -1,11 +1,11 @@
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTimePageStore } from 'pages/TimePage/useTimePageStore';
-import { useButtonNavigation } from 'hooks/buttons/useButtonNavigation';
 import { useRouteMatching } from 'routes/hooks/useRouteMatching';
 import { BUTTON_TYPE, type ButtonType, type PadActionProps } from 'types/button.types';
 import { ALTERNATIVE_PATHS, ROUTES_CONFIG } from 'config/routes';
 import { ALTERNATIVE_ROUTE_BUTTON_CONFIG, BUTTON_CONFIGS } from 'config/ui';
+import { useButtonNavigation } from './useButtonNavigation';
 import { useMainPageOperations } from './useMainPageOperations';
 import { useOperationState } from './useOperationState';
 import { useProductFlowOperations } from './useProductFlowOperations';
@@ -13,10 +13,13 @@ import { useTimeFlowOperations } from './useTimeFlowOperations';
 
 interface UseButtonConfigReturn {
   footerButtons: PadActionProps[];
-  contentButtons: PadActionProps[];
-  getButtonProps: (buttonType: ButtonType) => PadActionProps;
 }
 
+/**
+ * Route-aware footer buttons configuration.
+ * Returns footer buttons based on current route from ROUTES_CONFIG.
+ * Used by FrontEndNavigation component.
+ */
 export const useButtonConfig = (): UseButtonConfigReturn => {
   const { matchRoute, currentPathname } = useRouteMatching();
   const { t } = useTranslation();
@@ -25,38 +28,35 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
   const { handleNavigateBack, handleNavigateNext, getNavigationDisabled, isNavigationPending } =
     useButtonNavigation();
 
-  // Main Page ops
+  // Main Page ops (only handlers used in footer buttons)
   const {
     handleCancelSelected,
     handleResetCompleted,
     handleSelectAll,
-    handleRepeatSelection,
     isPending: isMainPagePending,
   } = useMainPageOperations();
 
-  // Time Flow ops
+  // Time Flow ops (only handlers used in footer buttons)
   const {
-    handleProgramTime,
     handleStartTimeProcess,
     handleCancelTimeSession,
     isPending: isTimeFlowPending,
   } = useTimeFlowOperations();
 
-  // Product Flow ops
+  // Product Flow ops (only handlers used in footer buttons)
   const {
-    handleProgramProduct,
     handleStartProductProcess,
     handleCancelProductSession,
     isPending: isProductFlowPending,
     isTemperatureLoading,
   } = useProductFlowOperations();
 
-  const { getOperationDisabled, getOperationLoading, isOperationPending } = useOperationState(
+  const { getOperationDisabled, getOperationLoading, isOperationPending } = useOperationState({
     isMainPagePending,
     isTimeFlowPending,
     isProductFlowPending,
     isTemperatureLoading,
-  );
+  });
 
   // Get time from Zustand store for TimePage
   const timeSeconds = useTimePageStore((state) => state.timeSeconds);
@@ -89,14 +89,6 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
         case BUTTON_TYPE.SELECT_ALL_SLOTS:
           return handleSelectAll();
 
-        // MainPage - right buttons (large)
-        case BUTTON_TYPE.PROGRAM_TIME:
-          return handleProgramTime();
-        case BUTTON_TYPE.PROGRAM_PRODUCT:
-          return handleProgramProduct();
-        case BUTTON_TYPE.REPEAT_SELECTION:
-          return handleRepeatSelection();
-
         // in-flow buttons
         case BUTTON_TYPE.CANCEL_TIME_SESSION:
           return handleCancelTimeSession();
@@ -121,9 +113,6 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
       timeSeconds,
       handleStartTimeProcess,
       handleStartProductProcess,
-      handleProgramTime,
-      handleProgramProduct,
-      handleRepeatSelection,
       handleCancelTimeSession,
       handleCancelProductSession,
     ],
@@ -157,8 +146,8 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
     [isNavigationPending, isOperationPending, getOperationLoading],
   );
 
-  const getButtonProps = useMemo(() => {
-    return (buttonType: ButtonType): PadActionProps => {
+  const footerButtons = useMemo(() => {
+    return routeConfig.footer.map((buttonType: ButtonType) => {
       const config = BUTTON_CONFIGS[buttonType];
 
       if (!config) {
@@ -169,37 +158,27 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
           label: buttonType,
           actionType: BUTTON_TYPE.NAVIGATE_NEXT,
           disabled: true,
-        };
+        } as PadActionProps;
       }
 
-      const isDisabled = getActionDisabled(config.actionType);
-      const isLoading = getActionLoading(config.actionType);
+      const actionType = config.actionType;
+      const isDisabled = getActionDisabled(actionType);
+      const isLoading = getActionLoading(actionType);
       const translatedLabel = t(config.labelKey);
 
-      // Destructure to exclude labelKey from spreading
       const { labelKey, ...configWithoutLabelKey } = config;
 
       return {
         ...configWithoutLabelKey,
         label: translatedLabel,
         disabled: isDisabled,
-        onClick: () => executeAction(config.actionType),
+        onClick: () => executeAction(actionType),
         children: isLoading ? t('ui.states.loading') : translatedLabel,
-      };
-    };
-  }, [executeAction, getActionDisabled, getActionLoading, t]);
-
-  const footerButtons = useMemo(() => {
-    return routeConfig.footer.map(getButtonProps);
-  }, [routeConfig.footer, getButtonProps]);
-
-  const contentButtons = useMemo(() => {
-    return routeConfig.content.map(getButtonProps);
-  }, [routeConfig.content, getButtonProps]);
+      } as PadActionProps;
+    });
+  }, [routeConfig.footer, executeAction, getActionDisabled, getActionLoading, t]);
 
   return {
     footerButtons,
-    contentButtons,
-    getButtonProps,
   };
 };

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Flex, Spinner } from '@radix-ui/themes';
 import { PadAction } from 'components/Pads/PadAction/PadAction';
-import { useButtonConfig } from 'hooks/buttons/useButtonConfig';
+import { useMainPageConfig } from 'hooks/buttons/useMainPageConfig';
 import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';
 import { useFiltersContext } from 'providers/FiltersProvider';
 import { useLayoutUi } from 'providers/LayoutUiProvider/LayoutUiContext';
@@ -20,7 +20,7 @@ export function MainPage() {
   const location = useLocation();
   const { orders } = useOrders();
   const { timers } = useTimers();
-  const { contentButtons } = useButtonConfig();
+  const { contentButtons } = useMainPageConfig();
   const { setIsNextDisabled } = usePagination();
   const { setFilter } = useFiltersContext();
   const { currentSessionId, sessions } = useSession();

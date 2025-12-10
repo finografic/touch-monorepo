@@ -1,24 +1,29 @@
 import { useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
-
+import { useRecallConfig } from 'hooks/useRecallConfig';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { useOrders } from 'providers/OrdersProvider';
 import { useTimers } from 'providers/TimersProvider';
-
-import { ALTERNATIVE_PATHS, PATHS } from 'config/routes';
 import { BUTTON_TYPE } from 'types/button.types';
+import { ALTERNATIVE_PATHS, PATHS } from 'config/routes';
 import type { OperationActionType } from './button-operations.types';
-import { useRecallConfig } from 'hooks/useRecallConfig';
+
+interface UseOperationStateOptions {
+  isMainPagePending?: boolean;
+  isTimeFlowPending?: boolean;
+  isProductFlowPending?: boolean;
+  isTemperatureLoading?: boolean;
+}
 
 /**
  * Shared logic for determining operation disabled/loading states
  */
-export const useOperationState = (
-  mainPagePending: boolean,
-  timeFlowPending: boolean,
-  productFlowPending: boolean,
-  isTemperatureLoading: boolean,
-) => {
+export const useOperationState = ({
+  isMainPagePending = false,
+  isTimeFlowPending = false,
+  isProductFlowPending = false,
+  isTemperatureLoading = false,
+}: UseOperationStateOptions = {}) => {
   const location = useLocation();
   const { selectedSlots } = useLayoutUi();
   const { timers } = useTimers();
@@ -32,7 +37,7 @@ export const useOperationState = (
   const isTimerSelected = selectedSlots.some(({ status }) => status === 'processing');
 
   // Combined pending state
-  const isPending = mainPagePending || timeFlowPending || productFlowPending;
+  const isPending = isMainPagePending || isTimeFlowPending || isProductFlowPending;
 
   const getOperationDisabled = useCallback(
     (actionType: OperationActionType): boolean => {
