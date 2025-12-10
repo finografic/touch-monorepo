@@ -1,12 +1,11 @@
 import React, { useCallback, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Flex, Text } from '@radix-ui/themes';
+import { Flex } from '@radix-ui/themes';
 import { PAGINATOR_NUM_ENTRIES as ADMIN_PAGINATOR_NUM_ENTRIES } from 'admin/config/admin.tables.config';
 import { useTableHeaders } from 'admin/hooks/useTableHeaders';
 import { Column } from 'primereact/column';
 import type { DataTableProps } from 'primereact/datatable';
 import { DataTable } from 'primereact/datatable';
-import { useOnClickOutside } from 'usehooks-ts';
 import { useToast } from 'components/Toast';
 import type { LanguageInfo } from 'types/models/supported-language.model';
 import { useDirtyFields } from '../hooks/useDirtyFields';
@@ -17,8 +16,10 @@ import { getLanguageFieldName } from '../utils/translation-helpers';
 import { EditIcon, TrashIcon } from 'styles/icons';
 import 'primereact/resources/primereact.min.css';
 import 'primereact/resources/themes/lara-light-cyan/theme.css';
-import { Input } from 'forms/Input/Input';
+import { useOutsideRowEditCancel } from '../hooks/useOutsideRowEditCancel';
 import { styles } from './ProductTranslationsTable.styles';
+import { useLanguageBodyTemplates } from './useLanguageBodyTemplates';
+import { useNameBodyTemplate } from './useNameBodyTemplate';
 
 // ============================================================================
 // Types
@@ -83,8 +84,6 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
 
   // Ref for DataTable to programmatically control row editing
   const dataTableRef = useRef<any>(null);
-  const tableContainerRef = useRef<HTMLDivElement | null>(null);
-  const dataTableElementRef = useRef<HTMLDivElement | null>(null);
   // Track previous items length to detect new items
   const prevItemsLengthRef = useRef<number>(items.length);
 
@@ -138,25 +137,8 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
     [initialItems, onItemChange, supportedLanguages],
   );
 
-  // Capture the actual DataTable element to narrow the outside area
-  React.useEffect(() => {
-    const el = dataTableRef.current?.getElement?.();
-    if (el) {
-      dataTableElementRef.current = el as HTMLDivElement;
-    }
-  }, []);
-
   // Cancel row editing when clicking outside the table
-  useOnClickOutside(dataTableElementRef, () => {
-    const dt = dataTableRef.current;
-    log('CLICKED_OUTSIDE', 'red', dt);
-    dt?.closeEditingRows?.();
-    // Fallback: trigger cancel icon if closeEditingRows is a no-op
-    const cancelBtn = dataTableElementRef.current?.querySelector('.p-row-editor-cancel');
-    if (cancelBtn instanceof HTMLElement) {
-      cancelBtn.click();
-    }
-  });
+  useOutsideRowEditCancel(dataTableRef);
 
   // ============================================================================
   // Handlers
@@ -188,31 +170,6 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
   // Body Templates (Custom Cell Renderers)
   // ============================================================================
 
-  const nameBodyTemplate = (rowData: TranslationItem) => {
-    const isDirty = isFieldDirty(rowData.id, 'name');
-    return (
-      <Text size="2" weight="bold" className={isDirty ? 'td-name field-dirty' : 'td-name'}>
-        {rowData.name}
-      </Text>
-    );
-  };
-
-  // Language field body template - just display the value with dirty styling
-  const createLanguageBodyTemplate = (isoCode: string) => {
-    const fieldName = getLanguageFieldName(isoCode);
-    return (rowData: TranslationItem) => {
-      const value = rowData[fieldName] || '';
-      const isDirty = isFieldDirty(rowData.id, fieldName);
-      return <Input value={value || '-'} className={isDirty ? 'field-dirty' : ''} />;
-      // TODO: TEMP - LEAVE IN, FOR NOW..
-      // return (
-      //   <Text size="2" style={{ flex: 1 }} className={isDirty ? 'field-dirty' : ''}>
-      //     {value || '-'}
-      //   </Text>
-      // );
-    };
-  };
-
   const actionsBodyTemplate = (rowData: TranslationItem) => {
     return (
       <div className="action-buttons">
@@ -229,22 +186,23 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
   };
 
   // Create body renderers for all languages
-  const bodyRenderers = useMemo(() => {
-    const renderers: Record<string, any> = {
+  const nameBodyTemplate = useNameBodyTemplate({ isFieldDirty });
+  const languageTemplates = useLanguageBodyTemplates({
+    isFieldDirty,
+    supportedLanguages,
+  });
+
+  const bodyRenderers = useMemo(
+    () => ({
       name: nameBodyTemplate,
       actions: actionsBodyTemplate,
-    };
-
-    supportedLanguages.forEach((lang) => {
-      const fieldName = getLanguageFieldName(lang.isoCode);
-      renderers[fieldName] = createLanguageBodyTemplate(lang.isoCode);
-    });
-
-    return renderers;
-  }, [supportedLanguages, isFieldDirty]);
+      ...languageTemplates,
+    }),
+    [nameBodyTemplate, actionsBodyTemplate, languageTemplates],
+  );
 
   return (
-    <section ref={tableContainerRef} css={styles} className="table-container">
+    <section css={styles} className="table-container">
       <Flex justify="between" align="center" mb="4" gap="2">
         <Flex />
         <TableFormButtons onReset={onReset} onSave={handleSave} onAddNew={handleAddNew} isDirty={isDirty} />

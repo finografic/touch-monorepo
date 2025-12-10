@@ -6,7 +6,6 @@ import { useTableHeaders } from 'admin/hooks/useTableHeaders';
 import { Column } from 'primereact/column';
 import type { DataTableProps, DataTableRowToggleEvent } from 'primereact/datatable';
 import { DataTable } from 'primereact/datatable';
-import { useOnClickOutside } from 'usehooks-ts';
 import { useToast } from 'components/Toast';
 import { useGetDrinkTypes } from 'queries/drink-types';
 import type { LanguageInfo } from 'types/models/supported-language.model';
@@ -18,8 +17,10 @@ import { getLanguageFieldName } from '../utils/translation-helpers';
 import { EditIcon, TrashIcon } from 'styles/icons';
 import 'primereact/resources/primereact.min.css';
 import 'primereact/resources/themes/lara-light-cyan/theme.css';
-import { Input } from 'forms/Input/Input';
+import { useOutsideRowEditCancel } from '../hooks/useOutsideRowEditCancel';
 import { styles } from './ProductTranslationsTable.styles';
+import { useLanguageBodyTemplates } from './useLanguageBodyTemplates';
+import { useNameBodyTemplate } from './useNameBodyTemplate';
 
 // ============================================================================
 // Types
@@ -89,8 +90,6 @@ export const ProductTranslationsTableExpandable: React.FC<ProductTranslationsTab
 
   // Ref for DataTable to programmatically control row editing
   const dataTableRef = useRef<any>(null);
-  const tableContainerRef = useRef<HTMLDivElement | null>(null);
-  const dataTableElementRef = useRef<HTMLDivElement | null>(null);
 
   // Track previous items length to detect new items
   const prevItemsLengthRef = useRef<number>(items.length);
@@ -237,24 +236,8 @@ export const ProductTranslationsTableExpandable: React.FC<ProductTranslationsTab
     errorMessage: 'Failed to save translations',
   });
 
-  // Capture the actual DataTable element to narrow the outside area
-  React.useEffect(() => {
-    const el = dataTableRef.current?.getElement?.();
-    if (el) {
-      dataTableElementRef.current = el as HTMLDivElement;
-    }
-  }, []);
-
   // Cancel row editing when clicking outside the table container
-  useOnClickOutside(dataTableElementRef, () => {
-    const dt = dataTableRef.current;
-    log('CLICKED_OUTSIDE', 'red', dt);
-    dt?.closeEditingRows?.();
-    const cancelBtn = dataTableElementRef.current?.querySelector('.p-row-editor-cancel');
-    if (cancelBtn instanceof HTMLElement) {
-      cancelBtn.click();
-    }
-  });
+  useOutsideRowEditCancel(dataTableRef);
 
   // ============================================================================
   // Handlers
@@ -411,45 +394,6 @@ export const ProductTranslationsTableExpandable: React.FC<ProductTranslationsTab
     );
   };
 
-  // Name body template for subtypes (used in nested table only)
-  const nameBodyTemplate = (rowData: TranslationItem & { _isPlaceholder?: boolean }) => {
-    // Hide placeholder rows - they're only used to create groups
-    if ((rowData as any)._isPlaceholder) {
-      return null;
-    }
-
-    const isDirty = isFieldDirty(rowData.id, 'name');
-    // Extract just the subtype name from compound name (drinkType--subtype)
-    const displayName = rowData.name.includes('--') ? rowData.name.split('--')[1] : rowData.name;
-    return (
-      <Text size="2" weight="bold" className={isDirty ? 'td-name field-dirty' : 'td-name'}>
-        {displayName}
-      </Text>
-    );
-  };
-
-  // Language field body template - just display the value with dirty styling (used in nested table only)
-  const createLanguageBodyTemplate = (isoCode: string) => {
-    const fieldName = getLanguageFieldName(isoCode);
-    return (rowData: TranslationItem & { _isPlaceholder?: boolean }) => {
-      // Hide placeholder rows - they're only used to create groups
-      if ((rowData as any)._isPlaceholder) {
-        return null;
-      }
-
-      const value = rowData[fieldName] || '';
-      const isDirty = isFieldDirty(rowData.id, fieldName);
-
-      return <Input value={value || '-'} className={isDirty ? 'field-dirty' : ''} />;
-      // TODO: TEMP - LEAVE IN, FOR NOW..
-      // return (
-      //   <Text size="2" style={{ flex: 1 }} className={isDirty ? 'field-dirty' : ''}>
-      //     {value || '-'}
-      //   </Text>
-      // );
-    };
-  };
-
   const actionsBodyTemplate = (rowData: TranslationItem & { _isPlaceholder?: boolean }) => {
     // Hide placeholder rows - they're only used to create groups
     if ((rowData as any)._isPlaceholder) {
@@ -472,20 +416,26 @@ export const ProductTranslationsTableExpandable: React.FC<ProductTranslationsTab
     );
   };
 
-  // Create body renderers for all languages
-  const bodyRenderers = useMemo(() => {
-    const renderers: Record<string, any> = {
+  const nameBodyTemplate = useNameBodyTemplate({
+    isFieldDirty,
+    extractSubtypeName: true,
+    shouldHideRow: (rowData) => (rowData as any)._isPlaceholder,
+  });
+
+  const languageTemplates = useLanguageBodyTemplates({
+    isFieldDirty,
+    supportedLanguages,
+    shouldHideRow: (rowData) => (rowData as any)._isPlaceholder,
+  });
+
+  const bodyRenderers = useMemo(
+    () => ({
       name: nameBodyTemplate,
       actions: actionsBodyTemplate,
-    };
-
-    supportedLanguages.forEach((lang) => {
-      const fieldName = getLanguageFieldName(lang.isoCode);
-      renderers[fieldName] = createLanguageBodyTemplate(lang.isoCode);
-    });
-
-    return renderers;
-  }, [supportedLanguages, isFieldDirty]);
+      ...languageTemplates,
+    }),
+    [nameBodyTemplate, actionsBodyTemplate, languageTemplates],
+  );
 
   const expandedFiltered = useMemo(() => {
     if (!expandedRowRef.current) {
@@ -518,7 +468,7 @@ export const ProductTranslationsTableExpandable: React.FC<ProductTranslationsTab
   console.log('%c EXPANDED', 'color:grey', expandedRows);
 
   return (
-    <section ref={tableContainerRef} css={styles} className="table-container">
+    <section css={styles} className="table-container">
       <Flex justify="end" align="center" mb="4" gap="2">
         <TableFormButtons onReset={onReset} onSave={handleSave} onAddNew={handleAddNew} isDirty={isDirty} />
       </Flex>
