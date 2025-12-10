@@ -3,6 +3,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import type { ContainerTypeUpdate, DrinkSubtypeUpdate, DrinkTypeUpdate, VolumeUpdate } from 'api/endpoints';
 import { batchTranslationEndpoints, drinkSubtypeEndpoints, drinkTypeEndpoints } from 'api/endpoints';
 import { TRANSLATION_QUERY_KEYS, useGetAllTranslations } from 'api/hooks/useTranslations';
+import { GET_ORDERS_READABLE_QUERYKEY } from 'queries/orders';
 import { useGetSupportedLanguages } from 'queries/supported-languages';
 import type { LanguageInfo } from 'types/models/supported-language.model';
 import {
@@ -474,6 +475,9 @@ export const useProductTranslationSections = (options: UseProductTranslationSect
         });
       }
 
+      // Also refresh orders-readable to reflect cascades (create/edit/delete impacts orders view)
+      await queryClient.invalidateQueries({ queryKey: GET_ORDERS_READABLE_QUERYKEY });
+
       // Refetch translations data to update sections with fresh data from server
       // This ensures that when switching tabs, the data is up-to-date
       // Note: refetchTranslations() calls refetch on all individual queries
@@ -726,6 +730,9 @@ export const useProductTranslationSections = (options: UseProductTranslationSect
       } else if (sectionKey === 'containerTypes') {
         await queryClient.invalidateQueries({ queryKey: ['get-container-types'] });
       }
+
+      // Orders list depends on these entities; refresh it after deletes
+      await queryClient.invalidateQueries({ queryKey: GET_ORDERS_READABLE_QUERYKEY });
 
       // Execute callback for additional cleanup/processes if provided
       if (onDeleteCallback) {
