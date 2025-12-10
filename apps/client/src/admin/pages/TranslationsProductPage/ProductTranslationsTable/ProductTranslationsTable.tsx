@@ -203,13 +203,8 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
     return (rowData: TranslationItem) => {
       const value = rowData[fieldName] || '';
       const isDirty = isFieldDirty(rowData.id, fieldName);
-      return (
-        <Input
-          value={value || '-'}
-          //  onChange={(e) => onItemChange(rowData.id, fieldName, e.target.value)}
-          className={isDirty ? 'field-dirty' : ''}
-        />
-      );
+      return <Input value={value || '-'} className={isDirty ? 'field-dirty' : ''} />;
+      // TODO: TEMP - LEAVE IN, FOR NOW..
       // return (
       //   <Text size="2" style={{ flex: 1 }} className={isDirty ? 'field-dirty' : ''}>
       //     {value || '-'}

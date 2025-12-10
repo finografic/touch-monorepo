@@ -18,6 +18,7 @@ import { getLanguageFieldName } from '../utils/translation-helpers';
 import { EditIcon, TrashIcon } from 'styles/icons';
 import 'primereact/resources/primereact.min.css';
 import 'primereact/resources/themes/lara-light-cyan/theme.css';
+import { Input } from 'forms/Input/Input';
 import { styles } from './ProductTranslationsTable.styles';
 
 // ============================================================================
@@ -438,11 +439,14 @@ export const ProductTranslationsTableExpandable: React.FC<ProductTranslationsTab
 
       const value = rowData[fieldName] || '';
       const isDirty = isFieldDirty(rowData.id, fieldName);
-      return (
-        <Text size="2" style={{ flex: 1 }} className={isDirty ? 'field-dirty' : ''}>
-          {value || '-'}
-        </Text>
-      );
+
+      return <Input value={value || '-'} className={isDirty ? 'field-dirty' : ''} />;
+      // TODO: TEMP - LEAVE IN, FOR NOW..
+      // return (
+      //   <Text size="2" style={{ flex: 1 }} className={isDirty ? 'field-dirty' : ''}>
+      //     {value || '-'}
+      //   </Text>
+      // );
     };
   };
 
