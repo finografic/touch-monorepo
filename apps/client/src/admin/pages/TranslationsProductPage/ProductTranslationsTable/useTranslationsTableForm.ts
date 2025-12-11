@@ -9,6 +9,7 @@ import type {
 import { useDebounce } from 'use-debounce';
 import { slugify } from 'utils/string.utils';
 import type { TranslationItem } from '../TranslationsPage.types';
+import { convertLegacyToRHFFormat, convertRHFToLegacyFormat } from './translation-converters';
 
 type FormValues = { items: TranslationItem[] };
 
@@ -16,14 +17,15 @@ interface UseTranslationsTableReturn extends UseFormReturn<FormValues> {
   fields: FieldArrayWithId<FormValues, 'items', 'fId'>[];
   addEmpty: () => void;
   remove: UseFieldArrayRemove;
-  onSubmit: (
-    fn: (clean: TranslationItem[]) => Promise<void>,
-  ) => (e?: React.BaseSyntheticEvent) => Promise<void>;
+  onSubmit: (fn: (clean: any[]) => Promise<void>) => (e?: React.BaseSyntheticEvent) => Promise<void>;
 }
 
-export const useTranslationsTableForm = (initial: TranslationItem[]): UseTranslationsTableReturn => {
+export const useTranslationsTableForm = (initial: any[]): UseTranslationsTableReturn => {
+  // Convert legacy format to RHF format
+  const rhfItems = initial.map(convertLegacyToRHFFormat);
+
   const methods = useForm<FormValues>({
-    defaultValues: { items: initial },
+    defaultValues: { items: rhfItems },
     mode: 'onChange',
   });
 
@@ -37,6 +39,12 @@ export const useTranslationsTableForm = (initial: TranslationItem[]): UseTransla
 
   const values = watch('items');
   const [debounced] = useDebounce(values, 350);
+
+  // Sync form when parent items change
+  useEffect(() => {
+    const rhfItems = initial.map(convertLegacyToRHFFormat);
+    reset({ items: rhfItems }, { keepDirty: true });
+  }, [initial, reset]);
 
   useEffect(
     function generateSlug() {
@@ -73,10 +81,12 @@ export const useTranslationsTableForm = (initial: TranslationItem[]): UseTransla
 
   const removeBlank = (rows: TranslationItem[]) => rows.filter((r) => r.esEs || r.enGb || r.caEs);
 
-  const onSubmit = (fn: (clean: TranslationItem[]) => Promise<void>) =>
+  const onSubmit = (fn: (clean: any[]) => Promise<void>) =>
     methods.handleSubmit(async (data) => {
       const cleaned = removeBlank(data.items);
-      await fn(cleaned);
+      // Convert back to legacy format for the parent hook
+      const legacyFormat = cleaned.map(convertRHFToLegacyFormat);
+      await fn(legacyFormat);
       reset({ items: cleaned });
     });
 

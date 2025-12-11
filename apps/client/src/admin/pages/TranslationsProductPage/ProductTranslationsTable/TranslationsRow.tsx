@@ -8,15 +8,23 @@ interface TranslationsRowProps {
 
 export function TranslationsRow({ index, remove }: TranslationsRowProps) {
   const { control, formState } = useFormContext();
-  const isDirty = formState.dirtyFields?.items?.[index];
+  const rowDirtyFields = formState.dirtyFields?.items?.[index];
 
   return (
-    <tr className={isDirty ? colors.warning : ''}>
+    <tr>
       <td>
         <Controller
           name={`items.${index}.name`}
           control={control}
-          render={({ field }) => <input {...field} readOnly />}
+          render={({ field }) => (
+            <input
+              {...field}
+              readOnly
+              style={{
+                color: rowDirtyFields?.name ? colors.warning : undefined,
+              }}
+            />
+          )}
         />
       </td>
 
@@ -24,7 +32,20 @@ export function TranslationsRow({ index, remove }: TranslationsRowProps) {
         <Controller
           name={`items.${index}.esEs`}
           control={control}
-          render={({ field }) => <input {...field} placeholder="-" />}
+          render={({ field }) => (
+            <input
+              {...field}
+              placeholder="-"
+              style={{
+                color:
+                  !field.value && rowDirtyFields?.esEs
+                    ? colors.warning
+                    : rowDirtyFields?.esEs
+                      ? colors.warning
+                      : undefined,
+              }}
+            />
+          )}
         />
       </td>
 
@@ -32,7 +53,20 @@ export function TranslationsRow({ index, remove }: TranslationsRowProps) {
         <Controller
           name={`items.${index}.enGb`}
           control={control}
-          render={({ field }) => <input {...field} placeholder="-" />}
+          render={({ field }) => (
+            <input
+              {...field}
+              placeholder="-"
+              style={{
+                color:
+                  !field.value && rowDirtyFields?.enGb
+                    ? colors.warning
+                    : rowDirtyFields?.enGb
+                      ? colors.warning
+                      : undefined,
+              }}
+            />
+          )}
         />
       </td>
 
@@ -40,7 +74,20 @@ export function TranslationsRow({ index, remove }: TranslationsRowProps) {
         <Controller
           name={`items.${index}.caEs`}
           control={control}
-          render={({ field }) => <input {...field} placeholder="-" />}
+          render={({ field }) => (
+            <input
+              {...field}
+              placeholder="-"
+              style={{
+                color:
+                  !field.value && rowDirtyFields?.caEs
+                    ? colors.warning
+                    : rowDirtyFields?.caEs
+                      ? colors.warning
+                      : undefined,
+              }}
+            />
+          )}
         />
       </td>
 

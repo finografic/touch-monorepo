@@ -4,40 +4,6 @@ import { colors } from 'styles';
 export const styles = css`
   width: 100%;
 
-  border: 1px solid pink;
-
-  table {
-    width: 100%;
-  }
-
-  thead {
-    background-color: ${colors.greyXXLight25};
-  }
-
-  tbody {
-    background-color: ${colors.white};
-  }
-
-  tr {
-    border-bottom: 1px solid ${colors.greyXXLight50};
-  }
-
-  td {
-    padding: 0.5rem 1rem;
-  }
-
-  th {
-    padding: 0.5rem 1rem;
-    font-weight: 700;
-    text-align: left;
-  }
-
-  td {
-    padding: 0.5rem 1rem;
-    font-weight: 400;
-    text-align: left;
-  }
-
   button {
     padding: 0.25rem;
     border-radius: 4px;
