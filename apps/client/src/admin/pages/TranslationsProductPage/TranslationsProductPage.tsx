@@ -107,11 +107,14 @@ export const TranslationsProductPage: React.FC = () => {
   // Handler for RHF-based table to update section state before saving
   const handleRHFSave = useCallback(
     async (sectionKey: SectionKey, items: any[]) => {
-      // Update the section state with the new items
-      updateSectionItems(sectionKey, items);
-
-      // Then save via the hook
       try {
+        // Update the section state with the new items (synchronous)
+        updateSectionItems(sectionKey, items);
+
+        // Small delay to ensure state is updated before save
+        await new Promise((resolve) => setTimeout(resolve, 50));
+
+        // Then save via the hook (this makes the API call)
         const result = await saveSection(sectionKey);
         toast({
           variant: 'success',
@@ -212,7 +215,7 @@ export const TranslationsProductPage: React.FC = () => {
                   sectionKey={section.key}
                   items={section.items}
                   onSave={async ({ sectionKey, items }) => {
-                    await handleRHFSave(sectionKey, items);
+                    await handleRHFSave(sectionKey as SectionKey, items);
                   }}
                 />
               )}

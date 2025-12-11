@@ -1,13 +1,13 @@
+import { useState } from 'react';
 import { FormProvider } from 'react-hook-form';
-import type { TranslationItem } from '../TranslationsPage.types';
 import { TranslationsRow } from './TranslationsRow';
 import { useTranslationsTableForm } from './useTranslationsTableForm';
 import { styles } from './ProductTranslationsTable.styles';
 
 interface ProductTranslationsTableProps {
   sectionKey: string;
-  items: TranslationItem[];
-  onSave?: (params: { sectionKey: string; items: TranslationItem[] }) => Promise<void>;
+  items: any[]; // Legacy format from parent hook
+  onSave?: (params: { sectionKey: string; items: any[] }) => Promise<void>;
 }
 
 export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> = ({
@@ -15,6 +15,8 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
   items,
   onSave,
 }) => {
+  const [editingRowIndex, setEditingRowIndex] = useState<number | null>(null);
+
   const {
     fields,
     addEmpty,
@@ -45,7 +47,15 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
             </thead>
             <tbody>
               {fields.map((field, index) => (
-                <TranslationsRow key={field.fId} index={index} remove={remove} />
+                <TranslationsRow
+                  key={field.fId}
+                  index={index}
+                  remove={remove}
+                  isEditing={editingRowIndex === index}
+                  onEditingChange={(isEditing) => {
+                    setEditingRowIndex(isEditing ? index : null);
+                  }}
+                />
               ))}
             </tbody>
           </table>

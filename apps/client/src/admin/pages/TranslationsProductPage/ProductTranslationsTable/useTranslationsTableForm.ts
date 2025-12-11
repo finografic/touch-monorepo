@@ -29,7 +29,7 @@ export const useTranslationsTableForm = (initial: any[]): UseTranslationsTableRe
     mode: 'onChange',
   });
 
-  const { control, watch, reset } = methods;
+  const { control, watch, reset, setValue } = methods;
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -38,7 +38,7 @@ export const useTranslationsTableForm = (initial: any[]): UseTranslationsTableRe
   });
 
   const values = watch('items');
-  const [debounced] = useDebounce(values, 350);
+  const [debounced] = useDebounce(values, 200);
 
   // Sync form when parent items change
   useEffect(() => {
@@ -60,14 +60,14 @@ export const useTranslationsTableForm = (initial: any[]): UseTranslationsTableRe
         });
 
         if (slug && slug !== row.name) {
-          methods.setValue(`items.${idx}.name`, slug, {
+          setValue(`items.${idx}.name`, slug, {
             shouldDirty: true,
             shouldTouch: false,
           });
         }
       });
     },
-    [debounced, methods],
+    [debounced, setValue],
   );
 
   const addEmpty = () =>

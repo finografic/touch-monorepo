@@ -1,17 +1,43 @@
 import { Controller, useFormContext } from 'react-hook-form';
-import { colors } from 'styles';
+import clsx from 'clsx';
 
 interface TranslationsRowProps {
   index: number;
   remove: (index: number) => void;
+  isEditing: boolean;
+  onEditingChange: (isEditing: boolean) => void;
 }
 
-export function TranslationsRow({ index, remove }: TranslationsRowProps) {
-  const { control, formState } = useFormContext();
+export function TranslationsRow({ index, remove, isEditing, onEditingChange }: TranslationsRowProps) {
+  const { control, formState, watch } = useFormContext();
+
   const rowDirtyFields = formState.dirtyFields?.items?.[index];
+  const rowValues = watch(`items.${index}`);
+
+  // Check if row is empty (no language values)
+  const isEmpty = !rowValues?.esEs && !rowValues?.enGb && !rowValues?.caEs;
+
+  // Check if row has any changes
+  const isDirty = Boolean(rowDirtyFields);
+
+  // Build dynamic class names using clsx
+  const rowClasses = clsx({
+    'row-editing': isEditing,
+    'row-dirty': isDirty,
+    'row-empty': isEmpty,
+  });
 
   return (
-    <tr>
+    <tr
+      className={rowClasses}
+      onFocus={() => onEditingChange(true)}
+      onBlur={(e) => {
+        // Only blur if focus is leaving the entire row
+        if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+          onEditingChange(false);
+        }
+      }}
+    >
       <td>
         <Controller
           name={`items.${index}.name`}
@@ -20,9 +46,9 @@ export function TranslationsRow({ index, remove }: TranslationsRowProps) {
             <input
               {...field}
               readOnly
-              style={{
-                color: rowDirtyFields?.name ? colors.warning : undefined,
-              }}
+              className={clsx({
+                'input-dirty': rowDirtyFields?.name,
+              })}
             />
           )}
         />
@@ -36,14 +62,10 @@ export function TranslationsRow({ index, remove }: TranslationsRowProps) {
             <input
               {...field}
               placeholder="-"
-              style={{
-                color:
-                  !field.value && rowDirtyFields?.esEs
-                    ? colors.warning
-                    : rowDirtyFields?.esEs
-                      ? colors.warning
-                      : undefined,
-              }}
+              className={clsx({
+                'input-dirty': rowDirtyFields?.esEs,
+                'input-empty': !field.value,
+              })}
             />
           )}
         />
@@ -57,14 +79,10 @@ export function TranslationsRow({ index, remove }: TranslationsRowProps) {
             <input
               {...field}
               placeholder="-"
-              style={{
-                color:
-                  !field.value && rowDirtyFields?.enGb
-                    ? colors.warning
-                    : rowDirtyFields?.enGb
-                      ? colors.warning
-                      : undefined,
-              }}
+              className={clsx({
+                'input-dirty': rowDirtyFields?.enGb,
+                'input-empty': !field.value,
+              })}
             />
           )}
         />
@@ -78,14 +96,10 @@ export function TranslationsRow({ index, remove }: TranslationsRowProps) {
             <input
               {...field}
               placeholder="-"
-              style={{
-                color:
-                  !field.value && rowDirtyFields?.caEs
-                    ? colors.warning
-                    : rowDirtyFields?.caEs
-                      ? colors.warning
-                      : undefined,
-              }}
+              className={clsx({
+                'input-dirty': rowDirtyFields?.caEs,
+                'input-empty': !field.value,
+              })}
             />
           )}
         />
