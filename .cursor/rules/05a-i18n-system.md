@@ -1,4 +1,4 @@
-# Internationalization (i18n) Rules
+# Internationalization (i18n) Rules for i18next library
 
 ## Generated Types System
 

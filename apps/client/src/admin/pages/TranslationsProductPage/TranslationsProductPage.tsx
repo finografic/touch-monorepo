@@ -60,6 +60,7 @@ export const TranslationsProductPage: React.FC = () => {
     addNewItem,
     deleteItem,
     deleteItemImmediate,
+    updateSectionItems,
   } = useProductTranslationSections({
     onDeleteCallback: handleDeleteCallback,
   });
@@ -102,6 +103,31 @@ export const TranslationsProductPage: React.FC = () => {
       message: 'Changes reset',
     });
   }, [activeTab, resetSection, toast]);
+
+  // Handler for RHF-based table to update section state before saving
+  const handleRHFSave = useCallback(
+    async (sectionKey: SectionKey, items: any[]) => {
+      // Update the section state with the new items
+      updateSectionItems(sectionKey, items);
+
+      // Then save via the hook
+      try {
+        const result = await saveSection(sectionKey);
+        toast({
+          variant: 'success',
+          message: result.message || 'Changes saved successfully',
+        });
+      } catch (error) {
+        console.error('Failed to save translations:', error);
+        toast({
+          variant: 'error',
+          message: 'Failed to save translations',
+          subText: 'Please try again',
+        });
+      }
+    },
+    [updateSectionItems, saveSection, toast],
+  );
 
   const handleAddNew = useCallback(
     (drinkTypeIdForSubtype?: string) => {
@@ -185,15 +211,9 @@ export const TranslationsProductPage: React.FC = () => {
                 <ProductTranslationsTable
                   sectionKey={section.key}
                   items={section.items}
-                  initialItems={initialSections.find((s) => s.key === section.key)?.items || []}
-                  supportedLanguages={supportedLanguages}
-                  onItemChange={handleItemChange}
-                  onAddNew={handleAddNew}
-                  onSave={handleSave}
-                  onReset={handleReset}
-                  onDelete={handleDelete}
-                  onDeleteImmediate={handleDeleteImmediate}
-                  isDirty={isSectionDirty(section.key)}
+                  onSave={async ({ sectionKey, items }) => {
+                    await handleRHFSave(sectionKey, items);
+                  }}
                 />
               )}
             </AdminSection>

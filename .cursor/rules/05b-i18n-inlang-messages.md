@@ -1,4 +1,4 @@
-# AI Rules: i18n Message Generation
+# Internationalization (i18n) Rules for InLang / Paraglide libraries
 
 ## Overview
 
@@ -7,10 +7,12 @@ When generating or modifying i18n translation keys, content, or TypeScript parse
 ## Source JSON File Rules
 
 ### 1. File Structure
+
 - **Location**: `apps/client/messages/{folder}/{locale}.json`
   - `{folder}` = `app`, `admin`, or `shared`
   - `{locale}` = `en-GB`, `es-ES`, or `ca-ES`
 - **Always include** `$schema` at the top:
+
   ```json
   {
     "$schema": "https://inlang.com/schema/inlang-message-format",
@@ -19,6 +21,7 @@ When generating or modifying i18n translation keys, content, or TypeScript parse
   ```
 
 ### 2. Key Naming
+
 - **Use snake_case** for all keys (e.g., `admin_dashboard_title`)
 - **Use descriptive prefixes** to group related messages:
   - `admin_*` for admin pages
@@ -27,7 +30,9 @@ When generating or modifying i18n translation keys, content, or TypeScript parse
 - **Follow pattern**: `{prefix}_{section}_{item}` (e.g., `admin_dashboard_title`)
 
 ### 3. Basic Messages (No Variants)
+
 For simple messages without role/element variations:
+
 ```json
 {
   "admin_items_title": "Records Management",
@@ -36,7 +41,9 @@ For simple messages without role/element variations:
 ```
 
 ### 4. Variant Messages (With Selectors)
+
 For messages that vary by role, element, or other inputs:
+
 ```json
 {
   "admin_dashboard": [
@@ -61,6 +68,7 @@ For messages that vary by role, element, or other inputs:
 - Keep selector order consistent: `["element", "role"]` (matches `defaultSelectorOrder` in settings)
 
 ### 5. Consistency Across Locales
+
 - **Same structure** for all locales (en-GB, es-ES, ca-ES)
 - **Same selectors** for variant messages
 - **Same match patterns** (only values differ)
@@ -68,11 +76,14 @@ For messages that vary by role, element, or other inputs:
 ## TypeScript Parser Rules
 
 ### 1. Helper Function Location
+
 - **File**: `apps/client/src/utils/i18n/i18n-inlang.messages.ts`
 - **Pattern**: Export helper functions that wrap Paraglide `m` functions
 
 ### 2. Basic Message Helpers
+
 For simple messages:
+
 ```typescript
 export const getAdminItems = () => ({
   title: m.admin_items_title(),
@@ -81,7 +92,9 @@ export const getAdminItems = () => ({
 ```
 
 ### 3. Variant Message Helpers
+
 For variant messages, match the selector pattern:
+
 ```typescript
 export const getAdminDashboard = (inputs: { role: 'public' | 'admin' }) => ({
   title: m.admin_dashboard({ element: 'title', role: inputs.role }),
@@ -96,11 +109,13 @@ export const getAdminDashboard = (inputs: { role: 'public' | 'admin' }) => ({
 - Use `m.{key}({ selector: value })` syntax for variant calls
 
 ### 4. Type Safety
+
 - **Always type inputs** explicitly (e.g., `{ role: 'public' | 'admin' }`)
 - **Use consistent types** across helpers (don't mix `'admin' | 'user'` with `'admin' | 'public'`)
 - **Match selector values** exactly as defined in JSON
 
 ### 5. Helper Function Naming
+
 - Pattern: `get{SectionName}` (PascalCase section name)
 - Examples:
   - `getAdminDashboard`
@@ -127,6 +142,7 @@ export const getAdminDashboard = (inputs: { role: 'public' | 'admin' }) => ({
 ## Common Patterns
 
 ### Role-Based Variants
+
 ```json
 {
   "admin_dashboard": [
@@ -142,6 +158,7 @@ export const getAdminDashboard = (inputs: { role: 'public' | 'admin' }) => ({
 ```
 
 ### Element-Based Variants
+
 ```json
 {
   "admin_card": [

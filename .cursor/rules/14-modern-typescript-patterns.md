@@ -39,6 +39,7 @@ When solving problems, consider modern approaches:
 ### When to Suggest Branded Types
 
 **YES** ✅ - Suggest branding for:
+
 ```typescript
 // IDs from different entities
 type UserId = Brand<number, 'UserId'>;
@@ -65,6 +66,7 @@ type Contrast = Brand<number, 'Contrast'>;
 ### When to Suggest Runtime Validation
 
 **YES** ✅ - Suggest Zod for:
+
 ```typescript
 // API responses
 const UserSchema = z.object({ id: z.number(), name: z.string() });
@@ -87,6 +89,7 @@ const env = z.object({ API_URL: z.string().url() }).parse(process.env);
 ### When to Suggest Type Utilities
 
 **YES** ✅ - Use type-fest for:
+
 ```typescript
 import type { Simplify, PartialDeep, RequireAtLeastOne } from 'type-fest';
 
@@ -106,6 +109,7 @@ type PartialConfig = PartialDeep<AppConfig>;
 ### When to Suggest Modern Patterns
 
 **Result Types** ✅
+
 ```typescript
 type Result<T, E = Error> =
   | { ok: true; value: T }
@@ -116,6 +120,7 @@ function parseJSON(str: string): Result<unknown> { /* ... */ }
 ```
 
 **State Machines** ✅
+
 ```typescript
 type State =
   | { status: 'idle' }
@@ -127,6 +132,7 @@ type State =
 ```
 
 **Builder Pattern** ✅
+
 ```typescript
 // Good for: Complex object construction, fluent APIs
 ```
@@ -146,6 +152,7 @@ I'm using [PATTERN NAME] here because [REASON].
 ```
 
 **Example**:
+
 ```markdown
 I'm using branded types here because we need to distinguish UserId from OrderId
 even though they're both numbers.
@@ -191,6 +198,7 @@ These patterns should be **suggested without hesitation**:
 **User**: "I need to create UserId and OrderId types"
 
 **Good Response** ✅:
+
 ```typescript
 // Using branded types to make IDs distinct
 type UserId = number & { readonly __brand: 'UserId' };
@@ -226,6 +234,7 @@ and would allow mixing them up. Branding makes them distinct at compile time.
 **User**: "How do I handle errors in this function?"
 
 **Good Response** ✅:
+
 ```typescript
 type Result<T, E = Error> =
   | { ok: true; value: T }
@@ -259,6 +268,7 @@ TypeScript ensures you check for both success and failure cases.
 **User**: "How do I make a deep partial type?"
 
 **Good Response** ✅:
+
 ```typescript
 import type { PartialDeep } from 'type-fest';
 
@@ -291,6 +301,7 @@ than the native `Partial` utility type.
 **User**: "How do I add two numbers?"
 
 **Bad Response** ❌:
+
 ```typescript
 // Don't do this!
 type PositiveInt = Brand<number, 'PositiveInt'>;
@@ -298,6 +309,7 @@ function add(a: PositiveInt, b: PositiveInt): PositiveInt { /* ... */ }
 ```
 
 **Good Response** ✅:
+
 ```typescript
 function add(a: number, b: number): number {
   return a + b;
@@ -314,12 +326,14 @@ when native TypeScript is sufficient.
 **User**: "How do I handle this async operation?"
 
 **Bad Response** ❌:
+
 ```typescript
 import * as TE from 'fp-ts/TaskEither';
 // Using fp-ts without being asked
 ```
 
 **Good Response** ✅:
+
 ```typescript
 async function fetchUser(id: number): Promise<User> {
   const response = await fetch(`/api/users/${id}`);

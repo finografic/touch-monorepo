@@ -771,6 +771,20 @@ export const useProductTranslationSections = (options: UseProductTranslationSect
     );
   }, []);
 
+  // Update section items (for RHF-based tables)
+  const updateSectionItems = useCallback((sectionKey: SectionKey, items: TranslationItem[]) => {
+    setSections((prev) =>
+      prev.map((section) =>
+        section.key === sectionKey
+          ? {
+              ...section,
+              items,
+            }
+          : section,
+      ),
+    );
+  }, []);
+
   return {
     sections,
     initialSections,
@@ -783,5 +797,6 @@ export const useProductTranslationSections = (options: UseProductTranslationSect
     addNewItem,
     deleteItem,
     deleteItemImmediate,
+    updateSectionItems,
   };
 };

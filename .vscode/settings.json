@@ -29,12 +29,7 @@
       "mode": "auto"
     }
   ],
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact"
-  ],
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
   "eslint.nodePath": null,
   "eslint.runtime": "node",
   "npm.packageManager": "pnpm",
@@ -203,5 +198,8 @@
   "eslint.run": "onType", // Only run on type, not on save (reduces panel triggers)
 
   // General panel behavior
-  "workbench.panel.alwaysShowTabs": false // Keep activity bar visible
+  "workbench.panel.alwaysShowTabs": false, // Keep activity bar visible
+
+  // SQLTools extension settings
+  "sqltools.useNodeRuntime": false
 }
