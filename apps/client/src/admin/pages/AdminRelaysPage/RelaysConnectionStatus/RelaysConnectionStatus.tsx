@@ -1,10 +1,11 @@
 import React from 'react';
 
-import { Badge, Flex, Text } from '@radix-ui/themes';
+import { Badge, Flex, Switch, Text } from '@radix-ui/themes';
 import { Button } from 'components/Button';
 import { Loader } from 'components/Loader/Loader';
 
 import { useGetRelayStates, useGetRelayStatus } from 'queries/relays';
+import { useAppConfig } from 'providers/AppConfigProvider';
 
 import { useRelayHandlers } from '../useRelayHandlers';
 
@@ -14,6 +15,9 @@ import { useRelayHandlers } from '../useRelayHandlers';
 
 export const RelaysConnectionStatus: React.FC = () => {
   const { handlers, mutations } = useRelayHandlers();
+
+  // Global relay functionality state from AppConfig
+  const { isRelayFunctionalityEnabled, toggleRelayFunctionality } = useAppConfig();
 
   // Call hooks directly - this component owns connection status!
   const {
@@ -91,9 +95,25 @@ export const RelaysConnectionStatus: React.FC = () => {
         </Flex>
       </Flex>
       <Flex align="center" gap="3">
+        {/* Global relay functionality toggle */}
+        <Flex gap="2" align="center" pr="2">
+          <Text size="2" weight="medium" color="gray">
+            Relay Functionality
+          </Text>
+          <Switch
+            size="2"
+            checked={isRelayFunctionalityEnabled}
+            color={isRelayFunctionalityEnabled ? 'green' : 'gray'}
+            onCheckedChange={toggleRelayFunctionality}
+            style={{ outline: 'none' }}
+          />
+        </Flex>
+
         <Button
           onClick={() => handlers.reconnect(relayStatus)}
-          disabled={mutations.reconnect.isPending || mutations.disconnect.isPending}
+          disabled={
+            !isRelayFunctionalityEnabled || mutations.reconnect.isPending || mutations.disconnect.isPending
+          }
           variant="outline"
           size="sm"
         >

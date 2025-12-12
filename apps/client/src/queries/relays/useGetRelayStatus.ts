@@ -7,6 +7,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from 'api';
 
 import { GET_RELAY_STATUS_QUERYKEY } from 'queries/relays';
+import { useAppConfig } from 'providers/AppConfigProvider';
 
 export interface RelayStatus {
   success: boolean;
@@ -33,14 +34,17 @@ export const useGetRelayStatus = (): UseQueryResult<RelayStatus, ErrorResponse> 
   const [isPollingEnabled, setIsPollingEnabled] = useState(true);
   const [hasNetworkError, setHasNetworkError] = useState(false);
 
+  // Global relay functionality state - when disabled, stop all operations
+  const { isRelayFunctionalityEnabled } = useAppConfig();
+
   const query = useQuery({
     queryKey: [...GET_RELAY_STATUS_QUERYKEY],
     queryFn: getRelayStatus,
-    enabled: true,
+    enabled: isRelayFunctionalityEnabled, // Respect global functionality state
     retry: 1,
     staleTime: 1000 * 10, // 10 seconds
-    refetchInterval: isPollingEnabled ? 5000 : false, // Conditional polling
-    refetchOnWindowFocus: isPollingEnabled, // Conditional refetch on focus
+    refetchInterval: isRelayFunctionalityEnabled && isPollingEnabled ? 5000 : false, // Conditional polling
+    refetchOnWindowFocus: isRelayFunctionalityEnabled && isPollingEnabled, // Conditional refetch on focus
     refetchOnMount: true, // Always refetch when component mounts
   });
 

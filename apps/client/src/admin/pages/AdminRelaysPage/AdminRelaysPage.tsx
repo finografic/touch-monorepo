@@ -6,6 +6,7 @@ import { BulkRelayControls } from 'admin/pages/AdminRelaysPage/BulkRelayControls
 
 import { useInitializeRelay, useStableRelayStates } from 'queries/relays';
 import { useGetSlotConfigurations } from 'queries/slot-configurations';
+import { useAppConfig } from 'providers/AppConfigProvider';
 
 import type { SlotType } from 'types/slots.types';
 import { AdminPageLayout, AdminSection } from '../..';
@@ -24,17 +25,21 @@ interface RelayConfig {
 }
 
 export const AdminRelaysPage: React.FC = () => {
+  const { isRelayFunctionalityEnabled } = useAppConfig();
+
   const {
     data: slotConfigurations,
     isSuccess,
     isLoading: isLoadingSlotConfigurations,
   } = useGetSlotConfigurations();
 
-  // Initialize relay service on mount
+  // Initialize relay service on mount - only if relay functionality is enabled
   const initializeRelayMutation = useInitializeRelay();
   useEffect(() => {
-    initializeRelayMutation.mutate();
-  }, []);
+    if (isRelayFunctionalityEnabled) {
+      initializeRelayMutation.mutate();
+    }
+  }, [isRelayFunctionalityEnabled, initializeRelayMutation]);
 
   // Use custom hook for all relay handlers
   const { handlers, mutations } = useRelayHandlers();
@@ -49,9 +54,6 @@ export const AdminRelaysPage: React.FC = () => {
   // Use ref + state to only update when value actually changes
   const prevIsPendingRef = useRef<boolean>(false);
   const [isTogglePending, setIsTogglePending] = useState(false);
-
-  // Development mode: allow test buttons to work without connection
-  const [isForceTestEnabled, setIsForceTestEnabled] = useState(false);
 
   useEffect(
     function detectRelayStatusChange() {
@@ -119,19 +121,13 @@ export const AdminRelaysPage: React.FC = () => {
 
       <AdminSection title="Relay Boards" variant="border-solid">
         <Flex justify="end" align="center" mt="-6" mb="2">
-          <BulkRelayControls
-            handlers={handlers}
-            mutations={mutations}
-            isForceTestEnabled={isForceTestEnabled}
-            onSetIsForceTestEnabled={setIsForceTestEnabled}
-          />
+          <BulkRelayControls handlers={handlers} mutations={mutations} />
         </Flex>
         <Flex>
           <RelaysTable
             configurations={relayConfigs}
             onRelayToggle={handlers.relayToggle}
             isLoading={isTogglePending}
-            isForceTestEnabled={isForceTestEnabled}
           />
         </Flex>
       </AdminSection>

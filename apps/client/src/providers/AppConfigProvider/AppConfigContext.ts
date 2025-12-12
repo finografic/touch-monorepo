@@ -13,6 +13,7 @@ export enum AppConfigKeys {
   theme = 'theme',
   title = 'title',
   isPowerEnabled = 'isPowerEnabled',
+  isRelayFunctionalityEnabled = 'isRelayFunctionalityEnabled',
 }
 
 export const defaultValue: AppConfigValues = {
@@ -20,6 +21,7 @@ export const defaultValue: AppConfigValues = {
   theme: 'light', // ✅ Default theme
   title: import.meta.env.VITE_APP_TITLE,
   isPowerEnabled: false,
+  isRelayFunctionalityEnabled: false, // ✅ Default to disabled - enable when relay board is connected
 };
 
 export const AppConfigContext = createZustandContext(({ initialValue }) => {
@@ -57,6 +59,12 @@ export const AppConfigContext = createZustandContext(({ initialValue }) => {
           },
           setTogglePowerEnabled: (isPowerEnabled: boolean) => {
             set({ isPowerEnabled });
+          },
+          setRelayFunctionalityEnabled: (isRelayFunctionalityEnabled: boolean) => {
+            set({ isRelayFunctionalityEnabled });
+          },
+          toggleRelayFunctionality: () => {
+            set((state) => ({ isRelayFunctionalityEnabled: !state.isRelayFunctionalityEnabled }));
           },
         },
       }),

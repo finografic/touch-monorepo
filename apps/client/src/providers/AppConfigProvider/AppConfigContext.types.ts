@@ -9,6 +9,7 @@ export interface AppConfigValues {
   [AppConfigKeys.theme]: Theme;
   [AppConfigKeys.title]: string;
   [AppConfigKeys.isPowerEnabled]: boolean;
+  [AppConfigKeys.isRelayFunctionalityEnabled]: boolean;
 }
 
 const SETTER_PREFIX = 'AppConfig';
@@ -19,6 +20,8 @@ export type AppConfigActions = AppConfigSetters & {
   setTheme: (theme: Theme) => void;
   toggleTheme: () => void;
   setTogglePowerEnabled: (isPowerEnabled: boolean) => void;
+  setRelayFunctionalityEnabled: (isRelayFunctionalityEnabled: boolean) => void;
+  toggleRelayFunctionality: () => void;
 };
 
 export interface AppConfigStore extends AppConfigValues {

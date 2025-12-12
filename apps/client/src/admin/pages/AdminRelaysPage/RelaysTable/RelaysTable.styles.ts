@@ -133,11 +133,14 @@ export const styles = css`
     }
   }
 
-  .col-status > div {
-    margin-right: 3rem;
-    width: 100%;
-    display: flex;
-    justify-content: end;
+  .col-status {
+    user-select: none;
+    > div {
+      margin-right: 3rem;
+      width: 100%;
+      display: flex;
+      justify-content: end;
+    }
   }
 
   .col-json {
@@ -201,6 +204,10 @@ export const styles = css`
     &.active {
       .relay-status-indicator {
         background: ${colors.success};
+      }
+      &.relay-functionality-off {
+        opacity: 0.66;
+        filter: saturate(0.5);
       }
     }
   }

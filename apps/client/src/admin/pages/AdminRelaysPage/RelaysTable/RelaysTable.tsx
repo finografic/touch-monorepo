@@ -28,7 +28,6 @@ interface RelaysTableProps {
   configurations: RelayConfig[];
   onRelayToggle?: (slotNumber: number, newState: boolean) => void;
   isLoading?: boolean;
-  isForceTestEnabled?: boolean;
 }
 
 // Map: rowNumber (1-16) -> selectedValue (1-16 | undefined)
@@ -41,19 +40,18 @@ export const RelaysTable: React.FC<RelaysTableProps> = ({
   configurations,
   onRelayToggle,
   isLoading = false,
-  isForceTestEnabled = false,
 }) => {
   const bulkUpdateMutation = useBulkUpdateSlotConfigurations();
   const toggleRelayMutation = useToggleRelay();
   const { timers, defrost } = useTimers();
-  const { isPowerEnabled } = useAppConfig();
+  const { isPowerEnabled, isRelayFunctionalityEnabled } = useAppConfig();
 
   // Get connection status to determine if test buttons should be enabled
   const { data: relayStatus } = useGetRelayStatus();
   const isConnected = relayStatus?.connected ?? false;
 
-  // Test buttons are enabled if: connected OR isForceTestEnabled is true
-  const canTest = isConnected || isForceTestEnabled;
+  // Test buttons are enabled if: functionality enabled AND connected
+  const canTest = isRelayFunctionalityEnabled && isConnected;
 
   // Track which relays are currently in test mode (turned ON by test button)
   const [testingRelays, setTestingRelays] = useState<Set<number>>(new Set());
@@ -421,9 +419,11 @@ export const RelaysTable: React.FC<RelaysTableProps> = ({
                         align="center"
                         gap="2"
                         ml="3"
-                        className={clsx('relay-status', {
-                          active: isRelayActive,
-                        })}
+                        className={clsx(
+                          'relay-status',
+                          `relay-functionality-${isRelayFunctionalityEnabled ? 'on' : 'off'}`,
+                          { active: isRelayActive },
+                        )}
                       >
                         {assignments[config.slotNumber] ? (
                           <>

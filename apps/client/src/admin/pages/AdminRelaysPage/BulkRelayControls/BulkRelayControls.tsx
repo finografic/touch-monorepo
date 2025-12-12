@@ -1,8 +1,9 @@
 import React from 'react';
 
-import { Flex, Switch, Text } from '@radix-ui/themes';
+import { Flex } from '@radix-ui/themes';
 import { Button } from 'components/Button';
 
+import { useAppConfig } from 'providers/AppConfigProvider';
 import type { RelayHandlers, RelayMutations } from '../useRelayHandlers';
 
 // ============================================================================
@@ -12,39 +13,20 @@ import type { RelayHandlers, RelayMutations } from '../useRelayHandlers';
 interface BulkRelayControlsProps {
   handlers: Pick<RelayHandlers, 'turnAllOn' | 'turnAllOff' | 'resetAll'>;
   mutations: Pick<RelayMutations, 'turnAllOn' | 'turnAllOff'>;
-  isForceTestEnabled: boolean;
-  onSetIsForceTestEnabled: (checked: boolean) => void;
 }
 
 // ============================================================================
 // Component
 // ============================================================================
 
-export const BulkRelayControls: React.FC<BulkRelayControlsProps> = ({
-  handlers,
-  mutations,
-  isForceTestEnabled,
-  onSetIsForceTestEnabled,
-}) => {
+export const BulkRelayControls: React.FC<BulkRelayControlsProps> = ({ handlers, mutations }) => {
+  const { isRelayFunctionalityEnabled } = useAppConfig();
+
   return (
     <Flex className="status-buttons-all" align="center" gap="3" ml="8">
-      <Flex className="status-dev-switch" gap="3" justify="between" align="center" pr="2">
-        <Text size="3" weight="bold" color="gray" style={{ opacity: 0.66 }}>
-          connection only
-        </Text>
-        <Switch
-          size="3"
-          checked={!isForceTestEnabled}
-          color="gray"
-          disabled={false}
-          onCheckedChange={() => onSetIsForceTestEnabled(!isForceTestEnabled)}
-          style={{ outline: 'none' }}
-        />
-      </Flex>
-
       <Button
         onClick={handlers.turnAllOn}
-        disabled={mutations.turnAllOn.isPending}
+        disabled={!isRelayFunctionalityEnabled || mutations.turnAllOn.isPending}
         variant="solid"
         color="success"
         size="sm"
@@ -53,7 +35,7 @@ export const BulkRelayControls: React.FC<BulkRelayControlsProps> = ({
       </Button>
       <Button
         onClick={handlers.turnAllOff}
-        disabled={mutations.turnAllOff.isPending}
+        disabled={!isRelayFunctionalityEnabled || mutations.turnAllOff.isPending}
         variant="solid"
         color="danger"
         size="sm"
@@ -62,7 +44,7 @@ export const BulkRelayControls: React.FC<BulkRelayControlsProps> = ({
       </Button>
       <Button
         onClick={handlers.resetAll}
-        disabled={mutations.turnAllOff.isPending}
+        disabled={!isRelayFunctionalityEnabled || mutations.turnAllOff.isPending}
         variant="outline"
         color="warning"
         size="sm"

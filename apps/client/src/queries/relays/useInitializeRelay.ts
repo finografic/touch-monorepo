@@ -1,13 +1,20 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+import { useAppConfig } from 'providers/AppConfigProvider';
 import { GET_RELAY_STATES_QUERYKEY, GET_RELAY_STATUS_QUERYKEY, POST_RELAY_INIT_QUERYKEY } from './index';
 
 export const useInitializeRelay = () => {
   const queryClient = useQueryClient();
+  const { isRelayFunctionalityEnabled } = useAppConfig();
 
   return useMutation({
     mutationKey: POST_RELAY_INIT_QUERYKEY,
     mutationFn: async () => {
+      // Prevent execution if relay functionality is disabled
+      if (!isRelayFunctionalityEnabled) {
+        throw new Error('Relay functionality is disabled');
+      }
+
       const response = await fetch('/api/relay/init', {
         method: 'POST',
         headers: {
