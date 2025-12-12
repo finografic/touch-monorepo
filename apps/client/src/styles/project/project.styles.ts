@@ -98,7 +98,7 @@ export const stylesAdminContent = css`
   }
 
   [role='tablist'] {
-    margin-top: 1.2rem;
+    margin-top: 0.66rem;
     box-shadow: inset 0 -0.12rem 0 0 ${colors.greyXXLight75};
     box-shadow: inset 0 -0.11rem 0 0 ${colors.infoLight};
     /* box-shadow: none !important; */
