@@ -151,14 +151,14 @@ export const styles = css`
   }
 
   button {
-    padding: 0.25rem;
+    /* padding: 0.25rem;
     border-radius: 4px;
     cursor: pointer;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.2s ease; */
 
-    &:hover {
+    /* &:hover {
       opacity: 0.7;
-    }
+    } */
 
     /* input {
       font-size: 1rem;
@@ -184,5 +184,20 @@ export const styles = css`
         background-color: ${colors.greyXXLight25};
       } */
     /* } */
+  }
+
+  button.button-delete {
+    padding: 0.2rem 0.6rem;
+    svg {
+      width: 1.4rem;
+      height: 1.4rem;
+      color: ${colors.warningDark75};
+    }
+    &:hover {
+      background-color: ${colors.dangerXXLight25};
+      svg {
+        color: ${colors.dangerDark};
+      }
+    }
   }
 `;

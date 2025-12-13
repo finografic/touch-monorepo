@@ -1,5 +1,7 @@
 import { Controller, useFormContext } from 'react-hook-form';
 import clsx from 'clsx';
+import { TrashIcon } from '@radix-ui/react-icons';
+import { Button } from 'components/Button';
 
 interface TranslationsRowProps {
   index: number;
@@ -106,9 +108,16 @@ export function TranslationsRow({ index, remove, isEditing, onEditingChange }: T
       </td>
 
       <td>
-        <button type="button" onClick={() => remove(index)}>
-          🗑
-        </button>
+        <Button
+          className="button button-delete"
+          aria-label="Delete"
+          variant="ghost"
+          size="md"
+          color="danger"
+          onClick={() => remove(index)}
+        >
+          <TrashIcon />
+        </Button>
       </td>
     </tr>
   );
