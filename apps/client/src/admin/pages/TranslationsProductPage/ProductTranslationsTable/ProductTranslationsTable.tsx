@@ -1,14 +1,15 @@
 import { useMemo, useState } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
-import { TranslationsRow } from './TranslationsRow';
-// import { useTranslationsTableForm } from './useTranslationsTableForm';
-// import type { LanguageInfo } from 'types/models/supported-language.model';
-import type { RegionLocale } from '@workspace/config/i18n.config';
-import { styles } from './ProductTranslationsTable.styles';
+import { useDebouncedCallback } from 'use-debounce';
 import { Flex } from '@radix-ui/themes';
+
+import { TranslationsRow } from './TranslationsRow';
 import { TableFormButtons } from 'admin/pages/TranslationsProductPage/TableFormButtons/TableFormButtons';
-import type { TranslationFormItem } from 'admin/pages/TranslationsProductPage/TranslationsPage.types';
 import { languagesCodeToKey } from 'admin/pages/TranslationsProductPage/utils/language.utils';
+import { styles } from './ProductTranslationsTable.styles';
+
+import type { RegionLocale } from '@workspace/config/i18n.config';
+import type { TranslationFormItem } from 'admin/pages/TranslationsProductPage/TranslationsPage.types';
 
 interface ProductTranslationsTableProps {
   sectionKey: string;
@@ -25,36 +26,34 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
 }) => {
   const [editingRowIndex, setEditingRowIndex] = useState<number | null>(null);
 
-  const isItemEmpty = (item: TranslationFormItem, languageKeys: RegionLocale[]) =>
-    languageKeys.every((lang) => !item[lang]?.trim());
+  // Helper: check if item is empty (all language fields empty)
+  const isItemEmpty = (item: TranslationFormItem, languageKeys: string[]) =>
+    languageKeys.every((key) => !item[key]?.trim());
 
-  // const {
-  //   fields,
-  //   addEmpty,
-  //   remove,
-  //   formState,
-  //   formState: { isDirty },
-  //   onSubmit,
-  //   hasEmptyRow,
-  //   ...methods
-  // } = useTranslationsTableForm(items);
+  // ======================================================================== //
+  // RHF Setup
+  // ======================================================================== //
 
   const methods = useForm({
     mode: 'onChange',
     defaultValues: { items },
   });
 
+  const { control, watch } = methods;
+
   const { fields, remove, append } = useFieldArray({
-    control: methods.control,
+    control,
     name: 'items',
-    keyName: 'fieldId', // 🔑 CRITICAL: use fieldId instead of index
+    keyName: 'fieldId', // 🔑 CRITICAL: preserves item.id from DB
   });
 
+  // ======================================================================== //
+  // Empty Row Detection
   // ======================================================================== //
 
   const languageKeys = useMemo(() => supportedLanguages.map(languagesCodeToKey), [supportedLanguages]);
 
-  const watchedItems = methods.watch('items');
+  const watchedItems = watch('items');
 
   const hasEmptyRow = useMemo(() => {
     return watchedItems?.some((item: TranslationFormItem) =>
@@ -63,18 +62,36 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
   }, [watchedItems, languageKeys]);
 
   // ======================================================================== //
+  // Handlers
+  // ======================================================================== //
 
-  const handleSave = methods.handleSubmit(async (clean) => {
-    // await onSave?.({ sectionKey, items: clean });
+  const addEmptyRow = useDebouncedCallback(
+    () => {
+      if (hasEmptyRow) return;
+
+      append({
+        id: `temp-${crypto.randomUUID()}`, // temp ID, replaced on save
+        name: '',
+        ...Object.fromEntries(languageKeys.map((k) => [k, ''])),
+      } as TranslationFormItem);
+    },
+    250,
+    { leading: true, trailing: false },
+  );
+
+  const handleSave = methods.handleSubmit(async (data) => {
+    // Filter out empty rows before saving
+    const cleanedItems = data.items.filter((item) => !isItemEmpty(item, languageKeys));
+    await onSave?.({ sectionKey, items: cleanedItems });
   });
-
-  const handleAddNew = () => {
-    // addEmpty();
-  };
 
   const handleReset = () => {
     methods.reset();
   };
+
+  // ======================================================================== //
+  // Render
+  // ======================================================================== //
 
   return (
     <section css={styles} className="table-container">
@@ -83,16 +100,15 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
           <TableFormButtons
             onReset={handleReset}
             onSave={handleSave}
-            onAddNew={handleAddNew}
+            onAddNew={addEmptyRow}
             isDirty={methods.formState.isDirty}
-            isAddNewDisabled={false} // TODO: implement hasEmptyRow
+            isAddNewDisabled={hasEmptyRow}
           />
         </Flex>
 
         <table className="translations-table">
           <thead>
             <tr>
-              <th></th>
               <th></th>
               {supportedLanguages.map((lang) => (
                 <th key={lang}>{lang}</th>
@@ -103,7 +119,7 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
           <tbody>
             {fields.map((field, index) => (
               <TranslationsRow
-                key={field.id} // IMPORTANT: field.id, not index
+                key={field.fieldId} // IMPORTANT: field.fieldId, not field.id
                 index={index}
                 remove={remove}
                 supportedLanguages={supportedLanguages}
