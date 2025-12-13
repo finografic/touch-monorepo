@@ -16,6 +16,7 @@ export interface TableFormButtonsProps {
   onAddNew?: () => void;
   isDirty?: boolean;
   isAddNewDisabled?: boolean;
+  isSaving?: boolean;
 }
 
 // ============================================================================
@@ -28,6 +29,7 @@ export const TableFormButtons: React.FC<TableFormButtonsProps> = ({
   onAddNew,
   isDirty = false,
   isAddNewDisabled = false,
+  isSaving = false,
 }) => {
   const { t } = useTranslation();
   const debouncedAddNew = useDebouncedCallback(() => onAddNew?.(), 500, { leading: true, trailing: false });
@@ -35,13 +37,27 @@ export const TableFormButtons: React.FC<TableFormButtonsProps> = ({
   return (
     <Flex css={styles} className="table-form-buttons">
       {onReset && (
-        <Button type="button" variant="outline" color="grey" onClick={onReset} disabled={!isDirty} size="md">
+        <Button
+          type="button"
+          variant="outline"
+          color="grey"
+          onClick={onReset}
+          disabled={!isDirty || isSaving}
+          size="md"
+        >
           {t('ui.buttons.cancel')}
         </Button>
       )}
       {onSave && (
-        <Button type="button" variant="solid" color="success" onClick={onSave} disabled={!isDirty} size="md">
-          {t('ui.buttons.save')}
+        <Button
+          type="button"
+          variant="solid"
+          color="success"
+          onClick={onSave}
+          disabled={!isDirty || isSaving}
+          size="md"
+        >
+          {isSaving ? 'Saving...' : t('ui.buttons.save')}
         </Button>
       )}
       {onAddNew && (
@@ -50,7 +66,7 @@ export const TableFormButtons: React.FC<TableFormButtonsProps> = ({
           variant="solid"
           color="info"
           onClick={debouncedAddNew}
-          disabled={isAddNewDisabled}
+          disabled={isAddNewDisabled || isSaving}
           size="md"
           aria-label={t('ui.buttons.addNew') || 'Add new translation entry'}
           title={

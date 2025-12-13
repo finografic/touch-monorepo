@@ -74,8 +74,8 @@ export const stylesButtonBase = css`
   &.disabled,
   &[data-disabled='true'] {
     opacity: ${button.disabled.opacity};
-    color: ${colors.defaultXLight};
-    border-color: ${colors.defaultXLight};
+    color: ${colors.defaultLight};
+    border-color: ${colors.defaultLight};
     background-color: transparent;
     user-select: none;
     cursor: not-allowed;
@@ -83,8 +83,8 @@ export const stylesButtonBase = css`
     /* Ensure hover states don't override */
     :hover,
     :active {
-      color: ${colors.defaultXLight};
-      border-color: ${colors.defaultXLight};
+      color: ${colors.defaultLight};
+      border-color: ${colors.defaultLight};
       background-color: transparent;
       transform: none;
     }

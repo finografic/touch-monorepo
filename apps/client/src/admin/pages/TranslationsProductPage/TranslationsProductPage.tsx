@@ -5,8 +5,10 @@ import { Flex, Spinner, Tabs, Text } from '@radix-ui/themes';
 import { AdminPageLayout, AdminSection } from '../..';
 
 import { useProductTranslationData } from './hooks/useProductTranslationData';
+import { useSaveProductTranslations } from './hooks/useSaveProductTranslations';
+import { useDeleteProductTranslation } from './hooks/useDeleteProductTranslation';
 import { ProductTranslationsTable } from './ProductTranslationsTable/ProductTranslationsTable';
-import type { SectionKey } from './TranslationsPage.types';
+import type { SectionKey } from './translations.types';
 import { styles } from './TranslationsProductPage.styles';
 
 export const TranslationsProductPage: React.FC = () => {
@@ -20,6 +22,12 @@ export const TranslationsProductPage: React.FC = () => {
     () => sections.find((section) => section.key === activeTab),
     [sections, activeTab],
   );
+
+  // Save handler for the active section
+  const { save, isLoading: isSaving } = useSaveProductTranslations(activeTab, supportedLanguages);
+
+  // Delete handler for the active section
+  const { deleteItem, isDeleting } = useDeleteProductTranslation(activeTab);
 
   if (isLoading || !activeSection) {
     return (
@@ -64,7 +72,19 @@ export const TranslationsProductPage: React.FC = () => {
                 sectionKey={section.key}
                 items={section.items}
                 supportedLanguages={supportedLanguages}
-                /* onSave will be added later */
+                onSave={async ({ sectionKey, items }) => {
+                  const result = await save(items);
+                  return result; // 🔑 REQUIRED
+                }}
+                onDelete={async (itemId) => {
+                  const result = await deleteItem(itemId);
+                  return {
+                    success: true,
+                    deletedId: result?.deletedId,
+                  };
+                }}
+                isSaving={isSaving}
+                isDeleting={isDeleting}
               />
             </AdminSection>
           </Tabs.Content>

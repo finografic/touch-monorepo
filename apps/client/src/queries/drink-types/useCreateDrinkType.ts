@@ -9,7 +9,12 @@ import { useAppConfig } from 'providers/AppConfigProvider';
 import { slugify } from 'utils/string.utils';
 import type { DrinkType } from 'types/models/drink-type.model';
 import { DrinkTypeDTO } from './DrinkTypes.dto';
-import { GET_DRINK_TYPES_QUERYKEY } from '.';
+import {
+  GET_DRINK_TYPES_QUERYKEY,
+  POST_DRINK_TYPE_QUERYKEY,
+  PATCH_DRINK_TYPE_QUERYKEY,
+  DELETE_DRINK_TYPE_QUERYKEY,
+} from '.';
 
 export interface CreateDrinkTypeInput {
   name: string;
@@ -79,8 +84,12 @@ export const useCreateDrinkType = () => {
       }
     },
     onSuccess: () => {
-      // Invalidate and refetch drink types query to update the list
+      // Invalidate ALL drink-types query keys to ensure fresh data
       queryClient.invalidateQueries({ queryKey: GET_DRINK_TYPES_QUERYKEY });
+      queryClient.invalidateQueries({ queryKey: POST_DRINK_TYPE_QUERYKEY });
+      queryClient.invalidateQueries({ queryKey: PATCH_DRINK_TYPE_QUERYKEY });
+      queryClient.invalidateQueries({ queryKey: DELETE_DRINK_TYPE_QUERYKEY });
+
       // Force a refetch to ensure the dropdown updates immediately
       queryClient.refetchQueries({ queryKey: GET_DRINK_TYPES_QUERYKEY });
     },

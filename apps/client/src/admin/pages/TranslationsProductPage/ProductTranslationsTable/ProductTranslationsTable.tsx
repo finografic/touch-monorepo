@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { useDebouncedCallback } from 'use-debounce';
 import { Flex } from '@radix-ui/themes';
@@ -10,13 +10,26 @@ import { languagesCodeToKey } from 'admin/pages/TranslationsProductPage/utils/la
 import { styles } from './ProductTranslationsTable.styles';
 
 import type { RegionLocale } from '@workspace/config/i18n.config';
-import type { TranslationFormItem } from 'admin/pages/TranslationsProductPage/TranslationsPage.types';
+import type { TranslationFormItem } from 'admin/pages/TranslationsProductPage/translations.types';
 
 interface ProductTranslationsTableProps {
   sectionKey: string;
   items: TranslationFormItem[];
   supportedLanguages: RegionLocale[];
-  onSave?: (params: { sectionKey: string; items: any[] }) => Promise<void>;
+  // onSave?: (params: {
+  //   sectionKey: string;
+  //   items: any[];
+  //   deletedItems?: string[];
+  //   allItems?: any[];
+  // }) => Promise<any[] | void>;
+  onSave?: (params: {
+    sectionKey: string;
+    items: TranslationFormItem[];
+  }) => Promise<{ success: boolean; savedItems: TranslationFormItem[] }>;
+  // onDelete?: (itemId: string) => Promise<void>;
+  onDelete?: (itemId: string) => Promise<{ success: boolean; deletedId: string }>;
+  isSaving?: boolean;
+  isDeleting?: boolean;
 }
 
 export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> = ({
@@ -24,6 +37,9 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
   items,
   supportedLanguages,
   onSave,
+  onDelete,
+  isSaving = false,
+  isDeleting = false,
 }) => {
   const [editingRowIndex, setEditingRowIndex] = useState<number | null>(null);
 
@@ -41,8 +57,31 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
   const { fields, remove, append } = useFieldArray({
     control,
     name: 'items',
-    keyName: 'fieldId', // 🔑 CRITICAL: preserves item.id from DB
+    keyName: 'fieldId', // 🔑 CRITICAL: This tells RHF to use 'fieldId' for its internal tracking
+    //                    //             leaving 'id' free for our actual database CUID
+    //                    //
+    //                    // Without this:
+    //                    //   field.id = RHF's auto-generated ID (wrong!)
+    //                    //   item.id = our CUID (correct!)
+    //                    //
+    //                    // With keyName: 'fieldId':
+    //                    //   field.fieldId = RHF's auto-generated ID
+    //                    //   field.id = our CUID ✅
+    //                    //   item.id = our CUID ✅
   });
+
+  // Track initial items for DELETE detection
+  const initialItemsRef = useRef<TranslationFormItem[]>(items);
+
+  // Update ref when items prop changes (after successful save/delete)
+  useEffect(() => {
+    initialItemsRef.current = items;
+  }, [items]);
+
+  // Reset form when items prop changes from parent (after refetch)
+  // useEffect(() => {
+  //   methods.reset({ items }, { keepValues: false });
+  // }, [items, methods]);
 
   // ======================================================================== //
   // Empty Row Detection
@@ -68,6 +107,45 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
   // Handlers
   // ======================================================================== //
 
+  const handleDelete = async (index: number) => {
+    const item = watchedItems[index];
+
+    // If it's a temp item (not saved yet), just remove from form
+    if (item.id.startsWith('temp-')) {
+      remove(index);
+      return;
+    }
+
+    const itemName = item.name || 'this item';
+    const confirmed = window.confirm(
+      `Are you sure you want to delete "${itemName}"?\n\nThis action cannot be undone.`,
+    );
+
+    if (!confirmed) return;
+
+    if (!onDelete) {
+      remove(index);
+      return;
+    }
+
+    try {
+      const result = await onDelete(item.id);
+
+      // ✅ Optional safety check
+      if (result?.success) {
+        remove(index);
+
+        // Update initial tracking to reflect deletion
+        initialItemsRef.current = initialItemsRef.current.filter((i) => i.id !== result.deletedId);
+      }
+    } catch (error) {
+      console.error('[Delete] Failed:', error);
+      // UI remains unchanged on failure
+    }
+  };
+
+  // ======================================================================== //
+
   const handleAddNewRow = useDebouncedCallback(
     () => {
       if (hasEmptyRow) return;
@@ -83,10 +161,26 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
   );
 
   const handleSave = methods.handleSubmit(async (data) => {
-    // Filter out empty rows before saving
     const cleanedItems = data.items.filter((item) => !isItemEmpty(item, languageKeys));
-    await onSave?.({ sectionKey, items: cleanedItems });
+
+    const result = await onSave?.({
+      sectionKey,
+      items: cleanedItems,
+    });
+
+    if (result?.savedItems) {
+      methods.reset(
+        { items: result.savedItems },
+        {
+          keepErrors: false,
+          keepDirty: false,
+          keepTouched: false,
+        },
+      );
+    }
   });
+
+  // ======================================================================== //
 
   const handleReset = () => {
     methods.reset();
@@ -106,6 +200,7 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
             onAddNew={handleAddNewRow}
             isDirty={methods.formState.isDirty}
             isAddNewDisabled={!isDirtyLastItem}
+            isSaving={isSaving}
           />
         </Flex>
 
@@ -124,12 +219,13 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
               <TranslationsRow
                 key={field.fieldId} // IMPORTANT: field.fieldId, not field.id
                 index={index}
-                remove={remove}
+                onDelete={handleDelete}
                 supportedLanguages={supportedLanguages}
                 isEditing={editingRowIndex === index}
                 onEditingChange={(isEditing) => {
                   setEditingRowIndex(isEditing ? index : null);
                 }}
+                isDeleting={isDeleting}
               />
             ))}
           </tbody>

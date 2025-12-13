@@ -4,7 +4,12 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from 'api';
 
 import type { DrinkType } from 'types/models/drink-type.model';
-import { GET_DRINK_TYPES_QUERYKEY } from '.';
+import {
+  GET_DRINK_TYPES_QUERYKEY,
+  POST_DRINK_TYPE_QUERYKEY,
+  PATCH_DRINK_TYPE_QUERYKEY,
+  DELETE_DRINK_TYPE_QUERYKEY,
+} from '.';
 
 export interface UpdateDrinkTypeInput {
   hasSubtypes?: boolean;
@@ -53,8 +58,11 @@ export const useUpdateDrinkType = () => {
       }
     },
     onSuccess: () => {
-      // Invalidate drink types query to refetch the list
+      // Invalidate ALL drink-types query keys to ensure fresh data
       queryClient.invalidateQueries({ queryKey: GET_DRINK_TYPES_QUERYKEY });
+      queryClient.invalidateQueries({ queryKey: POST_DRINK_TYPE_QUERYKEY });
+      queryClient.invalidateQueries({ queryKey: PATCH_DRINK_TYPE_QUERYKEY });
+      queryClient.invalidateQueries({ queryKey: DELETE_DRINK_TYPE_QUERYKEY });
     },
   });
 };

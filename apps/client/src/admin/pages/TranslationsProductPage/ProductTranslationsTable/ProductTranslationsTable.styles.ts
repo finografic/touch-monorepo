@@ -68,7 +68,7 @@ export const styles = css`
 
       /* Row is being edited (has focus) */
       &.row-editing {
-        background-color: ${colors.greyXXLight25};
+        background-color: ${colors.greyXXLight50};
         input {
           border-color: ${colors.greyXXLight};
           background-color: ${colors.white};

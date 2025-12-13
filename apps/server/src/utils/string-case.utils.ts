@@ -1,4 +1,7 @@
+import type { SQL } from 'drizzle-orm';
 import type { CamelCasedPropertiesDeep as CamelCaseKeys } from 'type-fest';
+
+import { slugify } from 'utils/string.utils';
 
 // Simple camelCase implementation to avoid lodash dependency
 const camelCase = (str: string): string => {
@@ -84,3 +87,10 @@ export const camelCaseToSentence = (str: string): string => {
 
   return strFinal;
 };
+
+export const canonicalizeKey = (input: string): string | SQL<unknown> =>
+  slugify(input, {
+    lower: true,
+    strict: true,
+    trim: true,
+  });

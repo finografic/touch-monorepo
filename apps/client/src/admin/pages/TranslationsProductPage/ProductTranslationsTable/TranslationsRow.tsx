@@ -10,20 +10,22 @@ import { Input } from 'forms/Input/Input';
 
 interface TranslationsRowProps {
   index: number;
-  remove: (index: number) => void;
+  onDelete: (index: number) => Promise<void>;
   isEditing: boolean;
   onEditingChange: (isEditing: boolean) => void;
   supportedLanguages: RegionLocale[]; // ["es-ES","en-GB","ca-ES"]
   slugPriority?: RegionLocale[];
+  isDeleting?: boolean;
 }
 
 export const TranslationsRow: React.FC<TranslationsRowProps> = ({
   index,
-  remove,
+  onDelete,
   isEditing,
   onEditingChange,
   supportedLanguages,
   slugPriority,
+  isDeleting = false,
 }) => {
   const { control, register, formState, watch, setValue } = useFormContext();
 
@@ -44,6 +46,7 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
 
   const updateSlug = useDebouncedCallback((translations: Record<string, string>) => {
     const nextSlug = regenerateSlug(translations, slugPriority ?? supportedLanguages);
+    // log('>>>', 'red', { nextSlug, value: nameField.value });
 
     // Always update if slug is different (including empty string)
     if (nextSlug !== nameField.value) {
@@ -80,6 +83,8 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
      Render
   ------------------------------ */
 
+  // log('>>>', 'orange', { isDirty: rowDirtyFields?.name });
+
   return (
     <tr
       className={rowClasses}
@@ -92,6 +97,7 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
     >
       {/* SLUG / KEY */}
       <td className="col-key">
+        {/* <pre>{JSON.stringify({ isDirty: rowDirtyFields?.name }, null, 2)}</pre> */}
         <Input
           value={nameField.value || ''}
           readOnly
@@ -127,7 +133,8 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
           variant="ghost"
           size="md"
           color="danger"
-          onClick={() => remove(index)}
+          onClick={() => onDelete(index)}
+          disabled={isDeleting}
         >
           <TrashIcon />
         </Button>

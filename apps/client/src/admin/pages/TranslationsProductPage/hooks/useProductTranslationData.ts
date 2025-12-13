@@ -1,16 +1,16 @@
 import { useMemo } from 'react';
 import { useGetAllTranslations } from 'api/hooks/useTranslations';
 import { useGetSupportedLanguages } from 'queries/supported-languages';
-import { TranslationsDto } from './translations.dto';
+import { TranslationsDto } from '../translations.dto';
 
 import type { LanguageInfo } from 'types/models/supported-language.model';
 import type { RegionLocale } from '@workspace/config/i18n.config';
-import type { TranslationSectionData } from '../TranslationsPage.types';
+import type { SectionData } from '../translations.types';
 
 export interface UseProductTranslationData {
   isLoading: boolean;
   supportedLanguages: RegionLocale[];
-  sections: TranslationSectionData[];
+  sections: SectionData[];
 }
 
 export const useProductTranslationData = (): UseProductTranslationData => {
@@ -23,7 +23,7 @@ export const useProductTranslationData = (): UseProductTranslationData => {
     return languages.map((language: LanguageInfo) => language.isoCode as RegionLocale);
   }, [languages]);
 
-  const sections = useMemo<TranslationSectionData[]>(() => {
+  const sections = useMemo<SectionData[]>(() => {
     if (!translations || supportedLanguages.length === 0) return [];
 
     const mapItems = (items: any[]) => items.map((item) => TranslationsDto.fromApi(item, supportedLanguages));

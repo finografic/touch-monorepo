@@ -3,9 +3,6 @@ import { transformFetchError } from '@workspace/core/api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from 'api';
 
-import { useAppConfig } from 'providers/AppConfigProvider';
-
-import { slugify } from 'utils/string.utils';
 import type { DrinkVolume } from 'types/models/volume.model';
 import {
   GET_DRINK_VOLUMES_QUERYKEY,
@@ -14,53 +11,39 @@ import {
   DELETE_DRINK_VOLUME_QUERYKEY,
 } from '.';
 
-export interface CreateVolumeInput {
-  name: string;
-  valueInMl: number;
-  sortOrder: number;
-  coolingFactor?: number;
+export interface UpdateVolumeInput {
   translations?: Record<string, string>;
+  valueInMl?: number;
+  sortOrder?: number;
+  coolingFactor?: number;
+  isActive?: boolean;
 }
 
 /**
- * Hook to create a new volume
+ * Hook to update an existing volume
  */
-export const useCreateVolume = () => {
+export const useUpdateVolume = () => {
   const queryClient = useQueryClient();
-  const { currentLanguage } = useAppConfig();
 
   return useMutation({
-    mutationFn: async (data: CreateVolumeInput): Promise<DrinkVolume> => {
+    mutationFn: async ({
+      id,
+      updates,
+    }: {
+      id: string;
+      updates: UpdateVolumeInput;
+    }): Promise<DrinkVolume> => {
       try {
-        // Convert display name to kebab-case for storage
-        const kebabName = slugify(data.name);
-
-        // Create translations object with current language
-        const translations = {
-          'en-GB': '', // Empty string for other languages
-          'es-ES': '',
-          'ca-ES': '',
-          ...data.translations, // Allow overriding with provided translations
-          [currentLanguage]: data.name, // Use original name for current language (overrides empty string)
-        };
-
-        // Fetch client returns data directly
-        const response = await api.post<any>('/drink-volumes', {
-          name: kebabName, // Use kebab-case name for storage
-          valueInMl: data.valueInMl,
-          sortOrder: data.sortOrder,
-          coolingFactor: data.coolingFactor || 1,
-          translations,
+        const response = await api.patch<any>(`/drink-volumes/${id}`, {
+          translations: updates.translations,
+          valueInMl: updates.valueInMl,
+          sortOrder: updates.sortOrder,
+          coolingFactor: updates.coolingFactor,
+          isActive: updates.isActive,
         });
 
-        // Handle both response structures:
-        // - Direct: response = { id, name, ... }
-        // - Wrapped: response = { data: { id, name, ... } }
-        const entity = response?.data || response;
-
-        if (!entity || !entity.id) {
-          throw new Error('Invalid response: missing volume data');
-        }
+        // Handle nested data structure if server returns { data: {...} }
+        const entity = (response as any)?.data || response;
 
         return {
           id: entity.id,
@@ -87,8 +70,7 @@ export const useCreateVolume = () => {
       queryClient.invalidateQueries({ queryKey: POST_DRINK_VOLUME_QUERYKEY });
       queryClient.invalidateQueries({ queryKey: PATCH_DRINK_VOLUME_QUERYKEY });
       queryClient.invalidateQueries({ queryKey: DELETE_DRINK_VOLUME_QUERYKEY });
-
-      queryClient.refetchQueries({ queryKey: GET_DRINK_VOLUMES_QUERYKEY });
     },
   });
 };
+

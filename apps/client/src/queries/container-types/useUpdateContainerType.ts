@@ -3,9 +3,6 @@ import { transformFetchError } from '@workspace/core/api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from 'api';
 
-import { useAppConfig } from 'providers/AppConfigProvider';
-
-import { slugify } from 'utils/string.utils';
 import type { ContainerType } from 'types/models/container.model';
 import {
   GET_CONTAINER_TYPES_QUERYKEY,
@@ -14,49 +11,35 @@ import {
   DELETE_CONTAINER_TYPE_QUERYKEY,
 } from '.';
 
-export interface CreateContainerTypeInput {
-  name: string;
-  thermalConductivity: number;
+export interface UpdateContainerTypeInput {
   translations?: Record<string, string>;
+  thermalConductivity?: number;
+  isActive?: boolean;
 }
 
 /**
- * Hook to create a new container type
+ * Hook to update an existing container type
  */
-export const useCreateContainerType = () => {
+export const useUpdateContainerType = () => {
   const queryClient = useQueryClient();
-  const { currentLanguage } = useAppConfig();
 
   return useMutation({
-    mutationFn: async (data: CreateContainerTypeInput): Promise<ContainerType> => {
+    mutationFn: async ({
+      id,
+      updates,
+    }: {
+      id: string;
+      updates: UpdateContainerTypeInput;
+    }): Promise<ContainerType> => {
       try {
-        // Convert display name to kebab-case for storage
-        const kebabName = slugify(data.name);
-
-        // Create translations object with current language
-        const translations = {
-          'en-GB': '', // Empty string for other languages
-          'es-ES': '',
-          'ca-ES': '',
-          ...data.translations, // Allow overriding with provided translations
-          [currentLanguage]: data.name, // Use original name for current language (overrides empty string)
-        };
-
-        // Fetch client returns data directly
-        const response = await api.post<any>('/container-types', {
-          name: kebabName, // Use kebab-case name for storage
-          thermalConductivity: data.thermalConductivity,
-          translations,
+        const response = await api.patch<any>(`/container-types/${id}`, {
+          translations: updates.translations,
+          thermalConductivity: updates.thermalConductivity,
+          isActive: updates.isActive,
         });
 
-        // Handle both response structures:
-        // - Direct: response = { id, name, ... }
-        // - Wrapped: response = { data: { id, name, ... } }
-        const entity = response?.data || response;
-
-        if (!entity || !entity.id) {
-          throw new Error('Invalid response: missing container type data');
-        }
+        // Handle nested data structure if server returns { data: {...} }
+        const entity = (response as any)?.data || response;
 
         return {
           id: entity.id,
@@ -81,8 +64,7 @@ export const useCreateContainerType = () => {
       queryClient.invalidateQueries({ queryKey: POST_CONTAINER_TYPE_QUERYKEY });
       queryClient.invalidateQueries({ queryKey: PATCH_CONTAINER_TYPE_QUERYKEY });
       queryClient.invalidateQueries({ queryKey: DELETE_CONTAINER_TYPE_QUERYKEY });
-
-      queryClient.refetchQueries({ queryKey: GET_CONTAINER_TYPES_QUERYKEY });
     },
   });
 };
+
