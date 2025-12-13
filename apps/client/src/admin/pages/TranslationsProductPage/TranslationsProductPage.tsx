@@ -60,9 +60,6 @@ export const TranslationsProductPage: React.FC = () => {
         {sections.map((section) => (
           <Tabs.Content key={section.key} value={section.key}>
             <AdminSection title={t(section.title)} description={t(section.description)}>
-              {/* Debug only – safe to remove */}
-              {/* <pre>{JSON.stringify(section.items, null, 2)}</pre> */}
-
               <ProductTranslationsTable
                 sectionKey={section.key}
                 items={section.items}

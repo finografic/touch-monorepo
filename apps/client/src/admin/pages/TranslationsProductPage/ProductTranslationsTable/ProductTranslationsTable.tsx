@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { TranslationsRow } from './TranslationsRow';
 // import { useTranslationsTableForm } from './useTranslationsTableForm';
@@ -8,6 +8,7 @@ import { styles } from './ProductTranslationsTable.styles';
 import { Flex } from '@radix-ui/themes';
 import { TableFormButtons } from 'admin/pages/TranslationsProductPage/TableFormButtons/TableFormButtons';
 import type { TranslationFormItem } from 'admin/pages/TranslationsProductPage/TranslationsPage.types';
+import { languagesCodeToKey } from 'admin/pages/TranslationsProductPage/utils/language.utils';
 
 interface ProductTranslationsTableProps {
   sectionKey: string;
@@ -24,6 +25,9 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
 }) => {
   const [editingRowIndex, setEditingRowIndex] = useState<number | null>(null);
 
+  const isItemEmpty = (item: TranslationFormItem, languageKeys: RegionLocale[]) =>
+    languageKeys.every((lang) => !item[lang]?.trim());
+
   // const {
   //   fields,
   //   addEmpty,
@@ -37,15 +41,28 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
 
   const methods = useForm({
     mode: 'onChange',
-    defaultValues: {
-      items,
-    },
+    defaultValues: { items },
   });
 
   const { fields, remove, append } = useFieldArray({
     control: methods.control,
     name: 'items',
+    keyName: 'fieldId', // 🔑 CRITICAL: use fieldId instead of index
   });
+
+  // ======================================================================== //
+
+  const languageKeys = useMemo(() => supportedLanguages.map(languagesCodeToKey), [supportedLanguages]);
+
+  const watchedItems = methods.watch('items');
+
+  const hasEmptyRow = useMemo(() => {
+    return watchedItems?.some((item: TranslationFormItem) =>
+      languageKeys.every((key) => !item?.[key]?.trim()),
+    );
+  }, [watchedItems, languageKeys]);
+
+  // ======================================================================== //
 
   const handleSave = methods.handleSubmit(async (clean) => {
     // await onSave?.({ sectionKey, items: clean });

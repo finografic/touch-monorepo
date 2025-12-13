@@ -45,12 +45,8 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
 
   const updateSlug = useDebouncedCallback((translations: Record<string, string>) => {
     const nextSlug = regenerateSlug(translations, slugPriority ?? supportedLanguages);
-
     if (nextSlug && nextSlug !== nameField.value) {
-      setValue(`items.${index}.name`, nextSlug, {
-        shouldDirty: true,
-        shouldTouch: false,
-      });
+      setValue(`items.${index}.name`, nextSlug, { shouldDirty: true, shouldTouch: false });
     }
   }, 100);
 
@@ -65,27 +61,7 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
     }
 
     updateSlug(translations);
-  }, [values?.esEs, values?.enGb, values?.caEs, supportedLanguages, slugPriority, updateSlug]);
-
-  // useEffect(() => {
-  //   if (!values) return;
-
-  //   const translations: Record<string, string> = {};
-
-  //   for (const lang of supportedLanguages) {
-  //     const key = languagesCodeToKey(lang);
-  //     translations[lang] = values[key];
-  //   }
-
-  //   const nextSlug = regenerateSlug(translations, slugPriority ?? supportedLanguages);
-
-  //   if (nextSlug && nextSlug !== nameField.value) {
-  //     setValue(`items.${index}.name`, nextSlug, {
-  //       shouldDirty: true,
-  //       shouldTouch: false,
-  //     });
-  //   }
-  // }, [values, supportedLanguages, slugPriority, index, nameField.value, setValue]);
+  }, [values?.esEs, values?.enGb, values?.caEs, supportedLanguages, slugPriority, setValue]);
 
   /* -----------------------------
      Row state
@@ -112,11 +88,6 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
         }
       }}
     >
-      {/* DEBUG */}
-      {/* <td className="TEST">
-        <pre>{JSON.stringify(values, null, 2)}</pre>
-      </td> */}
-
       {/* SLUG / KEY */}
       <td className="col-key">
         <Input
@@ -136,7 +107,6 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
 
         return (
           <td key={lang}>
-            {/* <pre>{JSON.stringify({ fieldKey, fieldName, value }, null, 2)}</pre> */}
             <Input
               {...register(fieldName)}
               placeholder="--"
