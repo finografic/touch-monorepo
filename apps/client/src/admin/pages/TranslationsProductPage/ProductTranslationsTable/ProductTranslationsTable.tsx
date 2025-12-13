@@ -36,6 +36,7 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
   // } = useTranslationsTableForm(items);
 
   const methods = useForm({
+    mode: 'onChange',
     defaultValues: {
       items,
     },
@@ -82,20 +83,6 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
               <th></th>
             </tr>
           </thead>
-          {/* <tbody>
-            {fields?.map((field, index) => (
-              <TranslationsRow
-                key={field.fId}
-                index={index}
-                remove={remove}
-                supportedLanguages={supportedLanguages}
-                isEditing={editingRowIndex === index}
-                onEditingChange={(isEditing) => {
-                  setEditingRowIndex(isEditing ? index : null);
-                }}
-              />
-            ))}
-          </tbody> */}
           <tbody>
             {fields.map((field, index) => (
               <TranslationsRow

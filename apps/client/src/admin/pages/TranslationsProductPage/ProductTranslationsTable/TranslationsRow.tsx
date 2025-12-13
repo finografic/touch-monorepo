@@ -3,6 +3,7 @@ import { useController, useFormContext } from 'react-hook-form';
 import clsx from 'clsx';
 import { TrashIcon } from '@radix-ui/react-icons';
 import { Button } from 'components/Button';
+import { useDebouncedCallback } from 'use-debounce';
 import type { RegionLocale } from '@workspace/config/i18n.config';
 import { languagesCodeToKey, regenerateSlug } from 'admin/pages/TranslationsProductPage/utils/language.utils';
 import { Input } from 'forms/Input/Input';
@@ -42,6 +43,17 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
      Slug auto-sync
   ------------------------------ */
 
+  const updateSlug = useDebouncedCallback((translations: Record<string, string>) => {
+    const nextSlug = regenerateSlug(translations, slugPriority ?? supportedLanguages);
+
+    if (nextSlug && nextSlug !== nameField.value) {
+      setValue(`items.${index}.name`, nextSlug, {
+        shouldDirty: true,
+        shouldTouch: false,
+      });
+    }
+  }, 100);
+
   useEffect(() => {
     if (!values) return;
 
@@ -52,15 +64,28 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
       translations[lang] = values[key];
     }
 
-    const nextSlug = regenerateSlug(translations, slugPriority ?? supportedLanguages);
+    updateSlug(translations);
+  }, [values?.esEs, values?.enGb, values?.caEs, supportedLanguages, slugPriority, updateSlug]);
 
-    if (nextSlug && nextSlug !== nameField.value) {
-      setValue(`items.${index}.name`, nextSlug, {
-        shouldDirty: true,
-        shouldTouch: false,
-      });
-    }
-  }, [values, supportedLanguages, slugPriority, index, nameField.value, setValue]);
+  // useEffect(() => {
+  //   if (!values) return;
+
+  //   const translations: Record<string, string> = {};
+
+  //   for (const lang of supportedLanguages) {
+  //     const key = languagesCodeToKey(lang);
+  //     translations[lang] = values[key];
+  //   }
+
+  //   const nextSlug = regenerateSlug(translations, slugPriority ?? supportedLanguages);
+
+  //   if (nextSlug && nextSlug !== nameField.value) {
+  //     setValue(`items.${index}.name`, nextSlug, {
+  //       shouldDirty: true,
+  //       shouldTouch: false,
+  //     });
+  //   }
+  // }, [values, supportedLanguages, slugPriority, index, nameField.value, setValue]);
 
   /* -----------------------------
      Row state
@@ -78,69 +103,65 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
   ------------------------------ */
 
   return (
-    <>
-      <pre>{JSON.stringify(values, null, 2)}</pre>
-      <tr
-        className={rowClasses}
-        onFocus={() => onEditingChange(true)}
-        onBlur={(e) => {
-          if (!e.currentTarget.contains(e.relatedTarget as Node)) {
-            onEditingChange(false);
-          }
-        }}
-      >
-        {/* DEBUG */}
-        <td className="TEST">
-          <pre>{JSON.stringify(values, null, 2)}</pre>
-        </td>
+    <tr
+      className={rowClasses}
+      onFocus={() => onEditingChange(true)}
+      onBlur={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+          onEditingChange(false);
+        }
+      }}
+    >
+      {/* DEBUG */}
+      {/* <td className="TEST">
+        <pre>{JSON.stringify(values, null, 2)}</pre>
+      </td> */}
 
-        {/* SLUG / KEY */}
-        <td className="col-key">
-          <Input
-            value={nameField.value || ''}
-            readOnly
-            className={clsx({
-              'input-dirty': rowDirtyFields?.name,
-            })}
-          />
-        </td>
+      {/* SLUG / KEY */}
+      <td className="col-key">
+        <Input
+          value={nameField.value || ''}
+          readOnly
+          className={clsx({
+            'input-dirty': rowDirtyFields?.name,
+          })}
+        />
+      </td>
 
-        {/* DYNAMIC LANGUAGE COLUMNS */}
-        {supportedLanguages.map((lang) => {
-          const fieldKey = languagesCodeToKey(lang);
-          const fieldName = `items.${index}.${fieldKey}` as const;
-          const value = watch(`items.${index}.${fieldKey}`);
+      {/* DYNAMIC LANGUAGE COLUMNS */}
+      {supportedLanguages.map((lang) => {
+        const fieldKey = languagesCodeToKey(lang); // esEs, enGb, caEs
+        const fieldName = `items.${index}.${fieldKey}` as const;
+        const value = watch(`items.${index}.${fieldKey}`);
 
-          return (
-            <td key={lang}>
-              <pre>{JSON.stringify({ fieldKey, fieldName, value }, null, 2)}</pre>
-              <Input
-                {...register(fieldName)}
-                // value={value}
-                placeholder="--"
-                className={clsx({
-                  'input-dirty': rowDirtyFields?.[fieldKey],
-                  'input-empty': !value,
-                })}
-              />
-            </td>
-          );
-        })}
+        return (
+          <td key={lang}>
+            {/* <pre>{JSON.stringify({ fieldKey, fieldName, value }, null, 2)}</pre> */}
+            <Input
+              {...register(fieldName)}
+              placeholder="--"
+              className={clsx({
+                'input-dirty': rowDirtyFields?.[fieldKey],
+                'input-empty': !value,
+              })}
+            />
+          </td>
+        );
+      })}
 
-        {/* DELETE */}
-        <td>
-          <Button
-            className="button button-delete"
-            aria-label="Delete"
-            variant="ghost"
-            size="md"
-            color="danger"
-            onClick={() => remove(index)}
-          >
-            <TrashIcon />
-          </Button>
-        </td>
-      </tr>
-    </>
+      {/* DELETE */}
+      <td>
+        <Button
+          className="button button-delete"
+          aria-label="Delete"
+          variant="ghost"
+          size="md"
+          color="danger"
+          onClick={() => remove(index)}
+        >
+          <TrashIcon />
+        </Button>
+      </td>
+    </tr>
   );
 };
