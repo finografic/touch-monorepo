@@ -42,14 +42,6 @@ export const styles = css`
         color: ${colors.textDark};
         -webkit-text-fill-color: ${colors.textDark};
         cursor: pointer;
-        /* padding: 0.33rem 1rem; */
-        /* border: ${forms.inputs.border.width} solid ${forms.inputs.border.color}; */
-        /* border-radius: ${forms.inputs.border.radius}; */
-        /* font-size: 1rem; */
-        /* font-weight: 600; */
-        /* outline: none;
-        border: 2px solid ${colors.greyXXLight}!important;
-        background-color: ${colors.greyXXLight25}; */
       }
 
       input.input-dirty {
@@ -63,50 +55,7 @@ export const styles = css`
         color: ${colors.textDark};
         -webkit-text-fill-color: ${colors.textDark};
         cursor: text;
-        /* padding: 0.33rem 1rem; */
-        /* border: ${forms.inputs.border.width} solid ${forms.inputs.border.color}; */
-        /* border-radius: ${forms.inputs.border.radius}; */
-        /* font-size: 1rem; */
-        /* font-weight: 600; */
-        /* outline: none;
-        border: 2px solid ${colors.greyXXLight}!important;
-        background-color: ${colors.greyXXLight25}; */
       }
-
-      /* &:not(.col-key) input {
-        font-size: 1rem;
-        font-weight: 600;
-        width: 100%;
-        padding: 0.5rem;
-        border: 1px solid transparent;
-        border-radius: 4px;
-        background-color: transparent;
-        transition: all 0.2s ease;
-
-        &:hover {
-          outline: none;
-          border: 1px solid ${colors.infoLight}!important;
-          background-color: ${colors.greyXXLight25};
-        }
-
-        &:focus {
-          outline: none;
-          border-color: ${colors.primary};
-          background-color: ${colors.greyXXLight25};
-        }
-      } */
-
-      /* input:hover:not(:disabled):not(:focus) { */
-      /* outline: none; */
-      /* border: 1px solid ${colors.greyXXLight}!important; */
-      /* background-color: ${colors.greyXXLight25}; */
-      /* } */
-
-      /* input:focus:not(:disabled) { */
-      /* outline: none; */
-      /* border: 1px solid ${colors.infoLight}!important; */
-      /* background-color: ${colors.greyXXLight25}; */
-      /* } */
     }
 
     tbody {
@@ -121,11 +70,10 @@ export const styles = css`
       &.row-editing {
         background-color: ${colors.greyXXLight25};
         input {
-          border-color: ${colors.greyXLight};
+          border-color: ${colors.greyXXLight};
           background-color: ${colors.white};
           color: ${colors.textXLight};
           -webkit-text-fill-color: ${colors.textXLight};
-
           &:focus {
             border-color: ${colors.infoLight};
             color: ${colors.textXXDark};
@@ -140,8 +88,6 @@ export const styles = css`
 
       /* Row has unsaved changes */
       &.row-dirty input {
-        /* background-color: rgba(255, 165, 0, 0.05);
-      border-left: 3px solid ${colors.warning}; */
         ::-webkit-input-placeholder,
         ::-moz-placeholder,
         :-ms-input-placeholder,
@@ -151,11 +97,6 @@ export const styles = css`
           -webkit-text-fill-color: ${colors.warningXDark};
           opacity: 1;
         }
-      }
-
-      /* Row is empty (new/unsaved) */
-      &.row-empty {
-        /* background-color: rgba(255, 165, 0, 0.02); */
       }
     }
 
