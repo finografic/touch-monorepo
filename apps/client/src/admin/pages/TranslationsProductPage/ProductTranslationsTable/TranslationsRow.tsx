@@ -63,7 +63,7 @@ export function TranslationsRow({ index, remove, isEditing, onEditingChange }: T
           render={({ field }) => (
             <input
               {...field}
-              placeholder="-"
+              placeholder="--"
               className={clsx({
                 'input-dirty': rowDirtyFields?.esEs,
                 'input-empty': !field.value,
@@ -80,7 +80,7 @@ export function TranslationsRow({ index, remove, isEditing, onEditingChange }: T
           render={({ field }) => (
             <input
               {...field}
-              placeholder="-"
+              placeholder="--"
               className={clsx({
                 'input-dirty': rowDirtyFields?.enGb,
                 'input-empty': !field.value,
@@ -97,7 +97,7 @@ export function TranslationsRow({ index, remove, isEditing, onEditingChange }: T
           render={({ field }) => (
             <input
               {...field}
-              placeholder="-"
+              placeholder="--"
               className={clsx({
                 'input-dirty': rowDirtyFields?.caEs,
                 'input-empty': !field.value,

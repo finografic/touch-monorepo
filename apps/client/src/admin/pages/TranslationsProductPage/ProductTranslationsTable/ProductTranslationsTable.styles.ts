@@ -30,14 +30,14 @@ export const styles = css`
         border-color: ${colors.transparent};
         border-radius: ${forms.inputs.border.radius};
         font-size: 1rem;
-        font-weight: 600;
-        color: ${colors.textLight}!important;
-        -webkit-text-fill-color: ${colors.textLight};
+        font-weight: 700 !important;
+        color: ${colors.textXLight};
+        -webkit-text-fill-color: ${colors.textXLight};
         background-color: ${colors.white};
       }
 
-      input:hover {
-        border-color: ${forms.inputs.border.color};
+      input:hover:not(:readonly) {
+        border-color: ${colors.infoLight}!important;
         background-color: ${colors.white};
         color: ${colors.textDark};
         -webkit-text-fill-color: ${colors.textDark};
@@ -50,6 +50,11 @@ export const styles = css`
         /* outline: none;
         border: 2px solid ${colors.greyXXLight}!important;
         background-color: ${colors.greyXXLight25}; */
+      }
+
+      input.input-dirty {
+        color: ${colors.warningXDark};
+        -webkit-text-fill-color: ${colors.warningXDark};
       }
 
       input:focus {
@@ -116,16 +121,36 @@ export const styles = css`
       &.row-editing {
         background-color: ${colors.greyXXLight25};
         input {
-          border-color: ${colors.infoLight};
+          border-color: ${colors.greyXLight};
           background-color: ${colors.white};
-          color: ${colors.textDark};
+          color: ${colors.textXLight};
+          -webkit-text-fill-color: ${colors.textXLight};
+
+          &:focus {
+            border-color: ${colors.infoLight};
+            color: ${colors.textXXDark};
+            -webkit-text-fill-color: ${colors.textXXDark};
+          }
+        }
+        input[readonly] {
+          color: ${colors.textLight}!important;
+          -webkit-text-fill-color: ${colors.textLight}!important;
         }
       }
 
       /* Row has unsaved changes */
-      &.row-dirty {
+      &.row-dirty input {
         /* background-color: rgba(255, 165, 0, 0.05);
       border-left: 3px solid ${colors.warning}; */
+        ::-webkit-input-placeholder,
+        ::-moz-placeholder,
+        :-ms-input-placeholder,
+        ::placeholder {
+          text-indent: 0.5rem;
+          color: ${colors.warningXDark};
+          -webkit-text-fill-color: ${colors.warningXDark};
+          opacity: 1;
+        }
       }
 
       /* Row is empty (new/unsaved) */
@@ -139,51 +164,22 @@ export const styles = css`
       input[readonly] {
         font-family: ${fontFamilies.mono};
         font-weight: 500;
-        font-size: 0.9rem;
-        color: ${colors.greyDark};
+        font-size: 1rem;
+        color: ${colors.textXXLight};
+        -webkit-text-fill-color: ${colors.textXXLight};
         background-color: ${colors.transparent};
         border: 2px solid ${colors.transparent};
         cursor: default;
         user-select: none;
-        opacity: 0.66;
+        opacity: 0.66 !important;
+        &.input-dirty {
+          font-weight: 600;
+          color: ${colors.warningXDark};
+          -webkit-text-fill-color: ${colors.warningXDark};
+          opacity: 1 !important;
+        }
       }
     }
-  }
-
-  button {
-    /* padding: 0.25rem;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: opacity 0.2s ease; */
-
-    /* &:hover {
-      opacity: 0.7;
-    } */
-
-    /* input {
-      font-size: 1rem;
-      font-weight: 600;
-      width: 100%;
-      padding: 0.5rem;
-      border: 1px solid transparent;
-      border-radius: 4px;
-      background-color: transparent;
-      transition: all 0.2s ease; */
-
-    /* div:hover {
-        outline: none !important;
-        outline: 2px solid ${colors.infoLight}!important;
-        border: 1px solid ${colors.infoLight}!important;
-        border-color: ${colors.infoLight}!important;
-        background-color: ${colors.greyXXLight25};
-      } */
-    /*
-      &:focus {
-        outline: none;
-        border-color: ${colors.primary};
-        background-color: ${colors.greyXXLight25};
-      } */
-    /* } */
   }
 
   button.button-delete {
@@ -191,7 +187,7 @@ export const styles = css`
     svg {
       width: 1.4rem;
       height: 1.4rem;
-      color: ${colors.warningDark75};
+      color: ${colors.warningDark};
     }
     &:hover {
       background-color: ${colors.dangerXXLight25};
