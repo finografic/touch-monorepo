@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 import clsx from 'clsx';
 import { TrashIcon } from '@radix-ui/react-icons';
@@ -7,13 +7,17 @@ import type { RegionLocale } from '@workspace/config/i18n.config';
 import { languagesCodeToKey, regenerateSlug } from 'admin/pages/TranslationsProductPage/utils/language.utils';
 import { Input } from 'forms/Input/Input';
 
+/* ============================================================
+   COMPONENT
+   ============================================================ */
+
 interface TranslationsRowProps {
   index: number;
   remove: (index: number) => void;
   isEditing: boolean;
   onEditingChange: (isEditing: boolean) => void;
   supportedLanguages: RegionLocale[]; // ["es-ES","en-GB","ca-ES"]
-  slugPriority?: RegionLocale[];
+  slugPriority?: RegionLocale[]; // defaults to availableLanguages
 }
 
 export const TranslationsRow: React.FC<TranslationsRowProps> = ({
@@ -24,10 +28,10 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
   supportedLanguages,
   slugPriority,
 }) => {
-  const { control, register, formState, watch, setValue } = useFormContext();
+  const { control, formState, watch, setValue } = useFormContext();
 
   /* -----------------------------
-     Slug field (controlled)
+     Controllers
   ------------------------------ */
 
   const { field: nameField } = useController({
@@ -39,17 +43,16 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
   const values = watch(`items.${index}`);
 
   /* -----------------------------
-     Slug auto-sync
+     Slug auto-sync (THE FIX)
   ------------------------------ */
 
   useEffect(() => {
     if (!values) return;
 
+    // rebuild translation map: { "es-ES": "Cerveza", ... }
     const translations: Record<string, string> = {};
-
     for (const lang of supportedLanguages) {
-      const key = languagesCodeToKey(lang);
-      translations[lang] = values[key];
+      translations[lang] = values[languagesCodeToKey(lang)];
     }
 
     const nextSlug = regenerateSlug(translations, slugPriority ?? supportedLanguages);
@@ -66,11 +69,14 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
      Row state
   ------------------------------ */
 
+  // const isEmpty = languageControllers.every((l) => !l.controller.value?.trim());
+
   const isDirty = Boolean(rowDirtyFields);
 
   const rowClasses = clsx({
     'row-editing': isEditing,
     'row-dirty': isDirty,
+    // 'row-empty': isEmpty,
   });
 
   /* -----------------------------
@@ -78,69 +84,59 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
   ------------------------------ */
 
   return (
-    <>
-      <pre>{JSON.stringify(values, null, 2)}</pre>
-      <tr
-        className={rowClasses}
-        onFocus={() => onEditingChange(true)}
-        onBlur={(e) => {
-          if (!e.currentTarget.contains(e.relatedTarget as Node)) {
-            onEditingChange(false);
-          }
-        }}
-      >
-        {/* DEBUG */}
-        <td className="TEST">
-          <pre>{JSON.stringify(values, null, 2)}</pre>
-        </td>
+    <tr
+      className={rowClasses}
+      onFocus={() => onEditingChange(true)}
+      onBlur={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+          onEditingChange(false);
+        }
+      }}
+    >
+      {/* DEBUG COLUMN */}
+      <td className="TEST">
+        <pre>{JSON.stringify(values, null, 2)}</pre>
+      </td>
 
-        {/* SLUG / KEY */}
-        <td className="col-key">
+      {/* KEY / SLUG */}
+      <td className="col-key">
+        <Input
+          value={nameField.value || ''}
+          readOnly
+          className={clsx({
+            'input-dirty': rowDirtyFields?.name,
+          })}
+        />
+      </td>
+
+      {/* DYNAMIC LANGUAGE COLUMNS */}
+      {/* {supportedLanguages.map((lang) => (
+        <td key={lang}>
           <Input
-            value={nameField.value || ''}
-            readOnly
+            name={`items.${index}.${languagesCodeToKey(lang)}`}
+            control={control}
+            placeholder="--"
             className={clsx({
-              'input-dirty': rowDirtyFields?.name,
+              'input-dirty': rowDirtyFields?.[languagesCodeToKey(lang)],
+              'input-empty': !watch(`items.${index}.${languagesCodeToKey(lang)}`),
             })}
           />
         </td>
+      ))} */}
 
-        {/* DYNAMIC LANGUAGE COLUMNS */}
-        {supportedLanguages.map((lang) => {
-          const fieldKey = languagesCodeToKey(lang);
-          const fieldName = `items.${index}.${fieldKey}` as const;
-          const value = values?.[fieldKey];
-
-          return (
-            <td key={lang}>
-              <pre>{JSON.stringify({ fieldKey, fieldName, value }, null, 2)}</pre>
-              <Input
-                {...register(fieldName)}
-                // value={value}
-                placeholder="--"
-                className={clsx({
-                  'input-dirty': rowDirtyFields?.[fieldKey],
-                  'input-empty': !value,
-                })}
-              />
-            </td>
-          );
-        })}
-
-        {/* DELETE */}
-        <td>
-          <Button
-            className="button button-delete"
-            aria-label="Delete"
-            variant="ghost"
-            size="md"
-            color="danger"
-            onClick={() => remove(index)}
-          >
-            <TrashIcon />
-          </Button>
-        </td>
-      </tr>
-    </>
+      {/* DELETE */}
+      <td>
+        <Button
+          className="button button-delete"
+          aria-label="Delete"
+          variant="ghost"
+          size="md"
+          color="danger"
+          onClick={() => remove(index)}
+        >
+          <TrashIcon />
+        </Button>
+      </td>
+    </tr>
   );
 };

@@ -7,10 +7,11 @@ import type { RegionLocale } from '@workspace/config/i18n.config';
 import { styles } from './ProductTranslationsTable.styles';
 import { Flex } from '@radix-ui/themes';
 import { TableFormButtons } from 'admin/pages/TranslationsProductPage/TableFormButtons/TableFormButtons';
+import type { TranslationFormItem } from 'admin/pages/TranslationsProductPage/TranslationsPage.types';
 
 interface ProductTranslationsTableProps {
   sectionKey: string;
-  items: any[]; // Legacy format from parent hook
+  items: TranslationFormItem[];
   supportedLanguages: RegionLocale[];
   onSave?: (params: { sectionKey: string; items: any[] }) => Promise<void>;
 }
@@ -71,8 +72,6 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
             </tr>
           </thead>
           <tbody>
-            <pre>{JSON.stringify(supportedLanguages, null, 2)}</pre>
-            <pre>{JSON.stringify(fields, null, 2)}</pre>
             {fields?.map((field, index) => (
               <TranslationsRow
                 key={field.fId}
