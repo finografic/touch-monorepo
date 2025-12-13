@@ -100,14 +100,14 @@ export const stylesAdminContent = css`
   [role='tablist'] {
     margin-top: 0.66rem;
     box-shadow: inset 0 -0.12rem 0 0 ${colors.greyXXLight75};
-    box-shadow: inset 0 -0.11rem 0 0 ${colors.infoLight};
+    box-shadow: inset 0 -0.2rem 0 0 ${colors.infoLight};
     /* box-shadow: none !important; */
     border-bottom: none !important;
     padding: 0 2px;
 
     button[role='tab'] {
       height: 3rem;
-      margin: 0.2rem 0.05rem 0;
+      margin: 0.2rem 0.05rem 0.2rem;
       padding: 0;
       border: 0 !important;
       span {
@@ -134,6 +134,9 @@ export const stylesAdminContent = css`
       }
 
       &[data-state='active'] {
+        margin: 0rem 0.05rem 0rem;
+        height: 3.4rem;
+        background-color: ${colors.white};
         span {
           color: ${colors.info};
           border: 3px solid ${colors.infoLight};

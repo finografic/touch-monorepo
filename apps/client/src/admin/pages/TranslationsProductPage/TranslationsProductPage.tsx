@@ -10,6 +10,7 @@ import { useDeleteProductTranslation } from './hooks/useDeleteProductTranslation
 import { ProductTranslationsTable } from './ProductTranslationsTable/ProductTranslationsTable';
 import type { SectionKey } from './translations.types';
 import { styles } from './TranslationsProductPage.styles';
+import { ProductTranslationsTableExpandable } from 'admin/pages/TranslationsProductPage/ProductTranslationsTable/ProductTranslationsTableExpandable';
 
 export const TranslationsProductPage: React.FC = () => {
   const { t } = useTranslation();
@@ -68,24 +69,45 @@ export const TranslationsProductPage: React.FC = () => {
         {sections.map((section) => (
           <Tabs.Content key={section.key} value={section.key}>
             <AdminSection title={t(section.title)} description={t(section.description)}>
-              <ProductTranslationsTable
-                sectionKey={section.key}
-                items={section.items}
-                supportedLanguages={supportedLanguages}
-                onSave={async ({ sectionKey, items }) => {
-                  const result = await save(items);
-                  return result; // 🔑 REQUIRED
-                }}
-                onDelete={async (itemId) => {
-                  const result = await deleteItem(itemId);
-                  return {
-                    success: true,
-                    deletedId: result?.deletedId,
-                  };
-                }}
-                isSaving={isSaving}
-                isDeleting={isDeleting}
-              />
+              {section.key === 'drinkSubtypes' ? (
+                <ProductTranslationsTableExpandable
+                  sectionKey={section.key}
+                  items={section.items}
+                  supportedLanguages={supportedLanguages}
+                  onSave={async ({ sectionKey, items }) => {
+                    const result = await save(items);
+                    return result; // 🔑 REQUIRED
+                  }}
+                  onDelete={async (itemId, drinkTypeId) => {
+                    const result = await deleteItem(itemId, drinkTypeId);
+                    return {
+                      success: true,
+                      deletedId: result?.deletedId,
+                    };
+                  }}
+                  isSaving={isSaving}
+                  isDeleting={isDeleting}
+                />
+              ) : (
+                <ProductTranslationsTable
+                  sectionKey={section.key}
+                  items={section.items}
+                  supportedLanguages={supportedLanguages}
+                  onSave={async ({ sectionKey, items }) => {
+                    const result = await save(items);
+                    return result; // 🔑 REQUIRED
+                  }}
+                  onDelete={async (itemId) => {
+                    const result = await deleteItem(itemId);
+                    return {
+                      success: true,
+                      deletedId: result?.deletedId,
+                    };
+                  }}
+                  isSaving={isSaving}
+                  isDeleting={isDeleting}
+                />
+              )}
             </AdminSection>
           </Tabs.Content>
         ))}

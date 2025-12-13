@@ -46,11 +46,12 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
 
   const updateSlug = useDebouncedCallback((translations: Record<string, string>) => {
     const nextSlug = regenerateSlug(translations, slugPriority ?? supportedLanguages);
-    // log('>>>', 'red', { nextSlug, value: nameField.value });
 
-    // Always update if slug is different (including empty string)
+    // Only update if slug is different from current value
     if (nextSlug !== nameField.value) {
-      setValue(`items.${index}.name`, nextSlug, { shouldDirty: true, shouldTouch: true });
+      // Don't mark as dirty - let user interaction mark it dirty
+      // This prevents initial render from marking fields dirty when slug matches data
+      setValue(`items.${index}.name`, nextSlug, { shouldDirty: false, shouldTouch: false });
     }
   }, 100);
 
@@ -83,62 +84,71 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
      Render
   ------------------------------ */
 
-  // log('>>>', 'orange', { isDirty: rowDirtyFields?.name });
-
   return (
-    <tr
-      className={rowClasses}
-      onFocus={() => onEditingChange(true)}
-      onBlur={(e) => {
-        if (!e.currentTarget.contains(e.relatedTarget as Node)) {
-          onEditingChange(false);
-        }
-      }}
-    >
-      {/* SLUG / KEY */}
-      <td className="col-key">
-        {/* <pre>{JSON.stringify({ isDirty: rowDirtyFields?.name }, null, 2)}</pre> */}
-        <Input
-          value={nameField.value || ''}
-          readOnly
-          className={clsx({ 'input-dirty': rowDirtyFields?.name })}
-        />
-      </td>
+    <>
+      {/* <thead> */}
+      <tr>
+        <th></th>
+        {supportedLanguages.map((lang) => (
+          <th key={lang}>{lang}</th>
+        ))}
+        <th></th>
+      </tr>
+      {/* </thead> */}
 
-      {/* DYNAMIC LANGUAGE COLUMNS */}
-      {supportedLanguages.map((lang) => {
-        const fieldKey = languagesCodeToKey(lang); // esEs, enGb, caEs
-        const fieldName = `items.${index}.${fieldKey}` as const;
-        const value = watch(`items.${index}.${fieldKey}`);
+      <tr
+        className={rowClasses}
+        onFocus={() => onEditingChange(true)}
+        onBlur={(e) => {
+          if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+            onEditingChange(false);
+          }
+        }}
+      >
+        {/* SLUG / KEY */}
+        <td className="col-key">
+          <Input
+            value={nameField.value || ''}
+            readOnly
+            className={clsx({ 'input-dirty': rowDirtyFields?.name })}
+          />
+        </td>
 
-        return (
-          <td key={lang}>
-            <Input
-              {...register(fieldName)}
-              placeholder="--"
-              className={clsx({
-                'input-dirty': rowDirtyFields?.[fieldKey],
-                'input-empty': !value,
-              })}
-            />
-          </td>
-        );
-      })}
+        {/* DYNAMIC LANGUAGE COLUMNS */}
+        {supportedLanguages.map((lang) => {
+          const fieldKey = languagesCodeToKey(lang); // esEs, enGb, caEs
+          const fieldName = `items.${index}.${fieldKey}` as const;
+          const value = watch(`items.${index}.${fieldKey}`);
 
-      {/* DELETE */}
-      <td>
-        <Button
-          className="button button-delete"
-          aria-label="Delete"
-          variant="ghost"
-          size="md"
-          color="danger"
-          onClick={() => onDelete(index)}
-          disabled={isDeleting}
-        >
-          <TrashIcon />
-        </Button>
-      </td>
-    </tr>
+          return (
+            <td key={lang}>
+              <Input
+                {...register(fieldName)}
+                placeholder="--"
+                className={clsx({
+                  'input-dirty': rowDirtyFields?.[fieldKey],
+                  'input-empty': !value,
+                })}
+              />
+            </td>
+          );
+        })}
+
+        {/* DELETE */}
+        <td>
+          <Button
+            className="button button-delete"
+            aria-label="Delete"
+            variant="ghost"
+            size="md"
+            color="danger"
+            onClick={() => onDelete(index)}
+            disabled={isDeleting}
+          >
+            <TrashIcon />
+          </Button>
+        </td>
+      </tr>
+    </>
   );
 };

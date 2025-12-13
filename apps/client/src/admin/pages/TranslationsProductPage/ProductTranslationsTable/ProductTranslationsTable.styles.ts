@@ -11,12 +11,16 @@ export const styles = css`
 
     thead {
       background-color: ${colors.info75};
-      th {
-        padding: 0.5rem 2rem;
-        text-align: left;
-        font-size: 1.1rem;
-        font-weight: 700;
-        color: ${colors.white};
+      tr {
+        border: 1px solid ${colors.info75};
+        border-top: none;
+        th {
+          padding: 0.5rem 2rem 0.6rem 2.2rem;
+          text-align: left;
+          font-size: 1.1rem;
+          font-weight: 700;
+          color: ${colors.white};
+        }
       }
     }
 
@@ -63,8 +67,39 @@ export const styles = css`
     }
 
     tr {
-      border-bottom: 1px solid ${colors.greyXXLight50};
+      border: 1px solid ${colors.greyLight50};
+      border-top: none;
       transition: background-color 0.2s ease;
+
+      /* Group header row (for expandable table) */
+      &.group-header {
+        border: 1px solid ${colors.greyLight50};
+        border-top: none;
+        height: 3.5rem !important;
+        background-color: ${colors.info75};
+        background-color: ${colors.infoLight50};
+        background-color: ${colors.greyXLight25};
+        color: ${colors.white};
+        font-weight: 700;
+        cursor: pointer;
+        svg {
+          height: 1.33rem;
+          width: 1.33rem;
+        }
+        &:hover {
+          background-color: ${colors.info};
+          background-color: ${colors.greyXLight50};
+        }
+        td {
+          user-select: none;
+          font-weight: 700;
+          color: ${colors.textLight};
+          color: ${colors.infoDark};
+        }
+        .group-header-content {
+          padding-right: 0.2rem;
+        }
+      }
 
       /* Row is being edited (has focus) */
       &.row-editing {
@@ -102,6 +137,9 @@ export const styles = css`
 
     td.col-key,
     td.col-key:hover {
+      input {
+        transform: translateX(-1rem);
+      }
       input[readonly] {
         font-family: ${fontFamilies.mono};
         font-weight: 500;
@@ -124,6 +162,7 @@ export const styles = css`
   }
 
   button.button-delete {
+    transform: translateX(0.55rem);
     padding: 0rem 0.66rem;
     svg.icon {
       width: 1.5rem;

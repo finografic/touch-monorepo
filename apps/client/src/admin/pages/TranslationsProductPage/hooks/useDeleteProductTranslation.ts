@@ -19,7 +19,7 @@ export const useDeleteProductTranslation = (sectionKey: SectionKey) => {
   const { toast } = useToast();
 
   const deleteItem = useCallback(
-    async (itemId: string) => {
+    async (itemId: string, drinkTypeId?: string) => {
       try {
         console.log(`[useDeleteProductTranslation] Deleting ${sectionKey}:${itemId}`);
 
@@ -38,7 +38,11 @@ export const useDeleteProductTranslation = (sectionKey: SectionKey) => {
             break;
 
           case 'drinkSubtypes':
-            throw new Error('drinkSubtypes not yet supported in this hook');
+            if (!drinkTypeId) {
+              throw new Error('drinkTypeId is required to delete drink subtypes');
+            }
+            await api.delete(`/drink-types/${drinkTypeId}/subtypes/${itemId}`);
+            break;
 
           default:
             throw new Error(`Unsupported section: ${sectionKey}`);

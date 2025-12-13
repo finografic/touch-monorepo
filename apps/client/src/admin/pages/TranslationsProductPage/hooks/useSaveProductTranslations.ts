@@ -3,9 +3,10 @@ import { useQueryClient } from '@tanstack/react-query';
 import type { RegionLocale } from '@workspace/config/i18n.config';
 
 // Query hooks
-import { useCreateDrinkType, useUpdateDrinkType } from 'queries/drink-types';
+import { useCreateDrinkType, useUpdateDrinkType, useCreateDrinkSubtype } from 'queries/drink-types';
 import { useCreateVolume, useUpdateVolume } from 'queries/drink-volumes';
 import { useCreateContainerType, useUpdateContainerType } from 'queries/container-types';
+import { drinkSubtypeEndpoints } from 'api/endpoints/drink-subtype.endpoints';
 
 // Types and DTOs
 import type { SectionKey, TranslationFormItem } from '../translations.types';
@@ -37,6 +38,7 @@ export const useSaveProductTranslations = (sectionKey: SectionKey, supportedLang
 
   const createDrinkType = useCreateDrinkType();
   const updateDrinkType = useUpdateDrinkType();
+  const createDrinkSubtype = useCreateDrinkSubtype();
 
   const createVolume = useCreateVolume();
   const updateVolume = useUpdateVolume();
@@ -119,7 +121,19 @@ export const useSaveProductTranslations = (sectionKey: SectionKey, supportedLang
               break;
 
             case 'drinkSubtypes':
-              throw new Error('drinkSubtypes not yet supported in this hook');
+              // Subtypes require drinkTypeId
+              const drinkTypeId = (item as any).drinkTypeId;
+              if (!drinkTypeId) {
+                throw new Error('drinkTypeId is required to create drink subtypes');
+              }
+              createdEntity = await createDrinkSubtype.mutateAsync({
+                name: payload.name,
+                drinkTypeId,
+                translations: payload.translations,
+                defaultTempConsume: (item as any).defaultTempConsume ?? 5,
+                defaultTempFreeze: (item as any).defaultTempFreeze ?? -2,
+              });
+              break;
 
             default:
               throw new Error(`Unsupported section: ${sectionKey}`);
@@ -178,7 +192,20 @@ export const useSaveProductTranslations = (sectionKey: SectionKey, supportedLang
               break;
 
             case 'drinkSubtypes':
-              throw new Error('drinkSubtypes not yet supported in this hook');
+              // Subtypes require drinkTypeId for the nested endpoint
+              const drinkTypeId = (item as any).drinkTypeId;
+              if (!drinkTypeId) {
+                throw new Error('drinkTypeId is required to update drink subtypes');
+              }
+              await drinkSubtypeEndpoints.updateDrinkSubtype(
+                item.id,
+                {
+                  translations: payload.translations,
+                },
+                drinkTypeId,
+              );
+              updateCount++;
+              break;
 
             default:
               throw new Error(`Unsupported section: ${sectionKey}`);
@@ -220,39 +247,16 @@ export const useSaveProductTranslations = (sectionKey: SectionKey, supportedLang
         // 🔁 Return saved items with real CUIDs for immediate form update
         // ───────────────────────────────────────────────────────────────────
 
-        log('>>>', 'lime', {
-          success: true,
-          savedItems: [...createdItems, ...toUpdate],
-        });
-
-        return {
-          success: true,
-          savedItems: [...createdItems, ...toUpdate],
-        };
-
-        /*
-        log('>>>', 'lime', {
-          success: true,
-          createdItems, // Items with real CUIDs replacing temp-* IDs
-          updatedCount: updateCount,
-          // Return items that were actually saved (with reconciled IDs)
-          savedItems: [
-            ...createdItems, // New items with real CUIDs
-            ...toUpdate, // Existing items (unchanged IDs)
-          ],
-        });
-
         return {
           success: true,
           createdItems, // Items with real CUIDs replacing temp-* IDs
           updatedCount: updateCount,
-          // Return items that were actually saved (with reconciled IDs)
+          // Return all items (created + updated) with reconciled IDs
           savedItems: [
             ...createdItems, // New items with real CUIDs
             ...toUpdate, // Existing items (unchanged IDs)
           ],
         };
-        */
       } catch (error) {
         console.error('[useSaveProductTranslations] Error:', error);
 
@@ -271,6 +275,7 @@ export const useSaveProductTranslations = (sectionKey: SectionKey, supportedLang
       toast,
       createDrinkType,
       updateDrinkType,
+      createDrinkSubtype,
       createVolume,
       updateVolume,
       createContainerType,
@@ -287,6 +292,7 @@ export const useSaveProductTranslations = (sectionKey: SectionKey, supportedLang
     isLoading:
       createDrinkType.isPending ||
       updateDrinkType.isPending ||
+      createDrinkSubtype.isPending ||
       createVolume.isPending ||
       updateVolume.isPending ||
       createContainerType.isPending ||

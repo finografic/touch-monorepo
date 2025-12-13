@@ -16,17 +16,10 @@ interface ProductTranslationsTableProps {
   sectionKey: string;
   items: TranslationFormItem[];
   supportedLanguages: RegionLocale[];
-  // onSave?: (params: {
-  //   sectionKey: string;
-  //   items: any[];
-  //   deletedItems?: string[];
-  //   allItems?: any[];
-  // }) => Promise<any[] | void>;
   onSave?: (params: {
     sectionKey: string;
     items: TranslationFormItem[];
   }) => Promise<{ success: boolean; savedItems: TranslationFormItem[] }>;
-  // onDelete?: (itemId: string) => Promise<void>;
   onDelete?: (itemId: string) => Promise<{ success: boolean; deletedId: string }>;
   isSaving?: boolean;
   isDeleting?: boolean;
@@ -72,16 +65,25 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
 
   // Track initial items for DELETE detection
   const initialItemsRef = useRef<TranslationFormItem[]>(items);
+  const isInitialMount = useRef(true);
 
   // Update ref when items prop changes (after successful save/delete)
   useEffect(() => {
     initialItemsRef.current = items;
   }, [items]);
 
-  // Reset form when items prop changes from parent (after refetch)
-  // useEffect(() => {
-  //   methods.reset({ items }, { keepValues: false });
-  // }, [items, methods]);
+  // Reset form when items prop changes (after refetch/navigation)
+  // This ensures form state matches fresh data from the server
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return; // Skip reset on initial mount
+    }
+
+    // Reset form with new items as default values
+    // This clears dirty state when navigating back to the page
+    methods.reset({ items }, { keepValues: false, keepDefaultValues: true });
+  }, [items, methods]);
 
   // ======================================================================== //
   // Empty Row Detection
@@ -180,8 +182,6 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
     }
   });
 
-  // ======================================================================== //
-
   const handleReset = () => {
     methods.reset();
   };
@@ -203,7 +203,6 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
             isSaving={isSaving}
           />
         </Flex>
-
         <table className="translations-table">
           <thead>
             <tr>
