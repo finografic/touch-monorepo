@@ -6,6 +6,7 @@ import { useDebouncedCallback } from 'use-debounce';
 import { slugify } from 'utils/string.utils';
 import type { LanguageInfo } from 'types/models/supported-language.model';
 import { getLanguageFieldName } from '../utils/translation-helpers';
+import type { RegionLocale } from '@workspace/i18n';
 
 // ============================================================================
 // Types
@@ -20,7 +21,7 @@ interface TranslationItem {
 
 interface UseEditRowOptions {
   items: TranslationItem[];
-  supportedLanguages: LanguageInfo[];
+  supportedLanguages: RegionLocale[];
   onItemChange: (itemId: string, fieldName: string, value: string) => void;
   /**
    * Optional: Function to get drink type name for compound name generation
@@ -75,7 +76,7 @@ export const useEditRow = ({
   prevItemsLengthRef,
 }: UseEditRowOptions) => {
   // Find es-ES language field name
-  const esESFieldName = supportedLanguages.find((lang) => lang.isoCode === 'es-ES')
+  const esESFieldName = supportedLanguages.find((lang) => lang === 'es-ES')
     ? getLanguageFieldName('es-ES')
     : null;
 
@@ -252,7 +253,7 @@ export const useEditRow = ({
                 const editingRow = document.querySelector('.p-datatable-tbody tr.p-row-editing');
                 if (editingRow) {
                   // Find the es-ES column index
-                  const esESIndex = supportedLanguages.findIndex((lang) => lang.isoCode === 'es-ES');
+                  const esESIndex = supportedLanguages.findIndex((lang) => lang === 'es-ES');
                   if (esESIndex >= 0) {
                     // Name column is first (index 0), then language columns start at index 1
                     // +1 for name column, +1 for nth-child (1-based)

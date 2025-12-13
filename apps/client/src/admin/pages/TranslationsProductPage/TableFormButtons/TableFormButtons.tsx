@@ -15,6 +15,7 @@ export interface TableFormButtonsProps {
   onSave?: () => void | Promise<void>;
   onAddNew?: () => void;
   isDirty?: boolean;
+  isAddNewDisabled?: boolean;
 }
 
 // ============================================================================
@@ -26,6 +27,7 @@ export const TableFormButtons: React.FC<TableFormButtonsProps> = ({
   onSave,
   onAddNew,
   isDirty = false,
+  isAddNewDisabled = false,
 }) => {
   const { t } = useTranslation();
   const debouncedAddNew = useDebouncedCallback(() => onAddNew?.(), 500, { leading: true, trailing: false });
@@ -48,9 +50,14 @@ export const TableFormButtons: React.FC<TableFormButtonsProps> = ({
           variant="solid"
           color="info"
           onClick={debouncedAddNew}
+          disabled={isAddNewDisabled}
           size="md"
           aria-label={t('ui.buttons.addNew') || 'Add new translation entry'}
-          title={t('ui.buttons.addNew') || 'Add new translation entry'}
+          title={
+            isAddNewDisabled
+              ? 'Please fill the empty row before adding a new one'
+              : t('ui.buttons.addNew') || 'Add new translation entry'
+          }
           className="button-add-new"
         >
           <PlusIcon />

@@ -3,6 +3,7 @@ import { FormProvider } from 'react-hook-form';
 import { TranslationsRow } from './TranslationsRow';
 import { useTranslationsTableForm } from './useTranslationsTableForm';
 import type { LanguageInfo } from 'types/models/supported-language.model';
+import type { RegionLocale } from '@workspace/config/i18n.config';
 import { styles } from './ProductTranslationsTable.styles';
 import { Flex } from '@radix-ui/themes';
 import { TableFormButtons } from 'admin/pages/TranslationsProductPage/TableFormButtons/TableFormButtons';
@@ -10,7 +11,7 @@ import { TableFormButtons } from 'admin/pages/TranslationsProductPage/TableFormB
 interface ProductTranslationsTableProps {
   sectionKey: string;
   items: any[]; // Legacy format from parent hook
-  supportedLanguages: LanguageInfo[];
+  supportedLanguages: RegionLocale[];
   onSave?: (params: { sectionKey: string; items: any[] }) => Promise<void>;
 }
 
@@ -29,12 +30,13 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
     formState,
     formState: { isDirty },
     onSubmit,
+    hasEmptyRow,
     ...methods
   } = useTranslationsTableForm(items);
 
-  const handleSave = async () => {
-    await onSave?.({ sectionKey, items });
-  };
+  const handleSave = onSubmit(async (clean) => {
+    await onSave?.({ sectionKey, items: clean });
+  });
 
   const handleAddNew = () => {
     addEmpty();
@@ -53,41 +55,38 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
             onSave={handleSave}
             onAddNew={handleAddNew}
             isDirty={isDirty}
+            isAddNewDisabled={hasEmptyRow}
           />
         </Flex>
 
-        <form
-          onSubmit={onSubmit(async (clean) => {
-            await onSave?.({ sectionKey, items: clean });
-          })}
-        >
-          <table className="translations-table">
-            <thead>
-              <tr>
-                <th></th>
-                {supportedLanguages.map((lang) => (
-                  <th>{lang.isoCode}</th>
-                ))}
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {fields.map((field, index) => (
-                <TranslationsRow
-                  key={field.fId}
-                  index={index}
-                  remove={remove}
-                  isEditing={editingRowIndex === index}
-                  onEditingChange={(isEditing) => {
-                    setEditingRowIndex(isEditing ? index : null);
-                  }}
-                />
+        <table className="translations-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th></th>
+              {supportedLanguages.map((lang) => (
+                <th key={lang}>{lang}</th>
               ))}
-            </tbody>
-          </table>
-
-          <div></div>
-        </form>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <pre>{JSON.stringify(supportedLanguages, null, 2)}</pre>
+            <pre>{JSON.stringify(fields, null, 2)}</pre>
+            {fields?.map((field, index) => (
+              <TranslationsRow
+                key={field.fId}
+                index={index}
+                remove={remove}
+                supportedLanguages={supportedLanguages}
+                isEditing={editingRowIndex === index}
+                onEditingChange={(isEditing) => {
+                  setEditingRowIndex(isEditing ? index : null);
+                }}
+              />
+            ))}
+          </tbody>
+        </table>
       </FormProvider>
     </section>
   );

@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { Input } from 'forms/Input/Input';
 import { getLanguageFieldName } from '../utils/translation-helpers';
+import type { RegionLocale } from '@workspace/i18n';
 
 type IsFieldDirtyFn = (id: string, field: string) => boolean;
 
@@ -10,7 +11,7 @@ type CommonOptions = {
 
 type LanguageTemplatesOptions = CommonOptions & {
   isFieldDirty: IsFieldDirtyFn;
-  supportedLanguages: Array<{ isoCode: string }>;
+  supportedLanguages: RegionLocale[];
 };
 
 export const useLanguageBodyTemplates = (options: LanguageTemplatesOptions) => {
@@ -20,7 +21,7 @@ export const useLanguageBodyTemplates = (options: LanguageTemplatesOptions) => {
     const templates: Record<string, (rowData: any) => React.ReactNode> = {};
 
     supportedLanguages.forEach((lang) => {
-      const fieldName = getLanguageFieldName(lang.isoCode);
+      const fieldName = getLanguageFieldName(lang);
       templates[fieldName] = (rowData: any) => {
         if (shouldHideRow?.(rowData)) return null;
 
@@ -34,4 +35,3 @@ export const useLanguageBodyTemplates = (options: LanguageTemplatesOptions) => {
     return templates;
   }, [isFieldDirty, supportedLanguages, shouldHideRow]);
 };
-

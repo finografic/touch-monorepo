@@ -5,11 +5,13 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useToast } from 'components/Toast';
 import { invalidateReferenceDataQueries } from 'queries/invalidateReferenceData';
 import { GET_ORDERS_READABLE_QUERYKEY } from 'queries/orders';
+import type { RegionLocale } from '@workspace/config/i18n.config';
 import { AdminPageLayout, AdminSection } from '../..';
 import { useProductTranslationSections } from './hooks/useProductTranslationSections';
 import { ProductTranslationsTable } from './ProductTranslationsTable/ProductTranslationsTable';
 import { ProductTranslationsTableExpandable } from './ProductTranslationsTable/ProductTranslationsTableExpandable';
 import { styles } from './TranslationsProductPage.styles';
+import type { LanguageInfo } from '@workspace/i18n';
 
 type SectionKey = 'drinkSubtypes' | 'volumes' | 'drinkTypes' | 'containerTypes';
 
@@ -51,7 +53,7 @@ export const TranslationsProductPage: React.FC = () => {
   const {
     sections,
     initialSections,
-    supportedLanguages,
+    supportedLanguages: supportedLanguagesData,
     isLoading,
     handleValueChange,
     resetSection,
@@ -64,6 +66,13 @@ export const TranslationsProductPage: React.FC = () => {
   } = useProductTranslationSections({
     onDeleteCallback: handleDeleteCallback,
   });
+
+  const supportedLanguages = useMemo(() => {
+    if (!isLoading && !supportedLanguagesData) return [] as RegionLocale[];
+    return (
+      supportedLanguagesData ? supportedLanguagesData.map((lang) => lang.isoCode) : []
+    ) as RegionLocale[];
+  }, [supportedLanguagesData]);
 
   const [activeTab, setActiveTab] = useState<SectionKey>('drinkTypes');
 

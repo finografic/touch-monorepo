@@ -9,6 +9,7 @@ import { DataTable } from 'primereact/datatable';
 import { useToast } from 'components/Toast';
 import { useGetDrinkTypes } from 'queries/drink-types';
 import type { LanguageInfo } from 'types/models/supported-language.model';
+import type { RegionLocale } from '@workspace/config/i18n.config';
 import { useDirtyFields } from '../hooks/useDirtyFields';
 import { useEditRow } from '../hooks/useEditRow';
 import { useSaveHandler } from '../hooks/useSaveHandler';
@@ -37,7 +38,7 @@ export interface ProductTranslationsTableExpandableProps {
   sectionKey: string;
   items: TranslationItem[];
   initialItems?: TranslationItem[]; // Original items for dirty field detection
-  supportedLanguages: LanguageInfo[];
+  supportedLanguages: RegionLocale[];
   onItemChange: (itemId: string, fieldName: string, value: string) => void;
   onAddNew?: (drinkTypeIdForSubtype?: string) => void;
   onSave?: () => Promise<any>;
@@ -307,7 +308,7 @@ export const ProductTranslationsTableExpandable: React.FC<ProductTranslationsTab
 
       // Restore language fields
       supportedLanguages.forEach((lang) => {
-        const fieldName = getLanguageFieldName(lang.isoCode);
+        const fieldName = getLanguageFieldName(lang);
         const currentVal = (rowData as any)[fieldName] || '';
         const originalVal = (original as any)[fieldName] || '';
         if (currentVal !== originalVal) {
@@ -528,13 +529,13 @@ export const ProductTranslationsTableExpandable: React.FC<ProductTranslationsTab
 
         {/* Language columns - editable */}
         {supportedLanguages.map((lang) => {
-          const fieldName = getLanguageFieldName(lang.isoCode);
-          const isEsES = lang.isoCode === 'es-ES';
+          const fieldName = getLanguageFieldName(lang);
+          const isEsES = lang === 'es-ES';
           return (
             <Column
               key={fieldName}
               field={fieldName}
-              header={lang.isoCode}
+              header={lang}
               filterPlaceholder="Search"
               style={{ minWidth: '150px', maxWidth: '200px' }}
               body={bodyRenderers[fieldName]}
