@@ -109,14 +109,12 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
         {supportedLanguages.map((lang) => {
           const fieldKey = languagesCodeToKey(lang);
           const fieldName = `items.${index}.${fieldKey}` as const;
-          // const value = values?.[fieldKey];
           const value = watch(`items.${index}.${fieldKey}`);
 
           return (
             <td key={lang}>
               <pre>{JSON.stringify({ fieldKey, fieldName, value }, null, 2)}</pre>
               <Input
-                // {...register(`items.${index}.${fieldKey}`)}
                 {...register(fieldName)}
                 // value={value}
                 placeholder="--"
