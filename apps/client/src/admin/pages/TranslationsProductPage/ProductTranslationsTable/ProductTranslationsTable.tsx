@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { FormProvider } from 'react-hook-form';
+import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { TranslationsRow } from './TranslationsRow';
-import { useTranslationsTableForm } from './useTranslationsTableForm';
-import type { LanguageInfo } from 'types/models/supported-language.model';
+// import { useTranslationsTableForm } from './useTranslationsTableForm';
+// import type { LanguageInfo } from 'types/models/supported-language.model';
 import type { RegionLocale } from '@workspace/config/i18n.config';
 import { styles } from './ProductTranslationsTable.styles';
 import { Flex } from '@radix-ui/themes';
@@ -24,23 +24,34 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
 }) => {
   const [editingRowIndex, setEditingRowIndex] = useState<number | null>(null);
 
-  const {
-    fields,
-    addEmpty,
-    remove,
-    formState,
-    formState: { isDirty },
-    onSubmit,
-    hasEmptyRow,
-    ...methods
-  } = useTranslationsTableForm(items);
+  // const {
+  //   fields,
+  //   addEmpty,
+  //   remove,
+  //   formState,
+  //   formState: { isDirty },
+  //   onSubmit,
+  //   hasEmptyRow,
+  //   ...methods
+  // } = useTranslationsTableForm(items);
 
-  const handleSave = onSubmit(async (clean) => {
-    await onSave?.({ sectionKey, items: clean });
+  const methods = useForm({
+    defaultValues: {
+      items,
+    },
+  });
+
+  const { fields, remove, append } = useFieldArray({
+    control: methods.control,
+    name: 'items',
+  });
+
+  const handleSave = methods.handleSubmit(async (clean) => {
+    // await onSave?.({ sectionKey, items: clean });
   });
 
   const handleAddNew = () => {
-    addEmpty();
+    // addEmpty();
   };
 
   const handleReset = () => {
@@ -49,14 +60,14 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
 
   return (
     <section css={styles} className="table-container">
-      <FormProvider {...methods} formState={formState}>
+      <FormProvider {...methods} formState={methods.formState}>
         <Flex justify="end" align="center" mb="4" gap="2">
           <TableFormButtons
             onReset={handleReset}
             onSave={handleSave}
             onAddNew={handleAddNew}
-            isDirty={isDirty}
-            isAddNewDisabled={hasEmptyRow}
+            isDirty={methods.formState.isDirty}
+            isAddNewDisabled={false} // TODO: implement hasEmptyRow
           />
         </Flex>
 
@@ -71,10 +82,24 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
               <th></th>
             </tr>
           </thead>
-          <tbody>
+          {/* <tbody>
             {fields?.map((field, index) => (
               <TranslationsRow
                 key={field.fId}
+                index={index}
+                remove={remove}
+                supportedLanguages={supportedLanguages}
+                isEditing={editingRowIndex === index}
+                onEditingChange={(isEditing) => {
+                  setEditingRowIndex(isEditing ? index : null);
+                }}
+              />
+            ))}
+          </tbody> */}
+          <tbody>
+            {fields.map((field, index) => (
+              <TranslationsRow
+                key={field.id} // IMPORTANT: field.id, not index
                 index={index}
                 remove={remove}
                 supportedLanguages={supportedLanguages}
