@@ -86,24 +86,7 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
             </tbody>
           </table>
 
-          <div className="flex gap-2 justify-end mt-4">
-            {/* <button
-              type="button"
-              onClick={() => methods.reset()}
-              disabled={!isDirty}
-              className="btn-secondary"
-            >
-              Cancel
-            </button> */}
-
-            {/* <button type="button" onClick={addEmpty} className="btn-blue">
-              + Add
-            </button> */}
-
-            {/* <button type="submit" className="btn-primary" disabled={!isDirty}>
-              Save
-            </button> */}
-          </div>
+          <div></div>
         </form>
       </FormProvider>
     </section>
