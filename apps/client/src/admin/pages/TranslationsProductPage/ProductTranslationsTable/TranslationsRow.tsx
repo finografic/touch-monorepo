@@ -38,7 +38,7 @@ export function TranslationsRow({ index, remove, isEditing, onEditingChange }: T
         }
       }}
     >
-      <td>
+      <td className="col-key">
         <Controller
           name={`items.${index}.name`}
           control={control}

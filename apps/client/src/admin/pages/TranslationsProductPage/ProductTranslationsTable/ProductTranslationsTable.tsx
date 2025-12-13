@@ -2,17 +2,22 @@ import { useState } from 'react';
 import { FormProvider } from 'react-hook-form';
 import { TranslationsRow } from './TranslationsRow';
 import { useTranslationsTableForm } from './useTranslationsTableForm';
+import type { LanguageInfo } from 'types/models/supported-language.model';
 import { styles } from './ProductTranslationsTable.styles';
+import { Flex } from '@radix-ui/themes';
+import { TableFormButtons } from 'admin/pages/TranslationsProductPage/TableFormButtons/TableFormButtons';
 
 interface ProductTranslationsTableProps {
   sectionKey: string;
   items: any[]; // Legacy format from parent hook
+  supportedLanguages: LanguageInfo[];
   onSave?: (params: { sectionKey: string; items: any[] }) => Promise<void>;
 }
 
 export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> = ({
   sectionKey,
   items,
+  supportedLanguages,
   onSave,
 }) => {
   const [editingRowIndex, setEditingRowIndex] = useState<number | null>(null);
@@ -27,21 +32,42 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
     ...methods
   } = useTranslationsTableForm(items);
 
+  const handleSave = async () => {
+    await onSave?.({ sectionKey, items });
+  };
+
+  const handleAddNew = () => {
+    addEmpty();
+  };
+
+  const handleReset = () => {
+    methods.reset();
+  };
+
   return (
-    <div css={styles}>
+    <section css={styles} className="table-container">
       <FormProvider {...methods} formState={formState}>
+        <Flex justify="end" align="center" mb="4" gap="2">
+          <TableFormButtons
+            onReset={handleReset}
+            onSave={handleSave}
+            onAddNew={handleAddNew}
+            isDirty={isDirty}
+          />
+        </Flex>
+
         <form
           onSubmit={onSubmit(async (clean) => {
             await onSave?.({ sectionKey, items: clean });
           })}
         >
-          <table>
+          <table className="translations-table">
             <thead>
               <tr>
-                <th>Key</th>
-                <th>es-ES</th>
-                <th>en-GB</th>
-                <th>ca-ES</th>
+                <th></th>
+                {supportedLanguages.map((lang) => (
+                  <th>{lang.isoCode}</th>
+                ))}
                 <th></th>
               </tr>
             </thead>
@@ -61,25 +87,25 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
           </table>
 
           <div className="flex gap-2 justify-end mt-4">
-            <button
+            {/* <button
               type="button"
               onClick={() => methods.reset()}
               disabled={!isDirty}
               className="btn-secondary"
             >
               Cancel
-            </button>
+            </button> */}
 
-            <button type="button" onClick={addEmpty} className="btn-blue">
+            {/* <button type="button" onClick={addEmpty} className="btn-blue">
               + Add
-            </button>
+            </button> */}
 
-            <button type="submit" className="btn-primary" disabled={!isDirty}>
+            {/* <button type="submit" className="btn-primary" disabled={!isDirty}>
               Save
-            </button>
+            </button> */}
           </div>
         </form>
       </FormProvider>
-    </div>
+    </section>
   );
 };

@@ -126,16 +126,16 @@ export const formsInputs = css`
 
   /* .rt-TextFieldInput:where(:disabled, :read-only), */
   input:read-only {
-    opacity: 0.45 !important;
-    border-color: ${colors.grey50} !important;
-    background-color: ${colors.greyXXLight25} !important;
-    color: ${colors.textXDark} !important;
-    -webkit-text-fill-color: ${colors.textXDark} !important;
-    font-weight: ${forms.inputs.readOnly.text.fontWeight} !important;
+    opacity: 0.45;
+    border-color: ${colors.grey50};
+    background-color: ${colors.greyXXLight25};
+    color: ${colors.textXDark};
+    -webkit-text-fill-color: ${colors.textXDark};
+    font-weight: ${forms.inputs.readOnly.text.fontWeight};
   }
 
   /***** NEW: WIP.. !!!!! *****/
   input:hover:not(:disabled):not(:focus) {
-    border-color: ${forms.inputs.border.color} !important;
+    border-color: ${forms.inputs.border.color};
   }
 `;

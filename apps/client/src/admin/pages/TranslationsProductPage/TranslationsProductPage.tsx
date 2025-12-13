@@ -214,6 +214,7 @@ export const TranslationsProductPage: React.FC = () => {
                 <ProductTranslationsTable
                   sectionKey={section.key}
                   items={section.items}
+                  supportedLanguages={supportedLanguages}
                   onSave={async ({ sectionKey, items }) => {
                     await handleRHFSave(sectionKey as SectionKey, items);
                   }}

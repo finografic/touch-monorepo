@@ -4,7 +4,7 @@ import type { LetterLower, LetterUpper } from '@workspace/core/types/utils';
  * Unified language interface that combines API data with country data
  * This should replace all other language interfaces throughout the app
  */
-export interface LanguageInfo {
+export interface Language__DELME__Info {
   // Core identification
   id?: string;
   // code: string; // ISO language code (e.g., 'es', 'en', 'ca')
