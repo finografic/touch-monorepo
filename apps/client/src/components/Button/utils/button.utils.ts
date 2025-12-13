@@ -27,10 +27,9 @@ export function getVariantStyles(variant: ButtonVariant = 'solid', color: Button
   const lightColor = colors[`${baseName}${shiftShadeVariant(currentVariant, -1)}` as keyof typeof colors];
   const defaultColor = colors[baseColorKey as keyof typeof colors]; // The base color itself
   const darkColor = colors[`${baseName}${shiftShadeVariant(currentVariant, +1)}` as keyof typeof colors];
-  const transparentColor = withOpacity(lightColor, 0.15);
-  // const transparentColor = colors[`${baseName}25` as keyof typeof colors];
-  // const transparentColor =
-  //   colors[`${baseName}${shiftShadeVariant(currentVariant, -1)}25` as keyof typeof colors];
+  const transparentColor15 = withOpacity(lightColor, 0.15);
+  const transparentColor20 = withOpacity(lightColor, 0.2);
+  const transparentColor40 = withOpacity(lightColor, 0.4);
 
   // NEW: SPECIAL COMBINATION CASE
   if (color === 'grey' && variant === 'solid') {
@@ -66,19 +65,18 @@ export function getVariantStyles(variant: ButtonVariant = 'solid', color: Button
         color: ${color === 'default' || color === 'grey' ? colors.white : colors.white};
         border: ${button.border.width} solid ${defaultColor};
 
-        /* &:disabled,
-        &:disabled svg,
-        &:disabled .button-text {
-          cursor: not-allowed;
-        }
-
         &:disabled {
-          opacity: 0.66;
+          opacity: 1 !important;
+          filter: saturate(0);
+          background-color: transparent;
+          background-color: ${transparentColor40}!important;
+          border-color: ${lightColor} !important;
           svg {
             opacity: 1 !important;
+            color: ${lightColor} !important;
+            cursor: not-allowed !important;
           }
-        } */
-
+        }
         &:hover:not(:disabled):not([data-loading='true']) {
           background-color: ${darkColor};
           border-color: ${darkColor};
@@ -94,10 +92,18 @@ export function getVariantStyles(variant: ButtonVariant = 'solid', color: Button
         border: ${button.border.width} solid ${defaultColor};
         border: ${button.border.width} solid ${lightColor};
 
+        &:disabled {
+          opacity: 0.66;
+          svg {
+            opacity: 1 !important;
+          }
+        }
+
         &:hover:not(:disabled):not([data-loading='true']) {
-          background-color: ${transparentColor};
+          background-color: ${transparentColor20};
           border-color: ${darkColor};
           color: ${darkColor};
+          filter: brightness(0.33);
         }
 
         &:focus:not(:disabled):not([data-loading='true']) {
@@ -112,7 +118,7 @@ export function getVariantStyles(variant: ButtonVariant = 'solid', color: Button
         border: ${button.border.width} solid transparent;
 
         &:hover:not(:disabled):not([data-loading='true']) {
-          background-color: ${transparentColor};
+          background-color: ${transparentColor15};
           color: ${darkColor};
         }
       `;

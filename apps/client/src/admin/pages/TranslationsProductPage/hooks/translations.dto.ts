@@ -1,5 +1,6 @@
 import { languagesCodeToKey } from '../utils/language.utils';
 import type { TranslationApiItem, TranslationFormItem } from '../TranslationsPage.types';
+import type { RegionLocale } from 'node_modules/@workspace/i18n/dist/_tsup-dts-rollup';
 
 /**
  * DTO for transforming translation items between API and UI
@@ -33,5 +34,8 @@ export const TranslationsDto = {
    * Form (RHF) → API
    * (can be added later, as you said)
    */
-  // toApi: (...)
+  toApi: (item: TranslationFormItem, languages: RegionLocale[]) => ({
+    name: item.name,
+    translations: Object.fromEntries(languages.map((lang) => [lang, item[languagesCodeToKey(lang)] ?? ''])),
+  }),
 };

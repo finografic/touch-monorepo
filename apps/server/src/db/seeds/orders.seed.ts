@@ -32,10 +32,10 @@ function getRandomSample<T>(arr: T[], n: number): T[] {
   const result = [];
   const used = new Set<number>();
   while (result.length < n && used.size < arr.length) {
-    const idx = Math.floor(Math.random() * arr.length);
-    if (!used.has(idx)) {
-      used.add(idx);
-      result.push(arr[idx]);
+    const index = Math.floor(Math.random() * arr.length);
+    if (!used.has(index)) {
+      used.add(index);
+      result.push(arr[index]);
     }
   }
   return result;
@@ -68,8 +68,8 @@ export async function seed() {
     }
 
     function getRandomModeId(): string {
-      const idx = Math.floor(Math.random() * allModes.length);
-      return allModes[idx].id;
+      const index = Math.floor(Math.random() * allModes.length);
+      return allModes[index].id;
     }
 
     const orderRows = [];

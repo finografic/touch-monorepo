@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 import clsx from 'clsx';
-import { TrashIcon } from '@radix-ui/react-icons';
+import { TrashIcon } from 'styles/icons';
 import { Button } from 'components/Button';
 import { useDebouncedCallback } from 'use-debounce';
 import type { RegionLocale } from '@workspace/config/i18n.config';
@@ -36,7 +36,6 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
     control,
   });
 
-  const rowDirtyFields = formState.dirtyFields?.items?.[index];
   const values = watch(`items.${index}`);
 
   /* -----------------------------
@@ -45,8 +44,10 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
 
   const updateSlug = useDebouncedCallback((translations: Record<string, string>) => {
     const nextSlug = regenerateSlug(translations, slugPriority ?? supportedLanguages);
-    if (nextSlug && nextSlug !== nameField.value) {
-      setValue(`items.${index}.name`, nextSlug, { shouldDirty: true, shouldTouch: false });
+
+    // Always update if slug is different (including empty string)
+    if (nextSlug !== nameField.value) {
+      setValue(`items.${index}.name`, nextSlug, { shouldDirty: true, shouldTouch: true });
     }
   }, 100);
 
@@ -67,6 +68,7 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
      Row state
   ------------------------------ */
 
+  const rowDirtyFields = formState.dirtyFields?.items?.[index];
   const isDirty = Boolean(rowDirtyFields);
 
   const rowClasses = clsx({
@@ -93,9 +95,7 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
         <Input
           value={nameField.value || ''}
           readOnly
-          className={clsx({
-            'input-dirty': rowDirtyFields?.name,
-          })}
+          className={clsx({ 'input-dirty': rowDirtyFields?.name })}
         />
       </td>
 

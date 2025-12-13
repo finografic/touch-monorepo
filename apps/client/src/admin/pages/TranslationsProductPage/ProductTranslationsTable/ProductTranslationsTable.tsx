@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { useDebouncedCallback } from 'use-debounce';
 import { Flex } from '@radix-ui/themes';
+import createCuid from '@bugsnag/cuid';
 
 import { TranslationsRow } from './TranslationsRow';
 import { TableFormButtons } from 'admin/pages/TranslationsProductPage/TableFormButtons/TableFormButtons';
@@ -25,10 +26,6 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
   onSave,
 }) => {
   const [editingRowIndex, setEditingRowIndex] = useState<number | null>(null);
-
-  // Helper: check if item is empty (all language fields empty)
-  const isItemEmpty = (item: TranslationFormItem, languageKeys: string[]) =>
-    languageKeys.every((key) => !item[key]?.trim());
 
   // ======================================================================== //
   // RHF Setup
@@ -54,23 +51,29 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
   const languageKeys = useMemo(() => supportedLanguages.map(languagesCodeToKey), [supportedLanguages]);
 
   const watchedItems = watch('items');
+  const isDirtyLastItem = Boolean(watchedItems.at(-1)?.name);
+
+  // Helper: check if item is empty (all language fields empty)
+  const isItemEmpty = (item: TranslationFormItem, languageKeys: string[]) =>
+    languageKeys.every((key) => !item[key]?.trim());
 
   const hasEmptyRow = useMemo(() => {
+    // Check if there's any empty row (all language fields empty)
     return watchedItems?.some((item: TranslationFormItem) =>
       languageKeys.every((key) => !item?.[key]?.trim()),
     );
-  }, [watchedItems, languageKeys]);
+  }, [watchedItems, languageKeys, watchedItems.at(-1)?.name]);
 
   // ======================================================================== //
   // Handlers
   // ======================================================================== //
 
-  const addEmptyRow = useDebouncedCallback(
+  const handleAddNewRow = useDebouncedCallback(
     () => {
       if (hasEmptyRow) return;
 
       append({
-        id: `temp-${crypto.randomUUID()}`, // temp ID, replaced on save
+        id: `temp-${createCuid()}`, // temp ID, replaced on save
         name: '',
         ...Object.fromEntries(languageKeys.map((k) => [k, ''])),
       } as TranslationFormItem);
@@ -100,9 +103,9 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
           <TableFormButtons
             onReset={handleReset}
             onSave={handleSave}
-            onAddNew={addEmptyRow}
+            onAddNew={handleAddNewRow}
             isDirty={methods.formState.isDirty}
-            isAddNewDisabled={hasEmptyRow}
+            isAddNewDisabled={!isDirtyLastItem}
           />
         </Flex>
 

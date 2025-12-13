@@ -43,8 +43,8 @@ export const FormMiddlewareProvider = <T extends FieldValues = FieldValues>({
     if (Array.isArray(watchedValues)) {
       // Map fieldNames to watchedValues
       const obj: Record<string, any> = {};
-      fieldNames.forEach((name, idx) => {
-        obj[name as string] = watchedValues[idx];
+      fieldNames.forEach((name, index) => {
+        obj[name as string] = watchedValues[index];
       });
       return obj as T;
     }

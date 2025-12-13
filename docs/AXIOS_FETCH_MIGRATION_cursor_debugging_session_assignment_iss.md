@@ -7463,8 +7463,8 @@ export interface MockDataHandlers {
 
 const getRandomOptionValue = (options: { value: string }[]): string => {
   if (!options || options.length === 0) return '';
-  const idx = Math.floor(Math.random() * options.length);
-  return options[idx].value;
+  const index = Math.floor(Math.random() * options.length);
+  return options[index].value;
 };
 
 export const generateRandomTime = (): number => {
@@ -8296,8 +8296,8 @@ export interface MockDataHandlers {
 
 const getRandomOptionValue = (options: { value: string }[]): string => {
   if (!options || options.length === 0) return '';
-  const idx = Math.floor(Math.random() * options.length);
-  return options[idx].value;
+  const index = Math.floor(Math.random() * options.length);
+  return options[index].value;
 };
 
 export const generateRandomTime = (): number => {
@@ -9757,8 +9757,8 @@ export interface MockDataHandlers {
 
 const getRandomOptionValue = (options: { value: string }[]): string => {
   if (!options || options.length === 0) return '';
-  const idx = Math.floor(Math.random() * options.length);
-  return options[idx].value;
+  const index = Math.floor(Math.random() * options.length);
+  return options[index].value;
 };
 
 export const generateRandomTime = (): number => {
@@ -10194,8 +10194,8 @@ export interface MockDataHandlers {
 
 const getRandomOptionValue = (options: { value: string }[]): string => {
   if (!options || options.length === 0) return '';
-  const idx = Math.floor(Math.random() * options.length);
-  return options[idx].value;
+  const index = Math.floor(Math.random() * options.length);
+  return options[index].value;
 };
 
 export const generateRandomTime = (): number => {

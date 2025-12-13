@@ -1,25 +1,5 @@
 export type SectionKey = 'drinkSubtypes' | 'volumes' | 'drinkTypes' | 'containerTypes';
 
-export interface TranslationItem {
-  id: string | null;
-  name: string;
-  esEs: string;
-  enGb: string;
-  caEs: string;
-}
-
-export interface ApiItem {
-  id: string;
-  name: string;
-  translations: Record<string, string>;
-}
-
-export type FormItem = {
-  id: string;
-  name: string;
-  [key: string]: string;
-};
-
 /**
  * API shape (from backend)
  */
@@ -39,7 +19,7 @@ export interface TranslationFormItem {
   [key: string]: any; // dynamic language fields: esEs, enGb, ...
 }
 
-export interface SectionData {
+export interface TranslationSectionData {
   key: SectionKey;
   title: string;
   description: string;

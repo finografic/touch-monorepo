@@ -124,14 +124,14 @@ export const styles = css`
   }
 
   button.button-delete {
-    padding: 0.2rem 0.6rem;
-    svg {
-      width: 1.4rem;
-      height: 1.4rem;
+    padding: 0rem 0.66rem;
+    svg.icon {
+      width: 1.5rem;
+      height: 1.5rem;
       color: ${colors.warningDark};
     }
     &:hover {
-      background-color: ${colors.dangerXXLight25};
+      background-color: ${colors.dangerLight25};
       svg {
         color: ${colors.dangerDark};
       }

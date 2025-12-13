@@ -58,7 +58,7 @@ export const useTranslationsTableForm = (initial: any[]): UseTranslationsTableRe
   // Auto-generate slug from first populated language field (priority: es-ES > en-GB > ca-ES)
   useEffect(
     function generateSlug() {
-      debounced?.forEach((row, idx) => {
+      debounced?.forEach((row, index) => {
         if (!row) return;
 
         // Find first populated field in priority order
@@ -81,13 +81,13 @@ export const useTranslationsTableForm = (initial: any[]): UseTranslationsTableRe
           : '';
 
         // DEBUG: Log the slug generation
-        console.log(`[Slug Gen] Row ${idx}: "${sourceValue}" → "${slug}" (current: "${row.name}")`);
+        console.log(`[Slug Gen] Row ${index}: "${sourceValue}" → "${slug}" (current: "${row.name}")`);
 
         // Always update if slug is different from current name
         // This ensures the UI stays in sync as the user types
         if (slug !== row.name) {
-          console.log(`[Slug Gen] Setting items.${idx}.name to "${slug}"`);
-          setValue(`items.${idx}.name`, slug, {
+          console.log(`[Slug Gen] Setting items.${index}.name to "${slug}"`);
+          setValue(`items.${index}.name`, slug, {
             shouldDirty: true,
             shouldTouch: false,
             shouldValidate: false,
