@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { Col, Row } from 'react-grid-system';
 import { useTranslation } from 'react-i18next';
-import type { LanguageInfo } from '@workspace/config/i18n.config';
+import type { LanguageInfo } from '@workspace/i18n/types';
 
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { Box, Button, Callout, Flex, Text } from '@radix-ui/themes';
@@ -57,7 +57,7 @@ export const AdminLanguagesPage: React.FC = () => {
   // Convert database data to the unified LanguageInfo format using DTO
   const languages: LanguageInfo[] = supportedLanguagesData
     ? LanguagesDto.fromApi(
-        Array.isArray(supportedLanguagesData) ? supportedLanguagesData : supportedLanguagesData.data || [],
+        Array.isArray(supportedLanguagesData) ? supportedLanguagesData : supportedLanguagesData || [],
         (flagCode) => getFlagUrl(flagCode, 'medium'),
       )
     : [];
