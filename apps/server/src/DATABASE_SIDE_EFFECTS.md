@@ -1,5 +1,7 @@
 # Database Side Effects & Cleanup Methods
 
+📅 Dec 14, 2025
+
 This document catalogs all database side effect and cleanup utilities that are triggered automatically when certain API operations occur. These methods ensure data consistency, cascade deletions, and maintain referential integrity across related tables.
 
 ---

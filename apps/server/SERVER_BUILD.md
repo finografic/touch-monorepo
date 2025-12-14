@@ -1,5 +1,7 @@
 # Server Build Configuration Guide
 
+📅 Nov 19, 2025
+
 ## Overview
 
 This document explains the server build configuration, particularly focusing on TypeScript compilation, path resolution, and handling of files outside the `src/` directory (specifically `env.server.ts`).

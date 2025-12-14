@@ -1,5 +1,7 @@
 # Complete Inlang/Paraglide i18n Guide
 
+📅 Nov 22, 2025
+
 ## Overview
 
 This guide covers the complete workflow for managing internationalized messages using Inlang and Paraglide JS, from source JSON files to TypeScript usage.

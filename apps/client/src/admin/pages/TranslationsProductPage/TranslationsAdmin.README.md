@@ -1,5 +1,7 @@
 # Product Translations Page - Architecture Documentation
 
+📅 Dec 14, 2025
+
 ## Overview
 
 The Product Translations page provides an admin interface for managing multilingual translations of product-related entities (drink types, subtypes, volumes, container types). The implementation uses **React Hook Form (RHF)** for form state management and **TanStack Query** for data fetching and caching.

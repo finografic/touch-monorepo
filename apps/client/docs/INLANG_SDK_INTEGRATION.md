@@ -1,5 +1,7 @@
 # Inlang SDK Integration Guide
 
+📅 Nov 22, 2025
+
 ## Overview
 
 This guide shows how to integrate Inlang SDK with your existing translation editors, replacing REST API calls with direct Inlang message file manipulation.

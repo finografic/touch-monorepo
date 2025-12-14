@@ -1,6 +1,6 @@
 # Standard Schema Integration Guide
 
-📅 Dec 2025
+📅 Nov 23, 2025
 
 ## Overview
 

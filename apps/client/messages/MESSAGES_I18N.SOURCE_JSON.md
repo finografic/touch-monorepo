@@ -1,5 +1,7 @@
 # Inlang Source JSON Format Guide
 
+📅 Nov 22, 2025
+
 ## Overview
 
 This document explains how to structure JSON translation files for Inlang/Paraglide to generate type-safe message functions with variant support.

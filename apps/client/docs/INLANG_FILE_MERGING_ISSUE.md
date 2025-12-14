@@ -1,5 +1,7 @@
 # Inlang File Merging Issue - Root Cause & Solution
 
+📅 Nov 22, 2025
+
 ## Problem
 
 When using Inlang SDK's `importFiles`/`exportFiles` with multiple `pathPattern` entries, files with the same locale can get merged into a single file. For example:

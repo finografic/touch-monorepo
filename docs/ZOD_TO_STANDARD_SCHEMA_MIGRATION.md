@@ -1,6 +1,6 @@
 # Phasing Out Zod: Standard Schema + Valibot Migration Guide
 
-📅 Dec 2025
+📅 Nov 23, 2025
 
 ## Overview
 

@@ -1,5 +1,7 @@
 # Copilot Global Instructions (Project Profile)
 
+📅 Dec 11, 2025
+
 This project requires senior-level expertise in:
 - TypeScript generics and type inference
 - React + Vite
