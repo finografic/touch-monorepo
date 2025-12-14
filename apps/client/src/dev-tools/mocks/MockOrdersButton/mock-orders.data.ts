@@ -2,6 +2,9 @@ import type { SlotMeta } from 'pages/MainPage/MainPage.types';
 import type { OrderFilters } from 'types/filters.types';
 import { SlotType } from 'types/slots.types';
 
+// NOTE: this mock data is OVERWRITTEN with REAL data from the database,
+// using the useGenerateRealMockData hook.
+
 export const MOCK_ORDERS_DATA: OrderFilters = {
   mode: {
     id: 'cmizjus4600021y7nz9kngei9',

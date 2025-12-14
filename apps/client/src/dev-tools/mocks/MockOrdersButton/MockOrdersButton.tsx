@@ -15,6 +15,7 @@ import { FLOW_TYPES } from 'types/flow.types';
 import { PATHS } from 'config/routes';
 import { MOCK_ORDERS_DATA } from './mock-orders.data';
 import { generateSmartMockSlots } from './mock-orders.utils';
+import { useGenerateRealMockData } from './useGenerateRealMockData';
 import { ListChecksIcon } from 'styles/icons';
 
 export const MockOrdersButton = () => {
@@ -29,15 +30,21 @@ export const MockOrdersButton = () => {
   const { data: slotConfigurations } = useGetSlotConfigurations();
   const { timers } = useTimers();
 
+  // Generate real mock data from database
+  const realMockFilters = useGenerateRealMockData();
+
   const handleMockData = useCallback(() => {
     if (!ordersContext?.setOrders) return;
 
+    // Use real mock data if available, fallback to static MOCK_ORDERS_DATA
+    const mockFilters: OrderFilters = realMockFilters || (MOCK_ORDERS_DATA as OrderFilters);
+
+    if (!mockFilters.mode || !mockFilters.drinkType) {
+      console.warn('⚠️ MOCK: Real mock data not ready, using static fallback');
+    }
+
     // Create session and extract mock data
     const sessionId = createSession(FLOW_TYPES.PROGRAM_PRODUCT);
-
-    // 🎯 NEW APPROACH: Use FiltersContext instead of individual order filters
-    // const mockFilters = MOCK_ORDERS_DATA[0].filters;
-    const mockFilters = MOCK_ORDERS_DATA as OrderFilters;
 
     // ======================================================================== //
     // SMART RANDOM ASSIGNMENT LOGIC
@@ -136,6 +143,7 @@ export const MockOrdersButton = () => {
     slotConfigurations,
     timers,
     selectedSlots,
+    realMockFilters,
   ]);
 
   if (!ordersContext) return null;
