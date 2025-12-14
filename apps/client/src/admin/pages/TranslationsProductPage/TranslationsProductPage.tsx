@@ -8,7 +8,7 @@ import { useProductTranslationData } from './hooks/useProductTranslationData';
 import { useSaveProductTranslations } from './hooks/useSaveProductTranslations';
 import { useDeleteProductTranslation } from './hooks/useDeleteProductTranslation';
 import { TranslationsTable } from './TranslationsTable';
-import type { SectionKey, TranslationFormItem } from './translations.types';
+import type { SectionKey } from './translations.types';
 import { styles } from './TranslationsProductPage.styles';
 import { TranslationsTableExpandable } from './TranslationsTable';
 import { invalidateReferenceDataQueries } from 'queries/invalidateReferenceData';
@@ -27,10 +27,8 @@ export const TranslationsProductPage: React.FC = () => {
     [sections, activeTab],
   );
 
-  // Save handler for the active section
+  // mutations
   const { save, isLoading: isSaving } = useSaveProductTranslations(activeTab, supportedLanguages);
-
-  // Delete handler for the active section
   const { deleteItem, isDeleting } = useDeleteProductTranslation(activeTab);
 
   if (isLoading || isSaving || isDeleting || !activeSection) {
@@ -48,8 +46,6 @@ export const TranslationsProductPage: React.FC = () => {
       </AdminPageLayout>
     );
   }
-
-  log('TRANSLATIONS_DATA:', 'grey', sections[0].items);
 
   return (
     <AdminPageLayout
