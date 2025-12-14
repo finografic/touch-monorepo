@@ -11,8 +11,8 @@ export default fino({
     ecmaVersion: 'latest',
     sourceType: 'module',
     globals: {
-      log: 'readonly',
       getDotEnv: 'readonly',
+      log: 'readonly',
     },
   },
   typescript: true,
@@ -26,7 +26,6 @@ export default fino({
     //   },
     // ],
     'node/prefer-global/process': OFF,
-    'import/no-duplicates': ERROR,
     // '@typescript-eslint/no-explicit-any': OFF,
     // '@typescript-eslint/no-unused-vars': WARN,
     // '@typescript-eslint/no-shadow': OFF,
@@ -56,6 +55,7 @@ export default fino({
     'perfectionist/sort-imports': OFF,
 
     // Disable other import-related rules that conflict
+    'import/no-duplicates': ERROR,
     'import/order': OFF,
     'import/sort-imports': OFF,
     'sort-imports': OFF,
@@ -69,17 +69,10 @@ export default fino({
       ERROR,
       {
         groups: [
-          // React imports + React-related packages (merged) - including type imports from react
           ['^@finografic', '^@workspace'],
           ['^@?\\w', '^(drizzle|drizzle-orm|stoker|zod)(/.*|$)'],
-          // Internal absolute imports: components, providers, pages
           ['^@?\\w', '^(pages|components)(/.*|$)'],
-          // Side effect imports
           ['^\\u0000'],
-          // All relative imports (parent + same-folder + styles merged)
-          // NOTE: V1
-          // ['^(config|dev-tools)', '^\\.\\.(?!/?$)', '^\\.\\./?$', '^\\./(?=.*/)(?!/?$)', '^\\.(?!/?$)', '^\\./?$', '^(styles)', '^.+\\.s?css$', '^.+\\.styles$'],
-          // NEW: V2
           [
             '^(i18n)',
             '^(openapi)',
@@ -104,7 +97,6 @@ export default fino({
     'simple-import-sort/exports': ERROR,
     'style/jsx-one-expression-per-line': OFF,
   },
-
   // overrides: {
   //   jsonc: {
   //     // 'jsonc/sort-keys': ERROR,

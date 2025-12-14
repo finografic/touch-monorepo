@@ -47,20 +47,14 @@ export default [
         },
       ],
       'jsdoc/check-alignment': OFF,
-      'unused-imports/no-unused-imports': OFF, // Don't remove unused imports automatically
-      // 'ts/consistent-type-imports': [
-      //   ERROR,
-      //   {
-      //     prefer: 'type-imports',
-      //     disallowTypeAnnotations: true,
-      //     fixStyle: 'separate-type-imports',
-      //   },
-      // ],
       'prefer-arrow-callback': OFF,
       'test/prefer-lowercase-title': OFF,
 
       // Disable JSX parentheses rules that conflict with Prettier
       'style/jsx-wrap-multilines': OFF,
+
+      'unused-imports/no-unused-imports': OFF, // Don't remove unused imports automatically
+
       // Disable conflicting rules with simple-import-sort
       'perfectionist/sort-named-imports': OFF,
       'perfectionist/sort-object-types': OFF,
@@ -68,6 +62,7 @@ export default [
       'perfectionist/sort-imports': OFF,
 
       // Disable other import-related rules that conflict
+      'import/no-duplicates': ERROR,
       'import/order': OFF,
       'import/sort-imports': OFF,
       'sort-imports': OFF,
@@ -77,7 +72,6 @@ export default [
       'import/no-unresolved': OFF,
 
       // Import sorting rules
-
       'simple-import-sort/imports': [
         ERROR,
         {
@@ -112,11 +106,11 @@ export default [
     },
   }),
   // Override: Disable type-aware rules for .mjs and .cjs files (they don't have type information)
-  {
-    files: ['**/*.mjs', '**/*.cjs'],
-    rules: {
-      'ts/consistent-type-imports': OFF,
-      'ts/no-unused-vars': OFF,
-    },
-  },
+  // {
+  //   files: ['**/*.mjs', '**/*.cjs'],
+  //   rules: {
+  //     'ts/consistent-type-imports': OFF,
+  //     'ts/no-unused-vars': OFF,
+  //   },
+  // },
 ];
