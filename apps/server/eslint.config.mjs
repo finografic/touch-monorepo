@@ -46,6 +46,7 @@ export default fino({
     'fino/top-level-function': OFF,
     'jsdoc/check-alignment': OFF,
 
+    'unicorn/number-literal-case': OFF,
     'unused-imports/no-unused-imports': OFF, // Don't remove unused imports automatically
 
     // Disable conflicting rules with simple-import-sort

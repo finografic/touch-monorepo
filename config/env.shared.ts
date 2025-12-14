@@ -110,7 +110,3 @@ export type EnvShared = typeof envSharedValidated;
 export const envShared: EnvShared = {
   ...envSharedValidated,
 } as const satisfies EnvShared;
-
-// export const envShared = {
-//   ...envSharedValidated,
-// } as EnvShared;

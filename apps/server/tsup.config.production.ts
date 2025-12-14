@@ -66,14 +66,10 @@ export default defineConfig({
     'node:vm',
   ],
   esbuildOptions(options) {
-    // Ensure we bundle as much as possible
     options.packages = 'bundle';
-    // Handle dynamic imports
     options.platform = 'node';
     options.mainFields = ['module', 'main'];
-    // Allow Node.js built-ins
     options.target = 'es2020';
-    // Handle dynamic requires
     options.define = {
       'process.env.NODE_ENV': '"production"',
     };
