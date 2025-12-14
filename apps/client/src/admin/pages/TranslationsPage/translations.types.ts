@@ -1,27 +1,23 @@
-export interface TranslationApiItem {
+export interface TranslationUiApiItem {
   id: string;
-  name: string; // slug / key
+  key: string; // dot notation key: "buttons.add", "tables.headers.name"
   translations: Record<string, string>; // { "es-ES": "...", ... }
-  [key: string]: any; // other domain fields (hasSubtypes, etc.)
+  description?: string | null;
+  isActive?: boolean;
 }
 
-export interface TranslationFormItem {
+export interface TranslationUiFormItem {
   id: string;
-  name: string;
+  key: string; // dot notation key
+  description?: string | null;
   [key: string]: any; // dynamic language fields: esEs, enGb, ...
 }
 
-export type SectionKey = 'drinkTypes' | 'drinkSubtypes' | 'volumes' | 'containerTypes';
+export type SectionKey = 'all'; // For now, just one section for all UI translations
 
 export interface SectionData {
   key: SectionKey;
   title: string;
   description: string;
-  items: TranslationFormItem[]; // RHF-ready form items
-}
-
-export interface GroupedSubtypes {
-  drinkTypeId: string;
-  drinkTypeName: string;
-  subtypes: TranslationFormItem[];
+  items: TranslationUiFormItem[]; // RHF-ready form items
 }

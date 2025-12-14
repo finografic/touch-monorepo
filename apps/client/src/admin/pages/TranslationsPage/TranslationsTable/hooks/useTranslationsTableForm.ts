@@ -2,24 +2,24 @@ import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import type { UseFormReturn } from 'react-hook-form';
 import type { RegionLocale } from '@workspace/config/i18n.config';
-import type { TranslationFormItem } from '../../translations.types';
+import type { TranslationUiFormItem } from '../../translations.types';
 import { languagesCodeToKey } from '../../utils/language.utils';
 
 interface UseTranslationsTableFormOptions {
-  items: TranslationFormItem[];
+  items: TranslationUiFormItem[];
   supportedLanguages: RegionLocale[];
 }
 
 interface UseTranslationsTableFormReturn {
-  methods: UseFormReturn<{ items: TranslationFormItem[] }>;
-  fields: ReturnType<typeof useFieldArray<{ items: TranslationFormItem[] }, 'items'>>['fields'];
-  remove: ReturnType<typeof useFieldArray<{ items: TranslationFormItem[] }, 'items'>>['remove'];
-  append: ReturnType<typeof useFieldArray<{ items: TranslationFormItem[] }, 'items'>>['append'];
-  watchedItems: TranslationFormItem[];
+  methods: UseFormReturn<{ items: TranslationUiFormItem[] }>;
+  fields: ReturnType<typeof useFieldArray<{ items: TranslationUiFormItem[] }, 'items'>>['fields'];
+  remove: ReturnType<typeof useFieldArray<{ items: TranslationUiFormItem[] }, 'items'>>['remove'];
+  append: ReturnType<typeof useFieldArray<{ items: TranslationUiFormItem[] }, 'items'>>['append'];
+  watchedItems: TranslationUiFormItem[];
   languageKeys: string[];
   hasEmptyRow: boolean;
   isDirtyLastItem: boolean;
-  isItemEmpty: (item: TranslationFormItem) => boolean;
+  isItemEmpty: (item: TranslationUiFormItem) => boolean;
 }
 
 /**
@@ -52,7 +52,7 @@ export const useTranslationsTableForm = ({
   // ======================================================================== //
 
   const isInitialMount = useRef(true);
-  const prevItemsRef = useRef<TranslationFormItem[]>(items);
+  const prevItemsRef = useRef<TranslationUiFormItem[]>(items);
 
   // Reset form when items prop changes (after refetch from invalidation)
   // This ensures form stays in sync with server data after save/delete
@@ -81,18 +81,18 @@ export const useTranslationsTableForm = ({
   const languageKeys = useMemo(() => supportedLanguages.map(languagesCodeToKey), [supportedLanguages]);
 
   const watchedItems = watch('items');
-  const isDirtyLastItem = Boolean(watchedItems.at(-1)?.name);
+  const isDirtyLastItem = Boolean(watchedItems.at(-1)?.key);
 
   // Helper: check if item is empty (all language fields empty)
   const isItemEmpty = useCallback(
-    (item: TranslationFormItem): boolean => {
+    (item: TranslationUiFormItem): boolean => {
       return languageKeys.every((key) => !item[key]?.trim());
     },
     [languageKeys],
   );
 
   const hasEmptyRow = useMemo(() => {
-    return watchedItems?.some((item: TranslationFormItem) => isItemEmpty(item));
+    return watchedItems?.some((item: TranslationUiFormItem) => isItemEmpty(item));
   }, [watchedItems, isItemEmpty]);
 
   return {

@@ -11,13 +11,17 @@ import { useTranslationsTableForm } from './hooks/useTranslationsTableForm';
 import { useTranslationsTableHandlers } from './hooks/useTranslationsTableHandlers';
 
 import type { RegionLocale } from '@workspace/config/i18n.config';
-import type { TranslationFormItem } from 'admin/pages/TranslationsProductPage/translations.types';
+import type { TranslationUiFormItem } from '../translations.types';
 
 interface TranslationsTableProps {
   sectionKey: string;
-  items: TranslationFormItem[];
+  items: TranslationUiFormItem[];
   supportedLanguages: RegionLocale[];
-  onSave?: ({ items }: { items: TranslationFormItem[] }) => Promise<{ savedItems: TranslationFormItem[] }>;
+  onSave?: ({
+    items,
+  }: {
+    items: TranslationUiFormItem[];
+  }) => Promise<{ savedItems: TranslationUiFormItem[] }>;
   onDelete?: (itemId: string) => Promise<{ success: boolean; deletedId: string }>;
   isSaving?: boolean;
   isDeleting?: boolean;
@@ -51,7 +55,7 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
   } = useTranslationsTableForm({ items, supportedLanguages });
 
   // Track initial items for DELETE detection
-  const initialItemsRef = useRef<TranslationFormItem[]>(items);
+  const initialItemsRef = useRef<TranslationUiFormItem[]>(items);
   useEffect(() => {
     initialItemsRef.current = items;
   }, [items]);
@@ -81,9 +85,9 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
 
       append({
         id: `temp-${createCuid()}`, // temp ID, replaced on save
-        name: '',
+        key: '',
         ...Object.fromEntries(languageKeys.map((k) => [k, ''])),
-      } as TranslationFormItem);
+      } as TranslationUiFormItem);
     },
     250,
     { leading: true, trailing: false },
@@ -110,7 +114,7 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
         <table className="translations-table">
           <thead>
             <tr>
-              <th></th>
+              <th>Key</th>
               {supportedLanguages.map((lang) => (
                 <th key={lang}>{lang}</th>
               ))}

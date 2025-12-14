@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { TrashIcon } from 'styles/icons';
 import { Button } from 'components/Button';
 import type { RegionLocale } from '@workspace/config/i18n.config';
-import { languagesCodeToKey, regenerateSlug } from 'admin/pages/TranslationsProductPage/utils/language.utils';
+import { languagesCodeToKey } from '../../utils/language.utils';
 import { Input } from 'forms/Input/Input';
 
 interface TranslationsRowProps {
@@ -31,44 +31,15 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
   const { control, register, formState, watch, setValue } = useFormContext();
 
   /* -----------------------------
-     Slug field (controlled)
+     Key field (controlled, read-only for UI translations)
   ------------------------------ */
 
-  const { field: nameField } = useController({
-    name: `items.${index}.name`,
+  const { field: keyField } = useController({
+    name: `items.${index}.key`,
     control,
   });
 
   const values = watch(`items.${index}`);
-
-  /* -----------------------------
-     Slug auto-sync
-  ------------------------------ */
-
-  const updateSlug = useCallback(
-    (translations: Record<string, string>) => {
-      if (isSaving || isDeleting) return;
-
-      const nextSlug = regenerateSlug(translations, slugPriority ?? supportedLanguages);
-      if (nextSlug !== nameField.value) {
-        setValue(`items.${index}.name`, nextSlug, { shouldDirty: false, shouldTouch: false });
-      }
-    },
-    [nameField.value, setValue, slugPriority, supportedLanguages],
-  );
-
-  useEffect(() => {
-    if (!values) return;
-
-    const translations: Record<string, string> = {};
-
-    for (const lang of supportedLanguages) {
-      const key = languagesCodeToKey(lang);
-      translations[lang] = values[key];
-    }
-
-    updateSlug(translations);
-  }, [values?.esEs, values?.enGb, values?.caEs, supportedLanguages, slugPriority, setValue]);
 
   /* -----------------------------
      Row state
@@ -96,12 +67,12 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
         }
       }}
     >
-      {/* SLUG / KEY */}
+      {/* KEY */}
       <td className="col-key">
         <Input
-          value={nameField.value || ''}
+          value={keyField.value || ''}
           readOnly
-          className={clsx({ 'input-dirty': rowDirtyFields?.name })}
+          className={clsx({ 'input-dirty': rowDirtyFields?.key })}
         />
       </td>
 

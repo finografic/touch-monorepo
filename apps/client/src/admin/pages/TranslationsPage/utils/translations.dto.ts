@@ -1,18 +1,19 @@
 import { languagesCodeToKey } from './language.utils';
-import type { TranslationApiItem, TranslationFormItem } from '../translations.types';
-import type { RegionLocale } from 'node_modules/@workspace/i18n/dist/_tsup-dts-rollup';
+import type { TranslationUiApiItem, TranslationUiFormItem } from '../translations.types';
+import type { RegionLocale } from '@workspace/config/i18n.config';
 
 /**
- * DTO for transforming translation items between API and UI
+ * DTO for transforming UI translation items between API and UI
  */
-export const TranslationsDto = {
+export const TranslationsUiDto = {
   /**
    * API → Form (RHF)
    */
-  fromApi: (item: TranslationApiItem, languages: string[]): TranslationFormItem => {
-    const formItem: TranslationFormItem = {
+  fromApi: (item: TranslationUiApiItem, languages: string[]): TranslationUiFormItem => {
+    const formItem: TranslationUiFormItem = {
       id: item.id,
-      name: item.name,
+      key: item.key,
+      description: item.description || null,
     };
 
     // Copy translations into camelCase language keys
@@ -22,7 +23,7 @@ export const TranslationsDto = {
 
     // Preserve any extra non-translation fields transparently
     Object.keys(item).forEach((key) => {
-      if (key !== 'translations' && key !== 'id' && key !== 'name') {
+      if (key !== 'translations' && key !== 'id' && key !== 'key' && key !== 'description') {
         formItem[key] = item[key];
       }
     });
@@ -32,10 +33,10 @@ export const TranslationsDto = {
 
   /**
    * Form (RHF) → API
-   * (can be added later, as you said)
    */
-  toApi: (item: TranslationFormItem, languages: RegionLocale[]) => ({
-    name: item.name,
+  toApi: (item: TranslationUiFormItem, languages: RegionLocale[]) => ({
+    key: item.key,
     translations: Object.fromEntries(languages.map((lang) => [lang, item[languagesCodeToKey(lang)] ?? ''])),
+    description: item.description || null,
   }),
 };

@@ -1,16 +1,20 @@
 import { useCallback } from 'react';
 import type { UseFormReturn } from 'react-hook-form';
-import type { TranslationFormItem } from '../../translations.types';
+import type { TranslationUiFormItem } from '../../translations.types';
 
 interface UseTranslationsTableHandlersOptions {
-  methods: UseFormReturn<{ items: TranslationFormItem[] }>;
-  watchedItems: TranslationFormItem[];
+  methods: UseFormReturn<{ items: TranslationUiFormItem[] }>;
+  watchedItems: TranslationUiFormItem[];
   remove: (index: number) => void;
   languageKeys: string[];
-  isItemEmpty: (item: TranslationFormItem) => boolean;
-  onSave?: ({ items }: { items: TranslationFormItem[] }) => Promise<{ savedItems: TranslationFormItem[] }>;
-  onDelete?: (itemId: string, drinkTypeId?: string) => Promise<{ success: boolean; deletedId: string }>;
-  initialItemsRef: React.MutableRefObject<TranslationFormItem[]>;
+  isItemEmpty: (item: TranslationUiFormItem) => boolean;
+  onSave?: ({
+    items,
+  }: {
+    items: TranslationUiFormItem[];
+  }) => Promise<{ savedItems: TranslationUiFormItem[] }>;
+  onDelete?: (itemId: string) => Promise<{ success: boolean; deletedId: string }>;
+  initialItemsRef: React.MutableRefObject<TranslationUiFormItem[]>;
 }
 
 interface UseTranslationsTableHandlersReturn {
@@ -47,9 +51,9 @@ export const useTranslationsTableHandlers = ({
         return;
       }
 
-      const itemName = item.name || 'this item';
+      const itemKey = item.key || 'this item';
       const confirmed = window.confirm(
-        `Are you sure you want to delete "${itemName}"?\n\nThis action cannot be undone.`,
+        `Are you sure you want to delete "${itemKey}"?\n\nThis action cannot be undone.`,
       );
 
       if (!confirmed) return;
@@ -60,9 +64,7 @@ export const useTranslationsTableHandlers = ({
       }
 
       try {
-        // For expandable table, drinkTypeId is passed; for regular table, it's undefined
-        const drinkTypeId = (item as any).drinkTypeId;
-        const result = await onDelete(item.id, drinkTypeId);
+        const result = await onDelete(item.id);
 
         if (result?.success) {
           remove(index);
