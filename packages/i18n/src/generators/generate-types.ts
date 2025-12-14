@@ -81,7 +81,8 @@ export interface LanguageInfo {
   isDefault?: boolean;
   sortOrder?: number;
   countryName?: string;
-  countryCode?: CountryCode;
+  // countryCode?: CountryCode;
+  countryCode?: string;
   createdAt?: Date | null;
   updatedAt?: Date | null;
 }

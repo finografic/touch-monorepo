@@ -34,6 +34,7 @@ This roadmap outlines the strategic modernization of the Touch Monorepo, focusin
 - [ ] ~34 manual API hooks in `apps/client/src/queries/*`
 - [ ] 3 files per API resource (routes, handlers, index)
 - [ ] Type safety not enforced across client/server boundary
+- [ ] **API Endpoint Architecture:** Three overlapping endpoint systems (`EndpointHelper`, `FetchEndpointHelper`, `api/endpoints/` folder) causing confusion and duplication
 
 ---
 
@@ -421,7 +422,140 @@ apps/client/src/lib/
 
 ---
 
-## 📅 Phase 5: Optional Enhancements
+## 📅 Phase 5: API Endpoint Architecture Consolidation
+
+**Timeline:** Can be done anytime (not blocking other phases)
+**Priority:** 🟡 Medium
+**Effort:** ~1-2 days
+**Impact:** 🧹 Code cleanup and consistency
+
+### 5.1 Current State Assessment
+
+**Problem:** Three overlapping endpoint systems causing confusion:
+
+1. **`api/api.endpoints.ts`** - `EndpointHelper` using `api.get`
+   - ✅ Used by: `useGetDrinkTypes`, `useGetDrinkType`, `useSupportedLanguages`
+   - ✅ Works with React Router loaders (direct function calls)
+   - ✅ Uses production `api` client (env-based URLs)
+
+2. **`api/endpoints.fetch.ts`** - `FetchEndpointHelper` using `fetchClient.get`
+   - ❌ Only used by: `useGetDrinkType-NEW.ts` (experimental)
+   - ❌ Hardcoded localhost URL (`http://localhost:4040/api`)
+   - ❌ Not production-ready
+
+3. **`api/endpoints/` folder** - Individual endpoint files
+   - ✅ Used by: Mutation hooks (`useUpdateDrinkSubtype`, etc.)
+   - ✅ Good pattern for mutations with transformations
+   - ✅ Used by some loaders
+
+4. **Direct `api.get` calls** - Inline API calls
+   - ⚠️ Used by: `useGetDrinkSubtypes` (bypasses helpers)
+   - ⚠️ Inconsistent with other hooks
+
+### 5.2 Consolidation Strategy
+
+**Goal:** Standardize on a single, consistent pattern that works for both hooks and loaders.
+
+#### Option A: Keep `EndpointHelper` + `api/endpoints/` (Recommended)
+
+**Pattern:**
+- **Queries (GET):** Use `EndpointHelper` in `api.endpoints.ts`
+  - Works for both hooks and React Router loaders
+  - Centralized error handling
+  - Type-safe
+
+- **Mutations (POST/PATCH/DELETE):** Use `api/endpoints/` folder
+  - More complex transformations
+  - Entity-specific logic
+  - Better organization
+
+**Action Items:**
+- [ ] Migrate `useGetDrinkSubtypes` to use `EndpointHelper.getDrinkSubtypes`
+- [ ] Delete `api/endpoints.fetch.ts` and `fetch-client.ts` (unused/experimental)
+- [ ] Delete `useGetDrinkType-NEW.ts` (experimental)
+- [ ] Document pattern: "Queries → EndpointHelper, Mutations → endpoints/ folder"
+- [ ] Update all hooks to use `EndpointHelper` for GET requests
+- [ ] Keep `api/endpoints/` for mutations (already working well)
+
+#### Option B: Full Consolidation to `api/endpoints/` Folder
+
+**Pattern:**
+- Move all endpoints to `api/endpoints/` folder
+- Create consistent structure for all resources
+- Export from `api/endpoints/index.ts`
+
+**Action Items:**
+- [ ] Move `EndpointHelper` functions to `api/endpoints/` folder
+- [ ] Create `api/endpoints/modes.endpoints.ts`
+- [ ] Create `api/endpoints/supported-languages.endpoints.ts`
+- [ ] Update all imports
+- [ ] Delete `api.endpoints.ts`
+
+**Trade-off:** More files, but better organization per resource.
+
+### 5.3 Migration Steps
+
+1. **Audit Current Usage:**
+   - [ ] List all files using `EndpointHelper`
+   - [ ] List all files using `FetchEndpointHelper`
+   - [ ] List all files using direct `api.get` calls
+   - [ ] List all files using `api/endpoints/` folder
+
+2. **Choose Strategy:**
+   - [ ] Decide: Option A (keep both) or Option B (full consolidation)
+   - [ ] Document decision in this file
+
+3. **Execute Migration:**
+   - [ ] Migrate hooks to chosen pattern
+   - [ ] Update React Router loaders
+   - [ ] Delete unused files
+   - [ ] Update imports across codebase
+
+4. **Documentation:**
+   - [ ] Add comment in `api.endpoints.ts` or `api/endpoints/index.ts` explaining pattern
+   - [ ] Update `.cursor/rules` with endpoint usage guidelines
+   - [ ] Add example in codebase showing correct usage
+
+### 5.4 Constraints to Consider
+
+- ✅ **React Router loaders** need direct function calls (no hooks)
+- ✅ **Mutations** often need entity-specific transformations
+- ✅ **Queries** are simpler and can use shared helpers
+- ⚠️ **Type safety** must be maintained
+- ⚠️ **Error handling** should be consistent
+
+### 5.5 Success Criteria
+
+- [ ] Single clear pattern for endpoint usage
+- [ ] No duplicate endpoint definitions
+- [ ] All hooks use consistent pattern
+- [ ] All loaders use consistent pattern
+- [ ] No hardcoded URLs
+- [ ] Type safety maintained
+- [ ] Documentation updated
+
+### 5.6 Files to Delete (After Migration)
+
+```
+apps/client/src/api/
+  - endpoints.fetch.ts          ❌ Delete (experimental, hardcoded localhost)
+  - fetch-client.ts             ❌ Delete (unused, hardcoded localhost)
+
+apps/client/src/queries/drink-types/
+  - useGetDrinkType-NEW.ts       ❌ Delete (experimental)
+```
+
+### 5.7 Notes
+
+- This is **not blocking** for tRPC migration (Phase 4)
+- Can be done incrementally
+- Low risk (mostly cleanup)
+- Improves code maintainability
+- Makes onboarding easier
+
+---
+
+## 📅 Phase 6: Optional Enhancements
 
 **Timeline:** After Phase 4 complete
 **Priority:** 🔵 Nice-to-have
@@ -626,6 +760,12 @@ Phase 5 (Optimizations)
 - Standard Schema adoption is optional but recommended
 - Will migrate tRPC gradually (one resource per week)
 
+**2025-12-14:**
+- Identified API endpoint architecture duplication (3 overlapping systems)
+- Documented consolidation strategy in Phase 5
+- Decision: Keep `EndpointHelper` for queries, `api/endpoints/` for mutations
+- Not blocking for tRPC migration - can be done incrementally
+
 ### Questions to Resolve
 
 - [ ] What specific BetterAuth dependency is conflicting?
@@ -642,7 +782,7 @@ Phase 5 (Optimizations)
 
 ---
 
-**Last Reviewed:** 2024-11-15
+**Last Reviewed:** 2025-12-14
 **Next Review:** After BetterAuth compatibility resolved
 **Owner:** @justin
 

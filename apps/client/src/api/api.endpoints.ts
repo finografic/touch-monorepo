@@ -16,7 +16,7 @@ import type {
 } from 'queries/supported-languages/supported-languages.types';
 
 import type { AnalyticsData } from 'types/analytics.types';
-import type { ContainerType, DrinkSubtype, DrinkType, DrinkVolume } from 'types/models/container-type.model';
+import type { ContainerType, DrinkSubtype, DrinkType, DrinkVolume } from 'types/models';
 import type { OrderModel } from 'types/models/order.model';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { SupportedLanguage } from 'types/models/supported-language.model';
@@ -79,7 +79,7 @@ export const useEndpointQuery = <TData>(
       }
     },
     retry: (failureCount, error: ErrorResponse) => {
-      if (!error.isRetryable) return false;
+      if (!isRetryableError) return false;
       return failureCount < (options.maxRetries ?? 3);
     },
     retryDelay: (attemptIndex) => {
@@ -100,10 +100,10 @@ export const EndpointHelper = createEndpoints({
     await api.get<DrinkSubtypeEntity>(`/drink-types/${drinkTypeId}/subtypes`),
 
   getDrinkVolumes: async () => await api.get<DrinkVolume[]>('/drink-volumes'),
-  getDrinkVolume: async (id: string) => await api.get<DrinkVolumeEntity>(`/drink-volumes/${id}`),
+  getDrinkVolume: async (id: string) => await api.get<DrinkVolume>(`/drink-volumes/${id}`),
 
   getContainerTypes: async () => await api.get<ContainerType[]>('/container-types'),
-  getContainerType: async (id: string) => await api.get<ContainerTypeEntity>(`/container-types/${id}`),
+  getContainerType: async (id: string) => await api.get<ContainerType>(`/container-types/${id}`),
 
   getTemperatureProfile: async (id: string) =>
     await api.get<TemperatureProfileEntity>(`/temperature-profiles/${id}`),
@@ -120,8 +120,7 @@ export const EndpointHelper = createEndpoints({
       },
     }),
   getSupportedLanguages: async () => await api.get<SupportedLanguage[]>('/supported-languages'),
-  getSupportedLanguage: async (id: string) =>
-    await api.get<SupportedLanguage>(`/supported-languages/${id}`),
+  getSupportedLanguage: async (id: string) => await api.get<SupportedLanguage>(`/supported-languages/${id}`),
   createSupportedLanguage: async (data: SupportedLanguageInput) =>
     await api.post<SupportedLanguage>('/supported-languages', data),
   updateSupportedLanguage: async (id: string, data: SupportedLanguageUpdate) =>
@@ -133,11 +132,8 @@ export const EndpointHelper = createEndpoints({
   saveUiLabels: async (data: {
     sections: Array<{ key: string; items: Array<{ key: string; values: Record<string, string> }> }>;
   }) =>
-    await api.post<{ success: boolean; message: string; filesUpdated: string[] }>(
-      '/ui-labels/save',
-      data,
-    ),
-}) as const;
+    await api.post<{ success: boolean; message: string; filesUpdated: string[] }>('/ui-labels/save', data),
+});
 
 // Example usage in a hook with the new utility
 export const useGetDrinkType = (id: string) => {

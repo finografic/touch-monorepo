@@ -13,14 +13,14 @@ export type CCA2 = 'ES' | 'GB' | 'US';
  * to 2-character language codes (ISO 639-1)
  */
 export const LANG_CODE_MAPPING = {
-  'eng': 'en', // English
-  'spa': 'es', // Spanish
-  'cat': 'ca', // Catalan
+  eng: 'en', // English
+  spa: 'es', // Spanish
+  cat: 'ca', // Catalan
 } as const;
 
 // Extract types from the controlled mapping
 export type LangCode3 = keyof typeof LANG_CODE_MAPPING;
-export type LangCode2 = typeof LANG_CODE_MAPPING[LangCode3];
+export type LangCode2 = (typeof LANG_CODE_MAPPING)[LangCode3];
 
 // Legacy alias for backward compatibility
 export type LangCode = LangCode2;
@@ -53,6 +53,24 @@ export interface LanguageInfo {
   sortOrder?: number;
   countryName?: string;
   countryCode?: CountryCode;
+  createdAt?: Date | null;
+  updatedAt?: Date | null;
+}
+
+export interface LanguageInfo__FIXED {
+  id?: string;
+  // code: RegionLocale;
+  code: string;
+  label: string;
+  nativeLabel: string;
+  flag: string;
+  emoji?: string;
+  isActive?: boolean;
+  isDefault?: boolean;
+  sortOrder?: number;
+  countryName?: string;
+  // countryCode?: CountryCode;
+  countryCode?: string;
   createdAt?: Date | null;
   updatedAt?: Date | null;
 }
