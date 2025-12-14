@@ -8,6 +8,7 @@ import { db } from 'db';
 import { drink_types } from 'db/schemas';
 import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/zod.errors';
 import type { AppRouteHandler } from 'types/app.types';
+import { handleDrinkTypeDeletion } from 'utils/drink-type.utils';
 import type { CreateRoute, GetOneRoute, ListRoute, PatchRoute, RemoveRoute } from './drink-type.routes';
 
 // Simple formatter using any type to avoid complex type inference
@@ -98,6 +99,11 @@ export const patch: AppRouteHandler<PatchRoute> = async (context) => {
 
 export const remove: AppRouteHandler<RemoveRoute> = async (context) => {
   const { id } = context.req.valid('param');
+
+  // Handle side effects BEFORE deletion (need drinkTypeId for cleanup)
+  await handleDrinkTypeDeletion(id);
+
+  // Now delete the drink type itself
   const result = await db.delete(drink_types).where(eq(drink_types.id, id));
 
   if (result.changes === 0) {

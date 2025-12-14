@@ -1,5 +1,3 @@
-import { css } from '@emotion/react';
-
 import { colors } from '../colors/colors-direct';
 
 // ======================================================================== //

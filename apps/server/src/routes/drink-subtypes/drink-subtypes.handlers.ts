@@ -1,12 +1,17 @@
 // @ts-nocheck - Bypassing complex type inference issues throughout this file
 import { db } from 'db';
-import { drink_subtypes, drink_types, orders } from 'db/schemas';
+import { drink_subtypes, drink_types } from 'db/schemas';
 import type { InferSelectModel } from 'drizzle-orm';
 import { and, eq } from 'drizzle-orm';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import * as HttpStatusPhrases from 'stoker/http-status-phrases';
 import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/zod.errors';
 import type { AppRouteHandler } from 'types/app.types';
+import {
+  handleSubtypeCreation,
+  handleSubtypeDeletion,
+  handleSubtypeUpdate,
+} from 'utils/drink-type.utils';
 import type { CreateRoute, GetOneRoute, ListRoute, PatchRoute, RemoveRoute } from './drink-subtypes.routes';
 
 // Simple subtype formatter using proper typing
@@ -105,20 +110,14 @@ export const create: AppRouteHandler<CreateRoute> = async (context) => {
 
   const drinkType = drinkTypeResult[0];
 
-  // If hasSubtypes is false, check if this is the first subtype being added
-  if (!drinkType.hasSubtypes) {
-    console.log(`🔄 Enabling hasSubtypes for drink type ${drinkTypeId} as first subtype is being added`);
-
-    // Update hasSubtypes to true (1 for SQLite)
-    await db.update(drink_types).set({ hasSubtypes: 1 }).where(eq(drink_types.id, drinkTypeId));
-
-    console.log(`✅ Successfully enabled hasSubtypes for drink type ${drinkTypeId}`);
-  }
-
+  // Insert the subtype first
   const result = await db
     .insert(drink_subtypes)
     .values({ ...subtypeData, drinkTypeId })
     .returning();
+
+  // Handle side effects: synchronize parent drink type's hasSubtypes flag
+  await handleSubtypeCreation(drinkTypeId);
 
   return context.json(formatSubtype(result[0]), HttpStatusCodes.OK);
 };
@@ -177,6 +176,10 @@ export const patch: AppRouteHandler<PatchRoute> = async (context) => {
     return context.json({ message: HttpStatusPhrases.NOT_FOUND }, HttpStatusCodes.NOT_FOUND);
   }
 
+  // Handle side effects: synchronize parent drink type's hasSubtypes flag
+  // (e.g., if isActive was changed from true to false, hasSubtypes might need to change)
+  await handleSubtypeUpdate(drinkTypeId);
+
   return context.json(formatSubtype(result[0]), HttpStatusCodes.OK);
 };
 
@@ -184,9 +187,7 @@ export const patch: AppRouteHandler<PatchRoute> = async (context) => {
 export const remove: AppRouteHandler<RemoveRoute> = async (context) => {
   const { drinkTypeId, id } = context.req.valid('param');
 
-  // Hard-delete any orders referencing this subtype to avoid orphaned rows
-  await db.delete(orders).where(and(eq(orders.drinkSubtypeId, id), eq(orders.drinkTypeId, drinkTypeId)));
-
+  // Delete the subtype first
   const result = await db
     .delete(drink_subtypes)
     .where(and(eq(drink_subtypes.id, id), eq(drink_subtypes.drinkTypeId, drinkTypeId)));
@@ -194,6 +195,11 @@ export const remove: AppRouteHandler<RemoveRoute> = async (context) => {
   if (result.changes === 0) {
     return context.json({ message: HttpStatusPhrases.NOT_FOUND }, HttpStatusCodes.NOT_FOUND);
   }
+
+  // Handle side effects AFTER deletion:
+  // - Clear drinkSubtypeId in orders (set to NULL, don't delete rows)
+  // - Synchronize parent drink type's hasSubtypes flag
+  await handleSubtypeDeletion(drinkTypeId, id);
 
   return context.body(null, HttpStatusCodes.NO_CONTENT);
 };

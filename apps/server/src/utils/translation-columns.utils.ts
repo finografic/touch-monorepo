@@ -1,4 +1,4 @@
-import { sql } from 'drizzle-orm';
+import { eq, sql } from 'drizzle-orm';
 
 import { db } from 'db';
 import { translatable_entities } from 'db/schemas/translatable_entities.schema';
@@ -156,15 +156,60 @@ export async function translateLanguageInBackground(languageCode: string): Promi
 /**
  * Remove translation columns for a language (when deleting a language)
  * NO LONGER REMOVES COLUMNS - just cleans up JSON translations
+ * Removes the language key from all JSON translation columns across all translatable tables
  */
 export async function removeTranslationColumns(languageCode: string): Promise<void> {
   console.log(`🗑️ Cleaning up translations for language: ${languageCode}`);
-  console.log('📋 Using JSON translations column - no DDL operations needed');
+  console.log('📋 Using JSON translations column - removing language key from all translation objects');
 
-  // TODO: Could add logic here to remove the language key from all JSON translations
-  // For now, we'll just let the translations remain in the JSON for data integrity
+  const { container_types, drink_subtypes, drink_types, volumes } = await import('db/schemas');
 
-  console.log(`✅ Translation cleanup completed for ${languageCode}`);
+  // Tables with JSON translations column
+  const translatableTables = [
+    { table: drink_types, name: 'drink_types' },
+    { table: drink_subtypes, name: 'drink_subtypes' },
+    { table: volumes, name: 'volumes' },
+    { table: container_types, name: 'container_types' },
+  ];
+
+  let totalRowsUpdated = 0;
+
+  for (const { table, name } of translatableTables) {
+    try {
+      // Get all rows with translations
+      const allRows = await db.select().from(table);
+
+      let tableRowsUpdated = 0;
+
+      for (const row of allRows) {
+        const translations = (row.translations as Record<string, string>) || {};
+
+        // Check if this row has the language key
+        if (languageCode in translations) {
+          // Remove the language key
+          const { [languageCode]: removed, ...cleanedTranslations } = translations;
+
+          // Update the row with cleaned translations
+          await db
+            .update(table)
+            .set({ translations: cleanedTranslations })
+            .where(eq(table.id, row.id));
+
+          tableRowsUpdated++;
+        }
+      }
+
+      if (tableRowsUpdated > 0) {
+        console.log(`   ✅ Cleaned ${tableRowsUpdated} rows in ${name}`);
+        totalRowsUpdated += tableRowsUpdated;
+      }
+    } catch (error) {
+      console.error(`   ❌ Error cleaning translations in ${name}:`, error);
+      // Continue with other tables even if one fails
+    }
+  }
+
+  console.log(`✅ Translation cleanup completed for ${languageCode} (${totalRowsUpdated} total rows updated)`);
 }
 
 /**
