@@ -99,9 +99,8 @@ export const stylesAdminContent = css`
 
   [role='tablist'] {
     margin-top: 0.66rem;
-    box-shadow: inset 0 -0.12rem 0 0 ${colors.greyXXLight75};
+    /* border-bottom: 3px solid ${colors.infoLight}; */
     box-shadow: inset 0 -0.2rem 0 0 ${colors.infoLight};
-    /* box-shadow: none !important; */
     border-bottom: none !important;
     padding: 0 2px;
 
@@ -110,24 +109,36 @@ export const stylesAdminContent = css`
       margin: 0.2rem 0.05rem 0.2rem;
       padding: 0;
       border: 0 !important;
+
       span {
         font-size: 1rem;
         font-weight: 700;
-        color: ${colors.info75};
-        color: ${colors.textXLight75};
+        color: ${colors.textXLight};
         padding: 0.8em 1.25em;
-        border: 2px solid ${colors.greyXXLight75};
+        border: 2px solid ${colors.greyXXLight};
         border-bottom: none;
         border-radius: ${layout.borderRadius};
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
       }
 
+      /*
+      // NOTE: ALT SOLUTION.. NOT BAD, WITH A LITTLE WORK..
+      &:not([data-state='active'])::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 3px;
+        background: ${colors.infoLight};
+      } */
+
       &:hover {
         cursor: pointer;
         span {
-          color: ${colors.textXLight};
           color: ${colors.info};
+          color: ${colors.textLight};
           border: 2px solid ${colors.greyXLight};
           border-bottom: none;
         }
@@ -141,14 +152,19 @@ export const stylesAdminContent = css`
           color: ${colors.info};
           border: 3px solid ${colors.infoLight};
           border-bottom: none;
-          margin-left: -1px;
         }
-
         &:before {
           background-color: ${colors.white};
         }
-
+        &:hover {
+          cursor: default;
+          span {
+            background-color: ${colors.white};
+          }
+        }
         box-shadow: 3px 4px 3px -3px ${colors.greyXXLight50};
+        position: relative;
+        z-index: 10;
       }
 
       &:nth-of-type(1) {
@@ -159,9 +175,9 @@ export const stylesAdminContent = css`
       }
     }
 
+    button[role='tab'][data-state='active'],
     button[role='tab'][data-state='active'] + button[role='tab'] {
       span {
-        /* border-left: 2px solid ${colors.greyXXLight25}; */
         margin-left: -1px;
       }
     }

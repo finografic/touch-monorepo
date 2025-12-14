@@ -19,3 +19,9 @@ export interface SectionData {
   description: string;
   items: TranslationFormItem[]; // RHF-ready form items
 }
+
+export interface GroupedSubtypes {
+  drinkTypeId: string;
+  drinkTypeName: string;
+  subtypes: TranslationFormItem[];
+}

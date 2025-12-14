@@ -1,13 +1,10 @@
 import { transformFetchError } from '@workspace/core/api';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { api } from 'api';
-
-import { useAppConfig } from 'providers/AppConfigProvider';
 
 import { slugify } from 'utils/string.utils';
 import type { DrinkSubtype } from 'types/models/drink-type.model';
-import { GET_DRINK_SUBTYPES_QUERYKEY, GET_DRINK_TYPES_QUERYKEY } from '.';
 
 export interface CreateDrinkSubtypeInput {
   name: string;
@@ -21,8 +18,6 @@ export interface CreateDrinkSubtypeInput {
  * Hook to create a new drink subtype
  */
 export const useCreateDrinkSubtype = () => {
-  const queryClient = useQueryClient();
-  const { currentLanguage } = useAppConfig();
 
   return useMutation({
     mutationFn: async (data: CreateDrinkSubtypeInput): Promise<DrinkSubtype> => {
@@ -30,13 +25,13 @@ export const useCreateDrinkSubtype = () => {
         // Convert display name to kebab-case for storage
         const kebabName = slugify(data.name);
 
-        // Create translations object with current language
+        // Use provided translations directly (already contains correct display names)
+        // Don't override with data.name - that's the slug, not the display name
         const translations = {
-          'en-GB': '', // Empty string for other languages
+          'en-GB': '',
           'es-ES': '',
           'ca-ES': '',
-          ...data.translations, // Allow overriding with provided translations
-          [currentLanguage]: data.name, // Use original name for current language (overrides empty string)
+          ...data.translations, // Use translations from DTO (contains actual display names)
         };
 
         // Fetch client returns data directly
@@ -75,17 +70,6 @@ export const useCreateDrinkSubtype = () => {
         throw transformFetchError(error);
       }
     },
-    onSuccess: (data) => {
-      // Invalidate and refetch drink types query to update the list
-      queryClient.invalidateQueries({ queryKey: GET_DRINK_TYPES_QUERYKEY });
-      queryClient.refetchQueries({ queryKey: GET_DRINK_TYPES_QUERYKEY });
-      // Invalidate and refetch subtypes query for the specific drink type to include the new subtype
-      queryClient.invalidateQueries({
-        queryKey: [...GET_DRINK_SUBTYPES_QUERYKEY, data.drinkTypeId]
-      });
-      queryClient.refetchQueries({
-        queryKey: [...GET_DRINK_SUBTYPES_QUERYKEY, data.drinkTypeId]
-      });
-    },
+    // No automatic invalidation - handled by caller
   });
 };

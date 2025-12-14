@@ -66,11 +66,12 @@ export function getVariantStyles(variant: ButtonVariant = 'solid', color: Button
         border: ${button.border.width} solid ${defaultColor};
 
         &:disabled {
-          opacity: 1 !important;
-          filter: saturate(0);
+          opacity: 0.66 !important;
+          filter: saturate(0.4);
           background-color: transparent;
           background-color: ${transparentColor40}!important;
           border-color: ${lightColor} !important;
+          color: ${darkColor} !important;
           svg {
             opacity: 1 !important;
             color: ${lightColor} !important;

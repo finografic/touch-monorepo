@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 import { colors, fontFamilies } from 'styles';
 import { forms } from 'styles/forms/forms.styles';
+import { ROW_HEIGHT, TABLE_BORDER, TABLE_HEAD_COLOR, TD_PADDING } from './translations-table.config';
 
 export const styles = css`
   width: 100%;
@@ -8,14 +9,17 @@ export const styles = css`
   table {
     width: 100%;
     border-collapse: collapse;
+    &.expandable {
+      border: ${TABLE_BORDER};
+    }
 
     thead {
-      background-color: ${colors.info75};
+      background-color: ${TABLE_HEAD_COLOR};
       tr {
-        border: 1px solid ${colors.info75};
+        border: 1px solid ${TABLE_HEAD_COLOR};
         border-top: none;
         th {
-          padding: 0.5rem 2rem 0.6rem 2.2rem;
+          padding: ${TD_PADDING};
           text-align: left;
           font-size: 1.1rem;
           font-weight: 700;
@@ -25,7 +29,7 @@ export const styles = css`
     }
 
     td {
-      padding: 0.5rem 1rem;
+      padding: 0.33rem 1rem;
 
       input {
         padding: 0.33rem 1rem;
@@ -37,7 +41,7 @@ export const styles = css`
         font-weight: 700 !important;
         color: ${colors.textXLight};
         -webkit-text-fill-color: ${colors.textXLight};
-        background-color: ${colors.white};
+        background-color: ${colors.white}!important;
       }
 
       input:hover:not(:readonly) {
@@ -54,6 +58,8 @@ export const styles = css`
       }
 
       input:focus {
+        outline: none !important;
+        box-shadow: none !important;
         border-color: ${colors.infoLight};
         background-color: ${colors.white};
         color: ${colors.textDark};
@@ -67,69 +73,94 @@ export const styles = css`
     }
 
     tr {
-      border: 1px solid ${colors.greyLight50};
+      border: ${TABLE_BORDER};
       border-top: none;
       transition: background-color 0.2s ease;
+      height: ${ROW_HEIGHT};
 
       /* Group header row (for expandable table) */
       &.group-header {
-        border: 1px solid ${colors.greyLight50};
+        td {
+          user-select: none;
+          font-weight: 700;
+          color: ${colors.info};
+        }
+        background-color: ${colors.greyXXLight25};
+        border: ${TABLE_BORDER};
         border-top: none;
-        height: 3.5rem !important;
-        background-color: ${colors.info75};
-        background-color: ${colors.infoLight50};
-        background-color: ${colors.greyXLight25};
-        color: ${colors.white};
-        font-weight: 700;
         cursor: pointer;
         svg {
           height: 1.33rem;
           width: 1.33rem;
         }
         &:hover {
-          background-color: ${colors.info};
-          background-color: ${colors.greyXLight50};
+          background-color: ${colors.greyXXLight50};
         }
-        td {
-          user-select: none;
-          font-weight: 700;
-          color: ${colors.textLight};
-          color: ${colors.infoDark};
+        &.expanded {
+          background-color: ${colors.greyXXLight75};
+          border: ${TABLE_BORDER};
+          border-bottom: none;
         }
+        border-top: none;
         .group-header-content {
           padding-right: 0.2rem;
         }
       }
 
+      /* Column header row within expanded group (mimics thead) */
+      &.group-subheader {
+        background-color: ${TABLE_HEAD_COLOR};
+        border: 1px solid ${TABLE_HEAD_COLOR};
+        border-top: none;
+        height: 2.5rem;
+        td {
+          padding: ${TD_PADDING};
+          text-align: left;
+          font-size: 1.1rem;
+          font-weight: 700;
+          color: ${colors.white};
+        }
+      }
+      &.group-placeholder {
+        border: ${TABLE_BORDER};
+        border-top: none;
+        height: ${ROW_HEIGHT};
+
+        td {
+          padding: ${TD_PADDING};
+          text-align: center;
+          text-indent: -2rem;
+          font-weight: 700;
+          color: ${colors.textXXLight};
+        }
+      }
+
       /* Row is being edited (has focus) */
       &.row-editing {
-        background-color: ${colors.greyXXLight50};
         input {
           border-color: ${colors.greyXXLight};
           background-color: ${colors.white};
           color: ${colors.textXLight};
           -webkit-text-fill-color: ${colors.textXLight};
-          &:focus {
-            border-color: ${colors.infoLight};
-            color: ${colors.textXXDark};
-            -webkit-text-fill-color: ${colors.textXXDark};
-          }
         }
         input[readonly] {
-          color: ${colors.textLight}!important;
-          -webkit-text-fill-color: ${colors.textLight}!important;
+          color: ${colors.text}!important;
+          -webkit-text-fill-color: ${colors.text}!important;
         }
       }
 
       /* Row has unsaved changes */
-      &.row-dirty input {
+      input &.row-dirty,
+      input {
         ::-webkit-input-placeholder,
         ::-moz-placeholder,
         :-ms-input-placeholder,
         ::placeholder {
-          text-indent: 0.5rem;
-          color: ${colors.warningXDark};
-          -webkit-text-fill-color: ${colors.warningXDark};
+          text-indent: 1rem;
+          /* padding-left: 1.5rem; */
+          /* transform: translateX(2rem); */
+          color: ${colors.grey75};
+          -webkit-text-fill-color: ${colors.grey75};
           opacity: 1;
         }
       }
@@ -137,10 +168,8 @@ export const styles = css`
 
     td.col-key,
     td.col-key:hover {
-      input {
-        transform: translateX(-1rem);
-      }
       input[readonly] {
+        transform: translateX(-1rem);
         font-family: ${fontFamilies.mono};
         font-weight: 500;
         font-size: 1rem;
@@ -151,28 +180,24 @@ export const styles = css`
         cursor: default;
         user-select: none;
         opacity: 0.66 !important;
-        &.input-dirty {
-          font-weight: 600;
-          color: ${colors.warningXDark};
-          -webkit-text-fill-color: ${colors.warningXDark};
-          opacity: 1 !important;
-        }
       }
     }
   }
 
   button.button-delete {
-    transform: translateX(0.55rem);
+    transform: translateX(1rem);
     padding: 0rem 0.66rem;
     svg.icon {
       width: 1.5rem;
       height: 1.5rem;
-      color: ${colors.warningDark};
+      color: ${colors.danger};
+      opacity: 0.66;
     }
     &:hover {
       background-color: ${colors.dangerLight25};
       svg {
         color: ${colors.dangerDark};
+        opacity: 1;
       }
     }
   }

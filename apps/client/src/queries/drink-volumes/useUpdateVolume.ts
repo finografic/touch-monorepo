@@ -1,17 +1,12 @@
 import { transformFetchError } from '@workspace/core/api';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { api } from 'api';
 
 import type { DrinkVolume } from 'types/models/volume.model';
-import {
-  GET_DRINK_VOLUMES_QUERYKEY,
-  POST_DRINK_VOLUME_QUERYKEY,
-  PATCH_DRINK_VOLUME_QUERYKEY,
-  DELETE_DRINK_VOLUME_QUERYKEY,
-} from '.';
 
 export interface UpdateVolumeInput {
+  name: string;
   translations?: Record<string, string>;
   valueInMl?: number;
   sortOrder?: number;
@@ -23,18 +18,11 @@ export interface UpdateVolumeInput {
  * Hook to update an existing volume
  */
 export const useUpdateVolume = () => {
-  const queryClient = useQueryClient();
-
   return useMutation({
-    mutationFn: async ({
-      id,
-      updates,
-    }: {
-      id: string;
-      updates: UpdateVolumeInput;
-    }): Promise<DrinkVolume> => {
+    mutationFn: async ({ id, updates }: { id: string; updates: UpdateVolumeInput }): Promise<DrinkVolume> => {
       try {
         const response = await api.patch<any>(`/drink-volumes/${id}`, {
+          name: updates.name,
           translations: updates.translations,
           valueInMl: updates.valueInMl,
           sortOrder: updates.sortOrder,
@@ -64,13 +52,6 @@ export const useUpdateVolume = () => {
         throw transformFetchError(error);
       }
     },
-    onSuccess: () => {
-      // Invalidate ALL drink-volumes query keys to ensure fresh data
-      queryClient.invalidateQueries({ queryKey: GET_DRINK_VOLUMES_QUERYKEY });
-      queryClient.invalidateQueries({ queryKey: POST_DRINK_VOLUME_QUERYKEY });
-      queryClient.invalidateQueries({ queryKey: PATCH_DRINK_VOLUME_QUERYKEY });
-      queryClient.invalidateQueries({ queryKey: DELETE_DRINK_VOLUME_QUERYKEY });
-    },
+    // No automatic invalidation - handled by caller
   });
 };
-

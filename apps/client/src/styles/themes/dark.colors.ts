@@ -3,7 +3,7 @@ import type { ColorPalette } from 'styles/colors/palette.types';
 /**
  * Dark theme color palette - hex values converted from OKLCH
  * 🚨 AUTO-GENERATED - DO NOT EDIT MANUALLY
- * 📅 Generated: 2025-12-10 -- 08:43:38
+ * 📅 Generated: 2025-12-13 -- 22:54:59
  *
  * Run: pnpm generate:themes to update this file
  *

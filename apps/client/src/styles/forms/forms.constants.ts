@@ -51,7 +51,8 @@ export const forms = {
 
     hover: {
       border: {
-        color: colors.greyDark,
+        // color: colors.greyDark,
+        color: colors.greyXXLight75,
         width: '1px',
         radius: '6px',
       },

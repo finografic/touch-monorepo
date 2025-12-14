@@ -1,7 +1,8 @@
 import { useMemo } from 'react';
 import { useGetAllTranslations } from 'api/hooks/useTranslations';
 import { useGetSupportedLanguages } from 'queries/supported-languages';
-import { TranslationsDto } from '../translations.dto';
+import { TranslationsDto } from '../utils/translations.dto';
+import { useIsMutating } from '@tanstack/react-query';
 
 import type { LanguageInfo } from 'types/models/supported-language.model';
 import type { RegionLocale } from '@workspace/config/i18n.config';
@@ -15,8 +16,8 @@ export interface UseProductTranslationData {
 
 export const useProductTranslationData = (): UseProductTranslationData => {
   const { data: translations, isLoading: translationsLoading } = useGetAllTranslations();
-
   const { data: languages, isLoading: languagesLoading } = useGetSupportedLanguages();
+  const isMutating = useIsMutating();
 
   const supportedLanguages = useMemo<RegionLocale[]>(() => {
     if (!languages) return [];
@@ -54,7 +55,7 @@ export const useProductTranslationData = (): UseProductTranslationData => {
         items: mapItems(translations.containerTypes ?? []),
       },
     ];
-  }, [translations, supportedLanguages]);
+  }, [translations, supportedLanguages, translationsLoading, isMutating]);
 
   return {
     isLoading: translationsLoading || languagesLoading,

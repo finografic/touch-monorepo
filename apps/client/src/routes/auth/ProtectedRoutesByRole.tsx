@@ -15,8 +15,19 @@ import { useAuth } from 'providers/AuthProvider';
  * - Fallback: Show unauthorized page
  */
 export const ProtectedRoutesByRole: React.FC = () => {
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, isLoading } = useAuth();
   const location = useLocation();
+  const [isAuthReady, setIsAuthReady] = React.useState(false);
+
+  // Give auth a chance to initialize on mount (for hard refresh scenario)
+  React.useEffect(() => {
+    // If not loading and we have determined auth state, mark as ready
+    if (!isLoading) {
+      // Small delay to let auth state settle
+      const timer = setTimeout(() => setIsAuthReady(true), 100);
+      return () => clearTimeout(timer);
+    }
+  }, [isLoading]);
 
   const getBasePath = (pathname: string): string => {
     // Handle dynamic routes like /admin/items/123 or /admin/items/cmgzcttyr0001y7lwsmcow4xt -> /admin/items
@@ -50,28 +61,50 @@ export const ProtectedRoutesByRole: React.FC = () => {
   }
 
   // ======================================================================== //
+  // Wait for auth to initialize before making decisions
+  // ======================================================================== //
+
+  if (isLoading || !isAuthReady) {
+    // Wait while auth is loading OR while auth state is settling after mount
+    return <Outlet />; // Let route render while auth is initializing
+  }
+
+  // ======================================================================== //
 
   const basePath = getBasePath(location.pathname);
   const currentRouteEntry = getAdminEntryByPath(basePath);
 
+  // ======================================================================== //
+  // Authenticated users: check role-based access
+  // ======================================================================== //
+
   if (user && isAuthenticated) {
+    // User has admin access to this route
     if (currentRouteEntry && currentRouteEntry.element.admin) {
-      return <currentRouteEntry.element.admin />;
+      return <Outlet />; // ✅ Let React Router render the route
     }
 
+    // User can access public version of this route
     if (currentRouteEntry && currentRouteEntry.element.public) {
-      return <currentRouteEntry.element.public />;
+      return <Outlet />; // ✅ Let React Router render the route
     }
 
-    return <Navigate to="/admin" />;
+    // Route not found or user doesn't have access
+    return <Navigate to="/admin" replace />;
   }
 
+  // ======================================================================== //
+  // Unauthenticated users: check public access only
+  // ======================================================================== //
+
   if (!isAuthenticated) {
+    // Public route exists
     if (currentRouteEntry && currentRouteEntry.element.public) {
-      return <currentRouteEntry.element.public />;
+      return <Outlet />; // ✅ Let React Router render the route
     }
 
-    return <Navigate to="/admin" />;
+    // Route requires authentication
+    return <Navigate to="/admin" replace />;
   }
 
   // Fallback (should not reach here)

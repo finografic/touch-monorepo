@@ -1,17 +1,12 @@
 import { transformFetchError } from '@workspace/core/api';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { api } from 'api';
 
 import type { ContainerType } from 'types/models/container.model';
-import {
-  GET_CONTAINER_TYPES_QUERYKEY,
-  POST_CONTAINER_TYPE_QUERYKEY,
-  PATCH_CONTAINER_TYPE_QUERYKEY,
-  DELETE_CONTAINER_TYPE_QUERYKEY,
-} from '.';
 
 export interface UpdateContainerTypeInput {
+  name: string;
   translations?: Record<string, string>;
   thermalConductivity?: number;
   isActive?: boolean;
@@ -21,8 +16,6 @@ export interface UpdateContainerTypeInput {
  * Hook to update an existing container type
  */
 export const useUpdateContainerType = () => {
-  const queryClient = useQueryClient();
-
   return useMutation({
     mutationFn: async ({
       id,
@@ -33,6 +26,7 @@ export const useUpdateContainerType = () => {
     }): Promise<ContainerType> => {
       try {
         const response = await api.patch<any>(`/container-types/${id}`, {
+          name: updates.name,
           translations: updates.translations,
           thermalConductivity: updates.thermalConductivity,
           isActive: updates.isActive,
@@ -58,13 +52,6 @@ export const useUpdateContainerType = () => {
         throw transformFetchError(error);
       }
     },
-    onSuccess: () => {
-      // Invalidate ALL container-types query keys to ensure fresh data
-      queryClient.invalidateQueries({ queryKey: GET_CONTAINER_TYPES_QUERYKEY });
-      queryClient.invalidateQueries({ queryKey: POST_CONTAINER_TYPE_QUERYKEY });
-      queryClient.invalidateQueries({ queryKey: PATCH_CONTAINER_TYPE_QUERYKEY });
-      queryClient.invalidateQueries({ queryKey: DELETE_CONTAINER_TYPE_QUERYKEY });
-    },
+    // No automatic invalidation - handled by caller
   });
 };
-

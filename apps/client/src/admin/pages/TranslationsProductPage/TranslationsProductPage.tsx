@@ -7,13 +7,16 @@ import { AdminPageLayout, AdminSection } from '../..';
 import { useProductTranslationData } from './hooks/useProductTranslationData';
 import { useSaveProductTranslations } from './hooks/useSaveProductTranslations';
 import { useDeleteProductTranslation } from './hooks/useDeleteProductTranslation';
-import { ProductTranslationsTable } from './ProductTranslationsTable/ProductTranslationsTable';
-import type { SectionKey } from './translations.types';
+import { TranslationsTable } from './TranslationsTable';
+import type { SectionKey, TranslationFormItem } from './translations.types';
 import { styles } from './TranslationsProductPage.styles';
-import { ProductTranslationsTableExpandable } from 'admin/pages/TranslationsProductPage/ProductTranslationsTable/ProductTranslationsTableExpandable';
+import { TranslationsTableExpandable } from './TranslationsTable';
+import { invalidateReferenceDataQueries } from 'queries/invalidateReferenceData';
+import { useQueryClient } from '@tanstack/react-query';
 
 export const TranslationsProductPage: React.FC = () => {
   const { t } = useTranslation();
+  const queryClient = useQueryClient();
 
   const { isLoading, supportedLanguages, sections } = useProductTranslationData();
 
@@ -30,7 +33,7 @@ export const TranslationsProductPage: React.FC = () => {
   // Delete handler for the active section
   const { deleteItem, isDeleting } = useDeleteProductTranslation(activeTab);
 
-  if (isLoading || !activeSection) {
+  if (isLoading || isSaving || isDeleting || !activeSection) {
     return (
       <AdminPageLayout
         title={t('admin.pages.translations.content.editTables')}
@@ -46,11 +49,14 @@ export const TranslationsProductPage: React.FC = () => {
     );
   }
 
+  log('TRANSLATIONS_DATA:', 'grey', sections[0].items);
+
   return (
     <AdminPageLayout
       title={t('admin.pages.translations.content.editTables')}
       subtitle="Admin"
       styles={styles}
+      // isLoading={isLoading || isSaving || isDeleting}
     >
       <Tabs.Root value={activeTab} onValueChange={(value) => setActiveTab(value as SectionKey)}>
         <Tabs.List>
@@ -70,16 +76,17 @@ export const TranslationsProductPage: React.FC = () => {
           <Tabs.Content key={section.key} value={section.key}>
             <AdminSection title={t(section.title)} description={t(section.description)}>
               {section.key === 'drinkSubtypes' ? (
-                <ProductTranslationsTableExpandable
+                <TranslationsTableExpandable
                   sectionKey={section.key}
                   items={section.items}
                   supportedLanguages={supportedLanguages}
-                  onSave={async ({ sectionKey, items }) => {
-                    const result = await save(items);
+                  onSave={async ({ items }) => {
+                    const result = await save({ items });
                     return result; // 🔑 REQUIRED
                   }}
                   onDelete={async (itemId, drinkTypeId) => {
                     const result = await deleteItem(itemId, drinkTypeId);
+                    await invalidateReferenceDataQueries(queryClient);
                     return {
                       success: true,
                       deletedId: result?.deletedId,
@@ -89,16 +96,17 @@ export const TranslationsProductPage: React.FC = () => {
                   isDeleting={isDeleting}
                 />
               ) : (
-                <ProductTranslationsTable
+                <TranslationsTable
                   sectionKey={section.key}
                   items={section.items}
                   supportedLanguages={supportedLanguages}
-                  onSave={async ({ sectionKey, items }) => {
-                    const result = await save(items);
+                  onSave={async ({ items }) => {
+                    const result = await save({ items });
                     return result; // 🔑 REQUIRED
                   }}
                   onDelete={async (itemId) => {
                     const result = await deleteItem(itemId);
+                    await invalidateReferenceDataQueries(queryClient);
                     return {
                       success: true,
                       deletedId: result?.deletedId,

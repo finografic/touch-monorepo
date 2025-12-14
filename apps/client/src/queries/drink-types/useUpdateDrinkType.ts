@@ -1,17 +1,12 @@
 import { transformFetchError } from '@workspace/core/api';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { api } from 'api';
 
 import type { DrinkType } from 'types/models/drink-type.model';
-import {
-  GET_DRINK_TYPES_QUERYKEY,
-  POST_DRINK_TYPE_QUERYKEY,
-  PATCH_DRINK_TYPE_QUERYKEY,
-  DELETE_DRINK_TYPE_QUERYKEY,
-} from '.';
 
 export interface UpdateDrinkTypeInput {
+  name: string;
   hasSubtypes?: boolean;
   defaultTempConsume?: number;
   defaultTempFreeze?: number;
@@ -22,8 +17,6 @@ export interface UpdateDrinkTypeInput {
  * Hook to update a drink type
  */
 export const useUpdateDrinkType = () => {
-  const queryClient = useQueryClient();
-
   return useMutation({
     mutationFn: async ({
       id,
@@ -35,6 +28,7 @@ export const useUpdateDrinkType = () => {
       try {
         // Fetch client returns data directly
         const response = await api.patch<{ data: any }>(`/drink-types/${id}`, {
+          name: updates.name,
           hasSubtypes: updates.hasSubtypes ? 1 : 0,
           defaultTempConsume: updates.defaultTempConsume,
           defaultTempFreeze: updates.defaultTempFreeze,
@@ -57,12 +51,6 @@ export const useUpdateDrinkType = () => {
         throw transformFetchError(error);
       }
     },
-    onSuccess: () => {
-      // Invalidate ALL drink-types query keys to ensure fresh data
-      queryClient.invalidateQueries({ queryKey: GET_DRINK_TYPES_QUERYKEY });
-      queryClient.invalidateQueries({ queryKey: POST_DRINK_TYPE_QUERYKEY });
-      queryClient.invalidateQueries({ queryKey: PATCH_DRINK_TYPE_QUERYKEY });
-      queryClient.invalidateQueries({ queryKey: DELETE_DRINK_TYPE_QUERYKEY });
-    },
+    // No automatic invalidation - handled by caller
   });
 };

@@ -1,20 +1,12 @@
 import { transformFetchError } from '@workspace/core/api';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { api } from 'api';
 import type { DrinkTypeEntity } from '@workspace/server/types';
-
-import { useAppConfig } from 'providers/AppConfigProvider';
 
 import { slugify } from 'utils/string.utils';
 import type { DrinkType } from 'types/models/drink-type.model';
 import { DrinkTypeDTO } from './DrinkTypes.dto';
-import {
-  GET_DRINK_TYPES_QUERYKEY,
-  POST_DRINK_TYPE_QUERYKEY,
-  PATCH_DRINK_TYPE_QUERYKEY,
-  DELETE_DRINK_TYPE_QUERYKEY,
-} from '.';
 
 export interface CreateDrinkTypeInput {
   name: string;
@@ -28,8 +20,6 @@ export interface CreateDrinkTypeInput {
  * Hook to create a new drink type
  */
 export const useCreateDrinkType = () => {
-  const queryClient = useQueryClient();
-  const { currentLanguage } = useAppConfig();
 
   return useMutation({
     mutationFn: async (data: CreateDrinkTypeInput): Promise<DrinkType> => {
@@ -37,13 +27,13 @@ export const useCreateDrinkType = () => {
         // Convert display name to kebab-case for storage
         const kebabName = slugify(data.name);
 
-        // Create translations object with current language
+        // Use provided translations directly (already contains correct display names)
+        // Don't override with data.name - that's the slug, not the display name
         const translations = {
-          'en-GB': '', // Empty string for other languages
+          'en-GB': '',
           'es-ES': '',
           'ca-ES': '',
-          ...data.translations, // Allow overriding with provided translations
-          [currentLanguage]: data.name, // Use original name for current language (overrides empty string)
+          ...data.translations, // Use translations from DTO (contains actual display names)
         };
 
         // Fetch client returns data directly
@@ -83,15 +73,6 @@ export const useCreateDrinkType = () => {
         throw transformFetchError(error);
       }
     },
-    onSuccess: () => {
-      // Invalidate ALL drink-types query keys to ensure fresh data
-      queryClient.invalidateQueries({ queryKey: GET_DRINK_TYPES_QUERYKEY });
-      queryClient.invalidateQueries({ queryKey: POST_DRINK_TYPE_QUERYKEY });
-      queryClient.invalidateQueries({ queryKey: PATCH_DRINK_TYPE_QUERYKEY });
-      queryClient.invalidateQueries({ queryKey: DELETE_DRINK_TYPE_QUERYKEY });
-
-      // Force a refetch to ensure the dropdown updates immediately
-      queryClient.refetchQueries({ queryKey: GET_DRINK_TYPES_QUERYKEY });
-    },
+    // No automatic invalidation - handled by caller
   });
 };

@@ -1,18 +1,10 @@
 import { transformFetchError } from '@workspace/core/api';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { api } from 'api';
-
-import { useAppConfig } from 'providers/AppConfigProvider';
 
 import { slugify } from 'utils/string.utils';
 import type { DrinkVolume } from 'types/models/volume.model';
-import {
-  GET_DRINK_VOLUMES_QUERYKEY,
-  POST_DRINK_VOLUME_QUERYKEY,
-  PATCH_DRINK_VOLUME_QUERYKEY,
-  DELETE_DRINK_VOLUME_QUERYKEY,
-} from '.';
 
 export interface CreateVolumeInput {
   name: string;
@@ -26,8 +18,6 @@ export interface CreateVolumeInput {
  * Hook to create a new volume
  */
 export const useCreateVolume = () => {
-  const queryClient = useQueryClient();
-  const { currentLanguage } = useAppConfig();
 
   return useMutation({
     mutationFn: async (data: CreateVolumeInput): Promise<DrinkVolume> => {
@@ -35,13 +25,13 @@ export const useCreateVolume = () => {
         // Convert display name to kebab-case for storage
         const kebabName = slugify(data.name);
 
-        // Create translations object with current language
+        // Use provided translations directly (already contains correct display names)
+        // Don't override with data.name - that's the slug, not the display name
         const translations = {
-          'en-GB': '', // Empty string for other languages
+          'en-GB': '',
           'es-ES': '',
           'ca-ES': '',
-          ...data.translations, // Allow overriding with provided translations
-          [currentLanguage]: data.name, // Use original name for current language (overrides empty string)
+          ...data.translations, // Use translations from DTO (contains actual display names)
         };
 
         // Fetch client returns data directly
@@ -81,14 +71,6 @@ export const useCreateVolume = () => {
         throw transformFetchError(error);
       }
     },
-    onSuccess: () => {
-      // Invalidate ALL drink-volumes query keys to ensure fresh data
-      queryClient.invalidateQueries({ queryKey: GET_DRINK_VOLUMES_QUERYKEY });
-      queryClient.invalidateQueries({ queryKey: POST_DRINK_VOLUME_QUERYKEY });
-      queryClient.invalidateQueries({ queryKey: PATCH_DRINK_VOLUME_QUERYKEY });
-      queryClient.invalidateQueries({ queryKey: DELETE_DRINK_VOLUME_QUERYKEY });
-
-      queryClient.refetchQueries({ queryKey: GET_DRINK_VOLUMES_QUERYKEY });
-    },
+    // No automatic invalidation - handled by caller
   });
 };

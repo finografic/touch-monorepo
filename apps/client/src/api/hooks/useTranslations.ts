@@ -34,7 +34,7 @@ export const TRANSLATION_QUERY_KEYS = {
  */
 export const useGetDrinkTypes = () => {
   return useQuery({
-    queryKey: TRANSLATION_QUERY_KEYS.drinkTypes,
+    queryKey: [...TRANSLATION_QUERY_KEYS.drinkTypes],
     queryFn: drinkTypeEndpoints.getDrinkTypes,
     ...ADMIN_DATA_QUERY_CONFIG, // Use admin config for fresh data in dev
   });
@@ -45,7 +45,7 @@ export const useGetDrinkTypes = () => {
  */
 export const useGetDrinkSubtypes = () => {
   return useQuery({
-    queryKey: TRANSLATION_QUERY_KEYS.drinkSubtypes,
+    queryKey: [...TRANSLATION_QUERY_KEYS.drinkSubtypes],
     queryFn: drinkSubtypeEndpoints.getDrinkSubtypes,
     ...ADMIN_DATA_QUERY_CONFIG, // Use admin config for fresh data in dev
   });
@@ -56,7 +56,7 @@ export const useGetDrinkSubtypes = () => {
  */
 export const useGetVolumes = () => {
   return useQuery({
-    queryKey: TRANSLATION_QUERY_KEYS.volumes,
+    queryKey: [...TRANSLATION_QUERY_KEYS.volumes],
     queryFn: volumeEndpoints.getVolumes,
     ...ADMIN_DATA_QUERY_CONFIG, // Use admin config for fresh data in dev
   });
@@ -67,7 +67,7 @@ export const useGetVolumes = () => {
  */
 export const useGetContainerTypes = () => {
   return useQuery({
-    queryKey: TRANSLATION_QUERY_KEYS.containerTypes,
+    queryKey: [...TRANSLATION_QUERY_KEYS.containerTypes],
     queryFn: containerTypeEndpoints.getContainerTypes,
     ...ADMIN_DATA_QUERY_CONFIG, // Use admin config for fresh data in dev
   });

@@ -13,4 +13,5 @@ export { useCreateDrinkType } from './useCreateDrinkType';
 export { useGetDrinkSubtypes } from './useGetDrinkSubtypes';
 export { useGetDrinkType } from './useGetDrinkType';
 export { useGetDrinkTypes } from './useGetDrinkTypes';
+export { useUpdateDrinkSubtype } from './useUpdateDrinkSubtype';
 export { useUpdateDrinkType } from './useUpdateDrinkType';

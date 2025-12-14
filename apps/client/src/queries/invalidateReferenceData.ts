@@ -23,6 +23,7 @@ import {
 } from './drink-volumes';
 import { GET_MODES_QUERYKEY } from './modes';
 import { GET_ORDERS_QUERYKEY, GET_ORDERS_READABLE_QUERYKEY } from './orders';
+import { TRANSLATION_QUERY_KEYS } from 'api/hooks/useTranslations';
 
 /**
  * Invalidates ALL product-flow reference queries (including mutation keys) so dependent UIs refresh:
@@ -46,34 +47,41 @@ export const invalidateReferenceDataQueries = async (queryClient: QueryClient) =
 
     // Drink Types (all operations)
     queryClient.invalidateQueries({ queryKey: GET_DRINK_TYPES_QUERYKEY }),
-    queryClient.invalidateQueries({ queryKey: POST_DRINK_TYPE_QUERYKEY }),
-    queryClient.invalidateQueries({ queryKey: PATCH_DRINK_TYPE_QUERYKEY }),
-    queryClient.invalidateQueries({ queryKey: DELETE_DRINK_TYPE_QUERYKEY }),
+    // queryClient.invalidateQueries({ queryKey: POST_DRINK_TYPE_QUERYKEY }),
+    // queryClient.invalidateQueries({ queryKey: PATCH_DRINK_TYPE_QUERYKEY }),
+    // queryClient.invalidateQueries({ queryKey: DELETE_DRINK_TYPE_QUERYKEY }),
 
     // Drink Subtypes (all operations)
     queryClient.invalidateQueries({ queryKey: GET_DRINK_SUBTYPES_QUERYKEY }),
-    queryClient.invalidateQueries({ queryKey: POST_DRINK_SUBTYPE_QUERYKEY }),
-    queryClient.invalidateQueries({ queryKey: PATCH_DRINK_SUBTYPE_QUERYKEY }),
-    queryClient.invalidateQueries({ queryKey: DELETE_DRINK_SUBTYPE_QUERYKEY }),
+    // queryClient.invalidateQueries({ queryKey: POST_DRINK_SUBTYPE_QUERYKEY }),
+    // queryClient.invalidateQueries({ queryKey: PATCH_DRINK_SUBTYPE_QUERYKEY }),
+    // queryClient.invalidateQueries({ queryKey: DELETE_DRINK_SUBTYPE_QUERYKEY }),
 
     // Volumes (all operations)
     queryClient.invalidateQueries({ queryKey: GET_DRINK_VOLUMES_QUERYKEY }),
-    queryClient.invalidateQueries({ queryKey: POST_DRINK_VOLUME_QUERYKEY }),
-    queryClient.invalidateQueries({ queryKey: PATCH_DRINK_VOLUME_QUERYKEY }),
-    queryClient.invalidateQueries({ queryKey: DELETE_DRINK_VOLUME_QUERYKEY }),
+    // queryClient.invalidateQueries({ queryKey: POST_DRINK_VOLUME_QUERYKEY }),
+    // queryClient.invalidateQueries({ queryKey: PATCH_DRINK_VOLUME_QUERYKEY }),
+    // queryClient.invalidateQueries({ queryKey: DELETE_DRINK_VOLUME_QUERYKEY }),
 
     // Container Types (all operations)
     queryClient.invalidateQueries({ queryKey: GET_CONTAINER_TYPES_QUERYKEY }),
-    queryClient.invalidateQueries({ queryKey: POST_CONTAINER_TYPE_QUERYKEY }),
-    queryClient.invalidateQueries({ queryKey: PATCH_CONTAINER_TYPE_QUERYKEY }),
-    queryClient.invalidateQueries({ queryKey: DELETE_CONTAINER_TYPE_QUERYKEY }),
+    // queryClient.invalidateQueries({ queryKey: POST_CONTAINER_TYPE_QUERYKEY }),
+    // queryClient.invalidateQueries({ queryKey: PATCH_CONTAINER_TYPE_QUERYKEY }),
+    // queryClient.invalidateQueries({ queryKey: DELETE_CONTAINER_TYPE_QUERYKEY }),
 
     // Orders
     queryClient.invalidateQueries({ queryKey: GET_ORDERS_QUERYKEY }),
     queryClient.invalidateQueries({ queryKey: GET_ORDERS_READABLE_QUERYKEY }),
+
+    // Translations
+    queryClient.invalidateQueries({ queryKey: TRANSLATION_QUERY_KEYS.drinkTypes }),
+    queryClient.invalidateQueries({ queryKey: TRANSLATION_QUERY_KEYS.drinkSubtypes }),
+    queryClient.invalidateQueries({ queryKey: TRANSLATION_QUERY_KEYS.volumes }),
+    queryClient.invalidateQueries({ queryKey: TRANSLATION_QUERY_KEYS.containerTypes }),
   ]);
 
   // Force refetch of GET queries to ensure immediate UI updates
+  /*
   await Promise.all([
     queryClient.refetchQueries({ queryKey: GET_MODES_QUERYKEY }),
     queryClient.refetchQueries({ queryKey: GET_DRINK_TYPES_QUERYKEY }),
@@ -83,4 +91,5 @@ export const invalidateReferenceDataQueries = async (queryClient: QueryClient) =
     queryClient.refetchQueries({ queryKey: GET_ORDERS_QUERYKEY }),
     queryClient.refetchQueries({ queryKey: GET_ORDERS_READABLE_QUERYKEY }),
   ]);
+  */
 };
