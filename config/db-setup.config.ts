@@ -6,6 +6,11 @@ export const seedConfigs: SeedConfig[] = [
     description: 'Supported languages',
   },
   {
+    name: 'translations_ui',
+    description: 'UI translations',
+    dependencies: ['supported_languages'],
+  },
+  {
     name: 'translatable_entities',
     description: 'Translatable entities',
     dependencies: ['supported_languages'],
