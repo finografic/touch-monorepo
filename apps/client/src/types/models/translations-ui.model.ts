@@ -1,4 +1,5 @@
-import type { OverridePropTypes } from '@workspace/core/types/utils';
+import type { ConvertKeysToCamelCase, OverridePropTypes } from '@workspace/core/types/utils';
+import type { TranslationsUiEntity } from '@workspace/server/types/entities/translations-ui.entity';
 
 import type { ModelBaseProps } from 'types/base.types';
 
@@ -7,16 +8,5 @@ import type { ModelBaseProps } from 'types/base.types';
  * Uses TS utility types to convert snake_case to camelCase
  */
 export type TranslationsUiModel = OverridePropTypes<TranslationsUiCamelCase, ModelBaseProps>;
-interface TranslationsUiCamelCase {
-  sections: Array<{
-    key: string;
-    title: string;
-    description: string;
-    items: Array<{ key: string; values: Record<string, string> }>;
-  }>;
-}
 
-type TranslationsUiSection = Array<{
-  key: string;
-  items: Array<{ key: string; values: Record<string, string> }>;
-}>;
+type TranslationsUiCamelCase = ConvertKeysToCamelCase<TranslationsUiEntity>;

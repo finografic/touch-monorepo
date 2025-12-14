@@ -6,7 +6,7 @@ import type {
 } from 'admin/pages/TranslationsUiPage/TranslationsUiPage.types';
 import { EndpointHelper } from 'api/api.endpoints';
 
-import type { TranslationsUiModel } from 'types/models/translations-ui.model';
+import type { TranslationsUiModel } from 'types/models/labels-ui.model';
 
 const SUPPORTED_LANGUAGES: SupportedLanguage[] = [
   { isoCode: 'es-ES', displayName: 'Spanish', nativeName: 'Español' },

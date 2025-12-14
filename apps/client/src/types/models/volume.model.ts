@@ -9,4 +9,5 @@ export type DrinkVolume = OverridePropTypes<
     translations: Record<string, string>; // Override: API returns parsed JSON object
   }
 >;
+
 type VolumeCamelCase = ConvertKeysToCamelCase<VolumeEntity>;
