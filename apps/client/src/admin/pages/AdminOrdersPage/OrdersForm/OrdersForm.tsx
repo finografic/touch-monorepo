@@ -356,7 +356,9 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                       label="Drink Subtype"
                       hint={
                         formValues.drinkType
-                          ? `${dropdownData.drinkSubtypeOptions.length} disponibles`
+                          ? dropdownData.selectedDrinkType?.hasSubtypes
+                            ? `${dropdownData.drinkSubtypeOptions.length} disponibles`
+                            : 'This drink type has no subtypes'
                           : 'Select drink type first'
                       }
                     >
@@ -366,10 +368,14 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                         onClear={() => handleSimpleFieldChange('drinkSubtype', '')}
                         options={dropdownData.drinkSubtypeOptions}
                         placeholder={
-                          formValues.drinkType ? 'Select or add new subtype' : 'Select drink type first'
+                          formValues.drinkType
+                            ? dropdownData.selectedDrinkType?.hasSubtypes
+                              ? 'Select or add new subtype'
+                              : 'This drink type has no subtypes'
+                            : 'Select drink type first'
                         }
                         windowSize={15}
-                        disabled={!formValues.drinkType}
+                        disabled={!formValues.drinkType || !dropdownData.selectedDrinkType?.hasSubtypes}
                       />
                     </FieldWrapper>
                   </Col>
