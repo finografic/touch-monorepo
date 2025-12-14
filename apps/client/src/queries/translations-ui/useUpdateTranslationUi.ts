@@ -45,4 +45,3 @@ export const useUpdateTranslationUi = () => {
     // No automatic invalidation - handled by caller
   });
 };
-

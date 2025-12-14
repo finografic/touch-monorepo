@@ -8,4 +8,3 @@ export { useUpdateTranslationUi } from './useUpdateTranslationUi';
 export { useGetTranslationUi } from './useGetTranslationUi';
 export { useGetTranslationsUi } from './useGetTranslationsUi';
 export { useDeleteTranslationUi } from './useDeleteTranslationUi';
-

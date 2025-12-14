@@ -18,4 +18,3 @@ export const useDeleteTranslationUi = () => {
     // No automatic invalidation - handled by caller
   });
 };
-
