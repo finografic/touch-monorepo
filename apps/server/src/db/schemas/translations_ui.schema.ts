@@ -2,7 +2,7 @@ import createCuid from '@bugsnag/cuid';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
-import { sqliteBooleanField } from '../../lib/zod.utils';
+import { sqliteBooleanField } from 'lib/zod.utils';
 
 /**
  * UI Translations Table
@@ -54,4 +54,3 @@ export const translationUiSchemas = {
   insert: insertTranslationUiSchema,
   patch: patchTranslationUiSchema,
 } as const;
-

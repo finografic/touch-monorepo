@@ -4,7 +4,6 @@ import type {
   ContainerTypeEntity,
   DrinkSubtypeEntity,
   DrinkTypeEntity,
-  DrinkVolumeEntity,
 } from '@workspace/server/types/entities';
 
 import { useQuery } from '@tanstack/react-query';

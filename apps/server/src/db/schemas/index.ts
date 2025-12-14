@@ -19,9 +19,9 @@ export * from './supported_languages.schema';
 export * from './temperature_profiles.schema';
 export * from './translatable_entities.schema';
 
+// UI Translations
+export * from './translations_ui.schema';
+
 // NOTE: DRINK CONTROL SYSTEM SCHEMAS
 // Core schemas
 export * from './volumes.schema';
-
-// UI Translations
-export * from './translations_ui.schema';
