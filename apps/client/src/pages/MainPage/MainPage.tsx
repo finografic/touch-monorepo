@@ -37,6 +37,12 @@ export function MainPage() {
   // 🚀 PERFORMANCE OPTIMIZATION: Pre-fetch default mode on MainPage (only once)
   const { data: defaultMode, isLoading: isModeLoading } = useGetDefaultMode();
 
+  useEffect(function clearSelectedSlots() {
+    if (location.state?.clearSelectedSlots === true) {
+      setSelectedSlots([]);
+    }
+  }, []);
+
   // 🚀 PERFORMANCE OPTIMIZATION: Set default mode filter when loaded (only once)
   useEffect(
     function initializeDefaultModeFilter() {

@@ -2,10 +2,7 @@ import React from 'react';
 import { Col, Row } from 'react-grid-system';
 
 import { Flex, Spinner, Text } from '@radix-ui/themes';
-import { ListBoxSelect } from 'admin/pages/AdminSoundPage/ListBoxSelect';
 import { VolumeSlider } from 'admin/pages/AdminSoundPage/VolumeSlider';
-import { VolumeSlider as VolumeSliderV2 } from 'admin/pages/AdminSoundPage/VolumeSlider-V2';
-import { ListBox } from 'primereact/listbox';
 
 import { useGetSoundFiles, useGetSoundSettings } from 'queries/sounds';
 

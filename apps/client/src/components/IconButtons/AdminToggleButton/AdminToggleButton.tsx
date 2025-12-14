@@ -11,14 +11,22 @@ export const AdminToggleButton: React.FC = () => {
   const location = useLocation();
   const isAdminPath = location.pathname.startsWith('/admin');
 
+  const handleGotoAppMain = () => {
+    navigate('/', { state: { clearSelectedSlots: true } });
+  };
+
+  const handleGotoAdmin = () => {
+    navigate('/admin');
+  };
+
   return (
     <div>
       {isAdminPath ? (
-        <Button variant="ghost" className="button button-dialog" onClick={() => navigate('/')}>
+        <Button variant="ghost" className="button button-dialog" onClick={handleGotoAppMain}>
           <HomeIcon />
         </Button>
       ) : (
-        <Button className="button button-dialog" onClick={() => navigate('/admin')}>
+        <Button className="button button-dialog" onClick={handleGotoAdmin}>
           <ShieldCheckIcon />
         </Button>
       )}

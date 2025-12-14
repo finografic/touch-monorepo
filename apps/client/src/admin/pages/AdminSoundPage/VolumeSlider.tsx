@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 
 import { Flex, Text } from '@radix-ui/themes';
@@ -10,27 +10,9 @@ export const VolumeSlider: React.FC = () => {
   const { volume, updateVolume } = useGlobalVolume();
   const [displayVolume, setDisplayVolume] = useState(volume);
 
-  /*
-  const handleVolumeChange = useCallback(
-    (newVolume: number) => {
-      updateVolume(newVolume);
-    },
-    [updateVolume],
-  );
-  */
-
   const handleVolumeChange = useDebouncedCallback((newVolume: number) => {
-    // setDisplayVolume(newVolume);
     updateVolume(newVolume);
   }, 150);
-
-  // const handleVolumeDisplayChange = useDebouncedCallback(
-  //   (newVolume: number) => {
-  //     setDisplayVolume(newVolume);
-  //   },
-  //   20,
-  //   { leading: true, trailing: false },
-  // );
 
   return (
     <Flex

@@ -1,8 +1,7 @@
 import React, { useCallback } from 'react';
 
 import { Flex } from '@radix-ui/themes';
-import { ListBox, type ListBoxChangeEvent } from 'primereact/listbox';
-import type { SelectItemOptionsType } from 'primereact/selectitem';
+import { ListBox } from 'primereact/listbox';
 import { useToast } from 'components/Toast';
 
 import { useUpdateSoundSettings } from 'queries/sounds';
