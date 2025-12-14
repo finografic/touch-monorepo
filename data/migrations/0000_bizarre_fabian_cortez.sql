@@ -161,6 +161,17 @@ CREATE TABLE `translatable_entities` (
 );
 --> statement-breakpoint
 CREATE UNIQUE INDEX `translatable_entities_table_name_unique` ON `translatable_entities` (`table_name`);--> statement-breakpoint
+CREATE TABLE `translations_ui` (
+	`id` text PRIMARY KEY NOT NULL,
+	`key` text NOT NULL,
+	`translations` text DEFAULT '{"en-GB":""}' NOT NULL,
+	`description` text,
+	`is_active` integer DEFAULT true NOT NULL,
+	`created_at` integer,
+	`updated_at` integer
+);
+--> statement-breakpoint
+CREATE UNIQUE INDEX `translations_ui_key_unique` ON `translations_ui` (`key`);--> statement-breakpoint
 CREATE TABLE `volumes` (
 	`id` text PRIMARY KEY NOT NULL,
 	`name` text NOT NULL,

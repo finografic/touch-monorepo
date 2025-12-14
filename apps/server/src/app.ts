@@ -15,6 +15,7 @@ import relay from 'routes/relay';
 import slotConfigurations from 'routes/slot-configurations';
 import sounds from 'routes/sounds';
 import supportedLanguage from 'routes/supported-language';
+import translationsUi from 'routes/translations-ui';
 import uiLabels from 'routes/ui-labels';
 import users from 'routes/users';
 import configureOpenAPI from 'lib/configure-open-api';
@@ -65,6 +66,7 @@ const routes = [
   sounds,
   slotConfigurations,
   uiLabels,
+  translationsUi,
   relay,
 ] as const;
 
