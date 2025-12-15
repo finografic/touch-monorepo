@@ -9,7 +9,8 @@ import { PublicRelaysPage } from 'admin/pages/AdminRelaysPage/PublicRelaysPage';
 import { AdminSlotsConfigPage } from 'admin/pages/AdminSlotsConfigPage/AdminSlotsConfigPage';
 import { AdminSoundPage } from 'admin/pages/AdminSoundPage/AdminSoundPage';
 import { TranslationsProductPage } from 'admin/pages/TranslationsProductPage';
-import { TranslationsUiPage } from 'admin/pages/TranslationsUiPage';
+// import { TranslationsUiPage } from 'admin/pages/TranslationsUiPage';
+import { TranslationsPage } from 'admin/pages/TranslationsPage';
 import { LoaderDataHelper } from 'api/loaders/loader.data';
 import { AdminLayout } from 'layout/AdminLayout';
 import { Layout } from 'layout/Layout';
@@ -170,12 +171,16 @@ export const routes: RouteObject[] = [
             id: AdminFieldKeys.translations,
             element: <TranslationsProductPage />,
           },
-
           {
             path: 'ui-labels',
             id: AdminFieldKeys.translationsUi,
-            element: <TranslationsUiPage />,
+            element: <TranslationsPage />,
           },
+          // {
+          //   path: 'ui-labels',
+          //   id: AdminFieldKeys.translationsUi,
+          //   element: <TranslationsUiPage />,
+          // },
         ],
       },
     ],

@@ -9,7 +9,7 @@ import { PublicRelaysPage } from 'admin/pages/AdminRelaysPage/PublicRelaysPage';
 import { AdminSlotsConfigPage } from 'admin/pages/AdminSlotsConfigPage/AdminSlotsConfigPage';
 import { AdminSoundPage, PublicSoundPage } from 'admin/pages/AdminSoundPage';
 import { TranslationsProductPage } from 'admin/pages/TranslationsProductPage';
-import { TranslationsUiPage } from 'admin/pages/TranslationsUiPage';
+// import { TranslationsUiPage } from 'admin/pages/TranslationsUiPage';
 import {
   CoffeeIcon,
   EditIcon,
@@ -20,6 +20,7 @@ import {
   VolumeIcon,
   ZapIcon,
 } from 'styles/icons';
+import { TranslationsPage } from 'admin/pages/TranslationsPage';
 
 export type AuthRoles = 'public' | 'admin';
 
@@ -144,7 +145,8 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     path: '/admin/ui-labels',
     element: {
       public: null,
-      admin: TranslationsUiPage,
+      // admin: TranslationsUiPage,
+      admin: TranslationsPage,
     },
     hasNav: { public: false, admin: true },
     hasCard: { public: false, admin: true },
