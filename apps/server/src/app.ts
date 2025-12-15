@@ -8,6 +8,7 @@ import containerType from 'routes/container-type';
 import drinkSubtypes from 'routes/drink-subtypes';
 import drinkType from 'routes/drink-type';
 import health from 'routes/health-check/health-check.index';
+import i18n from 'routes/i18n';
 // Import routes
 import index from 'routes/index.route';
 import orders from 'routes/orders';
@@ -67,6 +68,7 @@ const routes = [
   slotConfigurations,
   uiLabels,
   translationsUi,
+  i18n,
   relay,
 ] as const;
 

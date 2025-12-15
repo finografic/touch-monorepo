@@ -29,12 +29,29 @@ export const useUiTranslationData = (): UseUiTranslationData => {
 
     const mapItems = (items: any[]) => items.map((item) => TranslationsUiDto.fromApi(item, supportedLanguages));
 
+    // Filter items by section prefix
+    const filterByPrefix = (prefix: string) => {
+      return translations.filter((item) => item.key.startsWith(prefix));
+    };
+
     return [
       {
-        key: 'all',
-        title: 'admin.pages.translationsUi.content.all.title',
-        description: 'admin.pages.translationsUi.content.all.description',
-        items: mapItems(translations ?? []),
+        key: 'buttons',
+        title: 'admin.pages.translationsUi.content.buttons.title',
+        description: 'admin.pages.translationsUi.content.buttons.description',
+        items: mapItems(filterByPrefix('buttons.')),
+      },
+      {
+        key: 'tables',
+        title: 'admin.pages.translationsUi.content.tables.title',
+        description: 'admin.pages.translationsUi.content.tables.description',
+        items: mapItems(filterByPrefix('tables.')),
+      },
+      {
+        key: 'time',
+        title: 'admin.pages.translationsUi.content.time.title',
+        description: 'admin.pages.translationsUi.content.time.description',
+        items: mapItems(filterByPrefix('time.')),
       },
     ];
   }, [translations, supportedLanguages, translationsLoading, isMutating]);

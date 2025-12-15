@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import type { RegionLocale } from '@workspace/config/i18n.config';
+import { useTranslation } from 'react-i18next';
 
 import { useCreateTranslationUi, useUpdateTranslationUi } from 'queries/translations-ui';
 
@@ -13,6 +14,7 @@ import { GET_TRANSLATIONS_UI_QUERYKEY } from 'queries/translations-ui';
 export const useSaveUiTranslations = (supportedLanguages: RegionLocale[]) => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
+  const { i18n } = useTranslation();
 
   const createTranslationUi = useCreateTranslationUi();
   const updateTranslationUi = useUpdateTranslationUi();
@@ -63,11 +65,27 @@ export const useSaveUiTranslations = (supportedLanguages: RegionLocale[]) => {
         queryKey: GET_TRANSLATIONS_UI_QUERYKEY,
       });
 
+      // Reload i18next resources to reflect changes immediately
+      // Determine which namespaces to reload based on saved items
+      const namespacesToReload = new Set<string>();
+      for (const item of [...created, ...updated]) {
+        if (item.key.startsWith('buttons.') || item.key.startsWith('tables.')) {
+          namespacesToReload.add('ui');
+        } else if (item.key.startsWith('time.')) {
+          namespacesToReload.add('time');
+        }
+      }
+
+      // Reload each affected namespace
+      for (const ns of namespacesToReload) {
+        await i18n.reloadResources(i18n.language, ns);
+      }
+
       return {
         savedItems: [...created, ...updated],
       };
     },
-    [supportedLanguages, createTranslationUi, updateTranslationUi, toast, queryClient],
+    [supportedLanguages, createTranslationUi, updateTranslationUi, toast, queryClient, i18n],
   );
 
   return {

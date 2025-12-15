@@ -13,7 +13,7 @@ export interface TranslationUiFormItem {
   [key: string]: any; // dynamic language fields: esEs, enGb, ...
 }
 
-export type SectionKey = 'all'; // For now, just one section for all UI translations
+export type SectionKey = 'buttons' | 'tables' | 'time';
 
 export interface SectionData {
   key: SectionKey;
