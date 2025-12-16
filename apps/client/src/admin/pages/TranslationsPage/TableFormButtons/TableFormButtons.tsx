@@ -31,8 +31,15 @@ export const TableFormButtons: React.FC<TableFormButtonsProps> = ({
   isAddNewDisabled = false,
   isSaving = false,
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const debouncedAddNew = useDebouncedCallback(() => onAddNew?.(), 500, { leading: true, trailing: false });
+
+  // Debug: log if namespace is loaded
+  if (process.env.NODE_ENV === 'development') {
+    console.log('[TableFormButtons] i18n language:', i18n.language);
+    console.log('[TableFormButtons] ui namespace loaded:', i18n.hasResourceBundle(i18n.language, 'ui'));
+    console.log('[TableFormButtons] ui resources:', i18n.getResourceBundle(i18n.language, 'ui'));
+  }
 
   return (
     <Flex css={styles} className="table-form-buttons">
@@ -45,7 +52,7 @@ export const TableFormButtons: React.FC<TableFormButtonsProps> = ({
           disabled={!isDirty || isSaving}
           size="md"
         >
-          {t('ui.buttons.cancel')}
+          {t('buttons.cancel')}
         </Button>
       )}
       {onSave && (
@@ -57,7 +64,7 @@ export const TableFormButtons: React.FC<TableFormButtonsProps> = ({
           disabled={!isDirty || isSaving}
           size="md"
         >
-          {isSaving ? 'Saving...' : t('ui.buttons.save')}
+          {isSaving ? 'Saving...' : t('buttons.save')}
         </Button>
       )}
       {onAddNew && (
@@ -68,11 +75,11 @@ export const TableFormButtons: React.FC<TableFormButtonsProps> = ({
           onClick={debouncedAddNew}
           disabled={isAddNewDisabled || isSaving}
           size="md"
-          aria-label={t('ui.buttons.addNew') || 'Add new translation entry'}
+          aria-label={t('buttons.add') || 'Add new translation entry'}
           title={
             isAddNewDisabled
               ? 'Please fill the empty row before adding a new one'
-              : t('ui.buttons.addNew') || 'Add new translation entry'
+              : t('buttons.add') || 'Add new translation entry'
           }
           className="button-add-new"
         >

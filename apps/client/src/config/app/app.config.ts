@@ -5,6 +5,9 @@ import type { FilterKey, NavigationFieldKey } from 'types/slots.types';
 export const DEFAULT_LANGUAGE: RegionLocale = 'es-ES' as const; // Updated to locale format
 export const FORCE_DEFAULT_LANGUAGE: RegionLocale = 'es-ES' as const; // Updated to locale format
 export const ENABLE_BROWSER_LANGUAGE_DETECTION = false as const;
+export const DEFAULT_SUPPORTED_LANGUAGES: RegionLocale[] = ['es-ES', 'en-GB', 'ca-ES'] as const;
+
+export type SupportedLanguage = (typeof DEFAULT_SUPPORTED_LANGUAGES)[number];
 
 export const NUM_GRID_ITEMS: ValidGridSize = 10 as const; // Now 1-based: 1-9
 

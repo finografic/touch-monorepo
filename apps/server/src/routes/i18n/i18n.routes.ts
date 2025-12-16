@@ -8,7 +8,10 @@ const tags = ['I18n'];
  * Build nested object from dot-notation keys
  * Example: "buttons.save" -> { buttons: { save: "Save" } }
  */
-function buildI18nResources(rows: Array<{ key: string; translations: Record<string, string> }>, locale: string): Record<string, any> {
+function buildI18nResources(
+  rows: Array<{ key: string; translations: Record<string, string> }>,
+  locale: string,
+): Record<string, any> {
   const result: Record<string, any> = {};
 
   for (const row of rows) {
@@ -58,4 +61,3 @@ export type GetNamespaceRoute = typeof getNamespace;
 
 // Export the utility function for use in handlers
 export { buildI18nResources };
-

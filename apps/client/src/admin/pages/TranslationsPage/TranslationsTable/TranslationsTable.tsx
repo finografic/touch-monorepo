@@ -5,7 +5,7 @@ import { Flex } from '@radix-ui/themes';
 import createCuid from '@bugsnag/cuid';
 
 import { TranslationsRow } from './components/TranslationsRow';
-import { TableFormButtons } from 'admin/pages/TranslationsProductPage/TableFormButtons/TableFormButtons';
+import { TableFormButtons } from '../TableFormButtons/TableFormButtons';
 import { styles } from './TranslationsTable.styles';
 import { useTranslationsTableForm } from './hooks/useTranslationsTableForm';
 import { useTranslationsTableHandlers } from './hooks/useTranslationsTableHandlers';

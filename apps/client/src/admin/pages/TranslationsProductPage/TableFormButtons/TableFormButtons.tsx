@@ -57,7 +57,8 @@ export const TableFormButtons: React.FC<TableFormButtonsProps> = ({
           disabled={!isDirty || isSaving}
           size="md"
         >
-          {isSaving ? 'Saving...' : t('ui.buttons.save')}
+          {/* {isSaving ? 'Saving...' : t('buttons.save') + '*'} */}
+          {isSaving ? 'Saving...' : t('ui.buttons.save') + '**'}
         </Button>
       )}
       {onAddNew && (
