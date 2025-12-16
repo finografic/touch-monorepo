@@ -20,7 +20,6 @@ export const translations_ui = sqliteTable('translations_ui', {
     .$type<Record<string, string>>()
     .notNull()
     .default({ 'en-GB': '' }),
-  description: text('description'), // Optional: CMS helper text for translators
   isActive: integer('is_active', { mode: 'boolean' }).notNull().default(true),
   createdAt: integer('created_at', { mode: 'timestamp' }).$defaultFn(() => new Date()),
   updatedAt: integer('updated_at', { mode: 'timestamp' })
@@ -32,7 +31,6 @@ export const translations_ui = sqliteTable('translations_ui', {
 const insertTranslationUiSchema = createInsertSchema(translations_ui, {
   key: (schema) => schema.key.min(1).max(255), // Reasonable key length limit
   translations: (schema) => schema.translations, // Keep as-is for JSON validation
-  description: (schema) => schema.description.max(500).optional(), // Optional description
   isActive: () => sqliteBooleanField(), // Handle boolean/integer conversion
 })
   .required({

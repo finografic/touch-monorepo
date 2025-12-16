@@ -9,7 +9,7 @@ import { PublicRelaysPage } from 'admin/pages/AdminRelaysPage/PublicRelaysPage';
 import { AdminSlotsConfigPage } from 'admin/pages/AdminSlotsConfigPage/AdminSlotsConfigPage';
 import { AdminSoundPage } from 'admin/pages/AdminSoundPage/AdminSoundPage';
 import { TranslationsProductPage } from 'admin/pages/TranslationsProductPage';
-import { TranslationsUiPage } from 'admin/pages/TranslationsUiPage';
+// import { TranslationsUiPage } from 'admin/pages/TranslationsUiPage';
 import { TranslationsPage } from 'admin/pages/TranslationsPage';
 import { LoaderDataHelper } from 'api/loaders/loader.data';
 import { AdminLayout } from 'layout/AdminLayout';
@@ -102,6 +102,21 @@ export const routes: RouteObject[] = [
     element: <AdminLayout />,
     children: [
       {
+        path: 'translations/ui',
+        id: AdminFieldKeys.translationsUi,
+        element: <TranslationsPage namespace="ui" groups={['buttons', 'tables', 'time']} />,
+      },
+      {
+        path: 'translations/app',
+        id: 'translations-app',
+        element: <TranslationsPage namespace="app" groups={['app']} />,
+      },
+      {
+        path: 'translations/admin',
+        id: 'translations-admin',
+        element: <TranslationsPage namespace="admin" groups={['admin']} />,
+      },
+      {
         // Protected admin section
         element: <ProtectedRoutesByRole />,
         children: [
@@ -157,21 +172,6 @@ export const routes: RouteObject[] = [
             ],
           },
           {
-            path: 'translations/ui',
-            id: AdminFieldKeys.translations,
-            element: <TranslationsPage namespace="ui" groups={['buttons', 'tables', 'time']} />,
-          },
-          {
-            path: 'translations/app',
-            id: 'translations-app',
-            element: <TranslationsPage namespace="app" groups={['app']} />,
-          },
-          {
-            path: 'translations/admin',
-            id: 'translations-admin',
-            element: <TranslationsPage namespace="admin" groups={['admin']} />,
-          },
-          {
             path: 'slots-config',
             id: 'slotsConfig',
             element: <AdminSlotsConfigPage />,
@@ -182,10 +182,37 @@ export const routes: RouteObject[] = [
             element: <AdminRelaysPage />,
           },
           {
-            path: 'translations-product',
-            id: AdminFieldKeys.translationsProduct,
-            element: <TranslationsProductPage />,
+            path: 'translations',
+            id: 'translations-group',
+            element: <Outlet />,
+            children: [
+              {
+                index: true,
+                id: AdminFieldKeys.translations,
+                element: <TranslationsProductPage />,
+              },
+              // {
+              //   path: 'ui',
+              //   id: AdminFieldKeys.translationsUi,
+              //   element: <TranslationsPage namespace="ui" groups={['buttons', 'tables', 'time']} />,
+              // },
+              // {
+              //   path: 'app',
+              //   id: 'translations-app',
+              //   element: <TranslationsPage namespace="app" groups={['app']} />,
+              // },
+              // {
+              //   path: 'admin',
+              //   id: 'translations-admin',
+              //   element: <TranslationsPage namespace="admin" groups={['admin']} />,
+              // },
+            ],
           },
+          // {
+          //   path: 'ui-labels',
+          //   id: AdminFieldKeys.translationsUi,
+          //   element: <TranslationsUiPage />,
+          // },
         ],
       },
     ],

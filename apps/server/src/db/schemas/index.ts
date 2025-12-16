@@ -18,8 +18,9 @@ export * from './slot_configurations.schema';
 export * from './supported_languages.schema';
 export * from './temperature_profiles.schema';
 export * from './translatable_entities.schema';
-
-// UI Translations
+export * from './translations_admin.schema';
+export * from './translations_app.schema';
+// Translations Tables
 export * from './translations_ui.schema';
 
 // NOTE: DRINK CONTROL SYSTEM SCHEMAS

@@ -1,23 +1,49 @@
 import { useCallback } from 'react';
 import type { RegionLocale } from '@workspace/config/i18n.config';
 import { useTranslation } from 'react-i18next';
-
-import { useCreateTranslationUi, useUpdateTranslationUi } from 'queries/translations-ui';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { api } from 'api';
+import { transformFetchError } from '@workspace/core/api';
 
 import type { TranslationUiFormItem } from '../translations.types';
 import { TranslationsUiDto } from '../utils/translations.dto';
 import { useToast } from 'components/Toast/ToastContext';
-import { invalidateReferenceDataQueries } from 'queries/invalidateReferenceData';
-import { useQueryClient } from '@tanstack/react-query';
-import { GET_TRANSLATIONS_UI_QUERYKEY } from 'queries/translations-ui';
+import type { TranslationNamespace } from './useUiTranslationData';
 
-export const useSaveUiTranslations = (supportedLanguages: RegionLocale[]) => {
+export const useSaveUiTranslations = (
+  namespace: TranslationNamespace,
+  supportedLanguages: RegionLocale[],
+) => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
   const { i18n } = useTranslation();
 
-  const createTranslationUi = useCreateTranslationUi();
-  const updateTranslationUi = useUpdateTranslationUi();
+  const createMutation = useMutation({
+    mutationFn: async (data: {
+      key: string;
+      translations: Record<string, string>;
+      description?: string;
+      isActive?: boolean;
+    }) => {
+      const response = await api.post<any>(`/translations-${namespace}`, data);
+      // Return raw response - DTO transformation happens in useUiTranslationData
+      return response?.data || response;
+    },
+  });
+
+  const updateMutation = useMutation({
+    mutationFn: async ({
+      id,
+      updates,
+    }: {
+      id: string;
+      updates: { key?: string; translations?: Record<string, string>; description?: string };
+    }) => {
+      const response = await api.patch<any>(`/translations-${namespace}/${id}`, updates);
+      // Return raw response - DTO transformation happens in useUiTranslationData
+      return response?.data || response;
+    },
+  });
 
   const save = useCallback(
     async ({ items }: { items: TranslationUiFormItem[] }) => {
@@ -29,7 +55,7 @@ export const useSaveUiTranslations = (supportedLanguages: RegionLocale[]) => {
 
         // CREATE
         if (item.id.startsWith('temp-')) {
-          const entity = await createTranslationUi.mutateAsync({
+          const entity = await createMutation.mutateAsync({
             key: payload.key,
             translations: payload.translations,
             description: payload.description || undefined,
@@ -41,7 +67,7 @@ export const useSaveUiTranslations = (supportedLanguages: RegionLocale[]) => {
         }
 
         // UPDATE (ONLY items passed in)
-        await updateTranslationUi.mutateAsync({
+        await updateMutation.mutateAsync({
           id: item.id,
           updates: {
             key: payload.key,
@@ -60,37 +86,24 @@ export const useSaveUiTranslations = (supportedLanguages: RegionLocale[]) => {
         });
       }
 
-      // Invalidate translations UI queries
+      // Invalidate translations queries
       await queryClient.invalidateQueries({
-        queryKey: GET_TRANSLATIONS_UI_QUERYKEY,
+        queryKey: [`translations-${namespace}`],
       });
 
       // Reload i18next resources to reflect changes immediately
-      // Determine which namespaces to reload based on saved items
-      const namespacesToReload = new Set<string>();
-      for (const item of [...created, ...updated]) {
-        if (item.key.startsWith('buttons.') || item.key.startsWith('tables.')) {
-          namespacesToReload.add('ui');
-        } else if (item.key.startsWith('time.')) {
-          namespacesToReload.add('time');
-        }
-      }
-
-      // Reload each affected namespace
-      for (const ns of namespacesToReload) {
-        await i18n.reloadResources(i18n.language, ns);
-      }
+      // All translations are served under 'ui' namespace
+      await i18n.reloadResources(i18n.language, 'ui');
 
       return {
         savedItems: [...created, ...updated],
       };
     },
-    [supportedLanguages, createTranslationUi, updateTranslationUi, toast, queryClient, i18n],
+    [namespace, supportedLanguages, createMutation, updateMutation, toast, queryClient, i18n],
   );
 
   return {
     save,
-    isLoading: createTranslationUi.isPending || updateTranslationUi.isPending,
+    isLoading: createMutation.isPending || updateMutation.isPending,
   };
 };
-

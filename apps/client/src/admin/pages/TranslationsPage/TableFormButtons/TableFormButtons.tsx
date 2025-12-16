@@ -34,13 +34,6 @@ export const TableFormButtons: React.FC<TableFormButtonsProps> = ({
   const { t, i18n } = useTranslation();
   const debouncedAddNew = useDebouncedCallback(() => onAddNew?.(), 500, { leading: true, trailing: false });
 
-  // Debug: log if namespace is loaded
-  if (process.env.NODE_ENV === 'development') {
-    console.log('[TableFormButtons] i18n language:', i18n.language);
-    console.log('[TableFormButtons] ui namespace loaded:', i18n.hasResourceBundle(i18n.language, 'ui'));
-    console.log('[TableFormButtons] ui resources:', i18n.getResourceBundle(i18n.language, 'ui'));
-  }
-
   return (
     <Flex css={styles} className="table-form-buttons">
       {onReset && (

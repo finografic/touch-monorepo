@@ -4,19 +4,27 @@ import { Flex, Spinner, Tabs, Text } from '@radix-ui/themes';
 
 import { AdminPageLayout, AdminSection } from '../..';
 
-import { useUiTranslationData } from './hooks/useUiTranslationData';
+import { useUiTranslationData, type TranslationNamespace } from './hooks/useUiTranslationData';
 import { useSaveUiTranslations } from './hooks/useSaveUiTranslations';
 import { useDeleteUiTranslation } from './hooks/useDeleteUiTranslation';
 import { TranslationsTable } from './TranslationsTable';
 import type { SectionKey } from './translations.types';
 import { styles } from './TranslationsPage.styles';
 
-export const TranslationsPage: React.FC = () => {
+export interface TranslationsPageProps {
+  namespace?: TranslationNamespace;
+  groups?: string[];
+}
+
+export const TranslationsPage: React.FC<TranslationsPageProps> = ({
+  namespace = 'ui',
+  groups = ['buttons', 'tables', 'time'],
+}) => {
   const { t } = useTranslation();
 
-  const { isLoading, supportedLanguages, sections } = useUiTranslationData();
+  const { isLoading, supportedLanguages, sections } = useUiTranslationData(namespace, groups);
 
-  const [activeTab, setActiveTab] = useState<SectionKey>('buttons');
+  const [activeTab, setActiveTab] = useState<SectionKey>(groups[0] as SectionKey);
 
   const activeSection = useMemo(
     () => sections.find((section) => section.key === activeTab),
@@ -24,15 +32,18 @@ export const TranslationsPage: React.FC = () => {
   );
 
   // mutations
-  const { save, isLoading: isSaving } = useSaveUiTranslations(supportedLanguages);
-  const { deleteItem, isDeleting } = useDeleteUiTranslation();
+  const { save, isLoading: isSaving } = useSaveUiTranslations(namespace, supportedLanguages);
+  const { deleteItem, isDeleting } = useDeleteUiTranslation(namespace);
+
+  const namespaceKey = namespace.charAt(0).toUpperCase() + namespace.slice(1);
+  const pageTitleKey = `admin.pages.translations${namespaceKey}.content.editTables`;
 
   if (isLoading || isSaving || isDeleting || !activeSection) {
     return (
       <AdminPageLayout
-        title={t('admin.pages.translationsUi.content.editTables')}
+        title={t(pageTitleKey)}
         subtitle="Admin"
-        description="Manage UI translations"
+        description={`Manage ${namespace} translations`}
         styles={styles}
       >
         <Flex direction="column" gap="4" align="center" justify="center" p="6">
@@ -44,16 +55,14 @@ export const TranslationsPage: React.FC = () => {
   }
 
   return (
-    <AdminPageLayout
-      title={t('admin.pages.translationsUi.content.editTables')}
-      subtitle="Admin"
-      styles={styles}
-    >
+    <AdminPageLayout title={t(pageTitleKey)} subtitle="Admin" styles={styles}>
       <Tabs.Root value={activeTab} onValueChange={(value) => setActiveTab(value as SectionKey)}>
         <Tabs.List>
-          <Tabs.Trigger value="buttons">{t('admin.pages.translationsUi.content.buttons.title')}</Tabs.Trigger>
-          <Tabs.Trigger value="tables">{t('admin.pages.translationsUi.content.tables.title')}</Tabs.Trigger>
-          <Tabs.Trigger value="time">{t('admin.pages.translationsUi.content.time.title')}</Tabs.Trigger>
+          {sections.map((section) => (
+            <Tabs.Trigger key={section.key} value={section.key}>
+              {t(section.title)}
+            </Tabs.Trigger>
+          ))}
         </Tabs.List>
 
         {sections.map((section) => (

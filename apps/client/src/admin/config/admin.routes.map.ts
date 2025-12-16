@@ -130,7 +130,7 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
   // AUTHENTICATED ENTRIES (only visible as admin) ========================== //
   {
     key: 'translations',
-    path: '/admin/translations',
+    path: '/admin/translations-product',
     element: {
       public: null,
       admin: TranslationsProductPage,
@@ -140,19 +140,57 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     icon: EditIcon,
     color: 'purple',
   },
+  // LANGUAGE ENTRY (public and admin) ====================================== //
   {
-    key: 'uiLabels',
-    path: '/admin/ui-labels',
+    key: 'translationsUi',
+    path: '/admin/translations/ui',
     element: {
       public: null,
-      // admin: TranslationsUiPage,
       admin: TranslationsPage,
     },
     hasNav: { public: false, admin: true },
     hasCard: { public: false, admin: true },
-    icon: LanguageIcon,
-    color: 'blue',
+    icon: EditIcon,
+    color: 'purple',
   },
+  {
+    key: 'translationsApp',
+    path: '/admin/translations/app',
+    element: {
+      public: null,
+      admin: TranslationsPage,
+    },
+    hasNav: { public: false, admin: false },
+    hasCard: { public: false, admin: false },
+    icon: EditIcon,
+    color: 'purple',
+  },
+  {
+    key: 'translationsAdmin',
+    path: '/admin/translations/admin',
+    element: {
+      public: null,
+      admin: TranslationsPage,
+    },
+    hasNav: { public: false, admin: false },
+    hasCard: { public: false, admin: false },
+    icon: EditIcon,
+    color: 'purple',
+  },
+  // LANGUAGE ENTRY (public and admin) ====================================== //
+  // {
+  //   key: 'uiLabels',
+  //   path: '/admin/ui-labels',
+  //   element: {
+  //     public: null,
+  //     // admin: TranslationsUiPage,
+  //     admin: TranslationsPage,
+  //   },
+  //   hasNav: { public: false, admin: true },
+  //   hasCard: { public: false, admin: true },
+  //   icon: LanguageIcon,
+  //   color: 'blue',
+  // },
   // LANGUAGE ENTRY (public and admin) ====================================== //
   {
     key: 'languages',

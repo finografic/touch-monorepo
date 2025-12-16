@@ -431,7 +431,6 @@ export async function seed() {
         translationsData.map((item) => ({
           key: item.key,
           translations: item.translations,
-          description: item.description,
           isActive: true,
         })),
       )

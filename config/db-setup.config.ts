@@ -11,6 +11,26 @@ export const seedConfigs: SeedConfig[] = [
     dependencies: ['supported_languages'],
   },
   {
+    name: 'translations_app',
+    description: 'App translations',
+    dependencies: ['supported_languages'],
+  },
+  {
+    name: 'translations_admin',
+    description: 'Admin translations',
+    dependencies: ['supported_languages'],
+  },
+  {
+    name: 'translations_app',
+    description: 'App translations',
+    dependencies: ['supported_languages'],
+  },
+  {
+    name: 'translations_admin',
+    description: 'Admin translations',
+    dependencies: ['supported_languages'],
+  },
+  {
     name: 'translatable_entities',
     description: 'Translatable entities',
     dependencies: ['supported_languages'],

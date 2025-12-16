@@ -13,7 +13,7 @@ export interface TranslationUiFormItem {
   [key: string]: any; // dynamic language fields: esEs, enGb, ...
 }
 
-export type SectionKey = 'buttons' | 'tables' | 'time';
+export type SectionKey = string; // Dynamic: 'buttons' | 'tables' | 'time' | 'app' | 'admin' | etc.
 
 export interface SectionData {
   key: SectionKey;
