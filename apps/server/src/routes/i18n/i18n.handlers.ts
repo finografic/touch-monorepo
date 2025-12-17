@@ -14,7 +14,6 @@ export const getNamespace: AppRouteHandler<GetNamespaceRoute> = async (context) 
     return context.json({}, HttpStatusCodes.OK);
   }
 
-  // Query all three tables in parallel
   const [uiRows, appRows, adminRows] = await Promise.all([
     db.query.translations_ui.findMany({
       where: (fields, operators) => operators.eq(fields.isActive, true),

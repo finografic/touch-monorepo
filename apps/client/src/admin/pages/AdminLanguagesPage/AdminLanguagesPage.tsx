@@ -192,13 +192,6 @@ export const AdminLanguagesPage: React.FC = () => {
     }
   };
 
-  // const handleRefreshCache = () => {
-  //   queryClient.invalidateQueries({ queryKey: supportedLanguagesKeys.lists() });
-  //   setMessage({ type: 'success', text: 'Cache refreshed! Data reloaded from database.' });
-  //   setTimeout(() => setMessage(null), 3000);
-  // };
-
-  // Handle loading and error states
   if (isLoading) {
     return (
       <AdminPageLayout

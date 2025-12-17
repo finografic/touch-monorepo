@@ -24,10 +24,8 @@ function buildI18nResources(
     for (let i = 0; i < parts.length; i++) {
       const part = parts[i];
       if (i === parts.length - 1) {
-        // Last part - set the value
         current[part] = value;
       } else {
-        // Intermediate part - create nested object if needed
         current[part] ??= {};
         current = current[part];
       }
@@ -59,5 +57,4 @@ export const getNamespace = createRoute({
 
 export type GetNamespaceRoute = typeof getNamespace;
 
-// Export the utility function for use in handlers
 export { buildI18nResources };

@@ -12,12 +12,10 @@ export const TranslationsUiDto = {
       return {};
     }
 
-    // If already an object, return as-is
     if (typeof translations === 'object' && !Array.isArray(translations)) {
       return translations;
     }
 
-    // If it's a string, try to parse it
     if (typeof translations === 'string') {
       try {
         const parsed = JSON.parse(translations);
@@ -51,4 +49,3 @@ export const TranslationsUiDto = {
     };
   },
 };
-

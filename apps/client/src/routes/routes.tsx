@@ -163,22 +163,22 @@ export const routes: RouteObject[] = [
           },
           {
             path: 'translations/app',
-            id: 'translations-app',
+            id: AdminFieldKeys.translationsApp,
             element: <TranslationsPage namespace="app" groups={['app']} />,
           },
           {
             path: 'translations/admin',
-            id: 'translations-admin',
+            id: AdminFieldKeys.translationsAdmin,
             element: <TranslationsPage namespace="admin" groups={['admin']} />,
           },
           {
             path: 'slots-config',
-            id: 'slotsConfig',
+            id: AdminFieldKeys.slotsConfig,
             element: <AdminSlotsConfigPage />,
           },
           {
             path: 'relays',
-            id: 'relays',
+            id: AdminFieldKeys.relays,
             element: <AdminRelaysPage />,
           },
           {

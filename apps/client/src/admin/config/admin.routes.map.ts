@@ -9,7 +9,6 @@ import { PublicRelaysPage } from 'admin/pages/AdminRelaysPage/PublicRelaysPage';
 import { AdminSlotsConfigPage } from 'admin/pages/AdminSlotsConfigPage/AdminSlotsConfigPage';
 import { AdminSoundPage, PublicSoundPage } from 'admin/pages/AdminSoundPage';
 import { TranslationsProductPage } from 'admin/pages/TranslationsProductPage';
-// import { TranslationsUiPage } from 'admin/pages/TranslationsUiPage';
 import {
   CoffeeIcon,
   EditIcon,
@@ -177,20 +176,6 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     icon: EditIcon,
     color: 'purple',
   },
-  // LANGUAGE ENTRY (public and admin) ====================================== //
-  // {
-  //   key: 'uiLabels',
-  //   path: '/admin/ui-labels',
-  //   element: {
-  //     public: null,
-  //     // admin: TranslationsUiPage,
-  //     admin: TranslationsPage,
-  //   },
-  //   hasNav: { public: false, admin: true },
-  //   hasCard: { public: false, admin: true },
-  //   icon: LanguageIcon,
-  //   color: 'blue',
-  // },
   // LANGUAGE ENTRY (public and admin) ====================================== //
   {
     key: 'languages',

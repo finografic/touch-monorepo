@@ -29,7 +29,7 @@ export const translations_ui = sqliteTable('translations_ui', {
 
 // Zod schema for validation
 const insertTranslationUiSchema = createInsertSchema(translations_ui, {
-  key: (schema) => schema.key.min(1).max(255), // Reasonable key length limit
+  key: (schema) => schema.key.min(1).max(255),
   translations: (schema) => schema.translations, // Keep as-is for JSON validation
   isActive: () => sqliteBooleanField(), // Handle boolean/integer conversion
 })

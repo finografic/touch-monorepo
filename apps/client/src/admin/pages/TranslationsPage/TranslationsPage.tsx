@@ -72,16 +72,10 @@ export const TranslationsPage: React.FC<TranslationsPageProps> = ({
                 sectionKey={section.key}
                 items={section.items}
                 supportedLanguages={supportedLanguages}
-                onSave={async ({ items }) => {
-                  const result = await save({ items });
-                  return result; // 🔑 REQUIRED
-                }}
+                onSave={async ({ items }) => await save({ items })}
                 onDelete={async (itemId) => {
                   const result = await deleteItem(itemId);
-                  return {
-                    success: true,
-                    deletedId: result?.deletedId,
-                  };
+                  return { success: true, deletedId: result?.deletedId };
                 }}
                 isSaving={isSaving}
                 isDeleting={isDeleting}
