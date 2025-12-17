@@ -1,32 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { ChevronDownIcon } from '@radix-ui/react-icons';
 import { DropdownMenu } from '@radix-ui/themes';
 
 import type { NavItem } from 'types/nav.types';
 
-interface MoreButtonProps {
+interface DropdownNavMenuProps {
   items: NavItem[];
-  isOpen: boolean;
-  onOpenChange: (open: boolean) => void;
-  onNavigate: (path: string) => void;
+  onNavigate?: (path: string) => void;
   activePath?: string;
   className?: string;
 }
 
-export const MoreButton: React.FC<MoreButtonProps> = ({
+export const DropdownNavMenu: React.FC<DropdownNavMenuProps> = ({
   items,
-  isOpen,
-  onOpenChange,
   onNavigate,
   activePath,
   className = '',
 }) => {
+  const [isOpen, setIsOpen] = useState(false);
   return (
-    <DropdownMenu.Root open={isOpen} onOpenChange={onOpenChange}>
+    <DropdownMenu.Root open={isOpen} onOpenChange={setIsOpen}>
       <DropdownMenu.Trigger>
         <button type="button" className={`nav-button more-button ${className}`}>
-          More
+          TRANSLATIONS
           <ChevronDownIcon
             width="16"
             height="16"

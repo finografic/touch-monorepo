@@ -21,3 +21,6 @@ export interface SectionData {
   description: string;
   items: TranslationUiFormItem[]; // RHF-ready form items
 }
+
+// ======================================================================== //
+// ======================================================================== //

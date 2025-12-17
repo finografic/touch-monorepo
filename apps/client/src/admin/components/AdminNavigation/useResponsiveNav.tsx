@@ -1,10 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-
-export interface NavItem {
-  id: string;
-  label: string;
-  path: string;
-}
+import type { NavItem } from 'types/nav.types';
 
 export interface UseResponsiveNavProps {
   items: NavItem[];
@@ -20,12 +15,6 @@ export interface UseResponsiveNavProps {
  * - Detects mobile vs desktop based on breakpoint
  * - Recalculates on window resize
  */
-
-export interface NavItem {
-  id: string;
-  label: string;
-  path: string;
-}
 
 export const useResponsiveNav = ({ items, mobileBreakpoint = 'md' }: UseResponsiveNavProps) => {
   const containerRef = useRef<HTMLDivElement>(null);

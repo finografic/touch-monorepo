@@ -1,5 +1,6 @@
 import type { AdminRouteEntry, AuthRoles } from './admin.routes.map';
 import { ADMIN_ENTRIES } from './admin.routes.map';
+import type { NavItem } from 'types/nav.types';
 
 /**
  * Get all admin entries filtered by authentication status and role
@@ -25,9 +26,10 @@ export function getAdminEntriesForAuth(isAuthenticated: boolean): AdminRouteEntr
 /**
  * NAVIGATION ITEMS for the admin navbar
  */
-export function getAdminNavItems(role: AuthRoles = 'public') {
+export function gerAdminNavItemsByRole(role: AuthRoles = 'public'): NavItem[] {
   return ADMIN_ENTRIES.filter((entry) => entry.hasNav?.[role] === true).map((entry) => ({
     key: entry.key,
+    id: entry.key,
     path: entry.path,
     label: entry.key, // Will be resolved from translations at render time
     icon: entry.icon!,

@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
 import { TabNav } from '@radix-ui/themes';
-import { getAdminNavItems } from 'admin/config/admin.routes.selectors';
+import { gerAdminNavItemsByRole } from 'admin/config/admin.routes.selectors';
 import { m } from 'i18n/messages';
 
 import { usePageTransition } from 'hooks/usePageTransition';
@@ -21,7 +21,7 @@ export const TabPageMenu: React.FC = () => {
 
   // Get navigation items from the single source of truth
   const navItems = useMemo(() => {
-    const configNavItems = getAdminNavItems(user?.role);
+    const configNavItems = gerAdminNavItemsByRole(user?.role);
     return [
       {
         id: 'dashboard',

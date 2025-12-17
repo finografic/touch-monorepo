@@ -5,15 +5,18 @@ import { useLocation } from 'react-router-dom';
 
 import { HamburgerMenuIcon } from '@radix-ui/react-icons';
 import { DropdownMenu, TabNav } from '@radix-ui/themes';
-import { getAdminNavItems } from 'admin/config/admin.routes.selectors';
+import { gerAdminNavItemsByRole } from 'admin/config/admin.routes.selectors';
 
 import { usePageTransition } from 'hooks/usePageTransition';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 
 import { MoreButton } from './MoreButton';
 import { useResponsiveNav } from './useResponsiveNav';
+import type { NavItem } from 'types/nav.types';
+
 import { styles } from './AdminNavigation.styles';
 import { getAdminNavItemText } from 'utils/i18n/i18n-inlang.helpers';
+import { DropdownNavMenu } from './DropdownNavMenu';
 
 export const AdminNavigation: React.FC = () => {
   const { t } = useTranslation();
@@ -23,12 +26,40 @@ export const AdminNavigation: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Get navigation items from the single source of truth
-  const navItems = useMemo(() => {
-    return getAdminNavItems(user?.role).map((item) => ({
-      id: item.key,
-      path: item.path,
-      label: getAdminNavItemText({ key: item.key, role: user?.role }),
-    }));
+
+  // const navItems = useMemo((): NavItem[] => {
+  //   return gerAdminNavItemsByRole(user?.role).map((item) => ({
+  //     key: item.key,
+  //     id: item.id,
+  //     path: item.path,
+  //     label: getAdminNavItemText({ key: item.key, role: user?.role }),
+  //   }));
+  // }, [t, isAuthenticated, user?.role, location.pathname]);
+
+  const { navItems, navTranslationItems } = useMemo(() => {
+    const navItems: NavItem[] = [];
+    const navTranslationItems: NavItem[] = [];
+
+    for (const item of gerAdminNavItemsByRole(user?.role) as NavItem[]) {
+      if (item.key.startsWith('translations')) {
+        navTranslationItems.push({
+          key: item.key,
+          id: item.id,
+          path: item.path,
+          label: getAdminNavItemText({ key: item.key, role: user?.role }),
+        });
+        continue;
+      }
+
+      navItems.push({
+        key: item.key,
+        id: item.id,
+        path: item.path,
+        label: getAdminNavItemText({ key: item.key, role: user?.role }),
+      });
+    }
+
+    return { navItems, navTranslationItems };
   }, [t, isAuthenticated, user?.role, location.pathname]);
 
   const { containerRef, registerItem, visibleItems, overflowItems, hasOverflow } = useResponsiveNav({
@@ -77,6 +108,7 @@ export const AdminNavigation: React.FC = () => {
                     </TabNav.Link>
                   );
                 })}
+                <DropdownNavMenu items={navTranslationItems} activePath={location.pathname} />
                 {/* DESKTOP: More Dropdown for Overflow */}
                 {hasOverflow && (
                   <MoreButton
