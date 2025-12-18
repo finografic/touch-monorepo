@@ -24,7 +24,15 @@ export const TranslationsPage: React.FC<TranslationsPageProps> = ({
 
   const { isLoading, supportedLanguages, sections } = useUiTranslationData(namespace, groups);
 
-  const [activeTab, setActiveTab] = useState<SectionKey>(groups[0] as SectionKey);
+  // Initialize activeTab with first group, update when groups change
+  const [activeTab, setActiveTab] = useState<SectionKey>(() => (groups?.[0] || 'buttons') as SectionKey);
+
+  // Update activeTab when groups change or when sections become available
+  React.useEffect(() => {
+    if (groups && groups.length > 0 && !groups.includes(activeTab)) {
+      setActiveTab(groups[0] as SectionKey);
+    }
+  }, [groups, activeTab]);
 
   const activeSection = useMemo(
     () => sections.find((section) => section.key === activeTab),
@@ -38,7 +46,8 @@ export const TranslationsPage: React.FC<TranslationsPageProps> = ({
   const namespaceKey = namespace.charAt(0).toUpperCase() + namespace.slice(1);
   const pageTitleKey = `admin.pages.translations${namespaceKey}.content.editTables`;
 
-  if (isLoading || isSaving || isDeleting || !activeSection) {
+  // Show loading if: data is loading, mutations are pending, or we don't have sections yet
+  if (isLoading || isSaving || isDeleting || sections.length === 0 || !activeSection) {
     return (
       <AdminPageLayout
         title={t(pageTitleKey)}

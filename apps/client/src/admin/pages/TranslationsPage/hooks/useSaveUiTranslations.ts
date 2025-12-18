@@ -25,7 +25,7 @@ export const useSaveUiTranslations = (
       description?: string;
       isActive?: boolean;
     }) => {
-      const response = await api.post<any>(`/translations-${namespace}`, data);
+      const response = await api.post<any>(`/translations/${namespace}`, data);
       // Return raw response - DTO transformation happens in useUiTranslationData
       return response?.data || response;
     },
@@ -39,7 +39,7 @@ export const useSaveUiTranslations = (
       id: string;
       updates: { key?: string; translations?: Record<string, string>; description?: string };
     }) => {
-      const response = await api.patch<any>(`/translations-${namespace}/${id}`, updates);
+      const response = await api.patch<any>(`/translations/${namespace}/${id}`, updates);
       // Return raw response - DTO transformation happens in useUiTranslationData
       return response?.data || response;
     },

@@ -164,12 +164,12 @@ export const routes: RouteObject[] = [
           {
             path: 'translations/app',
             id: AdminFieldKeys.translationsApp,
-            element: <TranslationsPage namespace="app" groups={['app']} />,
+            element: <TranslationsPage namespace="app" groups={['pages', 'components', 'orders']} />,
           },
           {
             path: 'translations/admin',
             id: AdminFieldKeys.translationsAdmin,
-            element: <TranslationsPage namespace="admin" groups={['admin']} />,
+            element: <TranslationsPage namespace="admin" groups={['pages']} />,
           },
           {
             path: 'slots-config',

@@ -15,7 +15,7 @@ export const useDeleteUiTranslation = (namespace: TranslationNamespace = 'ui') =
 
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
-      await api.delete<void>(`/translations-${namespace}/${id}`);
+      await api.delete<void>(`/translations/${namespace}/${id}`);
     },
   });
 

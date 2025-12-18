@@ -117,7 +117,6 @@ export const AdminNavigation: React.FC<AdminNavigationProps> = ({ displayIcons =
                 ? `calc(${maxWidthValue}px - ${padding * 2}px)`
                 : `calc(100% - ${padding * 2}px)`,
               padding: `0 ${padding}px`,
-              border: '1px solid red',
             }}
           >
             <TabNav.Root size="2" className="admin-nav" style={{ justifyContent: 'center' }}>
