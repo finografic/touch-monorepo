@@ -71,6 +71,15 @@ export const styles = css`
         font-weight: 600;
       }
     }
+
+    /* caret icon */
+    svg:not(.icon) {
+      transform: scale(1.4);
+    }
+    /* route icon */
+    svg.icon {
+      width: 1.4rem;
+    }
   }
 
   /* Dropdown menu styles */

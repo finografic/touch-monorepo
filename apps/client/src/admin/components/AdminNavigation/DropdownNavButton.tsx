@@ -12,6 +12,7 @@ interface DropdownNavButtonProps {
   onNavigate: (path: string) => void;
   activePath?: string;
   isTransitioning?: boolean;
+  displayIcons?: boolean;
 }
 
 export const DropdownNavButton: React.FC<DropdownNavButtonProps> = ({
@@ -21,6 +22,7 @@ export const DropdownNavButton: React.FC<DropdownNavButtonProps> = ({
   onNavigate,
   activePath,
   isTransitioning = false,
+  displayIcons = false,
 }) => {
   // Check if any child is active
   const isActive = item.children?.some((child) => child.path === activePath) || item.path === activePath;
@@ -33,7 +35,7 @@ export const DropdownNavButton: React.FC<DropdownNavButtonProps> = ({
           className={`nav-button ${isActive ? 'active' : ''} ${isTransitioning ? 'transitioning' : ''}`}
           disabled={isTransitioning}
         >
-          {item.icon && <item.icon width="16" height="16" style={{ marginRight: '0.5rem' }} />}
+          {displayIcons && item.icon && <item.icon width="16" height="16" style={{ marginRight: '0.5rem' }} />}
           {item.label}
           <ChevronDownIcon
             width="16"

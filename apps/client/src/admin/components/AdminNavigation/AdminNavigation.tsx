@@ -11,13 +11,17 @@ import { useAuth } from 'providers/AuthProvider/AuthContext';
 
 import { MoreButton } from './MoreButton';
 import { DropdownNavButton } from './DropdownNavButton';
-import { useResponsiveNav } from './useResponsiveNav-V2-DEV';
+import { useResponsiveNav } from './useResponsiveNav';
 import type { NavItem } from 'types/nav.types';
 
 import { styles } from './AdminNavigation.styles';
 import { getAdminNavItemText } from 'utils/i18n/i18n-inlang.helpers';
 
-export const AdminNavigation: React.FC = () => {
+export interface AdminNavigationProps {
+  displayIcons?: boolean;
+}
+
+export const AdminNavigation: React.FC<AdminNavigationProps> = ({ displayIcons = false }) => {
   const { t } = useTranslation();
   const location = useLocation();
   const { navigateWithTransition, isTransitioning } = usePageTransition({ delay: 100 });
@@ -38,7 +42,6 @@ export const AdminNavigation: React.FC = () => {
       })),
     }));
   }, [t, isAuthenticated, user?.role, location.pathname]);
-  console.log('navItems:', { isAuthenticated }, user?.role, navItems);
 
   const { containerRef, registerItem, visibleItems, overflowItems, hasOverflow } = useResponsiveNav({
     items: navItems,
@@ -90,6 +93,7 @@ export const AdminNavigation: React.FC = () => {
                           onNavigate={handleNavigation}
                           activePath={location.pathname}
                           isTransitioning={isTransitioning}
+                          displayIcons={displayIcons}
                         />
                       </div>
                     );
@@ -112,7 +116,9 @@ export const AdminNavigation: React.FC = () => {
                         onClick={() => handleNavigation(item.path)}
                         disabled={isTransitioning}
                       >
-                        {item.icon && <item.icon width="16" height="16" style={{ marginRight: '0.5rem' }} />}
+                        {displayIcons && item.icon && (
+                          <item.icon width="16" height="16" style={{ marginRight: '0.5rem' }} />
+                        )}
                         {item.label}
                       </button>
                     </TabNav.Link>
@@ -126,6 +132,7 @@ export const AdminNavigation: React.FC = () => {
                     onOpenChange={setIsMenuOpen}
                     onNavigate={handleNavigation}
                     activePath={location.pathname}
+                    displayIcons={displayIcons}
                   />
                 )}
               </TabNav.Root>

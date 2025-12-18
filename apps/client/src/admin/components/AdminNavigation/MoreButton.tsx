@@ -12,6 +12,7 @@ interface MoreButtonProps {
   onNavigate: (path: string) => void;
   activePath?: string;
   className?: string;
+  displayIcons?: boolean;
 }
 
 export const MoreButton: React.FC<MoreButtonProps> = ({
@@ -21,6 +22,7 @@ export const MoreButton: React.FC<MoreButtonProps> = ({
   onNavigate,
   activePath,
   className = '',
+  displayIcons = false,
 }) => {
   return (
     <DropdownMenu.Root open={isOpen} onOpenChange={onOpenChange}>
@@ -42,6 +44,9 @@ export const MoreButton: React.FC<MoreButtonProps> = ({
             onClick={() => onNavigate(item.path)}
             className={activePath === item.path ? 'active' : ''}
           >
+            {displayIcons && item.icon && (
+              <item.icon width="16" height="16" style={{ marginRight: '0.5rem' }} />
+            )}
             {item.label}
           </DropdownMenu.Item>
         ))}
