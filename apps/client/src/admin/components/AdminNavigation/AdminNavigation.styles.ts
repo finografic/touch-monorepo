@@ -4,8 +4,10 @@ import { colors, layout, min } from 'styles';
 
 export const styles = css`
   /* position: relative; */
-  /* left: 50vw; */
-  /* transform: translateX(-33vw); */
+  left: 0;
+  width: 100vw;
+  max-width: unset !important;
+  /* transform: translateX(-50vw); */
   /* box-sizing: border-box; */
   /* margin: 0 auto; */
   /* width: 90vw; */
@@ -31,7 +33,7 @@ export const styles = css`
     /* max-width: 96vw; */
   }
   ${min.lg} {
-    /* max-width: 96vw; */
+    max-width: 96vw;
     /* display: block !important; */
 
     /* width: 92vw !important;
@@ -41,7 +43,7 @@ export const styles = css`
     /* display: block !important; */
   }
   ${min.xl} {
-    /* max-width: 1240px; */
+    max-width: 85vw;
   }
 
   /* .container {
