@@ -3,20 +3,19 @@ import { Col, Container, Row } from 'react-grid-system';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
-import { HamburgerMenuIcon } from '@radix-ui/react-icons';
-import { DropdownMenu, TabNav } from '@radix-ui/themes';
+import { TabNav } from '@radix-ui/themes';
 import { gerAdminNavItemsByRole } from 'admin/config/admin.routes.selectors';
 
 import { usePageTransition } from 'hooks/usePageTransition';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 
 import { MoreButton } from './MoreButton';
+import { DropdownNavButton } from './DropdownNavButton';
 import { useResponsiveNav } from './useResponsiveNav';
 import type { NavItem } from 'types/nav.types';
 
 import { styles } from './AdminNavigation.styles';
 import { getAdminNavItemText } from 'utils/i18n/i18n-inlang.helpers';
-import { DropdownNavMenu } from './DropdownNavMenu';
 
 export const AdminNavigation: React.FC = () => {
   const { t } = useTranslation();
@@ -26,40 +25,18 @@ export const AdminNavigation: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Get navigation items from the single source of truth
-
-  // const navItems = useMemo((): NavItem[] => {
-  //   return gerAdminNavItemsByRole(user?.role).map((item) => ({
-  //     key: item.key,
-  //     id: item.id,
-  //     path: item.path,
-  //     label: getAdminNavItemText({ key: item.key, role: user?.role }),
-  //   }));
-  // }, [t, isAuthenticated, user?.role, location.pathname]);
-
-  const { navItems, navTranslationItems } = useMemo(() => {
-    const navItems: NavItem[] = [];
-    const navTranslationItems: NavItem[] = [];
-
-    for (const item of gerAdminNavItemsByRole(user?.role) as NavItem[]) {
-      if (item.key.startsWith('translations')) {
-        navTranslationItems.push({
-          key: item.key,
-          id: item.id,
-          path: item.path,
-          label: getAdminNavItemText({ key: item.key, role: user?.role }),
-        });
-        continue;
-      }
-
-      navItems.push({
-        key: item.key,
-        id: item.id,
-        path: item.path,
-        label: getAdminNavItemText({ key: item.key, role: user?.role }),
-      });
-    }
-
-    return { navItems, navTranslationItems };
+  const navItems = useMemo((): NavItem[] => {
+    return gerAdminNavItemsByRole(user?.role).map((item) => ({
+      key: item.key,
+      id: item.id,
+      path: item.path,
+      label: getAdminNavItemText({ key: item.key, role: user?.role }),
+      icon: item.icon,
+      children: item.children?.map((child) => ({
+        ...child,
+        label: getAdminNavItemText({ key: child.key, role: user?.role }),
+      })),
+    }));
   }, [t, isAuthenticated, user?.role, location.pathname]);
 
   const { containerRef, registerItem, visibleItems, overflowItems, hasOverflow } = useResponsiveNav({
@@ -67,13 +44,22 @@ export const AdminNavigation: React.FC = () => {
     mobileBreakpoint: 'sm',
   });
 
+  // Track dropdown open states for grouped nav items
+  const [dropdownStates, setDropdownStates] = React.useState<Record<string, boolean>>({});
+
   const handleNavigation = (path: string) => {
     if (location.pathname === path) return;
     setIsMenuOpen(false);
+    // Close all dropdowns when navigating
+    setDropdownStates({});
 
     startTransition(() => {
       navigateWithTransition(path);
     });
+  };
+
+  const handleDropdownToggle = (itemId: string, open: boolean) => {
+    setDropdownStates((prev) => ({ ...prev, [itemId]: open }));
   };
 
   return (
@@ -87,6 +73,28 @@ export const AdminNavigation: React.FC = () => {
                 {/* DESKTOP: Render all items for measurement, hide overflow with CSS */}
                 {navItems.map((item) => {
                   const isOverflow = overflowItems.some((o) => o.id === item.id);
+
+                  // Render dropdown for items with children
+                  if (item.children && item.children.length > 0) {
+                    return (
+                      <div
+                        key={item.id}
+                        ref={(el) => registerItem(item.id, el)}
+                        style={{ display: isOverflow ? 'none' : undefined }}
+                      >
+                        <DropdownNavButton
+                          item={item}
+                          isOpen={dropdownStates[item.id] || false}
+                          onOpenChange={(open) => handleDropdownToggle(item.id, open)}
+                          onNavigate={handleNavigation}
+                          activePath={location.pathname}
+                          isTransitioning={isTransitioning}
+                        />
+                      </div>
+                    );
+                  }
+
+                  // Regular nav button
                   return (
                     <TabNav.Link
                       key={item.id}
@@ -103,12 +111,12 @@ export const AdminNavigation: React.FC = () => {
                         onClick={() => handleNavigation(item.path)}
                         disabled={isTransitioning}
                       >
+                        {item.icon && <item.icon width="16" height="16" style={{ marginRight: '0.5rem' }} />}
                         {item.label}
                       </button>
                     </TabNav.Link>
                   );
                 })}
-                <DropdownNavMenu items={navTranslationItems} activePath={location.pathname} />
                 {/* DESKTOP: More Dropdown for Overflow */}
                 {hasOverflow && (
                   <MoreButton

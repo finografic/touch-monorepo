@@ -26,7 +26,7 @@ export type AuthRoles = 'public' | 'admin';
 /** Base properties shared by all admin route entries */
 interface AdminRouteBase {
   key: string;
-  path: string;
+  path?: string; // Optional for group nodes (children define actual paths)
   element: Partial<Record<AuthRoles, React.ComponentType | null>>;
 }
 
@@ -36,6 +36,10 @@ export interface AdminRouteEntry extends AdminRouteBase {
   hasCard?: Partial<Record<AuthRoles, boolean>>;
   icon?: React.ComponentType<any>;
   color?: 'blue' | 'green' | 'indigo' | 'orange' | 'purple' | string;
+  children?: AdminRouteEntry[]; // Sub-routes for dropdown grouping
+  // Optional props for specific components (e.g., TranslationsPage)
+  namespace?: 'ui' | 'app' | 'admin';
+  groups?: string[];
 }
 
 export const ADMIN_ENTRIES: AdminRouteEntry[] = [
@@ -139,42 +143,50 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     icon: EditIcon,
     color: 'purple',
   },
-  // LANGUAGE ENTRY (public and admin) ====================================== //
+  // TRANSLATIONS LABELS GROUP (dropdown with 3 children) ================== //
   {
-    key: 'translationsUi',
-    path: '/admin/translations/ui',
+    key: 'translationsLabels',
+    path: '/admin/translations/ui', // Default/first child path (for active state detection)
     element: {
       public: null,
-      admin: TranslationsPage,
+      admin: TranslationsPage, // Parent uses first child's component
     },
     hasNav: { public: false, admin: true },
     hasCard: { public: false, admin: true },
     icon: EditIcon,
     color: 'purple',
-  },
-  {
-    key: 'translationsApp',
-    path: '/admin/translations/app',
-    element: {
-      public: null,
-      admin: TranslationsPage,
-    },
-    hasNav: { public: false, admin: false },
-    hasCard: { public: false, admin: false },
-    icon: EditIcon,
-    color: 'purple',
-  },
-  {
-    key: 'translationsAdmin',
-    path: '/admin/translations/admin',
-    element: {
-      public: null,
-      admin: TranslationsPage,
-    },
-    hasNav: { public: false, admin: false },
-    hasCard: { public: false, admin: false },
-    icon: EditIcon,
-    color: 'purple',
+    children: [
+      {
+        key: 'translationsUi',
+        path: '/admin/translations/ui',
+        element: {
+          public: null,
+          admin: TranslationsPage,
+        },
+        namespace: 'ui',
+        groups: ['buttons', 'tables', 'time'],
+      },
+      {
+        key: 'translationsApp',
+        path: '/admin/translations/app',
+        element: {
+          public: null,
+          admin: TranslationsPage,
+        },
+        namespace: 'app',
+        groups: ['app'],
+      },
+      {
+        key: 'translationsAdmin',
+        path: '/admin/translations/admin',
+        element: {
+          public: null,
+          admin: TranslationsPage,
+        },
+        namespace: 'admin',
+        groups: ['admin'],
+      },
+    ],
   },
   // LANGUAGE ENTRY (public and admin) ====================================== //
   {

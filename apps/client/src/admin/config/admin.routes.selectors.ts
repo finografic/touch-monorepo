@@ -25,15 +25,47 @@ export function getAdminEntriesForAuth(isAuthenticated: boolean): AdminRouteEntr
 
 /**
  * NAVIGATION ITEMS for the admin navbar
+ * Handles both flat routes and grouped routes (with children)
  */
 export function gerAdminNavItemsByRole(role: AuthRoles = 'public'): NavItem[] {
-  return ADMIN_ENTRIES.filter((entry) => entry.hasNav?.[role] === true).map((entry) => ({
-    key: entry.key,
-    id: entry.key,
-    path: entry.path,
-    label: entry.key, // Will be resolved from translations at render time
-    icon: entry.icon!,
-  }));
+  return ADMIN_ENTRIES.filter((entry) => entry.hasNav?.[role] === true).flatMap((entry) => {
+    // If entry has children, create a dropdown nav item
+    if (entry.children && entry.children.length > 0) {
+      // Filter children that should appear in nav (if they have hasNav set)
+      // For now, include all children if parent is in nav
+      const childNavItems: NavItem[] = entry.children
+        .filter((child) => child.path) // Only include children with paths
+        .map((child) => ({
+          key: child.key,
+          id: child.key,
+          path: child.path!,
+          label: child.key,
+        }));
+
+      // Return parent nav item with children
+      return [
+        {
+          key: entry.key,
+          id: entry.key,
+          path: entry.path || entry.children[0]?.path || '', // Use first child path as default
+          label: entry.key,
+          icon: entry.icon,
+          children: childNavItems.length > 0 ? childNavItems : undefined,
+        },
+      ];
+    }
+
+    // Regular flat route
+    return [
+      {
+        key: entry.key,
+        id: entry.key,
+        path: entry.path || '',
+        label: entry.key,
+        icon: entry.icon,
+      },
+    ];
+  });
 }
 
 /**
@@ -51,10 +83,27 @@ export function getAdminDashboardCards(isAuthenticated: boolean, role?: AuthRole
 }
 
 /**
+ * Recursively search for an admin route entry by path (including children)
+ */
+function findEntryByPath(entries: AdminRouteEntry[], path: string): AdminRouteEntry | undefined {
+  for (const entry of entries) {
+    if (entry.path === path) {
+      return entry;
+    }
+    if (entry.children) {
+      const found = findEntryByPath(entry.children, path);
+      if (found) return found;
+    }
+  }
+  return undefined;
+}
+
+/**
  * Get admin route entry by path for route protection logic
+ * Now searches recursively through children
  */
 export function getAdminEntryByPath(path: string): AdminRouteEntry | undefined {
-  return ADMIN_ENTRIES.find((entry) => entry.path === path);
+  return findEntryByPath(ADMIN_ENTRIES, path);
 }
 
 /**
@@ -76,11 +125,61 @@ export function isRouteProtected(path: string, role: AuthRoles = 'public'): bool
 }
 
 /**
+ * Recursively flatten all route paths from entries and their children
+ */
+function flattenRoutePaths(entries: AdminRouteEntry[]): string[] {
+  return entries.flatMap((entry) => {
+    const paths: string[] = [];
+    if (entry.path) {
+      paths.push(entry.path);
+    }
+    if (entry.children) {
+      paths.push(...flattenRoutePaths(entry.children));
+    }
+    return paths;
+  });
+}
+
+/**
  * Get all admin route paths that require admin authentication
  * (paths where public: null and admin: Component)
+ * Now searches recursively through children
  */
 export function getProtectedAdminRoutes(): string[] {
-  return ADMIN_ENTRIES.filter((entry) => entry.element.public === null && entry.element.admin !== null).map(
-    (entry) => entry.path,
-  );
+  function getProtectedPaths(entries: AdminRouteEntry[]): string[] {
+    return entries.flatMap((entry) => {
+      const paths: string[] = [];
+
+      // Check if this entry is protected
+      if (entry.path && entry.element.public === null && entry.element.admin !== null) {
+        paths.push(entry.path);
+      }
+
+      // Recursively check children
+      if (entry.children) {
+        paths.push(...getProtectedPaths(entry.children));
+      }
+
+      return paths;
+    });
+  }
+
+  return getProtectedPaths(ADMIN_ENTRIES);
+}
+
+/**
+ * Helper function to get route config with namespace and groups for TranslationsPage
+ * Useful for generating routes.tsx or for programmatic route access
+ */
+export function getRouteConfigByPath(path: string): {
+  namespace?: 'ui' | 'app' | 'admin';
+  groups?: string[];
+} | null {
+  const entry = getAdminEntryByPath(path);
+  if (!entry) return null;
+
+  return {
+    namespace: entry.namespace,
+    groups: entry.groups,
+  };
 }
