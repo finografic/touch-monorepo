@@ -1,15 +1,60 @@
 import { css } from '@emotion/react';
 
-import { colors, layout } from 'styles';
+import { colors, layout, min } from 'styles';
 
 export const styles = css`
-  .container > div > div {
+  /* position: relative; */
+  /* left: 50vw; */
+  /* transform: translateX(-33vw); */
+  /* box-sizing: border-box; */
+  /* margin: 0 auto; */
+  /* width: 90vw; */
+  /* max-width: 100%; */
+  /* margin: 0 auto; */
+
+  /* .container > div > div { */
+  > div > div {
     display: flex;
     justify-content: center;
     align-items: center;
-    /* width: 100%;
-    padding: 0 !important; */
+    width: 100%;
+    /* max-width: 100%; */
+    overflow: hidden;
+    /* padding: 0 !important; */
   }
+
+  /* background-color: pink; */
+  ${min.sm} {
+    /* max-width: 96vw; */
+  }
+  ${min.md} {
+    /* max-width: 96vw; */
+  }
+  ${min.lg} {
+    /* max-width: 96vw; */
+    /* display: block !important; */
+
+    /* width: 92vw !important;
+    max-width: 100%; */
+    /* margin: 0 auto; */
+    /* position: absolute; */
+    /* display: block !important; */
+  }
+  ${min.xl} {
+    /* max-width: 1240px; */
+  }
+
+  /* .container {
+    background-color: pink;
+  } */
+
+  /* .container > div {
+    background-color: pink;
+  } */
+
+  /* .container > div > div {
+    background-color: pink;
+  } */
 
   ul.admin-nav {
     display: flex;
@@ -18,6 +63,9 @@ export const styles = css`
     font-weight: 700;
     overflow: visible;
     position: relative;
+    width: 100%;
+    max-width: 100%;
+    flex-wrap: nowrap;
 
     button.rt-TabNavLink.nav-button {
       color: ${colors.text75};

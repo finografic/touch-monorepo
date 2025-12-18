@@ -11,7 +11,7 @@ import {
 
 // NOTE: breakpoints - radix-ui
 // https://www.radix-ui.com/themes/docs/theme/breakpoints
-export const BREAKPOINTS_RADIX: BreakpointMap<number> = {
+const BREAKPOINTS_RADIX: BreakpointMap<number> = {
   xs: 0,
   sm: 520,
   md: 768,
@@ -21,7 +21,7 @@ export const BREAKPOINTS_RADIX: BreakpointMap<number> = {
 } as const;
 
 // NOTE: breakpoints - tailwindcss
-export const BREAKPOINTS_TW: BreakpointMap<number> = {
+const BREAKPOINTS_TW: BreakpointMap<number> = {
   xs: 0,
   sm: 640,
   md: 768,
