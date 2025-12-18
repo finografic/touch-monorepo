@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import type { NavItem } from 'types/nav.types';
 
 export interface UseResponsiveNavProps {
@@ -14,66 +14,61 @@ export interface UseResponsiveNavProps {
  * - Returns visible items and overflow items
  * - Detects mobile vs desktop based on breakpoint
  * - Recalculates on window resize
+ *
+ * Uses useLayoutEffect to ensure DOM is ready before calculation (prevents render loops)
  */
 
 export const useResponsiveNav = ({ items, mobileBreakpoint = 'md' }: UseResponsiveNavProps) => {
+  // Create stable reference to items array
+  const safeItems = Array.isArray(items) ? items : [];
+
   const containerRef = useRef<HTMLDivElement>(null);
   const itemsRef = useRef<Map<string, HTMLElement>>(new Map());
-  const [visibleItems, setVisibleItems] = useState<NavItem[]>(items);
+  const [visibleItems, setVisibleItems] = useState<NavItem[]>(safeItems);
   const [overflowItems, setOverflowItems] = useState<NavItem[]>([]);
 
-  const calculateVisibleItems = () => {
+  // Calculate function captures safeItems from closure (stable reference)
+  const calculate = () => {
     const container = containerRef.current;
     if (!container) return;
+    if (!safeItems.length) return;
 
     const containerWidth = container.offsetWidth;
-    const MORE_BUTTON_WIDTH = 120; // your estimate
+    const MORE_BUTTON_WIDTH = 120;
     const PADDING = 40;
-    // const PADDING = 120;
 
     let totalWidth = 0;
     const visible: NavItem[] = [];
     const overflow: NavItem[] = [];
 
-    for (let i = 0; i < items.length; i++) {
-      const item = items[i];
-      const element = itemsRef.current.get(item.id);
-      if (!element) continue;
+    for (const item of safeItems) {
+      const el = itemsRef.current.get(item.id);
+      if (!el) continue;
 
-      const itemWidth = element.offsetWidth;
-      const fitsWithoutMore = totalWidth + itemWidth + PADDING <= containerWidth;
-
-      if (fitsWithoutMore) {
+      const w = el.offsetWidth;
+      if (totalWidth + w + PADDING <= containerWidth - MORE_BUTTON_WIDTH) {
         visible.push(item);
-        totalWidth += itemWidth;
-        continue;
+        totalWidth += w;
+      } else {
+        overflow.push(item);
       }
-
-      // otherwise it doesn't fit
-      overflow.push(item);
     }
 
     setVisibleItems(visible);
     setOverflowItems(overflow);
   };
 
-  useEffect(() => {
-    // Run measurement when items change
-    calculateVisibleItems();
+  // useLayoutEffect runs synchronously after DOM mutations, before paint
+  // This ensures DOM is ready and prevents render loops
+  useLayoutEffect(() => {
+    calculate();
 
-    // Observe container resizes
-    let observer: ResizeObserver | null = null;
     if (containerRef.current) {
-      observer = new ResizeObserver(() => {
-        calculateVisibleItems();
-      });
+      const observer = new ResizeObserver(() => calculate());
       observer.observe(containerRef.current);
+      return () => observer.disconnect();
     }
-
-    return () => {
-      observer?.disconnect();
-    };
-  }, [items]); // remeasure when nav items change (e.g. i18n load)
+  }, [safeItems]); // Depend on safeItems (stable reference)
 
   const registerItem = (id: string, el: HTMLElement | null) => {
     if (el) itemsRef.current.set(id, el);

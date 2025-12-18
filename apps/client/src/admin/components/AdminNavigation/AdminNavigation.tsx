@@ -11,7 +11,7 @@ import { useAuth } from 'providers/AuthProvider/AuthContext';
 
 import { MoreButton } from './MoreButton';
 import { DropdownNavButton } from './DropdownNavButton';
-import { useResponsiveNav } from './useResponsiveNav';
+import { useResponsiveNav } from './useResponsiveNav-V2-DEV';
 import type { NavItem } from 'types/nav.types';
 
 import { styles } from './AdminNavigation.styles';
@@ -38,6 +38,7 @@ export const AdminNavigation: React.FC = () => {
       })),
     }));
   }, [t, isAuthenticated, user?.role, location.pathname]);
+  console.log('navItems:', { isAuthenticated }, user?.role, navItems);
 
   const { containerRef, registerItem, visibleItems, overflowItems, hasOverflow } = useResponsiveNav({
     items: navItems,

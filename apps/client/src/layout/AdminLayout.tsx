@@ -18,6 +18,7 @@ import { ContentProvider } from 'providers/ContentProvider';
 import { DevProvider } from 'dev-tools/providers/DevProvider/DevProvider';
 import { BREAKPOINT_VALUES } from 'styles/viewport/viewport.breakpoints';
 import { styles } from './AdminLayout.styles';
+import { useAuth } from 'providers/AuthProvider/AuthContext';
 
 export const AdminLayout: FC = () => {
   const { theme } = useAppConfig();
