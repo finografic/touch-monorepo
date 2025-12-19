@@ -4,9 +4,9 @@ import * as HttpStatusCodes from 'stoker/http-status-codes';
 import * as HttpStatusPhrases from 'stoker/http-status-phrases';
 
 import { db } from 'db';
-import { translations_ui } from 'db/schemas/translations_ui.schema';
-import { translations_app } from 'db/schemas/translations_app.schema';
 import { translations_admin } from 'db/schemas/translations_admin.schema';
+import { translations_app } from 'db/schemas/translations_app.schema';
+import { translations_ui } from 'db/schemas/translations_ui.schema';
 import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/zod.errors';
 import type { AppRouteHandler } from 'types/app.types';
 import type { CreateRoute, GetOneRoute, ListRoute, PatchRoute, RemoveRoute } from './translations.routes';
@@ -166,4 +166,3 @@ export const remove: AppRouteHandler<RemoveRoute> = async (context) => {
 
   return context.body(null, HttpStatusCodes.NO_CONTENT);
 };
-

@@ -31,7 +31,7 @@ export const TableFormButtons: React.FC<TableFormButtonsProps> = ({
   isAddNewDisabled = false,
   isSaving = false,
 }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const debouncedAddNew = useDebouncedCallback(() => onAddNew?.(), 500, { leading: true, trailing: false });
 
   return (
@@ -45,7 +45,7 @@ export const TableFormButtons: React.FC<TableFormButtonsProps> = ({
           disabled={!isDirty || isSaving}
           size="md"
         >
-          {t('buttons.cancel')}
+          {t('ui.buttons.cancel')}
         </Button>
       )}
       {onSave && (
@@ -57,7 +57,7 @@ export const TableFormButtons: React.FC<TableFormButtonsProps> = ({
           disabled={!isDirty || isSaving}
           size="md"
         >
-          {isSaving ? 'Saving...' : t('buttons.save')}
+          {isSaving ? 'Saving...' : t('ui.buttons.save')}
         </Button>
       )}
       {onAddNew && (
@@ -72,7 +72,7 @@ export const TableFormButtons: React.FC<TableFormButtonsProps> = ({
           title={
             isAddNewDisabled
               ? 'Please fill the empty row before adding a new one'
-              : t('buttons.add') || 'Add new translation entry'
+              : t('ui.buttons.add') || 'Add new translation entry'
           }
           className="button-add-new"
         >

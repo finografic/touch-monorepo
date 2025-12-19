@@ -60,7 +60,7 @@ function buildDomainGroupedResources(
     const value = row.translations[locale];
     if (!value) continue;
 
-    const segments = ['ui', ...row.key.split('.')];
+    const segments = row.key.split('.');
     let current = result.ui;
 
     for (let i = 1; i < segments.length; i++) {

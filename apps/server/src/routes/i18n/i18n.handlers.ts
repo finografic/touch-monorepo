@@ -2,7 +2,7 @@ import * as HttpStatusCodes from 'stoker/http-status-codes';
 
 import { db } from 'db';
 import type { AppRouteHandler } from 'types/app.types';
-import type { GetNamespaceRoute, GetDomainRoute } from './i18n.routes';
+import type { GetDomainRoute, GetNamespaceRoute } from './i18n.routes';
 import { buildDomainGroupedResources, buildI18nResources } from './i18n.routes';
 
 /**
