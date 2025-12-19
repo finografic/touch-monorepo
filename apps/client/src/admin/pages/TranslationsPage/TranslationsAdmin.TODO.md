@@ -101,16 +101,16 @@ function buildI18nResources(rows, locale: string) {
     const value = row.translations[locale]
     if (!value) continue
 
-    const parts = row.key.split('.')
+    const segments = row.key.split('.')
     let current = result
 
-    for (let i = 0; i < parts.length; i++) {
-      const part = parts[i]
-      if (i === parts.length - 1) {
-        current[part] = value
+    for (let i = 0; i < segments.length; i++) {
+      const segment = segments[i]
+      if (i === segments.length - 1) {
+        current[segment] = value
       } else {
-        current[part] ??= {}
-        current = current[part]
+        current[segment] ??= {}
+        current = current[segment]
       }
     }
   }
