@@ -1,6 +1,7 @@
+import { and, eq, sql } from 'drizzle-orm';
+
 import { db } from 'db';
 import { drink_subtypes, drink_types, orders } from 'db/schemas';
-import { and, eq, sql } from 'drizzle-orm';
 
 /**
  * Synchronize hasSubtypes flag for a specific drink type based on actual subtype count
@@ -14,7 +15,7 @@ export async function synchronizeDrinkTypeHasSubtypes(drinkTypeId: string): Prom
     .from(drink_subtypes)
     .where(and(eq(drink_subtypes.drinkTypeId, drinkTypeId), eq(drink_subtypes.isActive, true)));
 
-  const hasSubtypes = (subtypeCount[0]?.count ?? 0) > 0;
+  const hasSubtypes = Boolean((subtypeCount[0]?.count ?? 0) > 0);
 
   // Get current state
   const [current] = await db
@@ -30,7 +31,7 @@ export async function synchronizeDrinkTypeHasSubtypes(drinkTypeId: string): Prom
 
   // Only update if state has changed
   if (current.hasSubtypes !== hasSubtypes) {
-    await db.update(drink_types).set({ hasSubtypes: hasSubtypes ? 1 : 0 }).where(eq(drink_types.id, drinkTypeId));
+    await db.update(drink_types).set({ hasSubtypes }).where(eq(drink_types.id, drinkTypeId));
     console.log(
       `✅ Synchronized hasSubtypes for drink type ${drinkTypeId}: ${current.hasSubtypes} → ${hasSubtypes}`,
     );
@@ -70,9 +71,7 @@ export async function handleDrinkTypeDeletion(drinkTypeId: string): Promise<void
   console.log(`🗑️ Handling side effects for drink type deletion: ${drinkTypeId}`);
 
   // 1. Delete all subtypes for this drink type
-  const subtypesDeleted = await db
-    .delete(drink_subtypes)
-    .where(eq(drink_subtypes.drinkTypeId, drinkTypeId));
+  const subtypesDeleted = await db.delete(drink_subtypes).where(eq(drink_subtypes.drinkTypeId, drinkTypeId));
 
   console.log(`   ✅ Deleted ${subtypesDeleted.changes} subtypes`);
 
@@ -136,4 +135,3 @@ export async function handleSubtypeUpdate(drinkTypeId: string): Promise<void> {
 
   console.log(`✅ Completed side effects for subtype update (parent: ${drinkTypeId})`);
 }
-

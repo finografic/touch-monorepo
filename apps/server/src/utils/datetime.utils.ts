@@ -3,7 +3,7 @@ import { format, lastDayOfMonth, parseISO } from 'date-fns';
 import { DATE_FILTER, DATETIME_FORMAT } from 'i18n/datetime';
 import { ES } from 'i18n/locale';
 import type { DateRange } from 'types/date.types';
-import { camelCaseToSentence, toTitleCase } from './utils.string.format';
+import { camelCaseToSentence, toTitleCase } from './string-format.utils';
 
 // CHAR-COUNTS FOR SPLICING FULL DATE-STRING
 // const lengthDateDefault = 10; // YYYY-MM-DD
@@ -12,8 +12,7 @@ const lengthDateTimeDefault = 20; // YYYY-MM-DD HH:mm:ss -OR- YYYY-MM-DDTHH:mm:s
 // const lengthDateTimeHTML = 16; // YYYY-MM-DDTHH:mm (for HTML input[type="datetime-local"])
 // const lengthDateISO = 25; // YYYY-MM-DDTHH:mm:ss.SSSZ
 
-export const getTimeStamp = () =>
-  Number((new Date().getTime() / 1000).toFixed());
+export const getTimeStamp = () => Number((new Date().getTime() / 1000).toFixed());
 
 // ==================================================================== //
 
@@ -26,10 +25,8 @@ export function isDate(value: any) {
   return false;
 }
 
-export const getMonthStart = (date: any) =>
-  format(date, `${DATE_FILTER.MONTH}-01`);
-export const getMonthEnd = (date: any) =>
-  format(lastDayOfMonth(date), DATE_FILTER.DEFAULT);
+export const getMonthStart = (date: any) => format(date, `${DATE_FILTER.MONTH}-01`);
+export const getMonthEnd = (date: any) => format(lastDayOfMonth(date), DATE_FILTER.DEFAULT);
 
 // ============================================================== //
 
@@ -39,11 +36,7 @@ export function formatDate(
   optionsOverrides = {},
 ): string {
   if (!date || (typeof date === 'string' && date === '')) return '';
-  const dateObj = isDate(date)
-    ? (date as Date)
-    : date
-      ? new Date(date)
-      : new Date();
+  const dateObj = isDate(date) ? (date as Date) : date ? new Date(date) : new Date();
   const defaultOptions = {};
   const options = {
     ...defaultOptions,
@@ -78,19 +71,13 @@ export function formatDateRange(
 
 export function getDateTimeString(date: string | Date): string {
   if (typeof date === 'object') date = date.toISOString();
-  return date.substring(
-    0,
-    DATETIME_FORMAT.DEFAULT.length || lengthDateTimeDefault,
-  );
+  return date.substring(0, DATETIME_FORMAT.DEFAULT.length || lengthDateTimeDefault);
 }
 
 // ============================================================== //
 
 export function formatDateLocal(date: string | number | Date): string {
-  const dateTime =
-    typeof date === 'number'
-      ? new Date(date)
-      : new Date(getDateTimeString(date));
+  const dateTime = typeof date === 'number' ? new Date(date) : new Date(getDateTimeString(date));
   const dateFormatted = format(dateTime, DATETIME_FORMAT.MED, { locale: ES });
 
   return camelCaseToSentence(dateFormatted);

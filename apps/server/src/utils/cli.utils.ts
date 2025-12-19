@@ -19,8 +19,7 @@ const SEPARATOR = chalk.grey.bold(' / ');
 // EXPORT THE FULL CLI SUITE
 export const cli = {
   br: () => console.log(BR),
-  hr: (weight?: 1 | 2) =>
-    weight !== 2 ? console.log(HR_THIN) : console.log(HR),
+  hr: (weight?: 1 | 2) => (weight !== 2 ? console.log(HR_THIN) : console.log(HR)),
   vr: () => console.log(SEPARATOR),
 };
 
