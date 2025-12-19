@@ -1,10 +1,9 @@
-import { useCallback, useEffect } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 import clsx from 'clsx';
 import { TrashIcon } from 'styles/icons';
 import { Button } from 'components/Button';
 import type { RegionLocale } from '@workspace/config/i18n.config';
-import { languagesCodeToKey } from '../../utils/language.utils';
+import { languagesCodeToKey } from 'admin/utils/language.utils';
 import { Input } from 'forms/Input/Input';
 
 interface TranslationsRowProps {

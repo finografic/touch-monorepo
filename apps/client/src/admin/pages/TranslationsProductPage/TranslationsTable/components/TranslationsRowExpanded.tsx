@@ -5,7 +5,7 @@ import { TrashIcon } from 'styles/icons';
 import { Button } from 'components/Button';
 import { Input } from 'forms/Input/Input';
 
-import { languagesCodeToKey, regenerateSlug } from 'admin/pages/TranslationsProductPage/utils/language.utils';
+import { languagesCodeToKey, regenerateSlug } from 'admin/utils/language.utils';
 
 import type { RegionLocale } from '@workspace/config/i18n.config';
 import { COL_CHEVRON_WIDTH, COL_SLUG_WIDTH } from '../translations-table.config';
