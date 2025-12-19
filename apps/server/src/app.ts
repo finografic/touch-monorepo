@@ -16,7 +16,6 @@ import relay from 'routes/relay';
 import slotConfigurations from 'routes/slot-configurations';
 import sounds from 'routes/sounds';
 import supportedLanguage from 'routes/supported-language';
-import translationsUi from 'routes/translations-ui';
 import translations from 'routes/translations';
 import uiLabels from 'routes/ui-labels';
 import users from 'routes/users';
@@ -68,8 +67,7 @@ const routes = [
   sounds,
   slotConfigurations,
   uiLabels,
-  translationsUi, // Keep for backward compatibility
-  translations, // New unified route: /translations/:namespace
+  translations, // Unified route: /translations/:namespace
   i18n,
   relay,
 ] as const;

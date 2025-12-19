@@ -3,7 +3,7 @@ import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { db } from 'db';
 import type { AppRouteHandler } from 'types/app.types';
 import type { GetDomainRoute, GetNamespaceRoute } from './i18n.routes';
-import { buildDomainGroupedResources, buildI18nResources } from './i18n.routes';
+import { buildDomainGroupedResources } from './i18n.routes';
 
 /**
  * Bulk load endpoint: Returns all domains grouped under ui, app, admin
@@ -68,6 +68,6 @@ export const getDomain: AppRouteHandler<GetDomainRoute> = async (context) => {
       return context.json([], HttpStatusCodes.OK);
   }
 
-  // Return array format for CMS (keys already have domain prefix for app/admin, ui keys don't)
+  // Return array format for CMS (all keys now have domain prefix: ui.*, app.*, admin.*)
   return context.json(rows, HttpStatusCodes.OK);
 };

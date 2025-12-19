@@ -5,41 +5,11 @@ import { jsonContent } from 'stoker/openapi/helpers';
 const tags = ['I18n'];
 
 /**
- * Build nested object from dot-notation keys
- * Example: "buttons.save" -> { buttons: { save: "Save" } }
- */
-function buildI18nResources(
-  rows: Array<{ key: string; translations: Record<string, string> }>,
-  locale: string,
-): Record<string, any> {
-  const result: Record<string, any> = {};
-
-  for (const row of rows) {
-    const value = row.translations[locale];
-    if (!value) continue;
-
-    const segments = row.key.split('.');
-    let current = result;
-
-    for (let i = 0; i < segments.length; i++) {
-      const segment = segments[i];
-      if (i === segments.length - 1) {
-        current[segment] = value;
-      } else {
-        current[segment] ??= {};
-        current = current[segment];
-      }
-    }
-  }
-
-  return result;
-}
-
-/**
  * Build domain-grouped resources for i18next bulk load
  * Groups translations by domain (ui, app, admin) as top-level keys
+ * All keys now have domain prefix (ui.*, app.*, admin.*)
  * Example:
- * - translations_ui: "buttons.save" -> { ui: { buttons: { save: "Save" } } }
+ * - translations_ui: "ui.buttons.save" -> { ui: { buttons: { save: "Save" } } }
  * - translations_app: "app.pages.title" -> { app: { pages: { title: "Title" } } }
  * - translations_admin: "admin.pages.dashboard" -> { admin: { pages: { dashboard: "Dashboard" } } }
  */
@@ -55,64 +25,38 @@ function buildDomainGroupedResources(
     admin: {},
   };
 
-  // Process UI translations: add "ui." prefix to keys
-  for (const row of uiRows) {
-    const value = row.translations[locale];
-    if (!value) continue;
+  /**
+   * Process rows for a given domain
+   * All keys now have domain prefix, so we skip the first segment (domain) and build nested structure
+   */
+  const processRows = (
+    rows: Array<{ key: string; translations: Record<string, string> }>,
+    targetDomain: 'ui' | 'app' | 'admin',
+  ) => {
+    for (const row of rows) {
+      const value = row.translations[locale];
+      if (!value) continue;
 
-    const segments = row.key.split('.');
-    let current = result.ui;
+      const segments = row.key.split('.');
+      // Skip first segment (domain prefix) and build nested structure
+      let current = result[targetDomain];
 
-    for (let i = 1; i < segments.length; i++) {
-      const segment = segments[i];
-      if (i === segments.length - 1) {
-        current[segment] = value;
-      } else {
-        current[segment] ??= {};
-        current = current[segment];
+      for (let i = 1; i < segments.length; i++) {
+        const segment = segments[i];
+        if (i === segments.length - 1) {
+          current[segment] = value;
+        } else {
+          current[segment] ??= {};
+          current = current[segment];
+        }
       }
     }
-  }
+  };
 
-  // Process App translations: keys already have "app." prefix
-  for (const row of appRows) {
-    const value = row.translations[locale];
-    if (!value) continue;
-
-    const segments = row.key.split('.');
-    // Skip "app" prefix and build nested structure
-    let current = result.app;
-
-    for (let i = 1; i < segments.length; i++) {
-      const segment = segments[i];
-      if (i === segments.length - 1) {
-        current[segment] = value;
-      } else {
-        current[segment] ??= {};
-        current = current[segment];
-      }
-    }
-  }
-
-  // Process Admin translations: keys already have "admin." prefix
-  for (const row of adminRows) {
-    const value = row.translations[locale];
-    if (!value) continue;
-
-    const segments = row.key.split('.');
-    // Skip "admin" prefix and build nested structure
-    let current = result.admin;
-
-    for (let i = 1; i < segments.length; i++) {
-      const segment = segments[i];
-      if (i === segments.length - 1) {
-        current[segment] = value;
-      } else {
-        current[segment] ??= {};
-        current = current[segment];
-      }
-    }
-  }
+  // Process all domains using the same logic
+  processRows(uiRows, 'ui');
+  processRows(appRows, 'app');
+  processRows(adminRows, 'admin');
 
   return result;
 }
@@ -170,4 +114,4 @@ export const getDomain = createRoute({
 export type GetNamespaceRoute = typeof getNamespace;
 export type GetDomainRoute = typeof getDomain;
 
-export { buildDomainGroupedResources, buildI18nResources };
+export { buildDomainGroupedResources };
