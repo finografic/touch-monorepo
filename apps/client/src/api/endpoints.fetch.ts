@@ -103,16 +103,6 @@ export const FetchEndpointHelper = {
   deleteSupportedLanguage: async (id: string): Promise<void> => {
     return fetchClient.delete<void>(`/supported-languages/${id}`);
   },
-
-  // UI Labels
-  saveUiLabels: async (data: {
-    sections: Array<{ key: string; items: Array<{ key: string; values: Record<string, string> }> }>;
-  }): Promise<{ success: boolean; message: string; filesUpdated: string[] }> => {
-    return fetchClient.post<{ success: boolean; message: string; filesUpdated: string[] }>(
-      '/ui-labels/save',
-      data,
-    );
-  },
 } as const;
 
 /**

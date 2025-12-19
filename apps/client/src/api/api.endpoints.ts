@@ -125,13 +125,6 @@ export const EndpointHelper = createEndpoints({
   updateSupportedLanguage: async (id: string, data: SupportedLanguageUpdate) =>
     await api.patch<SupportedLanguage>(`/supported-languages/${id}`, data),
   deleteSupportedLanguage: async (id: string) => await api.delete<void>(`/supported-languages/${id}`),
-
-  // UI Labels endpoints
-  getUiLabels: async () => await api.get<TranslationsUiModel>('/ui-labels'),
-  saveUiLabels: async (data: {
-    sections: Array<{ key: string; items: Array<{ key: string; values: Record<string, string> }> }>;
-  }) =>
-    await api.post<{ success: boolean; message: string; filesUpdated: string[] }>('/ui-labels/save', data),
 });
 
 // Example usage in a hook with the new utility

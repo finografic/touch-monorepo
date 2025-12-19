@@ -9,7 +9,6 @@ export const API_PATHS = {
   ORDERS_READABLE: '/api/orders-readable',
   SOUNDS: '/api/sounds',
   TRANSLATIONS: '/api/translations',
-  UI_LABELS: '/api/ui-labels',
   MODES: '/api/modes',
   DRINK_TYPES: '/api/drink-types',
   DRINK_SUBTYPES: '/api/drink-subtypes',

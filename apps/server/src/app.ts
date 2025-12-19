@@ -17,7 +17,6 @@ import slotConfigurations from 'routes/slot-configurations';
 import sounds from 'routes/sounds';
 import supportedLanguage from 'routes/supported-language';
 import translations from 'routes/translations';
-import uiLabels from 'routes/ui-labels';
 import users from 'routes/users';
 import configureOpenAPI from 'lib/configure-open-api';
 import createApp from 'lib/create-app';
