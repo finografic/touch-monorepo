@@ -97,6 +97,8 @@ export const stylesAdminContent = css`
     /* box-shadow: inset 0px 0px 0px 2px ${colors.greyXLight}; */
   }
 
+  /* TABS ========================================================== */
+
   [role='tablist'] {
     margin-top: 0.66rem;
     /* border-bottom: 3px solid ${colors.infoLight}; */
@@ -106,20 +108,22 @@ export const stylesAdminContent = css`
 
     button[role='tab'] {
       height: 3rem;
-      margin: 0.2rem 0.05rem 0.2rem;
+      margin: 0.2rem 0.15rem 0.2rem;
       padding: 0;
       border: 0 !important;
+
+      position: relative;
+      box-sizing: border-box;
 
       span {
         font-size: 1rem;
         font-weight: 700;
         color: ${colors.textXLight};
         padding: 0.8em 1.25em;
+        border-top-left-radius: ${layout.borderRadius};
+        border-top-right-radius: ${layout.borderRadius};
         border: 2px solid ${colors.greyXXLight};
         border-bottom: none;
-        border-radius: ${layout.borderRadius};
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
       }
 
       /*
@@ -178,7 +182,7 @@ export const stylesAdminContent = css`
     button[role='tab'][data-state='active'],
     button[role='tab'][data-state='active'] + button[role='tab'] {
       span {
-        margin-left: -1px;
+        /* margin-left: -1px; */
       }
     }
   }
