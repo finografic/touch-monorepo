@@ -117,7 +117,7 @@ This is the **sweet spot**, and what you are *already 90% doing*.
 
 #### Concept
 
-* Keep namespaces:
+* Keep DOMAINS (not namespaces):
 
   * `ui`
   * `app`

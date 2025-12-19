@@ -16,7 +16,7 @@ import { translations_ui } from '../schemas';
  */
 const translationsData = [
   {
-    key: 'buttons.add',
+    key: 'ui.buttons.add',
     translations: {
       'es-ES': 'Añadir123',
       'en-GB': 'Add',
@@ -25,7 +25,7 @@ const translationsData = [
     description: 'Add button label',
   },
   {
-    key: 'buttons.all',
+    key: 'ui.buttons.all',
     translations: {
       'es-ES': 'TODOS',
       'en-GB': 'ALL',
@@ -34,7 +34,7 @@ const translationsData = [
     description: 'All button label',
   },
   {
-    key: 'buttons.back',
+    key: 'ui.buttons.back',
     translations: {
       'es-ES': 'Atrás',
       'en-GB': 'Back',
@@ -43,7 +43,7 @@ const translationsData = [
     description: 'Back button label',
   },
   {
-    key: 'buttons.cancel',
+    key: 'ui.buttons.cancel',
     translations: {
       'es-ES': 'Cancelar',
       'en-GB': 'Cancel',
@@ -52,7 +52,7 @@ const translationsData = [
     description: 'Cancel button label',
   },
   {
-    key: 'buttons.clear',
+    key: 'ui.buttons.clear',
     translations: {
       'es-ES': 'Limpiar',
       'en-GB': 'Clear',
@@ -61,7 +61,7 @@ const translationsData = [
     description: 'Clear button label',
   },
   {
-    key: 'buttons.close',
+    key: 'ui.buttons.close',
     translations: {
       'es-ES': 'Cerrar',
       'en-GB': 'Close',
@@ -70,7 +70,7 @@ const translationsData = [
     description: 'Close button label',
   },
   {
-    key: 'buttons.delete',
+    key: 'ui.buttons.delete',
     translations: {
       'es-ES': 'Eliminar',
       'en-GB': 'Delete',
@@ -79,7 +79,7 @@ const translationsData = [
     description: 'Delete button label',
   },
   {
-    key: 'buttons.edit',
+    key: 'ui.buttons.edit',
     translations: {
       'es-ES': 'Editar',
       'en-GB': 'Edit',
@@ -88,7 +88,7 @@ const translationsData = [
     description: 'Edit button label',
   },
   {
-    key: 'buttons.next',
+    key: 'ui.buttons.next',
     translations: {
       'es-ES': 'Siguiente',
       'en-GB': 'Next',
@@ -97,7 +97,7 @@ const translationsData = [
     description: 'Next button label',
   },
   {
-    key: 'buttons.ok',
+    key: 'ui.buttons.ok',
     translations: {
       'es-ES': 'Aceptar',
       'en-GB': 'OK',
@@ -106,7 +106,7 @@ const translationsData = [
     description: 'OK button label',
   },
   {
-    key: 'buttons.previous',
+    key: 'ui.buttons.previous',
     translations: {
       'es-ES': 'Anterior',
       'en-GB': 'Previous',
@@ -115,7 +115,7 @@ const translationsData = [
     description: 'Previous button label',
   },
   {
-    key: 'buttons.programProduct',
+    key: 'ui.buttons.programProduct',
     translations: {
       'es-ES': 'Programar Producto',
       'en-GB': 'Program Product',
@@ -124,7 +124,7 @@ const translationsData = [
     description: 'Program Product button label',
   },
   {
-    key: 'buttons.programTime',
+    key: 'ui.buttons.programTime',
     translations: {
       'es-ES': 'Programar Tiempo',
       'en-GB': 'Program Time',
@@ -133,7 +133,7 @@ const translationsData = [
     description: 'Program Time button label',
   },
   {
-    key: 'buttons.remove',
+    key: 'ui.buttons.remove',
     translations: {
       'es-ES': 'Eliminar',
       'en-GB': 'Remove',
@@ -142,7 +142,7 @@ const translationsData = [
     description: 'Remove button label',
   },
   {
-    key: 'buttons.repeatSelection',
+    key: 'ui.buttons.repeatSelection',
     translations: {
       'es-ES': 'Repetir Selección',
       'en-GB': 'Repeat Selection',
@@ -151,7 +151,7 @@ const translationsData = [
     description: 'Repeat Selection button label',
   },
   {
-    key: 'buttons.reset',
+    key: 'ui.buttons.reset',
     translations: {
       'es-ES': 'Restablecer',
       'en-GB': 'Reset',
@@ -160,7 +160,7 @@ const translationsData = [
     description: 'Reset button label',
   },
   {
-    key: 'buttons.save',
+    key: 'ui.buttons.save',
     translations: {
       'es-ES': 'Guardar',
       'en-GB': 'Save',
@@ -169,7 +169,7 @@ const translationsData = [
     description: 'Save button label',
   },
   {
-    key: 'buttons.select',
+    key: 'ui.buttons.select',
     translations: {
       'es-ES': 'Seleccionar',
       'en-GB': 'Select',
@@ -178,7 +178,7 @@ const translationsData = [
     description: 'Select button label',
   },
   {
-    key: 'buttons.start',
+    key: 'ui.buttons.start',
     translations: {
       'es-ES': 'INICIAR',
       'en-GB': 'START',
@@ -187,7 +187,7 @@ const translationsData = [
     description: 'Start button label',
   },
   {
-    key: 'buttons.submit',
+    key: 'ui.buttons.submit',
     translations: {
       'es-ES': 'Enviar',
       'en-GB': 'Submit',
@@ -196,7 +196,7 @@ const translationsData = [
     description: 'Submit button label',
   },
   {
-    key: 'buttons.update',
+    key: 'ui.buttons.update',
     translations: {
       'es-ES': 'Actualizar',
       'en-GB': 'Update',
@@ -205,7 +205,7 @@ const translationsData = [
     description: 'Update button label',
   },
   {
-    key: 'buttons.view',
+    key: 'ui.buttons.view',
     translations: {
       'es-ES': 'Ver',
       'en-GB': 'View',
@@ -214,7 +214,7 @@ const translationsData = [
     description: 'View button label',
   },
   {
-    key: 'tables.headers.displayIndex',
+    key: 'ui.tables.headers.displayIndex',
     translations: {
       'es-ES': '#',
       'en-GB': '#',
@@ -223,7 +223,7 @@ const translationsData = [
     description: 'Table header: Display index column',
   },
   {
-    key: 'tables.headers.index',
+    key: 'ui.tables.headers.index',
     translations: {
       'es-ES': '#',
       'en-GB': '#',
@@ -232,7 +232,7 @@ const translationsData = [
     description: 'Table header: Index column',
   },
   {
-    key: 'tables.headers.mode',
+    key: 'ui.tables.headers.mode',
     translations: {
       'es-ES': 'Modo',
       'en-GB': 'Mode',
@@ -241,7 +241,7 @@ const translationsData = [
     description: 'Table header: Mode column',
   },
   {
-    key: 'tables.headers.drinkType',
+    key: 'ui.tables.headers.drinkType',
     translations: {
       'es-ES': 'Tipo de Bebida',
       'en-GB': 'Drink Type',
@@ -250,7 +250,7 @@ const translationsData = [
     description: 'Table header: Drink Type column',
   },
   {
-    key: 'tables.headers.drinkSubtype',
+    key: 'ui.tables.headers.drinkSubtype',
     translations: {
       'es-ES': 'Subtipo',
       'en-GB': 'Subtype',
@@ -259,7 +259,7 @@ const translationsData = [
     description: 'Table header: Drink Subtype column',
   },
   {
-    key: 'tables.headers.subtype',
+    key: 'ui.tables.headers.subtype',
     translations: {
       'es-ES': 'Subtipo',
       'en-GB': 'Subtype',
@@ -268,7 +268,7 @@ const translationsData = [
     description: 'Table header: Subtype column',
   },
   {
-    key: 'tables.headers.volume',
+    key: 'ui.tables.headers.volume',
     translations: {
       'es-ES': 'Volumen',
       'en-GB': 'Volume',
@@ -277,7 +277,7 @@ const translationsData = [
     description: 'Table header: Volume column',
   },
   {
-    key: 'tables.headers.containerType',
+    key: 'ui.tables.headers.containerType',
     translations: {
       'es-ES': 'Envase',
       'en-GB': 'Container',
@@ -286,7 +286,7 @@ const translationsData = [
     description: 'Table header: Container Type column',
   },
   {
-    key: 'tables.headers.container',
+    key: 'ui.tables.headers.container',
     translations: {
       'es-ES': 'Envase',
       'en-GB': 'Container',
@@ -295,7 +295,7 @@ const translationsData = [
     description: 'Table header: Container column',
   },
   {
-    key: 'tables.headers.temperature',
+    key: 'ui.tables.headers.temperature',
     translations: {
       'es-ES': 'Temperatura',
       'en-GB': 'Temperature',
@@ -304,7 +304,7 @@ const translationsData = [
     description: 'Table header: Temperature column',
   },
   {
-    key: 'tables.headers.defaultTempConsume',
+    key: 'ui.tables.headers.defaultTempConsume',
     translations: {
       'es-ES': 'Temperatura',
       'en-GB': 'Temperature',
@@ -313,7 +313,7 @@ const translationsData = [
     description: 'Table header: Default Temperature Consume column',
   },
   {
-    key: 'tables.headers.actions',
+    key: 'ui.tables.headers.actions',
     translations: {
       'es-ES': 'Acciones',
       'en-GB': 'Actions',
@@ -322,7 +322,7 @@ const translationsData = [
     description: 'Table header: Actions column',
   },
   {
-    key: 'tables.headers.name',
+    key: 'ui.tables.headers.name',
     translations: {
       'es-ES': 'Nombre',
       'en-GB': 'Name',
@@ -331,7 +331,7 @@ const translationsData = [
     description: 'Table header: Name column',
   },
   {
-    key: 'tables.headers.dbKey',
+    key: 'ui.tables.headers.dbKey',
     translations: {
       'es-ES': 'clave db',
       'en-GB': 'db key',
@@ -340,7 +340,7 @@ const translationsData = [
     description: 'Table header: Database Key column',
   },
   {
-    key: 'time.units.seconds',
+    key: 'ui.time.units.seconds',
     translations: {
       'es-ES': 'segundos',
       'en-GB': 'seconds',
@@ -349,7 +349,7 @@ const translationsData = [
     description: 'Time unit: seconds',
   },
   {
-    key: 'time.units.minutes',
+    key: 'ui.time.units.minutes',
     translations: {
       'es-ES': 'minutos',
       'en-GB': 'minutes',
@@ -358,7 +358,7 @@ const translationsData = [
     description: 'Time unit: minutes',
   },
   {
-    key: 'time.units.hours',
+    key: 'ui.time.units.hours',
     translations: {
       'es-ES': 'horas',
       'en-GB': 'hours',
@@ -367,7 +367,7 @@ const translationsData = [
     description: 'Time unit: hours',
   },
   {
-    key: 'time.units.days',
+    key: 'ui.time.units.days',
     translations: {
       'es-ES': 'días',
       'en-GB': 'days',
@@ -376,7 +376,7 @@ const translationsData = [
     description: 'Time unit: days',
   },
   {
-    key: 'time.relative.now',
+    key: 'ui.time.relative.now',
     translations: {
       'es-ES': 'ahora',
       'en-GB': 'now',
@@ -385,7 +385,7 @@ const translationsData = [
     description: 'Relative time: now',
   },
   {
-    key: 'time.relative.justNow',
+    key: 'ui.time.relative.justNow',
     translations: {
       'es-ES': 'hace un momento',
       'en-GB': 'just now',
@@ -394,7 +394,7 @@ const translationsData = [
     description: 'Relative time: just now',
   },
   {
-    key: 'time.relative.minutesAgo',
+    key: 'ui.time.relative.minutesAgo',
     translations: {
       'es-ES': 'hace {{count}} minutos',
       'en-GB': '{{count}} minutes ago',
@@ -403,7 +403,7 @@ const translationsData = [
     description: 'Relative time: minutes ago (with count placeholder)',
   },
   {
-    key: 'time.relative.hoursAgo',
+    key: 'ui.time.relative.hoursAgo',
     translations: {
       'es-ES': 'hace {{count}} horas',
       'en-GB': '{{count}} hours ago',
