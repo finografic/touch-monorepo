@@ -11,7 +11,7 @@ import type { LanguageInfo } from 'types/models/supported-language.model';
 import type { RegionLocale } from '@workspace/config/i18n.config';
 import type { SectionData } from '../translations.types';
 
-export type TranslationNamespace = 'ui' | 'app' | 'admin';
+export type TranslationDomain = 'ui' | 'app' | 'admin';
 
 export interface UseUiTranslationData {
   isLoading: boolean;
@@ -19,29 +19,32 @@ export interface UseUiTranslationData {
   sections: SectionData[];
 }
 
-export const useUiTranslationData = (
-  namespace: TranslationNamespace = 'ui',
-  groups: string[] = ['buttons', 'tables', 'time'],
-): UseUiTranslationData => {
+export const useGetTranslations = ({
+  domain = 'ui',
+  groups = ['buttons', 'tables', 'time'],
+}: {
+  domain: TranslationDomain;
+  groups?: string[];
+}): UseUiTranslationData => {
   const location = useLocation();
   const queryClient = useQueryClient();
-  const queryKey = [`translations-${namespace}`, location.pathname];
+  const queryKey = [`translations-${domain}`, location.pathname];
 
   // Invalidate queries when location changes to ensure fresh data
   useEffect(() => {
-    queryClient.invalidateQueries({ queryKey: [`translations-${namespace}`] });
-  }, [location.pathname, namespace, queryClient]);
+    queryClient.invalidateQueries({ queryKey: [`translations-${domain}`] });
+  }, [location.pathname, domain, queryClient]);
 
-  // Fetch translations based on namespace (domain)
+  // Fetch translations based on domain (domain)
   // Use domain-specific endpoint: /api/i18n/translations/:domain
-  // Returns array format (same as /translations/:namespace) for CMS compatibility
+  // Returns array format (same as /translations/:domain) for CMS compatibility
   // Include location.pathname in queryKey to force refetch on route change
   const { data: translations, isLoading: translationsLoading } = useQuery({
     queryKey,
     queryFn: async () => {
       try {
         // Fetch from domain-specific endpoint (returns array format)
-        const data = await api.get<any[]>(`/i18n/translations/${namespace}`);
+        const data = await api.get<any[]>(`/i18n/translations/${domain}`);
         // Return raw data - transformation happens in mapItems where we have supportedLanguages
         return data;
       } catch (error) {
@@ -75,34 +78,29 @@ export const useUiTranslationData = (
     };
 
     // Filter items by section prefix
-    // For admin/app namespaces, keys are structured as: namespace.pages.*, namespace.components.*, etc.
-    // For ui namespace, keys are structured as: buttons.*, tables.*, time.* (no namespace prefix)
+    // For admin/app domains, keys are structured as: domain.pages.*, domain.components.*, etc.
+    // For ui domain, keys are structured as: buttons.*, tables.*, time.* (no domain prefix)
     const filterByPrefix = (group: string) => {
-      if (namespace === 'ui') {
-        // UI namespace: keys are directly buttons.*, tables.*, time.*
-        return translations.filter((item) => item.key?.startsWith(`${group}.`));
-      } else {
-        // Admin/App namespaces: keys are namespace.group.* (e.g., admin.pages.*, app.components.*)
-        return translations.filter((item) => item.key?.startsWith(`${namespace}.${group}.`));
-      }
+      // Admin/App domains: keys are domain.group.* (e.g., admin.pages.*, app.components.*)
+      return translations.filter((item) => item.key?.startsWith(`${domain}.${group}.`));
     };
 
-    const namespaceKey = namespace.charAt(0).toUpperCase() + namespace.slice(1);
+    const domainKey = domain.charAt(0).toUpperCase() + domain.slice(1);
 
     const result = groups.map((group) => {
       const filteredItems = filterByPrefix(group);
       return {
         key: group,
-        title: `admin.pages.translations${namespaceKey}.content.${group}.title`,
-        description: `admin.pages.translations${namespaceKey}.content.${group}.description`,
+        title: `admin.pages.translations${domainKey}.content.${group}.title`,
+        description: `admin.pages.translations${domainKey}.content.${group}.description`,
         items: mapItems(filteredItems),
       };
     });
 
     // Debug logging (remove in production)
     if (process.env.NODE_ENV === 'development') {
-      console.log('[useUiTranslationData]', {
-        namespace,
+      console.log('[useGetTranslations]', {
+        domain,
         groups,
         translationsCount: translations.length,
         sectionsCount: result.length,
@@ -112,7 +110,7 @@ export const useUiTranslationData = (
     }
 
     return result;
-  }, [translations, supportedLanguages, namespace, groups]);
+  }, [translations, supportedLanguages, domain, groups]);
 
   return {
     // Only wait for translations to load, not languages (sections work without languages)

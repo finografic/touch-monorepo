@@ -8,12 +8,15 @@ import { transformFetchError } from '@workspace/core/api';
 import type { TranslationUiFormItem } from '../translations.types';
 import { TranslationsUiDto } from '../utils/translations.dto';
 import { useToast } from 'components/Toast/ToastContext';
-import type { TranslationNamespace } from './useUiTranslationData';
+import type { TranslationDomain } from './useGetTranslations';
 
-export const useSaveUiTranslations = (
-  namespace: TranslationNamespace,
-  supportedLanguages: RegionLocale[],
-) => {
+export const useSaveTranslations = ({
+  domain,
+  supportedLanguages,
+}: {
+  domain: TranslationDomain;
+  supportedLanguages: RegionLocale[];
+}) => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
   const { i18n } = useTranslation();
@@ -25,8 +28,8 @@ export const useSaveUiTranslations = (
       description?: string;
       isActive?: boolean;
     }) => {
-      const response = await api.post<any>(`/translations/${namespace}`, data);
-      // Return raw response - DTO transformation happens in useUiTranslationData
+      const response = await api.post<any>(`/translations/${domain}`, data);
+      // Return raw response - DTO transformation happens in useGetTranslations
       return response?.data || response;
     },
   });
@@ -39,8 +42,8 @@ export const useSaveUiTranslations = (
       id: string;
       updates: { key?: string; translations?: Record<string, string>; description?: string };
     }) => {
-      const response = await api.patch<any>(`/translations/${namespace}/${id}`, updates);
-      // Return raw response - DTO transformation happens in useUiTranslationData
+      const response = await api.patch<any>(`/translations/${domain}/${id}`, updates);
+      // Return raw response - DTO transformation happens in useGetTranslations
       return response?.data || response;
     },
   });
@@ -88,18 +91,18 @@ export const useSaveUiTranslations = (
 
       // Invalidate translations queries
       await queryClient.invalidateQueries({
-        queryKey: [`translations-${namespace}`],
+        queryKey: [`translations-${domain}`],
       });
 
       // Reload i18next resources to reflect changes immediately
-      // All translations are served under 'translations' namespace
+      // All translations are served under 'translations' domain
       await i18n.reloadResources(i18n.language, 'translations');
 
       return {
         savedItems: [...created, ...updated],
       };
     },
-    [namespace, supportedLanguages, createMutation, updateMutation, toast, queryClient, i18n],
+    [domain, supportedLanguages, createMutation, updateMutation, toast, queryClient, i18n],
   );
 
   return {

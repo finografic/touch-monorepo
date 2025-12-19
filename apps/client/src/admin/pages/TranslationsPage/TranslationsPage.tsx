@@ -4,25 +4,26 @@ import { Flex, Spinner, Tabs, Text } from '@radix-ui/themes';
 
 import { AdminPageLayout, AdminSection } from '../..';
 
-import { useUiTranslationData, type TranslationNamespace } from './hooks/useUiTranslationData';
-import { useSaveUiTranslations } from './hooks/useSaveUiTranslations';
-import { useDeleteUiTranslation } from './hooks/useDeleteUiTranslation';
+import { useGetTranslations } from './hooks/useGetTranslations';
+import type { TranslationDomain } from './hooks/useGetTranslations';
+import { useSaveTranslations } from './hooks/useSaveTranslations';
+import { useDeleteTranslations } from './hooks/useDeleteTranslations';
 import { TranslationsTable } from './TranslationsTable';
 import type { SectionKey } from './translations.types';
 import { styles } from './TranslationsPage.styles';
 
 export interface TranslationsPageProps {
-  namespace?: TranslationNamespace;
+  domain: TranslationDomain;
   groups?: string[];
 }
 
 export const TranslationsPage: React.FC<TranslationsPageProps> = ({
-  namespace = 'ui',
+  domain = 'ui',
   groups = ['buttons', 'tables', 'time'],
 }) => {
   const { t } = useTranslation();
 
-  const { isLoading, supportedLanguages, sections } = useUiTranslationData(namespace, groups);
+  const { isLoading, supportedLanguages, sections } = useGetTranslations({ domain, groups });
 
   // Initialize activeTab with first group, update when groups change
   const [activeTab, setActiveTab] = useState<SectionKey>(() => (groups?.[0] || 'buttons') as SectionKey);
@@ -40,11 +41,11 @@ export const TranslationsPage: React.FC<TranslationsPageProps> = ({
   );
 
   // mutations
-  const { save, isLoading: isSaving } = useSaveUiTranslations(namespace, supportedLanguages);
-  const { deleteItem, isDeleting } = useDeleteUiTranslation(namespace);
+  const { save, isLoading: isSaving } = useSaveTranslations({ domain, supportedLanguages });
+  const { deleteItem, isDeleting } = useDeleteTranslations({ domain });
 
-  const namespaceKey = namespace.charAt(0).toUpperCase() + namespace.slice(1);
-  const pageTitleKey = `admin.pages.translations${namespaceKey}.content.editTables`;
+  const domainKey = domain.charAt(0).toUpperCase() + domain.slice(1);
+  const pageTitleKey = `admin.pages.translations${domainKey}.content.editTables`;
 
   // Show loading if: data is loading, mutations are pending, or we don't have sections yet
   if (isLoading || isSaving || isDeleting || sections.length === 0 || !activeSection) {
@@ -52,7 +53,7 @@ export const TranslationsPage: React.FC<TranslationsPageProps> = ({
       <AdminPageLayout
         title={t(pageTitleKey)}
         subtitle="Admin"
-        description={`Manage ${namespace} translations`}
+        description={`Manage ${domain} translations`}
         styles={styles}
       >
         <Flex direction="column" gap="4" align="center" justify="center" p="6">

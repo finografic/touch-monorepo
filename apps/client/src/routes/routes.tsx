@@ -159,17 +159,17 @@ export const routes: RouteObject[] = [
           {
             path: 'translations/ui',
             id: AdminFieldKeys.translations,
-            element: <TranslationsPage namespace="ui" groups={['buttons', 'tables', 'time']} />,
+            element: <TranslationsPage domain="ui" groups={['buttons', 'tables', 'time']} />,
           },
           {
             path: 'translations/app',
             id: AdminFieldKeys.translationsApp,
-            element: <TranslationsPage namespace="app" groups={['pages', 'components', 'orders']} />,
+            element: <TranslationsPage domain="app" groups={['pages', 'components', 'orders']} />,
           },
           {
             path: 'translations/admin',
             id: AdminFieldKeys.translationsAdmin,
-            element: <TranslationsPage namespace="admin" groups={['pages']} />,
+            element: <TranslationsPage domain="admin" groups={['pages']} />,
           },
           {
             path: 'slots-config',

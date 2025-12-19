@@ -71,6 +71,7 @@ admin.pages.languages.description
 ```
 
 **Why the difference?**
+
 * `translations_ui` was migrated from legacy JSON files that didn't have domain prefixes
 * `translations_app` and `translations_admin` were created with domain prefixes from the start
 * Server-side transformation handles this difference automatically
@@ -186,16 +187,19 @@ Where `:namespace` ∈ `['ui', 'app', 'admin']` (maps to database table).
 The server transforms database keys differently based on domain:
 
 **For `translations_ui`**:
+
 * DB stores: `buttons.save`
 * Server adds prefix: `ui.buttons.save`
 * Result: `{ ui: { buttons: { save: "Save" } } }`
 
 **For `translations_app`**:
+
 * DB stores: `app.pages.title`
 * Server skips first segment: `pages.title`
 * Result: `{ app: { pages: { title: "Title" } } }`
 
 **For `translations_admin`**:
+
 * DB stores: `admin.pages.dashboard`
 * Server skips first segment: `pages.dashboard`
 * Result: `{ admin: { pages: { dashboard: "Dashboard" } } }`
