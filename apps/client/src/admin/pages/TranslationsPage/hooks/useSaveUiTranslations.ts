@@ -92,8 +92,8 @@ export const useSaveUiTranslations = (
       });
 
       // Reload i18next resources to reflect changes immediately
-      // All translations are served under 'ui' namespace
-      await i18n.reloadResources(i18n.language, 'ui');
+      // All translations are served under 'translations' namespace
+      await i18n.reloadResources(i18n.language, 'translations');
 
       return {
         savedItems: [...created, ...updated],

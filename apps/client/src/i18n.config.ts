@@ -15,17 +15,13 @@ i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    /**
-     * We use a SINGLE namespace backed by the DB
-     */
-    ns: ['ui'],
-    defaultNS: 'ui',
+    // namespace config
+    ns: ['translations'],
+    defaultNS: 'translations',
 
-    /**
-     * Load translations from the backend
-     */
+    // http config
     backend: {
-      loadPath: '/api/i18n/{{ns}}?lng={{lng}}',
+      loadPath: '/api/i18n/translations?lng={{lng}}',
       requestOptions: process.env.NODE_ENV === 'development' ? { cache: 'no-cache' } : undefined, // NEW: V2 -- remove condition, if there are issues.
     },
 
@@ -34,13 +30,14 @@ i18n
      */
     supportedLngs: DEFAULT_SUPPORTED_LANGUAGES,
     nonExplicitSupportedLngs: false,
+    // Language detection
     detection: {
       order: ['querystring', 'localStorage', 'sessionStorage', 'navigator'],
       // Explicit lookup keys (LanguageDetector defaults, but good to be explicit)
       lookupQuerystring: 'lng',
       lookupLocalStorage: 'i18nextLng',
       lookupSessionStorage: 'i18nextLng',
-      // Cache-busting for development (don't cache language in dev)
+      // Cache-busting for development
       caches: process.env.NODE_ENV === 'development' ? [] : ['localStorage'],
       excludeCacheFor: ['cimode'],
 
@@ -83,7 +80,7 @@ i18n
       console.log('language:', i18n.language);
       console.log('languages:', i18n.languages);
       console.log('namespaces:', i18n.options.ns);
-      console.log('ui bundle loaded:', i18n.hasResourceBundle(i18n.language, 'ui'));
+      console.log('translations bundle loaded:', i18n.hasResourceBundle(i18n.language, 'translations'));
       console.groupEnd();
     }
   });

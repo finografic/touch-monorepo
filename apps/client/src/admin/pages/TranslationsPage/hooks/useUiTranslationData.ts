@@ -32,13 +32,16 @@ export const useUiTranslationData = (
     queryClient.invalidateQueries({ queryKey: [`translations-${namespace}`] });
   }, [location.pathname, namespace, queryClient]);
 
-  // Fetch translations based on namespace
+  // Fetch translations based on namespace (domain)
+  // Use domain-specific endpoint: /api/i18n/translations/:domain
+  // Returns array format (same as /translations/:namespace) for CMS compatibility
   // Include location.pathname in queryKey to force refetch on route change
   const { data: translations, isLoading: translationsLoading } = useQuery({
     queryKey,
     queryFn: async () => {
       try {
-        const data = await api.get<any[]>(`/translations/${namespace}`);
+        // Fetch from domain-specific endpoint (returns array format)
+        const data = await api.get<any[]>(`/i18n/translations/${namespace}`);
         // Return raw data - transformation happens in mapItems where we have supportedLanguages
         return data;
       } catch (error) {

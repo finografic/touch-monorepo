@@ -2,17 +2,19 @@
 
 📅 Dec 19, 2025
 
-
 GPT future suggestions:
 
 - namespsace versioning
+- versioning rollback
 - server caching
+- cache per locale
+- aligning i18next + inlang roles cleanly
+-
 
 - i18next paackage
   - move json files outside of src/ into data/ (??) translations/ (better)
   - translations/ has folders app, admin, ui... even product
   - src/ just for utils, types, scehmas, configs, scripts (db + other), etc..
-
 
 - make `products` db VIEW ?? aggregate all entities into single readable view
 
@@ -58,4 +60,3 @@ If you want, next we can:
 - Or wire this cleanly into `packages/i18n`
 
 You’re *very* close — this is a configuration trap, not an architectural flaw.
-
