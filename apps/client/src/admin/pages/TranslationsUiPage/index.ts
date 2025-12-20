@@ -1,1 +1,0 @@
-export { TranslationsUiPage } from './TranslationsUiPage';

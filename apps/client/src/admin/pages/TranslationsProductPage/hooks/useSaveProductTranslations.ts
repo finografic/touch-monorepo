@@ -11,7 +11,7 @@ import { useCreateVolume, useUpdateVolume } from 'queries/drink-volumes';
 import { useCreateContainerType, useUpdateContainerType } from 'queries/container-types';
 
 import type { SectionKey, TranslationFormItem } from '../translations.types';
-import { TranslationsDto } from '../../../utils/translations.dto';
+import { TranslationsDto } from 'admin/utils/translations.dto';
 import { useToast } from 'components/Toast/ToastContext';
 import { invalidateReferenceDataQueries } from 'queries/invalidateReferenceData';
 import { useQueryClient } from '@tanstack/react-query';
@@ -46,7 +46,7 @@ export const useSaveProductTranslations = (sectionKey: SectionKey, supportedLang
           switch (sectionKey) {
             case 'drinkTypes':
               entity = await createDrinkType.mutateAsync({
-                name: payload.name,
+                name: payload.key,
                 translations: payload.translations,
                 hasSubtypes: (item as any).hasSubtypes ?? false,
                 defaultTempConsume: (item as any).defaultTempConsume ?? 5,
@@ -56,7 +56,7 @@ export const useSaveProductTranslations = (sectionKey: SectionKey, supportedLang
 
             case 'volumes':
               entity = await createVolume.mutateAsync({
-                name: payload.name,
+                name: payload.key,
                 translations: payload.translations,
                 valueInMl: (item as any).valueInMl ?? 330,
                 sortOrder: (item as any).sortOrder ?? 0,
@@ -66,7 +66,7 @@ export const useSaveProductTranslations = (sectionKey: SectionKey, supportedLang
 
             case 'containerTypes':
               entity = await createContainerType.mutateAsync({
-                name: payload.name,
+                name: payload.key,
                 translations: payload.translations,
                 thermalConductivity: (item as any).thermalConductivity ?? 1,
               });
@@ -77,7 +77,7 @@ export const useSaveProductTranslations = (sectionKey: SectionKey, supportedLang
               if (!drinkTypeId) throw new Error('drinkTypeId required');
 
               entity = await createDrinkSubtype.mutateAsync({
-                name: payload.name,
+                name: payload.key,
                 drinkTypeId,
                 translations: payload.translations,
                 defaultTempConsume: (item as any).defaultTempConsume ?? 5,
@@ -100,7 +100,7 @@ export const useSaveProductTranslations = (sectionKey: SectionKey, supportedLang
             await updateDrinkType.mutateAsync({
               id: item.id,
               updates: {
-                name: payload.name,
+                name: payload.key,
                 translations: payload.translations,
                 hasSubtypes: (item as any).hasSubtypes,
                 defaultTempConsume: (item as any).defaultTempConsume,
@@ -113,7 +113,7 @@ export const useSaveProductTranslations = (sectionKey: SectionKey, supportedLang
             await updateVolume.mutateAsync({
               id: item.id,
               updates: {
-                name: payload.name,
+                name: payload.key,
                 translations: payload.translations,
                 valueInMl: (item as any).valueInMl,
                 sortOrder: (item as any).sortOrder,
@@ -126,7 +126,7 @@ export const useSaveProductTranslations = (sectionKey: SectionKey, supportedLang
             await updateContainerType.mutateAsync({
               id: item.id,
               updates: {
-                name: payload.name,
+                name: payload.key,
                 translations: payload.translations,
                 thermalConductivity: (item as any).thermalConductivity,
               },
@@ -141,7 +141,7 @@ export const useSaveProductTranslations = (sectionKey: SectionKey, supportedLang
               id: item.id,
               drinkTypeId,
               updates: {
-                name: payload.name,
+                name: payload.key,
                 translations: payload.translations,
                 defaultTempConsume: (item as any).defaultTempConsume,
                 defaultTempFreeze: (item as any).defaultTempFreeze,
