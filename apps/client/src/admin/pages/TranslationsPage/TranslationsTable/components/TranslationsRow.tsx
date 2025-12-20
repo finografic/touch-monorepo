@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { TrashIcon } from 'styles/icons';
 import { Button } from 'components/Button';
 import type { RegionLocale } from '@workspace/config/i18n.config';
-import { languagesCodeToKey } from 'admin/utils/language.utils';
+import { languagesCodeToKey } from 'admin/utils/languages.utils';
 import { Input } from 'forms/Input/Input';
 
 interface TranslationsRowProps {

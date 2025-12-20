@@ -3,7 +3,7 @@ import { useFieldArray, useForm } from 'react-hook-form';
 import type { UseFormReturn } from 'react-hook-form';
 import type { RegionLocale } from '@workspace/config/i18n.config';
 import type { TranslationUiFormItem } from '../../translations.types';
-import { languagesCodeToKey } from 'admin/pages/TranslationsPage/utils/language.utils';
+import { languagesCodeToKey } from 'admin/utils/languages.utils';
 
 interface UseTranslationsTableFormOptions {
   items: TranslationUiFormItem[];

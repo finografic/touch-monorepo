@@ -1,4 +1,4 @@
-import { languagesCodeToKey } from 'admin/pages/TranslationsPage/utils/language.utils';
+import { languagesCodeToKey } from 'admin//utils/languages.utils';
 import type { TranslationUiApiItem, TranslationUiFormItem } from '../translations.types';
 import type { RegionLocale } from '@workspace/config/i18n.config';
 

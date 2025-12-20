@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { TrashIcon } from 'styles/icons';
 import { Button } from 'components/Button';
 import type { RegionLocale } from '@workspace/config/i18n.config';
-import { languagesCodeToKey, regenerateSlug } from 'admin/utils/language.utils';
+import { languagesCodeToKey, regenerateSlug } from 'admin/utils/languages.utils';
 import { Input } from 'forms/Input/Input';
 
 interface TranslationsRowProps {
