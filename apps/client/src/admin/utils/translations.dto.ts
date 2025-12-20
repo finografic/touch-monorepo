@@ -1,5 +1,8 @@
 import { languagesCodeToKey } from 'admin/utils/languages.utils';
-import type { TranslationApiItem, TranslationFormItem } from '../translations.types';
+import type {
+  TranslationApiItem,
+  TranslationFormItem,
+} from '../pages/TranslationsProductPage/translations.types';
 import type { RegionLocale } from 'node_modules/@workspace/i18n/dist/_tsup-dts-rollup';
 
 /**
