@@ -6,7 +6,7 @@ import { api } from 'api';
 import { transformFetchError } from '@workspace/core/api';
 
 import type { TranslationUiFormItem } from '../translations.types';
-import { TranslationsDto } from '../../../utils/translations.dto';
+import { TranslationsDto } from '../utils/translations.dto';
 import { useToast } from 'components/Toast/ToastContext';
 import type { TranslationDomain } from './useGetTranslations';
 

@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { api } from 'api';
 import { transformFetchError } from '@workspace/core/api';
 import { useGetSupportedLanguages } from 'queries/supported-languages';
-import { TranslationsDto } from '../../../utils/translations.dto';
+import { TranslationsDto } from '../utils/translations.dto';
 import { useIsMutating } from '@tanstack/react-query';
 
 import type { LanguageInfo } from 'types/models/supported-language.model';

@@ -7,7 +7,7 @@ export interface TranslationApiItem {
 
 export interface TranslationFormItem {
   id: string;
-  key: string;
+  name: string;
   [key: string]: any; // dynamic language fields: esEs, enGb, ...
 }
 
