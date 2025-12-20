@@ -8,7 +8,7 @@ import { useProductTranslationData } from './hooks/useProductTranslationData';
 import { useSaveProductTranslations } from './hooks/useSaveProductTranslations';
 import { useDeleteProductTranslation } from './hooks/useDeleteProductTranslation';
 import { TranslationsTable } from './TranslationsTable';
-import type { SectionKey } from './translations.types';
+import type { SectionKey } from './translationsProduct.types';
 import { styles } from './TranslationsProductPage.styles';
 import { TranslationsTableExpandable } from './TranslationsTable';
 import { invalidateReferenceDataQueries } from 'queries/invalidateReferenceData';

@@ -11,7 +11,7 @@ import { useTranslationsTableForm } from './hooks/useTranslationsTableForm';
 import { useTranslationsTableHandlers } from './hooks/useTranslationsTableHandlers';
 
 import type { RegionLocale } from '@workspace/config/i18n.config';
-import type { TranslationFormItem } from 'admin/pages/TranslationsProductPage/translations.types';
+import type { TranslationFormItem } from 'admin/pages/TranslationsProductPage/translationsProduct.types';
 
 interface TranslationsTableProps {
   sectionKey: string;

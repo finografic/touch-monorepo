@@ -10,8 +10,8 @@ import {
 import { useCreateVolume, useUpdateVolume } from 'queries/drink-volumes';
 import { useCreateContainerType, useUpdateContainerType } from 'queries/container-types';
 
-import type { SectionKey, TranslationFormItem } from '../translations.types';
-import { TranslationsDto } from '../utils/translations.dto';
+import type { SectionKey, TranslationFormItem } from '../translationsProduct.types';
+import { TranslationsDto } from '../utils/translationsProduct.dto';
 import { useToast } from 'components/Toast/ToastContext';
 import { invalidateReferenceDataQueries } from 'queries/invalidateReferenceData';
 import { useQueryClient } from '@tanstack/react-query';

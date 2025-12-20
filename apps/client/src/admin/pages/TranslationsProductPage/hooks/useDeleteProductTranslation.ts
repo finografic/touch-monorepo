@@ -3,7 +3,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { api } from 'api';
 
 // Types
-import type { SectionKey } from '../translations.types';
+import type { SectionKey } from '../translationsProduct.types';
 
 // Utilities
 import { invalidateReferenceDataQueries } from 'queries/invalidateReferenceData';

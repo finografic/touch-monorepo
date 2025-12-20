@@ -1,12 +1,12 @@
 import { useMemo } from 'react';
 import { useGetAllTranslations } from 'api/hooks/useTranslations';
 import { useGetSupportedLanguages } from 'queries/supported-languages';
-import { TranslationsDto } from '../utils/translations.dto';
+import { TranslationsDto } from '../utils/translationsProduct.dto';
 import { useIsMutating } from '@tanstack/react-query';
 
 import type { LanguageInfo } from 'types/models/supported-language.model';
 import type { RegionLocale } from '@workspace/config/i18n.config';
-import type { SectionData } from '../translations.types';
+import type { SectionData } from '../translationsProduct.types';
 
 export interface UseProductTranslationData {
   isLoading: boolean;
