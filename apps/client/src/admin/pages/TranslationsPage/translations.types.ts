@@ -2,14 +2,12 @@ export interface TranslationUiApiItem {
   id: string;
   key: string; // dot notation key: "buttons.add", "tables.headers.name"
   translations: Record<string, string>; // { "es-ES": "...", ... }
-  description?: string | null;
   isActive?: boolean;
 }
 
 export interface TranslationUiFormItem {
   id: string;
   key: string; // dot notation key
-  description?: string | null;
   [key: string]: any; // dynamic language fields: esEs, enGb, ...
 }
 
