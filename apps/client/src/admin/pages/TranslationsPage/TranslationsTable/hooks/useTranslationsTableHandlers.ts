@@ -1,20 +1,16 @@
 import { useCallback } from 'react';
 import type { UseFormReturn } from 'react-hook-form';
-import type { TranslationUiFormItem } from '../../translations.types';
+import type { TranslationsFormItem } from '../../translations.types';
 
 interface UseTranslationsTableHandlersOptions {
-  methods: UseFormReturn<{ items: TranslationUiFormItem[] }>;
-  watchedItems: TranslationUiFormItem[];
+  methods: UseFormReturn<{ items: TranslationsFormItem[] }>;
+  watchedItems: TranslationsFormItem[];
   remove: (index: number) => void;
   languageKeys: string[];
-  isItemEmpty: (item: TranslationUiFormItem) => boolean;
-  onSave?: ({
-    items,
-  }: {
-    items: TranslationUiFormItem[];
-  }) => Promise<{ savedItems: TranslationUiFormItem[] }>;
+  isItemEmpty: (item: TranslationsFormItem) => boolean;
+  onSave?: ({ items }: { items: TranslationsFormItem[] }) => Promise<{ savedItems: TranslationsFormItem[] }>;
   onDelete?: (itemId: string) => Promise<{ success: boolean; deletedId: string }>;
-  initialItemsRef: React.MutableRefObject<TranslationUiFormItem[]>;
+  initialItemsRef: React.MutableRefObject<TranslationsFormItem[]>;
 }
 
 interface UseTranslationsTableHandlersReturn {

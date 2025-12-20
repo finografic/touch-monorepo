@@ -2,23 +2,24 @@ import type { ReactNode } from 'react';
 
 import type { CreateSettersType } from '@finografic/zustand-context-creator';
 import type { Theme } from 'types/ui.types';
-import type { AppConfigKeys } from './AppConfigContext';
+import type { AppConfigKeys, SETTER_PREFIX } from './AppConfigContext';
+import type { RegionLocale } from '@workspace/i18n';
 
 export interface AppConfigValues {
-  [AppConfigKeys.currentLanguage]: string;
+  [AppConfigKeys.currentLanguage]: RegionLocale;
+  [AppConfigKeys.supportedLanguages]: RegionLocale[];
   [AppConfigKeys.theme]: Theme;
   [AppConfigKeys.title]: string;
   [AppConfigKeys.isPowerEnabled]: boolean;
   [AppConfigKeys.isRelayFunctionalityEnabled]: boolean;
 }
 
-const SETTER_PREFIX = 'AppConfig';
 type AppConfigSetters = CreateSettersType<AppConfigValues, typeof SETTER_PREFIX>;
 
 export type AppConfigActions = AppConfigSetters & {
-  setCurrentLanguage: (languageCode: string) => void;
+  setCurrentLanguage: (languageCode: RegionLocale) => void;
+  setSupportedLanguages: (supportedLanguages: RegionLocale[]) => void;
   setTheme: (theme: Theme) => void;
-  toggleTheme: () => void;
   setTogglePowerEnabled: (isPowerEnabled: boolean) => void;
   setRelayFunctionalityEnabled: (isRelayFunctionalityEnabled: boolean) => void;
   toggleRelayFunctionality: () => void;

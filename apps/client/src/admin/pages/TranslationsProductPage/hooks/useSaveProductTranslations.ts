@@ -10,7 +10,7 @@ import {
 import { useCreateVolume, useUpdateVolume } from 'queries/drink-volumes';
 import { useCreateContainerType, useUpdateContainerType } from 'queries/container-types';
 
-import type { SectionKey, TranslationFormItem } from '../translationsProduct.types';
+import type { SectionKey, TranslationsFormItem } from '../translationsProduct.types';
 import { TranslationsDto } from '../utils/translationsProduct.dto';
 import { useToast } from 'components/Toast/ToastContext';
 import { invalidateReferenceDataQueries } from 'queries/invalidateReferenceData';
@@ -32,9 +32,9 @@ export const useSaveProductTranslations = (sectionKey: SectionKey, supportedLang
   const updateContainerType = useUpdateContainerType();
 
   const save = useCallback(
-    async ({ items }: { items: TranslationFormItem[] }) => {
-      const created: TranslationFormItem[] = [];
-      const updated: TranslationFormItem[] = [];
+    async ({ items }: { items: TranslationsFormItem[] }) => {
+      const created: TranslationsFormItem[] = [];
+      const updated: TranslationsFormItem[] = [];
 
       for (const item of items) {
         const payload = TranslationsDto.toApi(item, supportedLanguages);

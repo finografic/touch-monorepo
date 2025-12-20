@@ -7,8 +7,9 @@ import {
   DEFAULT_LANGUAGE,
   DEFAULT_SUPPORTED_LANGUAGES,
   ENABLE_BROWSER_LANGUAGE_DETECTION,
-  type SupportedLanguage,
-} from 'config/app/app.config';
+  I18N_NAMESPACE,
+} from 'config/app/i18n.config';
+import type { SupportedLanguage } from 'types/i18n.types';
 
 i18n
   .use(HttpBackend)
@@ -16,8 +17,8 @@ i18n
   .use(initReactI18next)
   .init({
     // namespace config
-    ns: ['translations'],
-    defaultNS: 'translations',
+    ns: [I18N_NAMESPACE],
+    defaultNS: I18N_NAMESPACE,
 
     // http config
     backend: {
@@ -30,14 +31,11 @@ i18n
      */
     supportedLngs: DEFAULT_SUPPORTED_LANGUAGES,
     nonExplicitSupportedLngs: false,
-    // Language detection
     detection: {
       order: ['querystring', 'localStorage', 'sessionStorage', 'navigator'],
-      // Explicit lookup keys (LanguageDetector defaults, but good to be explicit)
       lookupQuerystring: 'lng',
       lookupLocalStorage: 'i18nextLng',
       lookupSessionStorage: 'i18nextLng',
-      // Cache-busting for development
       caches: process.env.NODE_ENV === 'development' ? [] : ['localStorage'],
       excludeCacheFor: ['cimode'],
 

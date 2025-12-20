@@ -16,7 +16,7 @@ import { ExpandedSubtypeRow } from './components/TranslationsRowExpanded';
 import type { RegionLocale } from '@workspace/config/i18n.config';
 import type {
   GroupedSubtypes,
-  TranslationFormItem,
+  TranslationsFormItem,
 } from 'admin/pages/TranslationsProductPage/translationsProduct.types';
 import { colors } from 'styles/colors/colors-direct';
 
@@ -24,9 +24,9 @@ import { COL_CHEVRON_WIDTH, COL_SLUG_WIDTH } from './translations-table.config';
 
 interface TranslationsTableExpandableProps {
   sectionKey: string;
-  items: TranslationFormItem[];
+  items: TranslationsFormItem[];
   supportedLanguages: RegionLocale[];
-  onSave?: ({ items }: { items: TranslationFormItem[] }) => Promise<{ savedItems: TranslationFormItem[] }>;
+  onSave?: ({ items }: { items: TranslationsFormItem[] }) => Promise<{ savedItems: TranslationsFormItem[] }>;
   onDelete?: (itemId: string, drinkTypeId?: string) => Promise<{ success: boolean; deletedId: string }>;
   isSaving?: boolean;
   isDeleting?: boolean;
@@ -66,7 +66,7 @@ export const TranslationsTableExpandable: React.FC<TranslationsTableExpandablePr
 
   const groupedSubtypes = useMemo<GroupedSubtypes[]>(() => {
     // Group existing subtypes by drinkTypeId
-    const groupsMap = new Map<string, TranslationFormItem[]>();
+    const groupsMap = new Map<string, TranslationsFormItem[]>();
     items.forEach((item) => {
       const drinkTypeId = (item as any).drinkTypeId;
       if (drinkTypeId) {
@@ -112,7 +112,7 @@ export const TranslationsTableExpandable: React.FC<TranslationsTableExpandablePr
   } = useTranslationsTableForm({ items, supportedLanguages });
 
   // Track initial items for DELETE detection
-  const initialItemsRef = useRef<TranslationFormItem[]>(items);
+  const initialItemsRef = useRef<TranslationsFormItem[]>(items);
   useEffect(() => {
     initialItemsRef.current = items;
   }, [items]);
@@ -158,7 +158,7 @@ export const TranslationsTableExpandable: React.FC<TranslationsTableExpandablePr
         name: '',
         drinkTypeId: expandedGroupId,
         ...Object.fromEntries(languageKeys.map((k) => [k, ''])),
-      } as TranslationFormItem);
+      } as TranslationsFormItem);
     },
     250,
     { leading: true, trailing: false },

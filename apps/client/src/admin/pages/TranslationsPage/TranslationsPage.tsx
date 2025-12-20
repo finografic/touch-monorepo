@@ -1,39 +1,38 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Flex, Spinner, Tabs, Text } from '@radix-ui/themes';
 
 import { AdminPageLayout, AdminSection } from '../..';
 
 import { useGetTranslations } from './hooks/useGetTranslations';
-import type { TranslationDomain } from './hooks/useGetTranslations';
 import { useSaveTranslations } from './hooks/useSaveTranslations';
 import { useDeleteTranslations } from './hooks/useDeleteTranslations';
 import { TranslationsTable } from './TranslationsTable';
-import type { SectionKey } from './translations.types';
+import type { I18nTranslationsDomain } from 'types/i18n.types';
+import type { I18nDomainGroupKey } from './translations.types';
 import { styles } from './TranslationsPage.styles';
 
 export interface TranslationsPageProps {
-  domain: TranslationDomain;
+  domain: I18nTranslationsDomain;
   groups?: string[];
 }
 
 export const TranslationsPage: React.FC<TranslationsPageProps> = ({
-  domain = 'ui',
+  domain,
   groups = ['buttons', 'tables', 'time'],
 }) => {
   const { t } = useTranslation();
-
+  const [activeTab, setActiveTab] = useState<I18nDomainGroupKey>(() => groups[0]);
   const { isLoading, supportedLanguages, sections } = useGetTranslations({ domain, groups });
 
-  // Initialize activeTab with first group, update when groups change
-  const [activeTab, setActiveTab] = useState<SectionKey>(() => (groups?.[0] || 'buttons') as SectionKey);
-
-  // Update activeTab when groups change or when sections become available
-  React.useEffect(() => {
-    if (groups && groups.length > 0 && !groups.includes(activeTab)) {
-      setActiveTab(groups[0] as SectionKey);
-    }
-  }, [groups, activeTab]);
+  useEffect(
+    function updateActiveTab() {
+      if (groups && groups.length > 0 && !groups.includes(activeTab)) {
+        setActiveTab(groups[0] as I18nDomainGroupKey);
+      }
+    },
+    [groups, activeTab],
+  );
 
   const activeSection = useMemo(
     () => sections.find((section) => section.key === activeTab),
@@ -66,7 +65,7 @@ export const TranslationsPage: React.FC<TranslationsPageProps> = ({
 
   return (
     <AdminPageLayout title={t(pageTitleKey)} subtitle="Admin" styles={styles}>
-      <Tabs.Root value={activeTab} onValueChange={(value) => setActiveTab(value as SectionKey)}>
+      <Tabs.Root value={activeTab} onValueChange={(value) => setActiveTab(value as I18nDomainGroupKey)}>
         <Tabs.List>
           {sections.map((section) => (
             <Tabs.Trigger key={section.key} value={section.key}>

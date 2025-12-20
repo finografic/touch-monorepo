@@ -5,16 +5,16 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from 'api';
 import { transformFetchError } from '@workspace/core/api';
 
-import type { TranslationUiFormItem } from '../translations.types';
+import type { TranslationsFormItem } from '../translations.types';
 import { TranslationsDto } from '../utils/translations.dto';
 import { useToast } from 'components/Toast/ToastContext';
-import type { TranslationDomain } from './useGetTranslations';
+import type { I18nTranslationsDomain } from './useGetTranslations';
 
 export const useSaveTranslations = ({
   domain,
   supportedLanguages,
 }: {
-  domain: TranslationDomain;
+  domain: I18nTranslationsDomain;
   supportedLanguages: RegionLocale[];
 }) => {
   const queryClient = useQueryClient();
@@ -49,9 +49,9 @@ export const useSaveTranslations = ({
   });
 
   const save = useCallback(
-    async ({ items }: { items: TranslationUiFormItem[] }) => {
-      const created: TranslationUiFormItem[] = [];
-      const updated: TranslationUiFormItem[] = [];
+    async ({ items }: { items: TranslationsFormItem[] }) => {
+      const created: TranslationsFormItem[] = [];
+      const updated: TranslationsFormItem[] = [];
 
       for (const item of items) {
         const payload = TranslationsDto.toApi(item, supportedLanguages);

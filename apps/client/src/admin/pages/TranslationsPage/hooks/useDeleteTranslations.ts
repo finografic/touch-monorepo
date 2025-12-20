@@ -4,18 +4,22 @@ import { api } from 'api';
 import { transformFetchError } from '@workspace/core/api';
 
 import { useToast } from 'components/Toast/ToastContext';
-import type { TranslationDomain } from './useGetTranslations';
+import type { I18nTranslationsDomain } from 'types/i18n.types';
 
 /**
  * Hook for immediate HARD deletion (DELETE from database)
  */
-export const useDeleteTranslations = ({ domain }: { domain: TranslationDomain }) => {
+export const useDeleteTranslations = ({ domain }: { domain: I18nTranslationsDomain }) => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
-      await api.delete<void>(`/translations/${domain}/${id}`);
+      try {
+        await api.delete<void>(`/translations/${domain}/${id}`);
+      } catch (error) {
+        throw transformFetchError(error);
+      }
     },
   });
 

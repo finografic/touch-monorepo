@@ -9,13 +9,13 @@ import { MoonIcon, SunIcon } from 'styles/icons';
 import { styles } from './ThemeToggleButton.styles';
 
 export const ThemeToggleButton: FC = () => {
-  const { theme, toggleTheme } = useAppConfig();
+  const { theme, setTheme } = useAppConfig();
 
   return (
     <Button
       css={styles}
       className={clsx('button theme-toggle')}
-      onClick={toggleTheme}
+      onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
       aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
       title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
     >

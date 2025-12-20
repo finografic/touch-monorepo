@@ -11,17 +11,13 @@ import { useTranslationsTableForm } from './hooks/useTranslationsTableForm';
 import { useTranslationsTableHandlers } from './hooks/useTranslationsTableHandlers';
 
 import type { RegionLocale } from '@workspace/config/i18n.config';
-import type { TranslationUiFormItem } from '../translations.types';
+import type { TranslationsFormItem } from '../translations.types';
 
 interface TranslationsTableProps {
   sectionKey: string;
-  items: TranslationUiFormItem[];
+  items: TranslationsFormItem[];
   supportedLanguages: RegionLocale[];
-  onSave?: ({
-    items,
-  }: {
-    items: TranslationUiFormItem[];
-  }) => Promise<{ savedItems: TranslationUiFormItem[] }>;
+  onSave?: ({ items }: { items: TranslationsFormItem[] }) => Promise<{ savedItems: TranslationsFormItem[] }>;
   onDelete?: (itemId: string) => Promise<{ success: boolean; deletedId: string }>;
   isSaving?: boolean;
   isDeleting?: boolean;
@@ -55,7 +51,7 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
   } = useTranslationsTableForm({ items, supportedLanguages });
 
   // Track initial items for DELETE detection
-  const initialItemsRef = useRef<TranslationUiFormItem[]>(items);
+  const initialItemsRef = useRef<TranslationsFormItem[]>(items);
   useEffect(() => {
     initialItemsRef.current = items;
   }, [items]);
@@ -87,7 +83,7 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
         id: `temp-${createCuid()}`, // temp ID, replaced on save
         key: '',
         ...Object.fromEntries(languageKeys.map((k) => [k, ''])),
-      } as TranslationUiFormItem);
+      } as TranslationsFormItem);
     },
     250,
     { leading: true, trailing: false },

@@ -4,12 +4,15 @@ import { useShallow } from 'zustand/react/shallow';
 
 import { createSetters, createZustandContext } from '@finografic/zustand-context-creator';
 import type { AppConfigStore, AppConfigValues } from './AppConfigContext.types';
+import type { RegionLocale } from '@workspace/i18n';
+import { DEFAULT_LANGUAGE, DEFAULT_SUPPORTED_LANGUAGES } from 'config/app/i18n.config';
 
 export const DISPLAY_NAME = 'AppConfig';
 export const SETTER_PREFIX = 'AppConfig';
 
 export enum AppConfigKeys {
   currentLanguage = 'currentLanguage',
+  supportedLanguages = 'supportedLanguages',
   theme = 'theme',
   title = 'title',
   isPowerEnabled = 'isPowerEnabled',
@@ -17,7 +20,8 @@ export enum AppConfigKeys {
 }
 
 export const defaultValue: AppConfigValues = {
-  currentLanguage: 'es-ES', // ✅ Use full locale code as the default
+  currentLanguage: DEFAULT_LANGUAGE, // ✅ Use full locale code as the default
+  supportedLanguages: [...DEFAULT_SUPPORTED_LANGUAGES],
   theme: 'light', // ✅ Default theme
   title: import.meta.env.VITE_APP_TITLE,
   isPowerEnabled: false,
@@ -32,30 +36,17 @@ export const AppConfigContext = createZustandContext(({ initialValue }) => {
         ...initialValue,
         actions: {
           ...createSetters({ set, defaultValue, prefix: SETTER_PREFIX }),
-          setCurrentLanguage: (languageCode: string) => {
-            // Store the full locale code in AppConfigProvider (e.g., 'es-ES', 'en-GB')
-            // This preserves regional information for currency, formatting, flags, etc.
+          setCurrentLanguage: (languageCode: RegionLocale) => {
             set({ currentLanguage: languageCode });
-
-            // Note: i18n.changeLanguage() should be called separately by the component
-            // to update i18next with the simple code (e.g., 'es', 'en')
+          },
+          setSupportedLanguages: (supportedLanguages: RegionLocale[]) => {
+            set({ supportedLanguages });
           },
           setTheme: (theme: 'light' | 'dark') => {
             set({ theme });
-            // Update document attribute for CSS variable targeting
+            // Update document attribute for CSS variable targeting + Persist to localStorage
             document.documentElement.setAttribute('data-theme', theme);
-            // Persist to localStorage
             localStorage.setItem('touch-app-theme', theme);
-          },
-          toggleTheme: () => {
-            set((state) => {
-              const newTheme = state.theme === 'light' ? 'dark' : 'light';
-              // Update document attribute for CSS variable targeting
-              document.documentElement.setAttribute('data-theme', newTheme);
-              // Persist to localStorage
-              localStorage.setItem('touch-app-theme', newTheme);
-              return { theme: newTheme };
-            });
           },
           setTogglePowerEnabled: (isPowerEnabled: boolean) => {
             set({ isPowerEnabled });

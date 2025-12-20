@@ -6,12 +6,12 @@ import { useIsMutating } from '@tanstack/react-query';
 
 import type { LanguageInfo } from 'types/models/supported-language.model';
 import type { RegionLocale } from '@workspace/config/i18n.config';
-import type { SectionData } from '../translationsProduct.types';
+import type { TranslationsSection } from '../translationsProduct.types';
 
 export interface UseProductTranslationData {
   isLoading: boolean;
   supportedLanguages: RegionLocale[];
-  sections: SectionData[];
+  sections: TranslationsSection[];
 }
 
 export const useProductTranslationData = (): UseProductTranslationData => {
@@ -24,7 +24,7 @@ export const useProductTranslationData = (): UseProductTranslationData => {
     return languages.map((language: LanguageInfo) => language.isoCode as RegionLocale);
   }, [languages]);
 
-  const sections = useMemo<SectionData[]>(() => {
+  const sections = useMemo<TranslationsSection[]>(() => {
     if (!translations || supportedLanguages.length === 0) return [];
 
     const mapItems = (items: any[]) => items.map((item) => TranslationsDto.fromApi(item, supportedLanguages));

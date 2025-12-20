@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 
-import type { UiLabelSectionData } from 'admin/types/translations.types';
+import type { UiLabelTranslationsSection } from 'admin/types/translations.types';
 import type { MenuItem } from 'primereact/menuitem';
 import { TabMenu } from 'primereact/tabmenu';
 
@@ -8,7 +8,7 @@ import { styles } from './TabPageMenu.styles';
 
 interface TabPageMenuProps {
   tabs: string[];
-  sections: UiLabelSectionData[];
+  sections: UiLabelTranslationsSection[];
   onTabChange: (newValue: string) => void;
 }
 

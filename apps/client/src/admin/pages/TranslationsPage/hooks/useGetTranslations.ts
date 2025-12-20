@@ -9,30 +9,30 @@ import { useIsMutating } from '@tanstack/react-query';
 
 import type { LanguageInfo } from 'types/models/supported-language.model';
 import type { RegionLocale } from '@workspace/config/i18n.config';
-import type { SectionData } from '../translations.types';
-
-export type TranslationDomain = 'ui' | 'app' | 'admin';
+import type { TranslationsSection } from '../translations.types';
+import type { I18nTranslationsDomain } from 'types/i18n.types';
+import { GET_TRANSLATIONS_QUERYKEY } from 'queries/translations';
 
 export interface UseUiTranslationData {
   isLoading: boolean;
   supportedLanguages: RegionLocale[];
-  sections: SectionData[];
+  sections: TranslationsSection[];
 }
 
 export const useGetTranslations = ({
   domain = 'ui',
   groups = ['buttons', 'tables', 'time'],
 }: {
-  domain: TranslationDomain;
+  domain: I18nTranslationsDomain;
   groups?: string[];
 }): UseUiTranslationData => {
   const location = useLocation();
   const queryClient = useQueryClient();
-  const queryKey = [`translations-${domain}`, location.pathname];
+  const queryKey = [...GET_TRANSLATIONS_QUERYKEY, domain, location.pathname];
 
-  // Invalidate queries when location changes to ensure fresh data
+  // NOTE: invalidate queries when location changes - force data refresh when route changes
   useEffect(() => {
-    queryClient.invalidateQueries({ queryKey: [`translations-${domain}`] });
+    queryClient.invalidateQueries({ queryKey: [...GET_TRANSLATIONS_QUERYKEY, domain] });
   }, [location.pathname, domain, queryClient]);
 
   // Fetch translations based on domain (domain)
@@ -63,7 +63,7 @@ export const useGetTranslations = ({
     return languages.map((language: LanguageInfo) => language.isoCode as RegionLocale);
   }, [languages]);
 
-  const sections = useMemo<SectionData[]>(() => {
+  const sections = useMemo<TranslationsSection[]>(() => {
     // Don't wait for supportedLanguages - we can create sections without them
     // The DTO transformation will handle empty languages gracefully
     if (!translations || !Array.isArray(translations) || translations.length === 0) {

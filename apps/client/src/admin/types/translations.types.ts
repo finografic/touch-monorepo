@@ -12,7 +12,7 @@ export interface UiLabelItem {
   values: Record<string, string>;
 }
 
-export interface UiLabelSectionData {
+export interface UiLabelTranslationsSection {
   key: string;
   title: string;
   description: string;

@@ -115,6 +115,7 @@ field = {
 | **Tracking in refs** | `item.id` | `initialItemsRef.current.map(i => i.id)` |
 
 **Safeguards**:
+
 - ✅ `keyName: 'fieldId'` prevents ID conflicts
 - ✅ TypeScript types ensure correct usage
 - ✅ API calls always use `item.id` (CUID)
@@ -137,11 +138,13 @@ methods.reset({ items }, {
 ```
 
 **Why This Matters**:
+
 - Without `keepDefaultValues: false`, RHF compares current values against **old** defaults
 - This makes everything appear dirty even after a successful save
 - With `keepDefaultValues: false`, new items become the new defaults, clearing dirty state
 
 **Reset Flow**:
+
 1. User saves → API call succeeds
 2. `invalidateReferenceDataQueries` triggers refetch
 3. `items` prop updates with fresh server data
@@ -157,11 +160,13 @@ The `name` field (slug) is automatically generated from the first populated lang
 **Priority Order**: `es-ES` → `en-GB` → `ca-ES`
 
 **Implementation**:
+
 - Uses `regenerateSlug()` utility (200ms debounce)
 - Updates `name` field with `shouldDirty: false` to prevent marking slug as dirty on initial render
 - Slug is read-only in the UI (display only)
 
 **Example**:
+
 ```
 User types "Cerveza" in es-ES field
   ↓
@@ -203,6 +208,7 @@ On save: { name: "cerveza", translations: { "es-ES": "Cerveza" } }
 **Purpose**: Centralized RHF form setup, reset logic, and empty row detection.
 
 **Returns**:
+
 - `methods` - RHF form methods
 - `fields`, `remove`, `append` - Field array operations
 - `watchedItems` - Current form values
@@ -220,11 +226,13 @@ On save: { name: "cerveza", translations: { "es-ES": "Cerveza" } }
 **Purpose**: Shared handlers for delete, save, and reset operations.
 
 **Returns**:
+
 - `handleDelete` - Delete handler with confirmation
 - `handleSave` - Save handler (filters empty/dirty items)
 - `handleReset` - Reset form to default values
 
 **Features**:
+
 - ✅ Handles both regular and expandable tables (supports optional `drinkTypeId`)
 - ✅ Filters empty rows before save
 - ✅ Only sends dirty/new items to API
@@ -241,12 +249,14 @@ On save: { name: "cerveza", translations: { "es-ES": "Cerveza" } }
 **Purpose**: Standard table for simple entity types (drinkTypes, volumes, containerTypes).
 
 **Features**:
+
 - Standard `<thead>` with language columns
 - Simple row rendering
 - Add new row at the end
 - Delete button per row
 
 **Props**:
+
 - `sectionKey` - Entity type identifier
 - `items` - Array of translation items
 - `supportedLanguages` - Array of language codes
@@ -262,6 +272,7 @@ On save: { name: "cerveza", translations: { "es-ES": "Cerveza" } }
 **Purpose**: Expandable table for drink subtypes, grouped by parent drink type.
 
 **Features**:
+
 - Groups subtypes by drink type
 - Expand/collapse groups (only one open at a time)
 - Add new subtype to expanded group
@@ -269,6 +280,7 @@ On save: { name: "cerveza", translations: { "es-ES": "Cerveza" } }
 - Blue subheader row when expanded (mimics `<thead>`)
 
 **Differences from `TranslationsTable`**:
+
 - Requires expanded group to add new items
 - Uses `ExpandedSubtypeRow` component (adds empty cell for chevron alignment)
 - Groups items by `drinkTypeId`
@@ -289,6 +301,7 @@ export const DELETE_DRINK_TYPE_QUERYKEY = ['delete-drink-type'] as const;
 ```
 
 **Why This Matters**:
+
 - ✅ Granular cache invalidation
 - ✅ Prevents stale data
 - ✅ Explicit dependencies
@@ -339,6 +352,7 @@ fields.map((field) => <Row key={field.id} />)
 **Why**: `field.id` is the CUID, which can change. React keys should be stable.
 
 **Solution**:
+
 ```ts
 // CORRECT
 fields.map((field) => <Row key={field.fieldId} />)
@@ -356,6 +370,7 @@ methods.reset({ items }, { keepDefaultValues: true })
 **Why**: Form compares against old defaults, everything appears dirty.
 
 **Solution**:
+
 ```ts
 // CORRECT
 methods.reset({ items }, { keepDefaultValues: false })
@@ -373,6 +388,7 @@ await onSave({ items: data.items }) // Sends everything!
 **Why**: Unnecessary API calls, poor performance.
 
 **Solution**:
+
 ```ts
 // CORRECT (already implemented in handleSave)
 const changedItems = nonEmptyItems.filter((item, index) => {
@@ -385,10 +401,10 @@ const changedItems = nonEmptyItems.filter((item, index) => {
 
 ## 📝 Type Definitions
 
-### `TranslationFormItem`
+### `TranslationsFormItem`
 
 ```ts
-interface TranslationFormItem {
+interface TranslationsFormItem {
   id: string; // CUID or "temp-{cuid}" for new items
   name: string; // Slug (auto-generated, read-only)
   esEs: string; // Spanish translation
@@ -435,4 +451,3 @@ When making changes, verify:
 
 **Status**: ✅ **Production Ready**
 **Last Updated**: 2025-12-14
-

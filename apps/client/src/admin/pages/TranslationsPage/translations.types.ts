@@ -1,21 +1,23 @@
-export interface TranslationUiApiItem {
+import type { RegionLocale } from '@workspace/config/i18n.config';
+
+export type I18nDomainGroupKey = string;
+
+export interface TranslationsApiItem {
   id: string;
-  key: string; // dot notation key: "buttons.add", "tables.headers.name"
-  translations: Record<string, string>; // { "es-ES": "...", ... }
+  key: string;
+  translations: Record<RegionLocale, string>;
   isActive?: boolean;
 }
 
-export interface TranslationUiFormItem {
+export interface TranslationsFormItem {
   id: string;
-  key: string; // dot notation key
-  [key: string]: any; // dynamic language fields: esEs, enGb, ...
+  key: string;
+  [key: string]: any;
 }
 
-export type SectionKey = string; // Dynamic: 'buttons' | 'tables' | 'time' | 'app' | 'admin' | etc.
-
-export interface SectionData {
-  key: SectionKey;
+export interface TranslationsSection {
+  key: I18nDomainGroupKey;
   title: string;
   description: string;
-  items: TranslationUiFormItem[]; // RHF-ready form items
+  items: TranslationsFormItem[];
 }

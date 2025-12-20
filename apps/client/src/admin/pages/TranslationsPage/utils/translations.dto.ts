@@ -1,5 +1,5 @@
 import { languagesCodeToKey } from 'admin/utils/languages.utils';
-import type { TranslationUiApiItem, TranslationUiFormItem } from '../translations.types';
+import type { TranslationsApiItem, TranslationsFormItem } from '../translations.types';
 import type { RegionLocale } from '@workspace/config/i18n.config';
 
 /**
@@ -9,8 +9,8 @@ export const TranslationsDto = {
   /**
    * API → Form (RHF)
    */
-  fromApi: (item: TranslationUiApiItem, languages: string[]): TranslationUiFormItem => {
-    const formItem: TranslationUiFormItem = {
+  fromApi: (item: TranslationsApiItem, languages: string[]): TranslationsFormItem => {
+    const formItem: TranslationsFormItem = {
       id: item.id,
       key: item.key,
     };
@@ -33,7 +33,7 @@ export const TranslationsDto = {
   /**
    * Form (RHF) → API
    */
-  toApi: (item: TranslationUiFormItem, languages: RegionLocale[]) => ({
+  toApi: (item: TranslationsFormItem, languages: RegionLocale[]) => ({
     key: item.key,
     translations: Object.fromEntries(languages.map((lang) => [lang, item[languagesCodeToKey(lang)] ?? ''])),
   }),
