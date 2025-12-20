@@ -67,7 +67,7 @@ const routes = [
   supportedLanguage,
   sounds,
   slotConfigurations,
-  // translations,
+  translations,
   i18n,
   relay,
 ] as const;
