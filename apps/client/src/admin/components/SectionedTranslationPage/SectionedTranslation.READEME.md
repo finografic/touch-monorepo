@@ -4,7 +4,7 @@
 
 ### 1. Added toast notifications
 
-- Updated `useUiSectionForm` to show toast notifications on save success/error
+- Updated `useTranslationsFormSection` to show toast notifications on save success/error
 - Toast is optional (can be disabled with `showToast={false}`)
 - Success toasts show the section name and file count
 - Error toasts show the error message with retry context

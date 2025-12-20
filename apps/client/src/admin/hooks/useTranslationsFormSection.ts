@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 
 import { useToast } from 'components/Toast';
 
-interface UseUiSectionFormOptions<TResponse = unknown> {
+interface UseTranslationsFormSectionOptions<TResponse = unknown> {
   sectionKey: string;
   isDirty: boolean;
   onReset: () => void;
@@ -10,7 +10,7 @@ interface UseUiSectionFormOptions<TResponse = unknown> {
   showToast?: boolean; // Optional: enable/disable toast notifications
 }
 
-interface UseUiSectionFormResult {
+interface UseTranslationsFormSectionResult {
   isDirty: boolean;
   isSaving: boolean;
   statusMessage: string | null;
@@ -19,13 +19,13 @@ interface UseUiSectionFormResult {
   handleSubmit: () => Promise<void>;
 }
 
-export const useUiSectionForm = <TResponse = unknown>({
+export const useTranslationsFormSection = <TResponse = unknown>({
   sectionKey,
   isDirty,
   onReset,
   onSubmit,
   showToast = true,
-}: UseUiSectionFormOptions<TResponse>): UseUiSectionFormResult => {
+}: UseTranslationsFormSectionOptions<TResponse>): UseTranslationsFormSectionResult => {
   const { toast } = useToast();
   const [isSaving, setIsSaving] = useState(false);
   const [statusMessage, setStatusMessage] = useState<string | null>(null);

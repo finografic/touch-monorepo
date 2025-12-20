@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import { Box, Flex, Grid, Text, TextField } from '@radix-ui/themes';
 import { AdminSection } from 'admin/components/AdminSection/AdminSection';
-import { useUiSectionForm } from 'admin/hooks/useUiSectionForm';
+import { useTranslationsFormSection } from 'admin/hooks/useTranslationsFormSection';
 import { FieldWrapper } from 'forms/FieldWrapper';
 import { Button } from 'components/Button';
 
@@ -63,7 +63,7 @@ export const UiLabelSection: React.FC<UiLabelSectionProps> = memo(
       isSaving,
       statusMessage,
       statusType,
-    } = useUiSectionForm({
+    } = useTranslationsFormSection({
       sectionKey,
       isDirty: isDirty || false,
       onReset: onReset || (() => {}),
