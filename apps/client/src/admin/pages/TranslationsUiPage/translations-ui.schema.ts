@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { getLanguageFieldName } from './utils/translation-helpers';
+import { getLanguageFieldName } from 'admin/utils/translation-helpers';
 
 // Create dynamic schema based on supported languages
 export const createTranslationSchema = (
