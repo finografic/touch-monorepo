@@ -1,9 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useAppConfig } from './AppConfigContext';
 import type { RegionLocale } from '@workspace/i18n';
 import { LOCALE_MAPPING } from 'config/app/i18n.config';
+import { useGetSupportedLanguages } from 'queries/supported-languages';
+import type { LanguageInfo } from 'types/models/supported-language.model';
 
 const getFullLocaleFromSimpleCode = (simpleCode: string): RegionLocale => {
   return LOCALE_MAPPING[simpleCode as keyof typeof LOCALE_MAPPING] || (simpleCode as RegionLocale);
@@ -11,8 +13,26 @@ const getFullLocaleFromSimpleCode = (simpleCode: string): RegionLocale => {
 
 export const AppLanguageSync = () => {
   const { i18n } = useTranslation();
-  const { setCurrentLanguage } = useAppConfig();
+  const { setCurrentLanguage, setSupportedLanguages, setSupportedLanguagesFull } = useAppConfig();
 
+  // Fetch supported languages from database
+  const { data: languagesData } = useGetSupportedLanguages();
+
+  // Extract RegionLocale[] array from full SupportedLanguage[] objects
+  const supportedLanguagesCodes = useMemo<RegionLocale[]>(() => {
+    if (!languagesData) return [];
+    return languagesData.map((language: LanguageInfo) => language.isoCode as RegionLocale);
+  }, [languagesData]);
+
+  // Sync supported languages to context
+  useEffect(() => {
+    if (languagesData && languagesData.length > 0) {
+      setSupportedLanguages(supportedLanguagesCodes);
+      setSupportedLanguagesFull(languagesData);
+    }
+  }, [languagesData, supportedLanguagesCodes, setSupportedLanguages, setSupportedLanguagesFull]);
+
+  // Sync i18n language changes to context
   useEffect(
     function initializeLanguageSync() {
       console.log('%c __LANG__', 'color:cyan', i18n);

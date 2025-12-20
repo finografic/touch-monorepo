@@ -3,11 +3,9 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useLocation } from 'react-router-dom';
 import { api } from 'api';
 import { transformFetchError } from '@workspace/core/api';
-import { useGetSupportedLanguages } from 'queries/supported-languages';
 import { TranslationsDto } from '../utils/translations.dto';
-import { useIsMutating } from '@tanstack/react-query';
+import { useAppConfig } from 'providers/AppConfigProvider';
 
-import type { LanguageInfo } from 'types/models/supported-language.model';
 import type { RegionLocale } from '@workspace/config/i18n.config';
 import type { TranslationsSection } from '../translations.types';
 import type { I18nTranslationsDomain } from 'types/i18n.types';
@@ -55,13 +53,8 @@ export const useGetTranslations = ({
     staleTime: 0, // Always consider data stale to force refetch
   });
 
-  const { data: languages, isLoading: languagesLoading } = useGetSupportedLanguages();
-  const isMutating = useIsMutating();
-
-  const supportedLanguages = useMemo<RegionLocale[]>(() => {
-    if (!languages) return [];
-    return languages.map((language: LanguageInfo) => language.isoCode as RegionLocale);
-  }, [languages]);
+  const appConfig = useAppConfig();
+  const supportedLanguages = appConfig.supportedLanguages as RegionLocale[];
 
   const sections = useMemo<TranslationsSection[]>(() => {
     // Don't wait for supportedLanguages - we can create sections without them
@@ -113,9 +106,8 @@ export const useGetTranslations = ({
   }, [translations, supportedLanguages, domain, groups]);
 
   return {
-    // Only wait for translations to load, not languages (sections work without languages)
     isLoading: translationsLoading,
-    supportedLanguages, // ["es-ES","en-GB","ca-ES"]
-    sections, // RHF-ready
+    supportedLanguages,
+    sections,
   };
 };

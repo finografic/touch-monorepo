@@ -1,10 +1,9 @@
 import { useMemo } from 'react';
 import { useGetAllTranslations } from 'api/hooks/useTranslations';
-import { useGetSupportedLanguages } from 'queries/supported-languages';
 import { TranslationsDto } from '../utils/translationsProduct.dto';
 import { useIsMutating } from '@tanstack/react-query';
+import { useAppConfig } from 'providers/AppConfigProvider';
 
-import type { LanguageInfo } from 'types/models/supported-language.model';
 import type { RegionLocale } from '@workspace/config/i18n.config';
 import type { TranslationsSection } from '../translationsProduct.types';
 
@@ -16,13 +15,8 @@ export interface UseProductTranslationData {
 
 export const useProductTranslationData = (): UseProductTranslationData => {
   const { data: translations, isLoading: translationsLoading } = useGetAllTranslations();
-  const { data: languages, isLoading: languagesLoading } = useGetSupportedLanguages();
+  const { supportedLanguages } = useAppConfig();
   const isMutating = useIsMutating();
-
-  const supportedLanguages = useMemo<RegionLocale[]>(() => {
-    if (!languages) return [];
-    return languages.map((language: LanguageInfo) => language.isoCode as RegionLocale);
-  }, [languages]);
 
   const sections = useMemo<TranslationsSection[]>(() => {
     if (!translations || supportedLanguages.length === 0) return [];
@@ -58,8 +52,8 @@ export const useProductTranslationData = (): UseProductTranslationData => {
   }, [translations, supportedLanguages, translationsLoading, isMutating]);
 
   return {
-    isLoading: translationsLoading || languagesLoading,
-    supportedLanguages, // ["es-ES","en-GB","ca-ES"]
+    isLoading: translationsLoading,
+    supportedLanguages: (supportedLanguages || []) as RegionLocale[], // ["es-ES","en-GB","ca-ES"]
     sections, // RHF-ready
   };
 };

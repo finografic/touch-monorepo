@@ -7,9 +7,10 @@ import { AppThemeSync } from './AppThemeSync';
 export const AppConfigProvider = ({ initialValue, children }: AppConfigProviderProps) => {
   return (
     <AppConfig.Provider initialValue={initialValue}>
+      <AppThemeSync />
       <AppLanguageSync />
       <AppPowerRelaySync />
-      <AppThemeSync />
+
       {children}
     </AppConfig.Provider>
   );

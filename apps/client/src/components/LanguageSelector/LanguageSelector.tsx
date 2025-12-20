@@ -6,24 +6,22 @@ import clsx from 'clsx';
 
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { LanguagesDto } from 'queries/supported-languages';
-import { useGetSupportedLanguages } from 'queries/supported-languages/useSupportedLanguages';
 
 import { getFlagUrl } from 'utils/i18n/flag.utils';
-import type { SupportedLanguage } from 'types/models/supported-language.model';
 import { styles } from './LanguageSelector.styles';
 
 export const LanguageSelector = ({ onLanguageChange }: LanguageSelectorProps) => {
   const { i18n } = useTranslation();
-  const { currentLanguage, setCurrentLanguage, theme } = useAppConfig();
+  const { currentLanguage, setCurrentLanguage, theme, supportedLanguagesFull } = useAppConfig();
 
-  // Fetch supported languages from database
-  const { data, isLoading, error } = useGetSupportedLanguages();
-  const supportedLanguagesData = data as SupportedLanguage[];
-  const languages = supportedLanguagesData
-    ? LanguagesDto.fromApi(supportedLanguagesData, (flagCode) => getFlagUrl(flagCode, 'medium')).filter(
+  // Transform full SupportedLanguage[] from context to LanguageInfo[] format
+  const languages = supportedLanguagesFull
+    ? LanguagesDto.fromApi(supportedLanguagesFull, (flagCode) => getFlagUrl(flagCode, 'medium')).filter(
         (language) => language.isActive,
       )
     : [];
+
+  const isLoading = supportedLanguagesFull.length === 0;
 
   const handleLanguageChange = (languageCode: string) => {
     const regionLocale = languageCode as RegionLocale;
@@ -54,14 +52,6 @@ export const LanguageSelector = ({ onLanguageChange }: LanguageSelectorProps) =>
     );
   }
 
-  if (error) {
-    return (
-      <div className="language-selector" css={styles}>
-        <Text color="red">Error loading languages: {error.message}</Text>
-      </div>
-    );
-  }
-
   if (languages.length === 0) {
     return (
       <div className="language-selector" css={styles}>
@@ -71,7 +61,6 @@ export const LanguageSelector = ({ onLanguageChange }: LanguageSelectorProps) =>
   }
 
   const currentLanguageCode = getCurrentLanguageCode();
-  log('CURRENT_LANGUAGE_CODE', 'blue', currentLanguageCode);
 
   return (
     <div className="language-selector" css={styles}>

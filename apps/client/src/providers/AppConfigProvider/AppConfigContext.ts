@@ -6,6 +6,7 @@ import { createSetters, createZustandContext } from '@finografic/zustand-context
 import type { AppConfigStore, AppConfigValues } from './AppConfigContext.types';
 import type { RegionLocale } from '@workspace/i18n';
 import { DEFAULT_LANGUAGE, DEFAULT_SUPPORTED_LANGUAGES } from 'config/app/i18n.config';
+import type { SupportedLanguage } from 'types/models/supported-language.model';
 
 export const DISPLAY_NAME = 'AppConfig';
 export const SETTER_PREFIX = 'AppConfig';
@@ -13,6 +14,7 @@ export const SETTER_PREFIX = 'AppConfig';
 export enum AppConfigKeys {
   currentLanguage = 'currentLanguage',
   supportedLanguages = 'supportedLanguages',
+  supportedLanguagesFull = 'supportedLanguagesFull',
   theme = 'theme',
   title = 'title',
   isPowerEnabled = 'isPowerEnabled',
@@ -22,6 +24,7 @@ export enum AppConfigKeys {
 export const defaultValue: AppConfigValues = {
   currentLanguage: DEFAULT_LANGUAGE, // ✅ Use full locale code as the default
   supportedLanguages: [...DEFAULT_SUPPORTED_LANGUAGES],
+  supportedLanguagesFull: [], // ✅ Will be populated by AppLanguageSync
   theme: 'light', // ✅ Default theme
   title: import.meta.env.VITE_APP_TITLE,
   isPowerEnabled: false,
@@ -41,6 +44,9 @@ export const AppConfigContext = createZustandContext(({ initialValue }) => {
           },
           setSupportedLanguages: (supportedLanguages: RegionLocale[]) => {
             set({ supportedLanguages });
+          },
+          setSupportedLanguagesFull: (supportedLanguages: SupportedLanguage[]) => {
+            set({ supportedLanguagesFull: supportedLanguages });
           },
           setTheme: (theme: 'light' | 'dark') => {
             set({ theme });
