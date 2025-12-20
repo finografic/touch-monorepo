@@ -1,9 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import type {
-  SupportedLanguage,
-  UiLabelSectionData,
-} from 'admin/pages/TranslationsUiPage/TranslationsUiPage.types';
+import type { SupportedLanguage, UiLabelSectionData } from 'admin/types/translations.types';
 import { EndpointHelper } from 'api/api.endpoints';
 
 import type { TranslationsUiModel } from 'types/models/labels-ui.model';

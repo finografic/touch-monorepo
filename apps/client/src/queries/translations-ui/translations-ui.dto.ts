@@ -2,7 +2,7 @@
  * DTO for transforming translations-ui items between API and UI
  * Handles parsing stringified JSON translations into objects
  */
-export const TranslationsUiDto = {
+export const TranslationsDto = {
   /**
    * Parse translations from API response
    * Handles both stringified JSON and already-parsed objects
@@ -37,7 +37,7 @@ export const TranslationsUiDto = {
     return {
       id: entity.id,
       key: entity.key,
-      translations: TranslationsUiDto.parseTranslations(entity.translations),
+      translations: TranslationsDto.parseTranslations(entity.translations),
       description: entity.description || null,
       isActive: Boolean(entity.is_active ?? entity.isActive),
       createdAt: entity.created_at

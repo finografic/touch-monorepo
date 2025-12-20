@@ -6,7 +6,7 @@ import { api } from 'api';
 import { transformFetchError } from '@workspace/core/api';
 
 import type { TranslationUiFormItem } from '../translations.types';
-import { TranslationsUiDto } from '../utils/translations.dto';
+import { TranslationsDto } from '../../../utils/translations.dto';
 import { useToast } from 'components/Toast/ToastContext';
 import type { TranslationDomain } from './useGetTranslations';
 
@@ -54,14 +54,13 @@ export const useSaveTranslations = ({
       const updated: TranslationUiFormItem[] = [];
 
       for (const item of items) {
-        const payload = TranslationsUiDto.toApi(item, supportedLanguages);
+        const payload = TranslationsDto.toApi(item, supportedLanguages);
 
         // CREATE
         if (item.id.startsWith('temp-')) {
           const entity = await createMutation.mutateAsync({
             key: payload.key,
             translations: payload.translations,
-            description: payload.description || undefined,
             isActive: true,
           });
 
@@ -75,7 +74,6 @@ export const useSaveTranslations = ({
           updates: {
             key: payload.key,
             translations: payload.translations,
-            description: payload.description || undefined,
           },
         });
 

@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useGetAllTranslations } from 'api/hooks/useTranslations';
 import { useGetSupportedLanguages } from 'queries/supported-languages';
-import { TranslationsDto } from '../../../utils/translations.dto';
+import { TranslationsDto } from 'admin/utils/translations.dto';
 import { useIsMutating } from '@tanstack/react-query';
 
 import type { LanguageInfo } from 'types/models/supported-language.model';

@@ -25,7 +25,7 @@
 
 ### 3. Updated both pages to use the new component
 
-- `TranslationsUiPage` — now uses `SectionedTranslationPage`
+- `TranslationsPage` — now uses `SectionedTranslationPage` // TODO: CONFIRM !!!!
 - `TranslationsProductPage` — now uses `SectionedTranslationPage`
 - Both pages are cleaner and follow the same pattern
 - Business logic remains in their respective hooks

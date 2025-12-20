@@ -9,7 +9,6 @@ import { PublicRelaysPage } from 'admin/pages/AdminRelaysPage/PublicRelaysPage';
 import { AdminSlotsConfigPage } from 'admin/pages/AdminSlotsConfigPage/AdminSlotsConfigPage';
 import { AdminSoundPage } from 'admin/pages/AdminSoundPage/AdminSoundPage';
 import { TranslationsProductPage } from 'admin/pages/TranslationsProductPage';
-import { TranslationsUiPage } from 'admin/pages/TranslationsUiPage';
 import { TranslationsPage } from 'admin/pages/TranslationsPage';
 import { LoaderDataHelper } from 'api/loaders/loader.data';
 import { AdminLayout } from 'layout/AdminLayout';

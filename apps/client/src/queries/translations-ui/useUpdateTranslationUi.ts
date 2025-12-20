@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import { api } from 'api';
 
 import type { TranslationsUiModel } from 'types/models/translations-ui.model';
-import { TranslationsUiDto } from './translations-ui.dto';
+import { TranslationsDto } from './translations-ui.dto';
 
 export interface UpdateTranslationUiInput {
   key?: string;
@@ -37,7 +37,7 @@ export const useUpdateTranslationUi = () => {
         const entity = (response as any)?.data || response;
 
         // Transform using DTO to parse translations and normalize dates
-        return TranslationsUiDto.fromApi(entity);
+        return TranslationsDto.fromApi(entity);
       } catch (error) {
         throw transformFetchError(error);
       }

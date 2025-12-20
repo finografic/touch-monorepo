@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import { Box, Flex, Grid, Text, TextField } from '@radix-ui/themes';
 import { AdminSection } from 'admin/components/AdminSection/AdminSection';
-import { useUiSectionForm } from 'admin/pages/TranslationsUiPage/hooks/useUiSectionForm';
+import { useUiSectionForm } from 'admin/hooks/useUiSectionForm';
 import { FieldWrapper } from 'forms/FieldWrapper';
 import { Button } from 'components/Button';
 

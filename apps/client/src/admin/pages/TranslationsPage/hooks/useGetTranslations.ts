@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { api } from 'api';
 import { transformFetchError } from '@workspace/core/api';
 import { useGetSupportedLanguages } from 'queries/supported-languages';
-import { TranslationsUiDto } from '../utils/translations.dto';
+import { TranslationsDto } from '../../../utils/translations.dto';
 import { useIsMutating } from '@tanstack/react-query';
 
 import type { LanguageInfo } from 'types/models/supported-language.model';
@@ -74,7 +74,7 @@ export const useGetTranslations = ({
       // Always use DTO transformation - it handles empty languages gracefully
       // If languages aren't loaded yet, use empty array (DTO will still work)
       const languagesToUse = supportedLanguages && supportedLanguages.length > 0 ? supportedLanguages : [];
-      return items.map((item) => TranslationsUiDto.fromApi(item, languagesToUse));
+      return items.map((item) => TranslationsDto.fromApi(item, languagesToUse));
     };
 
     // Filter items by section prefix

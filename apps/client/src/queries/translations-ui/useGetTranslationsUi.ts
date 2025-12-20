@@ -7,14 +7,14 @@ import { api } from 'api';
 
 import type { TranslationsUiModel } from 'types/models/translations-ui.model';
 import { GET_TRANSLATIONS_UI_QUERYKEY } from '.';
-import { TranslationsUiDto } from './translations-ui.dto';
+import { TranslationsDto } from './translations-ui.dto';
 
 const getTranslationsUi = async () => {
   try {
     // Fetch client returns data directly and handles errors
     const data = await api.get<any[]>('/translations-ui');
     // Transform each entity using DTO to parse translations and normalize dates
-    return data.map((entity) => TranslationsUiDto.fromApi(entity)) as TranslationsUiModel[];
+    return data.map((entity) => TranslationsDto.fromApi(entity)) as TranslationsUiModel[];
   } catch (error) {
     throw transformFetchError(error);
   }
@@ -26,4 +26,3 @@ export const useGetTranslationsUi = (): UseQueryResult<TranslationsUiModel[], Er
     queryFn: async () => getTranslationsUi(),
   });
 };
-
