@@ -1,7 +1,7 @@
 # Rule: API Endpoint Pattern
 
-**Status:** ✅ MANDATORY  
-**Priority:** Critical  
+**Status:** ✅ MANDATORY
+**Priority:** Critical
 **Created:** December 21, 2025
 
 ---
@@ -115,7 +115,7 @@ export const ordersEndpoints = {
   // Standard CRUD
   getAll: async () => { ... },
   create: async (input) => { ... },
-  
+
   // Custom methods
   updateTemperatureProfiles: async (orderId, profiles) => { ... },
   duplicate: async (orderId) => { ... },

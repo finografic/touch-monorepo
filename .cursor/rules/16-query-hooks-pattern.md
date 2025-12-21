@@ -1,7 +1,7 @@
 # Rule: Query Hooks Pattern
 
-**Status:** ✅ MANDATORY  
-**Priority:** Critical  
+**Status:** ✅ MANDATORY
+**Priority:** Critical
 **Created:** December 21, 2025
 
 ---
