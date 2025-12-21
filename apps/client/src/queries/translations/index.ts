@@ -6,6 +6,8 @@ export const GET_DRINK_SUBTYPES_TRANSLATIONS_QUERYKEY = ['translations', 'drinkS
 export const GET_VOLUMES_TRANSLATIONS_QUERYKEY = ['translations', 'volumes'] as const;
 export const GET_CONTAINER_TYPES_TRANSLATIONS_QUERYKEY = ['translations', 'containerTypes'] as const;
 export const GET_ALL_TRANSLATIONS_QUERYKEY = ['translations'] as const;
+export const GET_TRANSLATIONS_QUERYKEY = ['translations'] as const;
+
 export const PATCH_DRINK_TYPE_TRANSLATIONS_QUERYKEY = ['patch-drink-type-translations'] as const;
 export const PATCH_DRINK_SUBTYPE_TRANSLATIONS_QUERYKEY = ['patch-drink-subtype-translations'] as const;
 export const PATCH_VOLUME_TRANSLATIONS_QUERYKEY = ['patch-volume-translations'] as const;
