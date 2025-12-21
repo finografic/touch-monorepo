@@ -3,9 +3,6 @@
     {
       "path": ".",
     },
-    {
-      "path": "../touch-monorepo 3",
-    },
   ],
   "settings": {
     "terminal.integrated.env.osx": {

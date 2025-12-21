@@ -1,9 +1,10 @@
+import { useCallback, useEffect } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 import clsx from 'clsx';
 import { TrashIcon } from 'styles/icons';
 import { Button } from 'components/Button';
 import type { RegionLocale } from '@workspace/config/i18n.config';
-import { languagesCodeToKey } from 'admin/utils/languages.utils';
+import { languagesCodeToKey, regenerateSlug } from 'admin/utils/languages.utils';
 import { Input } from 'forms/Input/Input';
 
 interface TranslationsRowProps {
@@ -30,7 +31,7 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
   const { control, register, formState, watch, setValue } = useFormContext();
 
   /* -----------------------------
-     Key field (controlled, read-only for UI translations)
+     Key field (controlled)
   ------------------------------ */
 
   const { field: keyField } = useController({
@@ -39,6 +40,35 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
   });
 
   const values = watch(`items.${index}`);
+
+  /* -----------------------------
+     Slug auto-sync
+  ------------------------------ */
+
+  const updateSlug = useCallback(
+    (translations: Record<RegionLocale, string>) => {
+      if (isSaving || isDeleting) return;
+
+      const nextSlug = regenerateSlug(translations, slugPriority ?? supportedLanguages);
+      if (nextSlug !== keyField.value) {
+        setValue(`items.${index}.key`, nextSlug, { shouldDirty: false, shouldTouch: false });
+      }
+    },
+    [keyField.value, setValue, slugPriority, supportedLanguages, index, isSaving, isDeleting],
+  );
+
+  useEffect(() => {
+    if (!values) return;
+
+    const translations: Record<RegionLocale, string> = {} as Record<RegionLocale, string>;
+
+    for (const lang of supportedLanguages) {
+      const key = languagesCodeToKey(lang);
+      translations[lang] = values[key] || '';
+    }
+
+    updateSlug(translations);
+  }, [values?.esEs, values?.enGb, values?.caEs, supportedLanguages, slugPriority, updateSlug]);
 
   /* -----------------------------
      Row state
