@@ -61,15 +61,18 @@ export const getRelayStates: AppRouteHandler<GetRelayStatesRoute> = async (conte
       count: states.length,
     });
   } catch (error) {
-    console.error('Get relay states error:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Failed to get relay states';
-    return context.json(
-      {
-        success: false,
-        error: errorMessage,
-      },
-      HttpStatusCodes.INTERNAL_SERVER_ERROR,
-    );
+    // Return success with empty/default states when board is disconnected
+    console.warn('Failed to get relay states (board may be disconnected):', error);
+    const defaultStates: Record<number, boolean> = {};
+    for (let i = 1; i <= 16; i++) {
+      defaultStates[i] = false;
+    }
+    return context.json({
+      success: true,
+      states: defaultStates,
+      count: 0,
+      warning: 'Relay board not connected, returning default states',
+    });
   }
 };
 
@@ -117,15 +120,15 @@ export const getRelayStatus: AppRouteHandler<GetRelayStatusRoute> = async (conte
       ...status,
     });
   } catch (error) {
-    console.error('Get relay status error:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Failed to get relay status';
-    return context.json(
-      {
-        success: false,
-        error: errorMessage,
-      },
-      HttpStatusCodes.INTERNAL_SERVER_ERROR,
-    );
+    // Even if there's an error, return a success response with disconnected status
+    // This prevents console errors when the relay board is not connected
+    console.warn('Relay status check encountered an error (board may be disconnected):', error);
+    return context.json({
+      success: true,
+      isConnected: false,
+      message: 'Relay board not found or disconnected',
+      error: error instanceof Error ? error.message : 'Failed to get relay status',
+    });
   }
 };
 

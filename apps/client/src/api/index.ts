@@ -1,1 +1,1 @@
-export { api } from './fetch-client';
+export { api } from './fetch.client';

@@ -72,12 +72,12 @@ export const typography = {
   },
   fontSmoothing: {
     'antialiased': {
-      '-webkit-font-smoothing': 'antialiased',
-      '-moz-osx-font-smoothing': 'grayscale',
+      WebkitFontSmoothing: 'antialiased',
+      MozOsxFontSmoothing: 'grayscale',
     },
     'subpixel-antialiased': {
-      '-webkit-font-smoothing': 'auto',
-      '-moz-osx-font-smoothing': 'auto',
+      WebkitFontSmoothing: 'auto',
+      MozOsxFontSmoothing: 'auto',
     },
   },
 } as const;

@@ -1,406 +1,147 @@
-# API Endpoint Pattern (Unified)
+# Rule: API Endpoint Pattern
 
-**Status:** 🟢 Active - Mandatory for all new code
-**Last Updated:** Dec 21, 2025
-
----
-
-## 🎯 Core Principle
-
-> **ALL server communication goes through `api/endpoints/{resource}.endpoints.ts`**
-
-This pattern eliminates boundary erosion and ensures consistent:
-- Error handling
-- Type safety
-- Transformation logic
-- Testability
+**Status:** ✅ MANDATORY  
+**Priority:** Critical  
+**Created:** December 21, 2025
 
 ---
 
-## 📁 File Structure
+## Overview
+
+ALL server communication MUST follow the unified endpoint pattern. This rule eliminates fragmentation and ensures consistency across the codebase.
+
+---
+
+## The Pattern
+
+### 1. File Location
 
 ```
-src/
-├── api/                                # Transport layer (framework-agnostic)
-│   ├── fetch-client.ts                # Base HTTP client (DO NOT import directly)
-│   ├── index.ts                       # Exports { api }
-│   ├── endpoints/                     # ALL endpoint definitions
-│   │   ├── container-types.endpoints.ts
-│   │   ├── drink-types.endpoints.ts
-│   │   ├── orders.endpoints.ts
-│   │   └── index.ts                   # Re-exports all endpoints
-│   └── batch/                         # Specialized batch operations only
-│
-└── queries/                           # React Query layer (React-specific)
-    └── {resource}/                    # One folder per resource
-        ├── index.ts                   # Query keys + re-exports
-        ├── useGet{Resource}s.ts       # GET all
-        ├── useGet{Resource}.ts        # GET by ID
-        ├── useCreate{Resource}.ts     # POST
-        ├── useUpdate{Resource}.ts     # PATCH
-        └── useDelete{Resource}.ts     # DELETE
+apps/client/src/api/endpoints/{resource}.endpoints.ts
 ```
 
----
-
-## 🔒 Hard Rules
-
-### ❌ FORBIDDEN
-
-1. **NO direct `api` calls in query hooks**
-   ```typescript
-   // ❌ BAD - Direct api call
-   export const useGetOrders = () => {
-     return useQuery({
-       queryKey: ['orders'],
-       queryFn: () => api.get('/orders'), // NEVER DO THIS
-     });
-   };
-   ```
-
-2. **NO React imports in `api/` folder**
-   ```typescript
-   // ❌ BAD - React in api layer
-   import { useQuery } from '@tanstack/react-query'; // NEVER in api/
-   ```
-
-3. **NO multiple endpoint patterns**
-   - No helpers, no shortcuts, no "special cases"
-   - One pattern for everything
-
-### ✅ REQUIRED
-
-1. **ALL endpoints in `api/endpoints/{resource}.endpoints.ts`**
-2. **Consistent naming:** `{resource}Endpoints` (plural)
-3. **Standard method names:** `getAll`, `getById`, `create`, `update`, `delete`
-4. **Type safety:** Export input/output types
-5. **Error handling:** Use `transformFetchError` from `@workspace/core/api`
-
----
-
-## 📋 Endpoint File Template
-
-### File: `api/endpoints/{resource}.endpoints.ts`
+### 2. File Structure Template
 
 ```typescript
-import { transformFetchError } from '@workspace/core/api';
-import { api } from 'api';
+// SECTION 1: TYPES
+export interface {Resource} { ... }
+export interface Create{Resource}Input { ... }
+export interface Update{Resource}Input { ... }
 
-// ============================================================================
-// TYPES
-// ============================================================================
+// SECTION 2: TRANSFORMERS (private)
+const transform{Resource} = (serverData: any): {Resource} => ({ ... });
 
-/**
- * Server response type (what the API returns)
- */
-export interface {Resource}Entity {
-  id: string;
-  name: string;
-  // ... other server fields (snake_case if needed)
-}
-
-/**
- * Client type (what we use in the app)
- */
-export interface {Resource} {
-  id: string;
-  name: string;
-  // ... normalized fields (camelCase)
-}
-
-/**
- * Input type for creating a resource
- */
-export interface Create{Resource}Input {
-  name: string;
-  // ... required fields
-}
-
-/**
- * Input type for updating a resource
- */
-export interface Update{Resource}Input {
-  name?: string;
-  // ... optional fields for partial updates
-}
-
-// ============================================================================
-// TRANSFORMERS
-// ============================================================================
-
-/**
- * Transform server response to client format
- * Handles: snake_case → camelCase, date parsing, nested data normalization
- */
-const transform{Resource} = (serverData: any): {Resource} => ({
-  id: serverData.id,
-  name: serverData.name,
-  // Normalize dates
-  createdAt: serverData.created_at
-    ? new Date(serverData.created_at)
-    : new Date(),
-  // Handle translations
-  translations: serverData.translations || {},
-  // ... other transformations
-});
-
-// ============================================================================
-// ENDPOINTS
-// ============================================================================
-
-/**
- * {Resource} API endpoints
- *
- * All server communication for {resource}s.
- * Used by query hooks and React Router loaders.
- */
+// SECTION 3: ENDPOINTS (public API)
 export const {resource}Endpoints = {
-  /**
-   * Get all {resource}s
-   */
-  getAll: async (): Promise<{Resource}[]> => {
-    try {
-      const data = await api.get<any[]>('/{resources}');
-      return Array.isArray(data) ? data.map(transform{Resource}) : [];
-    } catch (error) {
-      throw transformFetchError(error);
-    }
-  },
+  getAll: async (): Promise<{Resource}[]> => { ... },
+  getById: async (id: string): Promise<{Resource}> => { ... },
+  create: async (input: Create{Resource}Input): Promise<{Resource}> => { ... },
+  update: async (id: string, input: Update{Resource}Input): Promise<{Resource}> => { ... },
+  delete: async (id: string): Promise<void> => { ... },
+} as const;
+```
 
-  /**
-   * Get single {resource} by ID
-   */
-  getById: async (id: string): Promise<{Resource}> => {
-    try {
-      const data = await api.get<any>(`/{resources}/${id}`);
-      return transform{Resource}(data);
-    } catch (error) {
-      throw transformFetchError(error);
-    }
-  },
+### 3. Naming Conventions
 
-  /**
-   * Create a new {resource}
-   */
-  create: async (input: Create{Resource}Input): Promise<{Resource}> => {
-    try {
-      const data = await api.post<any>('/{resources}', input);
-      return transform{Resource}(data);
-    } catch (error) {
-      throw transformFetchError(error);
-    }
-  },
+| Element | Rule | Example |
+|---------|------|---------|
+| File | `{resource}.endpoints.ts` | `container-types.endpoints.ts` |
+| Export | `{resource}Endpoints` (plural) | `containerTypesEndpoints` |
+| Type | `{Resource}` (singular) | `ContainerType` |
+| Input type | `Create{Resource}Input` | `CreateContainerTypeInput` |
+| Update type | `Update{Resource}Input` | `UpdateContainerTypeInput` |
 
-  /**
-   * Update an existing {resource}
-   */
-  update: async (id: string, input: Update{Resource}Input): Promise<{Resource}> => {
-    try {
-      const data = await api.patch<any>(`/{resources}/${id}`, input);
-      return transform{Resource}(data);
-    } catch (error) {
-      throw transformFetchError(error);
-    }
-  },
+---
 
-  /**
-   * Delete a {resource}
-   */
-  delete: async (id: string): Promise<void> => {
-    try {
-      await api.delete<void>(`/{resources}/${id}`);
-    } catch (error) {
-      throw transformFetchError(error);
-    }
-  },
+## Rules
+
+### ✅ MUST
+
+1. **All endpoints MUST be in `api/endpoints/` folder**
+2. **Export object MUST be named `{resource}Endpoints` (plural)**
+3. **Methods MUST use standard names:**
+   - `getAll()` - get all resources
+   - `getById(id)` - get single resource
+   - `create(input)` - create new resource
+   - `update(id, input)` - update resource
+   - `delete(id)` - delete resource
+4. **Transform server data in the endpoint layer**
+5. **Use `transformFetchError()` for error handling**
+6. **Export all types used in the endpoint**
+7. **Add JSDoc comments to all public methods**
+
+### ❌ MUST NOT
+
+1. **Never import React or React Query in `api/` folder**
+2. **Never make direct `api.get/post/etc` calls outside endpoints**
+3. **Never create alternative endpoint patterns (e.g., `EndpointHelper`)**
+4. **Never skip the transformer if server data needs normalization**
+
+---
+
+## Usage in Query Hooks
+
+```typescript
+// queries/container-types/useGetContainerTypes.ts
+import { containerTypesEndpoints } from 'api/endpoints';
+
+export const useGetContainerTypes = () => {
+  return useQuery({
+    queryKey: GET_CONTAINER_TYPES_QUERYKEY,
+    queryFn: containerTypesEndpoints.getAll, // ✅ Direct reference
+  });
+};
+```
+
+---
+
+## Usage in Loaders
+
+```typescript
+// api/loaders/loader.data.ts
+import { containerTypesEndpoints } from 'api/endpoints';
+
+export const containerTypesLoader = containerTypesEndpoints.getAll;
+```
+
+---
+
+## Non-Standard Methods
+
+If a resource needs non-CRUD methods, add them to the endpoints object:
+
+```typescript
+export const ordersEndpoints = {
+  // Standard CRUD
+  getAll: async () => { ... },
+  create: async (input) => { ... },
+  
+  // Custom methods
+  updateTemperatureProfiles: async (orderId, profiles) => { ... },
+  duplicate: async (orderId) => { ... },
 } as const;
 ```
 
 ---
 
-## 📋 Query Hook Template
+## Migration Checklist
 
-### File: `queries/{resource}/useGet{Resource}s.ts`
+When migrating a resource to this pattern:
 
-```typescript
-import type { UseQueryResult } from '@tanstack/react-query';
-import { useQuery } from '@tanstack/react-query';
-import type { ErrorResponse } from '@workspace/core/api';
-
-import { {resource}Endpoints, type {Resource} } from 'api/endpoints';
-import { GET_{RESOURCE}S_QUERYKEY } from '.';
-
-/**
- * Get all {resource}s
- */
-export const useGet{Resource}s = (): UseQueryResult<{Resource}[], ErrorResponse> => {
-  return useQuery({
-    queryKey: GET_{RESOURCE}S_QUERYKEY,
-    queryFn: {resource}Endpoints.getAll,
-  });
-};
-```
-
-### File: `queries/{resource}/useCreate{Resource}.ts`
-
-```typescript
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-
-import { {resource}Endpoints, type Create{Resource}Input } from 'api/endpoints';
-import { GET_{RESOURCE}S_QUERYKEY } from '.';
-
-/**
- * Create a new {resource}
- */
-export const useCreate{Resource} = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: {resource}Endpoints.create,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: GET_{RESOURCE}S_QUERYKEY });
-    },
-  });
-};
-```
+- [ ] Create `api/endpoints/{resource}.endpoints.ts`
+- [ ] Define all types in the file
+- [ ] Create transformer function(s)
+- [ ] Export `{resource}Endpoints` object
+- [ ] Update all query hooks to use new endpoints
+- [ ] Update loaders to use new endpoints
+- [ ] Remove old endpoint patterns
+- [ ] Add exports to `api/endpoints/index.ts`
+- [ ] Test all operations
+- [ ] Check for linter errors
 
 ---
 
-## 🔗 React Router Loader Usage
+## Reference
 
-Endpoint functions can be used directly in loaders (they're not hooks):
-
-```typescript
-// routes/orders.tsx
-import { ordersEndpoints } from 'api/endpoints';
-
-export const loader = ordersEndpoints.getAll;
-
-// Or with parameters:
-export const loader = ({ params }: LoaderFunctionArgs) => {
-  return ordersEndpoints.getById(params.id);
-};
-```
-
----
-
-## 📊 Naming Conventions
-
-### Endpoint Files
-- **Format:** `{resource}.endpoints.ts` (singular, kebab-case)
-- **Examples:** `order.endpoints.ts`, `drink-type.endpoints.ts`
-
-### Endpoint Objects
-- **Format:** `{resource}Endpoints` (singular, camelCase)
-- **Examples:** `orderEndpoints`, `drinkTypeEndpoints`
-
-### Endpoint Methods
-- **Standard names:** `getAll`, `getById`, `create`, `update`, `delete`
-- **Custom methods:** Descriptive names like `getByStatus`, `batchUpdate`
-
-### Query Hooks
-- **Format:** `use{Action}{Resource}`
-- **Examples:** `useGetOrders`, `useCreateOrder`, `useUpdateOrder`
-
-### Query Keys
-- **Format:** `GET_{RESOURCE}S_QUERYKEY` (uppercase, snake_case, plural)
-- **Examples:** `GET_ORDERS_QUERYKEY`, `GET_DRINK_TYPES_QUERYKEY`
-
----
-
-## ✅ Migration Checklist
-
-When migrating existing code:
-
-1. [ ] Create/update `api/endpoints/{resource}.endpoints.ts`
-2. [ ] Define all types (entity, client, input types)
-3. [ ] Implement transformer function
-4. [ ] Implement all endpoint methods (getAll, getById, create, update, delete)
-5. [ ] Export from `api/endpoints/index.ts`
-6. [ ] Update query hooks to use endpoints
-7. [ ] Remove direct `api` calls from hooks
-8. [ ] Test all operations
-9. [ ] Delete any old helper patterns
-
----
-
-## 🎓 Benefits
-
-### For Developers
-- **One pattern to learn** - no decisions about "which pattern should I use?"
-- **Clear separation** - transport layer vs. cache layer
-- **Easy to find** - all endpoints in one predictable location
-- **Type safety** - full TypeScript support throughout
-
-### For AI Agents
-- **Unambiguous rules** - prevents creating new patterns
-- **Clear constraints** - can't accidentally break boundaries
-- **Obvious right way** - no room for interpretation
-
-### For Codebase
-- **Consistency** - all API calls look the same
-- **Maintainability** - changes in one place
-- **Testability** - endpoints can be tested without React
-- **Reusability** - endpoints work in hooks, loaders, and anywhere else
-
----
-
-## 🚨 Anti-Patterns to Avoid
-
-### ❌ Mixed Patterns
-```typescript
-// ❌ BAD - Some use endpoints, some use direct calls
-const data1 = await ordersEndpoints.getAll();
-const data2 = await api.get('/orders'); // INCONSISTENT!
-```
-
-### ❌ Helper Objects
-```typescript
-// ❌ BAD - Don't create alternative helper patterns
-export const EndpointHelper = {
-  getOrders: () => api.get('/orders'),
-};
-```
-
-### ❌ Inline Transformations
-```typescript
-// ❌ BAD - Transformation logic in hooks
-export const useGetOrders = () => {
-  return useQuery({
-    queryKey: ['orders'],
-    queryFn: async () => {
-      const data = await ordersEndpoints.getAll();
-      return data.map(order => ({ ...order, transformed: true })); // NO!
-    },
-  });
-};
-```
-
-### ❌ React in API Layer
-```typescript
-// ❌ BAD - No hooks in endpoints
-import { useQuery } from '@tanstack/react-query';
-
-export const ordersEndpoints = {
-  getAll: () => useQuery(...), // NEVER!
-};
-```
-
----
-
-## 📚 Reference Implementation
-
-See `api/endpoints/container-types.endpoints.ts` for complete reference implementation.
-
----
-
-## 🔄 Relationship to Other Rules
-
-- **Builds on:** `12-query-keys.md` (query key conventions)
-- **Related to:** `13-hooks-one-per-file.md` (one hook per file)
-- **Enforces:** `01-monorepo.md` (clear layer boundaries)
-
----
-
-**Remember:** Make the RIGHT way the OBVIOUS way, and make the WRONG way impossible.
-
+- **Full Documentation:** `/docs/API_ARCHITECTURE.md`
+- **Reference Implementation:** `api/endpoints/container-types.endpoints.ts`
