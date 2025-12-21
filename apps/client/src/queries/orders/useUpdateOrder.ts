@@ -1,6 +1,6 @@
-import { transformFetchError } from '@workspace/core/api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { api } from 'api';
+
+import { ordersEndpoints, type UpdateOrderInput } from 'api/endpoints';
 import {
   GET_ORDER_READABLE_QUERYKEY,
   GET_ORDERS_QUERYKEY,
@@ -14,27 +14,7 @@ export const useUpdateOrder = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({
-      id,
-      updates,
-    }: {
-      id: string;
-      updates: {
-        modeId?: string;
-        drinkTypeId?: string;
-        drinkSubtypeId?: string;
-        volumeId?: string;
-        containerTypeId?: string;
-        defaultTempConsume?: number;
-        defaultTempFreeze?: number;
-      };
-    }): Promise<any> => {
-      try {
-        return await api.patch(`/orders/${id}`, updates);
-      } catch (error) {
-        throw transformFetchError(error);
-      }
-    },
+    mutationFn: ({ id, updates }: { id: string; updates: UpdateOrderInput }) => ordersEndpoints.update(id, updates),
     onSuccess: (updatedOrder) => {
       // Invalidate queries to refetch fresh data
       queryClient.invalidateQueries({ queryKey: GET_ORDERS_QUERYKEY });

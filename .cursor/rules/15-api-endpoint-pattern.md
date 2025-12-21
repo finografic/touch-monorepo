@@ -136,8 +136,8 @@ const transform{Resource} = (serverData: any): {Resource} => ({
   id: serverData.id,
   name: serverData.name,
   // Normalize dates
-  createdAt: serverData.created_at 
-    ? new Date(serverData.created_at) 
+  createdAt: serverData.created_at
+    ? new Date(serverData.created_at)
     : new Date(),
   // Handle translations
   translations: serverData.translations || {},
@@ -150,7 +150,7 @@ const transform{Resource} = (serverData: any): {Resource} => ({
 
 /**
  * {Resource} API endpoints
- * 
+ *
  * All server communication for {resource}s.
  * Used by query hooks and React Router loaders.
  */
