@@ -1,88 +1,17 @@
-import { useCallback, useEffect, useState } from 'react';
-import type { ErrorResponse } from '@workspace/core/api';
-import { transformFetchError } from '@workspace/core/api';
-
 import type { UseQueryResult } from '@tanstack/react-query';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { api } from 'api';
+import { useQuery } from '@tanstack/react-query';
 
-import { GET_RELAY_STATUS_QUERYKEY } from 'queries/relays';
-import { useAppConfig } from 'providers/AppConfigProvider';
+import { relaysEndpoints, type RelayStatus } from 'api/endpoints';
+import { GET_RELAY_STATUS_QUERYKEY } from '.';
 
-export interface RelayStatus {
-  success: boolean;
-  connected: boolean;
-  port?: string;
-  error?: string;
-}
-
-const getRelayStatus = async (): Promise<RelayStatus> => {
-  try {
-    // Fetch client returns data directly and handles errors
-    return await api.get<RelayStatus>('/relay/status');
-  } catch (error) {
-    throw transformFetchError(error);
-  }
-};
-
-export const useGetRelayStatus = (): UseQueryResult<RelayStatus, ErrorResponse> & {
-  isPollingEnabled: boolean;
-  enablePolling: () => void;
-  disablePolling: () => void;
-} => {
-  const queryClient = useQueryClient();
-  const [isPollingEnabled, setIsPollingEnabled] = useState(true);
-  const [hasNetworkError, setHasNetworkError] = useState(false);
-
-  // Global relay functionality state - when disabled, stop all operations
-  const { isRelayFunctionalityEnabled } = useAppConfig();
-
-  const query = useQuery({
+/**
+ * Get relay connection status
+ */
+export const useGetRelayStatus = (): UseQueryResult<RelayStatus> => {
+  return useQuery({
     queryKey: [...GET_RELAY_STATUS_QUERYKEY],
-    queryFn: getRelayStatus,
-    enabled: isRelayFunctionalityEnabled, // Respect global functionality state
+    queryFn: relaysEndpoints.getStatus,
     retry: 1,
     staleTime: 1000 * 10, // 10 seconds
-    refetchInterval: isRelayFunctionalityEnabled && isPollingEnabled ? 5000 : false, // Conditional polling
-    refetchOnWindowFocus: isRelayFunctionalityEnabled && isPollingEnabled, // Conditional refetch on focus
-    refetchOnMount: true, // Always refetch when component mounts
   });
-
-  // Monitor for network errors and disable polling
-  useEffect(() => {
-    if (query.error) {
-      const error = query.error as ErrorResponse;
-      // Check if it's a network error (server down, connection refused, etc.)
-      if (
-        error.message?.includes('Network Error') ||
-        error.message?.includes('RPC Request Failed') ||
-        error.message?.includes('ECONNREFUSED') ||
-        error.message?.includes('fetch')
-      ) {
-        setHasNetworkError(true);
-        setIsPollingEnabled(false);
-      }
-    } else if (hasNetworkError && query.isSuccess) {
-      // Reset error state when we get a successful response
-      setHasNetworkError(false);
-    }
-  }, [query.error, query.isSuccess, hasNetworkError]);
-
-  const enablePolling = useCallback(() => {
-    setIsPollingEnabled(true);
-    setHasNetworkError(false);
-    // Force a refetch when re-enabling polling
-    queryClient.invalidateQueries({ queryKey: [...GET_RELAY_STATUS_QUERYKEY] });
-  }, [queryClient]);
-
-  const disablePolling = useCallback(() => {
-    setIsPollingEnabled(false);
-  }, []);
-
-  return {
-    ...query,
-    isPollingEnabled,
-    enablePolling,
-    disablePolling,
-  };
 };

@@ -1,24 +1,18 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { api } from 'api';
 
-import { clearSoundCache } from 'utils/soundCache.utils';
-import type { SoundSettings } from 'types/sounds.types';
+import { soundsEndpoints, type UpdateSoundSettingsInput } from 'api/endpoints';
 
-// API function
-export const updateSoundSettings = async (settings: SoundSettings): Promise<SoundSettings> => {
-  // Fetch client returns data directly
-  return await api.put<SoundSettings>('/sounds/settings', settings);
-};
-
-// React Query hook
+/**
+ * Update sound settings
+ */
 export const useUpdateSoundSettings = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: updateSoundSettings,
+    mutationFn: soundsEndpoints.updateSettings,
     onSuccess: () => {
+      // Invalidate sound settings query
       queryClient.invalidateQueries({ queryKey: ['sounds', 'settings'] });
-      clearSoundCache(); // Clear custom sound cache when settings change
     },
   });
 };

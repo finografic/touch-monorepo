@@ -74,7 +74,15 @@ export {
 // ============================================================================
 // RELAYS
 // ============================================================================
-export { relaysEndpoints } from './relays.endpoints';
+export {
+  relaysEndpoints,
+  type RelayState,
+  type RelayStatus,
+  type ToggleRelayResponse,
+  type BulkRelayResponse,
+  type DisconnectRelayResponse,
+  type ReconnectResponse,
+} from './relays.endpoints';
 
 // ============================================================================
 // SOUNDS

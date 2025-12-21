@@ -1,38 +1,20 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { useAppConfig } from 'providers/AppConfigProvider';
-import { GET_RELAY_STATES_QUERYKEY, GET_RELAY_STATUS_QUERYKEY, POST_RELAY_INIT_QUERYKEY } from './index';
+import { relaysEndpoints } from 'api/endpoints';
+import { GET_RELAY_STATUS_QUERYKEY, GET_RELAY_STATES_QUERYKEY } from '.';
 
+/**
+ * Hook to initialize relay connection
+ */
 export const useInitializeRelay = () => {
   const queryClient = useQueryClient();
-  const { isRelayFunctionalityEnabled } = useAppConfig();
 
   return useMutation({
-    mutationKey: POST_RELAY_INIT_QUERYKEY,
-    mutationFn: async () => {
-      // Prevent execution if relay functionality is disabled
-      if (!isRelayFunctionalityEnabled) {
-        throw new Error('Relay functionality is disabled');
-      }
-
-      const response = await fetch('/api/relay/init', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to initialize relay service');
-      }
-
-      return response.json();
-    },
+    mutationFn: relaysEndpoints.initialize,
     onSuccess: () => {
-      // Invalidate relay-related queries to refresh the UI
-      queryClient.invalidateQueries({ queryKey: GET_RELAY_STATES_QUERYKEY });
-      queryClient.invalidateQueries({ queryKey: GET_RELAY_STATUS_QUERYKEY });
+      // Invalidate relay status and states after initialization
+      queryClient.invalidateQueries({ queryKey: [...GET_RELAY_STATUS_QUERYKEY] });
+      queryClient.invalidateQueries({ queryKey: [...GET_RELAY_STATES_QUERYKEY] });
     },
   });
 };

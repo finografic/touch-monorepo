@@ -1,36 +1,16 @@
 import { useCallback, useEffect, useState } from 'react';
 import type { ErrorResponse } from '@workspace/core/api';
-import { transformFetchError } from '@workspace/core/api';
 
 import type { UseQueryResult } from '@tanstack/react-query';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { api } from 'api';
 
+import { relaysEndpoints, type RelayState } from 'api/endpoints';
 import { GET_RELAY_STATES_QUERYKEY } from 'queries/relays';
 import { useAppConfig } from 'providers/AppConfigProvider';
 
-export interface RelayState {
-  slotNumber: number;
-  isOn: boolean;
-  lastUpdated: string;
-}
-
-export interface RelayStatesResponse {
-  success: boolean;
-  states: RelayState[];
-  count: number;
-}
-
-const getRelayStates = async (): Promise<RelayState[]> => {
-  try {
-    // Fetch client returns data directly
-    const data = await api.get<RelayStatesResponse>('/relay/states');
-    return data.states;
-  } catch (error) {
-    throw transformFetchError(error);
-  }
-};
-
+/**
+ * Get all relay states with polling support
+ */
 export const useGetRelayStates = (): UseQueryResult<RelayState[], ErrorResponse> & {
   isPollingEnabled: boolean;
   enablePolling: () => void;
@@ -45,7 +25,7 @@ export const useGetRelayStates = (): UseQueryResult<RelayState[], ErrorResponse>
 
   const query = useQuery({
     queryKey: [...GET_RELAY_STATES_QUERYKEY],
-    queryFn: getRelayStates,
+    queryFn: relaysEndpoints.getAllStates,
     enabled: isRelayFunctionalityEnabled, // Respect global functionality state
     retry: 1,
     staleTime: 1000 * 5, // 5 seconds - relay states change frequently
