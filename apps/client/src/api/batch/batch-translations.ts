@@ -1,4 +1,8 @@
-import { containerTypesEndpoints, type ContainerType } from '../endpoints/container-types.endpoints';
+import {
+  containerTypesEndpoints,
+  type ContainerType,
+  type UpdateContainerTypeInput,
+} from '../endpoints/container-types.endpoints';
 import {
   drinkSubtypeEndpoints,
   type DrinkSubtypeTranslation,
@@ -13,8 +17,8 @@ import { volumeEndpoints, type VolumeTranslation, type VolumeUpdate } from '../e
 
 // Re-export all types
 export type {
-  ContainerTypeTranslation,
-  ContainerTypeUpdate,
+  ContainerType,
+  UpdateContainerTypeInput,
   DrinkSubtypeTranslation,
   DrinkSubtypeUpdate,
   DrinkTypeTranslation,
@@ -24,7 +28,7 @@ export type {
 };
 
 // Re-export all endpoints
-export { containerTypeEndpoints, drinkSubtypeEndpoints, drinkTypeEndpoints, volumeEndpoints };
+export { containerTypesEndpoints, drinkSubtypeEndpoints, drinkTypeEndpoints, volumeEndpoints };
 
 /**
  * Batch update operations for form submission
@@ -38,7 +42,7 @@ export const batchTranslationEndpoints = {
     drinkTypes?: Array<{ id: string; updates: DrinkTypeUpdate }>;
     drinkSubtypes?: Array<{ id: string; updates: DrinkSubtypeUpdate }>;
     volumes?: Array<{ id: string; updates: VolumeUpdate }>;
-    containerTypes?: Array<{ id: string; updates: ContainerTypeUpdate }>;
+    containerTypes?: Array<{ id: string; updates: UpdateContainerTypeInput }>;
   }) => {
     const promises: Promise<any>[] = [];
 

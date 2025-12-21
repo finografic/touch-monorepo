@@ -2,8 +2,8 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { ADMIN_DATA_QUERY_CONFIG } from 'config/api';
 import type {
-  ContainerTypeTranslation,
-  ContainerTypeUpdate,
+  ContainerType,
+  UpdateContainerTypeInput,
   DrinkSubtypeTranslation,
   DrinkSubtypeUpdate,
   DrinkTypeTranslation,
@@ -181,7 +181,7 @@ export const useUpdateContainerType = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, updates }: { id: string; updates: ContainerType }) =>
+    mutationFn: ({ id, updates }: { id: string; updates: UpdateContainerTypeInput }) =>
       containerTypesEndpoints.update(id, updates),
     onSuccess: (updatedContainerType) => {
       // Update the cache with the new data
