@@ -126,9 +126,12 @@ export const relaysEndpoints = {
 
   /**
    * Toggle a relay on/off
+   * @param slotNumber - Relay slot number (1-16)
+   * @param state - true for ON, false for OFF
    */
-  toggle: async (slotNumber: number, state: 'on' | 'off'): Promise<ToggleRelayResponse> => {
+  toggle: async (slotNumber: number, state: boolean): Promise<ToggleRelayResponse> => {
     try {
+      // Convert boolean to 'true'/'false' string for API URL
       return await api.post<ToggleRelayResponse>(`/relay/toggle/${slotNumber}/${state}`);
     } catch (error) {
       throw transformFetchError(error);

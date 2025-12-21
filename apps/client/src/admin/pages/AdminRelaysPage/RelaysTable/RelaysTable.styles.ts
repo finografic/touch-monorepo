@@ -109,10 +109,21 @@ export const styles = css`
         ${getVariantStyles('solid', 'success')}
       }
 
-      &:disabled {
+      &:disabled,
+      &:disabled:hover {
         ${getVariantStyles('solid', 'grey')}
+        /* pointer-events: none; */
 
-        opacity: 0.45!important;
+        opacity: 0.45 !important;
+        .button-text {
+          /* pointer-events: none; */
+          cursor: not-allowed !important;
+          color: ${colors.successDark}!important;
+        }
+        &,
+        * {
+          cursor: not-allowed;
+        }
       }
 
       .button-text {

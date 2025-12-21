@@ -11,7 +11,6 @@ export default defineConfig({
     'src/api/error.constants.ts',
     'src/api/error.schema.ts',
     'src/api/api.utils.ts',
-    'src/api/api.types.ts',
     'src/api/fetch.types.ts',
     'src/api/fetch.utils.ts',
     // Constants files
