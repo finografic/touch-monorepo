@@ -1,8 +1,4 @@
-import {
-  containerTypeEndpoints,
-  type ContainerTypeTranslation,
-  type ContainerTypeUpdate,
-} from '../endpoints/container-types.endpoints';
+import { containerTypesEndpoints, type ContainerType } from '../endpoints/container-types.endpoints';
 import {
   drinkSubtypeEndpoints,
   type DrinkSubtypeTranslation,
@@ -97,9 +93,7 @@ export const batchTranslationEndpoints = {
     // Update container types
     if (data.containerTypes) {
       promises.push(
-        ...data.containerTypes.map(({ id, updates }) =>
-          containerTypeEndpoints.updateContainerType(id, updates),
-        ),
+        ...data.containerTypes.map(({ id, updates }) => containerTypesEndpoints.update(id, updates)),
       );
     }
 

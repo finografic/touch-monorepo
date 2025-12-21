@@ -13,7 +13,7 @@ import type {
 } from '../endpoints';
 // import { translationEndpoints } from '../endpoints';
 import {
-  containerTypeEndpoints,
+  containerTypesEndpoints,
   drinkSubtypeEndpoints,
   drinkTypeEndpoints,
   volumeEndpoints,
@@ -68,7 +68,7 @@ export const useGetVolumes = () => {
 export const useGetContainerTypes = () => {
   return useQuery({
     queryKey: [...TRANSLATION_QUERY_KEYS.containerTypes],
-    queryFn: containerTypeEndpoints.getContainerTypes,
+    queryFn: containerTypesEndpoints.getAll,
     ...ADMIN_DATA_QUERY_CONFIG, // Use admin config for fresh data in dev
   });
 };
@@ -181,17 +181,14 @@ export const useUpdateContainerType = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, updates }: { id: string; updates: ContainerTypeUpdate }) =>
-      containerTypeEndpoints.updateContainerType(id, updates),
+    mutationFn: ({ id, updates }: { id: string; updates: ContainerType }) =>
+      containerTypesEndpoints.update(id, updates),
     onSuccess: (updatedContainerType) => {
       // Update the cache with the new data
-      queryClient.setQueryData<ContainerTypeTranslation[]>(
-        TRANSLATION_QUERY_KEYS.containerTypes,
-        (oldData) => {
-          if (!oldData) return [updatedContainerType];
-          return oldData.map((item) => (item.id === updatedContainerType.id ? updatedContainerType : item));
-        },
-      );
+      queryClient.setQueryData<ContainerType[]>(TRANSLATION_QUERY_KEYS.containerTypes, (oldData) => {
+        if (!oldData) return [updatedContainerType];
+        return oldData.map((item) => (item.id === updatedContainerType.id ? updatedContainerType : item));
+      });
     },
   });
 };
