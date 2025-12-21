@@ -81,8 +81,6 @@ export const drinkSubtypeEndpoints = {
       const createData = {
         name: subtypeData.name || '',
         translations: subtypeData.translations || {},
-        defaultTempConsume: subtypeData.defaultTempConsume ?? 5,
-        defaultTempFreeze: subtypeData.defaultTempFreeze ?? -2,
         ...subtypeData, // Allow overriding defaults
       };
 

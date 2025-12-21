@@ -2,7 +2,7 @@ import {
   containerTypeEndpoints,
   type ContainerTypeTranslation,
   type ContainerTypeUpdate,
-} from '../endpoints/container-type.endpoints';
+} from '../endpoints/container-types.endpoints';
 import {
   drinkSubtypeEndpoints,
   type DrinkSubtypeTranslation,

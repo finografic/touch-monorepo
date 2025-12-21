@@ -1,16 +1,81 @@
 import { transformFetchError } from '@workspace/core/api';
 
 import { api } from 'api';
-import type {
-  BulkRelayResponse,
-  DisconnectRelayResponse,
-  ReconnectResponse,
-  RelayState,
-  RelayStateResponse,
-  RelayStatesResponse,
-  RelayStatus,
-  ToggleRelayResponse,
-} from 'types/relay.types';
+
+// ============================================================================
+// TYPES
+// ============================================================================
+
+/**
+ * Relay state for a single slot
+ */
+export interface RelayState {
+  slotNumber: number;
+  isOn: boolean;
+  lastUpdated: string;
+}
+
+/**
+ * Response when getting all relay states
+ */
+export interface RelayStatesResponse {
+  success: boolean;
+  states: RelayState[];
+  count: number;
+}
+
+/**
+ * Response when getting a single relay state
+ */
+export interface RelayStateResponse {
+  success: boolean;
+  slotNumber: number;
+  state: boolean;
+}
+
+/**
+ * Response for relay connection status
+ */
+export interface RelayStatus {
+  success: boolean;
+  connected: boolean;
+  port?: string;
+  message?: string;
+}
+
+/**
+ * Response when toggling a relay
+ */
+export interface ToggleRelayResponse {
+  success: boolean;
+  slotNumber: number;
+  state: boolean;
+  message?: string;
+}
+
+/**
+ * Response for bulk relay operations
+ */
+export interface BulkRelayResponse {
+  success: boolean;
+  message: string;
+}
+
+/**
+ * Response when disconnecting from relay
+ */
+export interface DisconnectRelayResponse {
+  success: boolean;
+  message: string;
+}
+
+/**
+ * Response when reconnecting to relay
+ */
+export interface ReconnectResponse {
+  success: boolean;
+  message: string;
+}
 
 // ============================================================================
 // ENDPOINTS
@@ -48,8 +113,9 @@ export const relaysEndpoints = {
 
   /**
    * Get state of a single relay by slot number
+   * Returns just the boolean state value
    */
-  getState: async (slotNumber: number): Promise<RelayState> => {
+  getState: async (slotNumber: number): Promise<boolean> => {
     try {
       const data = await api.get<RelayStateResponse>(`/relay/state/${slotNumber}`);
       return data.state;

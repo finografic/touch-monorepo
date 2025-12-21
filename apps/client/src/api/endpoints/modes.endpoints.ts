@@ -1,7 +1,7 @@
 import { transformFetchError } from '@workspace/core/api';
 
 import { api } from 'api';
-import type { ModeModel } from 'types/models/modes.model';
+import type { ModeModel } from 'types/models/mode.model';
 
 // ============================================================================
 // TYPES
@@ -101,4 +101,3 @@ export const modesEndpoints = {
     }
   },
 } as const;
-
