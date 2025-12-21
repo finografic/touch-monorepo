@@ -36,9 +36,6 @@ apps/client/src/pages/TemperaturePage/
 
 - **File**: `TemperaturePage.tsx` (lines 39-47)
 - **Action**: Triggers two parallel API calls
-- **APIs**:
-  - `useGetMinMaxTemperatures()` - Gets temperature constraints
-  - `useGetTemperatureProfiles()` - Gets available temperature profiles
 
 ### 4. Custom Hook Initialization
 
@@ -121,23 +118,6 @@ apps/client/src/pages/TemperaturePage/
 - **Validation**: Enforces min/max constraints and step increments
 
 ## API Calls & Data Flow
-
-### 1. `useGetMinMaxTemperatures()`
-
-- **Purpose**: Retrieves temperature constraints from server
-- **Returns**: `{ min, max }` temperature values
-- **Usage**: Sets boundaries for temperature inputs
-- **File**: `queries/temperature/useGetMinMaxTemperatures`
-
-### 2. `useGetTemperatureProfiles()`
-
-- **Purpose**: Fetches available temperature profiles for current order
-- **Parameters**: `orderId` from first order in context
-- **Returns**: Array of temperature profile objects
-- **Usage**:
-  - Finds closest matching profiles
-  - Sets minimum profile temperature
-  - Displays profile information
 
 ### 3. Data Processing
 

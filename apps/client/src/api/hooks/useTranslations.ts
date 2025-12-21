@@ -13,12 +13,12 @@ import type {
 } from '../endpoints';
 // import { translationEndpoints } from '../endpoints';
 import {
-  batchTranslationEndpoints,
   containerTypeEndpoints,
   drinkSubtypeEndpoints,
   drinkTypeEndpoints,
   volumeEndpoints,
 } from '../endpoints';
+import { batchTranslationEndpoints } from '../batch/batch-translations';
 
 // Query keys for caching
 export const TRANSLATION_QUERY_KEYS = {

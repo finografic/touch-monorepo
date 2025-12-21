@@ -5,7 +5,7 @@ import type { UseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 import { api } from 'api';
 
-import type { TranslationsUiModel } from 'types/models/translations-ui.model';
+import type { TranslationsModel } from 'types/models/translations.model';
 import { GET_TRANSLATIONS_UI_QUERYKEY } from '.';
 import { TranslationsDto } from './translations-ui.dto';
 
@@ -14,13 +14,13 @@ const getTranslationsUi = async () => {
     // Fetch client returns data directly and handles errors
     const data = await api.get<any[]>('/translations-ui');
     // Transform each entity using DTO to parse translations and normalize dates
-    return data.map((entity) => TranslationsDto.fromApi(entity)) as TranslationsUiModel[];
+    return data.map((entity) => TranslationsDto.fromApi(entity)) as TranslationsModel[];
   } catch (error) {
     throw transformFetchError(error);
   }
 };
 
-export const useGetTranslationsUi = (): UseQueryResult<TranslationsUiModel[], ErrorResponse> => {
+export const useGetTranslationsUi = (): UseQueryResult<TranslationsModel[], ErrorResponse> => {
   return useQuery({
     queryKey: GET_TRANSLATIONS_UI_QUERYKEY,
     queryFn: async () => getTranslationsUi(),

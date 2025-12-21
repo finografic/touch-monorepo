@@ -1,6 +1,7 @@
 import { slugify } from 'utils/string.utils';
+import type { RegionLocale } from '@workspace/config/i18n.config';
 
-export const languagesCodeToKey = (code: string) =>
+export const languagesCodeToKey = (code: RegionLocale) =>
   code
     .toLowerCase()
     .replace('-', ' ')
@@ -11,12 +12,12 @@ export const languagesCodeToKey = (code: string) =>
    ============================================================ */
 
 // slug regeneration with priority order
-export const regenerateSlug = (values: Record<string, string>, preferredOrder: string[]) => {
-  for (const lang of preferredOrder) {
-    const val = values[lang];
-    if (val?.trim()) {
-      return slugify(val);
-    }
+export const regenerateSlug = (
+  values: Record<RegionLocale, string>,
+  languagesPrioritized: RegionLocale[],
+) => {
+  for (const lang of languagesPrioritized) {
+    const value = values[lang]?.trim();
+    return value ? slugify(value) : '';
   }
-  return '';
 };

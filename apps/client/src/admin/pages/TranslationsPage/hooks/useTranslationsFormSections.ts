@@ -10,7 +10,6 @@ import type { RegionLocale } from '@workspace/config/i18n.config';
 import type { TranslationsSection } from '../translations.types';
 import type { I18nTranslationsDomain } from 'types/i18n.types';
 import { GET_TRANSLATIONS_QUERYKEY } from 'queries/translations';
-import type { TranslationsModel } from 'types/models/translations.model';
 
 export interface UseUiTranslationData {
   isLoading: boolean;
@@ -18,42 +17,13 @@ export interface UseUiTranslationData {
   sections: TranslationsSection[];
 }
 
-export const useGetTranslations = ({
-  domain,
+export const useTranslationsFormSections = ({
+  translations,
   groups = ['buttons', 'tables', 'time'],
 }: {
-  domain: I18nTranslationsDomain;
+  translations: any[];
   groups?: string[];
 }): UseUiTranslationData => {
-  const location = useLocation();
-  const queryClient = useQueryClient();
-  const queryKey = [...GET_TRANSLATIONS_QUERYKEY, domain, location.pathname];
-
-  // NOTE: invalidate queries when location changes - force data refresh when route changes
-  useEffect(() => {
-    queryClient.invalidateQueries({ queryKey: [...GET_TRANSLATIONS_QUERYKEY, domain] });
-  }, [location.pathname, domain, queryClient]);
-
-  // Fetch translations based on domain (domain)
-  // Use domain-specific endpoint: /api/i18n/translations/:domain
-  // Returns array format (same as /translations/:domain) for CMS compatibility
-  // Include location.pathname in queryKey to force refetch on route change
-  const { data: translations, isLoading: translationsLoading } = useQuery({
-    queryKey,
-    queryFn: async () => {
-      try {
-        // Fetch from domain-specific endpoint (returns array format)
-        const data = await api.get<TranslationsModel[]>(`/i18n/translations/${domain}`);
-        // Return raw data - transformation happens in mapItems where we have supportedLanguages
-        return data;
-      } catch (error) {
-        throw transformFetchError(error);
-      }
-    },
-    refetchOnMount: true, // Always refetch when component mounts (route changes)
-    staleTime: 0, // Always consider data stale to force refetch
-  });
-
   const appConfig = useAppConfig();
   const supportedLanguages = appConfig.supportedLanguages as RegionLocale[];
 

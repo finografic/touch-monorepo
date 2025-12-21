@@ -1,10 +1,6 @@
 import type { ErrorResponse } from '@workspace/core/api';
 import { isRetryableError, transformFetchError } from '@workspace/core/api';
-import type {
-  ContainerTypeEntity,
-  DrinkSubtypeEntity,
-  DrinkTypeEntity,
-} from '@workspace/server/types/entities';
+import type { DrinkSubtypeEntity, DrinkTypeEntity } from '@workspace/server/types/entities';
 
 import { useQuery } from '@tanstack/react-query';
 import { api } from 'api';
@@ -15,13 +11,10 @@ import type {
 } from 'queries/supported-languages/supported-languages.types';
 
 import type { AnalyticsData } from 'types/analytics.types';
-import type { ContainerType, DrinkSubtype, DrinkType, DrinkVolume } from 'types/models';
-import type { OrderModel } from 'types/models/order.model';
+import type { ContainerType, DrinkType, DrinkVolume } from 'types/models';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { SupportedLanguage } from 'types/models/supported-language.model';
 import type { TemperatureProfileEntity } from 'types/models/temperature.model';
-import type { TranslationsUiModel } from 'types/models/labels-ui.model';
-import type { FilterKey } from 'types/slots.types';
 
 // Utility type for endpoint functions
 type EndpointFunction = (...args: any[]) => Promise<any>;
@@ -127,8 +120,11 @@ export const EndpointHelper = createEndpoints({
   deleteSupportedLanguage: async (id: string) => await api.delete<void>(`/supported-languages/${id}`),
 });
 
+// ======================================================================== //
+// NOTE: USAGE EXAMPLES..
+
 // Example usage in a hook with the new utility
-export const useGetDrinkType = (id: string) => {
+const __useGetDrinkType = (id: string) => {
   return useEndpointQuery(['drinkType', id], () => EndpointHelper.getDrinkType(id), {
     maxRetries: 2,
     enabled: !!id,
@@ -136,7 +132,7 @@ export const useGetDrinkType = (id: string) => {
 };
 
 // Example of a rate-limited endpoint with custom retry logic
-export const useGetAnalytics = (params: { from: Date; to: Date }) => {
+const __useGetAnalytics = (params: { from: Date; to: Date }) => {
   return useEndpointQuery(
     ['analytics', params.from.toISOString(), params.to.toISOString()],
     () => EndpointHelper.getAnalytics(params),

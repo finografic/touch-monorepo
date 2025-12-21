@@ -121,12 +121,6 @@ The current TemperaturePage is **over-engineered** and tries to fetch data from 
 
 ### 3.1 Phase 1: Simplify to Single Data Source (Immediate)
 
-#### **Remove Legacy API Dependencies:**
-
-- **Eliminate** `useGetMinMaxTemperatures()` hook
-- **Eliminate** `useGetTemperatureProfiles()` hook
-- **Use only** data from `orders_readable` view
-
 #### **Simplify Data Flow:**
 
 - **Single API call** to `orders-readable`
@@ -203,8 +197,6 @@ The current TemperaturePage is **over-engineered** and tries to fetch data from 
 
 ### 5.2 Step 2: Refactor Data Fetching
 
-- [ ] Remove `useGetMinMaxTemperatures` hook
-- [ ] Remove `useGetTemperatureProfiles` hook
 - [ ] Update TemperaturePage to use only `orders_readable` data
 
 ### 5.3 Step 3: Simplify State Management
@@ -227,6 +219,7 @@ The current TemperaturePage is **over-engineered** and tries to fetch data from 
 The current TemperaturePage implementation is **over-engineered** and tries to solve a problem that no longer exists. The **database view** (`orders_readable`) was created to consolidate all the necessary data, but the frontend hasn't been updated to take advantage of it.
 
 By **simplifying to a single data source**, we will:
+
 1. **Fix the reliability issues** that cause intermittent failures
 2. **Improve performance** by reducing unnecessary API calls
 3. **Simplify the code** making it easier to maintain and debug

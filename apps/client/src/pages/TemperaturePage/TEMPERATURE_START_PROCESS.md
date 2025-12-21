@@ -4,11 +4,9 @@
 
 Looking at the current `TemperaturePage.tsx`, I can see you've reverted to using the legacy session filters (commented out the new `FiltersContext` integration). Let me trace through what happens when the START button is clicked:
 
-
 [1 tool called]
 
 Now let me look at the `useTemperatureControl` hook to understand what happens when START is clicked:
-
 
 [1 tool called]
 

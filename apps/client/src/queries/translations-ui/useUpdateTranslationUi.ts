@@ -3,7 +3,7 @@ import { transformFetchError } from '@workspace/core/api';
 import { useMutation } from '@tanstack/react-query';
 import { api } from 'api';
 
-import type { TranslationsUiModel } from 'types/models/translations-ui.model';
+import type { TranslationsModel } from 'types/models/translations.model';
 import { TranslationsDto } from './translations-ui.dto';
 
 export interface UpdateTranslationUiInput {
@@ -24,7 +24,7 @@ export const useUpdateTranslationUi = () => {
     }: {
       id: string;
       updates: UpdateTranslationUiInput;
-    }): Promise<TranslationsUiModel> => {
+    }): Promise<TranslationsModel> => {
       try {
         const response = await api.patch<any>(`/translations-ui/${id}`, {
           key: updates.key,

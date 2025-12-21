@@ -3,7 +3,7 @@ import { transformFetchError } from '@workspace/core/api';
 import { useMutation } from '@tanstack/react-query';
 import { api } from 'api';
 
-import type { TranslationsUiModel } from 'types/models/translations-ui.model';
+import type { TranslationsModel } from 'types/models/translations.model';
 import { TranslationsDto } from './translations-ui.dto';
 
 export interface CreateTranslationUiInput {
@@ -18,7 +18,7 @@ export interface CreateTranslationUiInput {
  */
 export const useCreateTranslationUi = () => {
   return useMutation({
-    mutationFn: async (data: CreateTranslationUiInput): Promise<TranslationsUiModel> => {
+    mutationFn: async (data: CreateTranslationUiInput): Promise<TranslationsModel> => {
       try {
         // Fetch client returns data directly
         const response = await api.post<any>('/translations-ui', {

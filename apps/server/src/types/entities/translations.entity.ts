@@ -1,8 +1,7 @@
-export interface TranslationsUiEntity {
+export interface TranslationsEntity {
   id: string;
   key: string;
   translations: string;
-  description: string;
   is_active: number;
   created_at: number;
   updated_at: number;

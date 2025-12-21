@@ -9,7 +9,7 @@ import type {
   ContainerTypeEntity,
   DrinkSubtypeEntity,
   DrinkTypeEntity,
-  DrinkVolumeEntity,
+  VolumeEntity,
 } from '@workspace/server/types/entities';
 
 import type {
@@ -18,7 +18,9 @@ import type {
 } from 'queries/supported-languages/supported-languages.types';
 
 import type { AnalyticsData } from 'types/analytics.types';
-import type { ContainerType, DrinkSubtype, DrinkType, DrinkVolume } from 'types/models/container-type.model';
+import type { ContainerType } from 'types/models/container.model';
+import type { DrinkVolume } from 'types/models/volume.model';
+import type { DrinkType, DrinkSubtype } from 'types/models/drink-type.model';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { SupportedLanguage } from 'types/models/supported-language.model';
 import type { TemperatureProfileEntity } from 'types/models/temperature.model';
@@ -48,8 +50,8 @@ export const FetchEndpointHelper = {
     return fetchClient.get<DrinkVolume[]>('/drink-volumes');
   },
 
-  getDrinkVolume: async (id: string): Promise<DrinkVolumeEntity> => {
-    return fetchClient.get<DrinkVolumeEntity>(`/drink-volumes/${id}`);
+  getDrinkVolume: async (id: string): Promise<VolumeEntity> => {
+    return fetchClient.get<VolumeEntity>(`/drink-volumes/${id}`);
   },
 
   // Container Types
@@ -132,17 +134,17 @@ export const useFetchEndpointQuery = <TData>(
   };
 };
 
-/**
- * Example usage hooks
- */
-export const useGetDrinkType = (id: string) => {
+// ======================================================================== //
+// NOTE: EXAMPLE USAGE..
+
+const __useGetDrinkType = (id: string) => {
   return useFetchEndpointQuery(['drinkType', id], () => FetchEndpointHelper.getDrinkType(id), {
     maxRetries: 2,
     enabled: !!id,
   });
 };
 
-export const useGetAnalytics = (params: { from: Date; to: Date }) => {
+const __useGetAnalytics = (params: { from: Date; to: Date }) => {
   return useFetchEndpointQuery(
     ['analytics', params.from.toISOString(), params.to.toISOString()],
     () => FetchEndpointHelper.getAnalytics(params),
