@@ -70,12 +70,12 @@ src/
 **Goal:** Migrate most fragmented resources
 
 **Priority Order:**
-1. [ ] translations-ui (all direct calls)
-2. [ ] orders (complex, high-usage)
-3. [ ] slot-configurations
-4. [ ] modes
-5. [ ] relays
-6. [ ] sounds
+1. [x] translations-ui (all direct calls) ✅
+2. [x] orders (complex, high-usage) ✅
+3. [x] slot-configurations ✅
+4. [x] modes ✅
+5. [x] relays (endpoints created, hooks need migration)
+6. [x] sounds (endpoints created, hooks need migration)
 7. [ ] supported-languages
 8. [ ] countries
 

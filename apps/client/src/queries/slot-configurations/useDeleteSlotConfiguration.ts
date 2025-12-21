@@ -1,9 +1,6 @@
-import { transformFetchError } from '@workspace/core/api';
-
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { api } from 'api';
 
-import type { SlotConfiguration } from 'types/slot-config.types';
+import { slotConfigurationsEndpoints } from 'api/endpoints';
 import { SLOT_CONFIGURATIONS_QUERY_KEYS } from '.';
 
 /**
@@ -13,18 +10,10 @@ export const useDeleteSlotConfiguration = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (slotNumber: number): Promise<SlotConfiguration> => {
-      try {
-        // Fetch client returns data directly
-        return await api.delete<SlotConfiguration>(`/slot-configurations/${slotNumber}`);
-      } catch (error) {
-        throw transformFetchError(error);
-      }
-    },
-    onSuccess: (_, slotNumber) => {
-      // Invalidate queries to refetch fresh data
+    mutationFn: slotConfigurationsEndpoints.delete,
+    onSuccess: () => {
+      // Invalidate slot configurations query to refetch the list
       queryClient.invalidateQueries({ queryKey: SLOT_CONFIGURATIONS_QUERY_KEYS.lists() });
-      queryClient.invalidateQueries({ queryKey: SLOT_CONFIGURATIONS_QUERY_KEYS.detail(slotNumber) });
     },
   });
 };

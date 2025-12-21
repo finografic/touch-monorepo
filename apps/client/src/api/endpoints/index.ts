@@ -55,3 +55,28 @@ export {
   type TemperatureProfileInput,
   type CreateOrderWithProfilesInput,
 } from './orders.endpoints';
+
+// ============================================================================
+// SLOT CONFIGURATIONS
+// ============================================================================
+export { slotConfigurationsEndpoints } from './slot-configurations.endpoints';
+
+// ============================================================================
+// MODES
+// ============================================================================
+export {
+  modesEndpoints,
+  type UpdateModeInput,
+  type UpdateDefaultModeRequest,
+  type UpdateActiveStatesRequest,
+} from './modes.endpoints';
+
+// ============================================================================
+// RELAYS
+// ============================================================================
+export { relaysEndpoints } from './relays.endpoints';
+
+// ============================================================================
+// SOUNDS
+// ============================================================================
+export { soundsEndpoints, type UpdateSoundSettingsInput } from './sounds.endpoints';
