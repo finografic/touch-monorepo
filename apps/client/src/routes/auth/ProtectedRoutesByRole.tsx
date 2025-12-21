@@ -74,19 +74,24 @@ export const ProtectedRoutesByRole: React.FC = () => {
   const basePath = getBasePath(location.pathname);
   const currentRouteEntry = getAdminEntryByPath(basePath);
 
+  // If route entry not found in config, fall back to Outlet (for nested routes, etc.)
+  if (!currentRouteEntry) {
+    return <Outlet />;
+  }
+
   // ======================================================================== //
   // Authenticated users: check role-based access
   // ======================================================================== //
 
   if (user && isAuthenticated) {
-    // User has admin access to this route
-    if (currentRouteEntry && currentRouteEntry.element.admin) {
-      return <Outlet />; // ✅ Let React Router render the route
+    // User has admin access to this route - allow rendering (element from routes.tsx)
+    if (currentRouteEntry.element.admin) {
+      return <Outlet />;
     }
 
-    // User can access public version of this route
-    if (currentRouteEntry && currentRouteEntry.element.public) {
-      return <Outlet />; // ✅ Let React Router render the route
+    // User can access public version of this route - allow rendering
+    if (currentRouteEntry.element.public) {
+      return <Outlet />;
     }
 
     // Route not found or user doesn't have access
@@ -98,9 +103,9 @@ export const ProtectedRoutesByRole: React.FC = () => {
   // ======================================================================== //
 
   if (!isAuthenticated) {
-    // Public route exists
-    if (currentRouteEntry && currentRouteEntry.element.public) {
-      return <Outlet />; // ✅ Let React Router render the route
+    // Public route exists - allow rendering (element from routes.tsx)
+    if (currentRouteEntry.element.public) {
+      return <Outlet />;
     }
 
     // Route requires authentication
