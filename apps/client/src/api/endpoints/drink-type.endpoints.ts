@@ -31,7 +31,7 @@ export const drinkTypeEndpoints = {
   /**
    * Get all drink types with translations
    */
-  getDrinkTypes: async (): Promise<DrinkTypeTranslation[]> => {
+  getAll: async (): Promise<DrinkTypeTranslation[]> => {
     try {
       // Fetch client returns data directly
       const data = await api.get<any[]>('/drink-types');
@@ -40,6 +40,32 @@ export const drinkTypeEndpoints = {
     } catch (error) {
       throw transformFetchError(error);
     }
+  },
+
+  /**
+   * Get all drink types (alias for compatibility)
+   */
+  getDrinkTypes: async (): Promise<DrinkTypeTranslation[]> => {
+    return drinkTypeEndpoints.getAll();
+  },
+
+  /**
+   * Get a single drink type by ID
+   */
+  getById: async (id: string): Promise<DrinkTypeTranslation> => {
+    try {
+      const data = await api.get<any>(`/drink-types/${id}`);
+      return transformDrinkType(data);
+    } catch (error) {
+      throw transformFetchError(error);
+    }
+  },
+
+  /**
+   * Get a single drink type (alias for compatibility)
+   */
+  getDrinkType: async (id: string): Promise<DrinkTypeTranslation> => {
+    return drinkTypeEndpoints.getById(id);
   },
 
   /**

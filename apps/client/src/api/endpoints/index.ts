@@ -88,3 +88,8 @@ export {
 // SOUNDS
 // ============================================================================
 export { soundsEndpoints, type UpdateSoundSettingsInput } from './sounds.endpoints';
+
+// ============================================================================
+// SUPPORTED LANGUAGES
+// ============================================================================
+export { supportedLanguagesEndpoints } from './supported-languages.endpoints';

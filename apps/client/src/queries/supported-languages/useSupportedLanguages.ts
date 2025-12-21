@@ -1,8 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { EndpointHelper } from 'api/api.endpoints';
 
-import type { SupportedLanguage } from 'types/models/supported-language.model';
+import { supportedLanguagesEndpoints } from 'api/endpoints';
 import { ADMIN_DATA_QUERY_CONFIG } from 'config/api';
+import type { SupportedLanguage } from 'types/models/supported-language.model';
 import type { SupportedLanguageInput, SupportedLanguageUpdate } from './supported-languages.types';
 
 // Query keys
@@ -16,21 +16,18 @@ export const supportedLanguagesKeys = {
 
 // Get all supported languages
 export const useGetSupportedLanguages = () => {
-  return useQuery({
+  return useQuery<SupportedLanguage[]>({
     queryKey: supportedLanguagesKeys.lists(),
-    queryFn: async () => {
-      // EndpointHelper already returns data directly (fetch client unwraps ApiResponse)
-      return await EndpointHelper.getSupportedLanguages();
-    },
+    queryFn: supportedLanguagesEndpoints.getAll,
     ...ADMIN_DATA_QUERY_CONFIG, // Use admin-specific caching strategy
   });
 };
 
 // Get single supported language
 export const useGetSupportedLanguage = (id: string) => {
-  return useQuery({
+  return useQuery<SupportedLanguage>({
     queryKey: supportedLanguagesKeys.detail(id),
-    queryFn: () => EndpointHelper.getSupportedLanguage?.(id),
+    queryFn: () => supportedLanguagesEndpoints.getById(id),
     enabled: !!id,
   });
 };
@@ -40,7 +37,7 @@ export const useCreateSupportedLanguage = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: SupportedLanguageInput) => EndpointHelper.createSupportedLanguage?.(data),
+    mutationFn: supportedLanguagesEndpoints.create,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: supportedLanguagesKeys.lists() });
     },
@@ -53,7 +50,7 @@ export const useUpdateSupportedLanguage = () => {
 
   return useMutation({
     mutationFn: ({ id, data }: { id: string; data: SupportedLanguageUpdate }) =>
-      EndpointHelper.updateSupportedLanguage?.(id, data),
+      supportedLanguagesEndpoints.update(id, data),
     onSuccess: (_, { id }) => {
       queryClient.invalidateQueries({ queryKey: supportedLanguagesKeys.detail(id) });
       queryClient.invalidateQueries({ queryKey: supportedLanguagesKeys.lists() });
@@ -66,7 +63,7 @@ export const useDeleteSupportedLanguage = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (id: string) => EndpointHelper.deleteSupportedLanguage?.(id),
+    mutationFn: supportedLanguagesEndpoints.delete,
     onSuccess: (_, id) => {
       queryClient.invalidateQueries({ queryKey: supportedLanguagesKeys.detail(id) });
       queryClient.invalidateQueries({ queryKey: supportedLanguagesKeys.lists() });
@@ -80,7 +77,7 @@ export const useToggleSupportedLanguageActive = () => {
 
   return useMutation({
     mutationFn: ({ id, isActive }: { id: string; isActive: boolean }) =>
-      EndpointHelper.updateSupportedLanguage?.(id, { isActive }),
+      supportedLanguagesEndpoints.update(id, { isActive }),
     onSuccess: (_, { id }) => {
       queryClient.invalidateQueries({ queryKey: supportedLanguagesKeys.detail(id) });
       queryClient.invalidateQueries({ queryKey: supportedLanguagesKeys.lists() });

@@ -2,16 +2,16 @@ import type { ErrorResponse } from '@workspace/core/api';
 
 import type { UseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
-import { EndpointHelper } from 'api/api.endpoints';
 
-import type { DrinkType } from 'types/models/drink-type.model';
+import { drinkTypeEndpoints, type DrinkTypeTranslation } from 'api/endpoints';
 import { GET_DRINK_TYPES_QUERYKEY } from '.';
 
-// export const useGetDrinkTypes = (): UseQueryResult<ApiResponse<DrinkType[]>, ErrorResponse> => {
-
-export const useGetDrinkTypes = (): UseQueryResult<DrinkType[], ErrorResponse> => {
+/**
+ * Get all drink types
+ */
+export const useGetDrinkTypes = (): UseQueryResult<DrinkTypeTranslation[], ErrorResponse> => {
   return useQuery({
     queryKey: GET_DRINK_TYPES_QUERYKEY,
-    queryFn: EndpointHelper.getDrinkTypes,
+    queryFn: drinkTypeEndpoints.getAll,
   });
 };

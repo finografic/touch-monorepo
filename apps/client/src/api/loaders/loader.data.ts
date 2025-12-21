@@ -1,7 +1,13 @@
 import type { LoaderFunction } from 'react-router-dom';
 
-import { EndpointHelper } from 'api/api.endpoints';
-
+import {
+  containerTypesEndpoints,
+  drinkSubtypeEndpoints,
+  drinkTypeEndpoints,
+  ordersEndpoints,
+  supportedLanguagesEndpoints,
+  volumeEndpoints,
+} from 'api/endpoints';
 import { AdminFieldKeys, ROUTE_FILTER_KEYS } from 'config/app';
 
 type LoaderMap = {
@@ -13,18 +19,17 @@ export const LoaderDataHelper: Partial<LoaderMap> = {
     // TODO: Implement when ready
     return [];
   },
-  [ROUTE_FILTER_KEYS.drinkType]: EndpointHelper.getDrinkTypes,
+  [ROUTE_FILTER_KEYS.drinkType]: drinkTypeEndpoints.getDrinkTypes,
   [ROUTE_FILTER_KEYS.drinkSubtype]: async ({ params }) => {
     const { drinkTypeId } = params;
-    return EndpointHelper.getDrinkSubtypes({ drinkTypeId: drinkTypeId as string });
+    // Note: This endpoint needs to be added to drinkSubtypeEndpoints
+    return drinkSubtypeEndpoints.getDrinkSubtypes?.({ drinkTypeId: drinkTypeId as string }) || [];
   },
-  [ROUTE_FILTER_KEYS.drinkVolume]: EndpointHelper.getDrinkVolumes,
-  [ROUTE_FILTER_KEYS.containerType]: EndpointHelper.getContainerTypes,
-  [ROUTE_FILTER_KEYS.temperature]: async ({ params }) => {
+  [ROUTE_FILTER_KEYS.drinkVolume]: volumeEndpoints.getDrinkVolumes,
+  [ROUTE_FILTER_KEYS.containerType]: containerTypesEndpoints.getAll,
+  [ROUTE_FILTER_KEYS.temperature]: async () => {
     // TODO: Implement when ready
-    return EndpointHelper.getOrdersReadable();
-    return [];
-    // return EndpointHelper.getTemperatureProfile(params.temperatureProfileId as string);
+    return ordersEndpoints.getAllReadable();
   },
-  [AdminFieldKeys.languages]: async () => EndpointHelper.getSupportedLanguages,
+  [AdminFieldKeys.languages]: supportedLanguagesEndpoints.getSupportedLanguages,
 };
