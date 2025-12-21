@@ -12,7 +12,7 @@ export const AdminToggleButton: React.FC = () => {
   const isAdminPath = location.pathname.startsWith('/admin');
 
   const handleGotoAppMain = () => {
-    navigate('/', { state: { clearSelectedSlots: true } });
+    navigate('/');
   };
 
   const handleGotoAdmin = () => {
