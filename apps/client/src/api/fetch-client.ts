@@ -1,37 +1,30 @@
 /**
- * Modern Fetch-based API Client [Claude v3.5]
+ * Native Fetch API Client
  *
- * Replaces Axios with native fetch for better performance and modern patterns.
- * Provides consistent error handling, request/response transformation, and authentication.
+ * Replaces axios with native fetch for better performance, smaller bundle size,
+ * and modern web standards. Provides consistent error handling and response normalization.
  */
 
 import type { ErrorResponse } from '@workspace/core/api';
+import { ERROR_CODES, ERROR_MESSAGES } from '@workspace/core/api';
 
-// Base configuration
-const API_BASE_URL = 'http://localhost:4040/api';
+// TypeScript now knows API_URL exists and is a string
+const { API_URL } = process.env;
 
-// Request configuration interface
-interface FetchConfig {
-  baseURL?: string;
-  timeout?: number;
-  retries?: number;
-  retryDelay?: number;
-  // Standard fetch options
-  method?: string;
-  headers?: Record<string, string>;
-  body?: string;
-  credentials?: 'include' | 'same-origin' | 'omit';
-  cache?: 'default' | 'no-store' | 'reload' | 'no-cache' | 'force-cache' | 'only-if-cached';
-  redirect?: 'follow' | 'error' | 'manual';
-  referrer?: string;
-  integrity?: string;
-  keepalive?: boolean;
-  mode?: 'cors' | 'no-cors' | 'same-origin';
-  signal?: AbortSignal;
+if (!API_URL) {
+  throw new Error('API_URL is not defined in process.env');
 }
 
-// Response wrapper for consistent structure
-interface FetchResponse<T = any> {
+// Request configuration interface
+export interface FetchRequestConfig extends RequestInit {
+  timeout?: number;
+  params?: Record<string, string | number | boolean | null | undefined>;
+  // Allow override of base URL for specific requests
+  baseURL?: string;
+}
+
+// Normalized response interface (always consistent structure)
+export interface FetchResponse<T = any> {
   data: T;
   status: number;
   statusText: string;
@@ -39,7 +32,7 @@ interface FetchResponse<T = any> {
   ok: boolean;
 }
 
-// Error class for API errors
+// Custom error class for API errors
 export class FetchError extends Error {
   constructor(
     message: string,
@@ -53,210 +46,267 @@ export class FetchError extends Error {
 }
 
 /**
- * Creates a fetch-based API client with consistent configuration
+ * Creates a timeout promise that rejects after specified milliseconds
  */
-class FetchClient {
-  private baseURL: string;
-  private defaultConfig: FetchConfig;
+function createTimeout(timeout: number): Promise<never> {
+  return new Promise((_, reject) => {
+    setTimeout(() => reject(new FetchError('Request timeout', 408, undefined, true)), timeout);
+  });
+}
 
-  constructor(baseURL: string = API_BASE_URL, defaultConfig: FetchConfig = {}) {
-    this.baseURL = baseURL;
-    this.defaultConfig = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include', // Always include cookies for auth
-      ...defaultConfig,
-    };
-  }
+/**
+ * Builds URL with query parameters
+ * Handles endpoints with or without leading slashes correctly
+ */
+function buildUrl(
+  baseURL: string,
+  endpoint: string,
+  params?: Record<string, string | number | boolean | null | undefined>,
+): string {
+  // Parse baseURL to get origin and pathname
+  const baseUrlObj = new URL(baseURL);
 
-  /**
-   * Creates a timeout promise that rejects after specified milliseconds
-   */
-  private createTimeout(timeout: number): Promise<never> {
-    return new Promise((_, reject) => {
-      setTimeout(() => reject(new FetchError('Request timeout', 408)), timeout);
+  // Remove leading slash from endpoint if present (to make it relative)
+  // This ensures the baseURL's path (e.g., /api) is preserved
+  const normalizedEndpoint = endpoint.startsWith('/') ? endpoint.slice(1) : endpoint;
+
+  // Build the full pathname by combining baseURL pathname with endpoint
+  const basePath = baseUrlObj.pathname.endsWith('/')
+    ? baseUrlObj.pathname.slice(0, -1) // Remove trailing slash
+    : baseUrlObj.pathname;
+  const fullPathname = `${basePath}/${normalizedEndpoint}`;
+
+  // Create new URL with the combined pathname
+  const url = new URL(fullPathname, baseUrlObj.origin);
+
+  if (params) {
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== null && value !== undefined) {
+        url.searchParams.append(key, String(value));
+      }
     });
   }
 
-  /**
-   * Transforms fetch response to consistent format
-   */
-  private async transformResponse<T>(response: Response): Promise<FetchResponse<T>> {
-    const data = await response.json();
+  return url.toString();
+}
 
-    return {
-      data,
-      status: response.status,
-      statusText: response.statusText,
-      headers: response.headers,
-      ok: response.ok,
-    };
-  }
+/**
+ * Normalizes fetch response to consistent structure
+ * Parses JSON response body into a consistent format
+ */
+async function normalizeResponse<T>(response: Response): Promise<FetchResponse<T>> {
+  // Always parse JSON - if response is not JSON, this will throw
+  // which is fine because we want consistent error handling
+  let data: T;
 
-  /**
-   * Determines if an error is retryable
-   */
-  private isRetryableError(error: FetchError): boolean {
-    // Retry on network errors, 5xx server errors, and 408 timeout
-    return (
-      error.status === 0 || // Network error
-      error.status >= 500 || // Server errors
-      error.status === 408 || // Timeout
-      error.status === 429 // Rate limiting
+  try {
+    const text = await response.text();
+    // If empty response, return empty object
+    if (!text.trim()) {
+      data = {} as T;
+    } else {
+      data = JSON.parse(text) as T;
+    }
+  } catch (parseError) {
+    // If JSON parsing fails, wrap the error
+    throw new FetchError(
+      `Failed to parse response as JSON: ${parseError instanceof Error ? parseError.message : String(parseError)}`,
+      response.status,
+      undefined,
+      false,
     );
   }
 
-  /**
-   * Performs exponential backoff retry
-   */
-  private async retryRequest<T>(
-    requestFn: () => Promise<FetchResponse<T>>,
-    retries: number,
-    retryDelay: number,
-  ): Promise<FetchResponse<T>> {
-    let lastError: FetchError;
+  return {
+    data,
+    status: response.status,
+    statusText: response.statusText,
+    headers: response.headers,
+    ok: response.ok,
+  };
+}
 
-    for (let attempt = 0; attempt <= retries; attempt++) {
-      try {
-        return await requestFn();
-      } catch (error) {
-        lastError = error as FetchError;
+/**
+ * Determines if an error is retryable
+ */
+function isRetryableError(error: FetchError): boolean {
+  return (
+    error.status === 0 || // Network error
+    error.status === 408 || // Timeout
+    error.status === 429 || // Rate limiting
+    error.status >= 500 || // Server errors
+    error.isRetryable
+  );
+}
 
-        // Don't retry on last attempt or non-retryable errors
-        if (attempt === retries || !this.isRetryableError(lastError)) {
-          throw lastError;
-        }
+/**
+ * Core request method with timeout and error handling
+ */
+async function request<T>(endpoint: string, config: FetchRequestConfig = {}): Promise<FetchResponse<T>> {
+  const {
+    baseURL = API_URL,
+    timeout = 30000, // 30 seconds default
+    params,
+    headers = {},
+    ...fetchConfig
+  } = config;
 
-        // Wait before retrying (exponential backoff)
-        const delay = retryDelay * 2 ** attempt;
-        await new Promise((resolve) => setTimeout(resolve, delay));
-      }
-    }
+  const url = buildUrl(baseURL, endpoint, params);
 
-    throw lastError!;
-  }
+  // Merge headers - but don't set Content-Type for FormData (browser will set it with boundary)
+  const isFormData = fetchConfig.body instanceof FormData;
+  const defaultHeaders: HeadersInit = isFormData ? {} : { 'Content-Type': 'application/json' };
 
-  /**
-   * Core request method with timeout, retry, and error handling
-   */
-  private async request<T>(endpoint: string, config: FetchConfig = {}): Promise<FetchResponse<T>> {
-    const {
-      baseURL = this.baseURL,
-      timeout = 10000,
-      retries = 3,
-      retryDelay = 1000,
-      ...fetchConfig
-    } = config;
+  const finalHeaders = {
+    ...defaultHeaders,
+    ...headers,
+  };
 
-    const url = `${baseURL}${endpoint}`;
-    const finalConfig = {
-      ...this.defaultConfig,
+  // Create abort controller for timeout
+  const controller = new AbortController();
+  const timeoutId = timeout > 0 ? setTimeout(() => controller.abort(), timeout) : null;
+
+  try {
+    // Race between fetch and timeout
+    const fetchPromise = fetch(url, {
       ...fetchConfig,
-    };
+      headers: finalHeaders,
+      credentials: 'include', // Always include cookies for auth
+      signal: controller.signal,
+    });
 
-    const requestFn = async (): Promise<FetchResponse<T>> => {
-      // Create timeout promise
-      const timeoutPromise = this.createTimeout(timeout);
+    const timeoutPromise = timeout > 0 ? createTimeout(timeout) : null;
 
-      // Create fetch promise
-      const fetchPromise = fetch(url, finalConfig).then(async (response) => {
-        const transformed = await this.transformResponse<T>(response);
+    const response = timeoutPromise ? await Promise.race([fetchPromise, timeoutPromise]) : await fetchPromise;
 
-        if (!response.ok) {
-          const error = new FetchError(
-            transformed.data?.message || `HTTP ${response.status}: ${response.statusText}`,
-            response.status,
-            transformed.data,
-            this.isRetryableError(new FetchError('', response.status)),
-          );
-          throw error;
-        }
-
-        return transformed;
-      });
-
-      // Race between fetch and timeout
-      return Promise.race([fetchPromise, timeoutPromise]);
-    };
-
-    // Apply retry logic if retries > 0
-    if (retries > 0) {
-      return this.retryRequest(requestFn, retries, retryDelay);
+    // Clear timeout if request completed
+    if (timeoutId) {
+      clearTimeout(timeoutId);
     }
 
-    return requestFn();
-  }
+    // Normalize response (always returns consistent structure)
+    const normalized = await normalizeResponse<T>(response);
 
-  /**
-   * GET request
-   */
-  async get<T>(endpoint: string, config?: FetchConfig): Promise<T> {
-    const response = await this.request<T>(endpoint, { ...config, method: 'GET' });
-    return response.data;
-  }
+    // If response is not ok, throw error
+    if (!response.ok) {
+      // Extract error message from normalized data
+      const errorData = normalized.data as any;
+      const errorMessage =
+        errorData?.message ||
+        errorData?.error?.message ||
+        ERROR_MESSAGES[response.status] ||
+        `HTTP ${response.status}: ${response.statusText}`;
 
-  /**
-   * POST request
-   */
-  async post<T>(endpoint: string, data?: any, config?: FetchConfig): Promise<T> {
-    const response = await this.request<T>(endpoint, {
-      ...config,
-      method: 'POST',
-      body: data ? JSON.stringify(data) : undefined,
-    });
-    return response.data;
-  }
+      throw new FetchError(
+        errorMessage,
+        response.status,
+        errorData,
+        isRetryableError(new FetchError('', response.status)),
+      );
+    }
 
-  /**
-   * PATCH request
-   */
-  async patch<T>(endpoint: string, data?: any, config?: FetchConfig): Promise<T> {
-    const response = await this.request<T>(endpoint, {
-      ...config,
-      method: 'PATCH',
-      body: data ? JSON.stringify(data) : undefined,
-    });
-    return response.data;
-  }
+    return normalized;
+  } catch (error) {
+    // Clear timeout on error
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
 
-  /**
-   * PUT request
-   */
-  async put<T>(endpoint: string, data?: any, config?: FetchConfig): Promise<T> {
-    const response = await this.request<T>(endpoint, {
-      ...config,
-      method: 'PUT',
-      body: data ? JSON.stringify(data) : undefined,
-    });
-    return response.data;
-  }
+    // Handle abort (timeout)
+    if (error instanceof Error && error.name === 'AbortError') {
+      throw new FetchError('Request timeout', 408, undefined, true);
+    }
 
-  /**
-   * DELETE request
-   */
-  async delete<T>(endpoint: string, config?: FetchConfig): Promise<T> {
-    const response = await this.request<T>(endpoint, { ...config, method: 'DELETE' });
-    return response.data;
-  }
+    // Re-throw FetchError as-is
+    if (error instanceof FetchError) {
+      throw error;
+    }
 
-  /**
-   * Update default configuration
-   */
-  setDefaults(config: Partial<FetchConfig>): void {
-    this.defaultConfig = { ...this.defaultConfig, ...config };
-  }
+    // Handle network errors
+    if (error instanceof TypeError && error.message.includes('fetch')) {
+      throw new FetchError('Network error: Failed to fetch', 0, undefined, true);
+    }
 
-  /**
-   * Get current default configuration
-   */
-  getDefaults(): FetchConfig {
-    return { ...this.defaultConfig };
+    // Unknown error
+    throw new FetchError(error instanceof Error ? error.message : String(error), 0, undefined, false);
   }
 }
 
-// Create and export the default client instance
-export const fetchClient = new FetchClient();
+/**
+ * API Client
+ * All methods return the data directly from the server response
+ * Server returns data directly (not wrapped in ApiResponse<T>)
+ */
+export const api = {
+  /**
+   * GET request
+   * Returns: T (the data directly from server)
+   */
+  async get<T>(endpoint: string, config?: FetchRequestConfig): Promise<T> {
+    const response = await request<T>(endpoint, { ...config, method: 'GET' });
+    return response.data;
+  },
 
-// Export the class for creating custom instances
-export { FetchClient };
+  /**
+   * POST request
+   * Returns: T (the data directly from server)
+   */
+  async post<T>(endpoint: string, data?: any, config?: FetchRequestConfig): Promise<T> {
+    // Handle FormData - don't stringify it, pass as-is
+    const isFormData = data instanceof FormData;
+    const body = isFormData ? data : data ? JSON.stringify(data) : undefined;
+
+    const response = await request<T>(endpoint, {
+      ...config,
+      method: 'POST',
+      body,
+    });
+
+    return response.data;
+  },
+
+  /**
+   * PATCH request
+   * Returns: T (the data directly from server)
+   */
+  async patch<T>(endpoint: string, data?: any, config?: FetchRequestConfig): Promise<T> {
+    // Handle FormData - don't stringify it, pass as-is
+    const isFormData = data instanceof FormData;
+    const body = isFormData ? data : data ? JSON.stringify(data) : undefined;
+
+    const response = await request<T>(endpoint, {
+      ...config,
+      method: 'PATCH',
+      body,
+    });
+
+    return response.data;
+  },
+
+  /**
+   * PUT request
+   * Returns: T (the data directly from server)
+   */
+  async put<T>(endpoint: string, data?: any, config?: FetchRequestConfig): Promise<T> {
+    // Handle FormData - don't stringify it, pass as-is
+    const isFormData = data instanceof FormData;
+    const body = isFormData ? data : data ? JSON.stringify(data) : undefined;
+
+    const response = await request<T>(endpoint, {
+      ...config,
+      method: 'PUT',
+      body,
+    });
+
+    return response.data;
+  },
+
+  /**
+   * DELETE request
+   * Returns: T (the data directly from server)
+   */
+  async delete<T>(endpoint: string, config?: FetchRequestConfig): Promise<T> {
+    const response = await request<T>(endpoint, { ...config, method: 'DELETE' });
+    return response.data;
+  },
+};
