@@ -1,27 +1,37 @@
-import {
-  containerTypeEndpoints,
-  type ContainerTypeTranslation,
-  type ContainerTypeUpdate,
-} from './container-type.endpoints';
-import {
+// ============================================================================
+// CONTAINER TYPES
+// ============================================================================
+export {
+  containerTypesEndpoints,
+  type ContainerType,
+  type ContainerTypeEntity,
+  type CreateContainerTypeInput,
+  type UpdateContainerTypeInput,
+} from './container-types.endpoints';
+
+// ============================================================================
+// DRINK TYPES
+// ============================================================================
+export {
+  drinkTypeEndpoints,
+  type DrinkTypeTranslation,
+  type DrinkTypeUpdate,
+} from './drink-type.endpoints';
+
+// ============================================================================
+// DRINK SUBTYPES
+// ============================================================================
+export {
   drinkSubtypeEndpoints,
   type DrinkSubtypeTranslation,
   type DrinkSubtypeUpdate,
 } from './drink-subtype.endpoints';
-import { drinkTypeEndpoints, type DrinkTypeTranslation, type DrinkTypeUpdate } from './drink-type.endpoints';
-import { volumeEndpoints, type VolumeTranslation, type VolumeUpdate } from './volume.endpoints';
 
-// Re-export all types
-export type {
-  ContainerTypeTranslation,
-  ContainerTypeUpdate,
-  DrinkSubtypeTranslation,
-  DrinkSubtypeUpdate,
-  DrinkTypeTranslation,
-  DrinkTypeUpdate,
-  VolumeTranslation,
-  VolumeUpdate,
-};
-
-// Re-export all endpoints
-export { containerTypeEndpoints, drinkSubtypeEndpoints, drinkTypeEndpoints, volumeEndpoints };
+// ============================================================================
+// VOLUMES
+// ============================================================================
+export {
+  volumeEndpoints,
+  type VolumeTranslation,
+  type VolumeUpdate,
+} from './volume.endpoints';

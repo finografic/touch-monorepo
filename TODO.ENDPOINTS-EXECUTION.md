@@ -41,7 +41,7 @@ src/
 **Goal:** Remove experimental code, establish base client
 
 - [x] Delete `api/endpoints.fetch.ts`
-- [x] Delete `api/fetch-client.ts` 
+- [x] Delete `api/fetch-client.ts`
 - [x] Delete `api/_example.endpoints.fetch.ts`
 - [x] Delete `queries/drink-types/useGetDrinkType-NEW.ts`
 - [x] Delete `api/query-v2/` folder
@@ -51,16 +51,17 @@ src/
 
 ---
 
-### ⏳ Phase 1: Establish The Pattern (1-2 hours)
+### ✅ Phase 1: Establish The Pattern (1-2 hours) - COMPLETE
 
 **Goal:** Create rules document and reference implementation
 
-- [ ] Create `.cursor/rules/api-endpoint-pattern.md`
-- [ ] Choose reference resource (container-types)
-- [ ] Ensure `container-types.endpoints.ts` follows pattern
-- [ ] Update `container-types` hooks to use endpoints
-- [ ] Document pattern with examples
-- [ ] **COMMIT:** "docs(api): establish unified endpoint pattern with reference implementation"
+- [x] Create `.cursor/rules/15-api-endpoint-pattern.md`
+- [x] Choose reference resource (container-types)
+- [x] Create complete `container-types.endpoints.ts` following pattern
+- [x] Update all `container-types` hooks to use endpoints
+- [x] Update `api/endpoints/index.ts` to export new structure
+- [x] Document pattern with comprehensive examples
+- [x] **COMMIT:** "docs(api): establish unified endpoint pattern with reference implementation"
 
 ---
 
@@ -79,7 +80,7 @@ src/
 8. [ ] countries
 
 **For each:**
-- Create/update `{resource}.endpoints.ts` 
+- Create/update `{resource}.endpoints.ts`
 - Update all hooks to use endpoints
 - Test basic functionality
 - Move to next
@@ -104,8 +105,8 @@ src/
 ## 📊 **Progress Tracking**
 
 - **Phase 0:** ✅ Complete
-- **Phase 1:** ⏳ In Progress  
-- **Phase 2:** ⏳ Not started
+- **Phase 1:** ✅ Complete  
+- **Phase 2:** ⏳ In Progress
 - **Phase 3:** ⏳ Not started
 
 ---
