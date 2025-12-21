@@ -23,7 +23,12 @@ import {
 } from './drink-volumes';
 import { GET_MODES_QUERYKEY } from './modes';
 import { GET_ORDERS_QUERYKEY, GET_ORDERS_READABLE_QUERYKEY } from './orders';
-import { TRANSLATION_QUERY_KEYS } from 'api/hooks/useTranslations';
+import {
+  GET_DRINK_TYPES_TRANSLATIONS_QUERYKEY,
+  GET_DRINK_SUBTYPES_TRANSLATIONS_QUERYKEY,
+  GET_VOLUMES_TRANSLATIONS_QUERYKEY,
+  GET_CONTAINER_TYPES_TRANSLATIONS_QUERYKEY,
+} from './translations';
 
 /**
  * Invalidates ALL product-flow reference queries (including mutation keys) so dependent UIs refresh:
@@ -74,10 +79,10 @@ export const invalidateReferenceDataQueries = async (queryClient: QueryClient) =
     queryClient.invalidateQueries({ queryKey: GET_ORDERS_READABLE_QUERYKEY }),
 
     // Translations
-    queryClient.invalidateQueries({ queryKey: TRANSLATION_QUERY_KEYS.drinkTypes }),
-    queryClient.invalidateQueries({ queryKey: TRANSLATION_QUERY_KEYS.drinkSubtypes }),
-    queryClient.invalidateQueries({ queryKey: TRANSLATION_QUERY_KEYS.volumes }),
-    queryClient.invalidateQueries({ queryKey: TRANSLATION_QUERY_KEYS.containerTypes }),
+    queryClient.invalidateQueries({ queryKey: GET_DRINK_TYPES_TRANSLATIONS_QUERYKEY }),
+    queryClient.invalidateQueries({ queryKey: GET_DRINK_SUBTYPES_TRANSLATIONS_QUERYKEY }),
+    queryClient.invalidateQueries({ queryKey: GET_VOLUMES_TRANSLATIONS_QUERYKEY }),
+    queryClient.invalidateQueries({ queryKey: GET_CONTAINER_TYPES_TRANSLATIONS_QUERYKEY }),
   ]);
 
   // Force refetch of GET queries to ensure immediate UI updates

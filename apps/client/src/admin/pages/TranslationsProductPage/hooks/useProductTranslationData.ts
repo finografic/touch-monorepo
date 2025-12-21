@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useGetAllTranslations } from 'api/hooks/useTranslations';
+import { useGetAllTranslations } from 'queries/translations';
 import { TranslationsDto } from '../utils/translationsProduct.dto';
 import { useIsMutating } from '@tanstack/react-query';
 import { useAppConfig } from 'providers/AppConfigProvider';

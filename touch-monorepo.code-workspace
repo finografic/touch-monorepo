@@ -1,9 +1,8 @@
 {
   "folders": [
     {
-      "name": "✨ touch-monorepo",
-      "path": ".",
-    },
+      "path": "."
+    }
   ],
   "settings": {
     "terminal.integrated.env.osx": {

@@ -39,15 +39,17 @@ export const toggleRelay: AppRouteHandler<ToggleRelayRoute> = async (context) =>
       message: `Relay ${slotNumber} turned ${state ? 'ON' : 'OFF'}`,
     });
   } catch (error) {
-    console.error('Relay toggle error:', error);
+    // Return success with warning when board is disconnected instead of 500 error
+    console.warn('Relay toggle error (board may be disconnected):', error);
     const errorMessage = error instanceof Error ? error.message : 'Failed to toggle relay';
-    return context.json(
-      {
-        success: false,
-        error: errorMessage,
-      },
-      HttpStatusCodes.INTERNAL_SERVER_ERROR,
-    );
+    const { slotNumber, state } = context.req.valid('param');
+    return context.json({
+      success: true,
+      slotNumber,
+      state,
+      message: `Relay ${slotNumber} would be ${state ? 'ON' : 'OFF'} (board disconnected)`,
+      warning: errorMessage,
+    });
   }
 };
 
