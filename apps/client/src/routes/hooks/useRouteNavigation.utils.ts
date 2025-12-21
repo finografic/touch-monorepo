@@ -25,14 +25,20 @@ export const getActualPreviousPath = (
   if (!previousPath) return null;
 
   // Handle conditional route skipping based on hasSubtypes
-  const actualPreviousPath = previousPath;
   if (previousPath === PATHS.drinkSubtype && filters.drinkType?.hasSubtypes === false) {
     // Skip drinkSubtype, go directly to drinkType
     return getActualPreviousPath(PATHS.drinkType, filters);
   }
 
+  // If we're resolving drinkVolume and came from skipping drinkSubtype,
+  // go back to drinkType (skip drinkSubtype)
+  if (previousPath === PATHS.drinkVolume && filters.drinkType?.hasSubtypes === false) {
+    // Skip drinkSubtype, go directly to drinkType
+    return getActualPreviousPath(PATHS.drinkType, filters);
+  }
+
   // Replace dynamic route parameters with actual values
-  const resolvedPath = resolveRouteParameters(actualPreviousPath, filters);
+  const resolvedPath = resolveRouteParameters(previousPath, filters);
 
   return resolvedPath;
 };
@@ -45,14 +51,25 @@ export const getActualNextPath = (nextPath: string | undefined, filters: OrderFi
   if (!nextPath) return null;
 
   // Handle conditional route skipping based on hasSubtypes
-  const actualNextPath = nextPath;
   if (nextPath === PATHS.drinkSubtype && filters.drinkType?.hasSubtypes === false) {
     // Skip drinkSubtype, go directly to drinkVolume
+    // Then continue resolving: drinkVolume -> containerType
     return getActualNextPath(PATHS.drinkVolume, filters);
   }
 
+  // If we're resolving drinkVolume and came from skipping drinkSubtype,
+  // continue to containerType (the next step after drinkVolume)
+  if (nextPath === PATHS.drinkVolume) {
+    // Check if we should continue resolving (only if we skipped drinkSubtype)
+    // This happens when filters.drinkType exists but hasSubtypes is false
+    if (filters.drinkType && filters.drinkType.hasSubtypes === false) {
+      // Continue to containerType (next step after drinkVolume)
+      return getActualNextPath(PATHS.containerType, filters);
+    }
+  }
+
   // Replace dynamic route parameters with actual values
-  const resolvedPath = resolveRouteParameters(actualNextPath, filters);
+  const resolvedPath = resolveRouteParameters(nextPath, filters);
 
   return resolvedPath;
 };

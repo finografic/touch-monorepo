@@ -78,6 +78,7 @@ export {
   relaysEndpoints,
   type RelayState,
   type RelayStatus,
+  type ToggleRelayInput,
   type ToggleRelayResponse,
   type BulkRelayResponse,
   type DisconnectRelayResponse,

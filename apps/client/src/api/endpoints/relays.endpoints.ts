@@ -54,6 +54,14 @@ export interface ToggleRelayResponse {
 }
 
 /**
+ * Input for toggling a relay
+ */
+export interface ToggleRelayInput {
+  slotNumber: number;
+  state: boolean;
+}
+
+/**
  * Response for bulk relay operations
  */
 export interface BulkRelayResponse {
