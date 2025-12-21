@@ -5,44 +5,21 @@
  * and modern web standards. Provides consistent error handling and response normalization.
  */
 
-import type { ErrorResponse } from '@workspace/core/api';
-import { ERROR_CODES, ERROR_MESSAGES } from '@workspace/core/api';
+import {
+  buildUrl,
+  normalizeResponse,
+  isRetryableError,
+  ERROR_MESSAGES,
+  FetchError,
+  type FetchRequestConfig,
+  type FetchResponse,
+} from '@workspace/core/api';
 
 // TypeScript now knows API_URL exists and is a string
 const { API_URL } = process.env;
 
 if (!API_URL) {
   throw new Error('API_URL is not defined in process.env');
-}
-
-// Request configuration interface
-export interface FetchRequestConfig extends RequestInit {
-  timeout?: number;
-  params?: Record<string, string | number | boolean | null | undefined>;
-  // Allow override of base URL for specific requests
-  baseURL?: string;
-}
-
-// Normalized response interface (always consistent structure)
-export interface FetchResponse<T = any> {
-  data: T;
-  status: number;
-  statusText: string;
-  headers: Headers;
-  ok: boolean;
-}
-
-// Custom error class for API errors
-export class FetchError extends Error {
-  constructor(
-    message: string,
-    public status: number,
-    public data?: any,
-    public isRetryable: boolean = false,
-  ) {
-    super(message);
-    this.name = 'FetchError';
-  }
 }
 
 /**
@@ -52,91 +29,6 @@ function createTimeout(timeout: number): Promise<never> {
   return new Promise((_, reject) => {
     setTimeout(() => reject(new FetchError('Request timeout', 408, undefined, true)), timeout);
   });
-}
-
-/**
- * Builds URL with query parameters
- * Handles endpoints with or without leading slashes correctly
- */
-function buildUrl(
-  baseURL: string,
-  endpoint: string,
-  params?: Record<string, string | number | boolean | null | undefined>,
-): string {
-  // Parse baseURL to get origin and pathname
-  const baseUrlObj = new URL(baseURL);
-
-  // Remove leading slash from endpoint if present (to make it relative)
-  // This ensures the baseURL's path (e.g., /api) is preserved
-  const normalizedEndpoint = endpoint.startsWith('/') ? endpoint.slice(1) : endpoint;
-
-  // Build the full pathname by combining baseURL pathname with endpoint
-  const basePath = baseUrlObj.pathname.endsWith('/')
-    ? baseUrlObj.pathname.slice(0, -1) // Remove trailing slash
-    : baseUrlObj.pathname;
-  const fullPathname = `${basePath}/${normalizedEndpoint}`;
-
-  // Create new URL with the combined pathname
-  const url = new URL(fullPathname, baseUrlObj.origin);
-
-  if (params) {
-    Object.entries(params).forEach(([key, value]) => {
-      if (value !== null && value !== undefined) {
-        url.searchParams.append(key, String(value));
-      }
-    });
-  }
-
-  return url.toString();
-}
-
-/**
- * Normalizes fetch response to consistent structure
- * Parses JSON response body into a consistent format
- */
-async function normalizeResponse<T>(response: Response): Promise<FetchResponse<T>> {
-  // Always parse JSON - if response is not JSON, this will throw
-  // which is fine because we want consistent error handling
-  let data: T;
-
-  try {
-    const text = await response.text();
-    // If empty response, return empty object
-    if (!text.trim()) {
-      data = {} as T;
-    } else {
-      data = JSON.parse(text) as T;
-    }
-  } catch (parseError) {
-    // If JSON parsing fails, wrap the error
-    throw new FetchError(
-      `Failed to parse response as JSON: ${parseError instanceof Error ? parseError.message : String(parseError)}`,
-      response.status,
-      undefined,
-      false,
-    );
-  }
-
-  return {
-    data,
-    status: response.status,
-    statusText: response.statusText,
-    headers: response.headers,
-    ok: response.ok,
-  };
-}
-
-/**
- * Determines if an error is retryable
- */
-function isRetryableError(error: FetchError): boolean {
-  return (
-    error.status === 0 || // Network error
-    error.status === 408 || // Timeout
-    error.status === 429 || // Rate limiting
-    error.status >= 500 || // Server errors
-    error.isRetryable
-  );
 }
 
 /**

@@ -1,22 +1,13 @@
 /**
- * Normalized API Response interface
- * 
- * This is the standard response format from the server.
- * The client automatically unwraps this to return just `data` directly.
- * 
- * @example
- * // Server returns: { data: User, message?: string, timestamp: number }
- * // Client receives: User (just the data)
+ * API Types
+ *
+ * Core API type definitions.
+ * This file is kept minimal - most types have been migrated to specific files:
+ * - Error types: error.types.ts
+ * - Fetch types: fetch.types.ts
  */
-export interface ApiResponse<T> {
-  data: T;
-  message?: string;
-  timestamp: number;
-}
 
-/**
- * Development-only response format (without timestamp)
- */
-export interface ApiResponse_DEV<T> {
-  data: T;
-}
+// This file is intentionally minimal.
+// Import specific types from their respective modules:
+// - @workspace/core/api/error.types
+// - @workspace/core/api/fetch.types
