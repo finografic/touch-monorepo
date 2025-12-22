@@ -1,4 +1,4 @@
-import type { RegionLocale, LanguageConfigMap, LangCode2 as LangCode } from '../config/types';
+import type { RegionLocale, LangCode2 as LangCode } from 'config/types';
 
 /**
  * Application Locale Configuration

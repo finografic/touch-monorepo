@@ -15,7 +15,6 @@ import { UnauthorizedPage } from 'pages/UnauthorizedPage/UnauthorizedPage';
 import { ProtectedRoutesByRole } from 'routes/auth/ProtectedRoutesByRole';
 import { ROUTE_FILTER_KEYS } from 'config/app';
 import { ALTERNATIVE_PATHS, PATHS } from 'config/routes';
-import { RouteConfigElement } from 'routes/components/RouteConfigElement';
 
 export const routes: RouteObject[] = [
   {
@@ -111,17 +110,14 @@ export const routes: RouteObject[] = [
             children: [
               {
                 index: true,
-                id: 'order-list',
                 element: <AdminOrdersListPage />,
               },
               {
                 path: 'new',
-                id: 'order-create',
                 element: <AdminOrderEditPage />,
               },
               {
                 path: ':orderId',
-                id: 'order-edit',
                 element: <AdminOrderEditPage />,
               },
             ],

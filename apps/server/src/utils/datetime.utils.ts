@@ -1,7 +1,8 @@
-import { format, lastDayOfMonth, parseISO } from 'date-fns';
+import { DATE_FILTER, DATETIME_FORMAT } from '@workspace/i18n/constants';
 
-import { DATE_FILTER, DATETIME_FORMAT } from 'i18n/datetime';
-import { ES } from 'i18n/locale';
+import { format, lastDayOfMonth } from 'date-fns';
+import { es as ES } from 'date-fns/locale/es';
+
 import type { DateRange } from 'types/date.types';
 import { camelCaseToSentence, toTitleCase } from './string-format.utils';
 
@@ -95,18 +96,3 @@ export function adjustForUTCOffset(date: Date) {
     date.getUTCSeconds(),
   );
 }
-
-// THEN, EXAMPLE ONLY (??) - stackoverflow
-export function formatDateV1(dateString: string) {
-  const date = parseISO(dateString);
-  const dateWithOffset = adjustForUTCOffset(date);
-  return format(dateWithOffset, 'LLL dd, yyyy HH:mm');
-}
-
-// ==================================================================== //
-
-// OTHER SUGGESTION - USE NATIVE DATE ONLY (??)
-
-// const date = new Date('2019-10-25T08:10:00Z');
-// const isoDate = date.toISOString();
-// console.log(`${isoDate.substring(0, 10)} ${isoDate.substring(11, 8)}`);

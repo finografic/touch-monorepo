@@ -22,3 +22,16 @@ export interface I18nConfig {
     additionalCodes?: string[];
   };
 }
+
+export interface I18nDateFormat {
+  short: string;
+  long: string;
+  time: string;
+  dateTime: string;
+}
+
+export interface I18nNumberFormat {
+  decimal: string;
+  thousands: string;
+  currency: string;
+}

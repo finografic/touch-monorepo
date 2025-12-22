@@ -15,7 +15,6 @@
       "db": ["./db"],
       "db/*": ["./db/*"],
       "env.server": ["./env.server.d.ts"],
-      "i18n/*": ["./i18n/*"],
       "lib/*": ["./lib/*"],
       "middlewares/*": ["./middlewares/*"],
       "openapi/*": ["./openapi/*"],

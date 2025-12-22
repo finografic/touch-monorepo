@@ -1,5 +1,8 @@
+import type { RegionLocale } from 'config';
+import type { I18nDateFormat, I18nNumberFormat } from 'types/i18n.types';
+
 // Date and number formatting configurations (keep here - app-specific formatting rules)
-export const dateFormats = {
+export const dateFormats: Record<RegionLocale, I18nDateFormat> = {
   'es-ES': {
     short: 'dd/MM/yyyy',
     long: 'dd MMMM yyyy',
@@ -20,7 +23,7 @@ export const dateFormats = {
   },
 } as const;
 
-export const numberFormats = {
+export const numberFormats: Record<RegionLocale, I18nNumberFormat> = {
   'es-ES': {
     decimal: ',',
     thousands: '.',

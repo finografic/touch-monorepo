@@ -8,7 +8,32 @@
     "declarationMap": true,
     "emitDeclarationOnly": true,
     "resolveJsonModule": true,
-    "baseUrl": "."
+    "baseUrl": ".",
+    "paths": {
+      // Local package absolute imports (relative to baseUrl: "./src")
+      "config": ["./src/config"],
+      "config/*": ["./src/config/*"],
+      "constants": ["./src/constants"],
+      "constants/*": ["./src/constants/*"],
+      "data": ["./src/data"],
+      "data/*": ["./src/data/*"],
+      "docs": ["./src/docs"],
+      "docs/*": ["./src/docs/*"],
+      "generators": ["./src/generators"],
+      "generators/*": ["./src/generators/*"],
+      "iso-codes": ["./src/iso-codes"],
+      "iso-codes/*": ["./src/iso-codes/*"],
+      "lib": ["./src/lib"],
+      "lib/*": ["./src/lib/*"],
+      "models": ["./src/models"],
+      "models/*": ["./src/models/*"],
+      "translations": ["./src/translations"],
+      "translations/*": ["./src/translations/*"],
+      "types": ["./src/types"],
+      "types/*": ["./src/types/*"],
+      "utils": ["./src/utils"],
+      "utils/*": ["./src/utils/*"]
+    }
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.json", "src/translations/**/*.json"],
   "exclude": ["node_modules", "dist"]

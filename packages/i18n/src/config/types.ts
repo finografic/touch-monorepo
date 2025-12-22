@@ -7,12 +7,12 @@
  */
 
 // Re-export types from the main types package
-export type { LanguageConfig, LanguageInfo } from '../types/language.types';
-export type { TypeGenerationConfig } from '../types/type-generation.types';
-export type { I18nConfig } from '../types/i18n.types';
+export type { LanguageConfig, LanguageInfo } from 'types/language.types';
+export type { TypeGenerationConfig } from 'types/type-generation.types';
+export type { I18nConfig } from 'types/i18n.types';
 
 // Import for use in this file
-import type { LanguageConfig } from '../types/language.types';
+import type { LanguageConfig } from 'types/language.types';
 
 // Config-specific utility types (used by constants and config system)
 export type LangCode2 = string;
