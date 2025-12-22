@@ -33,7 +33,7 @@ const DEFAULT_LANGUAGES: LanguageConfig[] = [
  * Default i18n configuration
  * Provides sensible defaults that can be extended or overridden
  */
-export const DEFAULT_CONFIG: I18nConfig = {
+export const DEFAULT_I18N_CONFIG: I18nConfig = {
   languages: DEFAULT_LANGUAGES,
   typeGeneration: {
     outputPath: './config/generated/i18n',

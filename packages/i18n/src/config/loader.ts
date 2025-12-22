@@ -1,5 +1,5 @@
 import type { I18nConfig } from './types';
-import { DEFAULT_CONFIG } from './defaults';
+import { DEFAULT_I18N_CONFIG } from './defaults';
 
 /**
  * Load and merge i18n configuration
@@ -22,15 +22,15 @@ export async function loadConfig(configPath?: string): Promise<I18nConfig> {
 
   // Deep merge with defaults
   return {
-    ...DEFAULT_CONFIG,
+    ...DEFAULT_I18N_CONFIG,
     ...externalConfig,
-    languages: [...(DEFAULT_CONFIG.languages || []), ...(externalConfig.languages || [])],
+    languages: [...(DEFAULT_I18N_CONFIG.languages || []), ...(externalConfig.languages || [])],
     typeGeneration: {
-      ...(DEFAULT_CONFIG.typeGeneration || {}),
+      ...(DEFAULT_I18N_CONFIG.typeGeneration || {}),
       ...(externalConfig.typeGeneration || {}),
     },
     validation: {
-      ...(DEFAULT_CONFIG.validation || {}),
+      ...(DEFAULT_I18N_CONFIG.validation || {}),
       ...(externalConfig.validation || {}),
     },
   } as I18nConfig;
