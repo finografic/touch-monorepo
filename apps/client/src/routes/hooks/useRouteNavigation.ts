@@ -2,11 +2,7 @@ import { useMemo } from 'react';
 
 import { useFiltersContext } from 'providers/FiltersProvider';
 import { useRouteMatching } from 'routes/hooks/useRouteMatching';
-import {
-  getActualNextPath,
-  getActualPreviousPath,
-  resolveRouteParameters,
-} from 'routes/hooks/useRouteNavigation.utils';
+import { getActualNextPath, getActualPreviousPath } from 'routes/hooks/useRouteNavigation.utils';
 
 import { ROUTES_CONFIG } from 'config/routes';
 
