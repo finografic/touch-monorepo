@@ -1,15 +1,7 @@
 import { Outlet, type RouteObject } from 'react-router-dom';
 import { AdminDashboardPage } from 'admin/AdminDashboardPage';
-import { AdminLanguagesPage } from 'admin/pages/AdminLanguagesPage/AdminLanguagesPage';
-import { PublicModePage } from 'admin/pages/AdminModePage';
 import { AdminOrderEditPage } from 'admin/pages/AdminOrdersPage/AdminOrderEditPage';
 import { AdminOrdersListPage } from 'admin/pages/AdminOrdersPage/AdminOrdersListPage';
-import { AdminRelaysPage } from 'admin/pages/AdminRelaysPage/AdminRelaysPage';
-import { PublicRelaysPage } from 'admin/pages/AdminRelaysPage/PublicRelaysPage';
-import { AdminSlotsConfigPage } from 'admin/pages/AdminSlotsConfigPage/AdminSlotsConfigPage';
-import { AdminSoundPage } from 'admin/pages/AdminSoundPage/AdminSoundPage';
-import { TranslationsProductPage } from 'admin/pages/TranslationsProductPage';
-import { TranslationsPage } from 'admin/pages/TranslationsPage';
 import { LoaderDataHelper } from 'api/loaders/loader.data';
 import { AdminLayout } from 'layout/AdminLayout';
 import { Layout } from 'layout/Layout';
@@ -21,10 +13,9 @@ import { TemperaturePage } from 'pages/TemperaturePage/TemperaturePage';
 import { TimePage } from 'pages/TimePage/TimePage';
 import { UnauthorizedPage } from 'pages/UnauthorizedPage/UnauthorizedPage';
 import { ProtectedRoutesByRole } from 'routes/auth/ProtectedRoutesByRole';
-import { AdminRouteIds, ROUTE_FILTER_KEYS } from 'config/app';
+import { ROUTE_FILTER_KEYS } from 'config/app';
 import { ALTERNATIVE_PATHS, PATHS } from 'config/routes';
-import { AdminModePage } from 'admin/pages/AdminModePage/AdminModePage';
-import { AdminModePageDEV } from 'admin/pages/AdminModePage/AdminModePage-DEV';
+import { RouteConfigElement } from 'routes/components/RouteConfigElement';
 
 export const routes: RouteObject[] = [
   {
@@ -97,6 +88,7 @@ export const routes: RouteObject[] = [
   },
   // ============================================== //
   // Admin Routes - Protected
+  // NOTE: null elements are replaced by ADMIN_ROUTE_CONFIGS definition in admin.routes.map.ts
   // ============================================== //
   {
     path: '/admin',
@@ -105,38 +97,17 @@ export const routes: RouteObject[] = [
       {
         element: <ProtectedRoutesByRole />,
         children: [
-          // DASHBOARD (accessible to all - index route)
           {
             index: true,
-            id: AdminRouteIds.dashboard,
             element: <AdminDashboardPage />,
           },
-          {
-            path: 'mode', // NOTE: SHARED
-            id: AdminRouteIds.mode,
-            element: <AdminModePageDEV />,
-            // element: <Outlet />,
-          },
-          {
-            path: 'languages', // NOTE: SHARED
-            id: AdminRouteIds.languages,
-            element: <AdminLanguagesPage />,
-          },
-          {
-            path: 'sounds', // NOTE: SHARED
-            id: AdminRouteIds.sounds,
-            element: <AdminSoundPage />,
-          },
-          {
-            path: 'maintenance', // NOTE: PUBLIC ONLY
-            id: AdminRouteIds.maintenance,
-            element: <PublicRelaysPage />,
-          },
-          // AUTHENTICATED ENTRIES (only visible as admin)
+          { path: 'mode', element: null },
+          { path: 'languages', element: null },
+          { path: 'sounds', element: null },
+          { path: 'maintenance', element: null },
           {
             path: 'items',
-            id: AdminRouteIds.items,
-            element: <Outlet />, // Parent route with Outlet for nested routes
+            element: <Outlet />,
             children: [
               {
                 index: true,
@@ -146,7 +117,7 @@ export const routes: RouteObject[] = [
               {
                 path: 'new',
                 id: 'order-create',
-                element: <AdminOrderEditPage />, // Same component, different mode
+                element: <AdminOrderEditPage />,
               },
               {
                 path: ':orderId',
@@ -155,36 +126,10 @@ export const routes: RouteObject[] = [
               },
             ],
           },
-          {
-            path: 'translations/ui',
-            id: AdminRouteIds.translations,
-            element: <TranslationsPage domain="ui" groups={['buttons', 'tables', 'time']} />,
-          },
-          {
-            path: 'translations/app',
-            id: AdminRouteIds.translationsApp,
-            element: <TranslationsPage domain="app" groups={['pages', 'components', 'orders']} />,
-          },
-          {
-            path: 'translations/admin',
-            id: AdminRouteIds.translationsAdmin,
-            element: <TranslationsPage domain="admin" groups={['pages']} />,
-          },
-          {
-            path: 'slots-config',
-            id: AdminRouteIds.slotsConfig,
-            element: <AdminSlotsConfigPage />,
-          },
-          {
-            path: 'relays',
-            id: AdminRouteIds.relays,
-            element: <AdminRelaysPage />,
-          },
-          {
-            path: 'translations-product',
-            id: AdminRouteIds.translationsProduct,
-            element: <TranslationsProductPage />,
-          },
+          { path: 'translations/:domain', element: null },
+          { path: 'slots-config', element: null },
+          { path: 'relays', element: null },
+          { path: 'translations-product', element: null },
         ],
       },
     ],

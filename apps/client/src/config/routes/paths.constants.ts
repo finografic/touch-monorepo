@@ -17,7 +17,7 @@ export const ALTERNATIVE_PATHS = {
   settings: '/settings',
 } as const;
 
-// ADMIN_PATHS deprecated in favor of ADMIN_ENTRIES config map + selectors
+// ADMIN_PATHS deprecated in favor of ADMIN_ROUTE_CONFIGS config map + selectors
 
 /**
  * Route action slugs for dynamic route generation

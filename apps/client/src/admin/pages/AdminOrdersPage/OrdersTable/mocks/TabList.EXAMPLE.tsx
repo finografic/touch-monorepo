@@ -1,3 +1,6 @@
+// @ts-ignore
+// @ts-nocheck
+
 /**
  * Example TabList.tsx showing how to use select filter variants
  *

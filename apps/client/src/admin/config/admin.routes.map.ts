@@ -20,6 +20,8 @@ import {
   ZapIcon,
 } from 'styles/icons';
 import { TranslationsPage } from 'admin/pages/TranslationsPage';
+import { AdminOrderEditPage, AdminOrdersListPage } from 'admin/pages/AdminOrdersPage';
+import { AdminDashboardPage } from 'admin/AdminDashboardPage';
 
 export type AuthRoles = 'public' | 'admin';
 
@@ -31,15 +33,15 @@ interface AdminRouteBase {
 }
 
 /** Main admin route entry interface - composed of base + optional consumer-specific properties */
-export interface AdminRouteEntry extends AdminRouteBase {
+export interface AdminRouteConfig extends AdminRouteBase {
   hasNav?: Partial<Record<AuthRoles, boolean>>;
   hasCard?: Partial<Record<AuthRoles, boolean>>;
   icon?: React.ComponentType<any>;
   color?: 'blue' | 'green' | 'indigo' | 'orange' | 'purple' | string;
-  children?: AdminRouteEntry[]; // Sub-routes for dropdown grouping
+  children?: AdminRouteConfig[]; // Sub-routes for nested routes (e.g., items/new, items/:id)
 }
 
-export const ADMIN_ENTRIES: AdminRouteEntry[] = [
+export const ADMIN_ROUTE_CONFIGS: AdminRouteConfig[] = [
   // DASHBOARD (accessible to all - index route) ============================ //
   {
     id: 'dashboard',
@@ -57,7 +59,7 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     path: '/admin/items', // orders (parent route for list + edit)
     element: {
       public: null,
-      admin: AdminOrdersPage, // ✅ Parent component with Outlet
+      admin: Outlet, // ✅ Parent component with Outlet
     },
     hasNav: { public: false, admin: true },
     hasCard: { public: false, admin: true },

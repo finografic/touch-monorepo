@@ -11,17 +11,14 @@ import { TranslationsTable } from './TranslationsTable';
 import type { I18nTranslationsDomain } from 'types/i18n.types';
 import type { I18nDomainGroupKey } from './translations.types';
 import { styles } from './TranslationsPage.styles';
+import { useParams } from 'react-router-dom';
+import { TRANSLATIONS_DOMAIN_GROUPS } from 'admin/pages/TranslationsPage/translations.config';
 
-export interface TranslationsPageProps {
-  domain: I18nTranslationsDomain;
-  groups?: string[];
-}
-
-export const TranslationsPage: React.FC<TranslationsPageProps> = ({
-  domain,
-  groups = ['buttons', 'tables', 'time'],
-}) => {
+export const TranslationsPage: React.FC = () => {
   const { t } = useTranslation();
+  const { domain } = useParams<{ domain: 'ui' | 'app' | 'admin' }>();
+  const groups = TRANSLATIONS_DOMAIN_GROUPS[domain];
+
   const [activeTab, setActiveTab] = useState<I18nDomainGroupKey>(() => groups[0]);
   const { isLoading, supportedLanguages, sections } = useGetTranslations({ domain, groups });
 
