@@ -39,9 +39,12 @@ export default defineConfig({
       { src: 'src/translations/app/ca-ES.json', dest: 'dist/translations/app/ca-ES.json' },
       { src: 'src/translations/app/en-GB.json', dest: 'dist/translations/app/en-GB.json' },
       { src: 'src/translations/app/es-ES.json', dest: 'dist/translations/app/es-ES.json' },
-      { src: 'src/translations/common/ca-ES.json', dest: 'dist/translations/common/ca-ES.json' },
-      { src: 'src/translations/common/en-GB.json', dest: 'dist/translations/common/en-GB.json' },
-      { src: 'src/translations/common/es-ES.json', dest: 'dist/translations/common/es-ES.json' },
+      { src: 'src/translations/admin/ca-ES.json', dest: 'dist/translations/admin/ca-ES.json' },
+      { src: 'src/translations/admin/en-GB.json', dest: 'dist/translations/admin/en-GB.json' },
+      { src: 'src/translations/admin/es-ES.json', dest: 'dist/translations/admin/es-ES.json' },
+      { src: 'src/translations/ui/ca-ES.json', dest: 'dist/translations/ui/ca-ES.json' },
+      { src: 'src/translations/ui/en-GB.json', dest: 'dist/translations/ui/en-GB.json' },
+      { src: 'src/translations/ui/es-ES.json', dest: 'dist/translations/ui/es-ES.json' },
     ];
 
     for (const { src, dest } of jsonFiles) {
