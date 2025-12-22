@@ -37,9 +37,6 @@ export interface AdminRouteEntry extends AdminRouteBase {
   icon?: React.ComponentType<any>;
   color?: 'blue' | 'green' | 'indigo' | 'orange' | 'purple' | string;
   children?: AdminRouteEntry[]; // Sub-routes for dropdown grouping
-  // Optional props for specific components (e.g., TranslationsPage)
-  namespace?: 'ui' | 'app' | 'admin';
-  groups?: string[];
 }
 
 export const ADMIN_ENTRIES: AdminRouteEntry[] = [
@@ -79,7 +76,6 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     icon: GridIcon,
     color: 'orange',
   },
-
   {
     id: 'relays',
     path: '/admin/relays',
@@ -92,7 +88,6 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     icon: ZapIcon,
     color: 'green',
   },
-
   {
     id: 'mode',
     path: '/admin/mode', // default mode (public)
@@ -163,8 +158,6 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
           public: null,
           admin: TranslationsPage,
         },
-        namespace: 'ui',
-        groups: ['buttons', 'tables', 'time'],
       },
       {
         id: 'translationsApp',
@@ -173,8 +166,6 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
           public: null,
           admin: TranslationsPage,
         },
-        namespace: 'app',
-        groups: ['app'],
       },
       {
         id: 'translationsAdmin',
@@ -183,8 +174,6 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
           public: null,
           admin: TranslationsPage,
         },
-        namespace: 'admin',
-        groups: ['admin'],
       },
     ],
   },

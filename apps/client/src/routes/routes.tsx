@@ -23,6 +23,8 @@ import { UnauthorizedPage } from 'pages/UnauthorizedPage/UnauthorizedPage';
 import { ProtectedRoutesByRole } from 'routes/auth/ProtectedRoutesByRole';
 import { AdminRouteIds, ROUTE_FILTER_KEYS } from 'config/app';
 import { ALTERNATIVE_PATHS, PATHS } from 'config/routes';
+import { AdminModePage } from 'admin/pages/AdminModePage/AdminModePage';
+import { AdminModePageDEV } from 'admin/pages/AdminModePage/AdminModePage-DEV';
 
 export const routes: RouteObject[] = [
   {
@@ -101,34 +103,32 @@ export const routes: RouteObject[] = [
     element: <AdminLayout />,
     children: [
       {
-        // Protected admin section
         element: <ProtectedRoutesByRole />,
         children: [
           // DASHBOARD (accessible to all - index route)
           {
             index: true,
             id: AdminRouteIds.dashboard,
-            element: <AdminDashboardPage />, // <div style={{ padding: '20rem' }}>DASHBOARD</div>,
+            element: <AdminDashboardPage />,
           },
-          // PUBLIC ENTRIES (accessible without login)
           {
-            path: 'mode', // public-only
+            path: 'mode', // NOTE: SHARED
             id: AdminRouteIds.mode,
-            element: <PublicModePage />,
+            element: <AdminModePageDEV />,
+            // element: <Outlet />,
           },
           {
-            path: 'languages', // TODO: SHARED
+            path: 'languages', // NOTE: SHARED
             id: AdminRouteIds.languages,
             element: <AdminLanguagesPage />,
           },
           {
-            path: 'sounds', // TODO: SHARED
+            path: 'sounds', // NOTE: SHARED
             id: AdminRouteIds.sounds,
             element: <AdminSoundPage />,
-            // element: <div style={{ padding: '20rem' }}>SOUNDS</div>,
           },
           {
-            path: 'maintenance', // relays (public-only)
+            path: 'maintenance', // NOTE: PUBLIC ONLY
             id: AdminRouteIds.maintenance,
             element: <PublicRelaysPage />,
           },
