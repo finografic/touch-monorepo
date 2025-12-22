@@ -1,14 +1,16 @@
 import { getLabelKey } from 'utils/i18n/localization.utils';
 import type { FilterKey, NavigationFieldKey } from 'types/slots.types';
 import type { PadConfig, PadUI } from 'types/pads.types';
+import type { RegionLocale } from '@workspace/i18n';
 import { API_FILTER_FIELDS, ROUTE_FILTER_KEYS } from 'config/app';
+import { DEFAULT_LANGUAGE } from 'config/app/i18n.config';
 
 /**
  * Gets the UI configuration for pads with dynamic language support
  * @param currentLanguage - Current language to determine label keys
  */
 export const getPadsUIConfig = (
-  currentLanguage: 'en' | 'es' | 'ca',
+  currentLanguage: RegionLocale,
 ): Record<Exclude<FilterKey, 'mode'> | NavigationFieldKey, PadConfig> => {
   const labelKey = getLabelKey(currentLanguage);
 
@@ -65,7 +67,7 @@ export const getPadsUIConfig = (
 // Record<Exclude<FilterKey, 'mode'> | NavigationFieldKey, PadConfig>
 // Legacy static config (for backward compatibility) - now defaults to Spanish
 export const PADS_UI_CONFIG: Record<Exclude<FilterKey, 'mode'> | NavigationFieldKey, PadConfig> =
-  getPadsUIConfig('es');
+  getPadsUIConfig(DEFAULT_LANGUAGE);
 
 export const INITIAL_PAD_CHECKBOX: PadUI = {
   index: 0,

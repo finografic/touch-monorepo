@@ -17,14 +17,7 @@ interface LocalizedEntity {
 /**
  * Helper to extract simple language code from full locale
  */
-const getSimpleCode = (language: string): LangCode => {
-  if (language.includes('-')) {
-    const simple = language.split('-')[0];
-    return simple as LangCode;
-  }
-  // Handle direct simple codes
-  return language as LangCode;
-};
+const getShortLanguageCode = (locale: string): LangCode => locale.slice(0, 2) as LangCode;
 
 /**
  * Gets the localized name for an entity based on the current language
@@ -62,7 +55,7 @@ export const getLocalizedName = (
     if (entity[localeKey]) return entity[localeKey] as string;
   }
 
-  const simpleCode = getSimpleCode(currentLanguage);
+  const simpleCode = getShortLanguageCode(currentLanguage);
   switch (simpleCode) {
     case 'en':
       return entity.name || entity.name_en_gb || entity.name || '';
@@ -79,8 +72,8 @@ export const getLocalizedName = (
  * Gets the appropriate label key for the current language
  * Updated to handle both simple and full locale formats
  */
-export const getLabelKey = (currentLanguage: LangCode | RegionLocale): keyof LocalizedEntity => {
-  const simpleCode = getSimpleCode(currentLanguage);
+export const getLabelKey = (lang: LangCode | RegionLocale): keyof LocalizedEntity => {
+  const simpleCode = getShortLanguageCode(lang);
 
   switch (simpleCode) {
     case 'en':

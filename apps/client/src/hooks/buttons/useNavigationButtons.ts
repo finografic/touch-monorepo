@@ -5,7 +5,7 @@ import { useFilters } from 'providers/FiltersProvider/useFilters';
 import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useSession } from 'providers/SessionProvider/SessionContext';
-import { useCurrentFlowStep, useRouteNavigation } from 'routes/hooks/useRouteNavigation';
+import { useRouteNavigation } from 'routes/hooks/useRouteNavigation';
 import { BUTTON_TYPE } from 'types/button.types';
 import type { TemperatureFilter } from 'types/temperature.types';
 import { ALTERNATIVE_PATHS, PATHS } from 'config/routes';
@@ -24,8 +24,7 @@ export const useNavigationButtons = (): UseButtonNavigationReturn => {
   const navigate = useNavigate();
   const [isPending, startTransition] = useTransition();
   const { setPageCurrent, isNextDisabled } = usePagination();
-  const { nextPath, previousPath, isInFlow, isFirstStep, isLastStep } = useRouteNavigation();
-  const currentFlowStep = useCurrentFlowStep();
+  const { nextPath, previousPath, isFirstStep, flowStep } = useRouteNavigation();
   const { dataFiltered } = useFilters();
   const { setFilter } = useFiltersContext();
   const { currentSessionId, sessions, updateSessionFilters } = useSession();
@@ -41,11 +40,11 @@ export const useNavigationButtons = (): UseButtonNavigationReturn => {
 
       // Handle main flow navigation using explicit paths
       if (previousPath) {
-        setPageCurrent(currentFlowStep - 1);
+        setPageCurrent(flowStep - 1);
         navigate(previousPath, { replace: true });
       }
     });
-  }, [navigate, previousPath, setPageCurrent, currentFlowStep, location.pathname]);
+  }, [navigate, previousPath, setPageCurrent, flowStep, location.pathname]);
 
   const handleNavigateNext = useCallback(async () => {
     // ⚠️ Only run product flow logic on /container-type route
@@ -89,12 +88,12 @@ export const useNavigationButtons = (): UseButtonNavigationReturn => {
     // Use startTransition for the navigation part only
     if (nextPath) {
       startTransition(() => {
-        setPageCurrent(currentFlowStep + 1);
+        setPageCurrent(flowStep + 1);
         navigate(nextPath);
       });
     }
   }, [
-    currentFlowStep,
+    flowStep,
     nextPath,
     location.pathname,
     dataFiltered,

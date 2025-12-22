@@ -70,6 +70,7 @@ export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T> {
     if (routeConfig?.handle) {
       const { handle, ...configExpanded } = routeConfig;
       Object.assign(configExpanded, { ...handle });
+
       return { route: configExpanded, filterKey };
     }
 
@@ -79,15 +80,8 @@ export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T> {
   // Get language-aware pads configuration
   const padsConfig = useMemo(() => {
     if (!routeConfig.filterKey) return undefined;
+    const allPadsConfig = getPadsUIConfig(currentLanguage);
 
-    const currentRoute = routeConfig.route;
-    const languageCode = currentLanguage.startsWith('es')
-      ? 'es'
-      : currentLanguage.startsWith('ca')
-        ? 'ca'
-        : 'en';
-
-    const allPadsConfig = getPadsUIConfig(languageCode);
     return allPadsConfig[routeConfig.filterKey];
   }, [routeConfig.filterKey, currentLanguage, routeConfig.route]);
 
@@ -99,7 +93,6 @@ export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T> {
     route: routeConfig.route || ({} as RouteConfig),
     filterKey: routeConfig.filterKey || ('' as FilterKey),
     filterApiKey: padsConfig?.filterApiKey || ('' as FilterApiKey),
-    // loaderData: loaderData || ([] as unknown as T),
     loaderData,
     padsConfig: padsConfig || ({} as PadConfig<DataEntry>),
   };

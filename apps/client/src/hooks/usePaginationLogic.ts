@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
-import { useCurrentFlowStep } from 'routes/hooks/useRouteNavigation';
+import { useRouteNavigation } from 'routes/hooks/useRouteNavigation';
 
 import { PATHS } from 'config/routes';
 
@@ -16,7 +16,7 @@ export const usePaginationLogic = () => {
   const { pads } = useLayoutUi();
   const { filterKey, padsConfig } = useRouteConfig();
   const { setIsNextDisabled, setPageCurrent } = usePagination();
-  const currentFlowStep = useCurrentFlowStep();
+  const { flowStep } = useRouteNavigation();
   const location = useLocation();
 
   // Handle pad changes for pagination (from usePaginationManagement)
@@ -34,11 +34,11 @@ export const usePaginationLogic = () => {
   // Synchronize pagination state with current route (from usePaginationSync)
   useEffect(() => {
     // Only sync for flow pages (not main page or alternative routes)
-    if (currentFlowStep >= 0) {
-      setPageCurrent(currentFlowStep);
+    if (flowStep >= 0) {
+      setPageCurrent(flowStep);
     } else if (location.pathname === PATHS.main) {
       // Reset to 0 when on main page
       setPageCurrent(0);
     }
-  }, [currentFlowStep, location.pathname, setPageCurrent]);
+  }, [flowStep, location.pathname, setPageCurrent]);
 };

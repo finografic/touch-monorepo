@@ -8,8 +8,7 @@ import {
   resolveRouteParameters,
 } from 'routes/hooks/useRouteNavigation.utils';
 
-import type { OrderFilters } from 'types/filters.types';
-import { PATHS, ROUTES_CONFIG } from 'config/routes';
+import { ROUTES_CONFIG } from 'config/routes';
 
 /**
  * Hook to get navigation information for the current route.
@@ -42,52 +41,17 @@ export const useRouteNavigation = () => {
     const actualNextPath = getActualNextPath(next, filters);
     const actualPreviousPath = getActualPreviousPath(previous, filters);
 
+    // Normalize flowStep: return -1 if null or < 0, otherwise return flowStep
+    const normalizedFlowStep = flowStep === null || flowStep < 0 ? -1 : flowStep;
+
     return {
       currentRoute,
       nextPath: actualNextPath,
       previousPath: actualPreviousPath,
-      flowStep: flowStep ?? null,
+      flowStep: normalizedFlowStep,
       isInFlow: flowStep !== undefined && flowStep >= 0,
       isFirstStep: flowStep === 0,
       isLastStep: actualNextPath === null && flowStep !== undefined,
     };
   }, [matchRoute, currentPathname, filters]);
-};
-
-/**
- * Hook to get all flow paths in order.
- * Returns the paths that are part of the main flow (flowStep >= 0).
- * Conditional route skipping is handled by the navigation functions.
- * Resolves dynamic route parameters with actual values.
- */
-export const useFlowPaths = () => {
-  const { filters } = useFiltersContext();
-
-  return useMemo(() => {
-    return ROUTES_CONFIG.filter(
-      (route) => route.navigation?.flowStep !== undefined && route.navigation.flowStep >= 0,
-    )
-      .sort((a, b) => (a.navigation?.flowStep ?? 0) - (b.navigation?.flowStep ?? 0))
-      .map((route) => {
-        // Resolve dynamic route parameters
-        return resolveRouteParameters(route.path || '', filters);
-      })
-      .filter((path): path is string => path !== undefined);
-  }, [filters]);
-};
-
-/**
- * Hook to get the current flow step index.
- * Returns the index of the current route in the flow sequence.
- */
-export const useCurrentFlowStep = () => {
-  const { flowStep } = useRouteNavigation();
-  const flowPaths = useFlowPaths();
-
-  return useMemo(() => {
-    if (flowStep === null || flowStep < 0) {
-      return -1; // Not in flow
-    }
-    return flowStep;
-  }, [flowStep]);
 };
