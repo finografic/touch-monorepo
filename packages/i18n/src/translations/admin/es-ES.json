@@ -1,0 +1,102 @@
+{
+  "admin": {
+    "title": "Panel de administración",
+    "description": "Gestionar configuraciones del sistema, traducciones y configuraciones",
+    "pages": {
+      "dashboard": {
+        "title": "Panel de control",
+        "description": "Resumen del sistema"
+      },
+      "translations": {
+        "title": "Idioma de productos",
+        "description": "Editar traducciones para contenido de base de datos",
+        "content": {
+          "management": "Idioma de productos",
+          "editTables": "Editar traducciones para tablas de base de datos",
+          "drinkSubtypes": {
+            "title": "Subtipos de bebidas",
+            "description": "Subtipos de vino y cerveza (rubia, negra, tinto, blanco)"
+          },
+          "volumes": {
+            "title": "Volúmenes",
+            "description": "Volúmenes de contenedores (2L, 1.5L, 50cl, 33cl, etc.)"
+          },
+          "drinkTypes": {
+            "title": "Tipos de bebidas",
+            "description": "Categorías principales de bebidas (cerveza, vino, cava, licor, etc.)"
+          },
+          "containerTypes": {
+            "title": "Tipos de contenedores",
+            "description": "Materiales de contenedores (plástico, vidrio, metal)"
+          }
+        },
+        "card": {
+          "title": "Idioma de productos",
+          "description": "Editar traducciones para contenido de base de datos"
+        }
+      },
+      "languages": {
+        "title": "Gestión de idiomas",
+        "description": "Configurar idiomas del sistema y localización",
+        "card_public": {
+          "title": "Selección de idioma",
+          "description": "Seleccionar idioma por defecto"
+        }
+      },
+      "items": {
+        "title": "Gestión de registros",
+        "description": "Gestionar registros de la base de datos",
+        "table": {
+          "headers": {
+            "displayIndex": "#",
+            "index": "#",
+            "mode": "Modo",
+            "drinkType": "Tipo de Bebida",
+            "drinkSubtype": "Subtipo",
+            "subtype": "Subtipo",
+            "volume": "Volumen",
+            "containerType": "Envase",
+            "container": "Envase",
+            "temperature": "Temperatura",
+            "defaultTempConsume": "Temperatura",
+            "actions": "Acciones",
+            "name": "Nombre",
+            "dbKey": "clave db"
+          }
+        }
+      },
+      "products": {
+        "title": "Idioma de etiquetas",
+        "description": "Edit user interface labels and translations from local files"
+      },
+      "slotConfig": {
+        "title": "Grid",
+        "description": "Configure MainPage grid layout and slot types"
+      },
+      "sounds": {
+        "title": "Sound Management",
+        "description": "Upload and configure sound files for timer events"
+      },
+      "mode": {
+        "title": "Mode",
+        "description": "Select default mode",
+        "card_public": {
+          "title": "Modo",
+          "description": "Seleccionar modo por defecto"
+        }
+      },
+      "relays": {
+        "title": "Relays",
+        "description": "Manage relays"
+      },
+      "maintenance": {
+        "title": "Maintenance",
+        "description": "Manage general maintenance",
+        "card_public": {
+          "title": "Mantenimiento",
+          "description": "Gestionar mantenimiento"
+        }
+      }
+    }
+  }
+}

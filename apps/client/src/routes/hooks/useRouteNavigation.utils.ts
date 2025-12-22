@@ -5,7 +5,6 @@ import { PATHS } from 'config/routes';
  * Replace dynamic route parameters with actual values from filters
  */
 export const resolveRouteParameters = (path: string, filters: OrderFilters): string => {
-  // Handle drinkSubtype route parameter
   if (path.includes(':drinkTypeId') && filters.drinkType?.id) {
     const resolvedPath = path.replace(':drinkTypeId', filters.drinkType.id);
     return resolvedPath;

@@ -24,37 +24,25 @@
       "update": "Update",
       "view": "View"
     },
-    "tables": {
-      "headers": {
-        "displayIndex": "#",
-        "index": "#",
-        "mode": "Mode",
-        "drinkType": "Drink Type",
-        "drinkSubtype": "Subtype",
-        "subtype": "Subtype",
-        "volume": "Volume",
-        "containerType": "Container",
-        "container": "Container",
-        "temperature": "Temperature",
-        "defaultTempConsume": "Temperature",
-        "actions": "Actions",
-        "name": "Name",
-        "dbKey": "db key"
+    "time": {
+      "units": {
+        "seconds": "seconds",
+        "minutes": "minutes",
+        "hours": "hours",
+        "days": "days"
+      },
+      "relative": {
+        "now": "now",
+        "justNow": "just now",
+        "minutesAgo": "{{count}} minutes ago",
+        "hoursAgo": "{{count}} hours ago"
       }
-    }
-  },
-  "time": {
-    "units": {
-      "seconds": "seconds",
-      "minutes": "minutes",
-      "hours": "hours",
-      "days": "days"
     },
-    "relative": {
-      "now": "now",
-      "justNow": "just now",
-      "minutesAgo": "{{count}} minutes ago",
-      "hoursAgo": "{{count}} hours ago"
+    "dialogs": {
+      "languageSelector": {
+        "title": "Select Language",
+        "change": "Change Language"
+      }
     }
   }
 }

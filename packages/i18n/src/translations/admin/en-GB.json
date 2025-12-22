@@ -1,0 +1,102 @@
+{
+  "admin": {
+    "title": "Administration Panel",
+    "description": "Manage system settings, translations, and configurations",
+    "pages": {
+      "dashboard": {
+        "title": "Dashboard",
+        "description": "System Overview"
+      },
+      "translations": {
+        "title": "Translation Management",
+        "description": "Edit translations for database content",
+        "content": {
+          "management": "Translation Management",
+          "editTables": "Edit translations for database tables",
+          "drinkSubtypes": {
+            "title": "Drink Subtypes",
+            "description": "Wine and beer subtypes (rubia, negra, tinto, blanco)"
+          },
+          "volumes": {
+            "title": "Volumes",
+            "description": "Container volumes (2L, 1.5L, 50cl, 33cl, etc.)"
+          },
+          "drinkTypes": {
+            "title": "Drink Types",
+            "description": "Main drink categories (cerveza, vino, cava, licor, etc.)"
+          },
+          "containerTypes": {
+            "title": "Container Types",
+            "description": "Container materials (plastico, vidrio, metal)"
+          }
+        },
+        "card": {
+          "title": "Translation Management",
+          "description": "Edit translations for database content"
+        }
+      },
+      "languages": {
+        "title": "Language Management",
+        "description": "Configure system languages and localization",
+        "card_public": {
+          "title": "Language Selection",
+          "description": "Select your preferred language"
+        }
+      },
+      "items": {
+        "title": "Records Management",
+        "description": "Manage database records",
+        "table": {
+          "headers": {
+            "displayIndex": "#",
+            "index": "#",
+            "mode": "Mode",
+            "drinkType": "Drink Type",
+            "drinkSubtype": "Subtype",
+            "subtype": "Subtype",
+            "volume": "Volume",
+            "containerType": "Container",
+            "container": "Container",
+            "temperature": "Temperature",
+            "defaultTempConsume": "Temperature",
+            "actions": "Actions",
+            "name": "Name",
+            "dbKey": "db key"
+          }
+        }
+      },
+      "products": {
+        "title": "UI Labels / Translations",
+        "description": "Edit user interface labels and translations from local files"
+      },
+      "slots": {
+        "title": "Grid",
+        "description": "Configure MainPage grid layout and slot types"
+      },
+      "sounds": {
+        "title": "Sound Management",
+        "description": "Upload and configure sound files for timer events"
+      },
+      "mode": {
+        "title": "Mode",
+        "description": "Select default mode",
+        "card_public": {
+          "title": "Mode Selection",
+          "description": "Select default mode"
+        }
+      },
+      "relays": {
+        "title": "Relays",
+        "description": "Manage relays"
+      },
+      "maintenance": {
+        "title": "Maintenance",
+        "description": "Manage general maintenance",
+        "card_public": {
+          "title": "Maintenance",
+          "description": "Manage general maintenance"
+        }
+      }
+    }
+  }
+}

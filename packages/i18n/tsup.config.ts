@@ -42,9 +42,6 @@ export default defineConfig({
       { src: 'src/translations/common/ca-ES.json', dest: 'dist/translations/common/ca-ES.json' },
       { src: 'src/translations/common/en-GB.json', dest: 'dist/translations/common/en-GB.json' },
       { src: 'src/translations/common/es-ES.json', dest: 'dist/translations/common/es-ES.json' },
-      { src: 'src/translations/dynamic/ca-ES.json', dest: 'dist/translations/dynamic/ca-ES.json' },
-      { src: 'src/translations/dynamic/en-GB.json', dest: 'dist/translations/dynamic/en-GB.json' },
-      { src: 'src/translations/dynamic/es-ES.json', dest: 'dist/translations/dynamic/es-ES.json' },
     ];
 
     for (const { src, dest } of jsonFiles) {

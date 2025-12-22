@@ -24,37 +24,25 @@
       "update": "Actualizar",
       "view": "Ver"
     },
-    "tables": {
-      "headers": {
-        "displayIndex": "#",
-        "index": "#",
-        "mode": "Modo",
-        "drinkType": "Tipo de Bebida",
-        "drinkSubtype": "Subtipo",
-        "subtype": "Subtipo",
-        "volume": "Volumen",
-        "containerType": "Envase",
-        "container": "Envase",
-        "temperature": "Temperatura",
-        "defaultTempConsume": "Temperatura",
-        "actions": "Acciones",
-        "name": "Nombre",
-        "dbKey": "clave db"
+    "time": {
+      "units": {
+        "seconds": "segundos",
+        "minutes": "minutos",
+        "hours": "horas",
+        "days": "días"
+      },
+      "relative": {
+        "now": "ahora",
+        "justNow": "hace un momento",
+        "minutesAgo": "hace {{count}} minutos",
+        "hoursAgo": "hace {{count}} horas"
       }
-    }
-  },
-  "time": {
-    "units": {
-      "seconds": "segundos",
-      "minutes": "minutos",
-      "hours": "horas",
-      "days": "días"
     },
-    "relative": {
-      "now": "ahora",
-      "justNow": "hace un momento",
-      "minutesAgo": "hace {{count}} minutos",
-      "hoursAgo": "hace {{count}} horas"
+    "dialogs": {
+      "languageSelector": {
+        "title": "Seleccionar idioma",
+        "change": "Cambiar idioma"
+      }
     }
   }
 }

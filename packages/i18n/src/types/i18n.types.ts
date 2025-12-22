@@ -10,11 +10,8 @@ import type { TypeGenerationConfig } from './type-generation.types';
  * Main i18n configuration interface
  */
 export interface I18nConfig {
-  /** Supported languages configuration */
   languages: LanguageConfig[];
-  /** Type generation settings */
   typeGeneration: TypeGenerationConfig;
-  /** Optional custom validation rules */
   validation?: {
     /** Whether to strictly validate language codes */
     strict?: boolean;

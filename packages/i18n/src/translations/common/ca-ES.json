@@ -24,37 +24,33 @@
       "update": "Actualitzar",
       "view": "Veure"
     },
-    "tables": {
-      "headers": {
-        "displayIndex": "#",
-        "index": "#",
-        "mode": "Mode",
-        "drinkType": "Tipus de Beguda",
-        "drinkSubtype": "Subtipus",
-        "subtype": "Subtipus",
-        "volume": "Volum",
-        "containerType": "Envas",
-        "container": "Envas",
-        "temperature": "Temperatura",
-        "defaultTempConsume": "Temperatura",
-        "actions": "Accions",
-        "name": "Nom",
-        "dbKey": "clau db"
+    "time": {
+      "units": {
+        "seconds": "segons",
+        "minutes": "minuts",
+        "hours": "hores",
+        "days": "dies"
+      },
+      "relative": {
+        "now": "ara",
+        "justNow": "ara mateix",
+        "minutesAgo": "fa {{count}} minuts",
+        "hoursAgo": "fa {{count}} hores"
       }
-    }
-  },
-  "time": {
-    "units": {
-      "seconds": "segons",
-      "minutes": "minuts",
-      "hours": "hores",
-      "days": "dies"
     },
-    "relative": {
-      "now": "ara",
-      "justNow": "ara mateix",
-      "minutesAgo": "fa {{count}} minuts",
-      "hoursAgo": "fa {{count}} hores"
+    "dialogs": {
+      "languageSelector": {
+        "title": "Seleccionar idioma",
+        "change": "Canviar idioma"
+      },
+      "admin": {
+        "title": "Eines d'administració",
+        "tabs": {
+          "orderSelections": "Seleccions de comandes",
+          "storedConfiguration": "Configuració emmagatzemada",
+          "languages": "Idiomes"
+        }
+      }
     }
   }
 }
