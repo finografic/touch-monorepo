@@ -34,10 +34,10 @@ export const AdminDashboardPage: React.FC = () => {
 
   const adminCards = useMemo(() => {
     return getAdminDashboardCards(isAuthenticated, role).map((card) => {
-      const text = getAdminCalloutTexts({ key: card.key, role });
+      const text = getAdminCalloutTexts({ key: card.id, role });
 
       return {
-        id: card.key,
+        id: card.id,
         title: text.title,
         description: text.description,
         icon: React.createElement(card.icon, { width: 32, height: 32 }),

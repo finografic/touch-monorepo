@@ -36,19 +36,17 @@ export function gerAdminNavItemsByRole(role: AuthRoles = 'public'): NavItem[] {
       const childNavItems: NavItem[] = entry.children
         .filter((child) => child.path) // Only include children with paths
         .map((child) => ({
-          key: child.key,
-          id: child.key,
+          id: child.id,
           path: child.path!,
-          label: child.key,
+          label: child.id, // Temporary: will be replaced with translation lookup
         }));
 
       // Return parent nav item with children
       return [
         {
-          key: entry.key,
-          id: entry.key,
+          id: entry.id,
           path: entry.path || entry.children[0]?.path || '', // Use first child path as default
-          label: entry.key,
+          label: entry.id, // Temporary: will be replaced with translation lookup
           icon: entry.icon,
           children: childNavItems.length > 0 ? childNavItems : undefined,
         },
@@ -58,10 +56,9 @@ export function gerAdminNavItemsByRole(role: AuthRoles = 'public'): NavItem[] {
     // Regular flat route
     return [
       {
-        key: entry.key,
-        id: entry.key,
+        id: entry.id,
         path: entry.path || '',
-        label: entry.key,
+        label: entry.id, // Temporary: will be replaced with translation lookup
         icon: entry.icon,
       },
     ];

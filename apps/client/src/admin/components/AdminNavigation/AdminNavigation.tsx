@@ -67,14 +67,13 @@ export const AdminNavigation: React.FC<AdminNavigationProps> = ({ displayIcons =
   // Get navigation items from the single source of truth
   const navItems = useMemo((): NavItem[] => {
     return gerAdminNavItemsByRole(user?.role).map((item) => ({
-      key: item.key,
       id: item.id,
       path: item.path,
-      label: getAdminNavItemText({ key: item.key, role: user?.role }),
+      label: getAdminNavItemText({ key: item.id, role: user?.role }),
       icon: item.icon,
       children: item.children?.map((child) => ({
         ...child,
-        label: getAdminNavItemText({ key: child.key, role: user?.role }),
+        label: getAdminNavItemText({ key: child.id, role: user?.role }),
       })),
     }));
   }, [t, isAuthenticated, user?.role, location.pathname]);

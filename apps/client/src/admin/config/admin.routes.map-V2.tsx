@@ -20,12 +20,13 @@ import {
   ZapIcon,
 } from 'styles/icons';
 import { TranslationsPage } from 'admin/pages/TranslationsPage';
+import { AdminOrdersListPage } from 'admin/pages/AdminOrdersPage/AdminOrdersListPage';
 
 export type AuthRoles = 'public' | 'admin';
 
 /** Base properties shared by all admin route entries */
 interface AdminRouteBase {
-  id: string;
+  key: string;
   path?: string; // Optional for group nodes (children define actual paths)
   element: Partial<Record<AuthRoles, React.ComponentType | null>>;
 }
@@ -45,7 +46,7 @@ export interface AdminRouteEntry extends AdminRouteBase {
 export const ADMIN_ENTRIES: AdminRouteEntry[] = [
   // DASHBOARD (accessible to all - index route) ============================ //
   {
-    id: 'dashboard',
+    key: 'dashboard',
     path: '/admin',
     element: {
       public: Outlet,
@@ -56,7 +57,7 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
   },
   // PUBLIC ENTRIES (accessible without login) ============================== //
   {
-    id: 'items',
+    key: 'items',
     path: '/admin/items', // orders (parent route for list + edit)
     element: {
       public: null,
@@ -66,9 +67,35 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     hasCard: { public: false, admin: true },
     icon: ListIcon,
     color: 'blue',
+    children: [
+      {
+        key: 'order-list',
+        path: 'order-list',
+        element: {
+          public: null,
+          admin: () => <AdminOrdersListPage />,
+        },
+      },
+      {
+        key: 'translationsApp',
+        path: 'new',
+        element: {
+          public: null,
+          admin: AdminOrderEditPage,
+        },
+      },
+      {
+        key: 'translationsAdmin',
+        path: ':orderId',
+        element: {
+          public: null,
+          admin: AdminOrdersPage,
+        },
+      },
+    ],
   },
   {
-    id: 'slotConfig',
+    key: 'slotConfig',
     path: '/admin/slots-config',
     element: {
       public: null,
@@ -81,7 +108,7 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
   },
 
   {
-    id: 'relays',
+    key: 'relays',
     path: '/admin/relays',
     element: {
       public: null,
@@ -94,7 +121,7 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
   },
 
   {
-    id: 'mode',
+    key: 'mode',
     path: '/admin/mode', // default mode (public)
     element: {
       public: PublicModePage,
@@ -106,7 +133,7 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     color: 'blue',
   },
   {
-    id: 'sounds',
+    key: 'sounds',
     path: '/admin/sounds',
     element: {
       public: PublicSoundPage,
@@ -118,7 +145,7 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     color: 'crimson',
   },
   {
-    id: 'maintenance',
+    key: 'maintenance',
     path: '/admin/maintenance', // relays (public)
     element: {
       public: PublicRelaysPage,
@@ -132,7 +159,7 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
 
   // AUTHENTICATED ENTRIES (only visible as admin) ========================== //
   {
-    id: 'translations',
+    key: 'translations',
     path: '/admin/translations-product',
     element: {
       public: null,
@@ -145,8 +172,8 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
   },
   // TRANSLATIONS LABELS GROUP (dropdown with 3 children) ================== //
   {
-    id: 'translationsLabels',
-    path: '/admin/translations/ui', // Default/first child path (for active state detection)
+    key: 'translationsLabels',
+    path: '/admin/translations', // Default/first child path (for active state detection)
     element: {
       public: null,
       admin: TranslationsPage, // Parent uses first child's component
@@ -157,44 +184,38 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     color: 'purple',
     children: [
       {
-        id: 'translationsUi',
-        path: '/admin/translations/ui',
+        key: 'translationsUi',
+        path: 'ui',
         element: {
           public: null,
-          admin: TranslationsPage,
+          admin: () => <TranslationsPage domain="ui" groups={['buttons', 'tables', 'time']} />,
         },
-        namespace: 'ui',
-        groups: ['buttons', 'tables', 'time'],
       },
       {
-        id: 'translationsApp',
-        path: '/admin/translations/app',
+        key: 'translationsApp',
+        path: 'app',
         element: {
           public: null,
-          admin: TranslationsPage,
+          admin: () => <TranslationsPage domain="app" groups={['pages', 'components', 'orders']} />,
         },
-        namespace: 'app',
-        groups: ['app'],
       },
       {
-        id: 'translationsAdmin',
-        path: '/admin/translations/admin',
+        key: 'translationsAdmin',
+        path: 'admin',
         element: {
           public: null,
-          admin: TranslationsPage,
+          admin: () => <TranslationsPage domain="admin" groups={['pages']} />,
         },
-        namespace: 'admin',
-        groups: ['admin'],
       },
     ],
   },
   // LANGUAGE ENTRY (public and admin) ====================================== //
   {
-    id: 'languages',
+    key: 'languages',
     path: '/admin/languages',
     element: {
-      public: PublicLanguagesPage,
-      admin: AdminLanguagesPage,
+      public: () => <PublicLanguagesPage />,
+      admin: () => <AdminLanguagesPage />,
     },
     hasNav: { public: true, admin: true },
     hasCard: { public: true, admin: true },
