@@ -21,7 +21,7 @@ import { TemperaturePage } from 'pages/TemperaturePage/TemperaturePage';
 import { TimePage } from 'pages/TimePage/TimePage';
 import { UnauthorizedPage } from 'pages/UnauthorizedPage/UnauthorizedPage';
 import { ProtectedRoutesByRole } from 'routes/auth/ProtectedRoutesByRole';
-import { AdminFieldKeys, ROUTE_FILTER_KEYS } from 'config/app';
+import { AdminRouteIds, ROUTE_FILTER_KEYS } from 'config/app';
 import { ALTERNATIVE_PATHS, PATHS } from 'config/routes';
 
 export const routes: RouteObject[] = [
@@ -107,35 +107,35 @@ export const routes: RouteObject[] = [
           // DASHBOARD (accessible to all - index route)
           {
             index: true,
-            id: AdminFieldKeys.dashboard,
+            id: AdminRouteIds.dashboard,
             element: <AdminDashboardPage />, // <div style={{ padding: '20rem' }}>DASHBOARD</div>,
           },
           // PUBLIC ENTRIES (accessible without login)
           {
             path: 'mode', // public-only
-            id: AdminFieldKeys.mode,
+            id: AdminRouteIds.mode,
             element: <PublicModePage />,
           },
           {
             path: 'languages', // TODO: SHARED
-            id: AdminFieldKeys.languages,
+            id: AdminRouteIds.languages,
             element: <AdminLanguagesPage />,
           },
           {
             path: 'sounds', // TODO: SHARED
-            id: AdminFieldKeys.sounds,
+            id: AdminRouteIds.sounds,
             element: <AdminSoundPage />,
             // element: <div style={{ padding: '20rem' }}>SOUNDS</div>,
           },
           {
             path: 'maintenance', // relays (public-only)
-            id: AdminFieldKeys.maintenance,
+            id: AdminRouteIds.maintenance,
             element: <PublicRelaysPage />,
           },
           // AUTHENTICATED ENTRIES (only visible as admin)
           {
             path: 'items',
-            id: AdminFieldKeys.items,
+            id: AdminRouteIds.items,
             element: <Outlet />, // Parent route with Outlet for nested routes
             children: [
               {
@@ -157,32 +157,32 @@ export const routes: RouteObject[] = [
           },
           {
             path: 'translations/ui',
-            id: AdminFieldKeys.translations,
+            id: AdminRouteIds.translations,
             element: <TranslationsPage domain="ui" groups={['buttons', 'tables', 'time']} />,
           },
           {
             path: 'translations/app',
-            id: AdminFieldKeys.translationsApp,
+            id: AdminRouteIds.translationsApp,
             element: <TranslationsPage domain="app" groups={['pages', 'components', 'orders']} />,
           },
           {
             path: 'translations/admin',
-            id: AdminFieldKeys.translationsAdmin,
+            id: AdminRouteIds.translationsAdmin,
             element: <TranslationsPage domain="admin" groups={['pages']} />,
           },
           {
             path: 'slots-config',
-            id: AdminFieldKeys.slotsConfig,
+            id: AdminRouteIds.slotsConfig,
             element: <AdminSlotsConfigPage />,
           },
           {
             path: 'relays',
-            id: AdminFieldKeys.relays,
+            id: AdminRouteIds.relays,
             element: <AdminRelaysPage />,
           },
           {
             path: 'translations-product',
-            id: AdminFieldKeys.translationsProduct,
+            id: AdminRouteIds.translationsProduct,
             element: <TranslationsProductPage />,
           },
         ],

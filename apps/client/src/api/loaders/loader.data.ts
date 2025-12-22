@@ -8,7 +8,7 @@ import {
   supportedLanguagesEndpoints,
   volumeEndpoints,
 } from 'api/endpoints';
-import { AdminFieldKeys, ROUTE_FILTER_KEYS } from 'config/app';
+import { AdminRouteIds, ROUTE_FILTER_KEYS } from 'config/app';
 
 type LoaderMap = {
   [K in keyof typeof ROUTE_FILTER_KEYS]: LoaderFunction;
@@ -31,5 +31,5 @@ export const LoaderDataHelper: Partial<LoaderMap> = {
     // TODO: Implement when ready
     return ordersEndpoints.getAllReadable();
   },
-  [AdminFieldKeys.languages]: supportedLanguagesEndpoints.getSupportedLanguages,
+  [AdminRouteIds.languages]: supportedLanguagesEndpoints.getSupportedLanguages,
 };

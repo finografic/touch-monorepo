@@ -45,7 +45,7 @@ export const ROUTE_FILTER_KEYS: { [K in FilterKey | NavigationFieldKey]: K } = {
  * Type-safe mapping of field keys to themselves
  * Useful for strongly-typed object access
  */
-export const AdminFieldKeys: { [K in string]: K } = {
+export const AdminRouteIds: { [K in string]: K } = {
   dashboard: 'dashboard',
 
   // PUBLIC ENTRIES
