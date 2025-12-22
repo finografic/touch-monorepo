@@ -1,39 +1,24 @@
 /**
- * Flatten nested translation objects to dot notation format for database seeding
+ * Server-side utility for flattening translations for database seeding
+ *
+ * This utility imports translations from @workspace/i18n and flattens them
+ * into the format required by seed files.
  *
  * @example
- * Input:
- * {
- *   'es-ES': { ui: { buttons: { back: 'Atrás' } } },
- *   'en-GB': { ui: { buttons: { back: 'Back' } } },
- *   'ca-ES': { ui: { buttons: { back: 'Enrere' } } }
- * }
+ * import { translations } from '@workspace/i18n/translations';
+ * import { flattenTranslationsForSeed } from './utils/flatten-translations';
  *
- * Output (for domain 'ui'):
- * [
- *   {
- *     key: 'ui.buttons.back',
- *     translations: {
- *       'es-ES': 'Atrás',
- *       'en-GB': 'Back',
- *       'ca-ES': 'Enrere'
- *     }
- *   }
- * ]
+ * const translationsData = flattenTranslationsForSeed('ui', translations);
  */
 
-import type { I18nTranslationsDomain } from 'types/translations.types';
+import { translations } from '@workspace/i18n/translations';
 
-type TranslationsByLocale = {
-  'es-ES': { ui: Record<string, any>; app: Record<string, any>; admin: Record<string, any> };
-  'en-GB': { ui: Record<string, any>; app: Record<string, any>; admin: Record<string, any> };
-  'ca-ES': { ui: Record<string, any>; app: Record<string, any>; admin: Record<string, any> };
-};
+type Domain = 'ui' | 'app' | 'admin';
 
-type FlattenedTranslation = {
+interface FlattenedTranslation {
   key: string;
   translations: Record<string, string>;
-};
+}
 
 /**
  * Recursively flatten a nested object to dot notation
@@ -62,25 +47,22 @@ function flattenObject(obj: Record<string, any>, prefix = ''): Record<string, st
 /**
  * Flatten translations for a specific domain across all locales
  * @param domain - The domain to flatten ('ui', 'app', or 'admin')
- * @param translations - The translations object organized by locale and domain
  * @returns Array of flattened translation entries ready for database seeding
  */
-export function flattenTranslationsForSeed(
-  domain: I18nTranslationsDomain,
-  translations: TranslationsByLocale,
-): FlattenedTranslation[] {
+export function flattenTranslationsForSeed(domain: Domain): FlattenedTranslation[] {
   // Get all locale codes
-  const locales = Object.keys(translations) as Array<keyof TranslationsByLocale>;
+  const locales = Object.keys(translations) as Array<keyof typeof translations>;
 
   // Flatten the domain data for each locale
   const flattenedByLocale: Record<string, Record<string, string>> = {};
 
   for (const locale of locales) {
-    const domainData = translations[locale][domain];
+    const localeData = translations[locale];
+    const domainData = localeData[domain] as Record<string, any> | undefined;
     if (domainData) {
       // The JSON files have the domain as root key (e.g., { "ui": { buttons: {...} } })
       // Extract the domain data and flatten it with the domain prefix
-      const dataToFlatten = domainData[domain] || domainData;
+      const dataToFlatten = (domainData[domain] as Record<string, any>) || domainData;
       flattenedByLocale[locale] = flattenObject(dataToFlatten, domain);
     }
   }

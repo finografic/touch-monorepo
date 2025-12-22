@@ -40,4 +40,3 @@ export interface LanguageInfo {
   createdAt?: Date | null;
   updatedAt?: Date | null;
 }
-
