@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
 import { TabNav } from '@radix-ui/themes';
-import { gerAdminNavItemsByRole } from 'admin/config/admin.routes.selectors';
+import { getAdminNavItemsByRole } from 'admin/config/admin.routes.selectors';
 
 import { usePageTransition } from 'hooks/usePageTransition';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
@@ -66,7 +66,7 @@ export const AdminNavigation: React.FC<AdminNavigationProps> = ({ displayIcons =
 
   // Get navigation items from the single source of truth
   const navItems = useMemo((): NavItem[] => {
-    return gerAdminNavItemsByRole(user?.role).map((item) => ({
+    return getAdminNavItemsByRole(user?.role).map((item) => ({
       id: item.id,
       path: item.path,
       label: getAdminNavItemText({ key: item.id, role: user?.role }),

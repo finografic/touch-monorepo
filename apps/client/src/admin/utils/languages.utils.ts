@@ -1,5 +1,6 @@
 import { slugify } from 'utils/string.utils';
 import type { RegionLocale } from '@workspace/config/i18n.config';
+import { camelCase } from 'utils/string-case.utils';
 
 export const languagesCodeToKey = (code: RegionLocale) =>
   code
@@ -19,5 +20,15 @@ export const regenerateSlug = (
   for (const lang of languagesPrioritized) {
     const value = values[lang]?.trim();
     return value ? slugify(value) : '';
+  }
+};
+
+export const regenerateSegment = (
+  values: Record<RegionLocale, string>,
+  languagesPrioritized: RegionLocale[],
+) => {
+  for (const lang of languagesPrioritized) {
+    const value = values[lang]?.trim();
+    return value ? camelCase(value) : '';
   }
 };

@@ -20,7 +20,7 @@ export function getAdminEntries(_isAuthenticated: boolean, role?: AuthRoles): Ad
  * NAVIGATION ITEMS for the admin navbar
  * Handles both flat routes and grouped routes (with children)
  */
-export function gerAdminNavItemsByRole(role: AuthRoles = 'public'): NavItem[] {
+export function getAdminNavItemsByRole(role: AuthRoles = 'public'): NavItem[] {
   return ADMIN_ROUTE_CONFIGS.filter((entry) => entry.hasNav?.[role] === true).flatMap((entry) => {
     // If entry has children, create a dropdown nav item
     if (entry.children && entry.children.length > 0) {

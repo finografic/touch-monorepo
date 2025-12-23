@@ -108,7 +108,7 @@ export const useGetTranslations = ({
         translationsCount: translations.length,
         sectionsCount: result.length,
         sectionsWithItems: result.filter((s) => s.items.length > 0).length,
-        sampleKeys: translations.slice(0, 3).map((t) => t.key),
+        sampleKeys: translations.slice(0, 150).map((t) => t.key),
       });
     }
 

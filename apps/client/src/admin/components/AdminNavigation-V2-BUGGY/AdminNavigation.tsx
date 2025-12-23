@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 
 import { HamburgerMenuIcon } from '@radix-ui/react-icons';
 import { DropdownMenu, TabNav } from '@radix-ui/themes';
-import { gerAdminNavItemsByRole } from 'admin/config/admin.routes.selectors';
+import { getAdminNavItemsByRole } from 'admin/config/admin.routes.selectors';
 
 import { usePageTransition } from 'hooks/usePageTransition';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
@@ -25,7 +25,7 @@ export const AdminNavigation: React.FC = () => {
 
   // Get navigation items from the single source of truth
   const navItems = useMemo(() => {
-    const configNavItems = gerAdminNavItemsByRole(user?.role);
+    const configNavItems = getAdminNavItemsByRole(user?.role);
     return [
       ...configNavItems.map((item) => ({
         id: item.key,

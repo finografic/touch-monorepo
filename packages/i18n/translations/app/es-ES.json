@@ -1,8 +1,10 @@
 {
   "app": {
-    "title": "Servi Fresc",
-    "tagline": "Servicio de temperatura perfecto",
-    "description": "Sistema de control de temperatura para bebidas",
+    "labels": {
+      "title": "Servi Fresc",
+      "tagline": "Servicio de temperatura perfecto",
+      "description": "Sistema de control de temperatura para bebidas"
+    },
     "pages": {
       "main": {
         "title": "Principal",

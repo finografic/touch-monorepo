@@ -12,14 +12,12 @@ import type { I18nTranslationsDomain } from '@workspace/i18n/types';
 import type { I18nDomainGroupKey } from './translations.types';
 import { styles } from './TranslationsPage.styles';
 import { useParams } from 'react-router-dom';
-import { TRANSLATIONS_DOMAIN_GROUPS } from 'admin/pages/TranslationsPage/translations.config';
 import { translations } from '@workspace/i18n';
 import { flattenTranslations } from 'utils/flatten-translations';
 
 export const TranslationsPage: React.FC = () => {
   const { t } = useTranslation();
   const { domain } = useParams<{ domain: I18nTranslationsDomain }>();
-  // const groups = TRANSLATIONS_DOMAIN_GROUPS[domain];
 
   const groups = [...new Set(flattenTranslations(domain, translations).map(({ key }) => key.split('.')[1]))];
   log('translations:', 'lime', domain);

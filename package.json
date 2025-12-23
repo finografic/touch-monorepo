@@ -20,7 +20,7 @@
     "dev.db.reset": "run-s db.reset",
     "dev.deploy": "pnpm build.deployment",
     "dev.client": "pnpm build.client && pnpm dev",
-    "dev.i18n.update": "pnpm i18n.force && pnpm dev",
+    "dev.i18n.update": "pnpm i18n.force",
     "dev.turbo": "turbo run dev",
     "start": "turbo run start",
     "scripts": "tsx scripts/src/script-runner/script-runner.ts",

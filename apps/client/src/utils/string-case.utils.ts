@@ -21,11 +21,11 @@ function mapValues(obj: any, iteratee: (value: any, key: string) => any): any {
   return result;
 }
 // Simple camelCase implementation to avoid lodash dependency
-function camelCase(str: string): string {
+export const camelCase = (str: string): string => {
   return str
     .replace(/[-_\s]+(.)?/g, (_, c) => (c ? c.toUpperCase() : ''))
     .replace(/^(.)/, (c) => c.toLowerCase());
-}
+};
 
 export const toCamelCaseKeys = <T>(obj: T): CamelCaseKeys<T> | CamelCaseKeys<T>[] => {
   if (obj === null || obj === undefined) {

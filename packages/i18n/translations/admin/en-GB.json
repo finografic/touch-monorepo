@@ -1,7 +1,9 @@
 {
   "admin": {
-    "title": "Administration Panel",
-    "description": "Manage system settings, translations, and configurations",
+    "labels": {
+      "title": "Administration Panel",
+      "description": "Manage system settings, translations, and configurations"
+    },
     "pages": {
       "dashboard": {
         "title": "Dashboard",

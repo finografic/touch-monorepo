@@ -1,7 +1,9 @@
 {
   "admin": {
-    "title": "Panel d'administració",
-    "description": "Gestionar configuracions del sistema, traduccions i configuracions",
+    "labels": {
+      "title": "Panel d'administració",
+      "description": "Gestionar configuracions del sistema, traduccions i configuracions"
+    },
     "pages": {
       "dashboard": {
         "title": "Tauler",

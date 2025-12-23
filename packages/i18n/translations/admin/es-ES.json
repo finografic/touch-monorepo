@@ -1,7 +1,9 @@
 {
   "admin": {
-    "title": "Panel de administración",
-    "description": "Gestionar configuraciones del sistema, traducciones y configuraciones",
+    "labels": {
+      "title": "Panel de administración",
+      "description": "Gestionar configuraciones del sistema, traducciones y configuraciones"
+    },
     "pages": {
       "dashboard": {
         "title": "Panel de control",

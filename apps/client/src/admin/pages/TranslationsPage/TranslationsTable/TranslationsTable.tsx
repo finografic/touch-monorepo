@@ -110,7 +110,7 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
         <table className="translations-table">
           <thead>
             <tr>
-              <th>Key</th>
+              <th></th>
               {supportedLanguages.map((lang) => (
                 <th key={lang}>{lang}</th>
               ))}
