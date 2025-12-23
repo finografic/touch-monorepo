@@ -11,7 +11,7 @@ import { useTranslationsTableHandlers } from './hooks/useTranslationsTableHandle
 import { addTranslationsGroupRow, computePageGrouping } from './components/TranslationsGroupRow';
 
 import type { RegionLocale } from '@workspace/config/i18n.config';
-import type { TranslationsFormItem } from '../translations.types';
+import type { TranslationsFormItem } from '../../TranslationsSHARED/translations.types';
 import type { I18nTranslationsDomain } from '@workspace/i18n/types';
 
 interface TranslationsTableProps {

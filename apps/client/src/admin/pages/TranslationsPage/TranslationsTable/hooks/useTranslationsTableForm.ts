@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import type { UseFormReturn } from 'react-hook-form';
 import type { RegionLocale } from '@workspace/config/i18n.config';
-import type { TranslationsFormItem } from '../../translations.types';
+import type { TranslationsFormItem } from '../../../TranslationsSHARED/translations.types';
 import { languagesCodeToKey, encodeRHFKey } from 'admin/utils/languages.utils';
 
 interface UseTranslationsTableFormOptions {

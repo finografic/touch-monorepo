@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import type { UseFormReturn } from 'react-hook-form';
-import type { TranslationsFormItem } from '../../translations.types';
+import type { TranslationsFormItem } from '../../../TranslationsSHARED/translations.types';
 import { encodeRHFKey, decodeRHFKey } from 'admin/utils/languages.utils';
 
 // Form structure: { items: { [key: string]: TranslationsFormItem } }
