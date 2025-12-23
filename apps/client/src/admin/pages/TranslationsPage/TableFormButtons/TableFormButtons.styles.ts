@@ -1,12 +1,13 @@
 import { css } from '@emotion/react';
 
-import { colors, spacing } from 'styles';
+import { colors } from 'styles';
 
 export const styles = css`
   button {
     margin: 0.2rem 0.33rem 0;
     padding: 0 2rem !important;
 
+    &.button-toggle-key-column,
     &.button-add-new {
       padding: 0 0.5rem !important;
     }

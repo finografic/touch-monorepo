@@ -4,7 +4,7 @@ import { Flex } from '@radix-ui/themes';
 import { useDebouncedCallback } from 'use-debounce';
 import { Button } from 'components/Button';
 import { styles } from './TableFormButtons.styles';
-import { ChevronLeftIcon, ChevronRightIcon, PlusIcon } from 'styles/icons';
+import { ChevronLeftIcon, ChevronRightIcon, EyeOffIcon, EyeOnIcon, PlusIcon } from 'styles/icons';
 
 // ============================================================================
 // Types
@@ -40,9 +40,10 @@ export const TableFormButtons: React.FC<TableFormButtonsProps> = ({
     <Flex css={styles} className="table-form-buttons">
       {onToggleKeyColumn && (
         <Button
+          className="button-toggle-key-column"
           type="button"
           variant="solid"
-          color="info"
+          color="grey"
           onClick={() => {
             onToggleKeyColumn?.();
             setToggleButton(!toggleButton);
@@ -51,9 +52,8 @@ export const TableFormButtons: React.FC<TableFormButtonsProps> = ({
           size="md"
           aria-label={toggleButton ? 'Hide key column' : 'Show key column'}
           title={toggleButton ? 'Hide key column' : 'Show key column'}
-          className="button-add-new"
         >
-          {toggleButton ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+          {toggleButton ? <EyeOnIcon /> : <EyeOffIcon />}
         </Button>
       )}
 
@@ -91,7 +91,7 @@ export const TableFormButtons: React.FC<TableFormButtonsProps> = ({
           onClick={debouncedAddNew}
           disabled={isAddNewDisabled || isSaving}
           size="md"
-          aria-label={t('buttons.add') || 'Add new translation entry'}
+          aria-label={t('ui.buttons.add') || 'Add new translation entry'}
           title={
             isAddNewDisabled
               ? 'Please fill the empty row before adding a new one'

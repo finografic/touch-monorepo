@@ -32,6 +32,7 @@ export function getVariantStyles(variant: ButtonVariant = 'solid', color: Button
   const transparentColor40 = withOpacity(lightColor, 0.4);
 
   // NEW: SPECIAL COMBINATION CASE
+
   if (color === 'grey' && variant === 'solid') {
     return css`
       background-color: ${lightColor};
@@ -102,9 +103,10 @@ export function getVariantStyles(variant: ButtonVariant = 'solid', color: Button
 
         &:hover:not(:disabled):not([data-loading='true']) {
           background-color: ${transparentColor20};
-          border-color: ${darkColor};
-          color: ${darkColor};
-          filter: brightness(0.33);
+          border-color: ${defaultColor};
+          color: ${defaultColor};
+          filter: brightness(0.66);
+          /* filter: brightness(0.33); */
         }
 
         &:focus:not(:disabled):not([data-loading='true']) {

@@ -127,7 +127,7 @@ export const PanelBottomCloseIcon = createIconWrapper(_PanelBottomCloseIcon);
 export const PanelBottomOpenIcon = createIconWrapper(_PanelBottomOpenIcon);
 export const PanelLeftCloseIcon = createIconWrapper(_PanelLeftCloseIcon);
 export const PanelLeftOpenIcon = createIconWrapper(_PanelLeftOpenIcon);
-export const EyeIcon = createIconWrapper(_EyeIcon);
+export const EyeOnIcon = createIconWrapper(_EyeIcon);
 export const EyeOffIcon = createIconWrapper(_EyeOffIcon);
 export const Columns3Icon = createIconWrapper(_Columns3Icon);
 export const Columns4Icon = createIconWrapper(_Columns4Icon);
@@ -177,7 +177,7 @@ export const ICON_MAP = {
   DropdownIcon,
   EditIcon,
   ExclamationTriangleIcon,
-  EyeIcon,
+  EyeOnIcon,
   EyeOffIcon,
   FastForwardIcon,
   GridIcon,

@@ -1,7 +1,17 @@
 import { css } from '@emotion/react';
 import { colors, fontFamilies } from 'styles';
 import { forms } from 'styles/forms/forms.styles';
-import { ROW_HEIGHT, TABLE_BORDER, TABLE_HEAD_COLOR, TD_PADDING } from './translations-table.config';
+import {
+  ROW_HEIGHT,
+  TABLE_BORDER,
+  TABLE_HEAD_COLOR,
+  TD_FONT_WEIGHT,
+  TD_FONT_SIZE,
+  TD_PADDING,
+  TH_FONT_SIZE,
+  TH_FONT_WEIGHT,
+  COL_ACTIONS_WIDTH,
+} from './translations-table.config';
 
 export const styles = css`
   width: 100%;
@@ -20,10 +30,10 @@ export const styles = css`
         border: 1px solid ${TABLE_HEAD_COLOR};
         border-top: none;
         th {
-          padding: ${TD_PADDING};
           text-align: left;
-          font-size: 0.95rem;
-          font-weight: 700;
+          padding: ${TD_PADDING};
+          font-size: ${TH_FONT_SIZE};
+          font-weight: ${TH_FONT_WEIGHT};
           color: ${colors.white};
         }
       }
@@ -34,12 +44,12 @@ export const styles = css`
 
       input {
         padding: 0.33rem 1rem;
-        border-width: ${forms.inputs.border.width};
         border-style: solid;
+        border-width: ${forms.inputs.border.width};
         border-color: ${colors.transparent};
         border-radius: ${forms.inputs.border.radius};
-        font-size: 0.95rem;
-        font-weight: 600;
+        font-size: ${TD_FONT_SIZE};
+        font-weight: ${TD_FONT_WEIGHT};
         color: ${colors.textXLight};
         -webkit-text-fill-color: ${colors.textXLight};
         background-color: ${colors.white}!important;
@@ -92,10 +102,10 @@ export const styles = css`
         td {
           height: ${ROW_HEIGHT};
           height: calc(${ROW_HEIGHT} * 0.75);
-          user-select: none;
-          font-size: 0.95rem;
-          font-weight: 700;
+          font-size: ${TD_FONT_SIZE};
+          font-weight: ${TD_FONT_WEIGHT};
           color: ${colors.info};
+          user-select: none;
         }
 
         background-color: ${colors.greyXXLight25};
@@ -182,8 +192,6 @@ export const styles = css`
         :-ms-input-placeholder,
         ::placeholder {
           text-indent: 1rem;
-          /* padding-left: 1.5rem; */
-          /* transform: translateX(2rem); */
           color: ${colors.grey75};
           -webkit-text-fill-color: ${colors.grey75};
           opacity: 1;
@@ -209,8 +217,8 @@ export const styles = css`
     }
 
     .col-actions {
-      width: 80px;
-      max-width: 80px;
+      width: ${COL_ACTIONS_WIDTH};
+      max-width: ${COL_ACTIONS_WIDTH};
 
       button.button-delete {
         transform: translateX(-0.33rem);
@@ -244,11 +252,9 @@ export const styles = css`
       .group-header-no-key {
         height: calc(${ROW_HEIGHT} * 0.6);
         border-bottom: transparent;
-        /* background-color: ${colors.danger}; */
         .col-divider-title,
         .col-divider-language {
           height: calc(${ROW_HEIGHT} * 0.6);
-          /* vertical-align: top; */
         }
         .col-divider-title {
           padding-left: 2.2rem;
