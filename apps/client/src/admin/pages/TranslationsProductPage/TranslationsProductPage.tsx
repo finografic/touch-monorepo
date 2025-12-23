@@ -14,28 +14,36 @@ import { TranslationsTableExpandable } from './TranslationsTable';
 import { invalidateReferenceDataQueries } from 'queries/invalidateReferenceData';
 import { useQueryClient } from '@tanstack/react-query';
 
-const TABS_SORT_ORDER: readonly SectionKey[] = ['drinkTypes', 'drinkSubtypes', 'volumes', 'containerTypes'] as const;
+const TABS_SORT_ORDER: readonly SectionKey[] = [
+  'drinkTypes',
+  'drinkSubtypes',
+  'volumes',
+  'containerTypes',
+] as const;
 
 export const TranslationsProductPage: React.FC = () => {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
 
-  const { isLoading, supportedLanguages, sections } = useProductTranslationData();
+  const { isLoading, supportedLanguages, sections } = useProductTranslationData({
+    domain: 'product',
+    groups: [...TABS_SORT_ORDER],
+  });
 
   const sortedSections = useMemo(() => {
     const order = new Map<SectionKey, number>(TABS_SORT_ORDER.map((key, idx) => [key, idx]));
     return [...sections].sort((a, b) => {
-      const aOrder = order.get(a.key) ?? Number.MAX_SAFE_INTEGER;
-      const bOrder = order.get(b.key) ?? Number.MAX_SAFE_INTEGER;
+      const aOrder = order.get(a.group) ?? Number.MAX_SAFE_INTEGER;
+      const bOrder = order.get(b.group) ?? Number.MAX_SAFE_INTEGER;
       return aOrder - bOrder;
     });
   }, [sections]);
 
-  const [activeTab, setActiveTab] = useState<SectionKey>((sections[0]?.key as SectionKey) ?? 'drinkTypes');
+  const [activeTab, setActiveTab] = useState<SectionKey>((sections[0]?.group as SectionKey) ?? 'drinkTypes');
 
   useEffect(() => {
-    if (!sortedSections.find((section) => section.key === activeTab)) {
-      const fallback = sortedSections[0]?.key;
+    if (!sortedSections.find((section) => section.group === activeTab)) {
+      const fallback = sortedSections[0]?.group;
       if (fallback) {
         setActiveTab(fallback);
       }
@@ -43,7 +51,7 @@ export const TranslationsProductPage: React.FC = () => {
   }, [activeTab, sortedSections]);
 
   const activeSection = useMemo(
-    () => sections.find((section) => section.key === activeTab),
+    () => sections.find((section) => section.group === activeTab),
     [sections, activeTab],
   );
 
@@ -72,23 +80,22 @@ export const TranslationsProductPage: React.FC = () => {
       title={t('admin.pages.translations.content.editTables')}
       subtitle="Admin"
       styles={styles}
-      // isLoading={isLoading || isSaving || isDeleting}
     >
       <Tabs.Root value={activeTab} onValueChange={(value) => setActiveTab(value as SectionKey)}>
         <Tabs.List>
           {sortedSections.map((section) => (
-            <Tabs.Trigger key={section.key} value={section.key}>
-              {t(`admin.pages.translations.content.${section.key}.title`)}
+            <Tabs.Trigger key={section.group} value={section.group}>
+              {t(`admin.pages.translations.tabs.${section.group}`, { defaultValue: section.group })}
             </Tabs.Trigger>
           ))}
         </Tabs.List>
 
         {sortedSections.map((section) => (
-          <Tabs.Content key={section.key} value={section.key}>
+          <Tabs.Content key={section.group} value={section.group}>
             <AdminSection title={t(section.title)} description={t(section.description)}>
-              {section.key === 'drinkSubtypes' ? (
+              {section.group === 'drinkSubtypes' ? (
                 <TranslationsTableExpandable
-                  sectionKey={section.key}
+                  sectionKey={section.group}
                   items={section.items}
                   supportedLanguages={supportedLanguages}
                   onSave={async ({ items }) => {
@@ -108,7 +115,7 @@ export const TranslationsProductPage: React.FC = () => {
                 />
               ) : (
                 <TranslationsTable
-                  sectionKey={section.key}
+                  sectionKey={section.group}
                   items={section.items}
                   supportedLanguages={supportedLanguages}
                   onSave={async ({ items }) => {

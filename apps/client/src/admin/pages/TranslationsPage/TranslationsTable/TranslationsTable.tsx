@@ -134,10 +134,12 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
               <th className="col-actions"></th>
             </tr>
           </thead>
+
           <tbody>
             {fields.map((field, index) => {
               const rows: React.ReactNode[] = [];
               const fieldKey = field.id || field.fieldId || `field-${index}`;
+              const itemKey = field.key || field.id || ''; // translation key from the field (use the actual key, not encoded)
 
               // Add page divider row if needed (centralized logic)
               addTranslationsGroupRow({
@@ -152,9 +154,6 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
                 pageGrouping,
                 rows,
               });
-
-              // translation key from the field (use the actual key, not encoded)
-              const itemKey = field.key || field.id || '';
 
               rows.push(
                 <TranslationsRow

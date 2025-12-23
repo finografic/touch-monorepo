@@ -22,7 +22,7 @@ export interface TranslationsFormItem {
 }
 
 export interface TranslationsSection {
-  key: SectionKey;
+  group: SectionKey;
   title: string;
   description: string;
   items: TranslationsFormItem[];

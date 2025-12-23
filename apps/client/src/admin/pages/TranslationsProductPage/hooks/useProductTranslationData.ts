@@ -5,7 +5,7 @@ import { useIsMutating } from '@tanstack/react-query';
 import { useAppConfig } from 'providers/AppConfigProvider';
 
 import type { RegionLocale } from '@workspace/config/i18n.config';
-import type { TranslationsSection } from '../translationsProduct.types';
+import type { TranslationsSection, SectionKey } from '../translationsProduct.types';
 
 export interface UseProductTranslationData {
   isLoading: boolean;
@@ -13,7 +13,13 @@ export interface UseProductTranslationData {
   sections: TranslationsSection[];
 }
 
-export const useProductTranslationData = (): UseProductTranslationData => {
+export const useProductTranslationData = ({
+  domain,
+  groups,
+}: {
+  domain: string;
+  groups: string[];
+}): UseProductTranslationData => {
   const { data: translations, isLoading: translationsLoading } = useGetAllTranslations();
   const { supportedLanguages } = useAppConfig();
   const isMutating = useIsMutating();
@@ -23,33 +29,40 @@ export const useProductTranslationData = (): UseProductTranslationData => {
 
     const mapItems = (items: any[]) => items.map((item) => TranslationsDto.fromApi(item, supportedLanguages));
 
-    return [
-      {
-        key: 'drinkTypes',
+    // Map of group keys to their data and metadata
+    const sectionMap: Record<string, { data: any[]; title: string; description: string }> = {
+      drinkTypes: {
+        data: translations.drinkTypes ?? [],
         title: 'admin.pages.translations.content.drinkTypes.title',
         description: 'admin.pages.translations.content.drinkTypes.description',
-        items: mapItems(translations.drinkTypes ?? []),
       },
-      {
-        key: 'drinkSubtypes',
+      drinkSubtypes: {
+        data: translations.drinkSubtypes ?? [],
         title: 'admin.pages.translations.content.drinkSubtypes.title',
         description: 'admin.pages.translations.content.drinkSubtypes.description',
-        items: mapItems(translations.drinkSubtypes ?? []),
       },
-      {
-        key: 'volumes',
+      volumes: {
+        data: translations.volumes ?? [],
         title: 'admin.pages.translations.content.volumes.title',
         description: 'admin.pages.translations.content.volumes.description',
-        items: mapItems(translations.volumes ?? []),
       },
-      {
-        key: 'containerTypes',
+      containerTypes: {
+        data: translations.containerTypes ?? [],
         title: 'admin.pages.translations.content.containerTypes.title',
         description: 'admin.pages.translations.content.containerTypes.description',
-        items: mapItems(translations.containerTypes ?? []),
       },
-    ];
-  }, [translations, supportedLanguages, translationsLoading, isMutating]);
+    };
+
+    // Filter sections based on groups param, maintaining order from groups array
+    return groups
+      .filter((group) => sectionMap[group])
+      .map((group) => ({
+        group: group as SectionKey,
+        title: sectionMap[group].title,
+        description: sectionMap[group].description,
+        items: mapItems(sectionMap[group].data),
+      }));
+  }, [translations, supportedLanguages, translationsLoading, isMutating, groups, domain]);
 
   return {
     isLoading: translationsLoading,
