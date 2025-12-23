@@ -58,6 +58,7 @@ export const TableFormButtons: React.FC<TableFormButtonsProps> = ({
           size="md"
         >
           {isSaving ? 'Saving...' : t('ui.buttons.save')}
+          {t('admin.pages.translations.domains.ui.buttons.save')}
         </Button>
       )}
       {onAddNew && (

@@ -47,7 +47,7 @@ export const TranslationsPage: React.FC = () => {
 
   // const domainKey = domain.charAt(0).toUpperCase() + domain.slice(1);
   // const pageTitleKey = `admin.pages.translations${domainKey}.content.editTables`;
-  const pageTitleKey = `admin.pages.translations.content.editTables.${domain}`;
+  const pageTitleKey = `admin.pages.translations.domains.${domain}.title`;
 
   // Show loading if: data is loading, mutations are pending, or we don't have sections yet
   if (isLoading || isSaving || isDeleting || sections.length === 0 || !activeSection) {

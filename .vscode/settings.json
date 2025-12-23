@@ -83,7 +83,18 @@
     "typescript": "javascript",
     "typescriptreact": "javascript"
   },
+  // "i18n-ally.localesPaths": [
+  //   "${workspaceFolder}/packages/i18n/src/translations/index.ts",
+  //   "${workspaceFolder}/packages/i18n/dist/translations",
+  //   "${workspaceFolder}/packages/i18n/dist/translations/index.js",
+  //   "${workspaceFolder}/packages/i18n/dist/translations/index.d.ts",
+  //   "${workspaceFolder}/packages/i18n/dist/translations/app",
+  //   "${workspaceFolder}/packages/i18n/dist/translations/common",
+  //   "${workspaceFolder}/packages/i18n/dist/translations/dynamic"
+  // ],
   "i18n-ally.localesPaths": [
+    "${workspaceFolder}/packages/i18n/translations",
+    "${workspaceFolder}/packages/i18n/translations/index.ts",
     "${workspaceFolder}/packages/i18n/src/translations/index.ts",
     "${workspaceFolder}/packages/i18n/dist/translations",
     "${workspaceFolder}/packages/i18n/dist/translations/index.js",
@@ -100,12 +111,6 @@
   "cursor.ai.systemPrompt": "You are working in a monorepo with separate client and server apps. The user manages their own development servers. Focus on code changes and API testing, not server management.",
   "typescript.preferences.includePackageJsonAutoImports": "off",
   "typescript.exclude": ["**/apps/client/src/api/query-v2/**"],
-  "files.exclude": {
-    "**/apps/client/src/api/query-v2": true
-  },
-  "search.exclude": {
-    "**/apps/client/src/api/query-v2": true
-  },
   "emmet.includeLanguages": {
     "javascript": "html"
   },

@@ -2,7 +2,7 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDir": ".",
     "types": ["node"],
     "declaration": true,
     "declarationMap": true,
@@ -35,6 +35,12 @@
       "utils/*": ["./src/utils/*"]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.json", "translations/**/*.json"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.json",
+    "translations/**/*.json",
+    "translations/index.ts"
+  ],
   "exclude": ["node_modules", "dist"]
 }
