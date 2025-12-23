@@ -3,8 +3,12 @@ import { initReactI18next } from 'react-i18next';
 import HttpBackend from 'i18next-http-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
-import { DEFAULT_LANGUAGE, ENABLE_BROWSER_LANGUAGE_DETECTION, I18N_NAMESPACE } from 'config/app/i18n.config';
-import { DEFAULT_SUPPORTED_LANGUAGES } from '@workspace/i18n/constants';
+import {
+  DEFAULT_LANGUAGE,
+  DEFAULT_SUPPORTED_LANGUAGES,
+  ENABLE_BROWSER_LANGUAGE_DETECTION,
+  I18N_NAMESPACE,
+} from 'config/app/i18n.config';
 import type { SupportedLanguage } from '@workspace/i18n/types';
 
 i18n

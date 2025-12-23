@@ -3,7 +3,6 @@ import type { RegionLocale } from '@workspace/config/i18n.config';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from 'api';
-import { transformFetchError } from '@workspace/core/api';
 
 import type { TranslationsFormItem } from '../translations.types';
 import { TranslationsDto } from '../utils/translations.dto';

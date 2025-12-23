@@ -6,7 +6,7 @@ import { createSetters, createZustandContext } from '@finografic/zustand-context
 import type { AppConfigStore, AppConfigValues } from './AppConfigContext.types';
 import type { RegionLocale } from '@workspace/i18n';
 import { DEFAULT_LANGUAGE } from 'config/app/i18n.config';
-import { DEFAULT_SUPPORTED_LANGUAGES } from '@workspace/i18n/constants';
+import { DEFAULT_SUPPORTED_LANGUAGES } from 'config/app/i18n.config';
 import type { SupportedLanguage } from 'types/models/supported-language.model';
 
 export const DISPLAY_NAME = 'AppConfig';

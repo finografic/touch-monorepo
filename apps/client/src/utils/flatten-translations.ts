@@ -22,7 +22,7 @@
  * ]
  */
 
-import type { I18nTranslationsDomain } from 'types/translations.types';
+import type { I18nTranslationsDomain } from '@workspace/i18n/types';
 
 type TranslationsByLocale = {
   'es-ES': { ui: Record<string, any>; app: Record<string, any>; admin: Record<string, any> };
@@ -86,28 +86,25 @@ export function flattenTranslations(
   }
 
   // Collect all unique keys across all locales
-  const allKeys = new Set<string>();
+  const i18nTranslationKeys = new Set<string>();
   for (const localeData of Object.values(flattenedByLocale)) {
     for (const key of Object.keys(localeData)) {
-      allKeys.add(key);
+      i18nTranslationKeys.add(key);
     }
   }
 
   // Build the result array with translations from all locales
   const result: FlattenedTranslation[] = [];
 
-  for (const key of Array.from(allKeys).sort()) {
-    const translationsForKey: Record<string, string> = {};
+  for (const key of Array.from(i18nTranslationKeys).sort()) {
+    const translations: Record<string, string> = {};
 
     for (const locale of locales) {
       const value = flattenedByLocale[locale]?.[key];
-      translationsForKey[locale] = value || '';
+      translations[locale] = value || '';
     }
 
-    result.push({
-      key,
-      translations: translationsForKey,
-    });
+    result.push({ key, translations });
   }
 
   return result;
