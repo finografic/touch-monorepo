@@ -89,7 +89,7 @@ export const AdminNavigation: React.FC<AdminNavigationProps> = ({ displayIcons =
         return {
           ...child,
           label: domain
-            ? t(`${domain}.labels.title`)
+            ? t(`admin.pages.translations.domains.${domain}.title`)
             : getAdminNavItemText({ key: child.id, role: user?.role }),
         };
       }),
