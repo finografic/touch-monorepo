@@ -156,13 +156,13 @@ export const styles = css`
           border: none;
 
           /* First cell (page title) */
-          &:first-child {
+          &:first-of-type {
             color: ${colors.info};
             font-weight: 700;
           }
 
           /* Language code cells */
-          &:not(:first-child):not(:last-child) {
+          &:not(:first-of-type):not(:last-of-type) {
             color: ${colors.textXXLight};
             font-weight: 500;
             font-size: 0.9rem;

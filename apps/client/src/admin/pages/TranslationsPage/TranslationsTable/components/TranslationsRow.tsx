@@ -142,8 +142,8 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
      Row state
   ------------------------------ */
 
-  // Access dirty fields using bracket notation for keys with dots
-  const rowDirtyFields = formState.dirtyFields?.items?.[translationKey];
+  // Access dirty fields using encoded key (RHF stores dirty fields with encoded keys)
+  const rowDirtyFields = formState.dirtyFields?.items?.[encodedKey];
   const isDirty = Boolean(rowDirtyFields);
 
   const rowClasses = clsx({

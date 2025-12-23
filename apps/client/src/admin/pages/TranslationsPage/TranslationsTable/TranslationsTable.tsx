@@ -153,6 +153,7 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
           <tbody>
             {fields.map((field, index) => {
               const rows: React.ReactNode[] = [];
+              const fieldKey = field.id || field.fieldId || `field-${index}`;
 
               // Insert page divider before first item of each new page group
               if (group === 'pages' && domain && pageGrouping) {
@@ -163,7 +164,7 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
                 if (currentPage && currentPage !== previousPage && currentPage !== '_other') {
                   rows.push(
                     <PageDividerRow
-                      key={`divider-${currentPage}-${index}`}
+                      key={`divider-${currentPage}-${fieldKey}`}
                       pageName={currentPage}
                       domain={domain}
                       supportedLanguages={supportedLanguages}
@@ -178,7 +179,7 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
 
               rows.push(
                 <TranslationsRow
-                  key={field.id || field.fieldId}
+                  key={`row-${fieldKey}`}
                   translationKey={itemKey}
                   domain={domain}
                   group={group}
@@ -194,7 +195,7 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
                 />,
               );
 
-              return <React.Fragment key={field.fieldId}>{rows}</React.Fragment>;
+              return <React.Fragment key={fieldKey}>{rows}</React.Fragment>;
             })}
           </tbody>
         </table>
