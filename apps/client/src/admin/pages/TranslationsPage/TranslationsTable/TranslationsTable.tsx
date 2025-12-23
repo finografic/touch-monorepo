@@ -8,7 +8,7 @@ import { TableFormButtons } from '../TableFormButtons/TableFormButtons';
 import { styles } from './TranslationsTable.styles';
 import { useTranslationsTableForm } from './hooks/useTranslationsTableForm';
 import { useTranslationsTableHandlers } from './hooks/useTranslationsTableHandlers';
-import { addTranslationsGroupRow, computePageGrouping } from './TranslationsGroupRow';
+import { addTranslationsGroupRow, computePageGrouping } from './components/TranslationsGroupRow';
 
 import type { RegionLocale } from '@workspace/config/i18n.config';
 import type { TranslationsFormItem } from '../translations.types';
