@@ -85,8 +85,8 @@ export const useGetTranslations = ({
       const filteredItems = filterByPrefix(group);
       return {
         key: group,
-        title: `admin.pages.translations${domainKey}.content.${group}.title`,
-        description: `admin.pages.translations${domainKey}.content.${group}.description`,
+        title: `admin.pages.translations.domains.${domain}.title`,
+        description: `admin.pages.translations.domains.${domain}.description`,
         items: mapItems(filteredItems),
       };
     });

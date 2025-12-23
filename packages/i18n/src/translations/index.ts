@@ -11,22 +11,22 @@ import uiEsES from '../../translations/ui/es-ES.json';
 import uiEnGB from '../../translations/ui/en-GB.json';
 import uiCaES from '../../translations/ui/ca-ES.json';
 
+// Merge function to combine translation objects
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+const mergeTranslations = (...sources: any[]) => {
+  return sources.reduce((acc, source) => {
+    return Object.assign(acc, source);
+  }, {});
+};
+
 const translations = {
-  'es-ES': {
-    ui: uiEsES,
-    app: appEsES,
-    admin: adminEsES,
-  },
-  'en-GB': {
-    ui: uiEnGB,
-    app: appEnGB,
-    admin: adminEnGB,
-  },
-  'ca-ES': {
-    ui: uiCaES,
-    app: appCaES,
-    admin: adminCaES,
-  },
+  'es-ES': mergeTranslations(uiEsES, adminEsES, appEsES),
+  'en-GB': mergeTranslations(uiEnGB, adminEnGB, appEnGB),
+  'ca-ES': mergeTranslations(uiCaES, adminCaES, appCaES),
+
+  'es': mergeTranslations(uiEsES, adminEsES, appEsES),
+  'en': mergeTranslations(uiEnGB, adminEnGB, appEnGB),
+  'ca': mergeTranslations(uiCaES, adminCaES, appCaES),
 } as const;
 
 // i18next compatible resources format
@@ -34,6 +34,12 @@ const resources = {
   'es-ES': { translation: translations['es-ES'] },
   'en-GB': { translation: translations['en-GB'] },
   'ca-ES': { translation: translations['ca-ES'] },
+
+  'es': { translation: translations['es-ES'] },
+  'en': { translation: translations['en-GB'] },
+  'ca': { translation: translations['ca-ES'] },
 } as const;
 
 export { translations, resources };
+
+export default resources;

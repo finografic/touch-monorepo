@@ -72,14 +72,18 @@ export const TranslationsPage: React.FC = () => {
         <Tabs.List>
           {sections.map((section) => (
             <Tabs.Trigger key={section.key} value={section.key}>
-              {t(section.title)}
+              {section.key}
             </Tabs.Trigger>
           ))}
         </Tabs.List>
 
         {sections.map((section) => (
           <Tabs.Content key={section.key} value={section.key}>
-            <AdminSection title={t(section.title)} description={t(section.description)}>
+            <AdminSection
+              title={t(section.title)}
+              subtitle={t(section.key)}
+              description={t(section.description)}
+            >
               <TranslationsTable
                 sectionKey={section.key}
                 items={section.items}

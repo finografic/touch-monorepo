@@ -83,26 +83,28 @@
     "typescript": "javascript",
     "typescriptreact": "javascript"
   },
-  // "i18n-ally.localesPaths": [
-  //   "${workspaceFolder}/packages/i18n/src/translations/index.ts",
-  //   "${workspaceFolder}/packages/i18n/dist/translations",
-  //   "${workspaceFolder}/packages/i18n/dist/translations/index.js",
-  //   "${workspaceFolder}/packages/i18n/dist/translations/index.d.ts",
-  //   "${workspaceFolder}/packages/i18n/dist/translations/app",
-  //   "${workspaceFolder}/packages/i18n/dist/translations/common",
-  //   "${workspaceFolder}/packages/i18n/dist/translations/dynamic"
-  // ],
-  "i18n-ally.localesPaths": [
-    "${workspaceFolder}/packages/i18n/translations",
-    "${workspaceFolder}/packages/i18n/translations/index.ts",
-    "${workspaceFolder}/packages/i18n/src/translations/index.ts",
-    "${workspaceFolder}/packages/i18n/dist/translations",
-    "${workspaceFolder}/packages/i18n/dist/translations/index.js",
-    "${workspaceFolder}/packages/i18n/dist/translations/index.d.ts",
-    "${workspaceFolder}/packages/i18n/dist/translations/app",
-    "${workspaceFolder}/packages/i18n/dist/translations/common",
-    "${workspaceFolder}/packages/i18n/dist/translations/dynamic"
-  ],
+  // i18n-ally Configuration
+  // Point to the root translations folder where JSON files are located
+  "i18n-ally.localesPaths": ["${workspaceFolder}/packages/i18n/translations"],
+  // Enable i18next framework support
+  "i18n-ally.enabledFrameworks": ["i18next"],
+  // Set the namespace (matches your i18next config)
+  "i18n-ally.namespace": true,
+  "i18n-ally.defaultNamespace": "translations",
+  // Key style: nested (since you use dot notation like ui.buttons.save)
+  "i18n-ally.keystyle": "nested",
+  // Source language (your default/fallback language)
+  "i18n-ally.sourceLanguage": "es-ES",
+  // Display language for the extension UI
+  "i18n-ally.displayLanguage": "en-GB",
+  // Path matcher: matches {domain}/{locale}.json pattern
+  // This tells i18n-ally how to find locale files in your structure
+  "i18n-ally.pathMatcher": "{domain}/{locale}.json",
+  // Enable full nested key support
+  "i18n-ally.enabledParsers": ["json"],
+  // Enable annotation in code (shows translations inline)
+  "i18n-ally.annotation.inPlace": true,
+  "i18n-ally.annotation.maxLength": 30,
   "tailwindCSS.experimental.classRegex": [
     ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
     ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
