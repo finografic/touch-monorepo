@@ -120,6 +120,7 @@ export const styles = css`
         }
         .col-divider-language {
           padding-left: 2.25rem;
+          font-weight: ${TH_FONT_WEIGHT};
         }
         .label-language {
           opacity: 0.6;
@@ -249,6 +250,10 @@ export const styles = css`
         display: none;
       }
 
+      .col-value {
+        padding: 0.33rem 0rem;
+      }
+
       .group-header-no-key {
         height: calc(${ROW_HEIGHT} * 0.6);
         border-bottom: transparent;
@@ -266,6 +271,7 @@ export const styles = css`
         height: calc(${ROW_HEIGHT} * 0.6);
         .col-divider-title,
         .col-divider-language {
+          padding: 0.33rem 1rem;
           height: calc(${ROW_HEIGHT} * 0.6);
         }
         .col-divider-language {

@@ -42,7 +42,7 @@ export const TableFormButtons: React.FC<TableFormButtonsProps> = ({
         <Button
           className="button-toggle-key-column"
           type="button"
-          variant="solid"
+          variant="outline"
           color="grey"
           onClick={() => {
             onToggleKeyColumn?.();

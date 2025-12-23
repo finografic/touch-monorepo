@@ -71,7 +71,7 @@ export const TranslationsPage: React.FC = () => {
         <Tabs.List>
           {sections.map((section) => (
             <Tabs.Trigger key={section.group} value={section.group}>
-              {section.group}
+              {t(`admin.pages.translations.tabs.${section.group}.title`, { defaultValue: section.group })}
             </Tabs.Trigger>
           ))}
         </Tabs.List>
