@@ -10,24 +10,36 @@
       "translations": {
         "title": "Idioma de productos",
         "description": "Editar traducciones para contenido de base de datos",
-        "content": {
-          "management": "Idioma de productos",
-          "editTables": "Editar traducciones para tablas de base de datos",
-          "drinkSubtypes": {
-            "title": "Subtipos de bebidas",
-            "description": "Subtipos de vino y cerveza (rubia, negra, tinto, blanco)"
+        "management": "Idioma de productos",
+        "editTables": "Editar traducciones para tablas de base de datos",
+        "drinkSubtypes": {
+          "title": "Subtipos de bebidas",
+          "description": "Subtipos de vino y cerveza (rubia, negra, tinto, blanco)"
+        },
+        "volumes": {
+          "title": "Volúmenes",
+          "description": "Volúmenes de contenedores (2L, 1.5L, 50cl, 33cl, etc.)"
+        },
+        "drinkTypes": {
+          "title": "Tipos de bebidas",
+          "description": "Categorías principales de bebidas (cerveza, vino, cava, licor, etc.)"
+        },
+        "containerTypes": {
+          "title": "Tipos de contenedores",
+          "description": "Materiales de contenedores (plástico, vidrio, metal)"
+        },
+        "domains": {
+          "ui": {
+            "title": "Traducciones UI",
+            "description": "Botones, tablas, tiempo, etc."
           },
-          "volumes": {
-            "title": "Volúmenes",
-            "description": "Volúmenes de contenedores (2L, 1.5L, 50cl, 33cl, etc.)"
+          "app": {
+            "title": "Traducciones App",
+            "description": "Páginas, títulos, subtítulos, etiquetas, etc."
           },
-          "drinkTypes": {
-            "title": "Tipos de bebidas",
-            "description": "Categorías principales de bebidas (cerveza, vino, cava, licor, etc.)"
-          },
-          "containerTypes": {
-            "title": "Tipos de contenedores",
-            "description": "Materiales de contenedores (plástico, vidrio, metal)"
+          "admin": {
+            "title": "Traducciones Admin",
+            "description": "Páginas, títulos, subtítulos, etiquetas, etc."
           }
         },
         "card": {

@@ -22,7 +22,7 @@ export const TranslationsPage: React.FC = () => {
   // const groups = TRANSLATIONS_DOMAIN_GROUPS[domain];
 
   const groups = [...new Set(flattenTranslations(domain, translations).map(({ key }) => key.split('.')[1]))];
-  log('translations:', 'lime', groups);
+  log('translations:', 'lime', domain);
 
   const [activeTab, setActiveTab] = useState<I18nDomainGroupKey>(() => groups[0]);
   const { isLoading, supportedLanguages, sections } = useGetTranslations({ domain, groups });
@@ -45,8 +45,9 @@ export const TranslationsPage: React.FC = () => {
   const { save, isLoading: isSaving } = useSaveTranslations({ domain, supportedLanguages });
   const { deleteItem, isDeleting } = useDeleteTranslations({ domain });
 
-  const domainKey = domain.charAt(0).toUpperCase() + domain.slice(1);
-  const pageTitleKey = `admin.pages.translations${domainKey}.content.editTables`;
+  // const domainKey = domain.charAt(0).toUpperCase() + domain.slice(1);
+  // const pageTitleKey = `admin.pages.translations${domainKey}.content.editTables`;
+  const pageTitleKey = `admin.pages.translations.content.editTables.${domain}`;
 
   // Show loading if: data is loading, mutations are pending, or we don't have sections yet
   if (isLoading || isSaving || isDeleting || sections.length === 0 || !activeSection) {

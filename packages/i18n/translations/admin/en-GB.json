@@ -10,24 +10,36 @@
       "translations": {
         "title": "Translation Management",
         "description": "Edit translations for database content",
-        "content": {
-          "management": "Translation Management",
-          "editTables": "Edit translations for database tables",
-          "drinkSubtypes": {
-            "title": "Drink Subtypes",
-            "description": "Wine and beer subtypes (rubia, negra, tinto, blanco)"
+        "management": "Translation Management",
+        "editTables": "Edit translations for database tables",
+        "drinkSubtypes": {
+          "title": "Drink Subtypes",
+          "description": "Wine and beer subtypes (rubia, negra, tinto, blanco)"
+        },
+        "volumes": {
+          "title": "Volumes",
+          "description": "Container volumes (2L, 1.5L, 50cl, 33cl, etc.)"
+        },
+        "drinkTypes": {
+          "title": "Drink Types",
+          "description": "Main drink categories (cerveza, vino, cava, licor, etc.)"
+        },
+        "containerTypes": {
+          "title": "Container Types",
+          "description": "Container materials (plastico, vidrio, metal)"
+        },
+        "domains": {
+          "ui": {
+            "title": "UI Translations",
+            "description": "Buttons, tables, time, etc."
           },
-          "volumes": {
-            "title": "Volumes",
-            "description": "Container volumes (2L, 1.5L, 50cl, 33cl, etc.)"
+          "app": {
+            "title": "App Translations",
+            "description": "Pages, titles, subtitles, labels, etc."
           },
-          "drinkTypes": {
-            "title": "Drink Types",
-            "description": "Main drink categories (cerveza, vino, cava, licor, etc.)"
-          },
-          "containerTypes": {
-            "title": "Container Types",
-            "description": "Container materials (plastico, vidrio, metal)"
+          "admin": {
+            "title": "Admin Translations",
+            "description": "Pages, titles, subtitles, labels, etc."
           }
         },
         "card": {
