@@ -19,35 +19,8 @@ export const TranslationsPage: React.FC = () => {
   const { t } = useTranslation();
   const { domain } = useParams<{ domain: I18nTranslationsDomain }>();
 
-  // Extract groups: for keys like "admin.pages.dashboard.title", we want "pages"
-  // For keys like "admin.labels.description", we want "labels"
-  // The keys from flattenTranslations already include the domain prefix
-  const groups = [
-    ...new Set(
-      flattenTranslations(domain, translations)
-        .map(({ key }) => {
-          // Keys are in format: "domain.group.rest.of.path"
-          // We want the segment immediately after the domain
-          const parts = key.split('.');
-          // If key starts with domain, get the next segment (index 1)
-          // Otherwise, get index 0 (for backwards compatibility)
-          if (parts[0] === domain && parts.length > 1) {
-            return parts[1];
-          }
-          // Fallback: if domain prefix not found, return first segment after domain
-          return parts[0] === domain ? parts[1] : parts[0];
-        })
-        .filter((group) => group && group.length > 0),
-    ),
-  ];
-  log('translations:', 'lime', {
-    translations,
-    domain,
-    groups,
-    sampleKeys: flattenTranslations(domain, translations)
-      .slice(0, 5)
-      .map(({ key }) => key),
-  });
+  const groups = [...new Set(flattenTranslations(domain, translations).map(({ key }) => key.split('.')[1]))];
+  log('translations:', 'lime', domain);
 
   const [activeTab, setActiveTab] = useState<I18nDomainGroupKey>(() => groups[0]);
   const { isLoading, supportedLanguages, sections } = useGetTranslations({ domain, groups });

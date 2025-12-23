@@ -72,10 +72,27 @@ export const AdminNavigation: React.FC<AdminNavigationProps> = ({ displayIcons =
       // label: getAdminNavItemText({ key: item.id, role: user?.role }),
       label: t(`admin.pages.${item.id}.title`),
       icon: item.icon,
-      children: item.children?.map((child) => ({
-        ...child,
-        label: getAdminNavItemText({ key: child.id, role: user?.role }),
-      })),
+      children: item.children?.map((child) => {
+        // Extract domain from child ID (e.g., "translationsUi" -> "ui", "translationsApp" -> "app")
+        // or from path (e.g., "/admin/translations/ui" -> "ui")
+        let domain: string | undefined;
+
+        if (child.id.startsWith('translations')) {
+          // Extract domain from ID: "translationsUi" -> "ui"
+          domain = child.id.replace(/^translations/i, '').toLowerCase();
+        } else if (child.path) {
+          // Extract domain from path: "/admin/translations/ui" -> "ui"
+          const pathMatch = child.path.match(/\/translations\/([^/]+)/);
+          domain = pathMatch?.[1];
+        }
+
+        return {
+          ...child,
+          label: domain
+            ? t(`${domain}.labels.title`)
+            : getAdminNavItemText({ key: child.id, role: user?.role }),
+        };
+      }),
     }));
   }, [t, isAuthenticated, user?.role, location.pathname]);
 
