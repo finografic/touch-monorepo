@@ -11,6 +11,7 @@ import type { TranslationsSection } from '../translations.types';
 import type { I18nTranslationsDomain } from '@workspace/i18n/types';
 import { GET_TRANSLATIONS_QUERYKEY } from 'queries/translations';
 import type { TranslationsModel } from 'types/models/translations.model';
+import { useTranslation } from 'react-i18next';
 
 export interface UseUiTranslationData {
   isLoading: boolean;
@@ -25,6 +26,7 @@ export const useGetTranslations = ({
   domain: I18nTranslationsDomain;
   groups?: string[];
 }): UseUiTranslationData => {
+  const { t } = useTranslation();
   const location = useLocation();
   const queryClient = useQueryClient();
   const queryKey = [...GET_TRANSLATIONS_QUERYKEY, domain, location.pathname];
@@ -85,11 +87,18 @@ export const useGetTranslations = ({
       const filteredItems = filterByPrefix(group);
       return {
         key: group,
-        title: `admin.pages.translations.domains.${domain}.title`,
+        title: t(`admin.pages.translations.domains.title`, { group }),
         description: `admin.pages.translations.domains.${domain}.description`,
         items: mapItems(filteredItems),
       };
     });
+
+    // Ensure 'pages' section is first if it exists
+    const pagesIndex = result.findIndex((section) => section.key === 'pages');
+    if (pagesIndex > 0) {
+      const pagesSection = result.splice(pagesIndex, 1)[0];
+      result.unshift(pagesSection);
+    }
 
     // Debug logging (remove in production)
     if (process.env.NODE_ENV === 'development') {

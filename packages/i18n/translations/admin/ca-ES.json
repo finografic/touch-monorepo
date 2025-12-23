@@ -29,7 +29,7 @@
           "description": "Materials de contenidors (plàstic, vidre, metall)"
         },
         "domains": {
-          "title": "Traduccions {group}",
+          "title": "Traduccions {{group}}",
           "ui": {
             "title": "Traduccions UI",
             "description": "Botons, taules, temps, etc."

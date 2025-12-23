@@ -67,7 +67,7 @@ export const TranslationsPage: React.FC = () => {
   }
 
   return (
-    <AdminPageLayout title={t(pageTitleKey)} subtitle="Admin" styles={styles}>
+    <AdminPageLayout title={t(pageTitleKey)} styles={styles}>
       <Tabs.Root value={activeTab} onValueChange={(value) => setActiveTab(value as I18nDomainGroupKey)}>
         <Tabs.List>
           {sections.map((section) => (
@@ -79,11 +79,7 @@ export const TranslationsPage: React.FC = () => {
 
         {sections.map((section) => (
           <Tabs.Content key={section.key} value={section.key}>
-            <AdminSection
-              title={t(section.title)}
-              subtitle={t(section.key)}
-              description={t(section.description)}
-            >
+            <AdminSection title={section.title} description={t(section.description)}>
               <TranslationsTable
                 sectionKey={section.key}
                 items={section.items}

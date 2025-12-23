@@ -29,7 +29,7 @@
           "description": "Container materials (plastico, vidrio, metal)"
         },
         "domains": {
-          "title": "Translations {group}",
+          "title": "Translations {{group}}",
           "ui": {
             "title": "UI Translations",
             "description": "Buttons, tables, time, etc."
