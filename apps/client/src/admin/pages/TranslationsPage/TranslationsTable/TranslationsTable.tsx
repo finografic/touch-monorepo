@@ -4,11 +4,11 @@ import { useDebouncedCallback } from 'use-debounce';
 import { Flex } from '@radix-ui/themes';
 import createCuid from '@bugsnag/cuid';
 import { TranslationsRow } from './components/TranslationsRow';
-import { DividerRowByPage } from './components/DividerRowByPage';
 import { TableFormButtons } from '../TableFormButtons/TableFormButtons';
 import { styles } from './TranslationsTable.styles';
 import { useTranslationsTableForm } from './hooks/useTranslationsTableForm';
 import { useTranslationsTableHandlers } from './hooks/useTranslationsTableHandlers';
+import { addTranslationsGroupRow, computePageGrouping } from './TranslationsGroupRow';
 
 import type { RegionLocale } from '@workspace/config/i18n.config';
 import type { TranslationsFormItem } from '../translations.types';
@@ -67,29 +67,8 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
   // Keys are in format: domain.pages.{pageName}.{rest}
   // We extract {pageName} to group items and track which field indices belong to which page
   const pageGrouping = useMemo(() => {
-    if (!hasGrouping) {
-      return null;
-    }
-
-    // Map field index to page name
-    const fieldIndexToPage = new Map<number, string>();
-
-    items.forEach((item) => {
-      // Find the corresponding field index
-      const fieldIndex = fields.findIndex((field) => field.id === item.id || field.key === item.key);
-      if (fieldIndex === -1) return;
-
-      // Extract page name from key: "admin.pages.dashboard.title" -> "dashboard"
-      const keyParts = item.key.split('.');
-      const pagesIndex = keyParts.indexOf('pages');
-      if (pagesIndex >= 0 && pagesIndex < keyParts.length - 1) {
-        const pageName = keyParts[pagesIndex + 1];
-        fieldIndexToPage.set(fieldIndex, pageName);
-      }
-    });
-
-    return fieldIndexToPage;
-  }, [group, domain, items, fields]);
+    return computePageGrouping(Boolean(hasGrouping), items, fields);
+  }, [hasGrouping, items, fields]);
 
   // ======================================================================== //
   // Shared Handlers
@@ -160,24 +139,19 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
               const rows: React.ReactNode[] = [];
               const fieldKey = field.id || field.fieldId || `field-${index}`;
 
-              // Insert page divider before first item of each new page group
-              if (hasGrouping && pageGrouping) {
-                const currentPage = pageGrouping.get(index);
-                const previousPage = index > 0 ? pageGrouping.get(index - 1) : null;
-
-                // If this is the first item of a new page group, add a divider
-                if (currentPage && currentPage !== previousPage && currentPage !== '_other') {
-                  rows.push(
-                    <DividerRowByPage
-                      key={`divider-${currentPage}-${fieldKey}`}
-                      pageName={currentPage}
-                      domain={domain}
-                      supportedLanguages={supportedLanguages}
-                      showKeyColumn={showKeyColumn}
-                    />,
-                  );
-                }
-              }
+              // Add page divider row if needed (centralized logic)
+              addTranslationsGroupRow({
+                domain,
+                group,
+                items,
+                fields,
+                index,
+                fieldKey,
+                supportedLanguages,
+                showKeyColumn,
+                pageGrouping,
+                rows,
+              });
 
               // translation key from the field (use the actual key, not encoded)
               const itemKey = field.key || field.id || '';
