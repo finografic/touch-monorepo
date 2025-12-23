@@ -18,12 +18,13 @@ import { flattenTranslations } from 'utils/flatten-translations';
 export const TranslationsPage: React.FC = () => {
   const { t } = useTranslation();
   const { domain } = useParams<{ domain: I18nTranslationsDomain }>();
-
+  const pageTitleKey = `admin.pages.translations.domains.${domain}.title`;
   const groups = [...new Set(flattenTranslations(domain, translations).map(({ key }) => key.split('.')[1]))];
+  const [activeTab, setActiveTab] = useState<I18nDomainGroupKey>();
+
   log('translations:', 'blue', translations);
 
   const { isLoading, supportedLanguages, sections } = useGetTranslations({ domain, groups });
-  const [activeTab, setActiveTab] = useState<I18nDomainGroupKey>(() => sections?.[0]?.group);
 
   useEffect(
     function updateActiveTab() {
@@ -39,13 +40,8 @@ export const TranslationsPage: React.FC = () => {
     [sections, activeTab],
   );
 
-  // mutations
   const { save, isLoading: isSaving } = useSaveTranslations({ domain, supportedLanguages });
   const { deleteItem, isDeleting } = useDeleteTranslations({ domain });
-
-  // const domainKey = domain.charAt(0).toUpperCase() + domain.slice(1);
-  // const pageTitleKey = `admin.pages.translations${domainKey}.content.editTables`;
-  const pageTitleKey = `admin.pages.translations.domains.${domain}.title`;
 
   // Show loading if: data is loading, mutations are pending, or we don't have sections yet
   // if (isLoading || isSaving || isDeleting || sections.length === 0 || !activeSection) {
@@ -71,7 +67,7 @@ export const TranslationsPage: React.FC = () => {
         <Tabs.List>
           {sections.map((section) => (
             <Tabs.Trigger key={section.group} value={section.group}>
-              {t(`admin.pages.translations.tabs.${section.group}.title`, { defaultValue: section.group })}
+              {t(`admin.pages.translations.tabs.${section.group}`, { defaultValue: section.group })}
             </Tabs.Trigger>
           ))}
         </Tabs.List>

@@ -35,10 +35,10 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
   isSaving = false,
   isDeleting = false,
 }) => {
-  const [editingRowIndex, setEditingRowIndex] = useState<number | null>(null);
-  const [showKeyColumn, setShowKeyColumn] = useState<boolean>(true);
-
   const initialItemsRef = useRef<TranslationsFormItem[]>(items);
+  const [editingRowIndex, setEditingRowIndex] = useState<number | null>(null);
+  const [showKeyColumn, setShowKeyColumn] = useState<boolean>(false);
+  const hasGrouping = group === 'pages' && domain;
 
   useEffect(
     function initialItemsState() {
@@ -62,8 +62,6 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
     isDirtyLastItem,
     isItemEmpty,
   } = useTranslationsTableForm({ items, supportedLanguages });
-
-  const hasGrouping = group === 'pages' && domain;
 
   // Group items by page when group is 'pages'
   // Keys are in format: domain.pages.{pageName}.{rest}

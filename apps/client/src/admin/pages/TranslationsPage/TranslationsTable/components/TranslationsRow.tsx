@@ -163,7 +163,10 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
     >
       {/* KEY */}
       <td className="col-key">
-        <pre>{String(keyField.value).split('.').slice(3).join('.')}</pre>
+        <pre>
+          {String(keyField.value).split('.').slice(3).join('.') ||
+            String(keyField.value).split('.').slice(2).join('.')}
+        </pre>
         <Input
           value={keyField.value || ''}
           type="hidden"
