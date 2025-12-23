@@ -20,7 +20,7 @@ import type {
 } from 'admin/pages/TranslationsProductPage/translationsProduct.types';
 import { colors } from 'styles/colors/colors-direct';
 
-import { COL_CHEVRON_WIDTH, COL_SLUG_WIDTH } from './translations-table.config';
+import { COL_CHEVRON_WIDTH, COL_SLUG_WIDTH } from '../translations-table.config';
 
 interface TranslationsTableExpandableProps {
   sectionKey: string;
