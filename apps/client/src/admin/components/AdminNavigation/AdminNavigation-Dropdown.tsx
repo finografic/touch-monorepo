@@ -97,44 +97,34 @@ export const AdminNavigation: React.FC<AdminNavigationProps> = ({ displayIcons =
   // Get navigation items from the single source of truth
   // languageKey is included to force re-render when translations are updated
   const navItems = useMemo((): NavItem[] => {
-    return getAdminNavItemsByRole(user?.role).flatMap((item) => {
-      // For translations item, expand children into separate nav items
-      if (item.id === 'translations' && item.children && item.children.length > 0) {
-        return item.children.map((child) => {
-          // Extract domain from child ID (e.g., "translationsUi" -> "ui", "translationsApp" -> "app")
-          // or from path (e.g., "/admin/translations/ui" -> "ui")
-          let domain: string | undefined;
+    return getAdminNavItemsByRole(user?.role).map((item) => ({
+      id: item.id,
+      path: item.path,
+      // label: getAdminNavItemText({ key: item.id, role: user?.role }),
+      label: t(`admin.pages.${item.id}.title`),
+      icon: item.icon,
+      children: item.children?.map((child) => {
+        // Extract domain from child ID (e.g., "translationsUi" -> "ui", "translationsApp" -> "app")
+        // or from path (e.g., "/admin/translations/ui" -> "ui")
+        let domain: string | undefined;
 
-          if (child.id.startsWith('translations')) {
-            // Extract domain from ID: "translationsUi" -> "ui"
-            domain = child.id.replace(/^translations/i, '').toLowerCase();
-          } else if (child.path) {
-            // Extract domain from path: "/admin/translations/ui" -> "ui"
-            const pathMatch = child.path.match(/\/translations\/([^/]+)/);
-            domain = pathMatch?.[1];
-          }
+        if (child.id.startsWith('translations')) {
+          // Extract domain from ID: "translationsUi" -> "ui"
+          domain = child.id.replace(/^translations/i, '').toLowerCase();
+        } else if (child.path) {
+          // Extract domain from path: "/admin/translations/ui" -> "ui"
+          const pathMatch = child.path.match(/\/translations\/([^/]+)/);
+          domain = pathMatch?.[1];
+        }
 
-          return {
-            id: child.id,
-            path: child.path || '',
-            label: domain
-              ? t(`admin.pages.translations.domains.${domain}.title`)
-              : getAdminNavItemText({ key: child.id, role: user?.role }),
-            icon: item.icon, // Use parent icon for children
-          };
-        });
-      }
-
-      // For all other items, return as regular nav item (no children)
-      return [
-        {
-          id: item.id,
-          path: item.path || '',
-          label: t(`admin.pages.${item.id}.title`),
-          icon: item.icon,
-        },
-      ];
-    });
+        return {
+          ...child,
+          label: domain
+            ? t(`admin.pages.translations.domains.${domain}.title`)
+            : getAdminNavItemText({ key: child.id, role: user?.role }),
+        };
+      }),
+    }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [t, isAuthenticated, user?.role, location.pathname, languageKey]);
 
