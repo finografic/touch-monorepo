@@ -4,7 +4,7 @@ import { useDebouncedCallback } from 'use-debounce';
 import { Flex } from '@radix-ui/themes';
 import createCuid from '@bugsnag/cuid';
 import { TranslationsRow } from './components/TranslationsRow';
-import { PageDividerRow } from './components/PageDividerRow';
+import { DividerRowByPage } from './components/DividerRowByPage';
 import { TableFormButtons } from '../TableFormButtons/TableFormButtons';
 import { styles } from './TranslationsTable.styles';
 import { useTranslationsTableForm } from './hooks/useTranslationsTableForm';
@@ -36,6 +36,7 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
   isDeleting = false,
 }) => {
   const [editingRowIndex, setEditingRowIndex] = useState<number | null>(null);
+  const [showKeyColumn, setShowKeyColumn] = useState<boolean>(true);
 
   // ======================================================================== //
   // Shared Form Logic
@@ -134,20 +135,23 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
             onReset={handleReset}
             onSave={handleSave}
             onAddNew={handleAddNewRow}
+            onToggleKeyColumn={() => setShowKeyColumn(!showKeyColumn)}
             isDirty={methods.formState.isDirty}
             isAddNewDisabled={!isDirtyLastItem}
             isSaving={isSaving}
           />
         </Flex>
 
-        <table className="translations-table">
+        <table
+          className={`translations-table ${showKeyColumn ? 'is-visible-key-column' : 'is-hidden-key-column'}`}
+        >
           <thead>
             <tr>
-              <th></th>
+              <th className="col-key"></th>
               {supportedLanguages.map((lang) => (
                 <th key={lang}>{lang}</th>
               ))}
-              <th></th>
+              <th className="col-actions"></th>
             </tr>
           </thead>
           <tbody>
@@ -163,11 +167,12 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
                 // If this is the first item of a new page group, add a divider
                 if (currentPage && currentPage !== previousPage && currentPage !== '_other') {
                   rows.push(
-                    <PageDividerRow
+                    <DividerRowByPage
                       key={`divider-${currentPage}-${fieldKey}`}
                       pageName={currentPage}
                       domain={domain}
                       supportedLanguages={supportedLanguages}
+                      showKeyColumn={showKeyColumn}
                     />,
                   );
                 }
@@ -186,6 +191,7 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
                   index={index}
                   onDelete={handleDelete}
                   supportedLanguages={supportedLanguages}
+                  showKeyColumn={showKeyColumn}
                   isEditing={editingRowIndex === index}
                   onEditingChange={(isEditing) => {
                     setEditingRowIndex(isEditing ? index : null);

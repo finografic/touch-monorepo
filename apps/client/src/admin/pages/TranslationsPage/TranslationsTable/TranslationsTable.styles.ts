@@ -78,23 +78,46 @@ export const styles = css`
       transition: background-color 0.2s ease;
       height: ${ROW_HEIGHT};
 
+      /* ⭐ ROW PREVIOUS SIBLING to Group header row */
+      &:has(+ .group-header) {
+        border-bottom: 1px solid ${colors.transparent};
+      }
+
       /* Group header row (for expandable table) */
       &.group-header {
+        height: calc(${ROW_HEIGHT} * 0.75);
         td {
+          height: ${ROW_HEIGHT};
+          height: calc(${ROW_HEIGHT} * 0.75);
           user-select: none;
           font-weight: 700;
           color: ${colors.info};
         }
         background-color: ${colors.greyXXLight25};
-        border: ${TABLE_BORDER};
-        border-top: none;
-        cursor: pointer;
+        background-color: ${colors.infoXLight25};
+        border-top: 1px solid ${colors.transparent};
+        border-bottom: 1px solid ${colors.transparent};
+        border-left: 1px solid ${colors.infoXLight25};
+        border-right: 1px solid ${colors.infoXLight25};
+
+        .group-header-content {
+          padding-right: 0.2rem;
+        }
+        .col-divider-language {
+          padding-left: 2.25rem;
+        }
+        .label-language {
+          opacity: 0.6;
+        }
+
+        /* cursor: pointer; */
         svg {
           height: 1.33rem;
           width: 1.33rem;
         }
+
         &:hover {
-          background-color: ${colors.greyXXLight50};
+          /* background-color: ${colors.greyXXLight50}; */
         }
         &.expanded {
           background-color: ${colors.greyXXLight75};
@@ -102,12 +125,6 @@ export const styles = css`
           border-bottom: none;
         }
         border-top: none;
-        .group-header-content {
-          padding-right: 0.2rem;
-        }
-        .col-divider-language {
-          padding-left: 2.25rem;
-        }
       }
 
       /* Column header row within expanded group (mimics thead) */
@@ -115,7 +132,7 @@ export const styles = css`
         background-color: ${TABLE_HEAD_COLOR};
         border: 1px solid ${TABLE_HEAD_COLOR};
         border-top: none;
-        height: 2.5rem;
+        height: ${ROW_HEIGHT};
         td {
           padding: ${TD_PADDING};
           text-align: left;
@@ -124,6 +141,7 @@ export const styles = css`
           color: ${colors.white};
         }
       }
+
       &.group-placeholder {
         border: ${TABLE_BORDER};
         border-top: none;
@@ -185,23 +203,58 @@ export const styles = css`
         opacity: 0.66 !important;
       }
     }
-  }
 
-  button.button-delete {
-    transform: translateX(1rem);
-    padding: 0rem 0.66rem;
-    svg.icon {
-      width: 1.5rem;
-      height: 1.5rem;
-      color: ${colors.danger};
-      opacity: 0.66;
+    .col-actions {
+      width: 80px;
+      max-width: 80px;
+
+      button.button-delete {
+        transform: translateX(-0.33rem);
+        padding: 0rem 0.66rem;
+        svg.icon {
+          width: 1.5rem;
+          height: 1.5rem;
+          color: ${colors.danger};
+          opacity: 0.66;
+        }
+        &:hover {
+          background-color: ${colors.dangerLight25};
+          svg {
+            color: ${colors.dangerDark};
+            opacity: 1;
+          }
+        }
+      }
     }
-    &:hover {
-      background-color: ${colors.dangerLight25};
-      svg {
-        color: ${colors.dangerDark};
-        opacity: 1;
+
+    /* TOGGLE VISIBILITY KEY COLUMN */
+
+    &.is-hidden-key-column {
+      .col-key {
+        display: none;
+      }
+      .col-actions {
+        display: none;
+      }
+      .group-header {
+        height: calc(${ROW_HEIGHT} * 0.75);
+        .col-divider-title,
+        .col-divider-language {
+          height: calc(${ROW_HEIGHT} * 0.75);
+        }
+      }
+      .group-header-no-key {
+        height: calc(${ROW_HEIGHT} * 0.75);
+        .col-divider-title,
+        .col-divider-language {
+          height: calc(${ROW_HEIGHT} * 0.75);
+        }
+        .col-divider-title {
+          padding-left: 2.2rem;
+        }
+        border-bottom: none;
       }
     }
   }
 `;
+``;

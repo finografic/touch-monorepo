@@ -22,6 +22,7 @@ interface TranslationsRowProps {
   isEditing: boolean;
   onEditingChange: (isEditing: boolean) => void;
   supportedLanguages: RegionLocale[]; // ["es-ES","en-GB","ca-ES"]
+  showKeyColumn: boolean;
   slugPriority?: RegionLocale[]; // ["es-ES","en-GB",...rest]
   isSaving?: boolean;
   isDeleting?: boolean;
@@ -36,6 +37,7 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
   isEditing,
   onEditingChange,
   supportedLanguages,
+  showKeyColumn,
   slugPriority,
   isSaving = false,
   isDeleting = false,
@@ -44,11 +46,6 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
 
   // Encode the translation key for RHF (replace dots with __DOT__)
   const encodedKey = encodeRHFKey(translationKey);
-
-  // Get the current key from the form (may have changed from initial translationKey)
-  // Start with the prop, but watch for changes
-  const currentKeyRaw = watch(`items.${encodedKey}.key`) || translationKey;
-
   // Use encoded key for RHF field path (RHF uses dots for nesting, so we encode them)
   const fieldPath = `items.${encodedKey}`;
 
@@ -196,7 +193,7 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
       })}
 
       {/* DELETE */}
-      <td>
+      <td className="col-actions">
         <Button
           className="button button-delete"
           aria-label="Delete"
