@@ -60,6 +60,6 @@ export const AdminRouteIds: { [K in string]: K } = {
   translationsUi: 'translations-ui', // translations
   translationsApp: 'translations-app', // translations
   translationsAdmin: 'translations-admin', // translations
-  slotsConfig: 'slots-config',
+  slots: 'slots',
   relays: 'relays',
 } as const;

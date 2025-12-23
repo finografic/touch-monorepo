@@ -1,4 +1,4 @@
-import React, { startTransition, useMemo, useState } from 'react';
+import React, { startTransition, useMemo, useState, useEffect, useRef } from 'react';
 import { Col, Container, Row } from 'react-grid-system';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
@@ -25,11 +25,41 @@ export interface AdminNavigationProps {
 }
 
 export const AdminNavigation: React.FC<AdminNavigationProps> = ({ displayIcons = false }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const location = useLocation();
   const { navigateWithTransition, isTransitioning } = usePageTransition({ delay: 100 });
   const { isAuthenticated, user } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // Track the last known language to detect changes (including resource reloads)
+  const lastLanguageRef = useRef(i18n.language);
+  const [languageKey, setLanguageKey] = useState(0);
+
+  // Listen to i18next language changes and resource reloads
+  // This ensures the nav bar updates when translations are saved and resources are reloaded
+  useEffect(() => {
+    const handleLanguageChanged = () => {
+      // Only update if language actually changed or resources were reloaded
+      if (lastLanguageRef.current !== i18n.language) {
+        lastLanguageRef.current = i18n.language;
+        setLanguageKey((prev) => prev + 1);
+      }
+    };
+
+    const handleResourcesLoaded = () => {
+      // Resources were reloaded (e.g., after saving translations)
+      // Force a re-render by updating the language key
+      setLanguageKey((prev) => prev + 1);
+    };
+
+    i18n.on('languageChanged', handleLanguageChanged);
+    i18n.on('loaded', handleResourcesLoaded);
+
+    return () => {
+      i18n.off('languageChanged', handleLanguageChanged);
+      i18n.off('loaded', handleResourcesLoaded);
+    };
+  }, [i18n]);
 
   // Detect breakpoint for responsive config
   const isXxl = useMediaQuery(`(min-width: ${BREAKPOINTS.xxl}px)`);
@@ -65,6 +95,7 @@ export const AdminNavigation: React.FC<AdminNavigationProps> = ({ displayIcons =
   const padding = responsiveConfig.padding;
 
   // Get navigation items from the single source of truth
+  // languageKey is included to force re-render when translations are updated
   const navItems = useMemo((): NavItem[] => {
     return getAdminNavItemsByRole(user?.role).map((item) => ({
       id: item.id,
@@ -94,7 +125,8 @@ export const AdminNavigation: React.FC<AdminNavigationProps> = ({ displayIcons =
         };
       }),
     }));
-  }, [t, isAuthenticated, user?.role, location.pathname]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [t, isAuthenticated, user?.role, location.pathname, languageKey]);
 
   const { containerRef, registerItem, visibleItems, overflowItems, hasOverflow } = useResponsiveNav({
     items: navItems,

@@ -20,26 +20,14 @@ export const PageDividerRow: React.FC<PageDividerRowProps> = ({ pageName, domain
   const pageTitle = t(`${domain}.pages.${pageName}.title`);
 
   return (
-    <tr
-      // className="page-divider-row"
-      className="group-header"
-    >
-      <td
-        className="col-divider-title"
-        // className="page-divider-cell"
-      >
-        {pageTitle}
-      </td>
+    <tr className="group-header">
+      <td className="col-divider-title">{pageTitle}</td>
       {supportedLanguages.map((lang) => (
-        <td
-          key={lang}
-          className="col-divider-language"
-          //  className="page-divider-cell"
-        >
+        <td key={lang} className="col-divider-language">
           {lang}
         </td>
       ))}
-      <td className="page-divider-cell"></td>
+      <td></td>
     </tr>
   );
 };

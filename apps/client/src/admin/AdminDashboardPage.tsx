@@ -12,11 +12,15 @@ import { useAuth } from 'providers/AuthProvider';
 import { AdminPageLayout } from '.';
 import { styles } from './AdminDashboardPage.styles';
 import { getAdminCalloutTexts, getAdminPageTexts } from 'utils/i18n/i18n-inlang.helpers';
+import { useParams } from 'react-router-dom';
+import type { I18nTranslationsDomain } from '@workspace/i18n/types';
+import { useTranslation } from 'react-i18next';
 
 export const AdminDashboardPage: React.FC = () => {
   const { user, isAuthenticated } = useAuth();
   const { currentLanguage } = useAppConfig();
   const { navigateWithTransition, isTransitioning } = usePageTransition({ delay: 150 });
+  const { t } = useTranslation();
 
   const handleCardClick = (path: string) => {
     navigateWithTransition(path);
@@ -30,16 +34,20 @@ export const AdminDashboardPage: React.FC = () => {
   const role = user?.role === 'admin' ? 'admin' : 'public';
 
   // NEW: 🈂️ inlang/paraglide i18n translations
-  const admin_dashboard = getAdminPageTexts({ key: 'dashboard', role });
+  // const admin_dashboard = getAdminPageTexts({ key: 'dashboard', role });
+  const pageTitle = t(`admin.pages.dashboard.title`);
+  const pageDescription = t(`admin.pages.dashboard.description`);
 
   const adminCards = useMemo(() => {
     return getAdminDashboardCards(isAuthenticated, role).map((card) => {
-      const text = getAdminCalloutTexts({ key: card.id, role });
+      // const text = getAdminCalloutTexts({ key: card.id, role });
+      const title = t(`admin.pages.${card.id}.title`);
+      const description = t(`admin.pages.${card.id}.description`);
 
       return {
         id: card.id,
-        title: text.title,
-        description: text.description,
+        title,
+        description,
         icon: React.createElement(card.icon, { width: 32, height: 32 }),
         path: card.path,
         color: card.color,
@@ -50,7 +58,7 @@ export const AdminDashboardPage: React.FC = () => {
   const gridColumns = adminCards.length === 1 ? 1 : 2;
 
   return (
-    <AdminPageLayout title={admin_dashboard.title} subtitle={admin_dashboard.description} align="center">
+    <AdminPageLayout title={pageTitle} subtitle={pageDescription} align="center">
       <Box className="admin-dashboard" css={styles}>
         <div className="admin-cards" style={{ ['--cols' as any]: gridColumns }}>
           {adminCards.map((card) => (

@@ -2,6 +2,7 @@ import React from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 
 import { getAdminEntryByPath } from 'admin/config/admin.routes.selectors';
+import { useAuth } from 'providers/AuthProvider';
 import { AdminRouteRenderer } from 'routes/auth/AdminRouteRenderer';
 
 /**
@@ -14,6 +15,22 @@ import { AdminRouteRenderer } from 'routes/auth/AdminRouteRenderer';
  */
 export const ProtectedRoutesByRole: React.FC = () => {
   const location = useLocation();
+  const { isLoading } = useAuth();
+  const [isAuthReady, setIsAuthReady] = React.useState(false);
+
+  // Allow auth state to settle (prevents redirect on hard refresh)
+  React.useEffect(() => {
+    if (!isLoading) {
+      const timer = setTimeout(() => setIsAuthReady(true), 100);
+      return () => clearTimeout(timer);
+    }
+  }, [isLoading]);
+
+  // While auth is initializing, render outlet (avoid redirect)
+  if (isLoading || !isAuthReady) {
+    return <Outlet />;
+  }
+
   const entry = getAdminEntryByPath(location.pathname);
 
   // Route not owned by admin config (or deep nested path)

@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Flex, Spinner, Text } from '@radix-ui/themes';
-import { OrdersForm } from 'admin/pages/AdminOrdersPage/OrdersForm';
+import { OrdersForm } from 'admin/pages/AdminProductsPage/OrdersForm';
 import { Button } from 'components/Button';
 import { useToast } from 'components/Toast';
 

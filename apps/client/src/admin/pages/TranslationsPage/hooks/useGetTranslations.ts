@@ -21,7 +21,7 @@ export interface UseUiTranslationData {
 
 export const useGetTranslations = ({
   domain,
-  groups = ['buttons', 'tables', 'time'],
+  groups,
 }: {
   domain: I18nTranslationsDomain;
   groups?: string[];
@@ -81,15 +81,48 @@ export const useGetTranslations = ({
       return translations.filter((item) => item.key?.startsWith(`${domain}.${group}.`));
     };
 
-    const domainKey = domain.charAt(0).toUpperCase() + domain.slice(1);
-
     const result = groups.map((group) => {
       const filteredItems = filterByPrefix(group);
+
+      // For 'pages' group, sort items by page name and put .title entries first
+      let sortedItems = filteredItems;
+      if (group === 'pages') {
+        // Group items by page name (e.g., dashboard, items, languages)
+        const itemsByPage = new Map<string, typeof filteredItems>();
+
+        filteredItems.forEach((item) => {
+          // Extract page name from key: admin.pages.dashboard.title -> dashboard
+          const keyParts = item.key.split('.');
+          const pagesIndex = keyParts.indexOf('pages');
+          const pageName =
+            pagesIndex >= 0 && pagesIndex < keyParts.length - 1 ? keyParts[pagesIndex + 1] : '_other';
+
+          if (!itemsByPage.has(pageName)) {
+            itemsByPage.set(pageName, []);
+          }
+          itemsByPage.get(pageName)!.push(item);
+        });
+
+        // Sort items within each page group: .title entries first, then others
+        const sortedPages: typeof filteredItems = [];
+        const pageNames = Array.from(itemsByPage.keys()).sort();
+
+        pageNames.forEach((pageName) => {
+          const pageItems = itemsByPage.get(pageName)!;
+          // Sort: .title entries first, then others (maintain original order for non-title)
+          const titleItems = pageItems.filter((item) => item.key.endsWith('.title'));
+          const otherItems = pageItems.filter((item) => !item.key.endsWith('.title'));
+          sortedPages.push(...titleItems, ...otherItems);
+        });
+
+        sortedItems = sortedPages;
+      }
+
       return {
         group,
         title: t(`admin.pages.translations.domains.title`, { group }),
         description: `admin.pages.translations.domains.${domain}.description`,
-        items: mapItems(filteredItems),
+        items: mapItems(sortedItems),
       };
     });
 

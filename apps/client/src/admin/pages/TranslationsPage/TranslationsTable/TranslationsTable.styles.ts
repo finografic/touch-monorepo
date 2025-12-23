@@ -138,48 +138,6 @@ export const styles = css`
         }
       }
 
-      /* Page divider row (non-interactive section header) */
-      &.page-divider-row {
-        background-color: ${colors.greyXXLight25};
-        border: ${TABLE_BORDER};
-        border-top: 2px solid ${colors.info};
-        height: auto;
-        cursor: default;
-        user-select: none;
-
-        .page-divider-cell {
-          padding: ${TD_PADDING};
-          font-weight: 700;
-          font-size: 1.1rem;
-          color: ${colors.info};
-          text-align: left;
-          border: none;
-
-          /* First cell (page title) */
-          &:first-of-type {
-            color: ${colors.info};
-            font-weight: 700;
-          }
-
-          /* Language code cells */
-          &:not(:first-of-type):not(:last-of-type) {
-            color: ${colors.textXXLight};
-            font-weight: 500;
-            font-size: 0.9rem;
-            text-align: center;
-          }
-
-          /* Last cell (empty for delete column) */
-          &:last-child {
-            border: none;
-          }
-        }
-
-        &:hover {
-          background-color: ${colors.greyXXLight50};
-        }
-      }
-
       /* Row is being edited (has focus) */
       &.row-editing {
         input {

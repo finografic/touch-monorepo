@@ -27,8 +27,8 @@ export const TranslationsPage: React.FC = () => {
 
   useEffect(
     function updateActiveTab() {
-      if (groups && groups.length > 0 && !groups.includes(activeTab)) {
-        setActiveTab(groups[0] as I18nDomainGroupKey);
+      if (sections && sections.length > 0 && !sections.some((section) => section.group === activeTab)) {
+        setActiveTab(sections[0].group as I18nDomainGroupKey);
       }
     },
     [groups, activeTab],

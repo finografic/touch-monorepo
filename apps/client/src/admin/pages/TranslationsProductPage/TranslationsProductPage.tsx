@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Flex, Spinner, Tabs, Text } from '@radix-ui/themes';
 
@@ -14,13 +14,33 @@ import { TranslationsTableExpandable } from './TranslationsTable';
 import { invalidateReferenceDataQueries } from 'queries/invalidateReferenceData';
 import { useQueryClient } from '@tanstack/react-query';
 
+const TABS_SORT_ORDER: readonly SectionKey[] = ['drinkTypes', 'drinkSubtypes', 'volumes', 'containerTypes'] as const;
+
 export const TranslationsProductPage: React.FC = () => {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
 
   const { isLoading, supportedLanguages, sections } = useProductTranslationData();
 
-  const [activeTab, setActiveTab] = useState<SectionKey>('drinkTypes');
+  const sortedSections = useMemo(() => {
+    const order = new Map<SectionKey, number>(TABS_SORT_ORDER.map((key, idx) => [key, idx]));
+    return [...sections].sort((a, b) => {
+      const aOrder = order.get(a.key) ?? Number.MAX_SAFE_INTEGER;
+      const bOrder = order.get(b.key) ?? Number.MAX_SAFE_INTEGER;
+      return aOrder - bOrder;
+    });
+  }, [sections]);
+
+  const [activeTab, setActiveTab] = useState<SectionKey>((sections[0]?.key as SectionKey) ?? 'drinkTypes');
+
+  useEffect(() => {
+    if (!sortedSections.find((section) => section.key === activeTab)) {
+      const fallback = sortedSections[0]?.key;
+      if (fallback) {
+        setActiveTab(fallback);
+      }
+    }
+  }, [activeTab, sortedSections]);
 
   const activeSection = useMemo(
     () => sections.find((section) => section.key === activeTab),
@@ -56,19 +76,14 @@ export const TranslationsProductPage: React.FC = () => {
     >
       <Tabs.Root value={activeTab} onValueChange={(value) => setActiveTab(value as SectionKey)}>
         <Tabs.List>
-          <Tabs.Trigger value="drinkTypes">
-            {t('admin.pages.translations.content.drinkTypes.title')}
-          </Tabs.Trigger>
-          <Tabs.Trigger value="drinkSubtypes">
-            {t('admin.pages.translations.content.drinkSubtypes.title')}
-          </Tabs.Trigger>
-          <Tabs.Trigger value="volumes">{t('admin.pages.translations.content.volumes.title')}</Tabs.Trigger>
-          <Tabs.Trigger value="containerTypes">
-            {t('admin.pages.translations.content.containerTypes.title')}
-          </Tabs.Trigger>
+          {sortedSections.map((section) => (
+            <Tabs.Trigger key={section.key} value={section.key}>
+              {t(`admin.pages.translations.content.${section.key}.title`)}
+            </Tabs.Trigger>
+          ))}
         </Tabs.List>
 
-        {sections.map((section) => (
+        {sortedSections.map((section) => (
           <Tabs.Content key={section.key} value={section.key}>
             <AdminSection title={t(section.title)} description={t(section.description)}>
               {section.key === 'drinkSubtypes' ? (

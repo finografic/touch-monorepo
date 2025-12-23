@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import {
   ORDER_FORM_SCHEMA,
   type OrdersFormValues,
-} from 'admin/pages/AdminOrdersPage/OrdersForm/OrdersForm.schema';
+} from 'admin/pages/AdminProductsPage/OrdersForm/OrdersForm.schema';
 import { FieldWrapper } from 'forms/FieldWrapper';
 import { FormMiddlewareProvider } from 'forms/FormMiddleware';
 import { MIN_TABLE_ROWS } from 'forms/FormMiddleware/FormMiddleware.constants';

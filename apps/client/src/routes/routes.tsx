@@ -1,7 +1,7 @@
 import { Outlet, type RouteObject } from 'react-router-dom';
 import { AdminDashboardPage } from 'admin/AdminDashboardPage';
-import { AdminOrderEditPage } from 'admin/pages/AdminOrdersPage/AdminOrderEditPage';
-import { AdminOrdersListPage } from 'admin/pages/AdminOrdersPage/AdminOrdersListPage';
+import { AdminOrderEditPage } from 'admin/pages/AdminProductsPage/AdminOrderEditPage';
+import { AdminOrdersListPage } from 'admin/pages/AdminProductsPage/AdminOrdersListPage';
 import { LoaderDataHelper } from 'api/loaders/loader.data';
 import { AdminLayout } from 'layout/AdminLayout';
 import { Layout } from 'layout/Layout';
@@ -123,7 +123,7 @@ export const routes: RouteObject[] = [
             ],
           },
           { path: 'translations/:domain', element: null },
-          { path: 'slots-config', element: null },
+          { path: 'slots', element: null },
           { path: 'relays', element: null },
           { path: 'translations-product', element: null },
         ],

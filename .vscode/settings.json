@@ -85,7 +85,12 @@
   },
   // i18n-ally Configuration
   // Point to the root translations folder where JSON files are located
-  "i18n-ally.localesPaths": ["${workspaceFolder}/packages/i18n/translations"],
+  "i18n-ally.localesPaths": [
+    "${workspaceFolder}/packages/i18n/translations",
+    "${workspaceFolder}/packages/i18n/translations/ui",
+    "${workspaceFolder}/packages/i18n/translations/app",
+    "${workspaceFolder}/packages/i18n/translations/admin"
+  ],
   // Enable i18next framework support
   "i18n-ally.enabledFrameworks": ["i18next"],
   // Set the namespace (matches your i18next config)

@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 import { AdminLanguagesPage, PublicLanguagesPage } from 'admin/pages/AdminLanguagesPage';
 import { PublicModePage } from 'admin/pages/AdminModePage';
 import { AdminModePageDEV } from 'admin/pages/AdminModePage/AdminModePage-DEV';
-import { AdminOrdersPage } from 'admin/pages/AdminOrdersPage/AdminOrdersPage';
+import { AdminOrdersPage } from 'admin/pages/AdminProductsPage/AdminOrdersPage';
 import { AdminRelaysPage } from 'admin/pages/AdminRelaysPage/AdminRelaysPage';
 import { PublicRelaysPage } from 'admin/pages/AdminRelaysPage/PublicRelaysPage';
 import { AdminSlotsConfigPage } from 'admin/pages/AdminSlotsConfigPage/AdminSlotsConfigPage';
@@ -20,7 +20,7 @@ import {
   ZapIcon,
 } from 'styles/icons';
 import { TranslationsPage } from 'admin/pages/TranslationsPage';
-import { AdminOrderEditPage, AdminOrdersListPage } from 'admin/pages/AdminOrdersPage';
+import { AdminOrderEditPage, AdminOrdersListPage } from 'admin/pages/AdminProductsPage';
 import { AdminDashboardPage } from 'admin/AdminDashboardPage';
 
 export type AuthRoles = 'public' | 'admin';
@@ -67,8 +67,8 @@ export const ADMIN_ROUTE_CONFIGS: AdminRouteConfig[] = [
     color: 'blue',
   },
   {
-    id: 'slotConfig',
-    path: '/admin/slots-config',
+    id: 'slots',
+    path: '/admin/slots',
     element: {
       public: null,
       admin: AdminSlotsConfigPage,

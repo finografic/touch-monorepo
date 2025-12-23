@@ -48,7 +48,6 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
   // Get the current key from the form (may have changed from initial translationKey)
   // Start with the prop, but watch for changes
   const currentKeyRaw = watch(`items.${encodedKey}.key`) || translationKey;
-  const currentKey = currentKeyRaw ? decodeRHFKey(currentKeyRaw) : translationKey;
 
   // Use encoded key for RHF field path (RHF uses dots for nesting, so we encode them)
   const fieldPath = `items.${encodedKey}`;
@@ -167,7 +166,7 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
     >
       {/* KEY */}
       <td className="col-key">
-        <pre>{String(keyField.value).replace(`${domain}.${group}.`, '')}</pre>
+        <pre>{String(keyField.value).split('.').slice(3).join('.')}</pre>
         <Input
           value={keyField.value || ''}
           type="hidden"
