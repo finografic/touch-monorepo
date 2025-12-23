@@ -13,7 +13,13 @@ import { styles } from './TranslationsProductPage.styles';
 import { TranslationsTableExpandable } from './TranslationsTable';
 import { invalidateReferenceDataQueries } from 'queries/invalidateReferenceData';
 import { useQueryClient } from '@tanstack/react-query';
-import { TABS_SORT_ORDER } from './translations-table.config';
+
+const TABS_SORT_ORDER: readonly SectionKey[] = [
+  'drinkTypes',
+  'drinkSubtypes',
+  'volumes',
+  'containerTypes',
+] as const;
 
 export const TranslationsProductPage: React.FC = () => {
   const { t } = useTranslation();
