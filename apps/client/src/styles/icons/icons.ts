@@ -33,6 +33,10 @@ import {
   Clipboard as _ClipboardIcon,
   Coffee as _CoffeeIcon,
   Cog as _SettingsIcon,
+  Columns3 as _Columns3Icon,
+  Columns4 as _Columns4Icon,
+  Eye as _EyeIcon,
+  EyeOff as _EyeOffIcon,
   FastForward as _FastForwardIcon,
   Grid3x2Icon as _Grid3x2Icon,
   House as _HomeIcon,
@@ -43,6 +47,8 @@ import {
   Moon as _MoonIcon,
   PanelBottomClose as _PanelBottomCloseIcon,
   PanelBottomOpen as _PanelBottomOpenIcon,
+  PanelLeftClose as _PanelLeftCloseIcon,
+  PanelLeftOpen as _PanelLeftOpenIcon,
   PencilLine as _EditIcon,
   Radio as _RadioIcon,
   RefreshCcwIcon as _RefreshCcwIcon,
@@ -119,6 +125,12 @@ export const LockIcon = createIconWrapper(_LockIcon);
 export const MagnifyingGlassIcon = createIconWrapper(_MagnifyingGlassIcon);
 export const PanelBottomCloseIcon = createIconWrapper(_PanelBottomCloseIcon);
 export const PanelBottomOpenIcon = createIconWrapper(_PanelBottomOpenIcon);
+export const PanelLeftCloseIcon = createIconWrapper(_PanelLeftCloseIcon);
+export const PanelLeftOpenIcon = createIconWrapper(_PanelLeftOpenIcon);
+export const EyeIcon = createIconWrapper(_EyeIcon);
+export const EyeOffIcon = createIconWrapper(_EyeOffIcon);
+export const Columns3Icon = createIconWrapper(_Columns3Icon);
+export const Columns4Icon = createIconWrapper(_Columns4Icon);
 export const PlusIcon = createIconWrapper(_PlusIcon);
 export const RadioIcon = createIconWrapper(_RadioIcon);
 export const RefreshIcon = createIconWrapper(_RefreshCcwIcon);
@@ -154,6 +166,8 @@ export const ICON_MAP = {
   ClipboardIcon,
   CloseIcon,
   CoffeeIcon,
+  Columns3Icon,
+  Columns4Icon,
   CountdownTimerIcon,
   Cross2Icon,
   DeleteIcon,
@@ -163,6 +177,8 @@ export const ICON_MAP = {
   DropdownIcon,
   EditIcon,
   ExclamationTriangleIcon,
+  EyeIcon,
+  EyeOffIcon,
   FastForwardIcon,
   GridIcon,
   HomeIcon,
@@ -176,6 +192,8 @@ export const ICON_MAP = {
   MoonIcon,
   PanelBottomCloseIcon,
   PanelBottomOpenIcon,
+  PanelLeftCloseIcon,
+  PanelLeftOpenIcon,
   PlusIcon,
   RadioIcon,
   RefreshIcon,

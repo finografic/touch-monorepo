@@ -16,12 +16,13 @@ export const styles = css`
     thead {
       background-color: ${TABLE_HEAD_COLOR};
       tr {
+        height: calc(${ROW_HEIGHT} * 0.66);
         border: 1px solid ${TABLE_HEAD_COLOR};
         border-top: none;
         th {
           padding: ${TD_PADDING};
           text-align: left;
-          font-size: 1.1rem;
+          font-size: 0.95rem;
           font-weight: 700;
           color: ${colors.white};
         }
@@ -37,8 +38,8 @@ export const styles = css`
         border-style: solid;
         border-color: ${colors.transparent};
         border-radius: ${forms.inputs.border.radius};
-        font-size: 1rem;
-        font-weight: 700 !important;
+        font-size: 0.95rem;
+        font-weight: 600;
         color: ${colors.textXLight};
         -webkit-text-fill-color: ${colors.textXLight};
         background-color: ${colors.white}!important;
@@ -78,6 +79,8 @@ export const styles = css`
       transition: background-color 0.2s ease;
       height: ${ROW_HEIGHT};
 
+      /* =================================================================== */
+
       /* ⭐ ROW PREVIOUS SIBLING to Group header row */
       &:has(+ .group-header) {
         border-bottom: 1px solid ${colors.transparent};
@@ -90,9 +93,11 @@ export const styles = css`
           height: ${ROW_HEIGHT};
           height: calc(${ROW_HEIGHT} * 0.75);
           user-select: none;
+          font-size: 0.95rem;
           font-weight: 700;
           color: ${colors.info};
         }
+
         background-color: ${colors.greyXXLight25};
         background-color: ${colors.infoXLight25};
         border-top: 1px solid ${colors.transparent};
@@ -110,7 +115,6 @@ export const styles = css`
           opacity: 0.6;
         }
 
-        /* cursor: pointer; */
         svg {
           height: 1.33rem;
           width: 1.33rem;
@@ -238,38 +242,30 @@ export const styles = css`
       }
 
       .group-header-no-key {
-        height: calc(${ROW_HEIGHT} * 0.66);
+        height: calc(${ROW_HEIGHT} * 0.6);
         border-bottom: transparent;
         /* background-color: ${colors.danger}; */
         .col-divider-title,
         .col-divider-language {
-          height: calc(${ROW_HEIGHT} * 0.66);
+          height: calc(${ROW_HEIGHT} * 0.6);
           /* vertical-align: top; */
         }
         .col-divider-title {
           padding-left: 2.2rem;
-          transform: translateY(0.25rem);
+          transform: translateY(0.3rem);
         }
       }
 
       .group-header {
-        height: calc(${ROW_HEIGHT} * 0.66);
+        height: calc(${ROW_HEIGHT} * 0.6);
         .col-divider-title,
         .col-divider-language {
-          height: calc(${ROW_HEIGHT} * 0.66);
+          height: calc(${ROW_HEIGHT} * 0.6);
         }
         .col-divider-language {
-          transform: translateY(-0.25rem);
+          transform: translateY(-0.3rem);
         }
       }
-      /* .label-title {
-        background-color: ${colors.warningLight};
-        transform: translateY(2rem);
-      }
-      .label-language {
-        background-color: ${colors.warningLight};
-        transform: translateY(-2rem);
-      } */
     }
   }
 `;
