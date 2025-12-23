@@ -3,16 +3,16 @@ import { translations_app } from '../schemas';
 import { flattenTranslationsForSeed } from './utils/flatten-translations';
 
 /**
- * Flattened App translations from packages/i18n/src/translations/app/*.json
+ * Flattened App translations from packages/i18n/translations/app/*.json
  *
  * Structure:
  * - Keys use dot notation (e.g., "app.title", "app.pages.main.title")
  * - Translations are stored as JSON object keyed by language code
  *
  * Generated from:
- * - packages/i18n/src/translations/app/es-ES.json
- * - packages/i18n/src/translations/app/en-GB.json
- * - packages/i18n/src/translations/app/ca-ES.json
+ * - packages/i18n/translations/app/es-ES.json
+ * - packages/i18n/translations/app/en-GB.json
+ * - packages/i18n/translations/app/ca-ES.json
  */
 const translationsData = flattenTranslationsForSeed('app');
 

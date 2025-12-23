@@ -1,14 +1,15 @@
-import adminEsES from './admin/es-ES.json';
-import adminEnGB from './admin/en-GB.json';
-import adminCaES from './admin/ca-ES.json';
+// Import JSON files from root translations/ folder
+import adminEsES from '../../translations/admin/es-ES.json';
+import adminEnGB from '../../translations/admin/en-GB.json';
+import adminCaES from '../../translations/admin/ca-ES.json';
 
-import appEsES from './app/es-ES.json';
-import appEnGB from './app/en-GB.json';
-import appCaES from './app/ca-ES.json';
+import appEsES from '../../translations/app/es-ES.json';
+import appEnGB from '../../translations/app/en-GB.json';
+import appCaES from '../../translations/app/ca-ES.json';
 
-import uiEsES from './ui/es-ES.json';
-import uiEnGB from './ui/en-GB.json';
-import uiCaES from './ui/ca-ES.json';
+import uiEsES from '../../translations/ui/es-ES.json';
+import uiEnGB from '../../translations/ui/en-GB.json';
+import uiCaES from '../../translations/ui/ca-ES.json';
 
 const translations = {
   'es-ES': {

@@ -34,17 +34,17 @@ export default defineConfig({
     '.json': 'copy',
   },
   onSuccess: async () => {
-    // Copy JSON files to maintain folder structure inside dist/translations/
+    // Copy JSON files from root translations/ folder to maintain folder structure inside dist/translations/
     const jsonFiles = [
-      { src: 'src/translations/app/ca-ES.json', dest: 'dist/translations/app/ca-ES.json' },
-      { src: 'src/translations/app/en-GB.json', dest: 'dist/translations/app/en-GB.json' },
-      { src: 'src/translations/app/es-ES.json', dest: 'dist/translations/app/es-ES.json' },
-      { src: 'src/translations/admin/ca-ES.json', dest: 'dist/translations/admin/ca-ES.json' },
-      { src: 'src/translations/admin/en-GB.json', dest: 'dist/translations/admin/en-GB.json' },
-      { src: 'src/translations/admin/es-ES.json', dest: 'dist/translations/admin/es-ES.json' },
-      { src: 'src/translations/ui/ca-ES.json', dest: 'dist/translations/ui/ca-ES.json' },
-      { src: 'src/translations/ui/en-GB.json', dest: 'dist/translations/ui/en-GB.json' },
-      { src: 'src/translations/ui/es-ES.json', dest: 'dist/translations/ui/es-ES.json' },
+      { src: 'translations/app/ca-ES.json', dest: 'dist/translations/app/ca-ES.json' },
+      { src: 'translations/app/en-GB.json', dest: 'dist/translations/app/en-GB.json' },
+      { src: 'translations/app/es-ES.json', dest: 'dist/translations/app/es-ES.json' },
+      { src: 'translations/admin/ca-ES.json', dest: 'dist/translations/admin/ca-ES.json' },
+      { src: 'translations/admin/en-GB.json', dest: 'dist/translations/admin/en-GB.json' },
+      { src: 'translations/admin/es-ES.json', dest: 'dist/translations/admin/es-ES.json' },
+      { src: 'translations/ui/ca-ES.json', dest: 'dist/translations/ui/ca-ES.json' },
+      { src: 'translations/ui/en-GB.json', dest: 'dist/translations/ui/en-GB.json' },
+      { src: 'translations/ui/es-ES.json', dest: 'dist/translations/ui/es-ES.json' },
     ];
 
     for (const { src, dest } of jsonFiles) {

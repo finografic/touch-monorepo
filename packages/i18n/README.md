@@ -77,7 +77,7 @@ export const config: I18nConfig = {
 🗃 Custom Path Matcher: translations/{locale}.json
 🗃 Path Matcher Regex: /^translations\/(?<locale>[\w-_]+)\.json$/
 
-📂 Loading locales under touch-monorepo/packages/i18n/src/translations
-👀 Watching change on touch-monorepo/packages/i18n/src/translations
+📂 Loading locales under touch-monorepo/packages/i18n/translations
+👀 Watching change on touch-monorepo/packages/i18n/translations
 ✅ Loading finished
 ```

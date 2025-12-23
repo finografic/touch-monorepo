@@ -3,16 +3,16 @@ import { translations_ui } from '../schemas';
 import { flattenTranslationsForSeed } from './utils/flatten-translations';
 
 /**
- * Flattened UI translations from packages/i18n/src/translations/ui/*.json
+ * Flattened UI translations from packages/i18n/translations/ui/*.json
  *
  * Structure:
  * - Keys use dot notation (e.g., "ui.buttons.add", "ui.tables.headers.name")
  * - Translations are stored as JSON object keyed by language code
  *
  * Generated from:
- * - packages/i18n/src/translations/ui/es-ES.json
- * - packages/i18n/src/translations/ui/en-GB.json
- * - packages/i18n/src/translations/ui/ca-ES.json
+ * - packages/i18n/translations/ui/es-ES.json
+ * - packages/i18n/translations/ui/en-GB.json
+ * - packages/i18n/translations/ui/ca-ES.json
  */
 const translationsData = flattenTranslationsForSeed('ui');
 

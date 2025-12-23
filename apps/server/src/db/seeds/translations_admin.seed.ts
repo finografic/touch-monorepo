@@ -3,16 +3,16 @@ import { translations_admin } from '../schemas';
 import { flattenTranslationsForSeed } from './utils/flatten-translations';
 
 /**
- * Flattened Admin translations from packages/i18n/src/translations/admin/*.json
+ * Flattened Admin translations from packages/i18n/translations/admin/*.json
  *
  * Structure:
  * - Keys use dot notation (e.g., "admin.title", "admin.pages.dashboard.title")
  * - Translations are stored as JSON object keyed by language code
  *
  * Generated from:
- * - packages/i18n/src/translations/admin/es-ES.json
- * - packages/i18n/src/translations/admin/en-GB.json
- * - packages/i18n/src/translations/admin/ca-ES.json
+ * - packages/i18n/translations/admin/es-ES.json
+ * - packages/i18n/translations/admin/en-GB.json
+ * - packages/i18n/translations/admin/ca-ES.json
  */
 const translationsData = flattenTranslationsForSeed('admin');
 

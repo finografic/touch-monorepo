@@ -27,14 +27,14 @@
       "lib/*": ["./src/lib/*"],
       "models": ["./src/models"],
       "models/*": ["./src/models/*"],
-      "translations": ["./src/translations"],
-      "translations/*": ["./src/translations/*"],
+      "translations": ["./translations"],
+      "translations/*": ["./translations/*"],
       "types": ["./src/types"],
       "types/*": ["./src/types/*"],
       "utils": ["./src/utils"],
       "utils/*": ["./src/utils/*"]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.json", "src/translations/**/*.json"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.json", "translations/**/*.json"],
   "exclude": ["node_modules", "dist"]
 }
