@@ -12,6 +12,16 @@
       "translations": {
         "title": "Gestió de traduccions",
         "description": "Editar traduccions per contingut de base de dades",
+        "tabs": {
+          "pages": "Pàgines",
+          "labels": "Etiquetas",
+          "components": "Componentes",
+          "orders": "Comandes",
+          "products": "Productes",
+          "buttons": "Botons",
+          "dialogs": "Dialogs",
+          "time": "Temps"
+        },
         "management": "Gestió de traduccions",
         "editTables": "Editar traduccions per taules de base de dades",
         "drinkSubtypes": {
@@ -81,8 +91,16 @@
         }
       },
       "products": {
-        "title": "Etiquetes UI / Traduccions",
-        "description": "Editar etiquetes de la interfície d'usuari i traduccions des de fitxers locals"
+        "title": "Idiomes de productes",
+        "description": "Editar etiquetes de productes",
+        "tabs": {
+          "mode": "Mode",
+          "drinkType": "Tipus de Beguda",
+          "drinkSubtype": "Subtipus",
+          "volume": "Volum",
+          "container": "Envas",
+          "actions": "Accions"
+        }
       },
       "slots": {
         "title": "Graella",

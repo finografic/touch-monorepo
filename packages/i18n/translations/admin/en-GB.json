@@ -12,6 +12,16 @@
       "translations": {
         "title": "Translation Management",
         "description": "Edit translations for database content",
+        "tabs": {
+          "pages": "Pages",
+          "labels": "Labels",
+          "components": "Components",
+          "orders": "Orders",
+          "products": "Products",
+          "buttons": "Buttons",
+          "dialogs": "Dialogs",
+          "time": "Time"
+        },
         "management": "Translation Management",
         "editTables": "Edit translations for database tables",
         "drinkSubtypes": {
@@ -81,8 +91,16 @@
         }
       },
       "products": {
-        "title": "UI Labels / Translations",
-        "description": "Edit user interface labels and translations from local files"
+        "title": "Product Translations",
+        "description": "Edit product translations",
+        "tabs": {
+          "mode": "Mode",
+          "drinkType": "Drink Type",
+          "drinkSubtype": "Subtype",
+          "volume": "Volume",
+          "container": "Container",
+          "actions": "Actions"
+        }
       },
       "slots": {
         "title": "Grid",

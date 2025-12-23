@@ -24,9 +24,9 @@ const translations = {
   'en-GB': mergeTranslations(uiEnGB, adminEnGB, appEnGB),
   'ca-ES': mergeTranslations(uiCaES, adminCaES, appCaES),
 
-  'es': mergeTranslations(uiEsES, adminEsES, appEsES),
-  'en': mergeTranslations(uiEnGB, adminEnGB, appEnGB),
-  'ca': mergeTranslations(uiCaES, adminCaES, appCaES),
+  // 'es': mergeTranslations(uiEsES, adminEsES, appEsES),
+  // 'en': mergeTranslations(uiEnGB, adminEnGB, appEnGB),
+  // 'ca': mergeTranslations(uiCaES, adminCaES, appCaES),
 } as const;
 
 // i18next compatible resources format
@@ -35,9 +35,9 @@ const resources = {
   'en-GB': { translation: translations['en-GB'] },
   'ca-ES': { translation: translations['ca-ES'] },
 
-  'es': { translation: translations['es-ES'] },
-  'en': { translation: translations['en-GB'] },
-  'ca': { translation: translations['ca-ES'] },
+  // 'es': { translation: translations['es-ES'] },
+  // 'en': { translation: translations['en-GB'] },
+  // 'ca': { translation: translations['ca-ES'] },
 } as const;
 
 export { translations, resources };

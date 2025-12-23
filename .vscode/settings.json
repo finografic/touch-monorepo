@@ -89,7 +89,11 @@
     "${workspaceFolder}/packages/i18n/translations",
     "${workspaceFolder}/packages/i18n/translations/ui",
     "${workspaceFolder}/packages/i18n/translations/app",
-    "${workspaceFolder}/packages/i18n/translations/admin"
+    "${workspaceFolder}/packages/i18n/translations/admin",
+    "${workspaceFolder}/packages/i18n/src/translations",
+    "${workspaceFolder}/packages/i18n/src/translations/ui",
+    "${workspaceFolder}/packages/i18n/src/translations/app",
+    "${workspaceFolder}/packages/i18n/src/translations/admin"
   ],
   // Enable i18next framework support
   "i18n-ally.enabledFrameworks": ["i18next"],

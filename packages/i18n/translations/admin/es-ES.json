@@ -12,6 +12,16 @@
       "translations": {
         "title": "Idioma de productos",
         "description": "Editar traducciones para contenido de base de datos",
+        "tabs": {
+          "pages": "Páginas",
+          "labels": "Etiquetas",
+          "components": "Componentes",
+          "orders": "Pedidos",
+          "products": "Productos",
+          "buttons": "Botones",
+          "dialogs": "Diálogos",
+          "time": "Tiempo"
+        },
         "management": "Idioma de productos",
         "editTables": "Editar traducciones para tablas de base de datos",
         "drinkSubtypes": {
@@ -33,15 +43,15 @@
         "domains": {
           "title": "Traducciones {{group}}",
           "ui": {
-            "title": "Traducciones UI",
+            "title": "Idioma de etiquetas",
             "description": "Botones, tablas, tiempo, etc."
           },
           "app": {
-            "title": "Traducciones App",
+            "title": "Idioma del app",
             "description": "Páginas, títulos, subtítulos, etiquetas, etc."
           },
           "admin": {
-            "title": "Traducciones Admin",
+            "title": "Idioma del administrador",
             "description": "Páginas, títulos, subtítulos, etiquetas, etc."
           }
         },
@@ -81,8 +91,16 @@
         }
       },
       "products": {
-        "title": "Idioma de etiquetas",
-        "description": "Edit user interface labels and translations from local files"
+        "title": "Idioma de productes",
+        "description": "Editar etiquetes de productes",
+        "tabs": {
+          "mode": "Modo",
+          "drinkType": "Tipo de Bebida",
+          "drinkSubtype": "Subtipo",
+          "volume": "Volumen",
+          "container": "Envase",
+          "actions": "Acciones"
+        }
       },
       "slots": {
         "title": "Grid",
