@@ -53,7 +53,8 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
     isItemEmpty,
   } = useTranslationsTableForm({ items, supportedLanguages });
 
-  log('group:', 'lime', group);
+  // log('group:', 'lime', group);
+
   // Track initial items for DELETE detection
   const initialItemsRef = useRef<TranslationsFormItem[]>(items);
   useEffect(() => {
@@ -172,9 +173,13 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
               }
 
               // Add the actual row
+              // Get the translation key from the field (use the actual key, not encoded)
+              const itemKey = field.key || field.id || '';
+
               rows.push(
                 <TranslationsRow
-                  key={field.fieldId}
+                  key={field.id || field.fieldId}
+                  translationKey={itemKey}
                   index={index}
                   onDelete={handleDelete}
                   supportedLanguages={supportedLanguages}

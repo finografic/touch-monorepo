@@ -4,12 +4,18 @@ import clsx from 'clsx';
 import { TrashIcon } from 'styles/icons';
 import { Button } from 'components/Button';
 import type { RegionLocale } from '@workspace/config/i18n.config';
-import { languagesCodeToKey, regenerateSlug } from 'admin/utils/languages.utils';
+import {
+  languagesCodeToKey,
+  regenerateSegment,
+  encodeRHFKey,
+  decodeRHFKey,
+} from 'admin/utils/languages.utils';
 import { Input } from 'forms/Input/Input';
 
 interface TranslationsRowProps {
-  index: number;
-  onDelete: (index: number) => Promise<void>;
+  translationKey: string; // The dot-notation key (e.g., "admin.pages.dashboard.title")
+  index: number; // Keep for rendering/display purposes
+  onDelete: (key: string) => Promise<void>;
   isEditing: boolean;
   onEditingChange: (isEditing: boolean) => void;
   supportedLanguages: RegionLocale[]; // ["es-ES","en-GB","ca-ES"]
@@ -19,6 +25,7 @@ interface TranslationsRowProps {
 }
 
 export const TranslationsRow: React.FC<TranslationsRowProps> = ({
+  translationKey,
   index,
   onDelete,
   isEditing,
@@ -28,37 +35,85 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
   isSaving = false,
   isDeleting = false,
 }) => {
-  const { control, register, formState, watch, setValue } = useFormContext();
+  const { control, register, formState, watch, setValue, getValues } = useFormContext();
+
+  // Encode the translation key for RHF (replace dots with __DOT__)
+  const encodedKey = encodeRHFKey(translationKey);
+
+  // Get the current key from the form (may have changed from initial translationKey)
+  // Start with the prop, but watch for changes
+  const currentKeyRaw = watch(`items.${encodedKey}.key`) || translationKey;
+  const currentKey = currentKeyRaw ? decodeRHFKey(currentKeyRaw) : translationKey;
+
+  // Use encoded key for RHF field path (RHF uses dots for nesting, so we encode them)
+  const fieldPath = `items.${encodedKey}`;
 
   /* -----------------------------
      Key field (controlled)
   ------------------------------ */
 
   const { field: keyField } = useController({
-    name: `items.${index}.key`,
+    name: `${fieldPath}.key`,
     control,
   });
 
-  const values = watch(`items.${index}`);
+  const values = watch(fieldPath);
 
   /* -----------------------------
-     Slug auto-sync
+     Segment auto-sync (only final segment)
   ------------------------------ */
 
-  const updateSlug = useCallback(
-    (translations: Record<RegionLocale, string>) => {
-      if (isSaving || isDeleting) return;
+  const updateSegment = useCallback(
+    (translations: Record<RegionLocale, string>, currentKey: string) => {
+      if (isSaving || isDeleting || !currentKey) return;
 
-      const nextSlug = regenerateSlug(translations, slugPriority ?? supportedLanguages);
-      if (nextSlug !== keyField.value) {
-        setValue(`items.${index}.key`, nextSlug, { shouldDirty: false, shouldTouch: false });
+      // Only regenerate the final segment of the key
+      const keyParts = currentKey.split('.');
+      if (keyParts.length === 0) return;
+
+      const prefix = keyParts.slice(0, -1).join('.'); // Everything except the last segment
+      const newSegment = regenerateSegment(translations, slugPriority ?? supportedLanguages);
+
+      if (newSegment) {
+        const newKey = prefix ? `${prefix}.${newSegment}` : newSegment;
+        if (newKey !== currentKey) {
+          // Get current form values from old location
+          const currentValues = getValues(fieldPath) || values || {};
+
+          // Encode new key for RHF
+          const newEncodedKey = encodeRHFKey(newKey);
+          const newFieldPath = `items.${newEncodedKey}`;
+
+          // Move form data to new key location
+          setValue(
+            newFieldPath,
+            { ...currentValues, key: newKey },
+            { shouldDirty: false, shouldTouch: false },
+          );
+
+          // Remove old key location if it's different
+          if (newKey !== currentKey && currentKey !== translationKey) {
+            // Clear old location (setValue with undefined removes it)
+            setValue(fieldPath, undefined, { shouldDirty: false, shouldTouch: false });
+          }
+        }
       }
     },
-    [keyField.value, setValue, slugPriority, supportedLanguages, index, isSaving, isDeleting],
+    [
+      setValue,
+      getValues,
+      slugPriority,
+      supportedLanguages,
+      fieldPath,
+      isSaving,
+      isDeleting,
+      values,
+      translationKey,
+    ],
   );
 
   useEffect(() => {
-    if (!values) return;
+    if (!values || !keyField.value) return;
 
     const translations: Record<RegionLocale, string> = {} as Record<RegionLocale, string>;
 
@@ -67,14 +122,23 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
       translations[lang] = values[key] || '';
     }
 
-    updateSlug(translations);
-  }, [values?.esEs, values?.enGb, values?.caEs, supportedLanguages, slugPriority, updateSlug]);
+    updateSegment(translations, keyField.value);
+  }, [
+    values?.esEs,
+    values?.enGb,
+    values?.caEs,
+    supportedLanguages,
+    slugPriority,
+    updateSegment,
+    keyField.value,
+  ]);
 
   /* -----------------------------
      Row state
   ------------------------------ */
 
-  const rowDirtyFields = formState.dirtyFields?.items?.[index];
+  // Access dirty fields using bracket notation for keys with dots
+  const rowDirtyFields = formState.dirtyFields?.items?.[translationKey];
   const isDirty = Boolean(rowDirtyFields);
 
   const rowClasses = clsx({
@@ -108,8 +172,8 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
       {/* DYNAMIC LANGUAGE COLUMNS */}
       {supportedLanguages.map((lang) => {
         const fieldKey = languagesCodeToKey(lang); // esEs, enGb, caEs
-        const fieldName = `items.${index}.${fieldKey}` as const;
-        const value = watch(`items.${index}.${fieldKey}`);
+        const fieldName = `${fieldPath}.${fieldKey}` as const;
+        const value = watch(fieldName);
 
         return (
           <td key={lang}>
@@ -133,7 +197,7 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
           variant="ghost"
           size="md"
           color="danger"
-          onClick={() => onDelete(index)}
+          onClick={() => onDelete(translationKey)}
           disabled={isDeleting}
         >
           <TrashIcon />

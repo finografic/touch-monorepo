@@ -84,7 +84,7 @@
         "title": "Idioma de etiquetas",
         "description": "Edit user interface labels and translations from local files"
       },
-      "slotConfig": {
+      "slots": {
         "title": "Grid",
         "description": "Configure MainPage grid layout and slot types"
       },

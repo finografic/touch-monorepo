@@ -32,3 +32,22 @@ export const regenerateSegment = (
     return value ? camelCase(value) : '';
   }
 };
+
+/* ============================================================
+   RHF Key Encoding/Decoding
+   ============================================================ */
+
+/**
+ * Encodes a dot-notation translation key for use in RHF field paths
+ * RHF uses dots for nested paths, so we replace them with a safe separator
+ */
+export const encodeRHFKey = (key: string): string => {
+  return key.replace(/\./g, '__DOT__');
+};
+
+/**
+ * Decodes an RHF-encoded key back to dot-notation
+ */
+export const decodeRHFKey = (encodedKey: string): string => {
+  return encodedKey.replace(/__DOT__/g, '.');
+};

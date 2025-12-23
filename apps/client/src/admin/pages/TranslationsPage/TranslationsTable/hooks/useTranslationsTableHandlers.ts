@@ -1,11 +1,17 @@
 import { useCallback } from 'react';
 import type { UseFormReturn } from 'react-hook-form';
 import type { TranslationsFormItem } from '../../translations.types';
+import { encodeRHFKey, decodeRHFKey } from 'admin/utils/languages.utils';
+
+// Form structure: { items: { [key: string]: TranslationsFormItem } }
+type TranslationsFormData = {
+  items: Record<string, TranslationsFormItem>;
+};
 
 interface UseTranslationsTableHandlersOptions {
-  methods: UseFormReturn<{ items: TranslationsFormItem[] }>;
-  watchedItems: TranslationsFormItem[];
-  remove: (index: number) => void;
+  methods: UseFormReturn<TranslationsFormData>;
+  watchedItems: Record<string, TranslationsFormItem>;
+  remove: (key: string) => void;
   languageKeys: string[];
   isItemEmpty: (item: TranslationsFormItem) => boolean;
   onSave?: ({ items }: { items: TranslationsFormItem[] }) => Promise<{ savedItems: TranslationsFormItem[] }>;
@@ -14,7 +20,7 @@ interface UseTranslationsTableHandlersOptions {
 }
 
 interface UseTranslationsTableHandlersReturn {
-  handleDelete: (index: number) => Promise<void>;
+  handleDelete: (key: string) => Promise<void>;
   handleSave: () => Promise<void>;
   handleReset: () => void;
 }
@@ -38,12 +44,13 @@ export const useTranslationsTableHandlers = ({
   // ======================================================================== //
 
   const handleDelete = useCallback(
-    async (index: number) => {
-      const item = watchedItems[index];
+    async (key: string) => {
+      const item = watchedItems[key];
+      if (!item) return;
 
       // If it's a temp item (not saved yet), just remove from form
       if (item.id.startsWith('temp-')) {
-        remove(index);
+        remove(key);
         return;
       }
 
@@ -55,7 +62,7 @@ export const useTranslationsTableHandlers = ({
       if (!confirmed) return;
 
       if (!onDelete) {
-        remove(index);
+        remove(key);
         return;
       }
 
@@ -63,7 +70,7 @@ export const useTranslationsTableHandlers = ({
         const result = await onDelete(item.id);
 
         if (result?.success) {
-          remove(index);
+          remove(key);
           // Update initial tracking to reflect deletion
           initialItemsRef.current = initialItemsRef.current.filter((i) => i.id !== result.deletedId);
         }
@@ -82,13 +89,20 @@ export const useTranslationsTableHandlers = ({
   const handleSave = methods.handleSubmit(async (data) => {
     const { dirtyFields } = methods.formState;
 
+    // Convert object to array for processing
+    // Keys in data.items are encoded, but items themselves have the real keys
+    const itemsArray = Object.values(data.items);
+
     // 1. Remove empty rows
-    const nonEmptyItems = data.items.filter((item) => !isItemEmpty(item));
+    const nonEmptyItems = itemsArray.filter((item) => !isItemEmpty(item));
 
     // 2. Keep only dirty or new rows
-    const changedItems = nonEmptyItems.filter((item, index) => {
+    // dirtyFields.items keys are encoded (RHF format), so we need to encode item keys for comparison
+    const changedItems = nonEmptyItems.filter((item) => {
       if (item.id.startsWith('temp-')) return true;
-      return Boolean(dirtyFields.items?.[index]);
+      const itemKey = item.key || item.id;
+      const encodedKey = encodeRHFKey(itemKey);
+      return Boolean(dirtyFields.items?.[encodedKey]);
     });
 
     if (changedItems.length === 0) return;

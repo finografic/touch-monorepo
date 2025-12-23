@@ -20,10 +20,10 @@ export const TranslationsPage: React.FC = () => {
   const { domain } = useParams<{ domain: I18nTranslationsDomain }>();
 
   const groups = [...new Set(flattenTranslations(domain, translations).map(({ key }) => key.split('.')[1]))];
-  log('translations:', 'lime', domain);
+  log('translations:', 'blue', translations);
 
-  const [activeTab, setActiveTab] = useState<I18nDomainGroupKey>(() => groups[0]);
   const { isLoading, supportedLanguages, sections } = useGetTranslations({ domain, groups });
+  const [activeTab, setActiveTab] = useState<I18nDomainGroupKey>(() => sections?.[0]?.group);
 
   useEffect(
     function updateActiveTab() {
