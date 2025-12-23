@@ -20,10 +20,20 @@
           "products": "Productes",
           "buttons": "Botons",
           "dialogs": "Dialogs",
-          "time": "Temps"
+          "time": "Temps",
+          "modes": "Modes",
+          "drinkTypes": "Tipus de Beguda",
+          "drinkSubtypes": "Subtipus",
+          "volumes": "Volums",
+          "containerTypes": "Tipus d'Envas",
+          "actions": "Accions"
         },
         "management": "Gestió de traduccions",
         "editTables": "Editar traduccions per taules de base de dades",
+        "modes": {
+          "title": "Modos",
+          "description": "Modos d'operació del sistema"
+        },
         "drinkSubtypes": {
           "title": "Subtipus de begudes",
           "description": "Subtipus de vi i cervesa (rubia, negra, tinto, blanco)"

@@ -14,12 +14,20 @@ import { styles } from './TranslationsPage.styles';
 import { useParams } from 'react-router-dom';
 import { translations } from '@workspace/i18n';
 import { flattenTranslations } from 'utils/flatten-translations';
+import { camelCase } from 'utils/string-case.utils';
 
 export const TranslationsPage: React.FC = () => {
   const { t } = useTranslation();
   const { domain } = useParams<{ domain: I18nTranslationsDomain }>();
   const pageTitleKey = `admin.pages.translations.domains.${domain}.title`;
-  const groups = [...new Set(flattenTranslations(domain, translations).map(({ key }) => key.split('.')[1]))];
+  // Extract groups, convert kebab-case to camelCase, and deduplicate
+  const groups = [
+    ...new Set(
+      flattenTranslations(domain, translations)
+        .map(({ key }) => key.split('.')[1])
+        .map((group) => camelCase(group)),
+    ),
+  ];
   const [activeTab, setActiveTab] = useState<I18nDomainGroupKey>();
 
   log('translations:', 'blue', translations);

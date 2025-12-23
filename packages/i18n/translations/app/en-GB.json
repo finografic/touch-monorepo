@@ -10,7 +10,7 @@
         "title": "Main",
         "description": "Main page"
       },
-      "drinkType": {
+      "drinkTypes": {
         "title": "Drink Types",
         "description": "Select drink type"
       },
@@ -29,22 +29,6 @@
       "temperatureControl": {
         "title": "Temperature Control",
         "description": "Select temperature control"
-      },
-      "drink-type": {
-        "title": "Select Drink Type",
-        "description": "Choose your beverage type"
-      },
-      "drink-subtype": {
-        "title": "Select Drink Subtype",
-        "description": "Choose your beverage subtype"
-      },
-      "drink-volume": {
-        "title": "Select Volume",
-        "description": "Choose your volume"
-      },
-      "container-type": {
-        "title": "Select Container Type",
-        "description": "Choose your container type"
       },
       "temperature": {
         "title": "Temperature Control",

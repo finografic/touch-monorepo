@@ -20,10 +20,20 @@
           "products": "Products",
           "buttons": "Buttons",
           "dialogs": "Dialogs",
-          "time": "Time"
+          "time": "Time",
+          "modes": "Modes",
+          "drinkTypes": "Drink Types",
+          "drinkSubtypes": "Drink Subtypes",
+          "volumes": "Volumes",
+          "containerTypes": "Container Types",
+          "actions": "Actions"
         },
         "management": "Translation Management",
         "editTables": "Edit translations for database tables",
+        "modes": {
+          "title": "Modes",
+          "description": "System operation modes"
+        },
         "drinkSubtypes": {
           "title": "Drink Subtypes",
           "description": "Wine and beer subtypes (rubia, negra, tinto, blanco)"
@@ -81,7 +91,6 @@
             "subtype": "Subtype",
             "volume": "Volume",
             "containerType": "Container",
-            "container": "Container",
             "temperature": "Temperature",
             "defaultTempConsume": "Temperature",
             "actions": "Actions",

@@ -30,22 +30,6 @@
         "title": "Control de temperatura",
         "description": "Seleccionar control de temperatura"
       },
-      "drink-type": {
-        "title": "Seleccionar tipus de beguda",
-        "description": "Tria el teu tipus de beguda"
-      },
-      "drink-subtype": {
-        "title": "Seleccionar subtipus de beguda",
-        "description": "Tria el teu subtipus de beguda"
-      },
-      "drink-volume": {
-        "title": "Seleccionar volum",
-        "description": "Tria el teu volum"
-      },
-      "container-type": {
-        "title": "Seleccionar tipus de contenidor",
-        "description": "Tria el teu tipus de contenidor"
-      },
       "temperature": {
         "title": "Control de temperatura",
         "description": "Configura les teves preferències de temperatura"

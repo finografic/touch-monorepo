@@ -20,10 +20,20 @@
           "products": "Productos",
           "buttons": "Botones",
           "dialogs": "Diálogos",
-          "time": "Tiempo"
+          "time": "Tiempo",
+          "modes": "Modos",
+          "drinkTypes": "Tipos de Bebida",
+          "drinkSubtypes": "Subtipos de Bebida",
+          "volumes": "Volúmenes",
+          "containerTypes": "Tipos de Envase",
+          "actions": "Acciones"
         },
         "management": "Idioma de productos",
         "editTables": "Editar traducciones para tablas de base de datos",
+        "modes": {
+          "title": "Modos",
+          "description": "Modos de operación del sistema"
+        },
         "drinkSubtypes": {
           "title": "Subtipos de bebidas",
           "description": "Subtipos de vino y cerveza (rubia, negra, tinto, blanco)"

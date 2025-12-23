@@ -10,23 +10,23 @@
         "title": "Principal",
         "description": "Página principal"
       },
-      "drinkType": {
+      "drinkTypes": {
         "title": "Tipos de bebidas",
         "description": "Seleccionar tipo de bebida"
       },
-      "drinkSubtype": {
+      "drinkSubtypes": {
         "title": "Subtipos de bebidas",
         "description": "Seleccionar subtipo de bebida"
       },
-      "drinkVolume": {
+      "volumes": {
         "title": "Volúmenes",
         "description": "Seleccionar volumen"
       },
-      "containerType": {
+      "containerTypes": {
         "title": "Tipos de contenedores",
         "description": "Seleccionar tipo de contenedor"
       },
-      "temperature": {
+      "temperatures": {
         "title": "Control de temperatura",
         "description": "Configura tus preferencias de temperatura"
       }
