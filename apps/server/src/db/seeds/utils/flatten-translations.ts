@@ -12,8 +12,7 @@
  */
 
 import { translations } from '@workspace/i18n/translations';
-
-type Domain = 'ui' | 'app' | 'admin';
+import type { I18nTranslationsDomain } from '@workspace/i18n/types';
 
 interface FlattenedTranslation {
   key: string;
@@ -49,7 +48,7 @@ function flattenObject(obj: Record<string, any>, prefix = ''): Record<string, st
  * @param domain - The domain to flatten ('ui', 'app', or 'admin')
  * @returns Array of flattened translation entries ready for database seeding
  */
-export function flattenTranslationsForSeed(domain: Domain): FlattenedTranslation[] {
+export function flattenTranslationsForSeed(domain: I18nTranslationsDomain): FlattenedTranslation[] {
   // Get all locale codes
   const locales = Object.keys(translations) as Array<keyof typeof translations>;
 
@@ -68,28 +67,25 @@ export function flattenTranslationsForSeed(domain: Domain): FlattenedTranslation
   }
 
   // Collect all unique keys across all locales
-  const allKeys = new Set<string>();
+  const i18nTranslationKeys = new Set<string>();
   for (const localeData of Object.values(flattenedByLocale)) {
     for (const key of Object.keys(localeData)) {
-      allKeys.add(key);
+      i18nTranslationKeys.add(key);
     }
   }
 
   // Build the result array with translations from all locales
   const result: FlattenedTranslation[] = [];
 
-  for (const key of Array.from(allKeys).sort()) {
-    const translationsForKey: Record<string, string> = {};
+  for (const key of Array.from(i18nTranslationKeys).sort()) {
+    const translations: Record<string, string> = {};
 
     for (const locale of locales) {
       const value = flattenedByLocale[locale]?.[key];
-      translationsForKey[locale] = value || '';
+      translations[locale] = value || '';
     }
 
-    result.push({
-      key,
-      translations: translationsForKey,
-    });
+    result.push({ key, translations });
   }
 
   return result;
