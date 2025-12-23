@@ -16,4 +16,3 @@ export interface TypeGenerationConfig {
   /** Default country code for each language */
   defaultCountries: Record<string, string>;
 }
-
