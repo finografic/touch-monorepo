@@ -74,7 +74,6 @@ export const computePageGrouping = (
   const fieldIndexToPage = new Map<number, string>();
 
   items.forEach((item) => {
-    // Find the corresponding field index
     const fieldIndex = fields.findIndex((field) => field.id === item.id || field.key === item.key);
     if (fieldIndex === -1) return;
 
