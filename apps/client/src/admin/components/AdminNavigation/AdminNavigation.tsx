@@ -69,7 +69,8 @@ export const AdminNavigation: React.FC<AdminNavigationProps> = ({ displayIcons =
     return getAdminNavItemsByRole(user?.role).map((item) => ({
       id: item.id,
       path: item.path,
-      label: getAdminNavItemText({ key: item.id, role: user?.role }),
+      // label: getAdminNavItemText({ key: item.id, role: user?.role }),
+      label: t(`admin.pages.${item.id}.title`),
       icon: item.icon,
       children: item.children?.map((child) => ({
         ...child,

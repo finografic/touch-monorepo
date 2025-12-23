@@ -19,14 +19,32 @@ const mergeTranslations = (...sources: any[]) => {
   }, {});
 };
 
-const translations = {
-  'es-ES': mergeTranslations(uiEsES, adminEsES, appEsES),
-  'en-GB': mergeTranslations(uiEnGB, adminEnGB, appEnGB),
-  'ca-ES': mergeTranslations(uiCaES, adminCaES, appCaES),
+// const translations = {
+//   'es-ES': mergeTranslations(uiEsES, adminEsES, appEsES),
+//   'en-GB': mergeTranslations(uiEnGB, adminEnGB, appEnGB),
+//   'ca-ES': mergeTranslations(uiCaES, adminCaES, appCaES),
 
-  'es': mergeTranslations(uiEsES, adminEsES, appEsES),
-  'en': mergeTranslations(uiEnGB, adminEnGB, appEnGB),
-  'ca': mergeTranslations(uiCaES, adminCaES, appCaES),
+//   'es': mergeTranslations(uiEsES, adminEsES, appEsES),
+//   'en': mergeTranslations(uiEnGB, adminEnGB, appEnGB),
+//   'ca': mergeTranslations(uiCaES, adminCaES, appCaES),
+// } as const;
+
+const translations = {
+  'es-ES': {
+    ui: uiEsES,
+    app: appEsES,
+    admin: adminEsES,
+  },
+  'en-GB': {
+    ui: uiEnGB,
+    app: appEnGB,
+    admin: adminEnGB,
+  },
+  'ca-ES': {
+    ui: uiCaES,
+    app: appCaES,
+    admin: adminCaES,
+  },
 } as const;
 
 // i18next compatible resources format

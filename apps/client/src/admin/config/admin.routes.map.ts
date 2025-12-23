@@ -129,7 +129,7 @@ export const ADMIN_ROUTE_CONFIGS: AdminRouteConfig[] = [
 
   // AUTHENTICATED ENTRIES (only visible as admin) ========================== //
   {
-    id: 'translations',
+    id: 'products',
     path: '/admin/translations-product',
     element: {
       public: null,
@@ -142,7 +142,7 @@ export const ADMIN_ROUTE_CONFIGS: AdminRouteConfig[] = [
   },
   // TRANSLATIONS LABELS GROUP (dropdown with 3 children) ================== //
   {
-    id: 'translationsLabels',
+    id: 'translations',
     path: '/admin/translations/ui', // Default/first child path (for active state detection)
     element: {
       public: null,
