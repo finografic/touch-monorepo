@@ -1,7 +1,12 @@
 import { css } from '@emotion/react';
 import { colors, fontFamilies } from 'styles';
 import { forms } from 'styles/forms/forms.styles';
-import { ROW_HEIGHT, TABLE_BORDER, TABLE_HEAD_COLOR, TD_PADDING } from '../translations-table.config';
+import {
+  ROW_HEIGHT,
+  TABLE_BORDER,
+  TABLE_HEAD_COLOR,
+  TD_PADDING,
+} from '../../TranslationsSHARED/translations-table.config';
 
 export const styles = css`
   width: 100%;
