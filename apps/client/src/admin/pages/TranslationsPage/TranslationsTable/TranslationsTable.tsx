@@ -15,10 +15,10 @@ import type { TranslationsFormItem } from '../translations.types';
 import type { I18nTranslationsDomain } from '@workspace/i18n/types';
 
 interface TranslationsTableProps {
+  domain: I18nTranslationsDomain;
   group: string;
   items: TranslationsFormItem[];
   supportedLanguages: RegionLocale[];
-  domain?: I18nTranslationsDomain;
   onSave?: ({ items }: { items: TranslationsFormItem[] }) => Promise<{ savedItems: TranslationsFormItem[] }>;
   onDelete?: (itemId: string) => Promise<{ success: boolean; deletedId: string }>;
   isSaving?: boolean;
@@ -26,10 +26,10 @@ interface TranslationsTableProps {
 }
 
 export const TranslationsTable: React.FC<TranslationsTableProps> = ({
+  domain,
   group,
   items,
   supportedLanguages,
-  domain,
   onSave,
   onDelete,
   isSaving = false,
@@ -180,6 +180,8 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
                 <TranslationsRow
                   key={field.id || field.fieldId}
                   translationKey={itemKey}
+                  domain={domain}
+                  group={group}
                   index={index}
                   onDelete={handleDelete}
                   supportedLanguages={supportedLanguages}

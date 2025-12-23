@@ -105,6 +105,9 @@ export const styles = css`
         .group-header-content {
           padding-right: 0.2rem;
         }
+        .col-divider-language {
+          padding-left: 2.25rem;
+        }
       }
 
       /* Column header row within expanded group (mimics thead) */
@@ -151,6 +154,25 @@ export const styles = css`
           color: ${colors.info};
           text-align: left;
           border: none;
+
+          /* First cell (page title) */
+          &:first-child {
+            color: ${colors.info};
+            font-weight: 700;
+          }
+
+          /* Language code cells */
+          &:not(:first-child):not(:last-child) {
+            color: ${colors.textXXLight};
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-align: center;
+          }
+
+          /* Last cell (empty for delete column) */
+          &:last-child {
+            border: none;
+          }
         }
 
         &:hover {

@@ -79,10 +79,10 @@ export const TranslationsPage: React.FC = () => {
           <Tabs.Content key={section.group} value={section.group}>
             <AdminSection title={section.title} description={t(section.description)}>
               <TranslationsTable
+                domain={domain}
                 group={section.group}
                 items={section.items}
                 supportedLanguages={supportedLanguages}
-                domain={domain}
                 onSave={async ({ items }) => await save({ items })}
                 onDelete={async (itemId) => {
                   const result = await deleteItem(itemId);

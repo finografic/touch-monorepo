@@ -11,8 +11,11 @@ import {
   decodeRHFKey,
 } from 'admin/utils/languages.utils';
 import { Input } from 'forms/Input/Input';
+import type { I18nTranslationsDomain } from '@workspace/i18n/types';
 
 interface TranslationsRowProps {
+  domain: I18nTranslationsDomain;
+  group: string;
   translationKey: string; // The dot-notation key (e.g., "admin.pages.dashboard.title")
   index: number; // Keep for rendering/display purposes
   onDelete: (key: string) => Promise<void>;
@@ -25,6 +28,8 @@ interface TranslationsRowProps {
 }
 
 export const TranslationsRow: React.FC<TranslationsRowProps> = ({
+  domain,
+  group,
   translationKey,
   index,
   onDelete,
@@ -162,8 +167,10 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
     >
       {/* KEY */}
       <td className="col-key">
+        <pre>{String(keyField.value).replace(`${domain}.${group}.`, '')}</pre>
         <Input
           value={keyField.value || ''}
+          type="hidden"
           readOnly
           className={clsx({ 'input-dirty': rowDirtyFields?.key })}
         />
@@ -176,7 +183,7 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
         const value = watch(fieldName);
 
         return (
-          <td key={lang}>
+          <td key={lang} className="col-value">
             <Input
               {...register(fieldName)}
               placeholder="--"
