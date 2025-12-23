@@ -104,8 +104,20 @@ export const useTranslationsTableForm = ({
       return; // Skip reset on initial mount
     }
 
-    // Only reset if items actually changed (not just a re-render)
-    const itemsChanged = JSON.stringify(prevItemsRef.current) !== JSON.stringify(items);
+    // Check if items actually changed by comparing lengths and IDs/keys
+    // This is more reliable than JSON.stringify for detecting real changes
+    const itemsChanged =
+      prevItemsRef.current.length !== items.length ||
+      items.some((item, index) => {
+        const prevItem = prevItemsRef.current[index];
+        if (!prevItem) return true;
+        // Check if ID or key changed, or if any translation value changed
+        if (prevItem.id !== item.id || prevItem.key !== item.key) return true;
+        // Check if any translation values changed
+        const langKeys = Object.keys(item).filter((k) => k !== 'id' && k !== 'key');
+        return langKeys.some((k) => prevItem[k] !== item[k]);
+      });
+
     if (itemsChanged) {
       // Transform items array to object keyed by translation key (encoded for RHF)
       const newItemsObject: Record<string, TranslationsFormItem> = {};

@@ -48,7 +48,8 @@ export const TranslationsPage: React.FC = () => {
   const pageTitleKey = `admin.pages.translations.domains.${domain}.title`;
 
   // Show loading if: data is loading, mutations are pending, or we don't have sections yet
-  if (isLoading || isSaving || isDeleting || sections.length === 0 || !activeSection) {
+  // if (isLoading || isSaving || isDeleting || sections.length === 0 || !activeSection) {
+  if (isLoading || sections.length === 0 || !activeSection) {
     return (
       <AdminPageLayout
         title={t(pageTitleKey)}

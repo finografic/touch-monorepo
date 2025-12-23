@@ -8,6 +8,7 @@ import type { TranslationsFormItem } from '../translations.types';
 import { TranslationsDto } from '../utils/translations.dto';
 import { useToast } from 'components/Toast/ToastContext';
 import type { I18nTranslationsDomain } from '@workspace/i18n/types';
+import { GET_TRANSLATIONS_QUERYKEY } from 'queries/translations';
 
 export const useSaveTranslations = ({
   domain,
@@ -87,8 +88,10 @@ export const useSaveTranslations = ({
       }
 
       // Invalidate translations queries
+      // Use the same query key pattern as useGetTranslations
+      // This will match queries like [...GET_TRANSLATIONS_QUERYKEY, domain, location.pathname]
       await queryClient.invalidateQueries({
-        queryKey: [`translations-${domain}`],
+        queryKey: [...GET_TRANSLATIONS_QUERYKEY, domain],
       });
 
       // Reload i18next resources to reflect changes immediately
