@@ -38,6 +38,15 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
   const [editingRowIndex, setEditingRowIndex] = useState<number | null>(null);
   const [showKeyColumn, setShowKeyColumn] = useState<boolean>(true);
 
+  const initialItemsRef = useRef<TranslationsFormItem[]>(items);
+
+  useEffect(
+    function initialItemsState() {
+      initialItemsRef.current = items;
+    },
+    [items],
+  );
+
   // ======================================================================== //
   // Shared Form Logic
   // ======================================================================== //
@@ -54,20 +63,14 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
     isItemEmpty,
   } = useTranslationsTableForm({ items, supportedLanguages });
 
-  // log('group:', 'lime', group);
-
-  // Track initial items for DELETE detection
-  const initialItemsRef = useRef<TranslationsFormItem[]>(items);
-  useEffect(() => {
-    initialItemsRef.current = items;
-  }, [items]);
+  const hasGrouping = group === 'pages' && domain;
 
   // Group items by page when group is 'pages'
   // Keys are in format: domain.pages.{pageName}.{rest}
   // We extract {pageName} to group items and track which field indices belong to which page
   const pageGrouping = useMemo(() => {
-    if (group !== 'pages' || !domain) {
-      return null; // Not a pages section, no grouping needed
+    if (!hasGrouping) {
+      return null;
     }
 
     // Map field index to page name
@@ -149,7 +152,7 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
             <tr>
               <th className="col-key"></th>
               {supportedLanguages.map((lang) => (
-                <th key={lang}>{lang}</th>
+                <th key={lang}>{hasGrouping ? <></> : <>{lang}</>}</th>
               ))}
               <th className="col-actions"></th>
             </tr>
@@ -160,7 +163,7 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
               const fieldKey = field.id || field.fieldId || `field-${index}`;
 
               // Insert page divider before first item of each new page group
-              if (group === 'pages' && domain && pageGrouping) {
+              if (hasGrouping && pageGrouping) {
                 const currentPage = pageGrouping.get(index);
                 const previousPage = index > 0 ? pageGrouping.get(index - 1) : null;
 
@@ -178,8 +181,7 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
                 }
               }
 
-              // Add the actual row
-              // Get the translation key from the field (use the actual key, not encoded)
+              // translation key from the field (use the actual key, not encoded)
               const itemKey = field.key || field.id || '';
 
               rows.push(

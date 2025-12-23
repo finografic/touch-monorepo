@@ -236,24 +236,40 @@ export const styles = css`
       .col-actions {
         display: none;
       }
-      .group-header {
-        height: calc(${ROW_HEIGHT} * 0.75);
-        .col-divider-title,
-        .col-divider-language {
-          height: calc(${ROW_HEIGHT} * 0.75);
-        }
-      }
+
       .group-header-no-key {
-        height: calc(${ROW_HEIGHT} * 0.75);
+        height: calc(${ROW_HEIGHT} * 0.66);
+        border-bottom: transparent;
+        /* background-color: ${colors.danger}; */
         .col-divider-title,
         .col-divider-language {
-          height: calc(${ROW_HEIGHT} * 0.75);
+          height: calc(${ROW_HEIGHT} * 0.66);
+          /* vertical-align: top; */
         }
         .col-divider-title {
           padding-left: 2.2rem;
+          transform: translateY(0.25rem);
         }
-        border-bottom: none;
       }
+
+      .group-header {
+        height: calc(${ROW_HEIGHT} * 0.66);
+        .col-divider-title,
+        .col-divider-language {
+          height: calc(${ROW_HEIGHT} * 0.66);
+        }
+        .col-divider-language {
+          transform: translateY(-0.25rem);
+        }
+      }
+      /* .label-title {
+        background-color: ${colors.warningLight};
+        transform: translateY(2rem);
+      }
+      .label-language {
+        background-color: ${colors.warningLight};
+        transform: translateY(-2rem);
+      } */
     }
   }
 `;

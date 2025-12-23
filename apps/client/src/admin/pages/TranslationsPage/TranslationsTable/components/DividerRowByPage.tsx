@@ -30,7 +30,7 @@ export const DividerRowByPage: React.FC<PageDividerRowProps> = ({
       {!showKeyColumn && (
         <tr className="group-header group-header-no-key">
           <td className="col-divider-title" colSpan={supportedLanguages.length + 2}>
-            {pageTitle}
+            <span className="label-title">{pageTitle}</span>
           </td>
         </tr>
       )}
