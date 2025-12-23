@@ -8,7 +8,6 @@ import { transformFetchError } from '@workspace/core/api';
 import type { TranslationsFormItem } from '../translations.types';
 import { TranslationsDto } from '../utils/translations.dto';
 import { useToast } from 'components/Toast/ToastContext';
-// import type { I18nTranslationsDomain } from 'types/i18n.types';
 import type { I18nTranslationsDomain } from '@workspace/i18n/types';
 
 export const useSaveTranslations = ({

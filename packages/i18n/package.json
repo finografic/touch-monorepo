@@ -66,7 +66,7 @@
     },
     "./types": {
       "types": "./dist/types/index.d.ts",
-      "import": "./dist/types/index.js"
+      "import": "./dist/types/index.d.ts"
     },
     "./iso-codes": {
       "types": "./dist/iso-codes/index.d.ts",

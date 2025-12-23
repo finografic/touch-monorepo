@@ -8,7 +8,7 @@ import { useAppConfig } from 'providers/AppConfigProvider';
 
 import type { RegionLocale } from '@workspace/config/i18n.config';
 import type { TranslationsSection } from '../translations.types';
-import type { I18nTranslationsDomain } from 'types/i18n.types';
+import type { I18nTranslationsDomain } from '@workspace/i18n/types';
 import { GET_TRANSLATIONS_QUERYKEY } from 'queries/translations';
 
 export interface UseUiTranslationData {

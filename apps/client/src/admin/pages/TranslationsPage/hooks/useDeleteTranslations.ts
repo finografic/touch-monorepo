@@ -4,7 +4,7 @@ import { api } from 'api';
 import { transformFetchError } from '@workspace/core/api';
 
 import { useToast } from 'components/Toast/ToastContext';
-import type { I18nTranslationsDomain } from 'types/i18n.types';
+import type { I18nTranslationsDomain } from '@workspace/i18n/types';
 
 /**
  * Hook for immediate HARD deletion (DELETE from database)
