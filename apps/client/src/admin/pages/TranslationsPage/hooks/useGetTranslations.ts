@@ -86,7 +86,7 @@ export const useGetTranslations = ({
     const result = groups.map((group) => {
       const filteredItems = filterByPrefix(group);
       return {
-        key: group,
+        group,
         title: t(`admin.pages.translations.domains.title`, { group }),
         description: `admin.pages.translations.domains.${domain}.description`,
         items: mapItems(filteredItems),
@@ -94,7 +94,7 @@ export const useGetTranslations = ({
     });
 
     // Ensure 'pages' section is first if it exists
-    const pagesIndex = result.findIndex((section) => section.key === 'pages');
+    const pagesIndex = result.findIndex((section) => section.group === 'pages');
     if (pagesIndex > 0) {
       const pagesSection = result.splice(pagesIndex, 1)[0];
       result.unshift(pagesSection);

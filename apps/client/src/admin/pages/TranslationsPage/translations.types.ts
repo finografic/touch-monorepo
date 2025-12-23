@@ -16,7 +16,7 @@ export interface TranslationsFormItem {
 }
 
 export interface TranslationsSection {
-  key: I18nDomainGroupKey;
+  group: I18nDomainGroupKey;
   title: string;
   description: string;
   items: TranslationsFormItem[];

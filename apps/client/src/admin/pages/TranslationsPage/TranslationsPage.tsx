@@ -35,7 +35,7 @@ export const TranslationsPage: React.FC = () => {
   );
 
   const activeSection = useMemo(
-    () => sections.find((section) => section.key === activeTab),
+    () => sections.find((section) => section.group === activeTab),
     [sections, activeTab],
   );
 
@@ -69,19 +69,20 @@ export const TranslationsPage: React.FC = () => {
       <Tabs.Root value={activeTab} onValueChange={(value) => setActiveTab(value as I18nDomainGroupKey)}>
         <Tabs.List>
           {sections.map((section) => (
-            <Tabs.Trigger key={section.key} value={section.key}>
-              {section.key}
+            <Tabs.Trigger key={section.group} value={section.group}>
+              {section.group}
             </Tabs.Trigger>
           ))}
         </Tabs.List>
 
         {sections.map((section) => (
-          <Tabs.Content key={section.key} value={section.key}>
+          <Tabs.Content key={section.group} value={section.group}>
             <AdminSection title={section.title} description={t(section.description)}>
               <TranslationsTable
-                sectionKey={section.key}
+                group={section.group}
                 items={section.items}
                 supportedLanguages={supportedLanguages}
+                domain={domain}
                 onSave={async ({ items }) => await save({ items })}
                 onDelete={async (itemId) => {
                   const result = await deleteItem(itemId);

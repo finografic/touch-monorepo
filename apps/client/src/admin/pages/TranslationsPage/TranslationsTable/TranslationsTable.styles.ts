@@ -135,6 +135,29 @@ export const styles = css`
         }
       }
 
+      /* Page divider row (non-interactive section header) */
+      &.page-divider-row {
+        background-color: ${colors.greyXXLight25};
+        border: ${TABLE_BORDER};
+        border-top: 2px solid ${colors.info};
+        height: auto;
+        cursor: default;
+        user-select: none;
+
+        .page-divider-cell {
+          padding: ${TD_PADDING};
+          font-weight: 700;
+          font-size: 1.1rem;
+          color: ${colors.info};
+          text-align: left;
+          border: none;
+        }
+
+        &:hover {
+          background-color: ${colors.greyXXLight50};
+        }
+      }
+
       /* Row is being edited (has focus) */
       &.row-editing {
         input {

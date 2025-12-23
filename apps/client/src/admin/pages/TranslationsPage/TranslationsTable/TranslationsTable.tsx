@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { FormProvider } from 'react-hook-form';
 import { useDebouncedCallback } from 'use-debounce';
 import { Flex } from '@radix-ui/themes';
 import createCuid from '@bugsnag/cuid';
-
 import { TranslationsRow } from './components/TranslationsRow';
+import { PageDividerRow } from './components/PageDividerRow';
 import { TableFormButtons } from '../TableFormButtons/TableFormButtons';
 import { styles } from './TranslationsTable.styles';
 import { useTranslationsTableForm } from './hooks/useTranslationsTableForm';
@@ -12,11 +12,13 @@ import { useTranslationsTableHandlers } from './hooks/useTranslationsTableHandle
 
 import type { RegionLocale } from '@workspace/config/i18n.config';
 import type { TranslationsFormItem } from '../translations.types';
+import type { I18nTranslationsDomain } from '@workspace/i18n/types';
 
 interface TranslationsTableProps {
-  sectionKey: string;
+  group: string;
   items: TranslationsFormItem[];
   supportedLanguages: RegionLocale[];
+  domain?: I18nTranslationsDomain;
   onSave?: ({ items }: { items: TranslationsFormItem[] }) => Promise<{ savedItems: TranslationsFormItem[] }>;
   onDelete?: (itemId: string) => Promise<{ success: boolean; deletedId: string }>;
   isSaving?: boolean;
@@ -24,9 +26,10 @@ interface TranslationsTableProps {
 }
 
 export const TranslationsTable: React.FC<TranslationsTableProps> = ({
-  sectionKey,
+  group,
   items,
   supportedLanguages,
+  domain,
   onSave,
   onDelete,
   isSaving = false,
@@ -50,11 +53,40 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
     isItemEmpty,
   } = useTranslationsTableForm({ items, supportedLanguages });
 
+  log('group:', 'lime', group);
   // Track initial items for DELETE detection
   const initialItemsRef = useRef<TranslationsFormItem[]>(items);
   useEffect(() => {
     initialItemsRef.current = items;
   }, [items]);
+
+  // Group items by page when group is 'pages'
+  // Keys are in format: domain.pages.{pageName}.{rest}
+  // We extract {pageName} to group items and track which field indices belong to which page
+  const pageGrouping = useMemo(() => {
+    if (group !== 'pages' || !domain) {
+      return null; // Not a pages section, no grouping needed
+    }
+
+    // Map field index to page name
+    const fieldIndexToPage = new Map<number, string>();
+
+    items.forEach((item) => {
+      // Find the corresponding field index
+      const fieldIndex = fields.findIndex((field) => field.id === item.id || field.key === item.key);
+      if (fieldIndex === -1) return;
+
+      // Extract page name from key: "admin.pages.dashboard.title" -> "dashboard"
+      const keyParts = item.key.split('.');
+      const pagesIndex = keyParts.indexOf('pages');
+      if (pagesIndex >= 0 && pagesIndex < keyParts.length - 1) {
+        const pageName = keyParts[pagesIndex + 1];
+        fieldIndexToPage.set(fieldIndex, pageName);
+      }
+    });
+
+    return fieldIndexToPage;
+  }, [group, domain, items, fields]);
 
   // ======================================================================== //
   // Shared Handlers
@@ -118,20 +150,45 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
             </tr>
           </thead>
           <tbody>
-            {fields.map((field, index) => (
-              <TranslationsRow
-                key={field.fieldId} // IMPORTANT: field.fieldId (RHF internal), NOT field.id (entity CUID)
-                index={index}
-                onDelete={handleDelete}
-                supportedLanguages={supportedLanguages}
-                isEditing={editingRowIndex === index}
-                onEditingChange={(isEditing) => {
-                  setEditingRowIndex(isEditing ? index : null);
-                }}
-                isSaving={isSaving}
-                isDeleting={isDeleting}
-              />
-            ))}
+            {fields.map((field, index) => {
+              const rows: React.ReactNode[] = [];
+
+              // Insert page divider before first item of each new page group
+              if (group === 'pages' && domain && pageGrouping) {
+                const currentPage = pageGrouping.get(index);
+                const previousPage = index > 0 ? pageGrouping.get(index - 1) : null;
+
+                // If this is the first item of a new page group, add a divider
+                if (currentPage && currentPage !== previousPage && currentPage !== '_other') {
+                  rows.push(
+                    <PageDividerRow
+                      key={`divider-${currentPage}-${index}`}
+                      pageName={currentPage}
+                      domain={domain}
+                      supportedLanguages={supportedLanguages}
+                    />,
+                  );
+                }
+              }
+
+              // Add the actual row
+              rows.push(
+                <TranslationsRow
+                  key={field.fieldId}
+                  index={index}
+                  onDelete={handleDelete}
+                  supportedLanguages={supportedLanguages}
+                  isEditing={editingRowIndex === index}
+                  onEditingChange={(isEditing) => {
+                    setEditingRowIndex(isEditing ? index : null);
+                  }}
+                  isSaving={isSaving}
+                  isDeleting={isDeleting}
+                />,
+              );
+
+              return <React.Fragment key={field.fieldId}>{rows}</React.Fragment>;
+            })}
           </tbody>
         </table>
       </FormProvider>
