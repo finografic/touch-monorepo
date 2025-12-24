@@ -6,7 +6,7 @@ import createCuid from '@bugsnag/cuid';
 
 import { TranslationsRow } from './components/TranslationsRow';
 import { TableFormButtons } from 'admin/pages/TranslationsProductPage/TableFormButtons/TableFormButtons';
-import { styles } from './TranslationsTable.styles';
+import { styles } from '../../TranslationsSHARED/TranslationsTable.styles';
 import { useTranslationsTableForm } from './hooks/useTranslationsTableForm';
 import { useTranslationsTableHandlers } from './hooks/useTranslationsTableHandlers';
 
@@ -33,6 +33,7 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
   isDeleting = false,
 }) => {
   const [editingRowIndex, setEditingRowIndex] = useState<number | null>(null);
+  const [showKeyColumn, setShowKeyColumn] = useState<boolean>(true);
 
   // ======================================================================== //
   // Shared Form Logic
@@ -107,14 +108,16 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
           />
         </Flex>
 
-        <table className="translations-table">
+        <table
+          className={`translations-table ${showKeyColumn ? 'is-visible-key-column' : 'is-hidden-key-column'}`}
+        >
           <thead>
             <tr>
-              <th></th>
+              <th className="col-key"></th>
               {supportedLanguages.map((lang) => (
                 <th key={lang}>{lang}</th>
               ))}
-              <th></th>
+              <th className="col-actions"></th>
             </tr>
           </thead>
           <tbody>

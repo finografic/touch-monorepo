@@ -112,7 +112,7 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
         const value = watch(`items.${index}.${fieldKey}`);
 
         return (
-          <td key={lang}>
+          <td key={lang} className="col-value">
             <Input
               {...register(fieldName)}
               placeholder="--"
@@ -126,7 +126,7 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
       })}
 
       {/* DELETE */}
-      <td>
+      <td className="col-actions">
         <Button
           className="button button-delete"
           aria-label="Delete"
