@@ -237,4 +237,67 @@ export const styles = css`
     line-height: 1.6;
     padding-bottom: 2rem;
   }
+
+  /* ========================================================================
+   * COMPACT DISPLAY: 1024x600 and smaller
+   * Optimize layout for constrained display size
+   * ======================================================================== */
+  @media (max-width: 1024px) and (max-height: 600px) {
+    /* Reduce header height */
+    > header {
+      height: 50px;
+      min-height: 50px;
+      max-height: 50px;
+
+      h1 {
+        font-size: 1.25rem !important; /* Reduced from 1.5rem */
+      }
+    }
+
+    /* Reduce footer height */
+    > footer {
+      height: 40px;
+      min-height: 40px;
+      max-height: 40px;
+    }
+
+    /* Optimize main content area */
+    > main {
+      .main-content {
+        padding: 0.5rem 0; /* Reduced from 2rem */
+
+        section {
+          min-height: auto; /* Remove fixed min-height */
+
+          header.admin-page-title {
+            padding: 0 ${padding.xs};
+            h1 {
+              font-size: 1.5rem; /* Reduced from 1.8rem */
+              margin: 0 0 0.25rem 0; /* Reduced margin */
+            }
+          }
+
+          .admin-page-content {
+            padding: 0.75rem; /* Reduced padding */
+            overflow-y: auto; /* Enable scrolling if needed */
+
+            h2 {
+              font-size: 1.2rem; /* Reduced from 1.4rem */
+            }
+          }
+        }
+      }
+    }
+
+    /* Reduce paragraph spacing */
+    p {
+      font-size: 1rem; /* Reduced from 1.2rem */
+      padding-bottom: 1rem; /* Reduced from 2rem */
+    }
+
+    /* Optimize navigation */
+    .admin-navigation {
+      padding: 0 1rem; /* Reduced from 3rem */
+    }
+  }
 `;
