@@ -46,7 +46,7 @@ export const styles = css`
       padding: 0.33rem 2rem; */
 
       input {
-        padding: 0.33rem 1rem;
+        padding: 0.33rem 0.75rem;
         border-style: solid;
         border-width: ${forms.inputs.border.width};
         border-color: ${colors.transparent};
@@ -308,10 +308,17 @@ export const styles = css`
         display: none;
       }
 
+      &.grouped-rows {
+        .col-value {
+          transform: translateX(-0.75rem);
+        }
+      }
+
       .group-header {
         height: calc(${ROW_HEIGHT} * 0.6);
         .col-divider-language {
           padding: 0.33rem 2.25rem;
+          padding: 0.33rem 1.33rem;
           height: calc(${ROW_HEIGHT} * 0.6);
         }
         .col-divider-language {
@@ -324,8 +331,7 @@ export const styles = css`
         border-bottom: transparent;
         .col-divider-title {
           height: calc(${ROW_HEIGHT} * 0.6);
-          padding-left: 2.25rem;
-          transform: translateY(0.3rem);
+          transform: translateY(0.25rem);
         }
       }
     }

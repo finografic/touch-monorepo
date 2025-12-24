@@ -14,6 +14,7 @@ import { DEFAULT_SHOW_KEY_COLUMN } from '../../shared/constants/translationsTabl
 import type { RegionLocale } from '@workspace/config/i18n.config';
 import type { TranslationsFormItem } from '../../shared/types/translations.types';
 import type { I18nTranslationsDomain } from '@workspace/i18n/types';
+import clsx from 'clsx';
 
 interface TranslationsTableProps {
   domain: I18nTranslationsDomain;
@@ -128,7 +129,10 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
         </Flex>
 
         <table
-          className={`translations-table ${showKeyColumn ? 'is-visible-key-column' : 'is-hidden-key-column'}`}
+          className={clsx('translations-table', {
+            'is-hidden-key-column': !showKeyColumn,
+            'grouped-rows': hasGrouping,
+          })}
         >
           <thead>
             <tr>
