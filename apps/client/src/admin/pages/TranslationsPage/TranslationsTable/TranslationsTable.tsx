@@ -24,6 +24,8 @@ interface TranslationsTableProps {
   onDelete?: (itemId: string) => Promise<{ success: boolean; deletedId: string }>;
   isSaving?: boolean;
   isDeleting?: boolean;
+  showKeyColumn: boolean;
+  setShowKeyColumn: (showKeyColumn: boolean) => void;
 }
 
 export const TranslationsTable: React.FC<TranslationsTableProps> = ({
@@ -35,10 +37,11 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
   onDelete,
   isSaving = false,
   isDeleting = false,
+  showKeyColumn,
+  setShowKeyColumn,
 }) => {
   const initialItemsRef = useRef<TranslationsFormItem[]>(items);
   const [editingRowIndex, setEditingRowIndex] = useState<number | null>(null);
-  const [showKeyColumn, setShowKeyColumn] = useState<boolean>(DEFAULT_SHOW_KEY_COLUMN);
   const hasGrouping = group === 'pages' && domain;
 
   useEffect(
@@ -116,10 +119,11 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
             onReset={handleReset}
             onSave={handleSave}
             onAddNew={handleAddNewRow}
-            onToggleKeyColumn={() => setShowKeyColumn(!showKeyColumn)}
             isDirty={methods.formState.isDirty}
             isAddNewDisabled={!isDirtyLastItem}
             isSaving={isSaving}
+            setShowKeyColumn={() => setShowKeyColumn(!showKeyColumn)}
+            showKeyColumn={showKeyColumn}
           />
         </Flex>
 

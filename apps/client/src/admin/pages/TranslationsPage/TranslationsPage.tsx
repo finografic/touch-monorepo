@@ -14,6 +14,7 @@ import { styles } from '../TranslationsSHARED/TranslationsPage.styles';
 import { useParams } from 'react-router-dom';
 import { translations } from '@workspace/i18n';
 import { flattenTranslations } from 'utils/flatten-translations';
+import { DEFAULT_SHOW_KEY_COLUMN } from 'admin/pages/TranslationsSHARED/constants/translationsTable.constants';
 
 export const TranslationsPage: React.FC = () => {
   const { t } = useTranslation();
@@ -22,6 +23,7 @@ export const TranslationsPage: React.FC = () => {
   // Extract groups and deduplicate
   const groups = [...new Set(flattenTranslations(domain, translations).map(({ key }) => key.split('.')[1]))];
   const [activeTab, setActiveTab] = useState<I18nDomainGroupKey>();
+  const [showKeyColumn, setShowKeyColumn] = useState<boolean>(DEFAULT_SHOW_KEY_COLUMN);
 
   log('translations:', 'blue', translations);
 
@@ -88,6 +90,8 @@ export const TranslationsPage: React.FC = () => {
                 }}
                 isSaving={isSaving}
                 isDeleting={isDeleting}
+                showKeyColumn={showKeyColumn}
+                setShowKeyColumn={() => setShowKeyColumn(!showKeyColumn)}
               />
             </AdminSection>
           </Tabs.Content>

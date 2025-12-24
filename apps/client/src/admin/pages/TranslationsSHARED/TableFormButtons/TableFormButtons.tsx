@@ -14,10 +14,11 @@ export interface TableFormButtonsProps {
   onReset?: () => void;
   onSave?: () => void | Promise<void>;
   onAddNew?: () => void;
-  onToggleKeyColumn?: () => void;
   isDirty?: boolean;
   isAddNewDisabled?: boolean;
   isSaving?: boolean;
+  showKeyColumn: boolean;
+  setShowKeyColumn: (showKeyColumn: boolean) => void;
 }
 
 // ============================================================================
@@ -28,32 +29,30 @@ export const TableFormButtons: React.FC<TableFormButtonsProps> = ({
   onReset,
   onSave,
   onAddNew,
-  onToggleKeyColumn,
   isDirty = false,
   isAddNewDisabled = false,
   isSaving = false,
+  showKeyColumn,
+  setShowKeyColumn,
 }) => {
   const { t } = useTranslation();
   const debouncedAddNew = useDebouncedCallback(() => onAddNew?.(), 500, { leading: true, trailing: false });
-  const [toggleButton, setToggleButton] = useState<boolean>(true);
+
   return (
     <Flex css={styles} className="table-form-buttons">
-      {onToggleKeyColumn && (
+      {setShowKeyColumn && (
         <Button
           className="button-toggle-key-column"
           type="button"
           variant="outline"
           color="grey"
-          onClick={() => {
-            onToggleKeyColumn?.();
-            setToggleButton(!toggleButton);
-          }}
+          onClick={() => setShowKeyColumn(!showKeyColumn)}
           disabled={isAddNewDisabled || isSaving}
           size="md"
-          aria-label={toggleButton ? 'Hide key column' : 'Show key column'}
-          title={toggleButton ? 'Hide key column' : 'Show key column'}
+          aria-label={showKeyColumn ? 'Hide key column' : 'Show key column'}
+          title={showKeyColumn ? 'Hide key column' : 'Show key column'}
         >
-          {toggleButton ? <EyeOnIcon /> : <EyeOffIcon />}
+          {showKeyColumn ? <EyeOnIcon /> : <EyeOffIcon />}
         </Button>
       )}
       {onReset && (

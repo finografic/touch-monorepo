@@ -39,8 +39,11 @@ export const styles = css`
       }
     }
 
+    /* =================================================================== */
+
     td {
-      padding: 0.33rem 1rem;
+      /* padding: 0.33rem 1rem;
+      padding: 0.33rem 2rem; */
 
       input {
         padding: 0.33rem 1rem;
@@ -291,6 +294,10 @@ export const styles = css`
       }
     }
 
+    td {
+      padding: 0.33rem 1.25rem;
+    }
+
     /* TOGGLE VISIBILITY KEY COLUMN */
 
     &.is-hidden-key-column {
@@ -301,32 +308,24 @@ export const styles = css`
         display: none;
       }
 
-      .col-value {
-        padding: 0.33rem 0rem;
+      .group-header {
+        height: calc(${ROW_HEIGHT} * 0.6);
+        .col-divider-language {
+          padding: 0.33rem 2.25rem;
+          height: calc(${ROW_HEIGHT} * 0.6);
+        }
+        .col-divider-language {
+          transform: translateY(-0.3rem);
+        }
       }
 
       .group-header-no-key {
         height: calc(${ROW_HEIGHT} * 0.6);
         border-bottom: transparent;
-        .col-divider-title,
-        .col-divider-language {
-          height: calc(${ROW_HEIGHT} * 0.6);
-        }
         .col-divider-title {
-          padding-left: 2.2rem;
-          transform: translateY(0.3rem);
-        }
-      }
-
-      .group-header {
-        height: calc(${ROW_HEIGHT} * 0.6);
-        .col-divider-title,
-        .col-divider-language {
-          padding: 0.33rem 1rem;
           height: calc(${ROW_HEIGHT} * 0.6);
-        }
-        .col-divider-language {
-          transform: translateY(-0.3rem);
+          padding-left: 2.25rem;
+          transform: translateY(0.3rem);
         }
       }
     }
