@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import type { UseFormReturn } from 'react-hook-form';
-import type { TranslationsFormItem } from '../../../TranslationsSHARED/translations.types';
+import type { TranslationsFormItem } from '../../../TranslationPages/types/translations.types';
 
 // Form structure: { items: TranslationsFormItem[] }
 type TranslationsFormData = {

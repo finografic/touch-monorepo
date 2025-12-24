@@ -4,8 +4,8 @@ import clsx from 'clsx';
 import type { RegionLocale } from '@workspace/config/i18n.config';
 import { languagesCodeToKey, regenerateSlug } from 'admin/utils/languages.utils';
 import { Input } from 'forms/Input/Input';
-import { TranslationsRowCell } from '../../../TranslationsSHARED/components/TranslationsRowCell';
-import { TranslationsDeleteButton } from '../../../TranslationsSHARED/components/TranslationsDeleteButton';
+import { TranslationsRowCell } from '../../../TranslationPages/components/TranslationsRowCell';
+import { TranslationsDeleteButton } from '../../../TranslationPages/components/TranslationsDeleteButton';
 
 interface TranslationsRowProps {
   index: number;

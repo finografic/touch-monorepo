@@ -1,5 +1,8 @@
 import { languagesCodeToKey } from 'admin/utils/languages.utils';
-import type { TranslationsApiItem, TranslationsFormItem } from '../../TranslationsSHARED/translations.types';
+import type {
+  TranslationsApiItem,
+  TranslationsFormItem,
+} from '../../TranslationPages/types/translations.types';
 import type { RegionLocale } from '@workspace/config/i18n.config';
 import type { TranslationsModel } from 'types/models/translations.model';
 

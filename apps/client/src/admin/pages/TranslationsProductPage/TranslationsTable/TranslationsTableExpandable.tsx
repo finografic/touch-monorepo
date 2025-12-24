@@ -6,9 +6,9 @@ import { ChevronRightIcon, ChevronDownIcon } from '@radix-ui/react-icons';
 import createCuid from '@bugsnag/cuid';
 
 // import { TableFormButtons } from 'admin/pages/TranslationsProductPage/TableFormButtons/TableFormButtons';
-import { TableFormButtons } from '../../TranslationsSHARED/TableFormButtons/TableFormButtons';
-import { styles } from '../../TranslationsSHARED/TranslationsTable.styles';
-import { DEFAULT_SHOW_KEY_COLUMN_PRODUCT } from '../../TranslationsSHARED/constants/translationsTable.constants';
+import { TableFormButtons } from '../../TranslationPages/components/TableFormButtons';
+import { styles } from '../../TranslationPages/TranslationsTable.styles';
+import { DEFAULT_SHOW_KEY_COLUMN_PRODUCT } from '../../TranslationPages/constants/translationsTable.constants';
 import { useGetDrinkTypes } from 'queries/drink-types';
 import { useToast } from 'components/Toast/ToastContext';
 import { useTranslationsTableForm } from './hooks/useTranslationsTableForm';
@@ -22,7 +22,10 @@ import type {
 } from 'admin/pages/TranslationsProductPage/translationsProduct.types';
 import { colors } from 'styles/colors/colors-direct';
 
-import { COL_CHEVRON_WIDTH, COL_SLUG_WIDTH } from '../../TranslationsSHARED/translations-table.config';
+import {
+  COL_CHEVRON_WIDTH,
+  COL_SLUG_WIDTH,
+} from '../../TranslationPages/constants/translations-table.config';
 
 interface TranslationsTableExpandableProps {
   sectionKey: string;

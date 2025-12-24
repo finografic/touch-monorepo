@@ -6,15 +6,15 @@ import createCuid from '@bugsnag/cuid';
 
 import { TranslationsRow } from './components/TranslationsRow';
 // import { TableFormButtons } from 'admin/pages/TranslationsProductPage/TableFormButtons/TableFormButtons';
-import { TableFormButtons } from '../../TranslationsSHARED/TableFormButtons/TableFormButtons';
+import { TableFormButtons } from '../../TranslationPages/components/TableFormButtons';
 
-import { styles } from '../../TranslationsSHARED/TranslationsTable.styles';
+import { styles } from '../../TranslationPages/TranslationsTable.styles';
 import { useTranslationsTableForm } from './hooks/useTranslationsTableForm';
 import { useTranslationsTableHandlers } from './hooks/useTranslationsTableHandlers';
 
 import type { RegionLocale } from '@workspace/config/i18n.config';
 import type { TranslationsFormItem } from '../../TranslationsProductPage/translationsProduct.types';
-import { DEFAULT_SHOW_KEY_COLUMN_PRODUCT } from '../../TranslationsSHARED/constants/translationsTable.constants';
+import { DEFAULT_SHOW_KEY_COLUMN_PRODUCT } from '../../TranslationPages/constants/translationsTable.constants';
 
 interface TranslationsTableProps {
   sectionKey: string;
