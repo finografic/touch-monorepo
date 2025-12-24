@@ -1,8 +1,8 @@
 import type { FC } from 'react';
-import { Suspense, useEffect } from 'react';
+import { Suspense, useEffect, useMemo } from 'react';
 import { setConfiguration } from 'react-grid-system';
 import { useTranslation } from 'react-i18next';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 
 import { useTheme } from '@emotion/react';
 import { Footer } from 'components/Footer';
@@ -21,12 +21,16 @@ import { PaginationProvider } from 'providers/PaginationProvider/PaginationProvi
 
 import { DevProvider } from 'dev-tools/providers/DevProvider/DevProvider';
 import { Loader } from '../components/Loader/Loader';
+import { getPathnameClassName } from 'routes/utils/routes.utils';
 import type { EmotionTheme } from 'styles/themes/emotion-theme.types';
 import { BREAKPOINT_VALUES } from 'styles/viewport/viewport.breakpoints';
 import { styles } from './Layout.styles';
 
 export const Layout: FC = () => {
   const { t } = useTranslation();
+  const location = useLocation();
+  const dataPathname = useMemo(() => getPathnameClassName(location), [location.pathname]);
+
   const { theme } = useAppConfig();
   const emotionTheme = useTheme() as EmotionTheme;
 
@@ -44,12 +48,12 @@ export const Layout: FC = () => {
             <AdminProvider>
               <ContentProvider>
                 <DevProvider>
-                  <div id="layout" css={styles(emotionTheme)}>
+                  <div id="layout" data-pathname={dataPathname} css={styles(emotionTheme)}>
                     <Header titleAlign="center" toolbarAlign="right" toolbar={<UserToolbar />} />
                     <main>
                       <div className="main-content">
                         <section>
-                          <PageHeader />
+                          {/* <PageHeader /> */}
                           <div className="page-content" role="main">
                             <Suspense fallback={<Loader message={t('ui.states.loading')} />}>
                               <Outlet />

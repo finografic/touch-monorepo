@@ -1,9 +1,10 @@
 import { css } from '@emotion/react';
 
-import { colors, layout, max, min, spacing, typography } from 'styles';
+import { colors, layout, spacing } from 'styles';
 import { padding } from 'styles/layout/base.constants';
-import { cssForms, forms } from 'styles/forms/forms.styles';
+import { cssForms } from 'styles/forms/forms.styles';
 import { stylesAdminContent } from 'styles/project/project.styles';
+import { stylesAppContent1024x600 } from 'styles/project/project.app.1024x600.styles';
 
 export const styles = css`
   ${stylesAdminContent}
@@ -298,6 +299,14 @@ export const styles = css`
     /* Optimize navigation */
     .admin-navigation {
       padding: 0 1rem; /* Reduced from 3rem */
+    }
+
+    /* ========================================================================
+   * COMPACT DISPLAY: 1024x600 and smaller (Front-End Only)
+   * Import and apply compact display styles within media query
+   * ======================================================================== */
+    @media (max-width: 1024px) and (max-height: 600px) {
+      ${stylesAppContent1024x600}
     }
   }
 `;

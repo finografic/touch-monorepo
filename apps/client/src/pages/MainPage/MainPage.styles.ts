@@ -18,9 +18,10 @@ export const styles = css`
     display: flex;
     flex-direction: column;
     align-self: stretch;
-    justify-content: space-between;
-    row-gap: 2.5rem;
+    height: 100%; /* Fill available vertical space */
+    row-gap: 2.5rem; /* Static gap between buttons */
     .pad-rect {
+      flex: 1; /* Buttons stretch to fill available space equally */
       padding: 2.2rem 0;
     }
   }

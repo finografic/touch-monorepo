@@ -45,4 +45,3 @@
   --radius-lg: var(--radius, 0.5rem);
   --radius-xl: calc(var(--radius, 0.5rem) + 4px);
 }
-

@@ -11,7 +11,6 @@ import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 
 import type { Temperature } from 'types/slots.types';
 import { TemperatureKey } from 'types/temperature.types';
-// import { stylesAppContent } from 'styles/project/project.app.styles';
 import { INITIAL_TEMP_DEFAULT, MIN_TEMP_DIFFERENCE } from 'config/app';
 import { TEMPERATURE_DESCRIPTIONS } from './temperature.constants';
 import { useTemperatureFormAndFilter } from './useTemperatureFormAndFilter';
@@ -67,12 +66,7 @@ export const TemperaturePage = () => {
 
   if (!currentOrder || !temperatureProfiles.length) {
     return (
-      <Flex
-        // css={stylesAppContent}
-        className="temperature-content"
-        gap="3"
-        direction="column"
-      >
+      <Flex className="temperature-content" gap="3" direction="column">
         <Box style={{ background: 'white', padding: '15px' }}>
           <div>Loading temperature settings...</div>
         </Box>
@@ -81,12 +75,7 @@ export const TemperaturePage = () => {
   }
 
   return (
-    <Flex
-      //  css={stylesAppContent}
-      className="temperature-content"
-      gap="3"
-      direction="column"
-    >
+    <Flex className="temperature-content" gap="3" direction="column">
       <Flex direction="column" gap="3" justify="center" css={styles}>
         <Flex gap="3" justify="center" className="page-description">
           <Box>

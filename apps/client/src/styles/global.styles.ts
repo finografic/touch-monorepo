@@ -177,7 +177,6 @@ export const cssGlobal = css`
     color: ${colors.textDark};
     margin: 0.5rem 0.25rem 0.5rem 0.1rem;
     cursor: default;
-    /* user-select: none; */
 
     span.hint,
     span.label-hint {
@@ -195,5 +194,15 @@ export const cssGlobal = css`
   div[data-state='open'].rt-BaseDialogOverlay.rt-DialogOverlay {
     background-color: rgba(255, 255, 255, 0.33) !important;
     position: fixed;
+  }
+
+  /* ========================================================================
+   * COMPACT DISPLAY: 1024x600 and smaller (Front-End Only)
+   * ======================================================================== */
+
+  @media (max-width: 1024px) and (max-height: 600px) {
+    div[role='dialog'].rt-DialogContent[data-state='open'] {
+      transform: scale(0.85) !important;
+    }
   }
 `;

@@ -2,7 +2,6 @@ import type { Location, NavigateOptions, To } from 'react-router-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
-import { cleanRoutePath } from 'routes/utils/routes.utils';
 import { getFromLocation } from 'routes/utils/useRouter.utils';
 
 import type { LocationState, LocationWithState } from 'types/location.types';
@@ -34,9 +33,7 @@ export const useNavigateState = (): UseNavigateState => {
   const navigate: NavigateWithState = async (to: To | number, options: NavigateOptions = {}) => {
     if (typeof to === 'number') return navigateReactRouter(to); // Directly return as no additional options are needed
 
-    // TODO: REMOVE `PATH_BASE` ?? 2024-12-31
-    // const href = cleanRoutePath(PATH_BASE + to); // Assume to is a string here
-    const href = cleanRoutePath(to as string); // Assume to is a string here
+    const href = typeof to === 'string' ? to : to.pathname;
     const optionsWithState = {
       ...options,
       state: {

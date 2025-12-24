@@ -162,7 +162,7 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({
                   size="lg"
                   onClick={config.footer.primaryButton.onClick}
                 >
-                  B: {config.footer.primaryButton.label}
+                  {config.footer.primaryButton.label}
                 </Button>
               )}
             </Flex>

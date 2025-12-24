@@ -9,10 +9,14 @@ export const styles = css`
     left: 50%;
     transform: translate(-50%, -50%);
     border-radius: ${layout.borderRadius};
-    opacity: 0.5;
+    opacity: 0.33;
     background-color: #00cc9944;
     box-shadow: inset 0 0 0 3px ${colors.greyDark};
     z-index: 999999;
+
+    @media (max-width: 1024px) and (max-height: 600px) {
+      opacity: 0.55;
+    }
   }
 
   .screen-800x480 {

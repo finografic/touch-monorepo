@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { Suspense, useEffect } from 'react';
+import { Suspense, useEffect, useMemo } from 'react';
 import { setConfiguration } from 'react-grid-system';
 import { Outlet } from 'react-router-dom';
 
@@ -19,9 +19,15 @@ import { DevProvider } from 'dev-tools/providers/DevProvider/DevProvider';
 import { BREAKPOINT_VALUES } from 'styles/viewport/viewport.breakpoints';
 import { styles } from './AdminLayout.styles';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
+import { getPathnameClassName } from 'routes/utils/routes.utils';
+import { useLocation } from 'react-router-dom';
 
 export const AdminLayout: FC = () => {
   const { theme } = useAppConfig();
+  const location = useLocation();
+  const { isAuthenticated } = useAuth();
+  const dataPathname = useMemo(() => getPathnameClassName(location), [location.pathname, isAuthenticated]);
+
   setConfiguration({ breakpoints: [...BREAKPOINT_VALUES] });
 
   useEffect(function initializeLayoutTheme() {
@@ -32,7 +38,12 @@ export const AdminLayout: FC = () => {
     <AdminProvider>
       <ContentProvider>
         <DevProvider>
-          <div id="admin-layout" css={styles}>
+          <div
+            id="admin-layout"
+            data-pathname={dataPathname}
+            data-authenticated={isAuthenticated}
+            css={styles}
+          >
             <Header titleAlign="left" toolbarAlign="right" toolbar={<UserToolbar variant="dark" />} />
             <AdminNavigation />
             <main id="layout-main">

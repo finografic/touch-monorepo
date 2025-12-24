@@ -15,6 +15,7 @@ import { useDev } from 'dev-tools/providers/DevProvider';
 import { RecallTimer } from '../../Timers/RecallTimer';
 import { DialogIcon, TimerIcon } from 'styles/icons';
 import { styles } from './FrontEndToolbar.styles';
+import clsx from 'clsx';
 
 export const FrontEndToolbar: React.FC = () => {
   const { theme } = useAppConfig();
@@ -35,7 +36,7 @@ export const FrontEndToolbar: React.FC = () => {
 
   return (
     <>
-      <div css={styles} className={`theme-${theme}`}>
+      <div css={styles} className={clsx('toolbar', 'toolbar-front-end', `theme-${theme}`)}>
         <Flex gap="3" align="center">
           {/* Language selector */}
           <div className="button-box">

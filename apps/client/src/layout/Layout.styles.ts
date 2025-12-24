@@ -3,6 +3,7 @@ import { css } from '@emotion/react';
 import { colors, layout, spacing, typography } from 'styles';
 import type { EmotionTheme } from 'styles/themes/emotion-theme.types';
 import { stylesAppContent } from 'styles/project/project.app.styles';
+import { stylesAppContent1024x600 } from 'styles/project/project.app.1024x600.styles';
 
 export const styles = (theme: EmotionTheme) => css`
   ${stylesAppContent}
@@ -76,8 +77,8 @@ export const styles = (theme: EmotionTheme) => css`
           padding: 2rem;
 
           display: flex;
-          align-items: center;
-          justify-content: center;
+          align-items: center !important;
+          justify-content: center !important;
 
           > section {
             /* justify-content: center; */
@@ -144,52 +145,9 @@ export const styles = (theme: EmotionTheme) => css`
 
   /* ========================================================================
    * COMPACT DISPLAY: 1024x600 and smaller (Front-End Only)
-   * Optimize layout for constrained display size
+   * Import and apply compact display styles within media query
    * ======================================================================== */
   @media (max-width: 1024px) and (max-height: 600px) {
-    /* Reduce header height */
-    > header {
-      height: 50px;
-      min-height: 50px;
-      max-height: 50px;
-    }
-
-    /* Reduce footer height */
-    > footer {
-      height: 40px;
-      min-height: 40px;
-      max-height: 40px;
-    }
-
-    /* Optimize main content area */
-    > main {
-      .main-content {
-        padding: 0.5rem 0; /* Reduced from default */
-
-        > section {
-          min-height: auto; /* Remove fixed min-height */
-          max-height: none; /* Remove max-height constraint */
-
-          header.page-header {
-            padding: 0.5rem 1rem; /* Reduced from 1rem 2rem */
-          }
-
-          .page-content {
-            padding: 1rem; /* Reduced from 2rem */
-            overflow-y: auto; /* Enable scrolling if needed */
-          }
-
-          nav.page-navigation {
-            padding: 0.5rem 1rem; /* Reduced from 1rem 2rem */
-          }
-        }
-      }
-    }
-
-    /* Reduce paragraph spacing */
-    p {
-      font-size: 1rem; /* Reduced from 1.2rem */
-      padding-bottom: 1rem; /* Reduced from 2rem */
-    }
+    ${stylesAppContent1024x600}
   }
 `;

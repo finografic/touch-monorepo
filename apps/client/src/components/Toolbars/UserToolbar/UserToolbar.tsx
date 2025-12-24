@@ -13,6 +13,7 @@ import { useAuth } from 'providers/AuthProvider/AuthContext';
 import { clearAllAuthCookiesServer } from 'utils/auth.utils';
 import { LanguageIcon } from 'styles/icons';
 import { styles } from './UserToolbar.styles';
+import clsx from 'clsx';
 
 export const UserToolbar = ({ variant }: { variant?: 'light' | 'dark' }) => {
   const { theme } = useAppConfig();
@@ -29,7 +30,7 @@ export const UserToolbar = ({ variant }: { variant?: 'light' | 'dark' }) => {
   );
 
   return (
-    <div css={styles} className={`theme-${variant || theme}`}>
+    <div css={styles} className={clsx('toolbar', 'toolbar-user', `theme-${variant || theme}`)}>
       <Flex gap="0" align="center">
         <div className="button-box">
           <Button

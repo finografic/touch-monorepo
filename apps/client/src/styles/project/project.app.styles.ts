@@ -4,6 +4,7 @@ import { stylesAdminContent } from './project.styles';
 
 export const stylesAppContent = css`
   ${stylesAdminContent}
+
   #layout {
     display: none !important;
   }
