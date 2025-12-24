@@ -13,7 +13,8 @@ import { useTranslationsTableForm } from './hooks/useTranslationsTableForm';
 import { useTranslationsTableHandlers } from './hooks/useTranslationsTableHandlers';
 
 import type { RegionLocale } from '@workspace/config/i18n.config';
-import type { TranslationsFormItem } from 'admin/pages/TranslationsProductPage/translationsProduct.types';
+import type { TranslationsFormItem } from '../../TranslationsProductPage/translationsProduct.types';
+import { DEFAULT_SHOW_KEY_COLUMN_PRODUCT } from '../../TranslationsSHARED/constants/translationsTable.constants';
 
 interface TranslationsTableProps {
   sectionKey: string;
@@ -35,7 +36,7 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
   isDeleting = false,
 }) => {
   const [editingRowIndex, setEditingRowIndex] = useState<number | null>(null);
-  const [showKeyColumn, setShowKeyColumn] = useState<boolean>(true); // TODO: DEFAULT VALUE DIFFERES FROM OTHER TABLES
+  const [showKeyColumn, setShowKeyColumn] = useState<boolean>(DEFAULT_SHOW_KEY_COLUMN_PRODUCT);
 
   // ======================================================================== //
   // Shared Form Logic

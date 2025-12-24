@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 import clsx from 'clsx';
-import { TrashIcon } from 'styles/icons';
-import { Button } from 'components/Button';
 import { Input } from 'forms/Input/Input';
 
 import { languagesCodeToKey, regenerateSlug } from 'admin/utils/languages.utils';
 
 import type { RegionLocale } from '@workspace/config/i18n.config';
+import { TranslationsRowCell } from '../../../TranslationsSHARED/components/TranslationsRowCell';
+import { TranslationsDeleteButton } from '../../../TranslationsSHARED/components/TranslationsDeleteButton';
 
 interface ExpandedSubtypeRowProps {
   className?: string;
@@ -86,39 +86,19 @@ export const ExpandedSubtypeRow: React.FC<ExpandedSubtypeRowProps> = ({
       </td>
 
       {/* DYNAMIC LANGUAGE COLUMNS */}
-      {supportedLanguages.map((lang) => {
-        const fieldKey = languagesCodeToKey(lang);
-        const fieldName = `items.${index}.${fieldKey}` as const;
-        const value = watch(`items.${index}.${fieldKey}`);
-
-        return (
-          <td key={lang}>
-            <Input
-              {...register(fieldName)}
-              placeholder="--"
-              className={clsx({
-                'input-dirty': rowDirtyFields?.[fieldKey],
-                'input-empty': !value,
-              })}
-            />
-          </td>
-        );
-      })}
+      {supportedLanguages.map((lang) => (
+        <TranslationsRowCell
+          key={lang}
+          fieldPath={`items.${index}`}
+          lang={lang}
+          rowDirtyFields={rowDirtyFields}
+          register={register}
+          watch={watch}
+        />
+      ))}
 
       {/* DELETE */}
-      <td className="col-actions">
-        <Button
-          className="button button-delete"
-          aria-label="Delete"
-          variant="ghost"
-          size="md"
-          color="danger"
-          onClick={() => onDelete(index)}
-          disabled={isDeleting}
-        >
-          <TrashIcon />
-        </Button>
-      </td>
+      <TranslationsDeleteButton onDelete={() => onDelete(index)} isDeleting={isDeleting} />
     </tr>
   );
 };

@@ -8,6 +8,7 @@ import createCuid from '@bugsnag/cuid';
 // import { TableFormButtons } from 'admin/pages/TranslationsProductPage/TableFormButtons/TableFormButtons';
 import { TableFormButtons } from '../../TranslationsSHARED/TableFormButtons/TableFormButtons';
 import { styles } from '../../TranslationsSHARED/TranslationsTable.styles';
+import { DEFAULT_SHOW_KEY_COLUMN_PRODUCT } from '../../TranslationsSHARED/constants/translationsTable.constants';
 import { useGetDrinkTypes } from 'queries/drink-types';
 import { useToast } from 'components/Toast/ToastContext';
 import { useTranslationsTableForm } from './hooks/useTranslationsTableForm';
@@ -49,7 +50,7 @@ export const TranslationsTableExpandable: React.FC<TranslationsTableExpandablePr
   );
   const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set());
 
-  const [showKeyColumn, setShowKeyColumn] = useState<boolean>(true);
+  const [showKeyColumn, setShowKeyColumn] = useState<boolean>(DEFAULT_SHOW_KEY_COLUMN_PRODUCT);
   // TODO: TEMPORARY VALUE, BEFORE CONSOLIDATION -- CAN BE SHARED... LIFT VALUE TO PARENT ??
   const hasGrouping = true;
 

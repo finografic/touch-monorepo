@@ -9,6 +9,7 @@ import { styles } from '../../TranslationsSHARED/TranslationsTable.styles';
 import { useTranslationsTableForm } from './hooks/useTranslationsTableForm';
 import { useTranslationsTableHandlers } from './hooks/useTranslationsTableHandlers';
 import { addTranslationsGroupRow, computePageGrouping } from './components/TranslationsGroupRow';
+import { DEFAULT_SHOW_KEY_COLUMN } from '../../TranslationsSHARED/constants/translationsTable.constants';
 
 import type { RegionLocale } from '@workspace/config/i18n.config';
 import type { TranslationsFormItem } from '../../TranslationsSHARED/translations.types';
@@ -37,7 +38,7 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
 }) => {
   const initialItemsRef = useRef<TranslationsFormItem[]>(items);
   const [editingRowIndex, setEditingRowIndex] = useState<number | null>(null);
-  const [showKeyColumn, setShowKeyColumn] = useState<boolean>(false);
+  const [showKeyColumn, setShowKeyColumn] = useState<boolean>(DEFAULT_SHOW_KEY_COLUMN);
   const hasGrouping = group === 'pages' && domain;
 
   useEffect(

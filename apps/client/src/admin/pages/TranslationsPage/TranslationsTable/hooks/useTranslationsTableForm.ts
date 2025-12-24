@@ -3,7 +3,10 @@ import { useFieldArray, useForm } from 'react-hook-form';
 import type { UseFormReturn } from 'react-hook-form';
 import type { RegionLocale } from '@workspace/config/i18n.config';
 import type { TranslationsFormItem } from '../../../TranslationsSHARED/translations.types';
-import { languagesCodeToKey } from 'admin/utils/languages.utils';
+import {
+  getLanguageKeys,
+  isItemEmpty as isItemEmptyUtil,
+} from '../../../TranslationsSHARED/utils/translationsTable.utils';
 
 interface UseTranslationsTableFormOptions {
   items: TranslationsFormItem[];
@@ -126,7 +129,7 @@ export const useTranslationsTableForm = ({
   // Empty Row Detection
   // ======================================================================== //
 
-  const languageKeys = useMemo(() => supportedLanguages.map(languagesCodeToKey), [supportedLanguages]);
+  const languageKeys = useMemo(() => getLanguageKeys(supportedLanguages), [supportedLanguages]);
 
   // Get items as array for checking last item
   const isDirtyLastItem = watchedItems.length === 0 || Boolean(watchedItems.at(-1)?.key);
@@ -134,7 +137,7 @@ export const useTranslationsTableForm = ({
   // Helper: check if item is empty (all language fields empty)
   const isItemEmpty = useCallback(
     (item: TranslationsFormItem): boolean => {
-      return languageKeys.every((key) => !item[key]?.trim());
+      return isItemEmptyUtil(item, languageKeys);
     },
     [languageKeys],
   );

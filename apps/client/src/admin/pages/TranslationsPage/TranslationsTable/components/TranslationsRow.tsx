@@ -1,11 +1,10 @@
 import { useController, useFormContext } from 'react-hook-form';
 import clsx from 'clsx';
-import { TrashIcon } from 'styles/icons';
-import { Button } from 'components/Button';
 import type { RegionLocale } from '@workspace/config/i18n.config';
-import { languagesCodeToKey } from 'admin/utils/languages.utils';
 import { Input } from 'forms/Input/Input';
 import type { I18nTranslationsDomain } from '@workspace/i18n/types';
+import { TranslationsRowCell } from '../../../TranslationsSHARED/components/TranslationsRowCell';
+import { TranslationsDeleteButton } from '../../../TranslationsSHARED/components/TranslationsDeleteButton';
 
 interface TranslationsRowProps {
   domain: I18nTranslationsDomain;
@@ -34,7 +33,7 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
   isSaving = false,
   isDeleting = false,
 }) => {
-  const { control, register, formState, watch, setValue } = useFormContext();
+  const { control, register, formState, watch } = useFormContext();
 
   // Use index for RHF field path (array-based)
   const fieldPath = `items.${index}`;
@@ -90,39 +89,19 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
       </td>
 
       {/* DYNAMIC LANGUAGE COLUMNS */}
-      {supportedLanguages.map((lang) => {
-        const fieldKey = languagesCodeToKey(lang); // esEs, enGb, caEs
-        const fieldName = `${fieldPath}.${fieldKey}` as const;
-        const value = watch(fieldName);
-
-        return (
-          <td key={lang} className="col-value">
-            <Input
-              {...register(fieldName)}
-              placeholder="--"
-              className={clsx({
-                'input-dirty': rowDirtyFields?.[fieldKey],
-                'input-empty': !value,
-              })}
-            />
-          </td>
-        );
-      })}
+      {supportedLanguages.map((lang) => (
+        <TranslationsRowCell
+          key={lang}
+          fieldPath={fieldPath}
+          lang={lang}
+          rowDirtyFields={rowDirtyFields}
+          register={register}
+          watch={watch}
+        />
+      ))}
 
       {/* DELETE */}
-      <td className="col-actions">
-        <Button
-          className="button button-delete"
-          aria-label="Delete"
-          variant="ghost"
-          size="md"
-          color="danger"
-          onClick={() => onDelete(translationKey)}
-          disabled={isDeleting}
-        >
-          <TrashIcon />
-        </Button>
-      </td>
+      <TranslationsDeleteButton onDelete={() => onDelete(translationKey)} isDeleting={isDeleting} />
     </tr>
   );
 };
