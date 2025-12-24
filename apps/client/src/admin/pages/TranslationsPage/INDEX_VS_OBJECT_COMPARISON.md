@@ -3,6 +3,7 @@
 ## Current Approach: Object-Based (using translation keys as object keys)
 
 ### Form Structure
+
 ```typescript
 {
   items: {
@@ -14,11 +15,13 @@
 ```
 
 ### Pros
+
 - ✅ Direct access to items by translation key
 - ✅ No need to search array when updating/deleting by key
 - ✅ Natural fit for translation keys (which are unique identifiers)
 
 ### Cons
+
 - ❌ Complex merging logic (props + form state)
 - ❌ Need to encode/decode keys for RHF compatibility
 - ❌ Potential for duplicate keys if encoding produces collisions
@@ -29,6 +32,7 @@
 ## Alternative Approach: Index-Based (using array indices)
 
 ### Form Structure
+
 ```typescript
 {
   items: [
@@ -155,6 +159,7 @@ const fieldName = `${fieldPath}.${fieldKey}`;
 ```
 
 ### Pros
+
 - ✅ Much simpler implementation
 - ✅ No encoding/decoding needed
 - ✅ `useFieldArray` handles all the complexity
@@ -163,6 +168,7 @@ const fieldName = `${fieldPath}.${fieldKey}`;
 - ✅ Works out of the box with RHF
 
 ### Cons
+
 - ❌ Need to find index when deleting by key (O(n) lookup)
 - ❌ Reordering items changes indices (but we don't reorder, so this is fine)
 - ❌ Less direct access (but we iterate anyway, so this is fine)
@@ -172,6 +178,7 @@ const fieldName = `${fieldPath}.${fieldKey}`;
 ## Recommendation
 
 **For TranslationsPage**: The **index-based approach** would be simpler and more reliable because:
+
 1. We always iterate through all items anyway (for rendering)
 2. We don't need direct key-based access (we can find by index)
 3. `useFieldArray` handles all the edge cases
@@ -179,4 +186,3 @@ const fieldName = `${fieldPath}.${fieldKey}`;
 5. No duplicate key issues
 
 The object-based approach makes sense if you need frequent lookups by key, but since we're always iterating for rendering, the index-based approach is more appropriate.
-
