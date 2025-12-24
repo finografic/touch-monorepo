@@ -1,26 +1,26 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
-import { useForm } from 'react-hook-form';
+import { useFieldArray, useForm } from 'react-hook-form';
 import type { UseFormReturn } from 'react-hook-form';
 import type { RegionLocale } from '@workspace/config/i18n.config';
 import type { TranslationsFormItem } from '../../../TranslationsSHARED/translations.types';
-import { languagesCodeToKey, encodeRHFKey } from 'admin/utils/languages.utils';
+import { languagesCodeToKey } from 'admin/utils/languages.utils';
 
 interface UseTranslationsTableFormOptions {
   items: TranslationsFormItem[];
   supportedLanguages: RegionLocale[];
 }
 
-// Form structure: { items: { [key: string]: TranslationsFormItem } }
+// Form structure: { items: TranslationsFormItem[] }
 type TranslationsFormData = {
-  items: Record<string, TranslationsFormItem>;
+  items: TranslationsFormItem[];
 };
 
 interface UseTranslationsTableFormReturn {
   methods: UseFormReturn<TranslationsFormData>;
-  fields: TranslationsFormItem[]; // Array for rendering order
-  remove: (key: string) => void;
+  fields: ReturnType<typeof useFieldArray<TranslationsFormData, 'items'>>['fields'];
+  remove: (key: string) => void; // Still accepts key, finds index internally
   append: (item: TranslationsFormItem) => void;
-  watchedItems: Record<string, TranslationsFormItem>;
+  watchedItems: TranslationsFormItem[];
   languageKeys: string[];
   hasEmptyRow: boolean;
   isDirtyLastItem: boolean;
@@ -29,63 +29,58 @@ interface UseTranslationsTableFormReturn {
 
 /**
  * Shared hook for RHF form setup, reset logic, and empty row detection
- * Uses translation keys as field identifiers instead of array indices
+ * Uses array indices with useFieldArray (same pattern as TranslationsProductPage)
  */
 export const useTranslationsTableForm = ({
   items,
   supportedLanguages,
 }: UseTranslationsTableFormOptions): UseTranslationsTableFormReturn => {
   // ======================================================================== //
-  // Transform items array to object keyed by translation key
-  // ======================================================================== //
-
-  const itemsAsObject = useMemo(() => {
-    const obj: Record<string, TranslationsFormItem> = {};
-    items.forEach((item) => {
-      // Use the translation key as the object key, but encode it for RHF
-      // For new items without a key, use the id as fallback
-      const key = item.key || item.id;
-      const encodedKey = encodeRHFKey(key);
-      obj[encodedKey] = item;
-    });
-    return obj;
-  }, [items]);
-
-  // ======================================================================== //
   // RHF Setup
   // ======================================================================== //
 
   const methods = useForm<TranslationsFormData>({
     mode: 'onChange',
-    defaultValues: { items: itemsAsObject },
+    defaultValues: { items },
   });
 
-  const { watch, setValue } = methods;
+  const { control, watch } = methods;
 
-  // Convert object back to array for rendering (maintains order from original items)
-  const fields = useMemo(() => {
-    return items.map((item) => item);
-  }, [items]);
+  const {
+    fields,
+    remove: removeByIndex,
+    append: appendItem,
+  } = useFieldArray({
+    control,
+    name: 'items',
+    keyName: 'fieldId', // 🔑 CRITICAL: RHF uses 'fieldId' for tracking, we keep 'id' for our CUID
+  });
 
-  // Remove function: delete by key (key should be encoded)
+  const watchedItems = watch('items'); // Already an array!
+
+  // ======================================================================== //
+  // Remove by Key (finds index and removes)
+  // ======================================================================== //
+
   const remove = useCallback(
     (key: string) => {
-      const encodedKey = encodeRHFKey(key);
-      const currentItems = watch('items');
-      const { [encodedKey]: removed, ...rest } = currentItems;
-      setValue('items', rest, { shouldDirty: true });
+      const index = watchedItems.findIndex((item) => item.key === key || item.id === key);
+      if (index !== -1) {
+        removeByIndex(index);
+      }
     },
-    [watch, setValue],
+    [watchedItems, removeByIndex],
   );
 
-  // Append function: add new item by key (encode key for RHF)
+  // ======================================================================== //
+  // Append (simple - just append to array)
+  // ======================================================================== //
+
   const append = useCallback(
     (item: TranslationsFormItem) => {
-      const key = item.key || item.id;
-      const encodedKey = encodeRHFKey(key);
-      setValue(`items.${encodedKey}`, item, { shouldDirty: true });
+      appendItem(item);
     },
-    [setValue],
+    [appendItem],
   );
 
   // ======================================================================== //
@@ -119,21 +114,10 @@ export const useTranslationsTableForm = ({
       });
 
     if (itemsChanged) {
-      // Transform items array to object keyed by translation key (encoded for RHF)
-      const newItemsObject: Record<string, TranslationsFormItem> = {};
-      items.forEach((item) => {
-        const key = item.key || item.id;
-        const encodedKey = encodeRHFKey(key);
-        newItemsObject[encodedKey] = item;
-      });
-
-      // Reset with full items object from refetch
+      // Reset with full items array from refetch
       // ⚠️ keepDefaultValues: false is CRITICAL - updates defaultValues to new items
       // Otherwise, form compares against old defaults and everything appears dirty
-      methods.reset(
-        { items: newItemsObject },
-        { keepValues: false, keepDefaultValues: false, keepDirty: false },
-      );
+      methods.reset({ items }, { keepValues: false, keepDefaultValues: false, keepDirty: false });
       prevItemsRef.current = items;
     }
   }, [items, methods]);
@@ -144,11 +128,8 @@ export const useTranslationsTableForm = ({
 
   const languageKeys = useMemo(() => supportedLanguages.map(languagesCodeToKey), [supportedLanguages]);
 
-  const watchedItems = watch('items'); // This is now an object, not an array
-
   // Get items as array for checking last item
-  const watchedItemsArray = useMemo(() => Object.values(watchedItems || {}), [watchedItems]);
-  const isDirtyLastItem = Boolean(watchedItemsArray.at(-1)?.key);
+  const isDirtyLastItem = watchedItems.length === 0 || Boolean(watchedItems.at(-1)?.key);
 
   // Helper: check if item is empty (all language fields empty)
   const isItemEmpty = useCallback(
@@ -159,8 +140,8 @@ export const useTranslationsTableForm = ({
   );
 
   const hasEmptyRow = useMemo(() => {
-    return watchedItemsArray.some((item: TranslationsFormItem) => isItemEmpty(item));
-  }, [watchedItemsArray, isItemEmpty]);
+    return watchedItems?.some((item: TranslationsFormItem) => isItemEmpty(item));
+  }, [watchedItems, isItemEmpty]);
 
   return {
     methods,

@@ -1,16 +1,15 @@
 import { useCallback } from 'react';
 import type { UseFormReturn } from 'react-hook-form';
 import type { TranslationsFormItem } from '../../../TranslationsSHARED/translations.types';
-import { encodeRHFKey, decodeRHFKey } from 'admin/utils/languages.utils';
 
-// Form structure: { items: { [key: string]: TranslationsFormItem } }
+// Form structure: { items: TranslationsFormItem[] }
 type TranslationsFormData = {
-  items: Record<string, TranslationsFormItem>;
+  items: TranslationsFormItem[];
 };
 
 interface UseTranslationsTableHandlersOptions {
   methods: UseFormReturn<TranslationsFormData>;
-  watchedItems: Record<string, TranslationsFormItem>;
+  watchedItems: TranslationsFormItem[];
   remove: (key: string) => void;
   languageKeys: string[];
   isItemEmpty: (item: TranslationsFormItem) => boolean;
@@ -45,7 +44,8 @@ export const useTranslationsTableHandlers = ({
 
   const handleDelete = useCallback(
     async (key: string) => {
-      const item = watchedItems[key];
+      // Find item by key (could be translation key or id)
+      const item = watchedItems.find((item) => item.key === key || item.id === key);
       if (!item) return;
 
       // If it's a temp item (not saved yet), just remove from form
@@ -89,20 +89,17 @@ export const useTranslationsTableHandlers = ({
   const handleSave = methods.handleSubmit(async (data) => {
     const { dirtyFields } = methods.formState;
 
-    // Convert object to array for processing
-    // Keys in data.items are encoded, but items themselves have the real keys
-    const itemsArray = Object.values(data.items);
+    // data.items is already an array
+    const itemsArray = data.items;
 
     // 1. Remove empty rows
     const nonEmptyItems = itemsArray.filter((item) => !isItemEmpty(item));
 
     // 2. Keep only dirty or new rows
-    // dirtyFields.items keys are encoded (RHF format), so we need to encode item keys for comparison
-    const changedItems = nonEmptyItems.filter((item) => {
+    // dirtyFields.items is an array, so we check by index
+    const changedItems = nonEmptyItems.filter((item, index) => {
       if (item.id.startsWith('temp-')) return true;
-      const itemKey = item.key || item.id;
-      const encodedKey = encodeRHFKey(itemKey);
-      return Boolean(dirtyFields.items?.[encodedKey]);
+      return Boolean(dirtyFields.items?.[index]);
     });
 
     if (changedItems.length === 0) return;

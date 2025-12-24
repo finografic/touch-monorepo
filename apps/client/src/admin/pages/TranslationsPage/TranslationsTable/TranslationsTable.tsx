@@ -138,8 +138,9 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
           <tbody>
             {fields.map((field, index) => {
               const rows: React.ReactNode[] = [];
-              const fieldKey = field.id || field.fieldId || `field-${index}`;
-              const itemKey = field.key || field.id || ''; // translation key from the field (use the actual key, not encoded)
+              // useFieldArray provides fieldId for React keys
+              const fieldKey = (field as any).fieldId || field.id || `field-${index}`;
+              const itemKey = field.key || field.id || ''; // translation key from the field
 
               // Add page divider row if needed (centralized logic)
               addTranslationsGroupRow({
