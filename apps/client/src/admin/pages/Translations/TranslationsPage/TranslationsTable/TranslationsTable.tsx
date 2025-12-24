@@ -4,15 +4,15 @@ import { useDebouncedCallback } from 'use-debounce';
 import { Flex } from '@radix-ui/themes';
 import createCuid from '@bugsnag/cuid';
 import { TranslationsRow } from './components/TranslationsRow';
-import { TableFormButtons } from '../../components/TableFormButtons';
-import { styles } from '../../styles/TranslationsTable.styles';
+import { TableFormButtons } from '../../shared/components/TableFormButtons';
+import { styles } from '../../shared/styles/TranslationsTable.styles';
 import { useTranslationsTableForm } from './hooks/useTranslationsTableForm';
 import { useTranslationsTableHandlers } from './hooks/useTranslationsTableHandlers';
 import { addTranslationsGroupRow, computePageGrouping } from './components/TranslationsGroupRow';
-import { DEFAULT_SHOW_KEY_COLUMN } from '../../constants/translationsTable.constants';
+import { DEFAULT_SHOW_KEY_COLUMN } from '../../shared/constants/translationsTable.constants';
 
 import type { RegionLocale } from '@workspace/config/i18n.config';
-import type { TranslationsFormItem } from '../../types/translations.types';
+import type { TranslationsFormItem } from '../../shared/types/translations.types';
 import type { I18nTranslationsDomain } from '@workspace/i18n/types';
 
 interface TranslationsTableProps {

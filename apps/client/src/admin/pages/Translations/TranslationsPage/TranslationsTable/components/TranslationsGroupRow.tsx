@@ -1,7 +1,7 @@
 import React from 'react';
 import { DividerRowByPage } from './DividerRowByPage';
 import type { RegionLocale } from '@workspace/config/i18n.config';
-import type { TranslationsFormItem } from '../../../types/translations.types';
+import type { TranslationsFormItem } from '../../../shared/types/translations.types';
 import type { I18nTranslationsDomain } from '@workspace/i18n/types';
 
 interface TranslationsGroupRowOptions {

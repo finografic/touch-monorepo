@@ -6,9 +6,9 @@ import { ChevronRightIcon, ChevronDownIcon } from '@radix-ui/react-icons';
 import createCuid from '@bugsnag/cuid';
 
 // import { TableFormButtons } from 'admin/pages/TranslationsProductPage/TableFormButtons/TableFormButtons';
-import { TableFormButtons } from '../../components/TableFormButtons';
-import { styles } from '../../styles/TranslationsTable.styles';
-import { DEFAULT_SHOW_KEY_COLUMN_PRODUCT } from '../../constants/translationsTable.constants';
+import { TableFormButtons } from '../../shared/components/TableFormButtons';
+import { styles } from '../../shared/styles/TranslationsTable.styles';
+import { DEFAULT_SHOW_KEY_COLUMN_PRODUCT } from '../../shared/constants/translationsTable.constants';
 import { useGetDrinkTypes } from 'queries/drink-types';
 import { useToast } from 'components/Toast/ToastContext';
 import { useTranslationsTableForm } from './hooks/useTranslationsTableForm';
@@ -22,7 +22,7 @@ import type {
 } from 'admin/pages/Translations/TranslationsProductPage/translationsProduct.types';
 import { colors } from 'styles/colors/colors-direct';
 
-import { COL_CHEVRON_WIDTH, COL_SLUG_WIDTH } from '../../constants/translations-table.config';
+import { COL_CHEVRON_WIDTH, COL_SLUG_WIDTH } from '../../shared/constants/translations-table.config';
 
 interface TranslationsTableExpandableProps {
   sectionKey: string;

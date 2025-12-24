@@ -3,7 +3,10 @@ import { useFieldArray, useForm } from 'react-hook-form';
 import type { UseFormReturn } from 'react-hook-form';
 import type { RegionLocale } from '@workspace/config/i18n.config';
 import type { TranslationsFormItem } from '../../translationsProduct.types';
-import { getLanguageKeys, isItemEmpty as isItemEmptyUtil } from '../../../utils/translationsTable.utils';
+import {
+  getLanguageKeys,
+  isItemEmpty as isItemEmptyUtil,
+} from '../../../shared/utils/translationsTable.utils';
 
 interface UseTranslationsTableFormOptions {
   items: TranslationsFormItem[];

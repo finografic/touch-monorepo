@@ -6,8 +6,8 @@ import { Input } from 'forms/Input/Input';
 import { languagesCodeToKey, regenerateSlug } from 'admin/utils/languages.utils';
 
 import type { RegionLocale } from '@workspace/config/i18n.config';
-import { TranslationsRowCell } from '../../../components/TranslationsRowCell';
-import { TranslationsDeleteButton } from '../../../components/TranslationsDeleteButton';
+import { TranslationsRowCell } from '../../../shared/components/TranslationsRowCell';
+import { TranslationsDeleteButton } from '../../../shared/components/TranslationsDeleteButton';
 
 interface ExpandedSubtypeRowProps {
   className?: string;

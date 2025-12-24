@@ -9,12 +9,12 @@ import { useSaveTranslations } from './hooks/useSaveTranslations';
 import { useDeleteTranslations } from './hooks/useDeleteTranslations';
 import { TranslationsTable } from './TranslationsTable';
 import type { I18nTranslationsDomain } from '@workspace/i18n/types';
-import type { I18nDomainGroupKey } from '../types/translations.types';
-import { styles } from '../styles/TranslationsPage.styles';
+import type { I18nDomainGroupKey } from '../shared/types/translations.types';
+import { styles } from '../shared/styles/TranslationsPage.styles';
 import { useParams } from 'react-router-dom';
 import { translations } from '@workspace/i18n';
 import { flattenTranslations } from 'utils/flatten-translations';
-import { DEFAULT_SHOW_KEY_COLUMN } from 'admin/pages/Translations/constants/translationsTable.constants';
+import { DEFAULT_SHOW_KEY_COLUMN } from 'admin/pages/Translations/shared/constants/translationsTable.constants';
 
 export const TranslationsPage: React.FC = () => {
   const { t } = useTranslation();
