@@ -33,7 +33,7 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
   isDeleting = false,
 }) => {
   const [editingRowIndex, setEditingRowIndex] = useState<number | null>(null);
-  const [showKeyColumn, setShowKeyColumn] = useState<boolean>(true);
+  const [showKeyColumn, setShowKeyColumn] = useState<boolean>(true); // TODO: DEFAULT VALUE DIFFERES FROM OTHER TABLES
 
   // ======================================================================== //
   // Shared Form Logic
@@ -120,6 +120,7 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
               <th className="col-actions"></th>
             </tr>
           </thead>
+
           <tbody>
             {fields.map((field, index) => (
               <TranslationsRow

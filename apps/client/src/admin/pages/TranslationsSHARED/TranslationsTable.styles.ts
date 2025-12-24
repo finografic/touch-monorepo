@@ -134,11 +134,13 @@ export const styles = css`
         &:hover {
           /* background-color: ${colors.greyXXLight50}; */
         }
+
         &.expanded {
           background-color: ${colors.greyXXLight75};
           border: ${TABLE_BORDER};
           border-bottom: none;
         }
+
         border-top: none;
       }
 
@@ -240,6 +242,55 @@ export const styles = css`
       }
     }
 
+    /* Expandable table specific styles (simpler styling for product translations) */
+    &.expandable {
+      tr.group-header {
+        /* Override with simpler styling for expandable tables */
+        height: auto;
+        td {
+          height: auto;
+          font-weight: 700;
+        }
+        background-color: ${colors.greyXXLight25};
+        border: ${TABLE_BORDER};
+        border-top: none;
+        cursor: pointer;
+
+        &:hover {
+          background-color: ${colors.greyXXLight50};
+        }
+
+        &.expanded {
+          background-color: ${colors.greyXXLight75};
+          border: ${TABLE_BORDER};
+          border-bottom: none;
+        }
+      }
+
+      tr.group-subheader {
+        height: 2.5rem;
+      }
+
+      /* Button delete outside col-actions scope for expandable tables */
+      button.button-delete {
+        transform: translateX(1rem);
+        padding: 0rem 0.66rem;
+        svg.icon {
+          width: 1.5rem;
+          height: 1.5rem;
+          color: ${colors.danger};
+          opacity: 0.66;
+        }
+        &:hover {
+          background-color: ${colors.dangerLight25};
+          svg {
+            color: ${colors.dangerDark};
+            opacity: 1;
+          }
+        }
+      }
+    }
+
     /* TOGGLE VISIBILITY KEY COLUMN */
 
     &.is-hidden-key-column {
@@ -281,4 +332,3 @@ export const styles = css`
     }
   }
 `;
-``;

@@ -6,7 +6,7 @@ import { ChevronRightIcon, ChevronDownIcon } from '@radix-ui/react-icons';
 import createCuid from '@bugsnag/cuid';
 
 import { TableFormButtons } from 'admin/pages/TranslationsProductPage/TableFormButtons/TableFormButtons';
-import { styles } from './TranslationsTable.styles';
+import { styles } from '../../TranslationsSHARED/TranslationsTable.styles';
 import { useGetDrinkTypes } from 'queries/drink-types';
 import { useToast } from 'components/Toast/ToastContext';
 import { useTranslationsTableForm } from './hooks/useTranslationsTableForm';
@@ -48,17 +48,9 @@ export const TranslationsTableExpandable: React.FC<TranslationsTableExpandablePr
   );
   const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set());
 
-  // ======================================================================== //
-  // Drink Type Mapping
-  // ======================================================================== //
-
-  const drinkTypeMap = useMemo(() => {
-    const map = new Map<string, string>();
-    drinkTypes.forEach((dt) => {
-      map.set(dt.id, dt.name);
-    });
-    return map;
-  }, [drinkTypes]);
+  const [showKeyColumn, setShowKeyColumn] = useState<boolean>(true);
+  // TODO: TEMPORARY VALUE, BEFORE CONSOLIDATION -- CAN BE SHARED... LIFT VALUE TO PARENT ??
+  const hasGrouping = true;
 
   // ======================================================================== //
   // Group Subtypes by Drink Type
@@ -199,7 +191,20 @@ export const TranslationsTableExpandable: React.FC<TranslationsTableExpandablePr
           />
         </Flex>
 
-        <table className="translations-table expandable">
+        {/* <table className="translations-table expandable"> */}
+        <table
+          className={`translations-table expandable ${showKeyColumn ? 'is-visible-key-column' : 'is-hidden-key-column'}`}
+        >
+          <thead>
+            <tr>
+              <th className="col-key"></th>
+              {supportedLanguages.map((lang) => (
+                <th key={lang}>{hasGrouping ? <></> : <>{lang}</>}</th>
+              ))}
+              <th className="col-actions"></th>
+            </tr>
+          </thead>
+
           <tbody>
             {groupedSubtypes.map((group, groupIndex) => {
               const isExpanded = expandedGroups.has(group.drinkTypeId);
@@ -225,11 +230,7 @@ export const TranslationsTableExpandable: React.FC<TranslationsTableExpandablePr
                     <td style={{ width: COL_CHEVRON_WIDTH, textAlign: 'center' }}>
                       {isExpanded ? <ChevronDownIcon /> : <ChevronRightIcon />}
                     </td>
-                    <td
-                      className="col-key"
-                      colSpan={supportedLanguages.length + 2}
-                      style={{ width: COL_SLUG_WIDTH }}
-                    >
+                    <td className="col-key" colSpan={supportedLanguages.length + 2}>
                       <Flex
                         className="group-header-content"
                         justify="between"
@@ -255,18 +256,17 @@ export const TranslationsTableExpandable: React.FC<TranslationsTableExpandablePr
                   {/* Column Header Row (mimics thead) - only show when expanded */}
                   {isExpanded && (
                     <tr className="group-subheader">
-                      <td style={{ width: COL_CHEVRON_WIDTH }} />
-                      <td style={{ width: COL_SLUG_WIDTH }} />
+                      <td className="col-key"></td>
                       {supportedLanguages.map((lang) => (
                         <td key={lang}>{lang}</td>
                       ))}
-                      <td />
+                      <td className="col-actions"></td>
                     </tr>
                   )}
 
                   {isExpanded && numRows.length === 0 && (
                     <tr className="group-placeholder">
-                      <td colSpan={supportedLanguages.length + 3}>Ningu na entrada suptipo</td>
+                      <td colSpan={supportedLanguages.length + 2}>Ningu na entrada suptipo</td>
                     </tr>
                   )}
 

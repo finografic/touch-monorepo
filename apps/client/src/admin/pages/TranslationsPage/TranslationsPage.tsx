@@ -10,7 +10,7 @@ import { useDeleteTranslations } from './hooks/useDeleteTranslations';
 import { TranslationsTable } from './TranslationsTable';
 import type { I18nTranslationsDomain } from '@workspace/i18n/types';
 import type { I18nDomainGroupKey } from '../TranslationsSHARED/translations.types';
-import { styles } from './TranslationsPage.styles';
+import { styles } from '../TranslationsSHARED/TranslationsPage.styles';
 import { useParams } from 'react-router-dom';
 import { translations } from '@workspace/i18n';
 import { flattenTranslations } from 'utils/flatten-translations';

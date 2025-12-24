@@ -8,7 +8,6 @@ import { Input } from 'forms/Input/Input';
 import { languagesCodeToKey, regenerateSlug } from 'admin/utils/languages.utils';
 
 import type { RegionLocale } from '@workspace/config/i18n.config';
-import { COL_CHEVRON_WIDTH, COL_SLUG_WIDTH } from '../../../TranslationsSHARED/translations-table.config';
 
 interface ExpandedSubtypeRowProps {
   className?: string;
@@ -81,10 +80,8 @@ export const ExpandedSubtypeRow: React.FC<ExpandedSubtypeRowProps> = ({
         }
       }}
     >
-      {/* Empty cell for chevron column alignment */}
-      <td style={{ width: COL_CHEVRON_WIDTH }} />
-
-      <td className="col-key" style={{ width: COL_SLUG_WIDTH }}>
+      {/* SLUG / KEY */}
+      <td className="col-key">
         <Input value={nameField.value || ''} readOnly />
       </td>
 
@@ -109,7 +106,7 @@ export const ExpandedSubtypeRow: React.FC<ExpandedSubtypeRowProps> = ({
       })}
 
       {/* DELETE */}
-      <td>
+      <td className="col-actions">
         <Button
           className="button button-delete"
           aria-label="Delete"
