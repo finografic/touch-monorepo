@@ -5,7 +5,8 @@ import { Flex, Text } from '@radix-ui/themes';
 import { ChevronRightIcon, ChevronDownIcon } from '@radix-ui/react-icons';
 import createCuid from '@bugsnag/cuid';
 
-import { TableFormButtons } from 'admin/pages/TranslationsProductPage/TableFormButtons/TableFormButtons';
+// import { TableFormButtons } from 'admin/pages/TranslationsProductPage/TableFormButtons/TableFormButtons';
+import { TableFormButtons } from '../../TranslationsSHARED/TableFormButtons/TableFormButtons';
 import { styles } from '../../TranslationsSHARED/TranslationsTable.styles';
 import { useGetDrinkTypes } from 'queries/drink-types';
 import { useToast } from 'components/Toast/ToastContext';

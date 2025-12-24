@@ -56,7 +56,6 @@ export const TableFormButtons: React.FC<TableFormButtonsProps> = ({
           {toggleButton ? <EyeOnIcon /> : <EyeOffIcon />}
         </Button>
       )}
-
       {onReset && (
         <Button
           type="button"
@@ -69,7 +68,6 @@ export const TableFormButtons: React.FC<TableFormButtonsProps> = ({
           {t('ui.buttons.cancel')}
         </Button>
       )}
-
       {onSave && (
         <Button
           type="button"
@@ -82,7 +80,6 @@ export const TableFormButtons: React.FC<TableFormButtonsProps> = ({
           {isSaving ? 'Saving...' : t('ui.buttons.save')}
         </Button>
       )}
-
       {onAddNew && (
         <Button
           type="button"
