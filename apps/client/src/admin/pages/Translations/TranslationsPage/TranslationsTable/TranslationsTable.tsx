@@ -176,6 +176,7 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
                   index={index}
                   onDelete={canAddNew ? handleDelete : undefined}
                   supportedLanguages={supportedLanguages}
+                  canAddNew={canAddNew}
                   showKeyColumn={showKeyColumn}
                   isEditing={editingRowIndex === index}
                   onEditingChange={(isEditing) => {

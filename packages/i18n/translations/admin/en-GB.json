@@ -109,6 +109,9 @@
           "volume": "Volume",
           "container": "Container",
           "actions": "Actions"
+        },
+        "table": {
+          "title": "Translations - {{group}}"
         }
       },
       "slots": {

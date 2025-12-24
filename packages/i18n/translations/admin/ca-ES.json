@@ -110,6 +110,9 @@
           "volume": "Volum",
           "container": "Envas",
           "actions": "Accions"
+        },
+        "table": {
+          "title": "Traduccions {{group}}"
         }
       },
       "slots": {

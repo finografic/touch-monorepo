@@ -226,6 +226,28 @@ export const getTemperatureProfiles = createRoute({
   },
 });
 
+export const deleteTemperatureProfiles = createRoute({
+  method: 'delete',
+  path: '/orders/:id/temperature-profiles',
+  tags: ['Orders'],
+  request: {
+    params: IdCuidParamsSchema,
+  },
+  responses: {
+    [HttpStatusCodes.NO_CONTENT]: {
+      description: 'All temperature profiles for the order deleted',
+    },
+    404: {
+      content: {
+        'application/json': {
+          schema: notFoundSchema,
+        },
+      },
+      description: 'Order not found',
+    },
+  },
+});
+
 export type ListRoute = typeof list;
 export type ListReadableRoute = typeof listReadable;
 export type GetOneRoute = typeof getOne;
@@ -236,3 +258,4 @@ export type RemoveRoute = typeof remove;
 export type CleanupRoute = typeof cleanup;
 
 export type GetTemperatureProfilesRoute = typeof getTemperatureProfiles;
+export type DeleteTemperatureProfilesRoute = typeof deleteTemperatureProfiles;

@@ -9,6 +9,7 @@ import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/zod.errors';
 import type { AppRouteHandler } from 'types/app.types';
 import type {
   CreateRoute,
+  DeleteTemperatureProfilesRoute,
   GetOneReadableRoute,
   GetOneRoute,
   GetTemperatureProfilesRoute,
@@ -254,4 +255,27 @@ export const getTemperatureProfiles: AppRouteHandler<GetTemperatureProfilesRoute
   }
 
   return context.json(profiles, HttpStatusCodes.OK);
+};
+
+export const deleteTemperatureProfiles: AppRouteHandler<DeleteTemperatureProfilesRoute> = async (context) => {
+  const { id } = context.req.valid('param');
+
+  // Verify the order exists
+  const order = await db.query.orders.findFirst({
+    where: (fields, operators) => operators.eq(fields.id, id),
+  });
+
+  if (!order) {
+    return context.json(
+      {
+        message: HttpStatusPhrases.NOT_FOUND,
+      },
+      HttpStatusCodes.NOT_FOUND,
+    );
+  }
+
+  // Delete all temperature profiles for this order
+  await db.delete(temperature_profiles).where(eq(temperature_profiles.orderId, id));
+
+  return context.body(null, HttpStatusCodes.NO_CONTENT);
 };

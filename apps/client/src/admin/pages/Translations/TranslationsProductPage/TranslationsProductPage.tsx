@@ -78,11 +78,7 @@ export const TranslationsProductPage: React.FC = () => {
   }
 
   return (
-    <AdminPageLayout
-      title={t('admin.pages.translations.content.editTables')}
-      subtitle="Admin"
-      styles={styles}
-    >
+    <AdminPageLayout title={t('admin.pages.products.title')} styles={styles}>
       <Tabs.Root value={activeTab} onValueChange={(value) => setActiveTab(value as SectionKey)}>
         <Tabs.List>
           {sortedSections.map((section) => (
@@ -94,7 +90,12 @@ export const TranslationsProductPage: React.FC = () => {
 
         {sortedSections.map((section) => (
           <Tabs.Content key={section.group} value={section.group}>
-            <AdminSection title={t(section.title)} description={t(section.description)}>
+            <AdminSection
+              title={t(`admin.pages.products.table.title`, {
+                group: t(`admin.pages.translations.tabs.${section.group}`, { defaultValue: section.group }),
+              })}
+              description={' '}
+            >
               {section.group === 'drinkSubtypes' ? (
                 <TranslationsTableExpandable
                   sectionKey={section.group}

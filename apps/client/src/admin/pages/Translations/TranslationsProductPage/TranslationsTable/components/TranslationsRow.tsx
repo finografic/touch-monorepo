@@ -118,7 +118,9 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
       ))}
 
       {/* DELETE */}
-      <TranslationsDeleteButton onDelete={() => onDelete(index)} isDeleting={isDeleting} />
+      <td className="col-actions">
+        <TranslationsDeleteButton onDelete={() => onDelete(index)} isDeleting={isDeleting} />
+      </td>
     </tr>
   );
 };

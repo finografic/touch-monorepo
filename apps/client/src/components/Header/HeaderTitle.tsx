@@ -6,15 +6,19 @@ import { Flex } from '@radix-ui/themes';
 import { useAppConfig } from 'providers/AppConfigProvider';
 
 import type { Theme } from 'types/ui.types';
+import { useLocation } from 'react-router-dom';
 
 export const HeaderTitle: React.FC = () => {
   const { t } = useTranslation();
   const { currentLanguage } = useAppConfig();
+  const { pathname } = useLocation();
+  const isAdminArea = pathname.includes('/admin');
 
   return (
     <Flex direction="column" justify="end" align="center">
       <h1>
-        {t('app.title')} <span className="title-subtitle">({currentLanguage})</span>
+        {isAdminArea ? t('admin.labels.title') : t('app.labels.title')}
+        <span className="title-subtitle">({currentLanguage})</span>
       </h1>
     </Flex>
   );
