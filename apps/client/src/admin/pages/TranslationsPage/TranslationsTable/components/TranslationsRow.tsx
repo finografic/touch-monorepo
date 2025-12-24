@@ -3,8 +3,8 @@ import clsx from 'clsx';
 import type { RegionLocale } from '@workspace/config/i18n.config';
 import { Input } from 'forms/Input/Input';
 import type { I18nTranslationsDomain } from '@workspace/i18n/types';
-import { TranslationsRowCell } from '../../../TranslationPages/components/TranslationsRowCell';
-import { TranslationsDeleteButton } from '../../../TranslationPages/components/TranslationsDeleteButton';
+import { TranslationsRowCell } from '../../../Translations/components/TranslationsRowCell';
+import { TranslationsDeleteButton } from '../../../Translations/components/TranslationsDeleteButton';
 
 interface TranslationsRowProps {
   domain: I18nTranslationsDomain;

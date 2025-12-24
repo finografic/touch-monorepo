@@ -2,11 +2,11 @@ import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import type { UseFormReturn } from 'react-hook-form';
 import type { RegionLocale } from '@workspace/config/i18n.config';
-import type { TranslationsFormItem } from '../../../TranslationPages/types/translations.types';
+import type { TranslationsFormItem } from '../../../Translations/types/translations.types';
 import {
   getLanguageKeys,
   isItemEmpty as isItemEmptyUtil,
-} from '../../../TranslationPages/utils/translationsTable.utils';
+} from '../../../Translations/utils/translationsTable.utils';
 
 interface UseTranslationsTableFormOptions {
   items: TranslationsFormItem[];

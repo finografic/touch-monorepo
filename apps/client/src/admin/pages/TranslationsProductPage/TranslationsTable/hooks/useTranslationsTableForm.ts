@@ -6,7 +6,7 @@ import type { TranslationsFormItem } from '../../translationsProduct.types';
 import {
   getLanguageKeys,
   isItemEmpty as isItemEmptyUtil,
-} from '../../../TranslationPages/utils/translationsTable.utils';
+} from '../../../Translations/utils/translationsTable.utils';
 
 interface UseTranslationsTableFormOptions {
   items: TranslationsFormItem[];
