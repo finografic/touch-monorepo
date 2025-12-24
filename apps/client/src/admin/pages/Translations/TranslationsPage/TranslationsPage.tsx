@@ -83,6 +83,7 @@ export const TranslationsPage: React.FC = () => {
                 group={section.group}
                 items={section.items}
                 supportedLanguages={supportedLanguages}
+                canAddNew={false}
                 onSave={async ({ items }) => await save({ items })}
                 onDelete={async (itemId) => {
                   const result = await deleteItem(itemId);

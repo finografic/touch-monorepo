@@ -21,6 +21,7 @@ interface TranslationsTableProps {
   group: string;
   items: TranslationsFormItem[];
   supportedLanguages: RegionLocale[];
+  canAddNew: boolean;
   onSave?: ({ items }: { items: TranslationsFormItem[] }) => Promise<{ savedItems: TranslationsFormItem[] }>;
   onDelete?: (itemId: string) => Promise<{ success: boolean; deletedId: string }>;
   isSaving?: boolean;
@@ -34,6 +35,7 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
   group,
   items,
   supportedLanguages,
+  canAddNew,
   onSave,
   onDelete,
   isSaving = false,
@@ -119,7 +121,7 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
           <TableFormButtons
             onReset={handleReset}
             onSave={handleSave}
-            onAddNew={handleAddNewRow}
+            onAddNew={canAddNew ? handleAddNewRow : undefined}
             isDirty={methods.formState.isDirty}
             isAddNewDisabled={!isDirtyLastItem}
             isSaving={isSaving}
@@ -172,7 +174,7 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
                   domain={domain}
                   group={group}
                   index={index}
-                  onDelete={handleDelete}
+                  onDelete={canAddNew ? handleDelete : undefined}
                   supportedLanguages={supportedLanguages}
                   showKeyColumn={showKeyColumn}
                   isEditing={editingRowIndex === index}

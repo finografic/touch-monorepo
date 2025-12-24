@@ -15,6 +15,7 @@ interface TranslationsRowProps {
   isEditing: boolean;
   onEditingChange: (isEditing: boolean) => void;
   supportedLanguages: RegionLocale[]; // ["es-ES","en-GB","ca-ES"]
+  canAddNew: boolean;
   showKeyColumn: boolean;
   isSaving?: boolean;
   isDeleting?: boolean;
@@ -29,6 +30,7 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
   isEditing,
   onEditingChange,
   supportedLanguages,
+  canAddNew,
   showKeyColumn,
   isSaving = false,
   isDeleting = false,
@@ -101,7 +103,13 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
       ))}
 
       {/* DELETE */}
-      <TranslationsDeleteButton onDelete={() => onDelete(translationKey)} isDeleting={isDeleting} />
+      <td className="col-actions">
+        {canAddNew ? (
+          <TranslationsDeleteButton onDelete={() => onDelete(translationKey)} isDeleting={isDeleting} />
+        ) : (
+          <></>
+        )}
+      </td>
     </tr>
   );
 };

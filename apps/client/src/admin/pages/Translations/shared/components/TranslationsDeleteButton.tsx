@@ -16,19 +16,16 @@ export const TranslationsDeleteButton: React.FC<TranslationsDeleteButtonProps> =
   isDeleting = false,
 }) => {
   return (
-    <td className="col-actions">
-      <Button
-        className="button button-delete"
-        aria-label="Delete"
-        variant="ghost"
-        size="md"
-        color="danger"
-        onClick={onDelete}
-        disabled={isDeleting}
-      >
-        <TrashIcon />
-      </Button>
-    </td>
+    <Button
+      className="button button-delete"
+      aria-label="Delete"
+      variant="ghost"
+      size="md"
+      color="danger"
+      onClick={onDelete}
+      disabled={isDeleting}
+    >
+      <TrashIcon />
+    </Button>
   );
 };
-
