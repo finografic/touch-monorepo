@@ -7,7 +7,7 @@ import { TranslationsDto } from '../utils/translations.dto';
 import { useAppConfig } from 'providers/AppConfigProvider';
 
 import type { RegionLocale } from '@workspace/config/i18n.config';
-import type { TranslationsSection } from '../../Translations/types/translations.types';
+import type { TranslationsSection } from '../../types/translations.types';
 import type { I18nTranslationsDomain } from '@workspace/i18n/types';
 import { GET_TRANSLATIONS_QUERYKEY } from 'queries/translations';
 import type { TranslationsModel } from 'types/models/translations.model';

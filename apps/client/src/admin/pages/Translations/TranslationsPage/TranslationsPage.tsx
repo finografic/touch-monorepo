@@ -2,15 +2,15 @@ import React, { useMemo, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Flex, Spinner, Tabs, Text } from '@radix-ui/themes';
 
-import { AdminPageLayout, AdminSection } from '../..';
+import { AdminPageLayout, AdminSection } from '../../..';
 
 import { useGetTranslations } from './hooks/useGetTranslations';
 import { useSaveTranslations } from './hooks/useSaveTranslations';
 import { useDeleteTranslations } from './hooks/useDeleteTranslations';
 import { TranslationsTable } from './TranslationsTable';
 import type { I18nTranslationsDomain } from '@workspace/i18n/types';
-import type { I18nDomainGroupKey } from '../Translations/types/translations.types';
-import { styles } from '../Translations/TranslationsPage.styles';
+import type { I18nDomainGroupKey } from '../types/translations.types';
+import { styles } from '../styles/TranslationsPage.styles';
 import { useParams } from 'react-router-dom';
 import { translations } from '@workspace/i18n';
 import { flattenTranslations } from 'utils/flatten-translations';

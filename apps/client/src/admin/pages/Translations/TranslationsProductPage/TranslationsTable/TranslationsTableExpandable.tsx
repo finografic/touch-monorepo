@@ -6,9 +6,9 @@ import { ChevronRightIcon, ChevronDownIcon } from '@radix-ui/react-icons';
 import createCuid from '@bugsnag/cuid';
 
 // import { TableFormButtons } from 'admin/pages/TranslationsProductPage/TableFormButtons/TableFormButtons';
-import { TableFormButtons } from '../../Translations/components/TableFormButtons';
-import { styles } from '../../Translations/TranslationsTable.styles';
-import { DEFAULT_SHOW_KEY_COLUMN_PRODUCT } from '../../Translations/constants/translationsTable.constants';
+import { TableFormButtons } from '../../components/TableFormButtons';
+import { styles } from '../../styles/TranslationsTable.styles';
+import { DEFAULT_SHOW_KEY_COLUMN_PRODUCT } from '../../constants/translationsTable.constants';
 import { useGetDrinkTypes } from 'queries/drink-types';
 import { useToast } from 'components/Toast/ToastContext';
 import { useTranslationsTableForm } from './hooks/useTranslationsTableForm';
@@ -19,10 +19,10 @@ import type { RegionLocale } from '@workspace/config/i18n.config';
 import type {
   GroupedSubtypes,
   TranslationsFormItem,
-} from 'admin/pages/TranslationsProductPage/translationsProduct.types';
+} from 'admin/pages/Translations/TranslationsProductPage/translationsProduct.types';
 import { colors } from 'styles/colors/colors-direct';
 
-import { COL_CHEVRON_WIDTH, COL_SLUG_WIDTH } from '../../Translations/constants/translations-table.config';
+import { COL_CHEVRON_WIDTH, COL_SLUG_WIDTH } from '../../constants/translations-table.config';
 
 interface TranslationsTableExpandableProps {
   sectionKey: string;
@@ -190,6 +190,8 @@ export const TranslationsTableExpandable: React.FC<TranslationsTableExpandablePr
             isDirty={methods.formState.isDirty}
             isAddNewDisabled={!isDirtyLastItem || !hasExpandedGroup}
             isSaving={isSaving}
+            showKeyColumn={showKeyColumn}
+            setShowKeyColumn={setShowKeyColumn}
           />
         </Flex>
 

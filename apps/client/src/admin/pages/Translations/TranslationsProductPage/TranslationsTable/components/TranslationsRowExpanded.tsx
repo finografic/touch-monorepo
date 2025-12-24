@@ -1,38 +1,37 @@
-import { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 import clsx from 'clsx';
-import type { RegionLocale } from '@workspace/config/i18n.config';
-import { languagesCodeToKey, regenerateSlug } from 'admin/utils/languages.utils';
 import { Input } from 'forms/Input/Input';
-import { TranslationsRowCell } from '../../../Translations/components/TranslationsRowCell';
-import { TranslationsDeleteButton } from '../../../Translations/components/TranslationsDeleteButton';
 
-interface TranslationsRowProps {
+import { languagesCodeToKey, regenerateSlug } from 'admin/utils/languages.utils';
+
+import type { RegionLocale } from '@workspace/config/i18n.config';
+import { TranslationsRowCell } from '../../../components/TranslationsRowCell';
+import { TranslationsDeleteButton } from '../../../components/TranslationsDeleteButton';
+
+interface ExpandedSubtypeRowProps {
+  className?: string;
   index: number;
   onDelete: (index: number) => Promise<void>;
+  supportedLanguages: RegionLocale[];
+  slugPriority?: RegionLocale[]; // ["es-ES","en-GB",...rest]
   isEditing: boolean;
   onEditingChange: (isEditing: boolean) => void;
-  supportedLanguages: RegionLocale[]; // ["es-ES","en-GB","ca-ES"]
-  slugPriority?: RegionLocale[]; // ["es-ES","en-GB",...rest]
   isSaving?: boolean;
   isDeleting?: boolean;
 }
 
-export const TranslationsRow: React.FC<TranslationsRowProps> = ({
+export const ExpandedSubtypeRow: React.FC<ExpandedSubtypeRowProps> = ({
   index,
   onDelete,
-  isEditing,
-  onEditingChange,
   supportedLanguages,
   slugPriority,
+  isEditing,
+  onEditingChange,
   isSaving = false,
   isDeleting = false,
 }) => {
   const { control, register, formState, watch, setValue } = useFormContext();
-
-  /* -----------------------------
-     Slug field (controlled)
-  ------------------------------ */
 
   const { field: nameField } = useController({
     name: `items.${index}.name`,
@@ -40,10 +39,6 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
   });
 
   const values = watch(`items.${index}`);
-
-  /* -----------------------------
-     Slug auto-sync
-  ------------------------------ */
 
   const updateSlug = useCallback(
     (translations: Record<string, string>) => {
@@ -59,20 +54,13 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
 
   useEffect(() => {
     if (!values) return;
-
     const translations: Record<string, string> = {};
-
     for (const lang of supportedLanguages) {
       const key = languagesCodeToKey(lang);
       translations[lang] = values[key];
     }
-
     updateSlug(translations);
-  }, [values?.esEs, values?.enGb, values?.caEs, supportedLanguages, slugPriority, setValue]);
-
-  /* -----------------------------
-     Row state
-  ------------------------------ */
+  }, [values?.esEs, values?.enGb, values?.caEs, supportedLanguages, setValue]);
 
   const rowDirtyFields = formState.dirtyFields?.items?.[index];
   const isDirty = Boolean(rowDirtyFields);
@@ -81,10 +69,6 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
     'row-editing': isEditing,
     'row-dirty': isDirty,
   });
-
-  /* -----------------------------
-     Render
-  ------------------------------ */
 
   return (
     <tr
@@ -98,11 +82,7 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
     >
       {/* SLUG / KEY */}
       <td className="col-key">
-        <Input
-          value={nameField.value || ''}
-          readOnly
-          className={clsx({ 'input-dirty': rowDirtyFields?.name })}
-        />
+        <Input value={nameField.value || ''} readOnly />
       </td>
 
       {/* DYNAMIC LANGUAGE COLUMNS */}

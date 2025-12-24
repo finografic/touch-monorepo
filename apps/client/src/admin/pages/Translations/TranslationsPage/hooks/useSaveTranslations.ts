@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from 'api';
 
-import type { TranslationsFormItem } from '../../Translations/types/translations.types';
+import type { TranslationsFormItem } from '../../types/translations.types';
 import { TranslationsDto } from '../utils/translations.dto';
 import { useToast } from 'components/Toast/ToastContext';
 import type { I18nTranslationsDomain } from '@workspace/i18n/types';

@@ -1,55 +1,42 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FormProvider } from 'react-hook-form';
 import { useDebouncedCallback } from 'use-debounce';
 import { Flex } from '@radix-ui/themes';
 import createCuid from '@bugsnag/cuid';
+
 import { TranslationsRow } from './components/TranslationsRow';
-import { TableFormButtons } from '../../Translations/components/TableFormButtons';
-import { styles } from '../../Translations/TranslationsTable.styles';
+// import { TableFormButtons } from 'admin/pages/TranslationsProductPage/TableFormButtons/TableFormButtons';
+import { TableFormButtons } from '../../components/TableFormButtons';
+
+import { styles } from '../../styles/TranslationsTable.styles';
 import { useTranslationsTableForm } from './hooks/useTranslationsTableForm';
 import { useTranslationsTableHandlers } from './hooks/useTranslationsTableHandlers';
-import { addTranslationsGroupRow, computePageGrouping } from './components/TranslationsGroupRow';
-import { DEFAULT_SHOW_KEY_COLUMN } from '../../Translations/constants/translationsTable.constants';
 
 import type { RegionLocale } from '@workspace/config/i18n.config';
-import type { TranslationsFormItem } from '../../Translations/types/translations.types';
-import type { I18nTranslationsDomain } from '@workspace/i18n/types';
+import type { TranslationsFormItem } from '../translationsProduct.types';
+import { DEFAULT_SHOW_KEY_COLUMN_PRODUCT } from '../../constants/translationsTable.constants';
 
 interface TranslationsTableProps {
-  domain: I18nTranslationsDomain;
-  group: string;
+  sectionKey: string;
   items: TranslationsFormItem[];
   supportedLanguages: RegionLocale[];
   onSave?: ({ items }: { items: TranslationsFormItem[] }) => Promise<{ savedItems: TranslationsFormItem[] }>;
   onDelete?: (itemId: string) => Promise<{ success: boolean; deletedId: string }>;
   isSaving?: boolean;
   isDeleting?: boolean;
-  showKeyColumn: boolean;
-  setShowKeyColumn: (showKeyColumn: boolean) => void;
 }
 
 export const TranslationsTable: React.FC<TranslationsTableProps> = ({
-  domain,
-  group,
+  sectionKey,
   items,
   supportedLanguages,
   onSave,
   onDelete,
   isSaving = false,
   isDeleting = false,
-  showKeyColumn,
-  setShowKeyColumn,
 }) => {
-  const initialItemsRef = useRef<TranslationsFormItem[]>(items);
   const [editingRowIndex, setEditingRowIndex] = useState<number | null>(null);
-  const hasGrouping = group === 'pages' && domain;
-
-  useEffect(
-    function initialItemsState() {
-      initialItemsRef.current = items;
-    },
-    [items],
-  );
+  const [showKeyColumn, setShowKeyColumn] = useState<boolean>(DEFAULT_SHOW_KEY_COLUMN_PRODUCT);
 
   // ======================================================================== //
   // Shared Form Logic
@@ -67,12 +54,11 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
     isItemEmpty,
   } = useTranslationsTableForm({ items, supportedLanguages });
 
-  // Group items by page when group is 'pages'
-  // Keys are in format: domain.pages.{pageName}.{rest}
-  // We extract {pageName} to group items and track which field indices belong to which page
-  const pageGrouping = useMemo(() => {
-    return computePageGrouping(Boolean(hasGrouping), items, fields);
-  }, [hasGrouping, items, fields]);
+  // Track initial items for DELETE detection
+  const initialItemsRef = useRef<TranslationsFormItem[]>(items);
+  useEffect(() => {
+    initialItemsRef.current = items;
+  }, [items]);
 
   // ======================================================================== //
   // Shared Handlers
@@ -99,7 +85,7 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
 
       append({
         id: `temp-${createCuid()}`, // temp ID, replaced on save
-        key: '',
+        name: '',
         ...Object.fromEntries(languageKeys.map((k) => [k, ''])),
       } as TranslationsFormItem);
     },
@@ -122,8 +108,8 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
             isDirty={methods.formState.isDirty}
             isAddNewDisabled={!isDirtyLastItem}
             isSaving={isSaving}
-            setShowKeyColumn={() => setShowKeyColumn(!showKeyColumn)}
             showKeyColumn={showKeyColumn}
+            setShowKeyColumn={setShowKeyColumn}
           />
         </Flex>
 
@@ -134,54 +120,27 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
             <tr>
               <th className="col-key"></th>
               {supportedLanguages.map((lang) => (
-                <th key={lang}>{hasGrouping ? <></> : <>{lang}</>}</th>
+                <th key={lang}>{lang}</th>
               ))}
               <th className="col-actions"></th>
             </tr>
           </thead>
 
           <tbody>
-            {fields.map((field, index) => {
-              const rows: React.ReactNode[] = [];
-              // useFieldArray provides fieldId for React keys
-              const fieldKey = (field as any).fieldId || field.id || `field-${index}`;
-              const itemKey = field.key || field.id || ''; // translation key from the field
-
-              // Add page divider row if needed (centralized logic)
-              addTranslationsGroupRow({
-                domain,
-                group,
-                items,
-                fields,
-                index,
-                fieldKey,
-                supportedLanguages,
-                showKeyColumn,
-                pageGrouping,
-                rows,
-              });
-
-              rows.push(
-                <TranslationsRow
-                  key={`row-${fieldKey}`}
-                  translationKey={itemKey}
-                  domain={domain}
-                  group={group}
-                  index={index}
-                  onDelete={handleDelete}
-                  supportedLanguages={supportedLanguages}
-                  showKeyColumn={showKeyColumn}
-                  isEditing={editingRowIndex === index}
-                  onEditingChange={(isEditing) => {
-                    setEditingRowIndex(isEditing ? index : null);
-                  }}
-                  isSaving={isSaving}
-                  isDeleting={isDeleting}
-                />,
-              );
-
-              return <React.Fragment key={fieldKey}>{rows}</React.Fragment>;
-            })}
+            {fields.map((field, index) => (
+              <TranslationsRow
+                key={field.fieldId} // IMPORTANT: field.fieldId (RHF internal), NOT field.id (entity CUID)
+                index={index}
+                onDelete={handleDelete}
+                supportedLanguages={supportedLanguages}
+                isEditing={editingRowIndex === index}
+                onEditingChange={(isEditing) => {
+                  setEditingRowIndex(isEditing ? index : null);
+                }}
+                isSaving={isSaving}
+                isDeleting={isDeleting}
+              />
+            ))}
           </tbody>
         </table>
       </FormProvider>

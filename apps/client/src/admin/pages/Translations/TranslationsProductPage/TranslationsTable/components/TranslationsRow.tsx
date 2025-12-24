@@ -1,37 +1,38 @@
-import React, { useCallback, useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 import clsx from 'clsx';
-import { Input } from 'forms/Input/Input';
-
-import { languagesCodeToKey, regenerateSlug } from 'admin/utils/languages.utils';
-
 import type { RegionLocale } from '@workspace/config/i18n.config';
-import { TranslationsRowCell } from '../../../Translations/components/TranslationsRowCell';
-import { TranslationsDeleteButton } from '../../../Translations/components/TranslationsDeleteButton';
+import { languagesCodeToKey, regenerateSlug } from 'admin/utils/languages.utils';
+import { Input } from 'forms/Input/Input';
+import { TranslationsRowCell } from '../../../components/TranslationsRowCell';
+import { TranslationsDeleteButton } from '../../../components/TranslationsDeleteButton';
 
-interface ExpandedSubtypeRowProps {
-  className?: string;
+interface TranslationsRowProps {
   index: number;
   onDelete: (index: number) => Promise<void>;
-  supportedLanguages: RegionLocale[];
-  slugPriority?: RegionLocale[]; // ["es-ES","en-GB",...rest]
   isEditing: boolean;
   onEditingChange: (isEditing: boolean) => void;
+  supportedLanguages: RegionLocale[]; // ["es-ES","en-GB","ca-ES"]
+  slugPriority?: RegionLocale[]; // ["es-ES","en-GB",...rest]
   isSaving?: boolean;
   isDeleting?: boolean;
 }
 
-export const ExpandedSubtypeRow: React.FC<ExpandedSubtypeRowProps> = ({
+export const TranslationsRow: React.FC<TranslationsRowProps> = ({
   index,
   onDelete,
-  supportedLanguages,
-  slugPriority,
   isEditing,
   onEditingChange,
+  supportedLanguages,
+  slugPriority,
   isSaving = false,
   isDeleting = false,
 }) => {
   const { control, register, formState, watch, setValue } = useFormContext();
+
+  /* -----------------------------
+     Slug field (controlled)
+  ------------------------------ */
 
   const { field: nameField } = useController({
     name: `items.${index}.name`,
@@ -39,6 +40,10 @@ export const ExpandedSubtypeRow: React.FC<ExpandedSubtypeRowProps> = ({
   });
 
   const values = watch(`items.${index}`);
+
+  /* -----------------------------
+     Slug auto-sync
+  ------------------------------ */
 
   const updateSlug = useCallback(
     (translations: Record<string, string>) => {
@@ -54,13 +59,20 @@ export const ExpandedSubtypeRow: React.FC<ExpandedSubtypeRowProps> = ({
 
   useEffect(() => {
     if (!values) return;
+
     const translations: Record<string, string> = {};
+
     for (const lang of supportedLanguages) {
       const key = languagesCodeToKey(lang);
       translations[lang] = values[key];
     }
+
     updateSlug(translations);
-  }, [values?.esEs, values?.enGb, values?.caEs, supportedLanguages, setValue]);
+  }, [values?.esEs, values?.enGb, values?.caEs, supportedLanguages, slugPriority, setValue]);
+
+  /* -----------------------------
+     Row state
+  ------------------------------ */
 
   const rowDirtyFields = formState.dirtyFields?.items?.[index];
   const isDirty = Boolean(rowDirtyFields);
@@ -69,6 +81,10 @@ export const ExpandedSubtypeRow: React.FC<ExpandedSubtypeRowProps> = ({
     'row-editing': isEditing,
     'row-dirty': isDirty,
   });
+
+  /* -----------------------------
+     Render
+  ------------------------------ */
 
   return (
     <tr
@@ -82,7 +98,11 @@ export const ExpandedSubtypeRow: React.FC<ExpandedSubtypeRowProps> = ({
     >
       {/* SLUG / KEY */}
       <td className="col-key">
-        <Input value={nameField.value || ''} readOnly />
+        <Input
+          value={nameField.value || ''}
+          readOnly
+          className={clsx({ 'input-dirty': rowDirtyFields?.name })}
+        />
       </td>
 
       {/* DYNAMIC LANGUAGE COLUMNS */}

@@ -2,14 +2,14 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Flex, Spinner, Tabs, Text } from '@radix-ui/themes';
 
-import { AdminPageLayout, AdminSection } from '../..';
+import { AdminPageLayout, AdminSection } from '../../..';
 
 import { useProductTranslationData } from './hooks/useProductTranslationData';
 import { useSaveProductTranslations } from './hooks/useSaveProductTranslations';
 import { useDeleteProductTranslation } from './hooks/useDeleteProductTranslation';
 import { TranslationsTable } from './TranslationsTable';
 import type { SectionKey } from './translationsProduct.types';
-import { styles } from '../Translations/TranslationsPage.styles';
+import { styles } from '../styles/TranslationsPage.styles';
 import { TranslationsTableExpandable } from './TranslationsTable';
 import { invalidateReferenceDataQueries } from 'queries/invalidateReferenceData';
 import { useQueryClient } from '@tanstack/react-query';

@@ -8,7 +8,7 @@ import { AdminRelaysPage } from 'admin/pages/AdminRelaysPage/AdminRelaysPage';
 import { PublicRelaysPage } from 'admin/pages/AdminRelaysPage/PublicRelaysPage';
 import { AdminSlotsConfigPage } from 'admin/pages/AdminSlotsConfigPage/AdminSlotsConfigPage';
 import { AdminSoundPage, PublicSoundPage } from 'admin/pages/AdminSoundPage';
-import { TranslationsProductPage } from 'admin/pages/TranslationsProductPage';
+import { TranslationsProductPage } from 'admin/pages/Translations/TranslationsProductPage';
 import {
   CoffeeIcon,
   EditIcon,
@@ -19,7 +19,7 @@ import {
   VolumeIcon,
   ZapIcon,
 } from 'styles/icons';
-import { TranslationsPage } from 'admin/pages/TranslationsPage';
+import { TranslationsPage } from 'admin/pages/Translations/TranslationsPage';
 import { AdminOrderEditPage, AdminOrdersListPage } from 'admin/pages/AdminProductsPage';
 import { AdminDashboardPage } from 'admin/AdminDashboardPage';
 
