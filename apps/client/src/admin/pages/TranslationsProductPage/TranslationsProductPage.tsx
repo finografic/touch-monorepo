@@ -9,7 +9,7 @@ import { useSaveProductTranslations } from './hooks/useSaveProductTranslations';
 import { useDeleteProductTranslation } from './hooks/useDeleteProductTranslation';
 import { TranslationsTable } from './TranslationsTable';
 import type { SectionKey } from './translationsProduct.types';
-import { styles } from './TranslationsProductPage.styles';
+import { styles } from '../TranslationsSHARED/TranslationsPage.styles';
 import { TranslationsTableExpandable } from './TranslationsTable';
 import { invalidateReferenceDataQueries } from 'queries/invalidateReferenceData';
 import { useQueryClient } from '@tanstack/react-query';

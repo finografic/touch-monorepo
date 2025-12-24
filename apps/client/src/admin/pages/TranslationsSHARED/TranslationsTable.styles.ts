@@ -11,7 +11,7 @@ import {
   TH_FONT_SIZE,
   TH_FONT_WEIGHT,
   COL_ACTIONS_WIDTH,
-} from '../../TranslationsSHARED/translations-table.config';
+} from './translations-table.config';
 
 export const styles = css`
   width: 100%;

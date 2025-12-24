@@ -28,8 +28,9 @@ export const useGetTranslations = ({
 }): UseUiTranslationData => {
   const { t } = useTranslation();
   const location = useLocation();
+  const appConfig = useAppConfig();
+  const supportedLanguages = appConfig.supportedLanguages as RegionLocale[];
   const queryClient = useQueryClient();
-  const queryKey = [...GET_TRANSLATIONS_QUERYKEY, domain, location.pathname];
 
   // NOTE: invalidate queries when location changes - force data refresh when route changes
   useEffect(() => {
@@ -41,7 +42,7 @@ export const useGetTranslations = ({
   // Returns array format (same as /translations/:domain) for CMS compatibility
   // Include location.pathname in queryKey to force refetch on route change
   const { data: translations, isLoading: translationsLoading } = useQuery({
-    queryKey,
+    queryKey: [...GET_TRANSLATIONS_QUERYKEY, domain, location.pathname],
     queryFn: async () => {
       try {
         // Fetch from domain-specific endpoint (returns array format)
@@ -55,9 +56,6 @@ export const useGetTranslations = ({
     refetchOnMount: true, // Always refetch when component mounts (route changes)
     staleTime: 0, // Always consider data stale to force refetch
   });
-
-  const appConfig = useAppConfig();
-  const supportedLanguages = appConfig.supportedLanguages as RegionLocale[];
 
   const sections = useMemo<TranslationsSection[]>(() => {
     // Don't wait for supportedLanguages - we can create sections without them
