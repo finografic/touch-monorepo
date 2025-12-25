@@ -72,11 +72,11 @@
       },
       "languages": {
         "title": "Gestió d'idiomes",
-        "description": "Configurar idiomes del sistema i localització",
-        "card_public": {
-          "title": "Selecció d'idioma",
-          "description": "Seleccionar idioma per defecte"
-        }
+        "description": "Configurar idiomes del sistema i localització"
+      },
+      "languages_public": {
+        "title": "Gestió d'idiomes",
+        "description": "Seleccionar idioma per defecte del sistema"
       },
       "items": {
         "title": "Gestió de configuracion",

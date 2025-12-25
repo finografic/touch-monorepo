@@ -72,11 +72,11 @@
       },
       "languages": {
         "title": "Gestión de idiomas",
-        "description": "Configurar idiomas del sistema y localización",
-        "card_public": {
-          "title": "Selección de idioma",
-          "description": "Seleccionar idioma por defecto"
-        }
+        "description": "Configurar idiomas del sistema y localización"
+      },
+      "languages_public": {
+        "title": "Gestión de idiomas",
+        "description": "Seleccionar idioma por defecto del sistema"
       },
       "items": {
         "title": "Gestión de registros",

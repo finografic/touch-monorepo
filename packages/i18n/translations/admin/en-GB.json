@@ -72,11 +72,11 @@
       },
       "languages": {
         "title": "Language Management",
-        "description": "Configure system languages and localization",
-        "card_public": {
-          "title": "Language Selection",
-          "description": "Select your preferred language"
-        }
+        "description": "Configure system languages and localization"
+      },
+      "languages_public": {
+        "title": "Language Management",
+        "description": "Select default language for the system"
       },
       "items": {
         "title": "Records Management",
