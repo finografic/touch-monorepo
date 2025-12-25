@@ -1,12 +1,9 @@
 import { css } from '@emotion/react';
 
 import { colors } from 'styles';
-import { layout } from 'styles/layout/layout.config';
 
 export const styles = css`
   .tab-content-list {
-    /* max-width: 60vw !important;
-    min-width: 1000px !important; */
     margin-top: 0 !important;
   }
 
