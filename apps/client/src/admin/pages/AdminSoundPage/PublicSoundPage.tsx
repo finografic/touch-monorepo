@@ -15,17 +15,8 @@ export const PublicSoundPage: React.FC = () => {
     useGetSoundSettings();
 
   return (
-    <AdminPageLayout
-      title="Sound Management"
-      subtitle="User"
-      description="Upload and configure sound files for timer events"
-      isLoading={isLoadingFiles || isLoadingSettings}
-      styles={styles}
-    >
-      <AdminSection
-        title="Alarm Sound Configuration"
-        description="Select which sound file to use for timer alarm events"
-      >
+    <AdminPageLayout title="Sound Management" isLoading={isLoadingFiles || isLoadingSettings} styles={styles}>
+      <AdminSection title="Alarm Sound" description="Select which sound file to use for timer alarm events">
         <Row justify="between" align="center">
           <Col xs={12} lg={7}>
             <SoundConfigurationSection

@@ -69,14 +69,17 @@ export const PublicModePage: React.FC = () => {
       styles={styles}
     >
       <AdminSection
-        title="Default Mode Configuration"
-        description="Choose the default mode that will be used when no specific mode is selected"
+        description={
+          defaultModeId
+            ? `Current default mode: ${modes.find((m) => m.id === defaultModeId)?.name}`
+            : 'No default mode is currently set'
+        }
         variant="border-solid"
       >
         <Flex align="start" justify="between">
           <Flex direction="column" gap="4" align="start">
             <Flex direction="column" gap="2" style={{ minWidth: '260px' }}>
-              <FieldWrapper label="Select Default Mode">
+              <FieldWrapper>
                 <SelectCustom
                   className="mode-select"
                   options={modeOptions}
@@ -86,19 +89,6 @@ export const PublicModePage: React.FC = () => {
                   allowEmpty={true}
                 />
               </FieldWrapper>
-            </Flex>
-
-            <Flex direction="column" gap="2">
-              {defaultModeId ? (
-                <Text size="2" color="gray">
-                  Current default mode:{' '}
-                  <Text weight="bold">{modes.find((m) => m.id === defaultModeId)?.name}</Text>
-                </Text>
-              ) : (
-                <Text size="2" color="gray">
-                  No default mode is currently set
-                </Text>
-              )}
             </Flex>
           </Flex>
           <Flex gap="8" align="start" style={{ fontSize: '0.9rem', width: '100%', maxWidth: '400px' }}></Flex>

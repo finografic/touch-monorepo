@@ -72,7 +72,6 @@ export const AdminSoundPage: React.FC = () => {
   return (
     <AdminPageLayout
       title="Sound Management"
-      subtitle="Admin"
       description="Upload and configure sound files for timer events"
       styles={styles}
     >
@@ -85,13 +84,10 @@ export const AdminSoundPage: React.FC = () => {
         {/* ====================================================================== */}
 
         <Tabs.Content value="alarm">
-          <AdminSection
-            title="Alarm Sound Configuration"
-            description="Select which sound file to use for alarm events"
-          >
+          <AdminSection title="Alarm Sound Configuration">
             {/* Alarm Sound Settings Section */}
             <AdminSection
-              title="Alarm Sound Configuration"
+              title="Alarm Sound"
               description="Select which sound file to use for alarm events"
               variant="border-solid"
             >
