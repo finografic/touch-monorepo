@@ -1,5 +1,5 @@
 import React, { startTransition, useMemo, useState, useEffect, useRef } from 'react';
-import { Col, Container, Row } from 'react-grid-system';
+import { Col, Row } from 'react-grid-system';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
@@ -164,27 +164,15 @@ export const AdminNavigation: React.FC<AdminNavigationProps> = ({ displayIcons =
 
   return (
     <div css={styles}>
-      {/* <Container className="container"> */}
       <Row justify="center" align="center">
         <Col xs={12} style={{ overflow: 'visible', display: 'flex', justifyContent: 'center' }}>
           {/* Wrapper div for measurement - TabNav might interfere */}
-          <div
-            id="nav-container"
-            ref={containerRef}
-            // style={{
-            //   width: '100%',
-            //   maxWidth: maxWidthValue
-            //     ? `calc(${maxWidthValue}px - ${padding * 2}px)`
-            //     : `calc(100% - ${padding * 2}px)`,
-            //   padding: `0 ${padding}px`,
-            // }}
-          >
+          <div id="nav-container" ref={containerRef}>
             <TabNav.Root size="2" className="admin-nav" style={{ justifyContent: 'center' }}>
               {/* DESKTOP: Render all items for measurement, hide overflow with CSS */}
               {navItems.map((item) => {
                 const isOverflow = overflowItems.some((o) => o.id === item.id);
 
-                // Render dropdown for items with children
                 if (item.children && item.children.length > 0) {
                   return (
                     <div
@@ -245,7 +233,6 @@ export const AdminNavigation: React.FC<AdminNavigationProps> = ({ displayIcons =
           </div>
         </Col>
       </Row>
-      {/* </Container> */}
     </div>
   );
 };

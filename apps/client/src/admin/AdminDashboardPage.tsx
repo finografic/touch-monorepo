@@ -11,9 +11,6 @@ import { useAuth } from 'providers/AuthProvider';
 
 import { AdminPageLayout } from '.';
 import { styles } from './AdminDashboardPage.styles';
-import { getAdminCalloutTexts, getAdminPageTexts } from 'utils/i18n/i18n-inlang.helpers';
-import { useParams } from 'react-router-dom';
-import type { I18nTranslationsDomain } from '@workspace/i18n/types';
 import { useTranslation } from 'react-i18next';
 
 export const AdminDashboardPage: React.FC = () => {
