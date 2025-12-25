@@ -22,10 +22,7 @@ export const ListBoxSelect: React.FC<ListBoxSelectProps> = ({ soundSettings, sou
   const handleSoundSelection = useCallback(
     async (fileId: string | null) => {
       try {
-        const newSettings = {
-          ...soundSettings,
-          [soundType]: fileId,
-        };
+        const newSettings = { ...soundSettings, [soundType]: fileId };
 
         await updateSettingsMutation.mutateAsync(newSettings);
 

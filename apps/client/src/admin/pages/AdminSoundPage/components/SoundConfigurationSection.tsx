@@ -4,7 +4,6 @@ import { Box, Button, Flex } from '@radix-ui/themes';
 import { SelectCustom } from 'forms/SelectCustom';
 import { useToast } from 'components/Toast';
 
-import { useAuth } from 'providers/AuthProvider';
 import { useUpdateSoundSettings } from 'queries/sounds';
 import { stopAllAudio } from 'utils/soundCache.utils';
 
@@ -25,21 +24,15 @@ export const SoundConfigurationSection: React.FC<SoundConfigurationSectionProps>
   soundSettings,
   soundType,
 }) => {
-  const { isAuthenticated } = useAuth();
   const { toast } = useToast();
   const updateSettingsMutation = useUpdateSoundSettings();
 
-  // Handle sound selection
   const handleSoundSelection = useCallback(
     async (fileId: string | null) => {
       try {
-        const newSettings = {
-          ...soundSettings,
-          [soundType]: fileId,
-        };
+        const newSettings = { ...soundSettings, [soundType]: fileId };
 
-        // await updateSettingsMutation.mutateAsync(newSettings);
-        // await updateSettingsMutation.mutateAsync({ [soundType]: fileId });
+        await updateSettingsMutation.mutateAsync(newSettings);
 
         const selectedFile = soundFiles.find((file) => file.id === fileId);
         if (selectedFile) {
@@ -97,7 +90,6 @@ export const SoundConfigurationSection: React.FC<SoundConfigurationSectionProps>
               label={soundType === 'alarm' ? 'Alarm Sound' : 'Finish Sound'}
             >
               <SelectCustom
-                id="sound-selector"
                 value={soundSettings[soundType] || 'none'}
                 onSelect={(value) => handleSoundSelection(value === 'none' ? null : value)}
                 disabled={updateSettingsMutation.isPending}

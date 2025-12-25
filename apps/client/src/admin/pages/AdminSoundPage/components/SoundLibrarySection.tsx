@@ -7,7 +7,6 @@ import { useRemoveSoundFile } from 'queries/sounds';
 
 import { playSoundByPath } from 'utils/soundCache.utils';
 import type { SoundFile, SoundSettings, SoundType } from 'types/sounds.types';
-// import { CheckIcon, SpeakerLoudIcon } from '@radix-ui/react-icons';
 import { BadgeCheckIcon, SpeakerLoudIcon } from 'styles/icons';
 
 interface SoundLibrarySectionProps {
@@ -22,7 +21,7 @@ export const SoundLibrarySection: React.FC<SoundLibrarySectionProps> = ({
   soundType,
 }) => {
   const { toast } = useToast();
-  const removeMutation = useRemoveSoundFile(soundType);
+  const removeMutation = useRemoveSoundFile();
 
   // Test sound playback using file path
   const testSound = useCallback(
@@ -55,7 +54,7 @@ export const SoundLibrarySection: React.FC<SoundLibrarySectionProps> = ({
   const removeFile = useCallback(
     async (fileId: string) => {
       try {
-        await removeMutation.mutateAsync(fileId);
+        await removeMutation.mutateAsync({ soundType, id: fileId });
         toast({
           variant: 'success',
           message: 'File removed',

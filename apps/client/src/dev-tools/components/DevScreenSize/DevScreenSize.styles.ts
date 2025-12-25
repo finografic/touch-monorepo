@@ -23,6 +23,7 @@ export const styles = css`
   &.variant-dark {
     pre {
       color: #444 !important;
+      color: white !important;
     }
   }
 
@@ -42,8 +43,9 @@ export const styles = css`
 
   top: ${layout.padding} !important;
   top: 1.5rem !important;
+  top: 0cap !important;
 
   pre {
-    opacity: 0.66;
+    opacity: 0.5;
   }
 `;

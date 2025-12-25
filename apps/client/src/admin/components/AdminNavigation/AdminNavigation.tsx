@@ -166,17 +166,18 @@ export const AdminNavigation: React.FC<AdminNavigationProps> = ({ displayIcons =
     <div css={styles}>
       {/* <Container className="container"> */}
       <Row justify="center" align="center">
-        <Col xs={12} style={{ overflow: 'visible' }}>
+        <Col xs={12} style={{ overflow: 'visible', display: 'flex', justifyContent: 'center' }}>
           {/* Wrapper div for measurement - TabNav might interfere */}
           <div
+            id="nav-container"
             ref={containerRef}
-            style={{
-              width: '100%',
-              maxWidth: maxWidthValue
-                ? `calc(${maxWidthValue}px - ${padding * 2}px)`
-                : `calc(100% - ${padding * 2}px)`,
-              padding: `0 ${padding}px`,
-            }}
+            // style={{
+            //   width: '100%',
+            //   maxWidth: maxWidthValue
+            //     ? `calc(${maxWidthValue}px - ${padding * 2}px)`
+            //     : `calc(100% - ${padding * 2}px)`,
+            //   padding: `0 ${padding}px`,
+            // }}
           >
             <TabNav.Root size="2" className="admin-nav" style={{ justifyContent: 'center' }}>
               {/* DESKTOP: Render all items for measurement, hide overflow with CSS */}

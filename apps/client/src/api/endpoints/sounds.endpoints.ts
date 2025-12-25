@@ -24,7 +24,7 @@ export interface UpdateSoundSettingsInput {
  *
  * Manages sound files and audio settings for the application.
  */
-export const soundsEndpoints = {
+export const SoundsEndpoints = {
   /**
    * Get all sound files or filter by type
    */
@@ -51,9 +51,10 @@ export const soundsEndpoints = {
   /**
    * Update sound settings
    */
-  updateSettings: async (settings: UpdateSoundSettingsInput): Promise<SoundSettings> => {
+  // updateSettings: async (settings: UpdateSoundSettingsInput): Promise<SoundSettings> => {
+  updateSettings: async (settings: SoundSettings): Promise<SoundSettings> => {
     try {
-      return await api.patch<SoundSettings>('/sounds/settings', settings);
+      return await api.put<SoundSettings>('/sounds/settings', settings);
     } catch (error) {
       throw transformFetchError(error);
     }
@@ -81,4 +82,3 @@ export const soundsEndpoints = {
     }
   },
 } as const;
-

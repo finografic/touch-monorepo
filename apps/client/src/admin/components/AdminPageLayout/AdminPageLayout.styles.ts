@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 
 import { colors, layout, min, spacing } from 'styles';
+import { BREAKPOINTS } from 'styles/viewport/viewport.breakpoints';
 
 export const styles = css`
   &.admin-page-container {
@@ -8,25 +9,24 @@ export const styles = css`
     padding: 0 ${layout.padding};
 
     width: 100%;
-    /* max-width: 1240px; */
+    max-width: 96vw;
 
     ${min.sm} {
-      /* max-width: 96vw; */
+      max-width: 94vw;
     }
     ${min.md} {
-      /* max-width: 96vw; */
+      max-width: 96vw;
     }
     ${min.lg} {
-      /* max-width: 96vw; */
+      max-width: 96vw;
     }
     ${min.xl} {
-      /* max-width: 1240px; */
+      max-width: ${BREAKPOINTS.xl}px;
     }
 
     .admin-page-header {
       width: 100%;
       padding: 0 0.5rem 1rem 0.5rem;
-      /* border-bottom: 2px solid ${colors.greyXXLight25}; */
       margin-bottom: 0;
 
       .title-wrapper h1 {

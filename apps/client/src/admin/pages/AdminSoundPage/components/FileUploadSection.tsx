@@ -51,7 +51,6 @@ export const FileUploadSection: React.FC<FileUploadSectionProps> = ({ soundType 
     [uploadMutation, toast, soundType],
   );
 
-  // Handle file upload button click
   const handleUploadClick = useCallback(() => {
     fileInputRef.current?.click();
   }, []);

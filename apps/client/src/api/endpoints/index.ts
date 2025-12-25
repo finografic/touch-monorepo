@@ -12,11 +12,7 @@ export {
 // ============================================================================
 // DRINK TYPES
 // ============================================================================
-export {
-  drinkTypeEndpoints,
-  type DrinkTypeTranslation,
-  type DrinkTypeUpdate,
-} from './drink-type.endpoints';
+export { drinkTypeEndpoints, type DrinkTypeTranslation, type DrinkTypeUpdate } from './drink-type.endpoints';
 
 // ============================================================================
 // DRINK SUBTYPES
@@ -30,11 +26,7 @@ export {
 // ============================================================================
 // VOLUMES
 // ============================================================================
-export {
-  volumeEndpoints,
-  type VolumeTranslation,
-  type VolumeUpdate,
-} from './volume.endpoints';
+export { volumeEndpoints, type VolumeTranslation, type VolumeUpdate } from './volume.endpoints';
 
 // ============================================================================
 // TRANSLATIONS UI
@@ -88,7 +80,7 @@ export {
 // ============================================================================
 // SOUNDS
 // ============================================================================
-export { soundsEndpoints, type UpdateSoundSettingsInput } from './sounds.endpoints';
+export { SoundsEndpoints, type UpdateSoundSettingsInput } from './sounds.endpoints';
 
 // ============================================================================
 // SUPPORTED LANGUAGES

@@ -23,7 +23,6 @@ export const VolumeSlider: React.FC = () => {
         width: '100%',
         fontSize: '1.5rem',
         fontWeight: '600',
-        //  padding: '0 3.5rem 2.33rem',
         padding: '0 2rem',
       }}
     >
@@ -34,7 +33,6 @@ export const VolumeSlider: React.FC = () => {
         value={displayVolume}
         onChange={(e) => {
           setDisplayVolume(e.value as number);
-          // handleVolumeDisplayChange(e.value as number);
           handleVolumeChange(e.value as number);
         }}
         min={0}

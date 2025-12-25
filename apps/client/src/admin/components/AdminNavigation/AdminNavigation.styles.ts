@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { colors, layout, min } from 'styles';
+import { BREAKPOINTS, colors, layout, min } from 'styles';
 
 export const styles = css`
   /* position: relative; */
@@ -20,43 +20,29 @@ export const styles = css`
     justify-content: center;
     align-items: center;
     width: 100%;
-    /* max-width: 100%; */
     overflow: hidden;
-    /* padding: 0 !important; */
   }
 
-  /* background-color: pink; */
-  ${min.sm} {
-    /* max-width: 96vw; */
+  #nav-container {
+    width: 100%;
+    margin: 0 auto;
+    ${min.sm} {
+      max-width: 94vw;
+    }
+    ${min.md} {
+      max-width: 96vw;
+    }
+    ${min.lg} {
+      max-width: 96vw;
+    }
+    ${min.xl} {
+      max-width: ${BREAKPOINTS.xl}px;
+    }
+    ${min.xxl} {
+      border: 1px solid transparent !important;
+      max-width: 85vw;
+    }
   }
-  ${min.md} {
-    /* max-width: 96vw; */
-  }
-  ${min.lg} {
-    max-width: 96vw;
-    /* display: block !important; */
-
-    /* width: 92vw !important;
-    max-width: 100%; */
-    /* margin: 0 auto; */
-    /* position: absolute; */
-    /* display: block !important; */
-  }
-  ${min.xl} {
-    max-width: 85vw;
-  }
-
-  /* .container {
-    background-color: pink;
-  } */
-
-  /* .container > div {
-    background-color: pink;
-  } */
-
-  /* .container > div > div {
-    background-color: pink;
-  } */
 
   ul.admin-nav {
     display: flex;

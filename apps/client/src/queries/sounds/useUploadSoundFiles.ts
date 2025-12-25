@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { soundsEndpoints } from 'api/endpoints';
+import { SoundsEndpoints } from 'api/endpoints';
 import type { SoundType } from 'types/sounds.types';
 
 /**
@@ -11,7 +11,7 @@ export const useUploadSoundFiles = () => {
 
   return useMutation({
     mutationFn: ({ soundType, formData }: { soundType: SoundType; formData: FormData }) =>
-      soundsEndpoints.uploadFiles(soundType, formData),
+      SoundsEndpoints.uploadFiles(soundType, formData),
     onSuccess: (_, { soundType }) => {
       queryClient.invalidateQueries({ queryKey: ['sounds', soundType] });
       queryClient.invalidateQueries({ queryKey: ['sounds'] });

@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { soundsEndpoints } from 'api/endpoints';
+import { SoundsEndpoints } from 'api/endpoints';
 import type { SoundType } from 'types/sounds.types';
 
 /**
@@ -11,7 +11,7 @@ export const useRemoveSoundFile = () => {
 
   return useMutation({
     mutationFn: ({ soundType, id }: { soundType: SoundType; id: string }) =>
-      soundsEndpoints.removeFile(soundType, id),
+      SoundsEndpoints.removeFile(soundType, id),
     onSuccess: (_, { soundType }) => {
       // Invalidate sound files query for this type
       queryClient.invalidateQueries({ queryKey: ['sounds', soundType] });
