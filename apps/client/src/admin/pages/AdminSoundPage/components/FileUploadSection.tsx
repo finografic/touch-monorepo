@@ -16,9 +16,8 @@ export const FileUploadSection: React.FC<FileUploadSectionProps> = ({ soundType 
   const { toast } = useToast();
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const uploadMutation = useUploadSoundFiles(soundType);
+  const uploadMutation = useUploadSoundFiles();
 
-  // Handle file upload
   const handleFileUpload = useCallback(
     async (event: React.ChangeEvent<HTMLInputElement>) => {
       const files = event.target.files;
@@ -27,7 +26,11 @@ export const FileUploadSection: React.FC<FileUploadSectionProps> = ({ soundType 
       setIsUploading(true);
 
       try {
-        await uploadMutation.mutateAsync(Array.from(files));
+        const formData = new FormData();
+        Array.from(files).forEach((file) => formData.append('files', file));
+
+        await uploadMutation.mutateAsync({ soundType, formData });
+
         toast({
           variant: 'success',
           message: 'Files uploaded successfully!',
@@ -45,7 +48,7 @@ export const FileUploadSection: React.FC<FileUploadSectionProps> = ({ soundType 
         event.target.value = '';
       }
     },
-    [uploadMutation, toast],
+    [uploadMutation, toast, soundType],
   );
 
   // Handle file upload button click

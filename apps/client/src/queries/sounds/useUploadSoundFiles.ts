@@ -13,7 +13,6 @@ export const useUploadSoundFiles = () => {
     mutationFn: ({ soundType, formData }: { soundType: SoundType; formData: FormData }) =>
       soundsEndpoints.uploadFiles(soundType, formData),
     onSuccess: (_, { soundType }) => {
-      // Invalidate sound files query for this type
       queryClient.invalidateQueries({ queryKey: ['sounds', soundType] });
       queryClient.invalidateQueries({ queryKey: ['sounds'] });
     },
