@@ -1,49 +1,59 @@
 import React, { useEffect, useState } from 'react';
 
-import { Flex, Spinner, Text } from '@radix-ui/themes';
+import { Flex, Text } from '@radix-ui/themes';
+import { FieldWrapper } from 'forms/FieldWrapper';
+import { SelectCustom } from 'forms/SelectCustom';
 import { useToast } from 'components/Toast';
 
-import { useGetModes, useUpdateActiveStates } from 'queries/modes';
+import { useGetModes, useUpdateDefaultMode } from 'queries/modes';
 
 import { AdminPageLayout, AdminSection } from '../..';
 import { styles } from './AdminModePage.styles';
 
 export const PublicModePage: React.FC = () => {
   const { toast } = useToast();
-  const [activeModeIds, setActiveModeIds] = useState<string[]>([]);
+  const [defaultModeId, setDefaultModeId] = useState<string>('');
 
   const { data: modes = [], isLoading: isLoadingModes } = useGetModes();
-  const updateActiveStatesMutation = useUpdateActiveStates();
+  const updateDefaultModeMutation = useUpdateDefaultMode();
+
+  const modeOptions = modes
+    .filter((mode) => mode.isActive)
+    .map((mode) => ({
+      value: mode.id,
+      label: mode.name,
+    }));
 
   useEffect(() => {
-    const activeModes = modes.filter((mode) => mode.isActive);
-    setActiveModeIds(activeModes.map((mode) => mode.id));
+    const defaultMode = modes.find((mode) => mode.isDefault);
+    if (defaultMode) {
+      setDefaultModeId(defaultMode.id);
+    }
   }, [modes]);
 
-  const handleModeToggle = (modeId: string) => {
-    const isCurrentlyActive = activeModeIds.includes(modeId);
-    const newActiveIds = isCurrentlyActive
-      ? activeModeIds.filter((id) => id !== modeId)
-      : [...activeModeIds, modeId];
+  // Handle default mode selection
+  const handleModeSelect = (modeId: string) => {
+    const previousModeId = defaultModeId;
+    const selectedMode = modes.find((mode) => mode.id === modeId);
 
-    setActiveModeIds(newActiveIds);
+    setDefaultModeId(modeId);
 
-    updateActiveStatesMutation.mutate(
-      { modes: newActiveIds.map((id) => ({ id, isActive: true })) },
+    updateDefaultModeMutation.mutate(
+      { modeId },
       {
         onSuccess: () => {
-          console.log('Active modes updated!', {
+          toast({
             variant: 'success',
-            message: 'Active modes updated!',
-            subText: `${newActiveIds.length} mode(s) are now active`,
+            message: 'Default mode updated!',
+            subText: `Default mode set to: ${selectedMode?.name || 'Unknown'}`,
           });
         },
         onError: () => {
           // Revert on error
-          setActiveModeIds(activeModeIds);
+          setDefaultModeId(previousModeId);
           toast({
             variant: 'error',
-            message: 'Failed to update active modes',
+            message: 'Failed to update default mode',
             subText: 'Please try again',
           });
         },
@@ -51,89 +61,47 @@ export const PublicModePage: React.FC = () => {
     );
   };
 
-  if (isLoadingModes) {
-    return (
-      <AdminPageLayout
-        title="Mode Selection - USER"
-        description="Manage active modes for the system"
-        styles={styles}
-      >
-        <Flex direction="column" gap="4" align="center" justify="center" p="6">
-          <Spinner size="3" />
-          <Text>Loading available modes...</Text>
-        </Flex>
-      </AdminPageLayout>
-    );
-  }
-
   return (
     <AdminPageLayout
-      title="Mode Selection - XXX"
-      subtitle="Admin"
-      description="Manage active modes for the system"
+      title="Mode Selection"
+      description="Select default mode for the system"
+      isLoading={isLoadingModes}
       styles={styles}
     >
       <AdminSection
-        title="Active Mode Configuration - ADMIN"
-        description="Select which modes should be active and available for use"
+        title="Default Mode Configuration"
+        description="Choose the default mode that will be used when no specific mode is selected"
+        variant="border-solid"
       >
-        <Flex direction="column" gap="4" align="start">
-          <Flex direction="column" gap="3" style={{ width: '100%', maxWidth: '500px' }}>
-            <Text size="3" weight="medium">
-              Select Active Modes
-            </Text>
+        <Flex align="start" justify="between">
+          <Flex direction="column" gap="4" align="start">
+            <Flex direction="column" gap="2" style={{ minWidth: '260px' }}>
+              <FieldWrapper label="Select Default Mode">
+                <SelectCustom
+                  className="mode-select"
+                  options={modeOptions}
+                  placeholder="Choose a default mode..."
+                  value={defaultModeId}
+                  onSelect={handleModeSelect}
+                  allowEmpty={true}
+                />
+              </FieldWrapper>
+            </Flex>
+
             <Flex direction="column" gap="2">
-              {modes.map((mode) => {
-                const isActive = activeModeIds.includes(mode.id);
-                return (
-                  <Flex
-                    key={mode.id}
-                    className={`mode-checkbox-item ${isActive ? 'selected' : ''}`}
-                    onClick={() => handleModeToggle(mode.id)}
-                    style={{
-                      padding: '12px 16px',
-                      borderRadius: '8px',
-                      border: '1px solid',
-                      cursor: 'pointer',
-                      backgroundColor: isActive ? 'var(--accent-3)' : 'white',
-                      borderColor: isActive ? 'var(--accent-9)' : 'var(--gray-6)',
-                      transition: 'all 150ms ease',
-                    }}
-                  >
-                    <Flex align="center" gap="3">
-                      <div
-                        style={{
-                          width: '16px',
-                          height: '16px',
-                          borderRadius: '4px',
-                          border: '2px solid',
-                          borderColor: isActive ? 'var(--accent-9)' : 'var(--gray-8)',
-                          backgroundColor: isActive ? 'var(--accent-9)' : 'transparent',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                        }}
-                      >
-                        {isActive && (
-                          <div
-                            style={{
-                              width: '6px',
-                              height: '6px',
-                              borderRadius: '50%',
-                              backgroundColor: 'white',
-                            }}
-                          />
-                        )}
-                      </div>
-                      <Text size="2" weight={isActive ? 'medium' : 'regular'}>
-                        {mode.name}
-                      </Text>
-                    </Flex>
-                  </Flex>
-                );
-              })}
+              {defaultModeId ? (
+                <Text size="2" color="gray">
+                  Current default mode:{' '}
+                  <Text weight="bold">{modes.find((m) => m.id === defaultModeId)?.name}</Text>
+                </Text>
+              ) : (
+                <Text size="2" color="gray">
+                  No default mode is currently set
+                </Text>
+              )}
             </Flex>
           </Flex>
+          <Flex gap="8" align="start" style={{ fontSize: '0.9rem', width: '100%', maxWidth: '400px' }}></Flex>
         </Flex>
       </AdminSection>
     </AdminPageLayout>

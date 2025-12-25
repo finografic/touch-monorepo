@@ -11,7 +11,6 @@ export const useUpdateDefaultMode = () => {
   return useMutation({
     mutationFn: ModesEndpoints.updateDefault,
     onSuccess: () => {
-      // Invalidate modes queries to refetch updated data
       queryClient.invalidateQueries({ queryKey: ['modes'] });
     },
   });
