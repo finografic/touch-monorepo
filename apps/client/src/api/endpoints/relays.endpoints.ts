@@ -95,7 +95,7 @@ export interface ReconnectResponse {
  * Controls USB relay board for slot management.
  * Includes connection management, state queries, and toggle operations.
  */
-export const relaysEndpoints = {
+export const RelaysEndpoints = {
   /**
    * Get relay connection status
    */

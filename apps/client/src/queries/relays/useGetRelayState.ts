@@ -1,7 +1,7 @@
 import type { UseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 
-import { relaysEndpoints } from 'api/endpoints';
+import { RelaysEndpoints } from 'api/endpoints';
 import { GET_RELAY_STATE_QUERYKEY } from '.';
 
 /**
@@ -10,7 +10,7 @@ import { GET_RELAY_STATE_QUERYKEY } from '.';
 export const useGetRelayState = (slotNumber: number): UseQueryResult<boolean> => {
   return useQuery({
     queryKey: [...GET_RELAY_STATE_QUERYKEY, slotNumber],
-    queryFn: () => relaysEndpoints.getState(slotNumber),
+    queryFn: () => RelaysEndpoints.getState(slotNumber),
     enabled: true,
     retry: 1,
     staleTime: 1000 * 5, // 5 seconds

@@ -67,7 +67,7 @@ export {
 // RELAYS
 // ============================================================================
 export {
-  relaysEndpoints,
+  RelaysEndpoints,
   type RelayState,
   type RelayStatus,
   type ToggleRelayInput,

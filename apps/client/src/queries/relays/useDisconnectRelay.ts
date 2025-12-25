@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { relaysEndpoints } from 'api/endpoints';
+import { RelaysEndpoints } from 'api/endpoints';
 import { GET_RELAY_STATUS_QUERYKEY } from '.';
 
 /**
@@ -10,7 +10,7 @@ export const useDisconnectRelay = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: relaysEndpoints.disconnect,
+    mutationFn: RelaysEndpoints.disconnect,
     onSuccess: () => {
       // Invalidate relay status to reflect disconnected state
       queryClient.invalidateQueries({ queryKey: [...GET_RELAY_STATUS_QUERYKEY] });

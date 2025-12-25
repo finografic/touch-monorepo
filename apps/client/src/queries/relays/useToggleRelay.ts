@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { relaysEndpoints, type ToggleRelayInput, type ToggleRelayResponse } from 'api/endpoints';
+import { RelaysEndpoints, type ToggleRelayInput, type ToggleRelayResponse } from 'api/endpoints';
 import { GET_RELAY_STATES_QUERYKEY, GET_RELAY_STATE_QUERYKEY } from '.';
 
 /**
@@ -10,7 +10,7 @@ export const useToggleRelay = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ slotNumber, state }: ToggleRelayInput) => relaysEndpoints.toggle(slotNumber, state),
+    mutationFn: ({ slotNumber, state }: ToggleRelayInput) => RelaysEndpoints.toggle(slotNumber, state),
     onSuccess: (_: ToggleRelayResponse, { slotNumber }) => {
       // Invalidate relay state queries
       queryClient.invalidateQueries({ queryKey: [...GET_RELAY_STATES_QUERYKEY] });

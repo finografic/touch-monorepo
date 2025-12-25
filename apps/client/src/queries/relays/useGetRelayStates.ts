@@ -4,7 +4,7 @@ import type { ErrorResponse } from '@workspace/core/api';
 import type { UseQueryResult } from '@tanstack/react-query';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { relaysEndpoints, type RelayState } from 'api/endpoints';
+import { RelaysEndpoints, type RelayState } from 'api/endpoints';
 import { GET_RELAY_STATES_QUERYKEY } from 'queries/relays';
 import { useAppConfig } from 'providers/AppConfigProvider';
 
@@ -25,7 +25,7 @@ export const useGetRelayStates = (): UseQueryResult<RelayState[], ErrorResponse>
 
   const query = useQuery({
     queryKey: [...GET_RELAY_STATES_QUERYKEY],
-    queryFn: relaysEndpoints.getAllStates,
+    queryFn: RelaysEndpoints.getAllStates,
     enabled: isRelayFunctionalityEnabled, // Respect global functionality state
     retry: 1,
     staleTime: 1000 * 5, // 5 seconds - relay states change frequently
