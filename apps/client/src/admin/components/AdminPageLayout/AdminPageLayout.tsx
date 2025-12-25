@@ -66,27 +66,31 @@ export const AdminPageLayout: React.FC<AdminPageLayoutProps> = memo(
           </header>
         )}
 
-        {isLoading ? <Loader message="Loading..." /> : null}
-
-        {error && (
-          <Callout.Root color="red" style={{ marginBottom: '1.5rem' }}>
-            <Callout.Text>Error: {error}</Callout.Text>
-          </Callout.Root>
+        {isLoading ? (
+          <Flex direction="column" className="admin-page-content" gap="2">
+            <Loader message="Loading..." />
+          </Flex>
+        ) : (
+          <>
+            {error && (
+              <Callout.Root color="red" style={{ marginBottom: '1.5rem' }}>
+                <Callout.Text>Error: {error}</Callout.Text>
+              </Callout.Root>
+            )}
+            {message && (
+              <Callout.Root
+                color={STATUS_TO_CALLOUT_COLOR[message.type]}
+                className="admin-page-message"
+                style={{ marginBottom: '1.5rem' }}
+              >
+                <Callout.Text>{message.content}</Callout.Text>
+              </Callout.Root>
+            )}
+            <Flex direction="column" className="admin-page-content" gap="2">
+              {isLoading || error ? null : children}
+            </Flex>
+          </>
         )}
-
-        {message && (
-          <Callout.Root
-            color={STATUS_TO_CALLOUT_COLOR[message.type]}
-            className="admin-page-message"
-            style={{ marginBottom: '1.5rem' }}
-          >
-            <Callout.Text>{message.content}</Callout.Text>
-          </Callout.Root>
-        )}
-
-        <Flex direction="column" className="admin-page-content" gap="2">
-          {isLoading || error ? null : children}
-        </Flex>
       </section>
     );
   },

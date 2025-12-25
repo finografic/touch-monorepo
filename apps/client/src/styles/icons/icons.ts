@@ -63,6 +63,7 @@ import {
   UserLock as _UserLockIcon,
   UserRoundCheck as _UserRoundCheckIcon,
   Volume2Icon as _Volume2Icon,
+  VolumeOffIcon as _VolumeOffIcon,
   Wine as _WineIcon,
   X as _DeleteIcon,
   Zap as _ZapIcon,
@@ -145,6 +146,7 @@ export const UserLockIcon = createIconWrapper(_UserLockIcon);
 export const UserRoundCheckIcon = createIconWrapper(_UserRoundCheckIcon);
 export const UserShildIcon = createIconWrapper(_ShieldUserIcon);
 export const VolumeIcon = createIconWrapper(_Volume2Icon);
+export const VolumeOffIcon = createIconWrapper(_VolumeOffIcon);
 export const ZapIcon = createIconWrapper(_ZapIcon);
 
 // ============================================================================
@@ -216,6 +218,7 @@ export const ICON_MAP = {
   UserRoundCheckIcon,
   UserShildIcon,
   VolumeIcon,
+  VolumeOffIcon,
   WindowIcon,
   WineIcon,
   ZapIcon,

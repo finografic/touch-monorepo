@@ -9,6 +9,7 @@ import type { SelectOption } from 'types/models/select-option.model';
 import { styles, stylesDropdown } from './SelectCustom.styles';
 
 interface SelectCustomProps {
+  id?: string;
   options: SelectOption[];
   value?: string;
   className?: string;
@@ -24,6 +25,7 @@ interface SelectCustomProps {
 export const SelectCustom = forwardRef<HTMLInputElement, SelectCustomProps>(
   (
     {
+      id,
       options,
       value,
       className,
@@ -134,6 +136,7 @@ export const SelectCustom = forwardRef<HTMLInputElement, SelectCustomProps>(
       <div css={styles} className={clsx('searchable-select', className, isOpen && 'open')}>
         <div ref={containerRef} className="search-container" style={{ position: 'relative' }}>
           <TextField.Root
+            id={id}
             ref={inputRef}
             value={displayText}
             readOnly
