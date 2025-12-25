@@ -218,9 +218,13 @@ export const styles = css`
       margin: 0; /* Remove margin */
       padding: 1.5rem 0rem; /* Add padding for spacing */
       background: transparent;
-      display: none !important;
 
-      border: 1px solid red;
+      button {
+        font-size: 1.5rem;
+      }
+
+      /* display: none !important; */
+      /* border: 1px solid red; */
 
       /* button {
         ${stylesSmallButton}

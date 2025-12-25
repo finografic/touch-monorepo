@@ -54,8 +54,6 @@ export const styles = (theme: EmotionTheme) => css`
 
         width: 100%;
         height: 100%;
-        /* min-width: 1100px;
-        max-width: 66vw; */
         min-height: 600px;
         max-height: 680px;
 

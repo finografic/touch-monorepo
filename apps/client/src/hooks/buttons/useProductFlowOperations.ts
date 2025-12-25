@@ -318,13 +318,10 @@ export const useProductFlowOperations = () => {
           });
         });
 
-        // Remove the session from SessionContext
         clearSession(currentSessionId);
-        // Clear all filters from FiltersContext
         clearFilters();
       }
 
-      // Navigate back to main page
       navigate(PATHS.main, { replace: true });
     });
   }, [location.pathname, currentSessionId, orders, toggleSlot, navigate, clearSession, clearFilters]);
