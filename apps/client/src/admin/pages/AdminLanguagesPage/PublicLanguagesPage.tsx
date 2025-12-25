@@ -12,8 +12,8 @@ export const PublicLanguagesPage: React.FC = () => {
 
   return (
     <AdminPageLayout
-      title={t('admin.pages.languages.title')}
-      description={t('admin.pages.languages.subtitle')}
+      title={t('admin.pages.languages_public.title')}
+      description={t('admin.pages.languages_public.description')}
       styles={styles}
     >
       <AdminSection>
