@@ -5,7 +5,7 @@ import type { ColorBaseName } from 'styles';
 /**
  * Button variants - clean and minimal set
  */
-export type ButtonVariant = 'solid' | 'outline' | 'ghost' | 'link';
+export type ButtonVariant = 'solid' | 'soft' | 'outline' | 'ghost' | 'link';
 
 /**
  * Button sizes - consistent with design system

@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 
-import { Box, Button, Flex, Heading, Text } from '@radix-ui/themes';
+import { Box, Button, Flex } from '@radix-ui/themes';
 import { SelectCustom } from 'forms/SelectCustom';
 import { useToast } from 'components/Toast';
 
@@ -10,7 +10,7 @@ import { stopAllAudio } from 'utils/soundCache.utils';
 
 import { playSoundByPath } from 'utils/soundCache.utils';
 import type { SoundFile, SoundSettings, SoundType } from 'types/sounds.types';
-import { SpeakerLoudIcon, VolumeIcon, VolumeOffIcon } from 'styles/icons';
+import { VolumeIcon, VolumeOffIcon } from 'styles/icons';
 import { styles } from './SoundConfigurationSection.styles';
 import { FieldWrapper } from 'forms/FieldWrapper';
 
@@ -38,7 +38,8 @@ export const SoundConfigurationSection: React.FC<SoundConfigurationSectionProps>
           [soundType]: fileId,
         };
 
-        await updateSettingsMutation.mutateAsync(newSettings);
+        // await updateSettingsMutation.mutateAsync(newSettings);
+        // await updateSettingsMutation.mutateAsync({ [soundType]: fileId });
 
         const selectedFile = soundFiles.find((file) => file.id === fileId);
         if (selectedFile) {
@@ -123,13 +124,7 @@ export const SoundConfigurationSection: React.FC<SoundConfigurationSectionProps>
                 <VolumeIcon className="icon-speaker" color="green" />
                 Test
               </Button>
-              <Button
-                size="3"
-                variant="soft"
-                color="orange"
-                onClick={() => testSound(soundSettings[soundType]!)}
-                className="test-button"
-              >
+              <Button size="3" variant="soft" color="orange" onClick={stopAllAudio} className="test-button">
                 <VolumeOffIcon className="icon-speaker" color="orange" />
                 Stop
               </Button>

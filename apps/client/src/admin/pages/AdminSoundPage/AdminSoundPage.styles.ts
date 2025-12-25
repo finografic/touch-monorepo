@@ -34,7 +34,8 @@ export const styles = css`
 
   /* Volume slider styling */
   .volume-control {
-    padding: 1rem 1.5rem 0 1.5rem;
+    /* padding: 1rem 1.5rem 0 1.5rem; */
+    padding: 0 0 1rem 0;
 
     .volume-slider {
       width: 100%;

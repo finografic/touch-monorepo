@@ -27,15 +27,15 @@ export const PublicSoundPage: React.FC = () => {
         description="Select which sound file to use for timer alarm events"
       >
         <Row justify="between" align="center">
-          <Col xs={6}>
+          <Col xs={7}>
             <SoundConfigurationSection
               soundFiles={soundFiles}
               soundSettings={soundSettings}
               soundType="alarm"
             />
           </Col>
-          <Col xs={6}>
-            <Flex direction="row" gap="2" pt="2" align="center" className="volume-control">
+          <Col xs={5}>
+            <Flex direction="row" pt="2" align="center" className="volume-control">
               <VolumeSlider />
             </Flex>
           </Col>

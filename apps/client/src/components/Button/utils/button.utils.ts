@@ -27,6 +27,7 @@ export function getVariantStyles(variant: ButtonVariant = 'solid', color: Button
   const lightColor = colors[`${baseName}${shiftShadeVariant(currentVariant, -1)}` as keyof typeof colors];
   const defaultColor = colors[baseColorKey as keyof typeof colors]; // The base color itself
   const darkColor = colors[`${baseName}${shiftShadeVariant(currentVariant, +1)}` as keyof typeof colors];
+  const xDarkColor = colors[`${baseName}${shiftShadeVariant(currentVariant, +2)}` as keyof typeof colors];
   const transparentColor15 = withOpacity(lightColor, 0.15);
   const transparentColor20 = withOpacity(lightColor, 0.2);
   const transparentColor40 = withOpacity(lightColor, 0.4);
@@ -82,6 +83,42 @@ export function getVariantStyles(variant: ButtonVariant = 'solid', color: Button
         &:hover:not(:disabled):not([data-loading='true']) {
           background-color: ${darkColor};
           border-color: ${darkColor};
+        }
+      `;
+
+    case 'soft':
+      return css`
+        background-color: ${transparentColor20};
+        color: ${darkColor};
+        border: ${button.border.width} solid ${defaultColor};
+
+        &:hover:not(:disabled):not([data-loading='true']) {
+          background-color: ${transparentColor40};
+          color: ${darkColor};
+          border: ${button.border.width} solid ${xDarkColor};
+        }
+
+        .button-text svg {
+          display: block;
+
+          color: ${darkColor};
+          stroke: ${darkColor};
+          display: none;
+          transform: scale(2) !important;
+        }
+
+        &:disabled {
+          opacity: 0.8 !important;
+          filter: saturate(0.4);
+          background-color: transparent;
+          /* background-color: ${transparentColor40}!important;
+          border-color: ${lightColor} !important;
+          color: ${darkColor} !important; */
+          /* svg {
+            opacity: 1 !important;
+            color: ${lightColor} !important;
+            cursor: not-allowed !important;
+          } */
         }
       `;
 
