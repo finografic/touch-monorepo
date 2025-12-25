@@ -57,7 +57,7 @@ export { slotConfigurationsEndpoints } from './slot-configurations.endpoints';
 // MODES
 // ============================================================================
 export {
-  modesEndpoints,
+  ModesEndpoints,
   type UpdateModeInput,
   type UpdateDefaultModeRequest,
   type UpdateActiveStatesRequest,

@@ -1,8 +1,8 @@
 import type React from 'react';
 import { Outlet } from 'react-router-dom';
 import { AdminLanguagesPage, PublicLanguagesPage } from 'admin/pages/AdminLanguagesPage';
-import { PublicModePage } from 'admin/pages/AdminModePage';
-import { AdminModePageDEV } from 'admin/pages/AdminModePage/AdminModePage-DEV';
+import { PublicModePage } from 'admin/pages/AdminModePage/PublicModePage';
+import { AdminModePage } from 'admin/pages/AdminModePage/AdminModePage';
 import { AdminOrdersPage } from 'admin/pages/AdminProductsPage/AdminOrdersPage';
 import { AdminRelaysPage } from 'admin/pages/AdminRelaysPage/AdminRelaysPage';
 import { PublicRelaysPage } from 'admin/pages/AdminRelaysPage/PublicRelaysPage';
@@ -95,7 +95,7 @@ export const ADMIN_ROUTE_CONFIGS: AdminRouteConfig[] = [
     path: '/admin/mode', // default mode (public)
     element: {
       public: PublicModePage,
-      admin: AdminModePageDEV,
+      admin: AdminModePage,
     },
     hasNav: { public: true, admin: true },
     hasCard: { public: true, admin: true },

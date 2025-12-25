@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { modesEndpoints } from 'api/endpoints';
+import { ModesEndpoints } from 'api/endpoints';
 import type { ModeModel } from 'types/models/modes.model';
 
 /**
@@ -9,6 +9,6 @@ import type { ModeModel } from 'types/models/modes.model';
 export const useGetDefaultMode = () => {
   return useQuery<ModeModel | null>({
     queryKey: ['modes', 'default'],
-    queryFn: modesEndpoints.getDefault,
+    queryFn: ModesEndpoints.getDefault,
   });
 };

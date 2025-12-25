@@ -30,14 +30,11 @@ export const AdminDashboardPage: React.FC = () => {
 
   const role = user?.role === 'admin' ? 'admin' : 'public';
 
-  // NEW: 🈂️ inlang/paraglide i18n translations
-  // const admin_dashboard = getAdminPageTexts({ key: 'dashboard', role });
   const pageTitle = t(`admin.pages.dashboard.title`);
   const pageDescription = t(`admin.pages.dashboard.description`);
 
   const adminCards = useMemo(() => {
     return getAdminDashboardCards(isAuthenticated, role).map((card) => {
-      // const text = getAdminCalloutTexts({ key: card.id, role });
       const title = t(`admin.pages.${card.id}.title`);
       const description = t(`admin.pages.${card.id}.description`);
 
