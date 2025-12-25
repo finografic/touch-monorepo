@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { Button, Flex, Spinner, Tabs, Text } from '@radix-ui/themes';
+import { Flex, Spinner, Tabs, Text } from '@radix-ui/themes';
 import { useToast } from 'components/Toast';
 
 import { useGetSoundFiles, useGetSoundSettings } from 'queries/sounds';
@@ -15,21 +15,16 @@ export const AdminSoundPage: React.FC = () => {
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState<SoundType>('alarm');
 
-  // API hooks
   const { data: soundFiles = [], isLoading: isLoadingFiles } = useGetSoundFiles();
   const { data: soundSettings = { alarm: null, finish: null }, isLoading: isLoadingSettings } =
     useGetSoundSettings();
 
-  // Get sound files for the active tab
   const { data: activeTabSoundFiles = [], isLoading: isLoadingActiveTabFiles } = useGetSoundFiles(activeTab);
 
-  // Preload sounds when files are loaded
   useEffect(() => {
     if (soundFiles.length > 0) {
-      // Update cached sound files list
       updateCachedSoundFiles(soundFiles);
 
-      // Preload all sounds
       preloadSounds(soundFiles).catch((error) => {
         console.warn('Failed to preload some sounds:', error);
       });
@@ -126,12 +121,9 @@ export const AdminSoundPage: React.FC = () => {
 
         <Tabs.Content value="finish">
           {/* Finish Sound Settings Section */}
-          <AdminSection
-            title="Alarm Sound Configuration"
-            // description="Select which sound file to use for alarm events"
-          >
+          <AdminSection title="Finish Sound Configuration">
             <AdminSection
-              // title="Finish Sound Configuration"
+              title="Finish Sound"
               description="Select which sound file to use for finish events"
               variant="border-solid"
             >
