@@ -38,16 +38,15 @@ export const styles = css`
     transition: all 150ms ease;
 
     &.selected {
-      background-color: ${colors.infoLight};
-      border-color: ${colors.info};
+      border-color: ${colors.infoLight};
     }
 
     .mode-checkbox-item-icon {
-      width: 16px;
-      height: 16px;
+      width: 20px;
+      height: 20px;
       border-radius: 4px;
       border: 2px solid;
-      border-color: ${colors.grey};
+      border-color: ${colors.greyXLight};
       background-color: transparent;
       display: flex;
       align-items: center;
@@ -55,8 +54,8 @@ export const styles = css`
     }
 
     &.selected .mode-checkbox-item-icon {
-      border-color: ${colors.info};
-      background-color: ${colors.info};
+      border-color: ${colors.infoLight};
+      background-color: ${colors.infoLight};
     }
 
     .mode-checkbox-item-checkmark {
