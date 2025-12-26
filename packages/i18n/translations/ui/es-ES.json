@@ -1,15 +1,15 @@
 {
   "ui": {
     "buttons": {
-      "add": "Añadir123",
+      "add": "Añadir",
       "all": "TODOS",
       "back": "Atrás",
-      "cancel": "Cancelar_XX",
+      "cancel": "Cancelar",
       "clear": "Limpiar",
       "close": "Cerrar",
       "delete": "Eliminar",
       "edit": "Editar",
-      "next": "Siguiente_SXX",
+      "next": "Siguiente",
       "ok": "Aceptar",
       "previous": "Anterior",
       "programProduct": "Programar Producto",
