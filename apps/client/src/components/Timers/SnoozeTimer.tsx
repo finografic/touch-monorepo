@@ -6,7 +6,6 @@ import { playAlarmSound } from 'utils/sound.utils';
 import { formatTimeFromMs } from 'utils/time.utils';
 import { SNOOZE_INTERVAL_MS } from 'config/app';
 
-import { useDev } from 'dev-tools/providers/DevProvider';
 import { getCycleNumber, parseElapsedTime } from './shared/timer.utils';
 import { useHeartbeatSubscription } from './shared/useHeartbeatSubscription';
 import { TimerResetIcon } from 'styles/icons/icons';
@@ -33,7 +32,6 @@ interface SnoozeTimerProps {
  * 6. (Optional) Debounce mode: Restarts countdown when new timers complete
  */
 export const SnoozeTimer = ({ shouldDebounce = false }: SnoozeTimerProps) => {
-  const { isDevToolsVisible } = useDev();
   const timersContext = useTimers();
   const [remainingTime, setRemainingTime] = useState<number>(0);
   const [startTime, setStartTime] = useState<number | null>(null);
@@ -101,10 +99,9 @@ export const SnoozeTimer = ({ shouldDebounce = false }: SnoozeTimerProps) => {
     return null;
   }
 
-  if (!isDevToolsVisible) {
-    return null;
-  }
+  return null;
 
+  // NOTE: DEVELOPMENT ONLY - passive component, no UI required
   return (
     <div css={styles}>
       <div className="snooze-timer">
