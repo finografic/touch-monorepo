@@ -1,5 +1,4 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import { Flex } from '@radix-ui/themes';
 import { LanguageDialog } from 'components/Dialog/dialogs/LanguageDialog';
@@ -9,7 +8,7 @@ import { useAppConfig } from 'providers/AppConfigProvider';
 import { useRecallConfig } from 'hooks/useRecallConfig';
 
 import type { Theme } from 'types/ui.types';
-import { RecallTimer } from '../../Timers/RecallTimer';
+import { RecallTimer } from 'components/Timers/RecallTimer';
 import { styles } from './AdminToolbar.styles';
 
 export const AdminToolbar: React.FC = () => {
@@ -19,7 +18,6 @@ export const AdminToolbar: React.FC = () => {
   // Check if recall config is active (exists and not expired)
   const { recallConfig, isRecallExpired } = useRecallConfig();
   const hasActiveTimer = recallConfig !== null && !isRecallExpired;
-  const navigate = useNavigate();
 
   if (!isAdminToolsVisible) return null;
 
@@ -27,19 +25,6 @@ export const AdminToolbar: React.FC = () => {
     <>
       <div css={styles} className={`theme-${theme}`}>
         <Flex gap="3" align="center">
-          {/* Timer visibility toggle - only show if there's an active timer */}
-          {/* {hasActiveTimer && (
-            <div className="button-box">
-              <button
-                className={`button button-admin ${isStorageTimerVisible ? 'active' : ''}`}
-                onClick={() => setIsStorageTimerVisible(!isStorageTimerVisible)}
-                title="Toggle Timer"
-              >
-                <TimerIcon />
-              </button>
-            </div>
-          )} */}
-
           {/* Config expiry timer */}
           {hasActiveTimer && (
             <div className="timer-container">
@@ -48,7 +33,6 @@ export const AdminToolbar: React.FC = () => {
           )}
         </Flex>
       </div>
-
       {isLanguageDialogOpen && (
         <LanguageDialog isOpen={isLanguageDialogOpen} onClose={() => setIsLanguageDialogOpen(false)} />
       )}

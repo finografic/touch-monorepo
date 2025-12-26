@@ -7,7 +7,6 @@ import { parsePadConfig } from 'utils/pads.utils';
 import { createSetters, createZustandContext } from '@finografic/zustand-context-creator';
 import type { RegionLocale } from '@workspace/i18n';
 import type { DataEntry, Dataset } from 'types/data.types';
-import type { OrderModel } from 'types/models/order.model';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { PadConfig, PadType, PadUI } from 'types/pads.types';
 import type { FilterKey } from 'types/slots.types';
@@ -119,11 +118,7 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
               return;
             }
             if (loaderData && padsConfig && dataPool) {
-              const filterApiKey = padsConfig.filterApiKey as keyof (
-                | DataEntry
-                | OrderModel
-                | OrderReadableModel
-              );
+              const filterApiKey = padsConfig.filterApiKey as keyof (DataEntry | OrderReadableModel);
               // 🚨 FIX: Use dataPool to determine visible options, but don't filter loaderData
               // This ensures UI shows all options from dataPool, not just filtered loaderData
               const visiblePadNames = [

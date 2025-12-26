@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import type { RegionLocale } from '@workspace/i18n';
 import { useDataPoolProxy } from 'hooks/useDataPoolProxy';
 import { useFilters } from 'providers/FiltersProvider/useFilters';
@@ -9,7 +9,6 @@ import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import type { DataEntry } from 'types/data.types';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
-import type { OrderModel } from 'types/models/order.model';
 import type { FilterKey } from 'types/slots.types';
 
 enum CHANGED {
@@ -169,7 +168,7 @@ export const useRouteChangeHandler = () => {
               filterKey,
               loaderData: loaderData as DataEntry[],
               padsConfig,
-              dataPool: dataPoolProxy as DataEntry[] | OrderModel[] | OrderReadableModel[],
+              dataPool: dataPoolProxy as DataEntry[] | OrderReadableModel[],
               serverFieldMap: sessionServerFieldMap,
               currentLanguage: (currentLanguage || 'es-ES') as RegionLocale,
             });

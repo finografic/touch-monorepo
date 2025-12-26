@@ -4,8 +4,10 @@ import { formatTimeFromMs } from 'utils/time.utils';
 import { useTimers } from 'providers/TimersProvider/TimersContext';
 import { useHeartbeatSubscription } from './shared/useHeartbeatSubscription';
 import { styles } from './RecallTimer.styles';
+import { useDev } from 'dev-tools/providers/DevProvider';
 
 export const RecallTimer = () => {
+  const { isDevToolsVisible } = useDev();
   const { recall, clearRecallConfig } = useTimers();
   const now = useHeartbeatSubscription(); // Subscribe to global heartbeat
 
@@ -26,6 +28,10 @@ export const RecallTimer = () => {
   }, [remainingTime, recall.config, clearRecallConfig]);
 
   if (remainingTime <= 0 || !recall.config) {
+    return null;
+  }
+
+  if (!isDevToolsVisible) {
     return null;
   }
 

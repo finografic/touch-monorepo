@@ -14,6 +14,7 @@ import { clearAllAuthCookiesServer } from 'utils/auth.utils';
 import { LanguageIcon } from 'styles/icons';
 import { styles } from './UserToolbar.styles';
 import clsx from 'clsx';
+import { LanguageDialog } from 'components/Dialog/dialogs/LanguageDialog';
 
 export const UserToolbar = ({ variant }: { variant?: 'light' | 'dark' }) => {
   const { theme } = useAppConfig();
@@ -30,29 +31,34 @@ export const UserToolbar = ({ variant }: { variant?: 'light' | 'dark' }) => {
   );
 
   return (
-    <div css={styles} className={clsx('toolbar', 'toolbar-user', `theme-${variant || theme}`)}>
-      <Flex gap="0" align="center">
-        <div className="button-box">
-          <Button
-            className="button button-language"
-            onClick={() => setIsLanguageDialogOpen(!isLanguageDialogOpen)}
-          >
-            <LanguageIcon />
-          </Button>
-        </div>
+    <>
+      <div css={styles} className={clsx('toolbar', 'toolbar-user', `theme-${variant || theme}`)}>
+        <Flex gap="0" align="center">
+          <div className="button-box">
+            <Button
+              className="button button-language"
+              onClick={() => setIsLanguageDialogOpen(!isLanguageDialogOpen)}
+            >
+              <LanguageIcon />
+            </Button>
+          </div>
 
-        <div className="button-box">
-          <ThemeToggleButton />
-        </div>
+          <div className="button-box">
+            <ThemeToggleButton />
+          </div>
 
-        <div className="button-box">
-          <AdminToggleButton />
-        </div>
+          <div className="button-box">
+            <AdminToggleButton />
+          </div>
 
-        <div className="button-box">
-          <UserAuthButton />
-        </div>
-      </Flex>
-    </div>
+          <div className="button-box">
+            <UserAuthButton />
+          </div>
+        </Flex>
+      </div>
+      {isLanguageDialogOpen && (
+        <LanguageDialog isOpen={isLanguageDialogOpen} onClose={() => setIsLanguageDialogOpen(false)} />
+      )}
+    </>
   );
 };
