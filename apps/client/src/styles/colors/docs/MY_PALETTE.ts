@@ -1,7 +1,7 @@
 /**
  * Visual reference for the complete color palette
  * 🚨 AUTO-GENERATED - DO NOT EDIT MANUALLY
- * 📅 Generated: 2025-12-26 -- 04:18:19
+ * 📅 Generated: Dec 2025
  *
  * Run: pnpm generate:palette to update this file
  *

@@ -12,7 +12,6 @@ import uiEnGB from './ui/en-GB.json';
 import uiCaES from './ui/ca-ES.json';
 
 // Merge function to combine translation objects
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const mergeTranslations = (...sources: any[]) => {
   return sources.reduce((acc, source) => {
     return Object.assign(acc, source);

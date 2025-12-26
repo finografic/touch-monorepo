@@ -27,7 +27,10 @@ function generateTypeFileContent(config: I18nConfig): string {
   return `/**
  * Language and Internationalization Types
  * 🤖 AUTO-GENERATED - DO NOT EDIT MANUALLY
- * Generated on ${new Date().toISOString()}
+ * Generated on ${new Date().toLocaleString('en-US', {
+   year: 'numeric',
+   month: 'short',
+ })}
  */
 import { config } from '@workspace/config/i18n.config';
 
