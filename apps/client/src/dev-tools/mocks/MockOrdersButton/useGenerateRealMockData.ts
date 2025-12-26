@@ -42,7 +42,12 @@ export const useGenerateRealMockData = (): OrderFilters | null => {
       return null;
     }
 
-    if (modes.length === 0 || drinkTypes.length === 0 || volumes.length === 0 || containerTypes.length === 0) {
+    if (
+      modes.length === 0 ||
+      drinkTypes.length === 0 ||
+      volumes.length === 0 ||
+      containerTypes.length === 0
+    ) {
       return null;
     }
 
@@ -162,15 +167,17 @@ export const useGenerateRealMockData = (): OrderFilters | null => {
           result.drinkSubtype = {
             id: subtypeEntity.id,
             name: subtypeEntity.name,
-            defaultTempConsume: subtypeEntity.defaultTempConsume ?? MOCK_ORDERS_DATA.drinkSubtype.defaultTempConsume,
-            defaultTempFreeze: subtypeEntity.defaultTempFreeze ?? MOCK_ORDERS_DATA.drinkSubtype.defaultTempFreeze,
+            defaultTempConsume:
+              subtypeEntity.defaultTempConsume ?? MOCK_ORDERS_DATA.drinkSubtype.defaultTempConsume,
+            defaultTempFreeze:
+              subtypeEntity.defaultTempFreeze ?? MOCK_ORDERS_DATA.drinkSubtype.defaultTempFreeze,
           };
 
           // Apply subtype filter to reduce pool
           const { dataPool } = filterData({
             data: currentPool,
             filters: { ...result, drinkSubtype: result.drinkSubtype },
-            filterKey: ROUTE_FILTER_KEYS.drinkVolume as FilterKey,
+            filterKey: ROUTE_FILTER_KEYS.drinkVolume,
             applyContainerTypeFix: false,
           });
           currentPool = dataPool;
@@ -202,7 +209,7 @@ export const useGenerateRealMockData = (): OrderFilters | null => {
           const { dataPool } = filterData({
             data: currentPool,
             filters: { ...result, drinkVolume: result.drinkVolume },
-            filterKey: ROUTE_FILTER_KEYS.containerType as FilterKey,
+            filterKey: ROUTE_FILTER_KEYS.containerType,
             applyContainerTypeFix: false,
           });
           currentPool = dataPool;
@@ -247,4 +254,3 @@ export const useGenerateRealMockData = (): OrderFilters | null => {
 
   return realMockData;
 };
-

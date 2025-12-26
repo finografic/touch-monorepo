@@ -1,10 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import {
-  drinkSubtypeEndpoints,
-  type DrinkSubtypeTranslation,
-  type DrinkSubtypeUpdate,
-} from 'api/endpoints';
+import { EndpointsDrinkSubtype, type DrinkSubtypeTranslation, type DrinkSubtypeUpdate } from 'api/endpoints';
 import { GET_DRINK_SUBTYPES_TRANSLATIONS_QUERYKEY } from '.';
 
 /**
@@ -22,7 +18,7 @@ export const useUpdateDrinkSubtypeTranslations = () => {
       id: string;
       updates: DrinkSubtypeUpdate;
       drinkTypeId: string;
-    }) => drinkSubtypeEndpoints.updateDrinkSubtype(id, updates, drinkTypeId),
+    }) => EndpointsDrinkSubtype.updateDrinkSubtype(id, updates, drinkTypeId),
     onSuccess: (updatedSubtype) => {
       // Update the cache with the new data
       queryClient.setQueryData<DrinkSubtypeTranslation[]>(
@@ -35,4 +31,3 @@ export const useUpdateDrinkSubtypeTranslations = () => {
     },
   });
 };
-

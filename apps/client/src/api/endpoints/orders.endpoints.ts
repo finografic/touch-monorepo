@@ -62,7 +62,7 @@ export interface CreateOrderWithProfilesInput {
  * Handles both regular orders and orders-readable view.
  * Note: orders-readable is a server-side join with human-readable names.
  */
-export const ordersEndpoints = {
+export const EndpointsOrders = {
   /**
    * Get all orders with readable names (joined view)
    */
@@ -167,4 +167,3 @@ export const ordersEndpoints = {
     }
   },
 } as const;
-

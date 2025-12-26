@@ -70,12 +70,16 @@ const transformContainerType = (serverData: any): ContainerType => ({
   thermalConductivity: serverData.thermal_conductivity ?? serverData.thermalConductivity ?? 0,
   isActive: Boolean(serverData.is_active ?? serverData.isActive ?? true),
   createdAt: serverData.created_at
-    ? new Date(typeof serverData.created_at === 'string' ? serverData.created_at : serverData.created_at * 1000)
+    ? new Date(
+        typeof serverData.created_at === 'string' ? serverData.created_at : serverData.created_at * 1000,
+      )
     : serverData.createdAt instanceof Date
       ? serverData.createdAt
       : new Date(),
   updatedAt: serverData.updated_at
-    ? new Date(typeof serverData.updated_at === 'string' ? serverData.updated_at : serverData.updated_at * 1000)
+    ? new Date(
+        typeof serverData.updated_at === 'string' ? serverData.updated_at : serverData.updated_at * 1000,
+      )
     : serverData.updatedAt instanceof Date
       ? serverData.updatedAt
       : new Date(),
@@ -96,14 +100,14 @@ const transformContainerType = (serverData: any): ContainerType => ({
  * // In a query hook:
  * const { data } = useQuery({
  *   queryKey: ['container-types'],
- *   queryFn: containerTypesEndpoints.getAll,
+ *   queryFn: EndpointsContainerTypes.getAll,
  * });
  *
  * @example
  * // In a React Router loader:
- * export const loader = containerTypesEndpoints.getAll;
+ * export const loader = EndpointsContainerTypes.getAll;
  */
-export const containerTypesEndpoints = {
+export const EndpointsContainerTypes = {
   /**
    * Get all container types
    */
@@ -185,4 +189,3 @@ export const containerTypesEndpoints = {
     }
   },
 } as const;
-

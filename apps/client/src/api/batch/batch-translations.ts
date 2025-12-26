@@ -1,19 +1,19 @@
 import {
-  containerTypesEndpoints,
+  EndpointsContainerTypes,
   type ContainerType,
   type UpdateContainerTypeInput,
 } from '../endpoints/container-types.endpoints';
 import {
-  drinkSubtypeEndpoints,
+  EndpointsDrinkSubtype,
   type DrinkSubtypeTranslation,
   type DrinkSubtypeUpdate,
 } from '../endpoints/drink-subtype.endpoints';
 import {
-  drinkTypeEndpoints,
+  EndpointsDrinkType,
   type DrinkTypeTranslation,
   type DrinkTypeUpdate,
 } from '../endpoints/drink-type.endpoints';
-import { volumeEndpoints, type VolumeTranslation, type VolumeUpdate } from '../endpoints/volume.endpoints';
+import { EndpointsVolume, type VolumeTranslation, type VolumeUpdate } from '../endpoints/volume.endpoints';
 
 // Re-export all types
 export type {
@@ -28,7 +28,7 @@ export type {
 };
 
 // Re-export all endpoints
-export { containerTypesEndpoints, drinkSubtypeEndpoints, drinkTypeEndpoints, volumeEndpoints };
+export { EndpointsContainerTypes, EndpointsDrinkSubtype, EndpointsDrinkType, EndpointsVolume };
 
 /**
  * Batch update operations for form submission
@@ -53,10 +53,10 @@ export const batchTranslationEndpoints = {
           const isNewItem = id.startsWith('temp-');
           if (isNewItem) {
             // Create new drink type using POST
-            return drinkTypeEndpoints.createDrinkType(updates);
+            return EndpointsDrinkType.createDrinkType(updates);
           }
           // Update existing drink type using PATCH
-          return drinkTypeEndpoints.updateDrinkType(id, updates);
+          return EndpointsDrinkType.updateDrinkType(id, updates);
         }),
       );
     }
@@ -77,13 +77,13 @@ export const batchTranslationEndpoints = {
 
           if (isNewItem) {
             // Create new subtype using POST (no ID in URL)
-            return drinkSubtypeEndpoints.createDrinkSubtype({
+            return EndpointsDrinkSubtype.createDrinkSubtype({
               ...updates,
               drinkTypeId,
             });
           } else {
             // Update existing subtype using PATCH (ID in URL)
-            return drinkSubtypeEndpoints.updateDrinkSubtype(id, updates, drinkTypeId);
+            return EndpointsDrinkSubtype.updateDrinkSubtype(id, updates, drinkTypeId);
           }
         }),
       );
@@ -91,13 +91,13 @@ export const batchTranslationEndpoints = {
 
     // Update volumes
     if (data.volumes) {
-      promises.push(...data.volumes.map(({ id, updates }) => volumeEndpoints.updateVolume(id, updates)));
+      promises.push(...data.volumes.map(({ id, updates }) => EndpointsVolume.updateVolume(id, updates)));
     }
 
     // Update container types
     if (data.containerTypes) {
       promises.push(
-        ...data.containerTypes.map(({ id, updates }) => containerTypesEndpoints.update(id, updates)),
+        ...data.containerTypes.map(({ id, updates }) => EndpointsContainerTypes.update(id, updates)),
       );
     }
 

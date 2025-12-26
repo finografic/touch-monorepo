@@ -11,7 +11,7 @@ export const drink_types = sqliteTable('drink_types', {
     .$defaultFn(() => createCuid()),
   name: text('name').notNull().unique(), // e.g., 'Cerveza', 'Vino', 'Licor', etc.
   // JSON translations column for dynamic language support
-  translations: text('translations', { mode: 'json' })
+  translations: text('translatSSions', { mode: 'json' })
     .$type<Record<string, string>>()
     .notNull()
     .default({ 'en-GB': '' }),

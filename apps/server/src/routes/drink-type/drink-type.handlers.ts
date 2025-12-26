@@ -7,8 +7,8 @@ import * as HttpStatusPhrases from 'stoker/http-status-phrases';
 import { db } from 'db';
 import { drink_types } from 'db/schemas';
 import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/zod.errors';
-import type { AppRouteHandler } from 'types/app.types';
 import { handleDrinkTypeDeletion } from 'utils/drink-type.utils';
+import type { AppRouteHandler } from 'types/app.types';
 import type { CreateRoute, GetOneRoute, ListRoute, PatchRoute, RemoveRoute } from './drink-type.routes';
 
 // Simple formatter using any type to avoid complex type inference

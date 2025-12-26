@@ -1,12 +1,12 @@
 import type { LoaderFunction } from 'react-router-dom';
 
 import {
-  containerTypesEndpoints,
-  drinkSubtypeEndpoints,
-  drinkTypeEndpoints,
-  ordersEndpoints,
-  supportedLanguagesEndpoints,
-  volumeEndpoints,
+  EndpointsContainerTypes,
+  EndpointsDrinkSubtype,
+  EndpointsDrinkType,
+  EndpointsOrders,
+  EndpointsSupportedLanguages,
+  EndpointsVolume,
 } from 'api/endpoints';
 import { AdminRouteIds, ROUTE_FILTER_KEYS } from 'config/app';
 
@@ -19,17 +19,17 @@ export const LoaderDataHelper: Partial<LoaderMap> = {
     // TODO: Implement when ready
     return [];
   },
-  [ROUTE_FILTER_KEYS.drinkType]: drinkTypeEndpoints.getDrinkTypes,
+  [ROUTE_FILTER_KEYS.drinkType]: EndpointsDrinkType.getDrinkTypes,
   [ROUTE_FILTER_KEYS.drinkSubtype]: async ({ params }) => {
     const { drinkTypeId } = params;
-    // Note: This endpoint needs to be added to drinkSubtypeEndpoints
-    return drinkSubtypeEndpoints.getDrinkSubtypes?.({ drinkTypeId: drinkTypeId as string }) || [];
+    // Note: This endpoint needs to be added to EndpointsDrinkSubtype
+    return EndpointsDrinkSubtype.getDrinkSubtypes?.({ drinkTypeId: drinkTypeId as string }) || [];
   },
-  [ROUTE_FILTER_KEYS.drinkVolume]: volumeEndpoints.getDrinkVolumes,
-  [ROUTE_FILTER_KEYS.containerType]: containerTypesEndpoints.getAll,
+  [ROUTE_FILTER_KEYS.drinkVolume]: EndpointsVolume.getDrinkVolumes,
+  [ROUTE_FILTER_KEYS.containerType]: EndpointsContainerTypes.getAll,
   [ROUTE_FILTER_KEYS.temperature]: async () => {
     // TODO: Implement when ready
-    return ordersEndpoints.getAllReadable();
+    return EndpointsOrders.getAllReadable();
   },
-  [AdminRouteIds.languages]: supportedLanguagesEndpoints.getSupportedLanguages,
+  [AdminRouteIds.languages]: EndpointsSupportedLanguages.getSupportedLanguages,
 };

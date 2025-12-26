@@ -1,27 +1,20 @@
 import { transformFetchError } from '@workspace/core/api';
-
+import type { DrinkType } from 'types/models/drink-type.model';
 import { api } from 'api';
 
-// Types for drink type translations
-export interface DrinkTypeTranslation {
-  id: string;
-  name: string;
-  translations: Record<string, string>; // Dynamic translations from JSON
-  hasSubtypes?: boolean;
-  isActive?: boolean;
-}
-
-export type DrinkTypeUpdate = Partial<Omit<DrinkTypeTranslation, 'id'>>;
+export type DrinkTypeUpdate = Partial<Omit<DrinkType, 'id'>>;
 
 /**
  * Helper to transform server response to frontend format using JSON translations
  */
-const transformDrinkType = (serverData: any): DrinkTypeTranslation => ({
+const transformDrinkType = (serverData: DrinkTypeEntity): DrinkType => ({
   id: serverData.id,
   name: serverData.name,
   translations: serverData.translations || {}, // Use JSON translations directly
   hasSubtypes: serverData.hasSubtypes ?? serverData.has_subtypes ?? false,
   isActive: serverData.isActive ?? serverData.is_active ?? true,
+  defaultTempConsume: serverData.defaultTempConsume ?? serverData.default_temp_consume ?? 5,
+  defaultTempFreeze: serverData.defaultTempFreeze ?? serverData.default_temp_freeze ?? -2,
 });
 
 /**
@@ -31,10 +24,10 @@ export const EndpointsDrinkType = {
   /**
    * Get all drink types with translations
    */
-  getAll: async (): Promise<DrinkTypeTranslation[]> => {
+  getAll: async (): Promise<DrinkType[]> => {
     try {
       // Fetch client returns data directly
-      const data = await api.get<any[]>('/drink-types');
+      const data = await api.get<DrinkType[]>('/drink-types');
       const drinkTypesArray = Array.isArray(data) ? data : [];
       return drinkTypesArray.map(transformDrinkType);
     } catch (error) {
@@ -45,14 +38,14 @@ export const EndpointsDrinkType = {
   /**
    * Get all drink types (alias for compatibility)
    */
-  getDrinkTypes: async (): Promise<DrinkTypeTranslation[]> => {
+  getDrinkTypes: async (): Promise<DrinkType[]> => {
     return EndpointsDrinkType.getAll();
   },
 
   /**
    * Get a single drink type by ID
    */
-  getById: async (id: string): Promise<DrinkTypeTranslation> => {
+  getById: async (id: string): Promise<DrinkType> => {
     try {
       const data = await api.get<any>(`/drink-types/${id}`);
       return transformDrinkType(data);
@@ -64,14 +57,14 @@ export const EndpointsDrinkType = {
   /**
    * Get a single drink type (alias for compatibility)
    */
-  getDrinkType: async (id: string): Promise<DrinkTypeTranslation> => {
+  getDrinkType: async (id: string): Promise<DrinkType> => {
     return EndpointsDrinkType.getById(id);
   },
 
   /**
    * Update a drink type with new translations
    */
-  updateDrinkType: async (id: string, updates: DrinkTypeUpdate): Promise<DrinkTypeTranslation> => {
+  updateDrinkType: async (id: string, updates: DrinkTypeUpdate): Promise<DrinkType> => {
     try {
       // Fetch client returns data directly
       const data = await api.patch<any>(`/drink-types/${id}`, updates);
@@ -85,7 +78,7 @@ export const EndpointsDrinkType = {
    * Create a new drink type
    * Uses POST to /drink-types
    */
-  createDrinkType: async (updates: DrinkTypeUpdate): Promise<DrinkTypeTranslation> => {
+  createDrinkType: async (updates: DrinkTypeUpdate): Promise<DrinkType> => {
     try {
       // Ensure required fields have defaults for new items
       const createData = {

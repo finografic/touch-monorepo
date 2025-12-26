@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { ordersEndpoints, type UpdateOrderInput } from 'api/endpoints';
+import { EndpointsOrders, type UpdateOrderInput } from 'api/endpoints';
 import {
   GET_ORDER_READABLE_QUERYKEY,
   GET_ORDERS_QUERYKEY,
@@ -14,7 +14,8 @@ export const useUpdateOrder = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, updates }: { id: string; updates: UpdateOrderInput }) => ordersEndpoints.update(id, updates),
+    mutationFn: ({ id, updates }: { id: string; updates: UpdateOrderInput }) =>
+      EndpointsOrders.update(id, updates),
     onSuccess: (updatedOrder) => {
       // Invalidate queries to refetch fresh data
       queryClient.invalidateQueries({ queryKey: GET_ORDERS_QUERYKEY });

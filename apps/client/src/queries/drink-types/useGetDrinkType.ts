@@ -3,7 +3,7 @@ import type { ErrorResponse } from '@workspace/core/api';
 import type { UseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 
-import { drinkTypeEndpoints, type DrinkTypeTranslation } from 'api/endpoints';
+import { EndpointsDrinkType, type DrinkTypeTranslation } from 'api/endpoints';
 import { GET_DRINK_TYPES_QUERYKEY } from '.';
 
 /**
@@ -12,7 +12,7 @@ import { GET_DRINK_TYPES_QUERYKEY } from '.';
 export const useGetDrinkType = (id: string): UseQueryResult<DrinkTypeTranslation, ErrorResponse> => {
   return useQuery({
     queryKey: [...GET_DRINK_TYPES_QUERYKEY, id],
-    queryFn: () => drinkTypeEndpoints.getById(id),
+    queryFn: () => EndpointsDrinkType.getById(id),
     enabled: !!id,
   });
 };

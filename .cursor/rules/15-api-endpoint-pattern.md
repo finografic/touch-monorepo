@@ -46,7 +46,7 @@ export const {resource}Endpoints = {
 | Element | Rule | Example |
 |---------|------|---------|
 | File | `{resource}.endpoints.ts` | `container-types.endpoints.ts` |
-| Export | `{resource}Endpoints` (plural) | `containerTypesEndpoints` |
+| Export | `{resource}Endpoints` (plural) | `EndpointsContainerTypes` |
 | Type | `{Resource}` (singular) | `ContainerType` |
 | Input type | `Create{Resource}Input` | `CreateContainerTypeInput` |
 | Update type | `Update{Resource}Input` | `UpdateContainerTypeInput` |
@@ -83,12 +83,12 @@ export const {resource}Endpoints = {
 
 ```typescript
 // queries/container-types/useGetContainerTypes.ts
-import { containerTypesEndpoints } from 'api/endpoints';
+import { EndpointsContainerTypes } from 'api/endpoints';
 
 export const useGetContainerTypes = () => {
   return useQuery({
     queryKey: GET_CONTAINER_TYPES_QUERYKEY,
-    queryFn: containerTypesEndpoints.getAll, // ✅ Direct reference
+    queryFn: EndpointsContainerTypes.getAll, // ✅ Direct reference
   });
 };
 ```
@@ -99,9 +99,9 @@ export const useGetContainerTypes = () => {
 
 ```typescript
 // api/loaders/loader.data.ts
-import { containerTypesEndpoints } from 'api/endpoints';
+import { EndpointsContainerTypes } from 'api/endpoints';
 
-export const containerTypesLoader = containerTypesEndpoints.getAll;
+export const containerTypesLoader = EndpointsContainerTypes.getAll;
 ```
 
 ---
@@ -111,7 +111,7 @@ export const containerTypesLoader = containerTypesEndpoints.getAll;
 If a resource needs non-CRUD methods, add them to the endpoints object:
 
 ```typescript
-export const ordersEndpoints = {
+export const EndpointsOrders = {
   // Standard CRUD
   getAll: async () => { ... },
   create: async (input) => { ... },

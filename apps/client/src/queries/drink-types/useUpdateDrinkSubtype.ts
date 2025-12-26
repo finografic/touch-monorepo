@@ -3,7 +3,7 @@ import { transformFetchError } from '@workspace/core/api';
 import { useMutation } from '@tanstack/react-query';
 
 import type { DrinkSubtype } from 'types/models/drink-type.model';
-import { drinkSubtypeEndpoints } from 'api/endpoints/drink-subtype.endpoints';
+import { EndpointsDrinkSubtype } from 'api/endpoints/drink-subtype.endpoints';
 
 export interface UpdateDrinkSubtypeInput {
   name?: string;
@@ -14,7 +14,7 @@ export interface UpdateDrinkSubtypeInput {
 
 /**
  * Hook to update a drink subtype
- * Uses the drinkSubtypeEndpoints.updateDrinkSubtype method
+ * Uses the EndpointsDrinkSubtype.updateDrinkSubtype method
  */
 export const useUpdateDrinkSubtype = () => {
   return useMutation({
@@ -28,7 +28,7 @@ export const useUpdateDrinkSubtype = () => {
       updates: UpdateDrinkSubtypeInput;
     }): Promise<DrinkSubtype> => {
       try {
-        const result = await drinkSubtypeEndpoints.updateDrinkSubtype(id, updates, drinkTypeId);
+        const result = await EndpointsDrinkSubtype.updateDrinkSubtype(id, updates, drinkTypeId);
 
         // Transform to match DrinkSubtype model
         return {
@@ -49,4 +49,3 @@ export const useUpdateDrinkSubtype = () => {
     // No automatic invalidation - handled by caller
   });
 };
-

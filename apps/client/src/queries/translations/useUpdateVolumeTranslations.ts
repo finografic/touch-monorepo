@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { volumeEndpoints, type VolumeTranslation, type VolumeUpdate } from 'api/endpoints';
+import { EndpointsVolume, type VolumeTranslation, type VolumeUpdate } from 'api/endpoints';
 import { GET_VOLUMES_TRANSLATIONS_QUERYKEY } from '.';
 
 /**
@@ -11,7 +11,7 @@ export const useUpdateVolumeTranslations = () => {
 
   return useMutation({
     mutationFn: ({ id, updates }: { id: string; updates: VolumeUpdate }) =>
-      volumeEndpoints.updateVolume(id, updates),
+      EndpointsVolume.updateVolume(id, updates),
     onSuccess: (updatedVolume) => {
       // Update the cache with the new data
       queryClient.setQueryData<VolumeTranslation[]>(GET_VOLUMES_TRANSLATIONS_QUERYKEY, (oldData) => {
@@ -21,4 +21,3 @@ export const useUpdateVolumeTranslations = () => {
     },
   });
 };
-

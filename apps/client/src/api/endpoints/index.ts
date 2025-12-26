@@ -2,7 +2,7 @@
 // CONTAINER TYPES
 // ============================================================================
 export {
-  containerTypesEndpoints,
+  EndpointsContainerTypes,
   type ContainerType,
   type ContainerTypeEntity,
   type CreateContainerTypeInput,
@@ -12,13 +12,13 @@ export {
 // ============================================================================
 // DRINK TYPES
 // ============================================================================
-export { drinkTypeEndpoints, type DrinkTypeTranslation, type DrinkTypeUpdate } from './drink-type.endpoints';
+export { EndpointsDrinkType, type DrinkTypeTranslation, type DrinkTypeUpdate } from './drink-type.endpoints';
 
 // ============================================================================
 // DRINK SUBTYPES
 // ============================================================================
 export {
-  drinkSubtypeEndpoints,
+  EndpointsDrinkSubtype,
   type DrinkSubtypeTranslation,
   type DrinkSubtypeUpdate,
 } from './drink-subtype.endpoints';
@@ -26,7 +26,7 @@ export {
 // ============================================================================
 // VOLUMES
 // ============================================================================
-export { volumeEndpoints, type VolumeTranslation, type VolumeUpdate } from './volume.endpoints';
+export { EndpointsVolume, type VolumeTranslation, type VolumeUpdate } from './volume.endpoints';
 
 // ============================================================================
 // TRANSLATIONS UI
@@ -41,7 +41,7 @@ export {
 // ORDERS
 // ============================================================================
 export {
-  ordersEndpoints,
+  EndpointsOrders,
   type CreateOrderInput,
   type UpdateOrderInput,
   type TemperatureProfileInput,
@@ -85,4 +85,4 @@ export { SoundsEndpoints, type UpdateSoundSettingsInput } from './sounds.endpoin
 // ============================================================================
 // SUPPORTED LANGUAGES
 // ============================================================================
-export { supportedLanguagesEndpoints } from './supported-languages.endpoints';
+export { EndpointsSupportedLanguages } from './supported-languages.endpoints';

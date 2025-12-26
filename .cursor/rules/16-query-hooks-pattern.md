@@ -66,7 +66,7 @@ import type { UseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 import type { ErrorResponse } from '@workspace/core/api';
 
-import { containerTypesEndpoints, type ContainerType } from 'api/endpoints';
+import { EndpointsContainerTypes, type ContainerType } from 'api/endpoints';
 import { GET_CONTAINER_TYPES_QUERYKEY } from '.';
 
 /**
@@ -75,7 +75,7 @@ import { GET_CONTAINER_TYPES_QUERYKEY } from '.';
 export const useGetContainerTypes = (): UseQueryResult<ContainerType[], ErrorResponse> => {
   return useQuery({
     queryKey: GET_CONTAINER_TYPES_QUERYKEY,
-    queryFn: containerTypesEndpoints.getAll,
+    queryFn: EndpointsContainerTypes.getAll,
   });
 };
 ```
@@ -87,7 +87,7 @@ import type { UseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 import type { ErrorResponse } from '@workspace/core/api';
 
-import { containerTypesEndpoints, type ContainerType } from 'api/endpoints';
+import { EndpointsContainerTypes, type ContainerType } from 'api/endpoints';
 import { GET_CONTAINER_TYPE_QUERYKEY } from '.';
 
 /**
@@ -96,7 +96,7 @@ import { GET_CONTAINER_TYPE_QUERYKEY } from '.';
 export const useGetContainerType = (id: string): UseQueryResult<ContainerType, ErrorResponse> => {
   return useQuery({
     queryKey: [...GET_CONTAINER_TYPE_QUERYKEY, id],
-    queryFn: () => containerTypesEndpoints.getById(id),
+    queryFn: () => EndpointsContainerTypes.getById(id),
     enabled: Boolean(id),
   });
 };
@@ -107,7 +107,7 @@ export const useGetContainerType = (id: string): UseQueryResult<ContainerType, E
 ```typescript
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { containerTypesEndpoints, type CreateContainerTypeInput } from 'api/endpoints';
+import { EndpointsContainerTypes, type CreateContainerTypeInput } from 'api/endpoints';
 import { GET_CONTAINER_TYPES_QUERYKEY } from '.';
 
 /**
@@ -117,7 +117,7 @@ export const useCreateContainerType = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: containerTypesEndpoints.create,
+    mutationFn: EndpointsContainerTypes.create,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: GET_CONTAINER_TYPES_QUERYKEY });
     },
@@ -130,7 +130,7 @@ export const useCreateContainerType = () => {
 ```typescript
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { containerTypesEndpoints, type UpdateContainerTypeInput } from 'api/endpoints';
+import { EndpointsContainerTypes, type UpdateContainerTypeInput } from 'api/endpoints';
 import { GET_CONTAINER_TYPES_QUERYKEY, GET_CONTAINER_TYPE_QUERYKEY } from '.';
 
 /**
@@ -141,7 +141,7 @@ export const useUpdateContainerType = () => {
 
   return useMutation({
     mutationFn: ({ id, updates }: { id: string; updates: UpdateContainerTypeInput }) =>
-      containerTypesEndpoints.update(id, updates),
+      EndpointsContainerTypes.update(id, updates),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: GET_CONTAINER_TYPES_QUERYKEY });
       queryClient.invalidateQueries({ queryKey: [...GET_CONTAINER_TYPE_QUERYKEY, variables.id] });
@@ -155,7 +155,7 @@ export const useUpdateContainerType = () => {
 ```typescript
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { containerTypesEndpoints } from 'api/endpoints';
+import { EndpointsContainerTypes } from 'api/endpoints';
 import { GET_CONTAINER_TYPES_QUERYKEY, GET_CONTAINER_TYPE_QUERYKEY } from '.';
 
 /**
@@ -165,7 +165,7 @@ export const useDeleteContainerType = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: containerTypesEndpoints.delete,
+    mutationFn: EndpointsContainerTypes.delete,
     onSuccess: (_, deletedId) => {
       queryClient.invalidateQueries({ queryKey: GET_CONTAINER_TYPES_QUERYKEY });
       queryClient.invalidateQueries({ queryKey: [...GET_CONTAINER_TYPE_QUERYKEY, deletedId] });
@@ -282,4 +282,3 @@ export const ContainerTypesList = () => {
 
 - **Full Documentation:** `/docs/API_ARCHITECTURE.md`
 - **Reference Implementation:** `queries/container-types/`
-

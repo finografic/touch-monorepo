@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { ordersEndpoints, type TemperatureProfileInput } from 'api/endpoints';
+import { EndpointsOrders, type TemperatureProfileInput } from 'api/endpoints';
 import { GET_ORDER_READABLE_QUERYKEY } from 'queries/orders';
 
 /**
@@ -12,7 +12,7 @@ export const useUpdateTemperatureProfiles = () => {
 
   return useMutation({
     mutationFn: ({ orderId, profiles }: { orderId: string; profiles: TemperatureProfileInput[] }) =>
-      ordersEndpoints.updateTemperatureProfiles(orderId, profiles),
+      EndpointsOrders.updateTemperatureProfiles(orderId, profiles),
     onSuccess: (_, { orderId }) => {
       // Invalidate temperature profiles for this order
       queryClient.invalidateQueries({

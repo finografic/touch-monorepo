@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { ordersEndpoints } from 'api/endpoints';
+import { EndpointsOrders } from 'api/endpoints';
 import { GET_ORDER_READABLE_QUERYKEY } from 'queries/orders';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 
@@ -18,7 +18,7 @@ export const useGetOrderReadableById = ({
 }) => {
   return useQuery<OrderReadableModel>({
     queryKey: [...GET_ORDER_READABLE_QUERYKEY, orderId || ''],
-    queryFn: () => ordersEndpoints.getByIdReadable(orderId!),
+    queryFn: () => EndpointsOrders.getByIdReadable(orderId!),
     select,
     enabled: Boolean(enabled && !!orderId),
     staleTime: 5 * 60 * 1000, // 5 minutes

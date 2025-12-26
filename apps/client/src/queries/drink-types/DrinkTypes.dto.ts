@@ -53,9 +53,6 @@ export const DrinkTypeDTO = {
     return {
       id: data.id,
       name: data.name,
-      name_en: data.name,
-      name_es: data.nameEs,
-      name_ca: data.nameCa,
       has_subtypes: Number(data.hasSubtypes),
       default_temp_consume: data.defaultTempConsume,
       default_temp_freeze: data.defaultTempFreeze,
@@ -69,9 +66,6 @@ export const DrinkTypeDTO = {
     return {
       id: data.id,
       name: data.name,
-      name_en: data.name,
-      name_es: data.nameEs,
-      name_ca: data.nameCa,
       drink_type_id: data.drinkTypeId,
       default_temp_consume: data.defaultTempConsume,
       default_temp_freeze: data.defaultTempFreeze,

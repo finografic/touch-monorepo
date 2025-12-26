@@ -25,7 +25,7 @@ const transformVolume = (serverData: any): VolumeTranslation => ({
 /**
  * Volume API endpoints
  */
-export const volumeEndpoints = {
+export const EndpointsVolume = {
   /**
    * Get all volumes with translations
    */

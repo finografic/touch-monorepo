@@ -26,7 +26,7 @@ const transformDrinkSubtype = (serverData: any): DrinkSubtypeTranslation => ({
 /**
  * Drink Subtype API endpoints
  */
-export const drinkSubtypeEndpoints = {
+export const EndpointsDrinkSubtype = {
   /**
    * Get all drink subtypes with translations
    * Fetches subtypes for all drink types that have subtypes

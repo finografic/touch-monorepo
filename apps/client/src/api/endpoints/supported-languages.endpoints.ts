@@ -16,7 +16,7 @@ import type { SupportedLanguage } from 'types/models/supported-language.model';
  *
  * Manages language configurations for the application.
  */
-export const supportedLanguagesEndpoints = {
+export const EndpointsSupportedLanguages = {
   /**
    * Get all supported languages
    */
@@ -32,7 +32,7 @@ export const supportedLanguagesEndpoints = {
    * Get all supported languages (alias for EndpointHelper compatibility)
    */
   getSupportedLanguages: async (): Promise<SupportedLanguage[]> => {
-    return supportedLanguagesEndpoints.getAll();
+    return EndpointsSupportedLanguages.getAll();
   },
 
   /**
@@ -50,7 +50,7 @@ export const supportedLanguagesEndpoints = {
    * Get a single supported language (alias for EndpointHelper compatibility)
    */
   getSupportedLanguage: async (id: string): Promise<SupportedLanguage> => {
-    return supportedLanguagesEndpoints.getById(id);
+    return EndpointsSupportedLanguages.getById(id);
   },
 
   /**
@@ -68,7 +68,7 @@ export const supportedLanguagesEndpoints = {
    * Create a new supported language (alias for EndpointHelper compatibility)
    */
   createSupportedLanguage: async (data: SupportedLanguageInput): Promise<SupportedLanguage> => {
-    return supportedLanguagesEndpoints.create(data);
+    return EndpointsSupportedLanguages.create(data);
   },
 
   /**
@@ -86,7 +86,7 @@ export const supportedLanguagesEndpoints = {
    * Update an existing supported language (alias for EndpointHelper compatibility)
    */
   updateSupportedLanguage: async (id: string, data: SupportedLanguageUpdate): Promise<SupportedLanguage> => {
-    return supportedLanguagesEndpoints.update(id, data);
+    return EndpointsSupportedLanguages.update(id, data);
   },
 
   /**
@@ -104,7 +104,6 @@ export const supportedLanguagesEndpoints = {
    * Delete a supported language (alias for EndpointHelper compatibility)
    */
   deleteSupportedLanguage: async (id: string): Promise<void> => {
-    return supportedLanguagesEndpoints.delete(id);
+    return EndpointsSupportedLanguages.delete(id);
   },
 } as const;
-

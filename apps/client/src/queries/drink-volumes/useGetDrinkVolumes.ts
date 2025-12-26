@@ -19,7 +19,7 @@ const getDrinkVolumes = async () => {
 
 export const useGetDrinkVolumes = (): UseQueryResult<DrinkVolume[], ErrorResponse> => {
   return useQuery({
-    queryKey: GET_DRINK_VOLUMES_QUERYKEY,
+    queryKey: [...GET_DRINK_VOLUMES_QUERYKEY],
     queryFn: async () => getDrinkVolumes(),
   });
 };
