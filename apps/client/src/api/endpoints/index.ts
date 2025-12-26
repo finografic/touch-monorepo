@@ -1,32 +1,22 @@
 // ============================================================================
 // CONTAINER TYPES
 // ============================================================================
-export {
-  EndpointsContainerType,
-  type ContainerType,
-  type ContainerTypeEntity,
-  type CreateContainerTypeInput,
-  type UpdateContainerTypeInput,
-} from './container-type.endpoints';
+export { EndpointsContainerType, type ContainerTypeUpdate } from './container-type.endpoints';
 
 // ============================================================================
 // DRINK TYPES
 // ============================================================================
-export { EndpointsDrinkType, type DrinkTypeTranslation, type DrinkTypeUpdate } from './drink-type.endpoints';
+export { EndpointsDrinkType, type DrinkTypeUpdate } from './drink-type.endpoints';
 
 // ============================================================================
 // DRINK SUBTYPES
 // ============================================================================
-export {
-  EndpointsDrinkSubtype,
-  type DrinkSubtypeTranslation,
-  type DrinkSubtypeUpdate,
-} from './drink-subtype.endpoints';
+export { EndpointsDrinkSubtype, type DrinkSubtypeUpdate } from './drink-subtype.endpoints';
 
 // ============================================================================
 // VOLUMES
 // ============================================================================
-export { EndpointsVolume, type VolumeTranslation, type VolumeUpdate } from './volume.endpoints';
+export { EndpointsVolume, type VolumeUpdate } from './volume.endpoints';
 
 // ============================================================================
 // TRANSLATIONS UI

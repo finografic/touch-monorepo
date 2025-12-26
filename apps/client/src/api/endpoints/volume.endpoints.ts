@@ -1,53 +1,47 @@
 import { transformFetchError } from '@workspace/core/api';
 
 import { api } from 'api';
+import type { DrinkVolume } from 'types/models/volume.model';
 
-// Types for volume translations
-export interface VolumeTranslation {
-  id: string;
-  name: string;
-  translations: Record<string, string>; // Dynamic translations from JSON
-  isActive?: boolean;
-}
+export type VolumeUpdate = Partial<Omit<DrinkVolume, 'id'>>;
 
-export type VolumeUpdate = Partial<Omit<VolumeTranslation, 'id'>>;
-
-/**
- * Helper to transform server response to frontend format using JSON translations
- */
-const transformVolume = (serverData: any): VolumeTranslation => ({
-  id: serverData.id,
-  name: serverData.name,
-  translations: serverData.translations || {}, // Use JSON translations directly
-  isActive: serverData.isActive ?? serverData.is_active ?? true,
-});
-
-/**
- * Volume API endpoints
- */
 export const EndpointsVolume = {
-  /**
-   * Get all volumes with translations
-   */
-  getVolumes: async (): Promise<VolumeTranslation[]> => {
+  getAll: async (): Promise<DrinkVolume[]> => {
     try {
-      // Fetch client returns data directly
-      const data = await api.get<any[]>('/drink-volumes');
-      const volumesArray = Array.isArray(data) ? data : [];
-      return volumesArray.map(transformVolume);
+      const data = await api.get<DrinkVolume[]>('/drink-volumes');
+      return Array.isArray(data) ? data : [];
     } catch (error) {
       throw transformFetchError(error);
     }
   },
 
-  /**
-   * Update a volume with new translations
-   */
-  updateVolume: async (id: string, updates: VolumeUpdate): Promise<VolumeTranslation> => {
+  getById: async (id: string): Promise<DrinkVolume> => {
     try {
-      // Fetch client returns data directly
-      const data = await api.patch<any>(`/drink-volumes/${id}`, updates);
-      return transformVolume(data);
+      return await api.get<DrinkVolume>(`/drink-volumes/${id}`);
+    } catch (error) {
+      throw transformFetchError(error);
+    }
+  },
+
+  update: async (id: string, updates: VolumeUpdate): Promise<DrinkVolume> => {
+    try {
+      return await api.patch<DrinkVolume>(`/drink-volumes/${id}`, updates);
+    } catch (error) {
+      throw transformFetchError(error);
+    }
+  },
+
+  create: async (updates: VolumeUpdate): Promise<DrinkVolume> => {
+    try {
+      return await api.post<DrinkVolume>('/drink-volumes', updates);
+    } catch (error) {
+      throw transformFetchError(error);
+    }
+  },
+
+  delete: async (id: string): Promise<void> => {
+    try {
+      await api.delete<void>(`/drink-volumes/${id}`);
     } catch (error) {
       throw transformFetchError(error);
     }

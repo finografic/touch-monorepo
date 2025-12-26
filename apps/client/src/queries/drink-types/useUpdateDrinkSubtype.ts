@@ -28,7 +28,7 @@ export const useUpdateDrinkSubtype = () => {
       updates: UpdateDrinkSubtypeInput;
     }): Promise<DrinkSubtype> => {
       try {
-        const result = await EndpointsDrinkSubtype.updateDrinkSubtype(id, updates, drinkTypeId);
+        const result = await EndpointsDrinkSubtype.update(id, updates, drinkTypeId);
 
         // Transform to match DrinkSubtype model
         return {

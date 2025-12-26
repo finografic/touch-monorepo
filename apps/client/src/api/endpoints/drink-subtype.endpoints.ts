@@ -1,56 +1,22 @@
 import { transformFetchError } from '@workspace/core/api';
+
 import { api } from 'api';
+import type { DrinkSubtype } from 'types/models/drink-type.model';
 
-// Types for drink subtype translations
-export interface DrinkSubtypeTranslation {
-  id: string;
-  name: string;
-  translations: Record<string, string>; // Dynamic translations from JSON
-  drinkTypeId: string;
-  isActive?: boolean;
-}
+export type DrinkSubtypeUpdate = Partial<Omit<DrinkSubtype, 'id'>>;
 
-export type DrinkSubtypeUpdate = Partial<Omit<DrinkSubtypeTranslation, 'id'>>;
-
-/**
- * Helper to transform server response to frontend format using JSON translations
- */
-const transformDrinkSubtype = (serverData: any): DrinkSubtypeTranslation => ({
-  id: serverData.id,
-  name: serverData.name,
-  translations: serverData.translations || {}, // Use JSON translations directly
-  drinkTypeId: serverData.drinkTypeId || serverData.drink_type_id,
-  isActive: serverData.isActive ?? serverData.is_active ?? true,
-});
-
-/**
- * Drink Subtype API endpoints
- */
 export const EndpointsDrinkSubtype = {
-  /**
-   * Get all drink subtypes with translations
-   * Fetches subtypes for all drink types that have subtypes
-   */
-  getDrinkSubtypes: async (): Promise<DrinkSubtypeTranslation[]> => {
+  getAll: async (): Promise<DrinkSubtype[]> => {
     try {
-      // Get all drink types first, then fetch their subtypes
-      // Fetch client returns data directly (unwraps ApiResponse)
-      const drinkTypesData = await api.get<any[]>('/drink-types');
-      const drinkTypesArray = Array.isArray(drinkTypesData) ? drinkTypesData : [];
-
-      const drinkTypes = drinkTypesArray.map((dt: any) => ({
-        id: dt.id,
-        hasSubtypes: dt.hasSubtypes ?? dt.has_subtypes ?? false,
-      }));
+      const drinkTypesData = await api.get<Array<{ id: string; hasSubtypes: boolean }>>('/drink-types');
+      const drinkTypes = Array.isArray(drinkTypesData) ? drinkTypesData : [];
 
       const subtypesPromises = drinkTypes
         .filter((dt) => dt.hasSubtypes)
         .map(async (dt) => {
           try {
-            // Fetch client returns data directly
-            const data = await api.get<any[]>(`/drink-types/${dt.id}/subtypes`);
-            const subtypesArray = Array.isArray(data) ? data : [];
-            return subtypesArray.map(transformDrinkSubtype);
+            const data = await api.get<DrinkSubtype[]>(`/drink-types/${dt.id}/subtypes`);
+            return Array.isArray(data) ? data : [];
           } catch (error) {
             console.warn(`Failed to fetch subtypes for drink type ${dt.id}:`, error);
             return [];
@@ -64,61 +30,55 @@ export const EndpointsDrinkSubtype = {
     }
   },
 
-  /**
-   * Create a new drink subtype
-   * Uses POST to /drink-types/{drinkTypeId}/subtypes
-   */
-  createDrinkSubtype: async (
-    updates: DrinkSubtypeUpdate & { drinkTypeId: string },
-  ): Promise<DrinkSubtypeTranslation> => {
+  getByDrinkTypeId: async (drinkTypeId: string): Promise<DrinkSubtype[]> => {
+    try {
+      const data = await api.get<DrinkSubtype[]>(`/drink-types/${drinkTypeId}/subtypes`);
+      return Array.isArray(data) ? data : [];
+    } catch (error) {
+      throw transformFetchError(error);
+    }
+  },
+
+  getById: async (id: string, drinkTypeId: string): Promise<DrinkSubtype> => {
+    try {
+      return await api.get<DrinkSubtype>(`/drink-types/${drinkTypeId}/subtypes/${id}`);
+    } catch (error) {
+      throw transformFetchError(error);
+    }
+  },
+
+  create: async (updates: DrinkSubtypeUpdate & { drinkTypeId: string }): Promise<DrinkSubtype> => {
     try {
       const { drinkTypeId, ...subtypeData } = updates;
       if (!drinkTypeId) {
         throw new Error('drinkTypeId is required to create drink subtypes');
       }
 
-      // Ensure required fields have defaults for new items
       const createData = {
         name: subtypeData.name || '',
         translations: subtypeData.translations || {},
-        ...subtypeData, // Allow overriding defaults
+        ...subtypeData,
       };
 
-      // Fetch client returns data directly
-      const data = await api.post<any>(`/drink-types/${drinkTypeId}/subtypes`, createData);
-      return transformDrinkSubtype(data);
+      return await api.post<DrinkSubtype>(`/drink-types/${drinkTypeId}/subtypes`, createData);
     } catch (error) {
       throw transformFetchError(error);
     }
   },
 
-  /**
-   * Update a drink subtype with new translations
-   * Requires drinkTypeId to use the nested endpoint: /drink-types/{drinkTypeId}/subtypes/{id}
-   */
-  updateDrinkSubtype: async (
-    id: string,
-    updates: DrinkSubtypeUpdate,
-    drinkTypeId: string,
-  ): Promise<DrinkSubtypeTranslation> => {
+  update: async (id: string, updates: DrinkSubtypeUpdate, drinkTypeId: string): Promise<DrinkSubtype> => {
     try {
       if (!drinkTypeId) {
         throw new Error('drinkTypeId is required to update drink subtypes');
       }
 
-      // Fetch client returns data directly
-      const data = await api.patch<any>(`/drink-types/${drinkTypeId}/subtypes/${id}`, updates);
-      return transformDrinkSubtype(data);
+      return await api.patch<DrinkSubtype>(`/drink-types/${drinkTypeId}/subtypes/${id}`, updates);
     } catch (error) {
       throw transformFetchError(error);
     }
   },
 
-  /**
-   * Delete a drink subtype
-   * Uses DELETE to /drink-types/{drinkTypeId}/subtypes/{id}
-   */
-  deleteDrinkSubtype: async (id: string, drinkTypeId: string): Promise<void> => {
+  delete: async (id: string, drinkTypeId: string): Promise<void> => {
     try {
       if (!drinkTypeId) {
         throw new Error('drinkTypeId is required to delete drink subtypes');

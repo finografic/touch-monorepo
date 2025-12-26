@@ -19,13 +19,13 @@ export const LoaderDataHelper: Partial<LoaderMap> = {
     // TODO: Implement when ready
     return [];
   },
-  [ROUTE_FILTER_KEYS.drinkType]: EndpointsDrinkType.getDrinkTypes,
+  [ROUTE_FILTER_KEYS.drinkType]: EndpointsDrinkType.getAll,
   [ROUTE_FILTER_KEYS.drinkSubtype]: async ({ params }) => {
     const { drinkTypeId } = params;
-    // Note: This endpoint needs to be added to EndpointsDrinkSubtype
-    return EndpointsDrinkSubtype.getDrinkSubtypes?.({ drinkTypeId: drinkTypeId as string }) || [];
+    if (!drinkTypeId) return [];
+    return EndpointsDrinkSubtype.getByDrinkTypeId(drinkTypeId);
   },
-  [ROUTE_FILTER_KEYS.drinkVolume]: EndpointsVolume.getDrinkVolumes,
+  [ROUTE_FILTER_KEYS.drinkVolume]: EndpointsVolume.getAll,
   [ROUTE_FILTER_KEYS.containerType]: EndpointsContainerType.getAll,
   [ROUTE_FILTER_KEYS.temperature]: async () => {
     // TODO: Implement when ready

@@ -53,10 +53,9 @@ export const batchTranslationEndpoints = {
           const isNewItem = id.startsWith('temp-');
           if (isNewItem) {
             // Create new drink type using POST
-            return EndpointsDrinkType.createDrinkType(updates);
+            return EndpointsDrinkType.create(updates);
           }
-          // Update existing drink type using PATCH
-          return EndpointsDrinkType.updateDrinkType(id, updates);
+          return EndpointsDrinkType.update(id, updates);
         }),
       );
     }
@@ -77,13 +76,12 @@ export const batchTranslationEndpoints = {
 
           if (isNewItem) {
             // Create new subtype using POST (no ID in URL)
-            return EndpointsDrinkSubtype.createDrinkSubtype({
+            return EndpointsDrinkSubtype.create({
               ...updates,
               drinkTypeId,
             });
           } else {
-            // Update existing subtype using PATCH (ID in URL)
-            return EndpointsDrinkSubtype.updateDrinkSubtype(id, updates, drinkTypeId);
+            return EndpointsDrinkSubtype.update(id, updates, drinkTypeId);
           }
         }),
       );
@@ -91,7 +89,7 @@ export const batchTranslationEndpoints = {
 
     // Update volumes
     if (data.volumes) {
-      promises.push(...data.volumes.map(({ id, updates }) => EndpointsVolume.updateVolume(id, updates)));
+      promises.push(...data.volumes.map(({ id, updates }) => EndpointsVolume.update(id, updates)));
     }
 
     // Update container types

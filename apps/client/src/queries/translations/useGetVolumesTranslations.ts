@@ -3,16 +3,14 @@ import { useQuery } from '@tanstack/react-query';
 import type { ErrorResponse } from '@workspace/core/api';
 
 import { ADMIN_DATA_QUERY_CONFIG } from 'config/api';
-import { EndpointsVolume, type VolumeTranslation } from 'api/endpoints';
+import { EndpointsVolume } from 'api/endpoints';
+import type { DrinkVolume } from 'types/models/volume.model';
 import { GET_VOLUMES_TRANSLATIONS_QUERYKEY } from '.';
 
-/**
- * Get all volumes for translation
- */
-export const useGetVolumesTranslations = (): UseQueryResult<VolumeTranslation[], ErrorResponse> => {
+export const useGetVolumesTranslations = (): UseQueryResult<DrinkVolume[], ErrorResponse> => {
   return useQuery({
     queryKey: GET_VOLUMES_TRANSLATIONS_QUERYKEY,
-    queryFn: EndpointsVolume.getVolumes,
+    queryFn: EndpointsVolume.getAll,
     ...ADMIN_DATA_QUERY_CONFIG,
   });
 };
