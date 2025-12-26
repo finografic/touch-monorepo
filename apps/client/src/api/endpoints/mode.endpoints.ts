@@ -43,7 +43,7 @@ export interface UpdateActiveStatesRequest {
  *
  * Manages dispensing modes and their configurations.
  */
-export const ModesEndpoints = {
+export const EndpointsMode = {
   /**
    * Get all modes
    */

@@ -1,7 +1,7 @@
 import type { LoaderFunction } from 'react-router-dom';
 
 import {
-  EndpointsContainerTypes,
+  EndpointsContainerType,
   EndpointsDrinkSubtype,
   EndpointsDrinkType,
   EndpointsOrders,
@@ -26,7 +26,7 @@ export const LoaderDataHelper: Partial<LoaderMap> = {
     return EndpointsDrinkSubtype.getDrinkSubtypes?.({ drinkTypeId: drinkTypeId as string }) || [];
   },
   [ROUTE_FILTER_KEYS.drinkVolume]: EndpointsVolume.getDrinkVolumes,
-  [ROUTE_FILTER_KEYS.containerType]: EndpointsContainerTypes.getAll,
+  [ROUTE_FILTER_KEYS.containerType]: EndpointsContainerType.getAll,
   [ROUTE_FILTER_KEYS.temperature]: async () => {
     // TODO: Implement when ready
     return EndpointsOrders.getAllReadable();

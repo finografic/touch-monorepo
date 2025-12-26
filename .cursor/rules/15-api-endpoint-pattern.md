@@ -46,7 +46,7 @@ export const {resource}Endpoints = {
 | Element | Rule | Example |
 |---------|------|---------|
 | File | `{resource}.endpoints.ts` | `container-types.endpoints.ts` |
-| Export | `{resource}Endpoints` (plural) | `EndpointsContainerTypes` |
+| Export | `{resource}Endpoints` (plural) | `EndpointsContainerType` |
 | Type | `{Resource}` (singular) | `ContainerType` |
 | Input type | `Create{Resource}Input` | `CreateContainerTypeInput` |
 | Update type | `Update{Resource}Input` | `UpdateContainerTypeInput` |
@@ -83,12 +83,12 @@ export const {resource}Endpoints = {
 
 ```typescript
 // queries/container-types/useGetContainerTypes.ts
-import { EndpointsContainerTypes } from 'api/endpoints';
+import { EndpointsContainerType } from 'api/endpoints';
 
 export const useGetContainerTypes = () => {
   return useQuery({
     queryKey: GET_CONTAINER_TYPES_QUERYKEY,
-    queryFn: EndpointsContainerTypes.getAll, // ✅ Direct reference
+    queryFn: EndpointsContainerType.getAll, // ✅ Direct reference
   });
 };
 ```
@@ -99,9 +99,9 @@ export const useGetContainerTypes = () => {
 
 ```typescript
 // api/loaders/loader.data.ts
-import { EndpointsContainerTypes } from 'api/endpoints';
+import { EndpointsContainerType } from 'api/endpoints';
 
-export const containerTypesLoader = EndpointsContainerTypes.getAll;
+export const containerTypesLoader = EndpointsContainerType.getAll;
 ```
 
 ---

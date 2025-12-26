@@ -3,7 +3,7 @@ import type { ErrorResponse } from '@workspace/core/api';
 import type { UseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 
-import { EndpointsContainerTypes, type ContainerType } from 'api/endpoints';
+import { EndpointsContainerType, type ContainerType } from 'api/endpoints';
 import { GET_CONTAINER_TYPES_QUERYKEY } from '.';
 
 /**
@@ -12,7 +12,7 @@ import { GET_CONTAINER_TYPES_QUERYKEY } from '.';
 export const useGetContainerType = (id: string): UseQueryResult<ContainerType, ErrorResponse> => {
   return useQuery({
     queryKey: [...GET_CONTAINER_TYPES_QUERYKEY, id],
-    queryFn: () => EndpointsContainerTypes.getById(id),
+    queryFn: () => EndpointsContainerType.getById(id),
     enabled: !!id,
   });
 };

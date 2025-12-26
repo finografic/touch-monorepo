@@ -100,14 +100,14 @@ const transformContainerType = (serverData: any): ContainerType => ({
  * // In a query hook:
  * const { data } = useQuery({
  *   queryKey: ['container-types'],
- *   queryFn: EndpointsContainerTypes.getAll,
+ *   queryFn: EndpointsContainerType.getAll,
  * });
  *
  * @example
  * // In a React Router loader:
- * export const loader = EndpointsContainerTypes.getAll;
+ * export const loader = EndpointsContainerType.getAll;
  */
-export const EndpointsContainerTypes = {
+export const EndpointsContainerType = {
   /**
    * Get all container types
    */

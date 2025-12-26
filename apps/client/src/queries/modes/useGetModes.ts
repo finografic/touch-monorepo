@@ -1,6 +1,6 @@
 import { useQuery, type UseQueryResult } from '@tanstack/react-query';
 import type { ErrorResponse } from '@workspace/core/api';
-import { ModesEndpoints } from 'api/endpoints';
+import { EndpointsMode } from 'api/endpoints';
 import type { ModeModel } from 'types/models/mode.model';
 
 /**
@@ -9,6 +9,6 @@ import type { ModeModel } from 'types/models/mode.model';
 export const useGetModes = (): UseQueryResult<ModeModel[], ErrorResponse> => {
   return useQuery<ModeModel[]>({
     queryKey: ['modes'],
-    queryFn: ModesEndpoints.getAll,
+    queryFn: EndpointsMode.getAll,
   });
 };

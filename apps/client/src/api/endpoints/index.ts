@@ -2,12 +2,12 @@
 // CONTAINER TYPES
 // ============================================================================
 export {
-  EndpointsContainerTypes,
+  EndpointsContainerType,
   type ContainerType,
   type ContainerTypeEntity,
   type CreateContainerTypeInput,
   type UpdateContainerTypeInput,
-} from './container-types.endpoints';
+} from './container-type.endpoints';
 
 // ============================================================================
 // DRINK TYPES
@@ -57,11 +57,11 @@ export { slotConfigurationsEndpoints } from './slot-configurations.endpoints';
 // MODES
 // ============================================================================
 export {
-  ModesEndpoints,
+  EndpointsMode,
   type UpdateModeInput,
   type UpdateDefaultModeRequest,
   type UpdateActiveStatesRequest,
-} from './modes.endpoints';
+} from './mode.endpoints';
 
 // ============================================================================
 // RELAYS
