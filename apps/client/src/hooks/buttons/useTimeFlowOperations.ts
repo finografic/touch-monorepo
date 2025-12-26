@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useTransition } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import createCuid from '@bugsnag/cuid';
@@ -22,7 +22,6 @@ import { filterSlotsAvailable } from './timer-filter.utils';
 export const useTimeFlowOperations = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [isPending, startTransition] = useTransition();
   const { orders, toggleSlot, setOrdersSession } = useOrders();
   const { createSession, assignOrdersToSession, currentSessionId, clearSession } = useSession();
   const { addTimer, timers } = useTimers();
@@ -39,38 +38,36 @@ export const useTimeFlowOperations = () => {
   // ========================================================================
 
   const handleProgramTime = useCallback(() => {
-    startTransition(() => {
-      // Determine which slots are idle
-      const selectedIdleSlots = selectedSlots.filter((slot) => !timerSlots.has(slot.slotNumber));
+    // Determine which slots are idle
+    const selectedIdleSlots = selectedSlots.filter((slot) => !timerSlots.has(slot.slotNumber));
 
-      if (selectedIdleSlots.length === 0) {
-        console.warn('No selected idle slots to program time for');
+    if (selectedIdleSlots.length === 0) {
+      console.warn('No selected idle slots to program time for');
+    }
+
+    // Create orders for selected slots using Map lookup
+    for (const slot of selectedIdleSlots) {
+      const orderConfig = slotItemsBySlot.get(slot.slotNumber);
+      if (orderConfig) {
+        toggleSlot({
+          slotType: orderConfig.slotType,
+          slotNumber: slot.slotNumber,
+        });
       }
+    }
 
-      // Create orders for selected slots using Map lookup
-      for (const slot of selectedIdleSlots) {
-        const orderConfig = slotItemsBySlot.get(slot.slotNumber);
-        if (orderConfig) {
-          toggleSlot({
-            slotType: orderConfig.slotType,
-            slotNumber: slot.slotNumber,
-          });
-        }
-      }
+    const sessionId = createSession(FLOW_TYPES.PROGRAM_TIME);
 
-      const sessionId = createSession(FLOW_TYPES.PROGRAM_TIME);
+    const slotNumbers = selectedIdleSlots.map((s) => s.slotNumber);
 
-      const slotNumbers = selectedIdleSlots.map((s) => s.slotNumber);
+    assignOrdersToSession(sessionId, slotNumbers);
 
-      assignOrdersToSession(sessionId, slotNumbers);
-
-      setOrdersSession({
-        slotNumbers,
-        session: { id: sessionId, flowType: FLOW_TYPES.PROGRAM_TIME },
-      });
-
-      navigate(ALTERNATIVE_PATHS.time);
+    setOrdersSession({
+      slotNumbers,
+      session: { id: sessionId, flowType: FLOW_TYPES.PROGRAM_TIME },
     });
+
+    navigate(ALTERNATIVE_PATHS.time);
   }, [
     selectedSlots,
     toggleSlot,
@@ -88,31 +85,29 @@ export const useTimeFlowOperations = () => {
 
   const handleStartTimeProcess = useCallback(
     (duration: number) => {
-      startTransition(() => {
-        const slotsToProcess = filterSlotsAvailable(selectedSlots, timers);
+      const slotsToProcess = filterSlotsAvailable(selectedSlots, timers);
 
-        for (const slot of slotsToProcess) {
-          const existingTimer = timers.find((t) => t.slotNumber === slot.slotNumber);
-          const orderId = existingTimer?.orderId ?? createCuid();
+      for (const slot of slotsToProcess) {
+        const existingTimer = timers.find((t) => t.slotNumber === slot.slotNumber);
+        const orderId = existingTimer?.orderId ?? createCuid();
 
-          addTimer({
-            sessionId: currentSessionId!,
-            slotNumber: slot.slotNumber,
-            orderId,
-            flowType: FLOW_TYPES.PROGRAM_TIME,
-            duration,
-            remaining: duration,
-            status: 'processing',
-            completionTime: new Date(Date.now() + duration * 1000).toISOString(),
-          });
-        }
-
-        setSelectedSlots([]);
-
-        navigate(PATHS.main, {
-          replace: true,
-          state: { flowCompleted: true, flowType: FLOW_TYPES.PROGRAM_TIME },
+        addTimer({
+          sessionId: currentSessionId!,
+          slotNumber: slot.slotNumber,
+          orderId,
+          flowType: FLOW_TYPES.PROGRAM_TIME,
+          duration,
+          remaining: duration,
+          status: 'processing',
+          completionTime: new Date(Date.now() + duration * 1000).toISOString(),
         });
+      }
+
+      setSelectedSlots([]);
+
+      navigate(PATHS.main, {
+        replace: true,
+        state: { flowCompleted: true, flowType: FLOW_TYPES.PROGRAM_TIME },
       });
     },
     [selectedSlots, addTimer, currentSessionId, setSelectedSlots, navigate, timers],
@@ -123,32 +118,30 @@ export const useTimeFlowOperations = () => {
   // ========================================================================
 
   const handleCancelTimeSession = useCallback(() => {
-    startTransition(() => {
-      if (location.pathname !== ALTERNATIVE_PATHS.time) {
-        console.warn('handleCancelTimeSession: Called but not on TimePage');
-        return;
+    if (location.pathname !== ALTERNATIVE_PATHS.time) {
+      console.warn('handleCancelTimeSession: Called but not on TimePage');
+      return;
+    }
+
+    if (currentSessionId) {
+      const sessionOrders = orders.filter((o) => o.session?.id === currentSessionId);
+      for (const order of sessionOrders) {
+        toggleSlot({
+          slotType: order.slotType,
+          slotNumber: order.slotNumber,
+        });
       }
 
-      if (currentSessionId) {
-        const sessionOrders = orders.filter((o) => o.session?.id === currentSessionId);
-        for (const order of sessionOrders) {
-          toggleSlot({
-            slotType: order.slotType,
-            slotNumber: order.slotNumber,
-          });
-        }
+      clearSession(currentSessionId);
+    }
 
-        clearSession(currentSessionId);
-      }
-
-      navigate(PATHS.main, { replace: true });
-    });
+    navigate(PATHS.main, { replace: true });
   }, [location.pathname, currentSessionId, orders, toggleSlot, navigate, clearSession]);
 
   return {
     handleProgramTime,
     handleStartTimeProcess,
     handleCancelTimeSession,
-    isPending,
+    isPending: false,
   };
 };

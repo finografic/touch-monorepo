@@ -1,4 +1,4 @@
-import { useCallback, useTransition } from 'react';
+import { useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useFiltersContext } from 'providers/FiltersProvider';
 import { useFilters } from 'providers/FiltersProvider/useFilters';
@@ -22,7 +22,6 @@ interface UseButtonNavigationReturn {
 export const useNavigationButtons = (): UseButtonNavigationReturn => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [isPending, startTransition] = useTransition();
   const { setPageCurrent, isNextDisabled } = usePagination();
   const { nextPath, previousPath, isFirstStep, flowStep } = useRouteNavigation();
   const { dataFiltered } = useFilters();
@@ -31,19 +30,17 @@ export const useNavigationButtons = (): UseButtonNavigationReturn => {
   const { setProfile, fetchOrderWithProfiles, ordersReadable } = useOrders();
 
   const handleNavigateBack = useCallback(() => {
-    startTransition(() => {
-      // Handle alternative routes (like TimePage) - navigate back to main
-      if (location.pathname === ALTERNATIVE_PATHS.time) {
-        navigate(PATHS.main, { replace: true });
-        return;
-      }
+    // Handle alternative routes (like TimePage) - navigate back to main
+    if (location.pathname === ALTERNATIVE_PATHS.time) {
+      navigate(PATHS.main, { replace: true });
+      return;
+    }
 
-      // Handle main flow navigation using explicit paths
-      if (previousPath) {
-        setPageCurrent(flowStep - 1);
-        navigate(previousPath, { replace: true });
-      }
-    });
+    // Handle main flow navigation using explicit paths
+    if (previousPath) {
+      setPageCurrent(flowStep - 1);
+      navigate(previousPath, { replace: true });
+    }
   }, [navigate, previousPath, setPageCurrent, flowStep, location.pathname]);
 
   const handleNavigateNext = useCallback(async () => {
@@ -85,12 +82,10 @@ export const useNavigationButtons = (): UseButtonNavigationReturn => {
       }
     }
 
-    // Use startTransition for the navigation part only
+    // Navigate to next path
     if (nextPath) {
-      startTransition(() => {
-        setPageCurrent(flowStep + 1);
-        navigate(nextPath);
-      });
+      setPageCurrent(flowStep + 1);
+      navigate(nextPath);
     }
   }, [
     flowStep,
@@ -112,26 +107,22 @@ export const useNavigationButtons = (): UseButtonNavigationReturn => {
     (actionType: NavigationActionType): boolean => {
       switch (actionType) {
         case BUTTON_TYPE.NAVIGATE_BACK:
-          if (location.pathname === ALTERNATIVE_PATHS.time) {
-            return isPending;
-          }
-
-          return location.pathname === PATHS.main || isFirstStep || isPending;
+          return location.pathname === PATHS.main || isFirstStep;
         case BUTTON_TYPE.NAVIGATE_NEXT: {
-          const disabled = isNextDisabled || isPending || !nextPath;
+          const disabled = isNextDisabled || !nextPath;
           return disabled;
         }
         default:
           return false;
       }
     },
-    [location.pathname, isFirstStep, isNextDisabled, isPending, nextPath],
+    [location.pathname, isFirstStep, isNextDisabled, nextPath],
   );
 
   return {
     handleNavigateBack,
     handleNavigateNext,
     getNavigationDisabled,
-    isNavigationPending: isPending,
+    isNavigationPending: false,
   };
 };

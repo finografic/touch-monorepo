@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useTransition } from 'react';
+import { useCallback, useMemo } from 'react';
 import createCuid from '@bugsnag/cuid';
 
 import { useRecallConfig } from 'hooks/useRecallConfig';
@@ -11,7 +11,6 @@ import { stopAllAudio } from 'utils/soundCache.utils';
 import { FLOW_TYPES } from 'types/flow.types';
 
 export const useMainPageOperations = () => {
-  const [isPending, startTransition] = useTransition();
   const { addTimer, timers, removeTimer, updateTimers, setSnooze } = useTimers();
   const { toggleMainPageSlot, selectedSlots, setSelectedSlots } = useLayoutUi();
   const { loadRecallConfig, isRecallExpired, recallConfig } = useRecallConfig();
@@ -50,23 +49,19 @@ export const useMainPageOperations = () => {
   // ========================================================================
 
   const handleCancelSelected = useCallback(() => {
-    startTransition(() => {
-      for (const slot of selectedSlots) {
-        const timer = timersBySlot.get(slot.slotNumber);
-        if (timer?.status === 'processing' || timer?.status === 'completed') {
-          removeTimer(timer.id);
-          toggleMainPageSlot(slot);
-        }
+    for (const slot of selectedSlots) {
+      const timer = timersBySlot.get(slot.slotNumber);
+      if (timer?.status === 'processing' || timer?.status === 'completed') {
+        removeTimer(timer.id);
+        toggleMainPageSlot(slot);
       }
-    });
+    }
   }, [timersBySlot, selectedSlots, removeTimer, toggleMainPageSlot]);
 
   const handleResetCompleted = useCallback(() => {
-    startTransition(() => {
-      stopAllAudio();
-      setSnooze(false);
-      updateTimers(activeTimers);
-    });
+    stopAllAudio();
+    setSnooze(false);
+    updateTimers(activeTimers);
   }, [activeTimers, updateTimers, setSnooze]);
 
   // ========================================================================
@@ -79,13 +74,11 @@ export const useMainPageOperations = () => {
     // - slots that are already selected
     const ignores = new Set<number>([...timerSlots, ...selectedSlots.map((slot) => slot.slotNumber)]);
 
-    startTransition(() => {
-      for (const slot of activeSlots) {
-        if (!ignores.has(slot.slotNumber)) {
-          toggleMainPageSlot({ ...slot, isChecked: true, status: 'idle' });
-        }
+    for (const slot of activeSlots) {
+      if (!ignores.has(slot.slotNumber)) {
+        toggleMainPageSlot({ ...slot, isChecked: true, status: 'idle' });
       }
-    });
+    }
   }, [activeSlots, timerSlots, selectedSlots, toggleMainPageSlot]);
 
   // ========================================================================
@@ -97,37 +90,35 @@ export const useMainPageOperations = () => {
     const config = loadRecallConfig();
     if (!config) return;
 
-    startTransition(() => {
-      if (config.filters) {
-        for (const [key, value] of Object.entries(config.filters)) {
-          if (value != null) setFilter(key as any, value);
-        }
+    if (config.filters) {
+      for (const [key, value] of Object.entries(config.filters)) {
+        if (value != null) setFilter(key as any, value);
       }
+    }
 
-      const ignores = timerSlots;
+    const ignores = timerSlots;
 
-      for (const slot of selectedSlots) {
-        if (ignores.has(slot.slotNumber)) continue;
+    for (const slot of selectedSlots) {
+      if (ignores.has(slot.slotNumber)) continue;
 
-        const orderConfig = slotItemsBySlot.get(slot.slotNumber);
-        if (!orderConfig) continue;
+      const orderConfig = slotItemsBySlot.get(slot.slotNumber);
+      if (!orderConfig) continue;
 
-        const duration = config.durations?.[orderConfig.slotType] ?? config.durations?.default;
-        if (duration == null) continue;
+      const duration = config.durations?.[orderConfig.slotType] ?? config.durations?.default;
+      if (duration == null) continue;
 
-        addTimer({
-          sessionId: 'repeat-session',
-          slotNumber: slot.slotNumber,
-          orderId: createCuid(),
-          flowType: FLOW_TYPES.PROGRAM_PRODUCT,
-          duration,
-          status: 'processing',
-          completionTime: new Date(Date.now() + duration * 1000).toISOString(),
-        });
-      }
+      addTimer({
+        sessionId: 'repeat-session',
+        slotNumber: slot.slotNumber,
+        orderId: createCuid(),
+        flowType: FLOW_TYPES.PROGRAM_PRODUCT,
+        duration,
+        status: 'processing',
+        completionTime: new Date(Date.now() + duration * 1000).toISOString(),
+      });
+    }
 
-      setSelectedSlots([]);
-    });
+    setSelectedSlots([]);
   }, [
     selectedSlots,
     slotItemsBySlot,
@@ -145,6 +136,6 @@ export const useMainPageOperations = () => {
     handleCancelSelected,
     handleSelectAll,
     handleRepeatSelection,
-    isPending,
+    isPending: false,
   };
 };

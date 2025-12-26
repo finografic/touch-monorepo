@@ -1,4 +1,4 @@
-import { useCallback, useDeferredValue, useMemo, useState, useTransition } from 'react';
+import { useCallback, useDeferredValue, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import createCuid from '@bugsnag/cuid';
@@ -28,7 +28,6 @@ import { filterSlotsAvailable } from './timer-filter.utils';
 export const useProductFlowOperations = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [isPending, startTransition] = useTransition();
   const { setPageCurrent } = usePagination();
   const { orders, toggleSlot, setOrdersSession, profile } = useOrders();
   const { createSession, assignOrdersToSession, currentSessionId, clearSession, completeSession } =
@@ -113,64 +112,62 @@ export const useProductFlowOperations = () => {
       }, {});
 
       // Create timers and navigate back to MainPage
-      startTransition(function updateProcessForSelectedOrders() {
-        // Filter out slots that have timers with status "processing" or "completed"
-        const filteredSlotsToProcess = filterSlotsAvailable(slotsToProcess, timers);
+      // Filter out slots that have timers with status "processing" or "completed"
+      const filteredSlotsToProcess = filterSlotsAvailable(slotsToProcess, timers);
 
-        filteredSlotsToProcess.forEach((slotNumber) => {
-          const order = orders.find((o) => o.slotNumber === slotNumber);
-          if (order) {
-            const duration = calculatedDurations[order.slotNumber.toString()];
-            const existingTimer = timers.find((t) => t.slotNumber === slotNumber);
-            const orderId = existingTimer?.orderId || createCuid();
+      filteredSlotsToProcess.forEach((slotNumber) => {
+        const order = orders.find((o) => o.slotNumber === slotNumber);
+        if (order) {
+          const duration = calculatedDurations[order.slotNumber.toString()];
+          const existingTimer = timers.find((t) => t.slotNumber === slotNumber);
+          const orderId = existingTimer?.orderId || createCuid();
 
-            addTimer({
-              sessionId: currentSessionId!,
-              slotNumber,
-              orderId,
-              flowType: FLOW_TYPES.PROGRAM_PRODUCT,
-              duration,
-              remaining: duration, // TODO: KEEPING --or-- REMOVE ??
-              status: 'processing',
-              completionTime: new Date(Date.now() + duration * 1000).toISOString(),
-            });
-          }
-        });
-
-        // Save configuration to sessionStorage so hasActiveTimer works
-        // Force reset timer for Program Product flow (always overwrite/reset)
-        saveRecallConfig(
-          {
-            filters: filters, // Save all current filters (mode, drinkType, drinkSubtype, drinkVolume, containerType, temperature with profiles)
-            temperatures: {
-              default: temperatureFilter?.final || 25,
-              initial: temperatureFilter?.initial || 25,
-              final: temperatureFilter?.final || 25,
-            },
-            durations: {
-              default: slotTypeDurations[SlotType.B] || 300, // Default to B slot duration
-              A: slotTypeDurations[SlotType.A] || 0,
-              B: slotTypeDurations[SlotType.B] || 0,
-              C: slotTypeDurations[SlotType.C] || 0,
-            },
-            selectedOrders: filteredSlotsToProcess,
-          },
-          true, // Force reset timer for Program Product flow
-        );
-
-        setSelectedSlots([]);
-
-        // Mark the current session as complete when flow finishes
-        if (currentSessionId) {
-          completeSession(currentSessionId);
+          addTimer({
+            sessionId: currentSessionId!,
+            slotNumber,
+            orderId,
+            flowType: FLOW_TYPES.PROGRAM_PRODUCT,
+            duration,
+            remaining: duration, // TODO: KEEPING --or-- REMOVE ??
+            status: 'processing',
+            completionTime: new Date(Date.now() + duration * 1000).toISOString(),
+          });
         }
+      });
 
-        setPageCurrent(0);
-        // Navigate back to main page with state indicating flow completion (not cancellation)
-        navigate(PATHS.main, {
-          replace: true,
-          state: { flowCompleted: true, flowType: FLOW_TYPES.PROGRAM_PRODUCT },
-        });
+      // Save configuration to sessionStorage so hasActiveTimer works
+      // Force reset timer for Program Product flow (always overwrite/reset)
+      saveRecallConfig(
+        {
+          filters: filters, // Save all current filters (mode, drinkType, drinkSubtype, drinkVolume, containerType, temperature with profiles)
+          temperatures: {
+            default: temperatureFilter?.final || 25,
+            initial: temperatureFilter?.initial || 25,
+            final: temperatureFilter?.final || 25,
+          },
+          durations: {
+            default: slotTypeDurations[SlotType.B] || 300, // Default to B slot duration
+            A: slotTypeDurations[SlotType.A] || 0,
+            B: slotTypeDurations[SlotType.B] || 0,
+            C: slotTypeDurations[SlotType.C] || 0,
+          },
+          selectedOrders: filteredSlotsToProcess,
+        },
+        true, // Force reset timer for Program Product flow
+      );
+
+      setSelectedSlots([]);
+
+      // Mark the current session as complete when flow finishes
+      if (currentSessionId) {
+        completeSession(currentSessionId);
+      }
+
+      setPageCurrent(0);
+      // Navigate back to main page with state indicating flow completion (not cancellation)
+      navigate(PATHS.main, {
+        replace: true,
+        state: { flowCompleted: true, flowType: FLOW_TYPES.PROGRAM_PRODUCT },
       });
     } catch (error) {
       console.error('Failed to control temperature:', error);
@@ -213,33 +210,31 @@ export const useProductFlowOperations = () => {
       return;
     }
 
-    startTransition(() => {
-      // Create orders for selected slots first and ensure they are selected
-      selectedIdleSlots.forEach((slot) => {
-        const orderConfig = orderConfigMap.get(slot.slotNumber);
-        if (orderConfig) {
-          // Check if order already exists and is selected
-          const existingOrder = ordersMap.get(slot.slotNumber);
-          if (!existingOrder || !existingOrder.isSelected) {
-            toggleSlot({
-              slotType: orderConfig.slotType,
-              slotNumber: slot.slotNumber,
-            });
-          }
+    // Create orders for selected slots first and ensure they are selected
+    selectedIdleSlots.forEach((slot) => {
+      const orderConfig = orderConfigMap.get(slot.slotNumber);
+      if (orderConfig) {
+        // Check if order already exists and is selected
+        const existingOrder = ordersMap.get(slot.slotNumber);
+        if (!existingOrder || !existingOrder.isSelected) {
+          toggleSlot({
+            slotType: orderConfig.slotType,
+            slotNumber: slot.slotNumber,
+          });
         }
-      });
+      }
+    });
 
-      // Create new session and assign selected slots
-      const sessionId = createSession(FLOW_TYPES.PROGRAM_PRODUCT, { mode: filters.mode });
+    // Create new session and assign selected slots
+    const sessionId = createSession(FLOW_TYPES.PROGRAM_PRODUCT, { mode: filters.mode });
 
-      assignOrdersToSession(
-        sessionId,
-        selectedIdleSlots.map((slot) => slot.slotNumber),
-      );
-      setOrdersSession({
-        slotNumbers: selectedIdleSlots.map((slot) => slot.slotNumber),
-        session: { id: sessionId, flowType: FLOW_TYPES.PROGRAM_PRODUCT },
-      });
+    assignOrdersToSession(
+      sessionId,
+      selectedIdleSlots.map((slot) => slot.slotNumber),
+    );
+    setOrdersSession({
+      slotNumbers: selectedIdleSlots.map((slot) => slot.slotNumber),
+      session: { id: sessionId, flowType: FLOW_TYPES.PROGRAM_PRODUCT },
     });
 
     // Performance optimization: Get mode from localStorage instead of API call
@@ -290,40 +285,38 @@ export const useProductFlowOperations = () => {
   // ========================================================================
 
   const handleCancelProductSession = useCallback(() => {
-    startTransition(() => {
-      // Only proceed if we're on a product flow page
-      const productFlowPages = [
-        PATHS.drinkType,
-        PATHS.drinkSubtype,
-        PATHS.drinkVolume,
-        PATHS.containerType,
-        PATHS.temperature,
-      ];
+    // Only proceed if we're on a product flow page
+    const productFlowPages = [
+      PATHS.drinkType,
+      PATHS.drinkSubtype,
+      PATHS.drinkVolume,
+      PATHS.containerType,
+      PATHS.temperature,
+    ];
 
-      if (!productFlowPages.includes(location.pathname as any)) {
-        console.warn('handleCancelProductSession: Called but not on a product flow page');
-        return;
-      }
+    if (!productFlowPages.includes(location.pathname as any)) {
+      console.warn('handleCancelProductSession: Called but not on a product flow page');
+      return;
+    }
 
-      // Remove the current session
-      if (currentSessionId) {
-        console.log('Cancelling product session:', currentSessionId);
+    // Remove the current session
+    if (currentSessionId) {
+      console.log('Cancelling product session:', currentSessionId);
 
-        // Clear any orders that were created for this session
-        const sessionOrders = orders.filter((order) => order.session?.id === currentSessionId);
-        sessionOrders.forEach((order) => {
-          toggleSlot({
-            slotType: order.slotType,
-            slotNumber: order.slotNumber,
-          });
+      // Clear any orders that were created for this session
+      const sessionOrders = orders.filter((order) => order.session?.id === currentSessionId);
+      sessionOrders.forEach((order) => {
+        toggleSlot({
+          slotType: order.slotType,
+          slotNumber: order.slotNumber,
         });
+      });
 
-        clearSession(currentSessionId);
-        clearFilters();
-      }
+      clearSession(currentSessionId);
+      clearFilters();
+    }
 
-      navigate(PATHS.main, { replace: true });
-    });
+    navigate(PATHS.main, { replace: true });
   }, [location.pathname, currentSessionId, orders, toggleSlot, navigate, clearSession, clearFilters]);
 
   return {
@@ -331,6 +324,6 @@ export const useProductFlowOperations = () => {
     handleStartProductProcess,
     handleCancelProductSession,
     isTemperatureLoading,
-    isPending,
+    isPending: false,
   };
 };

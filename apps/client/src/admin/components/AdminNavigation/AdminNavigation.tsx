@@ -1,4 +1,4 @@
-import React, { startTransition, useMemo, useState, useEffect, useRef } from 'react';
+import React, { useMemo, useState, useEffect, useRef } from 'react';
 import { Col, Row } from 'react-grid-system';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
@@ -153,9 +153,7 @@ export const AdminNavigation: React.FC<AdminNavigationProps> = ({ displayIcons =
     // Close all dropdowns when navigating
     setDropdownStates({});
 
-    startTransition(() => {
-      navigateWithTransition(path);
-    });
+    navigateWithTransition(path);
   };
 
   const handleDropdownToggle = (itemId: string, open: boolean) => {
