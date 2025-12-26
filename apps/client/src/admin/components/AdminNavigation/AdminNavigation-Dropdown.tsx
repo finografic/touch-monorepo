@@ -9,7 +9,7 @@ import { getAdminNavItemsByRole } from 'admin/config/admin.routes.selectors';
 import { usePageTransition } from 'hooks/usePageTransition';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 
-import { MoreButton } from './MoreButton';
+import { MoreButton } from '../MoreButton/MoreButton';
 import { DropdownNavButton } from './DropdownNavButton';
 import { useResponsiveNav } from './useResponsiveNav';
 import type { NavItem } from 'types/nav.types';

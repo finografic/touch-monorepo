@@ -3,7 +3,8 @@ import { Suspense, useEffect, useMemo } from 'react';
 import { setConfiguration } from 'react-grid-system';
 import { Outlet } from 'react-router-dom';
 
-import { AdminNavigation } from 'admin/components/AdminNavigation';
+// import { AdminNavigation } from 'admin/components/AdminNavigation';
+import NavbarWrapper from 'admin/components/NavbarV2/NavbarWrapper';
 import { AdminErrorBoundary } from 'components/ErrorBoundary/AdminErrorBoundary';
 import { Footer } from 'components/Footer/Footer';
 import { Header } from 'components/Header/Header';
@@ -45,7 +46,8 @@ export const AdminLayout: FC = () => {
             css={styles}
           >
             <Header titleAlign="left" toolbarAlign="right" toolbar={<UserToolbar variant="dark" />} />
-            <AdminNavigation />
+            {/* <AdminNavigation /> */}
+            <NavbarWrapper />
             <main id="layout-main">
               <div className="main-content">
                 <section>
