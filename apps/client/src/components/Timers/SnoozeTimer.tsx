@@ -5,6 +5,8 @@ import { useTimers } from 'providers/TimersProvider';
 import { playAlarmSound } from 'utils/sound.utils';
 import { formatTimeFromMs } from 'utils/time.utils';
 import { SNOOZE_INTERVAL_MS } from 'config/app';
+
+import { useDev } from 'dev-tools/providers/DevProvider';
 import { getCycleNumber, parseElapsedTime } from './shared/timer.utils';
 import { useHeartbeatSubscription } from './shared/useHeartbeatSubscription';
 import { TimerResetIcon } from 'styles/icons/icons';
@@ -31,6 +33,7 @@ interface SnoozeTimerProps {
  * 6. (Optional) Debounce mode: Restarts countdown when new timers complete
  */
 export const SnoozeTimer = ({ shouldDebounce = false }: SnoozeTimerProps) => {
+  const { isDevToolsVisible } = useDev();
   const timersContext = useTimers();
   const [remainingTime, setRemainingTime] = useState<number>(0);
   const [startTime, setStartTime] = useState<number | null>(null);
@@ -41,13 +44,10 @@ export const SnoozeTimer = ({ shouldDebounce = false }: SnoozeTimerProps) => {
   const lastCycleRef = useRef<number>(0);
   const lastBeepTimeRef = useRef<number>(0);
 
-  // Get completed timers count
   const hasCompletedTimers = timersContext.timers.some((t) => t.status === 'completed');
   const completedCount = timersContext.timers.filter((t) => t.status === 'completed').length;
 
-  // Setup/teardown logic for snooze timer
   useEffect(() => {
-    // Run if there are any completed timers (regardless of flow type)
     const shouldRun = hasCompletedTimers;
 
     if (!shouldRun) {
@@ -58,16 +58,11 @@ export const SnoozeTimer = ({ shouldDebounce = false }: SnoozeTimerProps) => {
       return;
     }
 
-    log('SNOOZE', 'blue', 'SnoozeTimer: setup/teardown logic');
-
     // DEBOUNCE LOGIC: If shouldDebounce is true and a new timer just completed, restart the snooze
     if (shouldDebounce && startTime !== null && completedCount > previousCompletedCountRef.current) {
-      console.log('🔄 SnoozeTimer: New timer completed, restarting snooze countdown');
-      setStartTime(Date.now()); // Restart the countdown
-      lastCycleRef.current = 0; // Reset cycle tracking
+      setStartTime(Date.now());
+      lastCycleRef.current = 0;
     }
-
-    // Update the previous completed count
     previousCompletedCountRef.current = completedCount;
 
     // If we have completed timers but no snooze start time, start the snooze timer
@@ -79,7 +74,6 @@ export const SnoozeTimer = ({ shouldDebounce = false }: SnoozeTimerProps) => {
     }
   }, [hasCompletedTimers, startTime, shouldDebounce, completedCount]);
 
-  // Update remaining time when heartbeat ticks (heartbeatNow changes)
   useEffect(
     function updateRemainingTime() {
       if (!startTime) return;
@@ -104,6 +98,10 @@ export const SnoozeTimer = ({ shouldDebounce = false }: SnoozeTimerProps) => {
   // Don't render if there are no completed timers or remaining time is 0
   const shouldRender = hasCompletedTimers && remainingTime > 0;
   if (!shouldRender) {
+    return null;
+  }
+
+  if (!isDevToolsVisible) {
     return null;
   }
 
