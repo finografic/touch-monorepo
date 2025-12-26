@@ -13,6 +13,7 @@ This guide covers formatting an SD card and writing Ubuntu ARM64 to it from macO
 - **Required**: ARM64/AArch64 Ubuntu image (NOT x86_64/amd64)
 
 **Why ARM64?**
+
 - Raspberry Pi 4 uses ARM64 (AArch64) processors
 - You cannot run x86_64 software on Raspberry Pi 4
 - The M1 Mac being ARM64 is just a coincidence - it doesn't affect the SD card contents
@@ -24,7 +25,7 @@ This guide covers formatting an SD card and writing Ubuntu ARM64 to it from macO
 1. **Ubuntu Server for Raspberry Pi** (Recommended)
    - Optimized for Raspberry Pi hardware
    - Better driver support
-   - Download from: https://ubuntu.com/download/raspberry-pi
+   - Download from: <https://ubuntu.com/download/raspberry-pi>
 
 2. **Generic ARM64 Ubuntu ISO**
    - Works but may have hardware compatibility issues
@@ -44,6 +45,7 @@ This guide covers formatting an SD card and writing Ubuntu ARM64 to it from macO
   - More community support and documentation
 
 **Non-LTS versions**: 22.10, 23.04, 23.10, etc. (released every 6 months)
+
 - **Support**: Only 9 months
 - **Use case**: Testing new features, development only
 
@@ -52,6 +54,7 @@ This guide covers formatting an SD card and writing Ubuntu ARM64 to it from macO
 ## Option 1: Use the Script (Recommended - macOS)
 
 The script will:
+
 1. **Auto-detect** your SD card
 2. **Format** the SD card (erases all data including Raspberry Pi OS)
 3. **Write** the Ubuntu ISO to the SD card
@@ -129,19 +132,22 @@ If you prefer to set it up from inside an Ubuntu VM:
 ## Download Links
 
 ### Ubuntu Server for Raspberry Pi (Recommended - LTS)
-- **Official**: https://ubuntu.com/download/raspberry-pi
+
+- **Official**: <https://ubuntu.com/download/raspberry-pi>
 - **Current LTS**: Ubuntu 24.04 LTS (Noble Numbat) or Ubuntu 22.04 LTS (Jammy Jellyfish)
-- **Direct downloads**: https://cdimage.ubuntu.com/releases/
+- **Direct downloads**: <https://cdimage.ubuntu.com/releases/>
   - Look for: `ubuntu-*-server-arm64+raspi.img.xz` with LTS in the name
   - Example: `ubuntu-24.04-server-arm64+raspi.img.xz`
 
 ### Generic ARM64 Ubuntu (Alternative)
-- **Official**: https://ubuntu.com/download/server/arm
+
+- **Official**: <https://ubuntu.com/download/server/arm>
 - Look for ARM64/AArch64 images
 
 ## After Writing
 
 1. **Eject the SD card safely**:
+
    ```bash
    diskutil eject /dev/disk8
    ```
@@ -155,21 +161,25 @@ If you prefer to set it up from inside an Ubuntu VM:
 ## Troubleshooting
 
 ### SD Card Not Detected
+
 - Make sure the SD card is fully inserted
 - Try a different USB port or SD card reader
 - Check `diskutil list` to see all disks
 
 ### Formatting Fails
+
 - This is OK - `dd` will overwrite everything anyway
 - The script will continue even if formatting fails
 
 ### Wrong Architecture Error
+
 - **Raspberry Pi 4 requires ARM64** - it cannot run x86_64 software
 - Make sure you downloaded ARM64/AArch64 image, NOT x86_64/amd64
 - Check the ISO filename for "arm64" or "aarch64"
 - Your M1 Mac's architecture doesn't matter - `dd` writes exactly what's in the file
 
 ### Slow Write Speed
+
 - SD card speed varies (Class 10, UHS-I, UHS-II, etc.)
 - 10-20 minutes is normal for a 4-8GB image
 - Be patient and don't interrupt the process

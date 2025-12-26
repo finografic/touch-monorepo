@@ -52,19 +52,8 @@ export const getActualNextPath = (nextPath: string | undefined, filters: OrderFi
   // Handle conditional route skipping based on hasSubtypes
   if (nextPath === PATHS.drinkSubtype && filters.drinkType?.hasSubtypes === false) {
     // Skip drinkSubtype, go directly to drinkVolume
-    // Then continue resolving: drinkVolume -> containerType
-    return getActualNextPath(PATHS.drinkVolume, filters);
-  }
-
-  // If we're resolving drinkVolume and came from skipping drinkSubtype,
-  // continue to containerType (the next step after drinkVolume)
-  if (nextPath === PATHS.drinkVolume) {
-    // Check if we should continue resolving (only if we skipped drinkSubtype)
-    // This happens when filters.drinkType exists but hasSubtypes is false
-    if (filters.drinkType && filters.drinkType.hasSubtypes === false) {
-      // Continue to containerType (next step after drinkVolume)
-      return getActualNextPath(PATHS.containerType, filters);
-    }
+    // Return drinkVolume path (don't continue resolving - user needs to visit this page)
+    return resolveRouteParameters(PATHS.drinkVolume, filters);
   }
 
   // Replace dynamic route parameters with actual values
