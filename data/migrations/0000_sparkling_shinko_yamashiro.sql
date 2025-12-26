@@ -77,7 +77,7 @@ CREATE UNIQUE INDEX `drink_subtypes_name_unique` ON `drink_subtypes` (`name`);--
 CREATE TABLE `drink_types` (
 	`id` text PRIMARY KEY NOT NULL,
 	`name` text NOT NULL,
-	`translations` text DEFAULT '{"en-GB":""}' NOT NULL,
+	`translatSSions` text DEFAULT '{"en-GB":""}' NOT NULL,
 	`has_subtypes` integer DEFAULT false NOT NULL,
 	`default_temp_consume` integer NOT NULL,
 	`default_temp_freeze` integer NOT NULL,

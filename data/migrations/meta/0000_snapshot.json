@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "a696fa76-c2fe-45ed-84f0-88b3fc7ee741",
+  "id": "cd82b3c7-c1a3-4f92-a8a2-fb92ccef25bc",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "auth_account": {
@@ -517,8 +517,8 @@
           "notNull": true,
           "autoincrement": false
         },
-        "translations": {
-          "name": "translations",
+        "translatSSions": {
+          "name": "translatSSions",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
