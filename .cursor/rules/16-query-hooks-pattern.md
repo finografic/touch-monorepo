@@ -2,13 +2,15 @@
 
 **Status:** ✅ MANDATORY
 **Priority:** Critical
-**Created:** December 21, 2025
+**Last Updated:** December 26, 2025
 
 ---
 
 ## Overview
 
-TanStack Query hooks MUST follow a consistent pattern and structure. This ensures predictable cache behavior and maintainability.
+TanStack Query hooks MUST follow a consistent pattern and structure. This ensures predictable cache behavior, type safety, and maintainability.
+
+**📖 Full Guide:** See `apps/client/src/api/API_ENDPOINTS_AND_QUERIES_GUIDE.md`
 
 ---
 
@@ -20,7 +22,7 @@ src/queries/{resource}/
 ├── useGet{Resource}s.ts         # GET all
 ├── useGet{Resource}.ts          # GET by ID
 ├── useCreate{Resource}.ts       # POST
-├── useUpdate{Resource}.ts       # PATCH/PUT
+├── useUpdate{Resource}.ts      # PATCH
 └── useDelete{Resource}.ts       # DELETE
 ```
 
@@ -30,183 +32,121 @@ src/queries/{resource}/
 
 | Hook Type | Pattern | Example |
 |-----------|---------|---------|
-| Get all | `useGet{Resource}s` | `useGetContainerTypes` |
-| Get one | `useGet{Resource}` | `useGetContainerType` |
-| Create | `useCreate{Resource}` | `useCreateContainerType` |
-| Update | `useUpdate{Resource}` | `useUpdateContainerType` |
-| Delete | `useDelete{Resource}` | `useDeleteContainerType` |
+| Get all | `useGet{Resource}s` | `useGetDrinkTypes` |
+| Get one | `useGet{Resource}` | `useGetDrinkType` |
+| Create | `useCreate{Resource}` | `useCreateDrinkType` |
+| Update | `useUpdate{Resource}` | `useUpdateDrinkType` |
+| Delete | `useDelete{Resource}` | `useDeleteDrinkType` |
 
 ---
 
-## Query Keys Pattern
+## Standard Templates
+
+### GET All
+
+```typescript
+import type { ErrorResponse } from '@workspace/core/api';
+import type { UseQueryResult } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
+
+import { Endpoints{Resource} } from 'api/endpoints';
+import type { {Resource} } from 'types/models/{resource}.model';
+import { GET_{RESOURCE}S_QUERYKEY } from '.';
+
+export const useGet{Resource}s = (): UseQueryResult<{Resource}[], ErrorResponse> => {
+  return useQuery({
+    queryKey: [...GET_{RESOURCE}S_QUERYKEY],
+    queryFn: Endpoints{Resource}.getAll,
+  });
+};
+```
+
+### GET By ID
+
+```typescript
+import type { ErrorResponse } from '@workspace/core/api';
+import type { UseQueryResult } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
+
+import { Endpoints{Resource} } from 'api/endpoints';
+import type { {Resource} } from 'types/models/{resource}.model';
+import { GET_{RESOURCE}S_QUERYKEY } from '.';
+
+export const useGet{Resource} = (id: string): UseQueryResult<{Resource}, ErrorResponse> => {
+  return useQuery({
+    queryKey: [...GET_{RESOURCE}S_QUERYKEY, id],
+    queryFn: () => Endpoints{Resource}.getById(id),
+    enabled: !!id,
+  });
+};
+```
+
+### CREATE
+
+```typescript
+import { useMutation } from '@tanstack/react-query';
+
+import { Endpoints{Resource}, type {Resource}Update } from 'api/endpoints';
+import type { {Resource} } from 'types/models/{resource}.model';
+
+export interface Create{Resource}Input {
+  // Define required fields
+}
+
+export const useCreate{Resource} = () => {
+  return useMutation({
+    mutationFn: async (data: Create{Resource}Input): Promise<{Resource}> => {
+      const updates: {Resource}Update = {
+        // Map input to update type
+      };
+      return Endpoints{Resource}.create(updates);
+    },
+  });
+};
+```
+
+### UPDATE
+
+```typescript
+import { useMutation } from '@tanstack/react-query';
+
+import { Endpoints{Resource}, type {Resource}Update } from 'api/endpoints';
+import type { {Resource} } from 'types/models/{resource}.model';
+
+export interface Update{Resource}Input {
+  // Define updatable fields
+}
+
+export const useUpdate{Resource} = () => {
+  return useMutation({
+    mutationFn: async ({
+      id,
+      updates,
+    }: {
+      id: string;
+      updates: Update{Resource}Input;
+    }): Promise<{Resource}> => {
+      return Endpoints{Resource}.update(id, updates);
+    },
+  });
+};
+```
+
+---
+
+## Query Keys
 
 **Location:** `queries/{resource}/index.ts`
 
 ```typescript
-// ============================================================================
-// QUERY KEYS
-// ============================================================================
-export const GET_CONTAINER_TYPES_QUERYKEY = ['get-container-types'] as const;
-export const GET_CONTAINER_TYPE_QUERYKEY = ['get-container-type'] as const;
-export const POST_CONTAINER_TYPE_QUERYKEY = ['post-container-type'] as const;
-export const PATCH_CONTAINER_TYPE_QUERYKEY = ['patch-container-type'] as const;
-export const DELETE_CONTAINER_TYPE_QUERYKEY = ['delete-container-type'] as const;
+export const GET_{RESOURCE}S_QUERYKEY = ['get-{resource}s'] as const;
+export const GET_{RESOURCE}_QUERYKEY = ['get-{resource}'] as const;
+export const POST_{RESOURCE}_QUERYKEY = ['post-{resource}'] as const;
+export const PATCH_{RESOURCE}_QUERYKEY = ['patch-{resource}'] as const;
+export const DELETE_{RESOURCE}_QUERYKEY = ['delete-{resource}'] as const;
 ```
 
-**Pattern:** `{HTTP_METHOD}_{RESOURCE}_QUERYKEY`
-
----
-
-## Hook Templates
-
-### GET All (useQuery)
-
-```typescript
-import type { UseQueryResult } from '@tanstack/react-query';
-import { useQuery } from '@tanstack/react-query';
-import type { ErrorResponse } from '@workspace/core/api';
-
-import { EndpointsContainerType, type ContainerType } from 'api/endpoints';
-import { GET_CONTAINER_TYPES_QUERYKEY } from '.';
-
-/**
- * Get all container types
- */
-export const useGetContainerTypes = (): UseQueryResult<ContainerType[], ErrorResponse> => {
-  return useQuery({
-    queryKey: GET_CONTAINER_TYPES_QUERYKEY,
-    queryFn: EndpointsContainerType.getAll,
-  });
-};
-```
-
-### GET By ID (useQuery with params)
-
-```typescript
-import type { UseQueryResult } from '@tanstack/react-query';
-import { useQuery } from '@tanstack/react-query';
-import type { ErrorResponse } from '@workspace/core/api';
-
-import { EndpointsContainerType, type ContainerType } from 'api/endpoints';
-import { GET_CONTAINER_TYPE_QUERYKEY } from '.';
-
-/**
- * Get a single container type by ID
- */
-export const useGetContainerType = (id: string): UseQueryResult<ContainerType, ErrorResponse> => {
-  return useQuery({
-    queryKey: [...GET_CONTAINER_TYPE_QUERYKEY, id],
-    queryFn: () => EndpointsContainerType.getById(id),
-    enabled: Boolean(id),
-  });
-};
-```
-
-### CREATE (useMutation)
-
-```typescript
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-
-import { EndpointsContainerType, type CreateContainerTypeInput } from 'api/endpoints';
-import { GET_CONTAINER_TYPES_QUERYKEY } from '.';
-
-/**
- * Create a new container type
- */
-export const useCreateContainerType = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: EndpointsContainerType.create,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: GET_CONTAINER_TYPES_QUERYKEY });
-    },
-  });
-};
-```
-
-### UPDATE (useMutation with ID)
-
-```typescript
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-
-import { EndpointsContainerType, type UpdateContainerTypeInput } from 'api/endpoints';
-import { GET_CONTAINER_TYPES_QUERYKEY, GET_CONTAINER_TYPE_QUERYKEY } from '.';
-
-/**
- * Update an existing container type
- */
-export const useUpdateContainerType = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: ({ id, updates }: { id: string; updates: UpdateContainerTypeInput }) =>
-      EndpointsContainerType.update(id, updates),
-    onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: GET_CONTAINER_TYPES_QUERYKEY });
-      queryClient.invalidateQueries({ queryKey: [...GET_CONTAINER_TYPE_QUERYKEY, variables.id] });
-    },
-  });
-};
-```
-
-### DELETE (useMutation)
-
-```typescript
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-
-import { EndpointsContainerType } from 'api/endpoints';
-import { GET_CONTAINER_TYPES_QUERYKEY, GET_CONTAINER_TYPE_QUERYKEY } from '.';
-
-/**
- * Delete a container type
- */
-export const useDeleteContainerType = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: EndpointsContainerType.delete,
-    onSuccess: (_, deletedId) => {
-      queryClient.invalidateQueries({ queryKey: GET_CONTAINER_TYPES_QUERYKEY });
-      queryClient.invalidateQueries({ queryKey: [...GET_CONTAINER_TYPE_QUERYKEY, deletedId] });
-    },
-  });
-};
-```
-
----
-
-## Index File Pattern
-
-```typescript
-// queries/{resource}/index.ts
-
-// ============================================================================
-// QUERY KEYS
-// ============================================================================
-export const GET_CONTAINER_TYPES_QUERYKEY = ['get-container-types'] as const;
-export const POST_CONTAINER_TYPE_QUERYKEY = ['post-container-type'] as const;
-export const PATCH_CONTAINER_TYPE_QUERYKEY = ['patch-container-type'] as const;
-export const DELETE_CONTAINER_TYPE_QUERYKEY = ['delete-container-type'] as const;
-
-// ============================================================================
-// HOOKS
-// ============================================================================
-export { useGetContainerTypes } from './useGetContainerTypes';
-export { useGetContainerType } from './useGetContainerType';
-export { useCreateContainerType } from './useCreateContainerType';
-export { useUpdateContainerType } from './useUpdateContainerType';
-export { useDeleteContainerType } from './useDeleteContainerType';
-
-// ============================================================================
-// TYPES (re-exported from endpoints for convenience)
-// ============================================================================
-export type {
-  ContainerType,
-  CreateContainerTypeInput,
-  UpdateContainerTypeInput,
-} from 'api/endpoints';
-```
+**Usage:** Always use spread operator: `[...QUERYKEY]`
 
 ---
 
@@ -214,71 +154,22 @@ export type {
 
 ### ✅ MUST
 
-1. **One hook per file**
-2. **Hooks MUST use endpoint functions for `queryFn` / `mutationFn`**
-3. **Mutations MUST invalidate relevant queries on success**
-4. **Query keys MUST be defined in `index.ts`**
-5. **Query keys MUST be uppercase constants**
-6. **Export types from endpoint layer**
-7. **Add JSDoc comment to each hook**
+1. **Use model types from `types/models/`** - Never use "Translation" types
+2. **Use spread for queryKey** - `[...QUERYKEY]` even if no params
+3. **Import ErrorResponse** - From `@workspace/core/api`
+4. **Use endpoint methods** - Direct reference: `Endpoints{Resource}.getAll`
+5. **Add `enabled` for ID queries** - `enabled: !!id`
 
 ### ❌ MUST NOT
 
-1. **Never make direct API calls in hooks** (use endpoints)
-2. **Never define query keys inline** (use constants)
-3. **Never import React Query types in endpoint files**
-4. **Never skip invalidation after mutations**
+1. **Never make direct API calls** - Always use endpoints
+2. **Never use inline query keys** - Always use constants
+3. **Never skip error types** - Always use `ErrorResponse`
+4. **Never create transformers** - Use endpoint return types directly
 
 ---
 
-## Query Invalidation Strategy
+## Reference Implementation
 
-### Simple Pattern
-
-```typescript
-onSuccess: () => {
-  queryClient.invalidateQueries({ queryKey: GET_RESOURCE_QUERYKEY });
-}
-```
-
-### Specific + List Invalidation
-
-```typescript
-onSuccess: (_, variables) => {
-  // Invalidate list
-  queryClient.invalidateQueries({ queryKey: GET_RESOURCES_QUERYKEY });
-  // Invalidate specific item
-  queryClient.invalidateQueries({ queryKey: [...GET_RESOURCE_QUERYKEY, variables.id] });
-}
-```
-
----
-
-## Component Usage Example
-
-```typescript
-// components/ContainerTypesList.tsx
-
-import { useGetContainerTypes, useDeleteContainerType } from 'queries/container-types';
-
-export const ContainerTypesList = () => {
-  const { data, isLoading } = useGetContainerTypes();
-  const deleteMutation = useDeleteContainerType();
-
-  const handleDelete = (id: string) => {
-    deleteMutation.mutate(id, {
-      onSuccess: () => toast.success('Deleted successfully'),
-      onError: () => toast.error('Failed to delete'),
-    });
-  };
-
-  // ... render
-};
-```
-
----
-
-## Reference
-
-- **Full Documentation:** `/docs/API_ARCHITECTURE.md`
-- **Reference Implementation:** `queries/container-types/`
+- **Example:** `queries/drink-types/useGetDrinkTypes.ts`
+- **Full Guide:** `api/API_ENDPOINTS_AND_QUERIES_GUIDE.md`

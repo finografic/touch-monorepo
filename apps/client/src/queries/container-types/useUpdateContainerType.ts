@@ -1,14 +1,11 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { EndpointsContainerType, type UpdateContainerTypeInput } from 'api/endpoints';
+import { EndpointsContainerType, type ContainerTypeUpdate } from 'api/endpoints';
+import type { ContainerType } from 'types/models/container.model';
 
-/**
- * Hook to update an existing container type
- */
 export const useUpdateContainerType = () => {
   return useMutation({
-    mutationFn: ({ id, updates }: { id: string; updates: UpdateContainerTypeInput }) =>
+    mutationFn: ({ id, updates }: { id: string; updates: ContainerTypeUpdate }): Promise<ContainerType> =>
       EndpointsContainerType.update(id, updates),
-    // No automatic invalidation - handled by caller
   });
 };

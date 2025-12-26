@@ -14,11 +14,3 @@ export { useGetContainerType } from './useGetContainerType';
 export { useCreateContainerType } from './useCreateContainerType';
 export { useUpdateContainerType } from './useUpdateContainerType';
 
-// ============================================================================
-// TYPES (re-exported from endpoints for convenience)
-// ============================================================================
-export type {
-  ContainerType,
-  CreateContainerTypeInput,
-  UpdateContainerTypeInput,
-} from 'api/endpoints';

@@ -1,9 +1,7 @@
-import { transformFetchError } from '@workspace/core/api';
-
 import { useMutation } from '@tanstack/react-query';
 
+import { EndpointsDrinkSubtype, type DrinkSubtypeUpdate } from 'api/endpoints';
 import type { DrinkSubtype } from 'types/models/drink-type.model';
-import { EndpointsDrinkSubtype } from 'api/endpoints/drink-subtype.endpoints';
 
 export interface UpdateDrinkSubtypeInput {
   name?: string;
@@ -12,10 +10,6 @@ export interface UpdateDrinkSubtypeInput {
   defaultTempFreeze?: number;
 }
 
-/**
- * Hook to update a drink subtype
- * Uses the EndpointsDrinkSubtype.updateDrinkSubtype method
- */
 export const useUpdateDrinkSubtype = () => {
   return useMutation({
     mutationFn: async ({
@@ -27,25 +21,7 @@ export const useUpdateDrinkSubtype = () => {
       drinkTypeId: string;
       updates: UpdateDrinkSubtypeInput;
     }): Promise<DrinkSubtype> => {
-      try {
-        const result = await EndpointsDrinkSubtype.update(id, updates, drinkTypeId);
-
-        // Transform to match DrinkSubtype model
-        return {
-          id: result.id,
-          name: result.name,
-          drinkTypeId: result.drinkTypeId,
-          defaultTempConsume: (result as any).defaultTempConsume ?? 5,
-          defaultTempFreeze: (result as any).defaultTempFreeze ?? -2,
-          isActive: result.isActive ?? true,
-          createdAt: new Date(), // API doesn't return these, use current time
-          updatedAt: new Date(),
-          translations: result.translations || {},
-        } as DrinkSubtype;
-      } catch (error) {
-        throw transformFetchError(error);
-      }
+      return EndpointsDrinkSubtype.update(id, updates, drinkTypeId);
     },
-    // No automatic invalidation - handled by caller
   });
 };

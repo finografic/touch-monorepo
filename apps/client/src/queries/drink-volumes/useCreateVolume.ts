@@ -1,9 +1,6 @@
-import { transformFetchError } from '@workspace/core/api';
-
 import { useMutation } from '@tanstack/react-query';
-import { api } from 'api';
 
-import { slugify } from 'utils/string.utils';
+import { EndpointsVolume, type VolumeUpdate } from 'api/endpoints';
 import type { DrinkVolume } from 'types/models/volume.model';
 
 export interface CreateVolumeInput {
@@ -14,63 +11,17 @@ export interface CreateVolumeInput {
   translations?: Record<string, string>;
 }
 
-/**
- * Hook to create a new volume
- */
 export const useCreateVolume = () => {
-
   return useMutation({
     mutationFn: async (data: CreateVolumeInput): Promise<DrinkVolume> => {
-      try {
-        // Convert display name to kebab-case for storage
-        const kebabName = slugify(data.name);
-
-        // Use provided translations directly (already contains correct display names)
-        // Don't override with data.name - that's the slug, not the display name
-        const translations = {
-          'en-GB': '',
-          'es-ES': '',
-          'ca-ES': '',
-          ...data.translations, // Use translations from DTO (contains actual display names)
-        };
-
-        // Fetch client returns data directly
-        const response = await api.post<any>('/drink-volumes', {
-          name: kebabName, // Use kebab-case name for storage
-          valueInMl: data.valueInMl,
-          sortOrder: data.sortOrder,
-          coolingFactor: data.coolingFactor || 1,
-          translations,
-        });
-
-        // Handle both response structures:
-        // - Direct: response = { id, name, ... }
-        // - Wrapped: response = { data: { id, name, ... } }
-        const entity = response?.data || response;
-
-        if (!entity || !entity.id) {
-          throw new Error('Invalid response: missing volume data');
-        }
-
-        return {
-          id: entity.id,
-          name: entity.name,
-          valueInMl: entity.value_in_ml ?? entity.valueInMl,
-          sortOrder: entity.sort_order ?? entity.sortOrder,
-          coolingFactor: entity.cooling_factor ?? entity.coolingFactor,
-          isActive: Boolean(entity.is_active ?? entity.isActive),
-          createdAt: entity.created_at
-            ? new Date(typeof entity.created_at === 'string' ? entity.created_at : entity.created_at * 1000)
-            : new Date(),
-          updatedAt: entity.updated_at
-            ? new Date(typeof entity.updated_at === 'string' ? entity.updated_at : entity.updated_at * 1000)
-            : new Date(),
-          translations: entity.translations || {},
-        };
-      } catch (error) {
-        throw transformFetchError(error);
-      }
+      const updates: VolumeUpdate = {
+        name: data.name,
+        valueInMl: data.valueInMl,
+        sortOrder: data.sortOrder,
+        coolingFactor: data.coolingFactor ?? 1,
+        translations: data.translations || {},
+      };
+      return EndpointsVolume.create(updates);
     },
-    // No automatic invalidation - handled by caller
   });
 };

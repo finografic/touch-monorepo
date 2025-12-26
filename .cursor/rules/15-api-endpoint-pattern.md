@@ -2,54 +2,86 @@
 
 **Status:** ✅ MANDATORY
 **Priority:** Critical
-**Created:** December 21, 2025
+**Last Updated:** December 26, 2025
 
 ---
 
 ## Overview
 
-ALL server communication MUST follow the unified endpoint pattern. This rule eliminates fragmentation and ensures consistency across the codebase.
+ALL server communication MUST follow the unified endpoint pattern. This rule ensures type safety, consistency, and maintainability across the codebase.
+
+**📖 Full Guide:** See `apps/client/src/api/API_ENDPOINTS_AND_QUERIES_GUIDE.md`
 
 ---
 
 ## The Pattern
 
-### 1. File Location
+### File Location
 
 ```
 apps/client/src/api/endpoints/{resource}.endpoints.ts
 ```
 
-### 2. File Structure Template
+### Standard Template
 
 ```typescript
-// SECTION 1: TYPES
-export interface {Resource} { ... }
-export interface Create{Resource}Input { ... }
-export interface Update{Resource}Input { ... }
+import { transformFetchError } from '@workspace/core/api';
+import { api } from 'api';
+import type { {Resource} } from 'types/models/{resource}.model';
 
-// SECTION 2: TRANSFORMERS (private)
-const transform{Resource} = (serverData: any): {Resource} => ({ ... });
+export type {Resource}Update = Partial<Omit<{Resource}, 'id'>>;
 
-// SECTION 3: ENDPOINTS (public API)
-export const {resource}Endpoints = {
-  getAll: async (): Promise<{Resource}[]> => { ... },
-  getById: async (id: string): Promise<{Resource}> => { ... },
-  create: async (input: Create{Resource}Input): Promise<{Resource}> => { ... },
-  update: async (id: string, input: Update{Resource}Input): Promise<{Resource}> => { ... },
-  delete: async (id: string): Promise<void> => { ... },
+export const Endpoints{Resource} = {
+  getAll: async (): Promise<{Resource}[]> => {
+    try {
+      const data = await api.get<{Resource}[]>(/{resource}s);
+      return Array.isArray(data) ? data : [];
+    } catch (error) {
+      throw transformFetchError(error);
+    }
+  },
+
+  getById: async (id: string): Promise<{Resource}> => {
+    try {
+      return await api.get<{Resource}>(/{resource}s/${id});
+    } catch (error) {
+      throw transformFetchError(error);
+    }
+  },
+
+  create: async (updates: {Resource}Update): Promise<{Resource}> => {
+    try {
+      return await api.post<{Resource}>(/{resource}s, updates);
+    } catch (error) {
+      throw transformFetchError(error);
+    }
+  },
+
+  update: async (id: string, updates: {Resource}Update): Promise<{Resource}> => {
+    try {
+      return await api.patch<{Resource}>(/{resource}s/${id}, updates);
+    } catch (error) {
+      throw transformFetchError(error);
+    }
+  },
+
+  delete: async (id: string): Promise<void> => {
+    try {
+      await api.delete<void>(/{resource}s/${id});
+    } catch (error) {
+      throw transformFetchError(error);
+    }
+  },
 } as const;
 ```
 
-### 3. Naming Conventions
+### Naming Conventions
 
-| Element | Rule | Example |
-|---------|------|---------|
-| File | `{resource}.endpoints.ts` | `container-types.endpoints.ts` |
-| Export | `{resource}Endpoints` (plural) | `EndpointsContainerType` |
-| Type | `{Resource}` (singular) | `ContainerType` |
-| Input type | `Create{Resource}Input` | `CreateContainerTypeInput` |
-| Update type | `Update{Resource}Input` | `UpdateContainerTypeInput` |
+| Element | Pattern | Example |
+|---------|---------|---------|
+| File | `{resource}.endpoints.ts` | `drink-type.endpoints.ts` |
+| Export | `Endpoints{Resource}` | `EndpointsDrinkType` |
+| Update Type | `{Resource}Update` | `DrinkTypeUpdate` |
 
 ---
 
@@ -57,91 +89,32 @@ export const {resource}Endpoints = {
 
 ### ✅ MUST
 
-1. **All endpoints MUST be in `api/endpoints/` folder**
-2. **Export object MUST be named `{resource}Endpoints` (plural)**
-3. **Methods MUST use standard names:**
-   - `getAll()` - get all resources
-   - `getById(id)` - get single resource
-   - `create(input)` - create new resource
-   - `update(id, input)` - update resource
-   - `delete(id)` - delete resource
-4. **Transform server data in the endpoint layer**
-5. **Use `transformFetchError()` for error handling**
-6. **Export all types used in the endpoint**
-7. **Add JSDoc comments to all public methods**
+1. **Use model types from `types/models/`** - Never create custom "Translation" types
+2. **Export `{Resource}Update` type** - `Partial<Omit<{Resource}, 'id'>>`
+3. **Use `transformFetchError()`** - For all error handling
+4. **Return empty array for `getAll()`** - If data is not an array
+5. **Use `as const`** - For the endpoints object
+6. **Handle try/catch** - Wrap all API calls
 
 ### ❌ MUST NOT
 
-1. **Never import React or React Query in `api/` folder**
-2. **Never make direct `api.get/post/etc` calls outside endpoints**
-3. **Never create alternative endpoint patterns (e.g., `EndpointHelper`)**
-4. **Never skip the transformer if server data needs normalization**
+1. **Never use `any` types** - Always use proper model types
+2. **Never create transformers** - Server already returns camelCase JSON
+3. **Never import React/React Query** - Endpoints are pure functions
+4. **Never use snake_case handling** - Server returns camelCase
+5. **Never create custom "Translation" types** - Use model types directly
 
 ---
 
-## Usage in Query Hooks
+## Type System
 
-```typescript
-// queries/container-types/useGetContainerTypes.ts
-import { EndpointsContainerType } from 'api/endpoints';
-
-export const useGetContainerTypes = () => {
-  return useQuery({
-    queryKey: GET_CONTAINER_TYPES_QUERYKEY,
-    queryFn: EndpointsContainerType.getAll, // ✅ Direct reference
-  });
-};
-```
+- **Model Types:** Import from `types/models/{resource}.model.ts`
+- **Update Types:** `Partial<Omit<{Resource}, 'id'>>`
+- **No Transformers:** Server already returns camelCase, use directly
 
 ---
 
-## Usage in Loaders
+## Reference Implementation
 
-```typescript
-// api/loaders/loader.data.ts
-import { EndpointsContainerType } from 'api/endpoints';
-
-export const containerTypesLoader = EndpointsContainerType.getAll;
-```
-
----
-
-## Non-Standard Methods
-
-If a resource needs non-CRUD methods, add them to the endpoints object:
-
-```typescript
-export const EndpointsOrders = {
-  // Standard CRUD
-  getAll: async () => { ... },
-  create: async (input) => { ... },
-
-  // Custom methods
-  updateTemperatureProfiles: async (orderId, profiles) => { ... },
-  duplicate: async (orderId) => { ... },
-} as const;
-```
-
----
-
-## Migration Checklist
-
-When migrating a resource to this pattern:
-
-- [ ] Create `api/endpoints/{resource}.endpoints.ts`
-- [ ] Define all types in the file
-- [ ] Create transformer function(s)
-- [ ] Export `{resource}Endpoints` object
-- [ ] Update all query hooks to use new endpoints
-- [ ] Update loaders to use new endpoints
-- [ ] Remove old endpoint patterns
-- [ ] Add exports to `api/endpoints/index.ts`
-- [ ] Test all operations
-- [ ] Check for linter errors
-
----
-
-## Reference
-
-- **Full Documentation:** `/docs/API_ARCHITECTURE.md`
-- **Reference Implementation:** `api/endpoints/container-types.endpoints.ts`
+- **Example:** `api/endpoints/drink-type.endpoints.ts`
+- **Full Guide:** `api/API_ENDPOINTS_AND_QUERIES_GUIDE.md`

@@ -77,12 +77,14 @@ export const GET_ORDERS_WITH_FILTERS_QUERYKEY = ['get-orders', { filters }] as c
 
 ### **Query Hooks (useQuery):**
 
+**CRITICAL:** Always use spread operator `[...QUERYKEY]` for consistency, even when there are no additional parameters.
+
 ```typescript
-// ✅ CORRECT - Direct use for list queries
+// ✅ CORRECT - Use spread for list queries
 export const useGetOrdersReadable = () => {
   return useQuery({
-    queryKey: GET_ORDERS_READABLE_QUERYKEY,
-    queryFn: async () => await api.get('/orders-readable'),
+    queryKey: [...GET_ORDERS_READABLE_QUERYKEY],
+    queryFn: EndpointsOrders.getAll,
   });
 };
 
@@ -90,7 +92,7 @@ export const useGetOrdersReadable = () => {
 export const useGetOrderReadableById = ({ orderId }: { orderId: string }) => {
   return useQuery({
     queryKey: [...GET_ORDER_READABLE_QUERYKEY, orderId],
-    queryFn: async () => await api.get(`/orders-readable/${orderId}`),
+    queryFn: () => EndpointsOrders.getById(orderId),
   });
 };
 ```
@@ -141,7 +143,8 @@ export const useUpdateOrder = () => {
    - No functions, no template strings, no dynamic construction at definition time
 
 3. **ID/Parameters in Hooks**
-   - For detail queries, append the ID inside the hook: `[...GET_ORDER_READABLE_QUERYKEY, orderId]`
+   - **Always use spread operator:** `[...QUERYKEY]` even for list queries
+   - For detail queries, append the ID: `[...GET_ORDER_READABLE_QUERYKEY, orderId]`
    - For filtered queries, handle filters inside the hook, not in the key definition
 
 4. **Invalidation Strategy**
@@ -168,11 +171,12 @@ export * from './useUpdateOrder';
 
 ## 🚫 Common Mistakes
 
-1. **Creating helper functions** - Use static constants instead
-2. **Including filters in key definition** - Handle filters in the hook
-3. **Using plural/singular inconsistently** - Match the actual endpoint
-4. **Forgetting to export keys** - Export all keys from `index.ts`
-5. **Using wrong key for invalidation** - Always invalidate GET keys, not mutation keys
+1. **Not using spread operator** - Always use `[...QUERYKEY]` for consistency
+2. **Creating helper functions** - Use static constants instead
+3. **Including filters in key definition** - Handle filters in the hook
+4. **Using plural/singular inconsistently** - Match the actual endpoint
+5. **Forgetting to export keys** - Export all keys from `index.ts`
+6. **Using wrong key for invalidation** - Always invalidate GET keys, not mutation keys
 
 ## ✅ Benefits
 

@@ -1,13 +1,23 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { EndpointsContainerType, type CreateContainerTypeInput } from 'api/endpoints';
+import { EndpointsContainerType, type ContainerTypeUpdate } from 'api/endpoints';
+import type { ContainerType } from 'types/models/container.model';
 
-/**
- * Hook to create a new container type
- */
+export interface CreateContainerTypeInput {
+  name: string;
+  thermalConductivity: number;
+  translations?: Record<string, string>;
+}
+
 export const useCreateContainerType = () => {
   return useMutation({
-    mutationFn: EndpointsContainerType.create,
-    // No automatic invalidation - handled by caller
+    mutationFn: async (input: CreateContainerTypeInput): Promise<ContainerType> => {
+      const updates: ContainerTypeUpdate & { name: string; thermalConductivity: number } = {
+        name: input.name,
+        thermalConductivity: input.thermalConductivity,
+        translations: input.translations,
+      };
+      return EndpointsContainerType.create(updates);
+    },
   });
 };
