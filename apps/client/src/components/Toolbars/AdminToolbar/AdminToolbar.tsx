@@ -15,7 +15,6 @@ export const AdminToolbar: React.FC = () => {
   const { theme } = useAppConfig();
   const { isAdminToolsVisible, isLanguageDialogOpen, setIsLanguageDialogOpen } = useAdmin();
 
-  // Check if recall config is active (exists and not expired)
   const { recallConfig, isRecallExpired } = useRecallConfig();
   const hasActiveTimer = recallConfig !== null && !isRecallExpired;
 
@@ -25,7 +24,6 @@ export const AdminToolbar: React.FC = () => {
     <>
       <div css={styles} className={`theme-${theme}`}>
         <Flex gap="3" align="center">
-          {/* Config expiry timer */}
           {hasActiveTimer && (
             <div className="timer-container">
               <RecallTimer />

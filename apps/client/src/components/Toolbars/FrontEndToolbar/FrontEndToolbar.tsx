@@ -9,7 +9,7 @@ import { useRecallConfig } from 'hooks/useRecallConfig';
 import type { Theme } from 'types/ui.types';
 import { MockSessionTimer } from 'dev-tools/mocks/MockSessionTimer/MockSessionTimer';
 import { useDev } from 'dev-tools/providers/DevProvider';
-import { RecallTimer } from '../../Timers/RecallTimer';
+import { RecallTimer } from 'components/Timers/RecallTimer';
 import { styles } from './FrontEndToolbar.styles';
 import clsx from 'clsx';
 
