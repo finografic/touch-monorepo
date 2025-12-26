@@ -96,20 +96,6 @@ i18n
     partialBundledLanguages: true, // Allow partial bundles
   })
   .then(() => {
-    // Preload all supported languages in background to prevent flicker
-    // This happens after initial load, so it doesn't block app startup
-    DEFAULT_SUPPORTED_LANGUAGES.forEach((lng) => {
-      if (!i18n.hasResourceBundle(lng, I18N_NAMESPACE)) {
-        // Load in background - don't wait for it
-        i18n.reloadResources(lng, I18N_NAMESPACE).catch((err) => {
-          if (process.env.NODE_ENV === 'development') {
-            console.warn(`[i18n] Failed to preload ${lng}:`, err);
-          }
-        });
-      }
-    });
-  })
-  .then(() => {
     const isDev = process.env.NODE_ENV === 'development';
     if (isDev) {
       console.group('[i18n] initialized');
