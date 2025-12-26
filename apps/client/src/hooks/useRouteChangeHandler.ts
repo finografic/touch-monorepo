@@ -6,6 +6,7 @@ import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { useOrders } from 'providers/OrdersProvider';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
+import { useAppConfig } from 'providers/AppConfigProvider';
 import type { DataEntry } from 'types/data.types';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { OrderModel } from 'types/models/order.model';
@@ -39,6 +40,7 @@ export const useRouteChangeHandler = () => {
   const { dataPool, filters } = useFilters();
   const { setFilters: setOrdersFilters } = useOrders();
   const { filterKey, loaderData, padsConfig } = useRouteConfig();
+  const { currentLanguage } = useAppConfig();
 
   // ======================================================================== //
   // 🚨 ENHANCED DATA POOL TRACKING: Route-aware with change context
@@ -73,10 +75,6 @@ export const useRouteChangeHandler = () => {
 
         // 🚀 USAGE - minimal and clean
         dataPoolRef.current = createDataPoolState(trigger, { filterKey, dataPool });
-        // dataPoolRef.current = createDataPoolState(CHANGED.INIT, { filterKey, dataPool });
-        // dataPoolRef.current = createDataPoolState(CHANGED.ROUTE, { filterKey, dataPool });
-        // dataPoolRef.current = createDataPoolState(CHANGED.FILTERS, { filterKey, dataPool });
-
         console.log('%cDATA_POOL_REF:', 'color:cyan', dataPoolRef.current);
       }
     },
@@ -85,9 +83,8 @@ export const useRouteChangeHandler = () => {
 
   // ======================================================================== //
 
+  // TODO: STILL NEEDED ??  IMPORTANT -- CONFIRM BEFORE REMOVING !!
   // 🚨 COMMENTED OUT: Old useDataPoolProxy hook - replaced with new ref system
-  // const { dataPoolProxy: __TEST } = useDataPoolProxy({ dataPool: dataPoolRef.current?.dataPool || [] });
-  // const { dataPoolProxy: __TEST } = useDataPoolProxy({ dataPool });
   const __TEST = useDataPoolProxy({ dataPool });
   // console.log('%cDATA POOL PROXY:', 'color:grey', __TEST);
 
@@ -110,7 +107,6 @@ export const useRouteChangeHandler = () => {
         if (!dataPoolRef.current) return dataPool;
 
         const currentDataPool = dataPoolRef.current.dataPool || [];
-        const trigger = dataPoolRef.current.trigger;
 
         // For all navigation types, use current dataPool
         // This ensures filtered results are shown correctly
@@ -127,7 +123,7 @@ export const useRouteChangeHandler = () => {
         loaderDataLength: loaderData?.length || 0,
         dataPoolLength: dataPool?.length || 0,
         sessionId: currentSessionId || '',
-        language: 'es-ES', // Use default language to avoid i18n dependency
+        language: currentLanguage || 'es-ES', // Use actual current language
       };
 
       // Only trigger if route data actually changed
@@ -141,7 +137,6 @@ export const useRouteChangeHandler = () => {
       if (hasRouteChanged) {
         lastRouteDataRef.current = currentRouteData;
 
-        // Build session server field map
         const sessionFilters =
           currentSessionId && sessions[currentSessionId] ? sessions[currentSessionId].filters : {};
 
@@ -155,7 +150,6 @@ export const useRouteChangeHandler = () => {
           {} as Record<string, string>,
         );
 
-        // Handle route change
         if (!filterKey) {
           handleRouteChange({
             filterKey: undefined,
@@ -177,7 +171,7 @@ export const useRouteChangeHandler = () => {
               padsConfig,
               dataPool: dataPoolProxy as DataEntry[] | OrderModel[] | OrderReadableModel[],
               serverFieldMap: sessionServerFieldMap,
-              currentLanguage: 'es-ES' as RegionLocale,
+              currentLanguage: (currentLanguage || 'es-ES') as RegionLocale,
             });
           } else {
             handleRouteChange({
@@ -193,10 +187,9 @@ export const useRouteChangeHandler = () => {
         }
       }
     },
-    [filterKey, loaderData, padsConfig, dataPool, currentSessionId, sessions, filters],
+    [filterKey, loaderData, padsConfig, dataPool, currentSessionId, sessions, filters, currentLanguage],
   );
 
-  // Sync filters from useFilters to OrdersContext
   useEffect(
     function syncFiltersToOrdersContext() {
       if (filters && Object.keys(filters).length > 0) {

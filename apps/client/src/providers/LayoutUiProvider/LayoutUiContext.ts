@@ -5,6 +5,7 @@ import type { SlotMeta } from 'pages/MainPage/MainPage.types';
 
 import { parsePadConfig } from 'utils/pads.utils';
 import { createSetters, createZustandContext } from '@finografic/zustand-context-creator';
+import type { RegionLocale } from '@workspace/i18n';
 import type { DataEntry, Dataset } from 'types/data.types';
 import type { OrderModel } from 'types/models/order.model';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
@@ -42,14 +43,18 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
         ...initialValue,
         actions: {
           ...createSetters({ set, defaultValue, prefix: SETTER_PREFIX }),
-          initPadsFromLoaderData: (loaderData: Dataset, padsConfig: PadConfig, filterKey: FilterKey) => {
+          initPadsFromLoaderData: (
+            loaderData: Dataset,
+            padsConfig: PadConfig,
+            filterKey: FilterKey,
+            currentLanguage: RegionLocale = 'es-ES',
+          ) => {
             const data = !Array.isArray(loaderData) ? [loaderData] : loaderData;
-            // Note: We'll need to get currentLanguage from context in the component that calls this
             const { pads, numPads } = parsePadConfig({
               data,
               config: padsConfig,
               filterKey,
-              currentLanguage: 'es-ES',
+              currentLanguage,
             });
             set({ pads, numPads, filterKey });
           },
