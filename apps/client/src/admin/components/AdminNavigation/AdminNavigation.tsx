@@ -162,75 +162,74 @@ export const AdminNavigation: React.FC<AdminNavigationProps> = ({ displayIcons =
 
   return (
     <div css={styles}>
-      <Row justify="center" align="center">
-        <Col xs={12} style={{ overflow: 'visible', display: 'flex', justifyContent: 'center' }}>
-          {/* Wrapper div for measurement - TabNav might interfere */}
-          <div id="nav-container" ref={containerRef}>
-            <TabNav.Root size="2" className="admin-nav" style={{ justifyContent: 'center' }}>
-              {/* DESKTOP: Render all items for measurement, hide overflow with CSS */}
-              {navItems.map((item) => {
-                const isOverflow = overflowItems.some((o) => o.id === item.id);
+      {/* Wrapper div for measurement - TabNav might interfere */}
+      <div id="nav-container" ref={containerRef}>
+        <TabNav.Root size="2" className="admin-nav" style={{ justifyContent: 'center' }}>
+          {/* DESKTOP: Render ALL items for measurement, hide overflow with CSS */}
+          {navItems.map((item) => {
+            const isOverflow = overflowItems.some((o) => o.id === item.id);
 
-                if (item.children && item.children.length > 0) {
-                  return (
-                    <div
-                      key={item.id}
-                      ref={(el) => registerItem(item.id, el)}
-                      style={{ display: isOverflow ? 'none' : undefined }}
-                    >
-                      <DropdownNavButton
-                        item={item}
-                        isOpen={dropdownStates[item.id] || false}
-                        onOpenChange={(open) => handleDropdownToggle(item.id, open)}
-                        onNavigate={handleNavigation}
-                        activePath={location.pathname}
-                        isTransitioning={isTransitioning}
-                        displayIcons={displayIcons}
-                      />
-                    </div>
-                  );
-                }
+            if (item.children && item.children.length > 0) {
+              return (
+                <div
+                  key={item.id}
+                  ref={(el) => registerItem(item.id, el)}
+                  style={{ display: isOverflow ? 'none' : undefined }}
+                >
+                  <DropdownNavButton
+                    item={item}
+                    isOpen={dropdownStates[item.id] || false}
+                    onOpenChange={(open) => handleDropdownToggle(item.id, open)}
+                    onNavigate={handleNavigation}
+                    activePath={location.pathname}
+                    isTransitioning={isTransitioning}
+                    displayIcons={displayIcons}
+                  />
+                </div>
+              );
+            }
 
-                // Regular nav button
-                return (
-                  <TabNav.Link
-                    key={item.id}
-                    asChild
-                    active={location.pathname === item.path}
-                    style={{ display: isOverflow ? 'none' : undefined }}
-                  >
-                    <button
-                      ref={(el) => registerItem(item.id, el)}
-                      type="button"
-                      className={`nav-button ${location.pathname === item.path ? 'active' : ''} ${
-                        isTransitioning ? 'transitioning' : ''
-                      }`}
-                      onClick={() => handleNavigation(item.path)}
-                      disabled={isTransitioning}
-                    >
-                      {displayIcons && item.icon && (
-                        <item.icon width="16" height="16" style={{ marginRight: '0.5rem' }} />
-                      )}
-                      {item.label}
-                    </button>
-                  </TabNav.Link>
-                );
-              })}
-              {/* DESKTOP: More Dropdown for Overflow */}
-              {hasOverflow && (
-                <MoreButton
-                  items={overflowItems}
-                  isOpen={isMenuOpen}
-                  onOpenChange={setIsMenuOpen}
-                  onNavigate={handleNavigation}
-                  activePath={location.pathname}
-                  displayIcons={displayIcons}
-                />
-              )}
-            </TabNav.Root>
+            // Regular nav button
+            return (
+              <TabNav.Link
+                key={item.id}
+                asChild
+                active={location.pathname === item.path}
+                style={{ display: isOverflow ? 'none' : undefined }}
+              >
+                <button
+                  ref={(el) => registerItem(item.id, el)}
+                  type="button"
+                  className={`nav-button ${location.pathname === item.path ? 'active' : ''} ${
+                    isTransitioning ? 'transitioning' : ''
+                  }`}
+                  onClick={() => handleNavigation(item.path)}
+                  disabled={isTransitioning}
+                >
+                  {displayIcons && item.icon && (
+                    <item.icon width="16" height="16" style={{ marginRight: '0.5rem' }} />
+                  )}
+                  {item.label}
+                </button>
+              </TabNav.Link>
+            );
+          })}
+          {/* DESKTOP: More Dropdown for Overflow - Always render for measurement, hide if no overflow */}
+          <div
+            ref={(el) => registerItem('more-button', el)}
+            style={{ display: hasOverflow ? undefined : 'none' }}
+          >
+            <MoreButton
+              items={overflowItems}
+              isOpen={isMenuOpen}
+              onOpenChange={setIsMenuOpen}
+              onNavigate={handleNavigation}
+              activePath={location.pathname}
+              displayIcons={displayIcons}
+            />
           </div>
-        </Col>
-      </Row>
+        </TabNav.Root>
+      </div>
     </div>
   );
 };

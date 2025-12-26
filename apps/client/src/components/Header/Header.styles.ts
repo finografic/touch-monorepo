@@ -18,10 +18,7 @@ export const styles = css`
     .container {
       padding: 0 !important;
       width: 100vw !important;
-
-      /* margin: 0 -2rem !important; */
-      /* opacity: 0.5 !important; */
-      /* border: 2px solid yellow; */
+      padding: 0 1rem 0 1.75rem !important;
 
       .col {
         display: flex;

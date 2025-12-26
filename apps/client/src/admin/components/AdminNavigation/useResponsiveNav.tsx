@@ -41,6 +41,9 @@ export const useResponsiveNav = ({
 
     const containerWidth = container.offsetWidth;
 
+    // Debug logging (remove in production if needed)
+    // console.log('NAV_WIDTH:', containerWidth);
+
     let totalWidth = 0;
     const visible: NavItem[] = [];
     const overflow: NavItem[] = [];
@@ -80,6 +83,10 @@ export const useResponsiveNav = ({
     visible.length = 0;
     overflow.length = 0;
 
+    // Get actual MORE button width if it exists, otherwise use constant
+    const moreButtonEl = itemsRef.current.get('more-button');
+    const moreButtonWidth = moreButtonEl ? moreButtonEl.offsetWidth : MORE_BUTTON_WIDTH;
+
     for (let i = 0; i < safeItems.length; i++) {
       const item = safeItems[i];
       const el = itemsRef.current.get(item.id);
@@ -87,7 +94,7 @@ export const useResponsiveNav = ({
 
       const w = el.offsetWidth;
       const itemWidthWithGap = w + (visible.length > 0 ? GAP : 0);
-      const availableWidth = containerWidth - MORE_BUTTON_WIDTH - PADDING;
+      const availableWidth = containerWidth - moreButtonWidth - PADDING;
 
       if (totalWidth + itemWidthWithGap <= availableWidth) {
         visible.push(item);

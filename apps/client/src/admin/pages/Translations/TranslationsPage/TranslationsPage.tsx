@@ -2,7 +2,7 @@ import React, { useMemo, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Flex, Spinner, Tabs, Text } from '@radix-ui/themes';
 
-import { AdminPageLayout, AdminSection } from '../../..';
+import { AdminPageLayout, AdminSection } from 'admin/components';
 
 import { useGetTranslations } from './hooks/useGetTranslations';
 import { useSaveTranslations } from './hooks/useSaveTranslations';
@@ -20,6 +20,7 @@ export const TranslationsPage: React.FC = () => {
   const { t } = useTranslation();
   const { domain } = useParams<{ domain: I18nTranslationsDomain }>();
   const pageTitleKey = `admin.pages.translations.domains.${domain}.title`;
+
   // Extract groups and deduplicate
   const groups = [...new Set(flattenTranslations(domain, translations).map(({ key }) => key.split('.')[1]))];
   const [activeTab, setActiveTab] = useState<I18nDomainGroupKey>();
