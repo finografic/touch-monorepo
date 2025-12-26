@@ -20,7 +20,7 @@ import { stylesItemsGrid } from './grid.styles';
 
 export const GenericSelectPage = () => {
   const { t } = useTranslation();
-  const { filterKey, padsConfig } = useRouteConfig();
+  const { filterKey } = useRouteConfig();
   const { pads } = useLayoutUi();
   const { orders, setOrdersFilter } = useOrders();
   const { currentSessionId, sessions, updateSessionFilters } = useSession();

@@ -141,8 +141,15 @@ export const useRouteChangeHandler = () => {
 
         const sessionServerFieldMap = Object.entries(sessionFilters).reduce(
           (acc, [filterApiKey, filterValue]) => {
-            if (filterApiKey in filters) {
-              return { ...acc, [filterApiKey as string]: filterValue.name };
+            // Safely check if filterValue exists and has a name property
+            if (
+              filterApiKey in filters &&
+              filterValue &&
+              typeof filterValue === 'object' &&
+              'name' in filterValue &&
+              typeof (filterValue as { name?: string }).name === 'string'
+            ) {
+              return { ...acc, [filterApiKey as string]: (filterValue as { name: string }).name };
             }
             return acc;
           },

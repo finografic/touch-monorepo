@@ -78,8 +78,14 @@ export const useFilters = (): UseFiltersReturn => {
   const serverFieldMap = useMemo(() => {
     return Object.entries(filters).reduce(
       (acc, [filterApiKey, filterValue]) => {
-        if (filterApiKey in filters) {
-          return { ...acc, [filterApiKey as string]: filterValue.name };
+        // Safely check if filterValue exists and has a name property
+        if (
+          filterValue &&
+          typeof filterValue === 'object' &&
+          'name' in filterValue &&
+          typeof (filterValue as { name?: string }).name === 'string'
+        ) {
+          return { ...acc, [filterApiKey as string]: (filterValue as { name: string }).name };
         }
         return acc;
       },
