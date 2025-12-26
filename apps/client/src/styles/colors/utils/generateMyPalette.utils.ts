@@ -118,10 +118,14 @@ function generatePaletteContent(): string {
       hour12: false,
     })
     .replace(/(\d+)\/(\d+)\/(\d+), (\d+):(\d+):(\d+)/, '$3-$1-$2 -- $4:$5:$6')}`;
+  const timestampMonthly = `📅 Generated: ${now.toLocaleString('en-US', {
+    year: 'numeric',
+    month: 'short',
+  })}`;
   let content = `/**
  * Visual reference for the complete color palette
  * 🚨 AUTO-GENERATED - DO NOT EDIT MANUALLY
- * ${timestamp}
+ * ${timestampMonthly}
  *
  * Run: pnpm generate:palette to update this file
  *

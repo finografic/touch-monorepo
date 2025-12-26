@@ -162,12 +162,16 @@ function generateThemeContent(themeName: 'light' | 'dark'): string {
       hour12: false,
     })
     .replace(/(\d+)\/(\d+)\/(\d+), (\d+):(\d+):(\d+)/, '$3-$1-$2 -- $4:$5:$6')}`;
+  const timestampMonthly = `📅 Generated: ${now.toLocaleString('en-US', {
+    year: 'numeric',
+    month: 'short',
+  })}`;
   let content = `import type { ColorPalette } from 'styles/colors/palette.types';
 
 /**
  * ${themeTitle} theme color palette - actual hex values for CSS variable generation
  * 🚨 AUTO-GENERATED - DO NOT EDIT MANUALLY
- * ${timestamp}
+ * ${timestampMonthly}
  *
  * Run: pnpm generate:themes to update this file
  *

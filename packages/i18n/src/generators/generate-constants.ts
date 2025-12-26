@@ -26,7 +26,10 @@ function generateConstantsContent(config: I18nConfig): string {
   return `/**
  * Generated Constants for i18n
  * 🤖 AUTO-GENERATED - DO NOT EDIT MANUALLY
- * Generated on ${new Date().toISOString()}
+ * Generated on ${new Date().toLocaleString('en-US', {
+   year: 'numeric',
+   month: 'short',
+ })}
  */
 
 import type { RegionLocale, LangCode2, CountryCode } from './language.types';

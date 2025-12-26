@@ -235,7 +235,7 @@ function generateThemeContent(themeName: 'light' | 'dark'): string {
   const themeTitle = themeName.charAt(0).toUpperCase() + themeName.slice(1);
 
   const now = new Date();
-  const timestamp = `📅 Generated: ${now
+  const _timestamp = `📅 Generated: ${now
     .toLocaleString('en-US', {
       year: 'numeric',
       month: '2-digit',
@@ -246,13 +246,16 @@ function generateThemeContent(themeName: 'light' | 'dark'): string {
       hour12: false,
     })
     .replace(/(\d+)\/(\d+)\/(\d+), (\d+):(\d+):(\d+)/, '$3-$1-$2 -- $4:$5:$6')}`;
-
+  const timestampMonthly = `📅 Generated: ${now.toLocaleString('en-US', {
+    year: 'numeric',
+    month: 'short',
+  })}`;
   let content = `import type { ColorPalette } from 'styles/colors/palette.types';
 
 /**
  * ${themeTitle} theme color palette - hex values converted from OKLCH
  * 🚨 AUTO-GENERATED - DO NOT EDIT MANUALLY
- * ${timestamp}
+ * ${timestampMonthly}
  *
  * Run: pnpm generate:themes to update this file
  *
