@@ -30,11 +30,15 @@ i18n
           : '/api/i18n/translations?lng={{lng}}',
       requestOptions:
         process.env.NODE_ENV === 'development'
-          ? { cache: 'no-cache' }
+          ? { cache: 'no-cache' } // Dev: always fresh
           : {
-              // In production, ensure we don't cache stale translations
-              cache: 'no-cache',
+              // Production: cache for 5 minutes to prevent flicker, but allow updates
+              cache: 'default',
             },
+      // Cache translations in memory to prevent flicker on route changes
+      allowMultiLoading: false,
+      // Reload only when language changes, not on every route change
+      reloadInterval: false,
     },
 
     /**
@@ -48,6 +52,7 @@ i18n
       lookupLocalStorage: 'i18nextLng',
       lookupSessionStorage: 'i18nextLng',
       caches: process.env.NODE_ENV === 'development' ? [] : ['localStorage'],
+      // Exclude cimode (context isolation mode) from caching - it's for testing only
       excludeCacheFor: ['cimode'],
 
       convertDetectedLanguage: (lng: string): SupportedLanguage => {
@@ -82,6 +87,27 @@ i18n
     react: {
       useSuspense: false,
     },
+
+    /**
+     * Caching and performance
+     */
+    // Keep translations in memory - prevents flicker on route changes
+    // Don't reload translations unless language actually changes
+    partialBundledLanguages: true, // Allow partial bundles
+  })
+  .then(() => {
+    // Preload all supported languages in background to prevent flicker
+    // This happens after initial load, so it doesn't block app startup
+    DEFAULT_SUPPORTED_LANGUAGES.forEach((lng) => {
+      if (!i18n.hasResourceBundle(lng, I18N_NAMESPACE)) {
+        // Load in background - don't wait for it
+        i18n.reloadResources(lng, I18N_NAMESPACE).catch((err) => {
+          if (process.env.NODE_ENV === 'development') {
+            console.warn(`[i18n] Failed to preload ${lng}:`, err);
+          }
+        });
+      }
+    });
   })
   .then(() => {
     const isDev = process.env.NODE_ENV === 'development';
