@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { TabNav } from '@radix-ui/themes';
 
 import { usePageTransition } from 'hooks/usePageTransition';
-import { MoreButton } from 'admin/components/MoreButton/MoreButton';
+import { MoreButton } from 'admin/components/AdminNavigation/MoreButton/MoreButton';
 import { HiddenMeasureItems } from './HiddenMeasureItems';
 import type { NavItem } from 'types/nav.types';
 
