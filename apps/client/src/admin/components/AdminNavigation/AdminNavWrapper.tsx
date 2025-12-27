@@ -17,7 +17,6 @@ export const AdminNavWrapper: FC = () => {
   // Get navigation items from the same source as AdminNavigation
   const navItems = useMemo(() => {
     return getAdminNavItemsByRole(user?.role).flatMap((item) => {
-      // For translations item, expand children into separate nav items
       if (item.id === 'translations' && item.children && item.children.length > 0) {
         return item.children.map((child) => {
           // Extract domain from child ID (e.g., "translationsUi" -> "ui", "translationsApp" -> "app")
@@ -43,7 +42,6 @@ export const AdminNavWrapper: FC = () => {
         });
       }
 
-      // For all other items, return as regular nav item (no children)
       return [
         {
           id: item.id,

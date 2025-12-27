@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { TabNav } from '@radix-ui/themes';
 
 import { usePageTransition } from 'hooks/usePageTransition';
-import { MoreButton } from './MoreButton';
+import { MoreButton } from 'admin/components/AdminNavigation/MoreButton/MoreButton';
 import { HiddenMeasureItems } from './HiddenMeasureItems';
 import type { NavItem } from 'types/nav.types';
 
@@ -23,7 +23,6 @@ export const AdminNavbar: FC<AdminNavbarProps> = ({ navItems }) => {
 
   const [visibleCount, setVisibleCount] = useState(items.length);
   const [isMoreOpen, setIsMoreOpen] = useState(false);
-
   const calculationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const calculate = useCallback(() => {
@@ -52,39 +51,13 @@ export const AdminNavbar: FC<AdminNavbarProps> = ({ navItems }) => {
     setVisibleCount(fitCount);
   }, [items]);
 
+  // Handle resize events
   useLayoutEffect(() => {
-    // const calculate = () => {
-    //   if (!containerRef.current) return;
-
-    //   const containerWidth = containerRef.current.offsetWidth;
-    //   // Get MORE button width from the ref (MoreButton component)
-    //   const moreButtonEl = moreButtonRef.current?.querySelector('button');
-    //   const moreWidth = moreButtonEl?.offsetWidth ?? 120; // Fallback to 120px
-
-    //   let used = 0;
-    //   let fitCount = items.length;
-
-    //   for (let i = 0; i < items.length; i++) {
-    //     const el = itemsRef.current[i];
-    //     if (!el) continue;
-
-    //     used += el.offsetWidth;
-
-    //     if (used + moreWidth > containerWidth) {
-    //       fitCount = i;
-    //       break;
-    //     }
-    //   }
-
-    //   setVisibleCount(fitCount);
-    // };
-
-    calculate();
     window.addEventListener('resize', calculate);
     return () => window.removeEventListener('resize', calculate);
-  }, [items]);
+  }, [calculate]);
 
-  // // Trigger calculation after items are measured (after render/update)
+  // Trigger calculation after items are measured (after render/update)
   useEffect(() => {
     // Clear any pending timeout to avoid multiple calculations
     if (calculationTimeoutRef.current) {
@@ -94,7 +67,7 @@ export const AdminNavbar: FC<AdminNavbarProps> = ({ navItems }) => {
     // Wait for items to be measured, then calculate after a delay
     calculationTimeoutRef.current = setTimeout(() => {
       calculate();
-    }, 500);
+    }, 5000);
 
     return () => {
       if (calculationTimeoutRef.current) {
