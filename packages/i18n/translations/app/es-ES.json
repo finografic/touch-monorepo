@@ -29,6 +29,10 @@
       "temperatures": {
         "title": "Control de temperatura",
         "description": "Configura tus preferencias de temperatura"
+      },
+      "time": {
+        "minutes": "Min",
+        "seconds": "Seg"
       }
     },
     "orders": {

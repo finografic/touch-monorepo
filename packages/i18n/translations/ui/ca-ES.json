@@ -25,18 +25,8 @@
       "view": "Veure"
     },
     "time": {
-      "units": {
-        "seconds": "segons",
-        "minutes": "minuts",
-        "hours": "hores",
-        "days": "dies"
-      },
-      "relative": {
-        "now": "ara",
-        "justNow": "ara mateix",
-        "minutesAgo": "fa {{count}} minuts",
-        "hoursAgo": "fa {{count}} hores"
-      }
+      "seconds": "Seg",
+      "minutes": "Min"
     },
     "dialogs": {
       "languageSelector": {

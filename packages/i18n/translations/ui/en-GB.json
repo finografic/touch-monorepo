@@ -25,18 +25,8 @@
       "view": "View"
     },
     "time": {
-      "units": {
-        "seconds": "seconds",
-        "minutes": "minutes",
-        "hours": "hours",
-        "days": "days"
-      },
-      "relative": {
-        "now": "now",
-        "justNow": "just now",
-        "minutesAgo": "{{count}} minutes ago",
-        "hoursAgo": "{{count}} hours ago"
-      }
+      "seconds": "Sec",
+      "minutes": "Min"
     },
     "dialogs": {
       "languageSelector": {
