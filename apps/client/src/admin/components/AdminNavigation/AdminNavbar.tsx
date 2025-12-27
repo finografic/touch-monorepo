@@ -1,4 +1,4 @@
-import { useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useLayoutEffect, useMemo, useRef, useState, type FC } from 'react';
 import { useLocation } from 'react-router-dom';
 import { TabNav } from '@radix-ui/themes';
 
@@ -7,11 +7,11 @@ import { MoreButton } from 'admin/components/MoreButton/MoreButton';
 import { HiddenMeasureItems } from './HiddenMeasureItems';
 import type { NavItem } from 'types/nav.types';
 
-interface NavbarProps {
+interface AdminNavbarProps {
   navItems: NavItem[];
 }
 
-export default function Navbar({ navItems }: NavbarProps) {
+export const AdminNavbar: FC<AdminNavbarProps> = ({ navItems }) => {
   const location = useLocation();
   const { navigateWithTransition, isTransitioning } = usePageTransition({ delay: 100 });
   const containerRef = useRef<HTMLDivElement>(null);
@@ -108,4 +108,4 @@ export default function Navbar({ navItems }: NavbarProps) {
       </div>
     </nav>
   );
-}
+};

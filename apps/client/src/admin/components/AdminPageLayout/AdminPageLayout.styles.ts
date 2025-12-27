@@ -8,22 +8,6 @@ export const styles = css`
     margin: 0 auto;
     padding: 0 ${layout.padding};
 
-    width: 100%;
-    max-width: 96vw;
-
-    ${min.sm} {
-      max-width: 94vw;
-    }
-    ${min.md} {
-      max-width: 96vw;
-    }
-    ${min.lg} {
-      max-width: 96vw;
-    }
-    ${min.xl} {
-      max-width: ${BREAKPOINTS.xl}px;
-    }
-
     .admin-page-header {
       width: 100%;
       padding: 0 0.5rem 1rem 0.5rem;

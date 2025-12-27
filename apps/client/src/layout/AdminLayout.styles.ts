@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { colors, layout, spacing } from 'styles';
+import { BREAKPOINTS, colors, layout, min, spacing } from 'styles';
 import { padding } from 'styles/layout/base.constants';
 import { cssForms } from 'styles/forms/forms.styles';
 import { stylesAdminContent } from 'styles/project/project.styles';
@@ -163,6 +163,20 @@ export const styles = css`
 
         width: 100%;
         min-height: 600px; /* Removed height: 100% to allow natural growth */
+        max-width: 96vw;
+
+        ${min.sm} {
+          max-width: 94vw;
+        }
+        ${min.md} {
+          max-width: 96vw;
+        }
+        ${min.lg} {
+          max-width: 96vw;
+        }
+        ${min.xl} {
+          max-width: ${BREAKPOINTS.xl + 220}px;
+        }
 
         justify-content: flex-start;
         align-items: stretch;

@@ -1,31 +1,42 @@
 import { css } from '@emotion/react';
+import { BREAKPOINTS, button, colors, layout, min } from 'styles';
 
-import { BREAKPOINTS, colors, layout, min } from 'styles';
+export const stylesTypography = css`
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: ${colors.text75};
+`;
 
 export const styles = css`
-  /* position: relative; */
-  left: 0;
-  width: 100vw;
-  max-width: unset !important;
-  /* transform: translateX(-50vw); */
-  /* box-sizing: border-box; */
-  /* margin: 0 auto; */
-  /* width: 90vw; */
-  /* max-width: 100%; */
-  /* margin: 0 auto; */
+  width: 100%;
+  margin: 0 auto;
 
-  /* .container > div > div { */
-  > div > div {
+  ${min.sm} {
+    max-width: 94vw;
+  }
+  ${min.md} {
+    max-width: 96vw;
+  }
+  ${min.lg} {
+    max-width: 96vw;
+  }
+  ${min.xl} {
+    max-width: ${BREAKPOINTS.xl}px;
+    max-width: ${BREAKPOINTS.xl + 200}px;
+  }
+
+  .navbar {
+    padding: 0;
+    overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    overflow: hidden;
-  }
 
-  #nav-container {
-    width: 100%;
-    margin: 0 auto;
+    box-sizing: content-box;
+    padding: 0 3.5rem 0 3rem !important;
+    margin-top: 1.25rem;
+    margin-bottom: 0.75rem;
+
     ${min.sm} {
       max-width: 94vw;
     }
@@ -36,30 +47,36 @@ export const styles = css`
       max-width: 96vw;
     }
     ${min.xl} {
-      max-width: ${BREAKPOINTS.xl}px;
-    }
-    ${min.xxl} {
-      border: 1px solid transparent !important;
-      max-width: 85vw;
+      max-width: ${BREAKPOINTS.xl + 200}px;
     }
   }
 
+  .nav-items {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    position: absolute;
+  }
+
+  /* Radix TabNav overrides */
   ul.admin-nav {
     display: flex;
     gap: 0.5rem;
-    font-size: 0.9rem;
-    font-weight: 700;
+    ${stylesTypography}
     overflow: visible;
     position: relative;
     width: 100%;
     max-width: 100%;
     flex-wrap: nowrap;
+    margin: 0 1rem !important;
 
     button.rt-TabNavLink.nav-button {
-      color: ${colors.text75};
+      ${stylesTypography}
       background-color: transparent;
-      font-weight: 700;
-      border: none;
+      border: ${button.border.width} solid ${colors.transparent}!important;
       cursor: pointer;
       padding: 0.5rem 1rem;
       border-radius: ${layout.borderRadius};
@@ -71,8 +88,11 @@ export const styles = css`
       justify-content: center;
 
       :hover {
-        background-color: transparent !important;
         color: ${colors.text};
+        &,
+        & span {
+          background-color: transparent !important;
+        }
       }
 
       &.active {
@@ -83,7 +103,7 @@ export const styles = css`
         }
         & span {
           font-weight: 700;
-          background-color: transparent;
+          background-color: transparent !important;
         }
         :hover {
           color: ${colors.infoXDark};
@@ -118,7 +138,19 @@ export const styles = css`
     }
   }
 
-  /* Dropdown menu styles */
+  li:first-of-type {
+    padding-left: 0.5rem !important;
+  }
+
+  /* Disable Radix TabNav's built-in responsive hamburger behavior */
+  .admin-nav {
+    /* Force TabNav to always show horizontal layout, never collapse to hamburger */
+    @media (max-width: 768px) {
+      /* Override any Radix responsive behavior */
+    }
+  }
+
+  /* Dropdown menu styles (for MoreButton) */
   .rt-DropdownMenuContent {
     min-width: 180px;
 
@@ -133,20 +165,13 @@ export const styles = css`
     }
   }
 
-  /* More button specific styles */
-  .more-button {
-    /* Add any specific styles for the More button trigger */
-  }
-
-  .more-dropdown {
-    /* Add any specific styles for the More dropdown content */
-  }
-
-  /* Disable Radix TabNav's built-in responsive hamburger behavior */
-  .admin-nav {
-    /* Force TabNav to always show horizontal layout, never collapse to hamburger */
-    @media (max-width: 768px) {
-      /* Override any Radix responsive behavior */
-    }
+  /* Invisible measurement container */
+  .measure {
+    position: absolute;
+    visibility: hidden;
+    overflow: hidden;
+    white-space: nowrap;
+    pointer-events: none;
+    height: 0;
   }
 `;

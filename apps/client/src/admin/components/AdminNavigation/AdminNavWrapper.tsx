@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, type FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
@@ -6,10 +6,10 @@ import { getAdminNavItemsByRole } from 'admin/config/admin.routes.selectors';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 import { getAdminNavItemText } from 'utils/i18n/i18n-inlang.helpers';
 
-import Navbar from 'admin/components/NavbarV2/Navbar';
-import { styles } from 'admin/components/NavbarV2/NavbarWrapper.styles';
+import { AdminNavbar } from 'admin/components/AdminNavigation/AdminNavbar';
+import { styles } from 'admin/components/AdminNavigation/AdminNavWrapper.styles';
 
-export default function NavbarWrapper() {
+export const AdminNavWrapper: FC = () => {
   const { t } = useTranslation();
   const { user } = useAuth();
   const location = useLocation();
@@ -57,7 +57,7 @@ export default function NavbarWrapper() {
 
   return (
     <div css={styles}>
-      <Navbar navItems={navItems} />
+      <AdminNavbar navItems={navItems} />
     </div>
   );
-}
+};

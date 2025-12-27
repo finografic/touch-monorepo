@@ -1,3 +1,1 @@
-export { AdminNavigation } from './AdminNavigation';
-export { MoreButton } from '../MoreButton/MoreButton';
-export { useResponsiveNav } from './useResponsiveNav';
+export { AdminNavWrapper as AdminNavigation } from './AdminNavWrapper';

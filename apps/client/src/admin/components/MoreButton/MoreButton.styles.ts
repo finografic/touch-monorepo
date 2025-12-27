@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 
 import { colors, layout, min } from 'styles';
-import { stylesTypography } from '../NavbarV2/NavbarWrapper.styles';
+import { stylesTypography } from '../AdminNavigation/AdminNavWrapper.styles';
 
 export const styles = css`
   button {
