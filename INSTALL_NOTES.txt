@@ -1,0 +1,196 @@
+# Raspberry Pi Installation Notes
+
+## Prerequisites
+- Raspberry Pi OS installed on SD card
+- SSH enabled (or physical access with keyboard/monitor)
+- Network connection (Wi-Fi or Ethernet)
+- Raspberry Pi IP address
+
+## Finding Your Raspberry Pi IP Address
+
+### From Raspberry Pi (if you have access):
+```bash
+hostname -I
+# or
+ip addr show
+```
+
+### From Mac (scan network):
+```bash
+# Replace 192.168.1 with your network range
+nmap -sn 192.168.1.0/24 | grep -B 2 "Raspberry"
+```
+
+### From Router Admin Panel:
+- Check connected devices list
+- Look for "raspberrypi" hostname
+
+## SSH Access
+
+### Connect to Raspberry Pi:
+```bash
+ssh pi@<raspberry-pi-ip>
+# Default password is usually "raspberry" (change this!)
+```
+
+### Enable SSH (if not enabled):
+```bash
+sudo systemctl enable ssh
+sudo systemctl start ssh
+```
+
+## Installing nvm (Node Version Manager)
+
+### Option 1: Using the install script
+```bash
+# On your Mac, transfer the script:
+rsync -avz --progress install-nvm.sh pi@<raspberry-pi-ip>:~/
+
+# On Raspberry Pi:
+chmod +x install-nvm.sh
+./install-nvm.sh
+```
+
+### Option 2: Direct installation
+```bash
+# On Raspberry Pi, run:
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+
+# Reload shell:
+source ~/.bashrc
+
+# Or add to ~/.bashrc manually:
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+```
+
+### Verify nvm installation:
+```bash
+nvm --version
+```
+
+## Installing Node.js
+
+### Install LTS version (recommended):
+```bash
+nvm install --lts
+nvm use --lts
+nvm alias default node  # Set as default
+```
+
+### Verify Node.js:
+```bash
+node --version
+npm --version
+```
+
+## Transferring Files from Mac to Raspberry Pi
+
+### Using rsync (recommended):
+```bash
+# Single file:
+rsync -avz --progress file.txt pi@<raspberry-pi-ip>:~/
+
+# Directory (excluding node_modules, .git, etc.):
+rsync -avz --progress \
+  --exclude 'node_modules' \
+  --exclude '.git' \
+  --exclude 'dist' \
+  --exclude 'build' \
+  --exclude '.next' \
+  --exclude '*.log' \
+  ./ pi@<raspberry-pi-ip>:~/touch-monorepo/
+```
+
+### Using SCP:
+```bash
+scp file.txt pi@<raspberry-pi-ip>:~/
+scp -r directory/ pi@<raspberry-pi-ip>:~/destination/
+```
+
+## Setting Up SSH Keys (Passwordless Access)
+
+### On your Mac:
+```bash
+# Generate SSH key (if you don't have one):
+ssh-keygen -t ed25519 -C "your_email@example.com"
+
+# Copy public key to Raspberry Pi:
+ssh-copy-id pi@<raspberry-pi-ip>
+```
+
+### Test passwordless login:
+```bash
+ssh pi@<raspberry-pi-ip>
+# Should connect without password prompt
+```
+
+## Common Raspberry Pi Defaults
+
+- **Username:** `pi` (or `ubuntu` if Ubuntu was installed)
+- **Default password:** `raspberry` (⚠️ CHANGE THIS!)
+- **SSH:** Usually enabled by default on Raspberry Pi OS
+- **Home directory:** `/home/pi/`
+
+## Useful Commands
+
+### Update system:
+```bash
+sudo apt update
+sudo apt upgrade -y
+```
+
+### Install common tools:
+```bash
+sudo apt install -y git curl wget vim
+```
+
+### Check disk space:
+```bash
+df -h
+```
+
+### Check memory:
+```bash
+free -h
+```
+
+### Check CPU temperature:
+```bash
+vcgencmd measure_temp
+```
+
+## Troubleshooting
+
+### Can't connect via SSH:
+- Check if SSH is enabled: `sudo systemctl status ssh`
+- Check firewall: `sudo ufw status`
+- Verify IP address is correct
+- Check if Pi is on same network
+
+### nvm command not found:
+- Reload shell: `source ~/.bashrc`
+- Check if nvm is in PATH: `echo $NVM_DIR`
+- Verify installation: `ls -la ~/.nvm`
+
+### Permission denied:
+- Check file permissions: `chmod +x script.sh`
+- Use sudo if needed (but avoid for nvm/Node.js)
+
+## Next Steps
+
+1. ✅ Install nvm
+2. ✅ Install Node.js LTS
+3. ✅ Set up SSH keys for passwordless access
+4. ✅ Transfer your project files
+5. ✅ Install project dependencies: `npm install` or `pnpm install`
+6. ✅ Set up your application
+
+## Notes
+
+- Always change default passwords!
+- Keep system updated: `sudo apt update && sudo apt upgrade`
+- Use LTS Node.js versions for production
+- Consider setting up a static IP for easier access
+
