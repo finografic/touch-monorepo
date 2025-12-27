@@ -5,7 +5,6 @@ import { AdminOrdersListPage } from 'admin/pages/AdminProductsPage/AdminOrdersLi
 import { LoaderDataHelper } from 'api/loaders/loader.data';
 import { AdminLayout } from 'layout/AdminLayout';
 import { Layout } from 'layout/Layout';
-import { ColorTestPage } from 'pages/ColorTestPage';
 import { GenericSelectPage } from 'pages/GenericSelectPage/GenericSelectPage';
 import { LoginPage } from 'pages/LoginPage/LoginPage';
 import { MainPage } from 'pages/MainPage/MainPage';
@@ -26,10 +25,13 @@ export const routes: RouteObject[] = [
         id: 'main',
         element: <MainPage />,
       },
+      // ============================================== //
+      // Alternative flows
+      // ============================================== //
       {
-        path: '/color-test',
-        id: 'color-test',
-        element: <ColorTestPage />,
+        path: ALTERNATIVE_PATHS.time,
+        id: 'time',
+        element: <TimePage />,
       },
       // ============================================== //
       // Drink Configuration Flow
@@ -64,15 +66,6 @@ export const routes: RouteObject[] = [
         id: ROUTE_FILTER_KEYS.temperature,
         loader: LoaderDataHelper[ROUTE_FILTER_KEYS.temperature],
         element: <TemperaturePage />,
-      },
-      // ============================================== //
-      // Alternative flows
-      // ============================================== //
-      {
-        path: ALTERNATIVE_PATHS.time,
-        id: 'time',
-        element: <TimePage />,
-        // element: <UnauthorizedPage />,
       },
       // ============================================== //
       {

@@ -32,7 +32,11 @@
       },
       "temperature": {
         "title": "Temperature Control",
-        "description": "Set your temperature preferences"
+        "description": "Set your temperature preferences",
+        "labels": {
+          "initial": "Initial temperature",
+          "final": "Final temperature"
+        }
       }
     },
     "orders": {

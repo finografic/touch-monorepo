@@ -5,6 +5,7 @@ import { PadNumeric } from 'components/Pads/PadNumeric';
 import { ClosestTemperatures } from 'pages/TemperaturePage/ClosestTemperatures';
 import type { TemperatureState } from 'pages/TemperaturePage/TemperaturePage.types';
 
+import { useTranslation } from 'react-i18next';
 import { useSmartFallback } from 'hooks/useSmartFallback';
 import { useFilters } from 'providers/FiltersProvider/useFilters';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
@@ -12,13 +13,13 @@ import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 import type { Temperature } from 'types/slots.types';
 import { TemperatureKey } from 'types/temperature.types';
 import { INITIAL_TEMP_DEFAULT, MIN_TEMP_DIFFERENCE } from 'config/app';
-import { TEMPERATURE_DESCRIPTIONS } from './temperature.constants';
 import { useTemperatureFormAndFilter } from './useTemperatureFormAndFilter';
 import { styles } from './TemperaturePage.styles';
 
 const isVisibleClosestProfile = false;
 
 export const TemperaturePage = () => {
+  const { t } = useTranslation();
   const { profile, ordersReadable } = useOrders();
   const { dataFiltered } = useFilters();
   const { createFallbackEntry } = useSmartFallback();
@@ -79,9 +80,6 @@ export const TemperaturePage = () => {
       <Flex direction="column" gap="3" justify="center" css={styles}>
         <Flex gap="3" justify="center" className="page-description">
           <Box>
-            {TEMPERATURE_DESCRIPTIONS.page && (
-              <p style={{ textAlign: 'center' }}>{TEMPERATURE_DESCRIPTIONS.page}</p>
-            )}
             {isVisibleClosestProfile && (
               <ClosestTemperatures temperatures={temperatures} profiles={temperatureProfiles} />
             )}
@@ -90,7 +88,7 @@ export const TemperaturePage = () => {
 
         <Flex gap="3" justify="center">
           <PadNumeric
-            label={TEMPERATURE_DESCRIPTIONS.initial.label}
+            label={t('app.pages.temperature.labels.initial')}
             value={temperatures.initial}
             onChange={(value) => handleChange(TemperatureKey.Initial, { value, unit: '°C' })}
             min={minProfileTemp}
@@ -101,7 +99,7 @@ export const TemperaturePage = () => {
             suffix="°C"
           />
           <PadNumeric
-            label={TEMPERATURE_DESCRIPTIONS.final.label}
+            label={t('app.pages.temperature.labels.final')}
             value={temperatures.final}
             onChange={(value) => handleChange(TemperatureKey.Final, { value, unit: '°C' })}
             min={minMaxTemperatures.min}

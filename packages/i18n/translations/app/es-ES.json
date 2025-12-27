@@ -26,9 +26,13 @@
         "title": "Tipos de contenedores",
         "description": "Seleccionar tipo de contenedor"
       },
-      "temperatures": {
+      "temperature": {
         "title": "Control de temperatura",
-        "description": "Configura tus preferencias de temperatura"
+        "description": "Configura tus preferencias de temperatura",
+        "labels": {
+          "initial": "Temperatura inicial",
+          "final": "Temperatura final"
+        }
       },
       "time": {
         "minutes": "Min",

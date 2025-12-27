@@ -32,7 +32,11 @@
       },
       "temperature": {
         "title": "Control de temperatura",
-        "description": "Configura les teves preferències de temperatura"
+        "description": "Configura les teves preferències de temperatura",
+        "labels": {
+          "initial": "Temperatura d'inici",
+          "final": "Temperatura de finalització"
+        }
       }
     },
     "orders": {

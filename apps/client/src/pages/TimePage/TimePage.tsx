@@ -9,13 +9,14 @@ import { useTranslation } from 'react-i18next';
 
 export const TimePage = () => {
   const { t } = useTranslation();
-  // ✅ Use proper Zustand store instead of local state
   const { timeSeconds, setTime, resetTime } = useTimePageStore();
 
-  // Initialize with default time
-  useEffect(() => {
-    resetTime();
-  }, [resetTime]);
+  useEffect(
+    function initializeTimeValues() {
+      resetTime();
+    },
+    [resetTime],
+  );
 
   const handleTimeChange = useCallback(
     (newTotalSeconds: number) => {
@@ -33,7 +34,7 @@ export const TimePage = () => {
               value={Math.floor(timeSeconds / 60)}
               onChange={(minutes) => {
                 const newTotalSeconds = minutes * 60 + (timeSeconds % 60);
-                handleTimeChange(newTotalSeconds);
+                setTime(newTotalSeconds);
               }}
               min={0}
               max={Math.floor(TIME_MAX_SECONDS / 60)}
