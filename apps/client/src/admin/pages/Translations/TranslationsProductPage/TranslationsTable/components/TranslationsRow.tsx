@@ -98,8 +98,10 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
     >
       {/* SLUG / KEY */}
       <td className="col-key">
+        <pre>{nameField.value || ''}</pre>
         <Input
           value={nameField.value || ''}
+          type="hidden"
           readOnly
           className={clsx({ 'input-dirty': rowDirtyFields?.name })}
         />

@@ -42,9 +42,6 @@ export const styles = css`
     /* =================================================================== */
 
     td {
-      /* padding: 0.33rem 1rem;
-      padding: 0.33rem 2rem; */
-
       input {
         padding: 0.33rem 0.75rem;
         border-style: solid;
@@ -135,7 +132,7 @@ export const styles = css`
         }
 
         &:hover {
-          /* background-color: ${colors.greyXXLight50}; */
+          /* Hover styles handled by expanded state */
         }
 
         &.expanded {
@@ -218,7 +215,9 @@ export const styles = css`
         border: 2px solid ${colors.transparent};
         cursor: default;
         user-select: none;
-        opacity: 0.66 !important;
+        opacity: 0.66;
+        white-space: pre-wrap;
+        word-break: break-word;
       }
     }
 
