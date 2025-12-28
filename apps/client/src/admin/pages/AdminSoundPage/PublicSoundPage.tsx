@@ -5,7 +5,7 @@ import { Flex } from '@radix-ui/themes';
 import { VolumeSlider } from 'admin/pages/AdminSoundPage/VolumeSlider';
 
 import { useGetSoundFiles, useGetSoundSettings } from 'queries/sounds';
-import { AdminPageLayout, AdminSection } from '../..';
+import { AdminPageLayout, AdminSection } from 'admin/components';
 import { SoundConfigurationSection } from './components';
 import { styles } from './AdminSoundPage.styles';
 
@@ -15,7 +15,12 @@ export const PublicSoundPage: React.FC = () => {
     useGetSoundSettings();
 
   return (
-    <AdminPageLayout title="Sound Management" isLoading={isLoadingFiles || isLoadingSettings} styles={styles}>
+    <AdminPageLayout
+      title={'admin.pages.sound_public.title'}
+      description={'admin.pages.sound_public.description'}
+      isLoading={isLoadingFiles || isLoadingSettings}
+      styles={styles}
+    >
       <AdminSection title="Alarm Sound" description="Select which sound file to use for timer alarm events">
         <Row justify="between" align="center">
           <Col xs={12} lg={7}>

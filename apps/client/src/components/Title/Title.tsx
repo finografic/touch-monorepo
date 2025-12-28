@@ -1,11 +1,15 @@
 import React from 'react';
 
+import { useTranslation } from 'react-i18next';
 import { Heading, Text } from '@radix-ui/themes';
 import clsx from 'clsx';
 
 import type { Align, Theme } from 'types/ui.types';
 import type { TitleHeadingProps } from './Title.types';
+import { isTranslationKey, translatePageKey } from 'utils/i18n/i18n.helpers-V1';
+
 import { styles } from './Title.styles';
+import { useAuth } from 'providers/AuthProvider';
 
 interface TitleProps extends Partial<TitleHeadingProps> {
   title?: string | undefined;
@@ -33,7 +37,16 @@ export const Title: React.FC<TitleProps> = ({
   as = 'header',
   ...headingProps
 }) => {
+  const { t } = useTranslation();
+  const { user } = useAuth();
+  const role = user?.role;
+
+  title = isTranslationKey(title) ? translatePageKey({ t, key: title, role }) : title;
+  subtitle = isTranslationKey(subtitle) ? translatePageKey({ t, key: subtitle, role }) : subtitle;
+  description = isTranslationKey(description) ? translatePageKey({ t, key: description, role }) : description;
+
   const AsWrapperElement = as;
+
   return (
     <div css={styles}>
       <AsWrapperElement className={clsx('title-wrapper', className, { align })}>

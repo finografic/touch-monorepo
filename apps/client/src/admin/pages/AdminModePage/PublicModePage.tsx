@@ -7,7 +7,7 @@ import { useToast } from 'components/Toast';
 
 import { useGetModes, useUpdateDefaultMode } from 'queries/modes';
 
-import { AdminPageLayout, AdminSection } from '../..';
+import { AdminPageLayout, AdminSection } from 'admin/components';
 import { styles } from './AdminModePage.styles';
 
 export const PublicModePage: React.FC = () => {
@@ -63,8 +63,8 @@ export const PublicModePage: React.FC = () => {
 
   return (
     <AdminPageLayout
-      title="Mode Selection"
-      description="Select default mode for the system"
+      title={'admin.pages.mode_public.title'}
+      description={'admin.pages.mode_public.description'}
       isLoading={isLoadingModes}
       styles={styles}
     >

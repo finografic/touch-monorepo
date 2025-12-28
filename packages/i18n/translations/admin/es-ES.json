@@ -6,7 +6,11 @@
     },
     "pages": {
       "dashboard": {
-        "title": "Panel de control",
+        "title": "Panel de administración",
+        "description": "Resumen del sistema"
+      },
+      "dashboard_public": {
+        "title": "Panel de usuario",
         "description": "Resumen del sistema"
       },
       "translations": {
@@ -28,28 +32,6 @@
           "containerTypes": "Tipos de Envase",
           "actions": "Acciones"
         },
-        "management": "Idioma de productos",
-        "editTables": "Editar traducciones para tablas de base de datos",
-        "modes": {
-          "title": "Modos",
-          "description": "Modos de operación del sistema"
-        },
-        "drinkSubtypes": {
-          "title": "Subtipos de bebidas",
-          "description": "Subtipos de vino y cerveza (rubia, negra, tinto, blanco)"
-        },
-        "volumes": {
-          "title": "Volúmenes",
-          "description": "Volúmenes de contenedores (2L, 1.5L, 50cl, 33cl, etc.)"
-        },
-        "drinkTypes": {
-          "title": "Tipos de bebidas",
-          "description": "Categorías principales de bebidas (cerveza, vino, cava, licor, etc.)"
-        },
-        "containerTypes": {
-          "title": "Tipos de contenedores",
-          "description": "Materiales de contenedores (plástico, vidrio, metal)"
-        },
         "domains": {
           "title": "Traducciones {{group}}",
           "ui": {
@@ -64,24 +46,21 @@
             "title": "Idioma del administrador",
             "description": "Páginas, títulos, subtítulos, etiquetas, etc."
           }
-        },
-        "card": {
-          "title": "Idioma de productos",
-          "description": "Editar traducciones para contenido de base de datos"
         }
       },
-      "languages": {
-        "title": "Gestión de idiomas",
-        "description": "Configurar idiomas del sistema y localización"
-      },
-      "languages_public": {
-        "title": "Gestión de idiomas",
-        "description": "Seleccionar idioma por defecto del sistema"
-      },
-      "items": {
-        "title": "Gestión de registros",
-        "description": "Gestionar registros de la base de datos",
+      "products": {
+        "title": "Idioma de productes",
+        "description": "Editar etiquetes de productes",
+        "tabs": {
+          "mode": "Modo",
+          "drinkType": "Tipo de Bebida",
+          "drinkSubtype": "Subtipo",
+          "volume": "Volumen",
+          "container": "Envase",
+          "actions": "Acciones"
+        },
         "table": {
+          "title": "Traducciones {{group}}",
           "headers": {
             "displayIndex": "#",
             "index": "#",
@@ -100,48 +79,41 @@
           }
         }
       },
-      "products": {
-        "title": "Idioma de productes",
-        "description": "Editar etiquetes de productes",
-        "tabs": {
-          "mode": "Modo",
-          "drinkType": "Tipo de Bebida",
-          "drinkSubtype": "Subtipo",
-          "volume": "Volumen",
-          "container": "Envase",
-          "actions": "Acciones"
-        },
-        "table": {
-          "title": "Traducciones {{group}}"
-        }
+      "languages": {
+        "title": "Gestión de idiomas",
+        "description": "Configurar idiomas del sistema y localización"
+      },
+      "languages_public": {
+        "title": "Selección de idioma",
+        "description": "Seleccionar idioma por defecto"
       },
       "slots": {
         "title": "Grid",
         "description": "Configure MainPage grid layout and slot types"
       },
-      "sounds": {
-        "title": "Sound Management",
-        "description": "Upload and configure sound files for timer events"
+      "sound": {
+        "title": "Gestión de sonidos",
+        "description": "Subir y configurar archivos de sonidos para eventos de alarma y finalización"
+      },
+      "sound_public": {
+        "title": "Gestión de sonido",
+        "description": "Seleccionar sonido para eventos de alarma, y configurar volumen"
       },
       "mode": {
-        "title": "Mode",
-        "description": "Select default mode",
-        "card_public": {
-          "title": "Modo",
-          "description": "Seleccionar modo por defecto"
-        }
+        "title": "Modos",
+        "description": "Gestionar modos de operación del sistema"
+      },
+      "mode_public": {
+        "title": "Modo",
+        "description": "Seleccionar modo por defecto"
       },
       "relays": {
-        "title": "Relays",
-        "description": "Manage relays"
+        "title": "Relés",
+        "description": "Gestionar relés"
       },
-      "maintenance": {
-        "title": "Maintenance",
-        "description": "Manage general maintenance",
-        "card_public": {
-          "title": "Mantenimiento",
-          "description": "Gestionar mantenimiento"
-        }
+      "relays_public": {
+        "title": "Mantenimiento",
+        "description": "Mantenimiento y desescarche"
       }
     }
   }

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
-import { Flex, Spinner, Tabs, Text } from '@radix-ui/themes';
+import { Tabs } from '@radix-ui/themes';
 import { useToast } from 'components/Toast';
 
 import { useGetSoundFiles, useGetSoundSettings } from 'queries/sounds';
 
 import { preloadSounds, testAudioPlayback, updateCachedSoundFiles } from 'utils/soundCache.utils';
 import type { SoundType } from 'types/sounds.types';
-import { AdminPageLayout, AdminSection } from '../..';
+import { AdminPageLayout, AdminSection } from 'admin/components';
 import { FileUploadSection, SoundConfigurationSection, SoundLibrarySection } from './components';
 import { styles } from './AdminSoundPage.styles';
 
@@ -48,26 +48,11 @@ export const AdminSoundPage: React.FC = () => {
     }
   };
 
-  if (isLoadingFiles || isLoadingSettings || isLoadingActiveTabFiles) {
-    return (
-      <AdminPageLayout
-        title="Sound Management"
-        subtitle="Admin"
-        description="Upload and configure sound files for timer events"
-        styles={styles}
-      >
-        <Flex direction="column" gap="4" align="center" justify="center" p="6">
-          <Spinner size="3" />
-          <Text>Loading sound settings...</Text>
-        </Flex>
-      </AdminPageLayout>
-    );
-  }
-
   return (
     <AdminPageLayout
-      title="Sound Management"
-      description="Upload and configure sound files for timer events"
+      title={'admin.pages.sound.title'}
+      description={'admin.pages.sound.description'}
+      isLoading={isLoadingFiles || isLoadingSettings || isLoadingActiveTabFiles}
       styles={styles}
     >
       <Tabs.Root value={activeTab} onValueChange={(value) => setActiveTab(value as SoundType)}>

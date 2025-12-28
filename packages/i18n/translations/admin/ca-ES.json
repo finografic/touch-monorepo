@@ -6,49 +6,31 @@
     },
     "pages": {
       "dashboard": {
-        "title": "Tauler",
+        "title": "Tauler d'administració",
+        "description": "Resum del sistema"
+      },
+      "dashboard_public": {
+        "title": "Tauler d'usuari",
         "description": "Resum del sistema"
       },
       "translations": {
-        "title": "Gestió de traduccions",
+        "title": "Traduccions de productes",
         "description": "Editar traduccions per contingut de base de dades",
         "tabs": {
           "pages": "Pàgines",
-          "labels": "Etiquetas",
-          "components": "Componentes",
+          "labels": "Etiquetes",
+          "components": "Components",
           "orders": "Comandes",
           "products": "Productes",
           "buttons": "Botons",
-          "dialogs": "Dialogs",
+          "dialogs": "Diàlegs",
           "time": "Temps",
           "modes": "Modes",
           "drinkTypes": "Tipus de Beguda",
-          "drinkSubtypes": "Subtipus",
+          "drinkSubtypes": "Subtipus de Beguda",
           "volumes": "Volums",
           "containerTypes": "Tipus d'Envas",
           "actions": "Accions"
-        },
-        "management": "Gestió de traduccions",
-        "editTables": "Editar traduccions per taules de base de dades",
-        "modes": {
-          "title": "Modos",
-          "description": "Modos d'operació del sistema"
-        },
-        "drinkSubtypes": {
-          "title": "Subtipus de begudes",
-          "description": "Subtipus de vi i cervesa (rubia, negra, tinto, blanco)"
-        },
-        "volumes": {
-          "title": "Volums",
-          "description": "Volums de contenidors (2L, 1.5L, 50cl, 33cl, etc.)"
-        },
-        "drinkTypes": {
-          "title": "Tipus de begudes",
-          "description": "Categories principals de begudes (cervesa, vi, cava, licor, etc.)"
-        },
-        "containerTypes": {
-          "title": "Tipus de contenidors",
-          "description": "Materials de contenidors (plàstic, vidre, metall)"
         },
         "domains": {
           "title": "Traduccions {{group}}",
@@ -64,24 +46,21 @@
             "title": "Traduccions Admin",
             "description": "Pàgines, títols, subtítols, etiquetes, etc."
           }
-        },
-        "card": {
-          "title": "Gestió de traduccions",
-          "description": "Editar traduccions per contingut de base de dades"
         }
       },
-      "languages": {
-        "title": "Gestió d'idiomes",
-        "description": "Configurar idiomes del sistema i localització"
-      },
-      "languages_public": {
-        "title": "Gestió d'idiomes",
-        "description": "Seleccionar idioma per defecte del sistema"
-      },
-      "items": {
-        "title": "Gestió de configuracion",
-        "description": "Configurar idiomes del sistema i localització",
+      "products": {
+        "title": "Traduccions de productes",
+        "description": "Editar etiquetes de productes",
+        "tabs": {
+          "mode": "Mode",
+          "drinkType": "Tipus de Beguda",
+          "drinkSubtype": "Subtipus",
+          "volume": "Volum",
+          "container": "Envas",
+          "actions": "Accions"
+        },
         "table": {
+          "title": "Traduccions {{group}}",
           "headers": {
             "displayIndex": "#",
             "index": "#",
@@ -100,48 +79,41 @@
           }
         }
       },
-      "products": {
-        "title": "Idiomes de productes",
-        "description": "Editar etiquetes de productes",
-        "tabs": {
-          "mode": "Mode",
-          "drinkType": "Tipus de Beguda",
-          "drinkSubtype": "Subtipus",
-          "volume": "Volum",
-          "container": "Envas",
-          "actions": "Accions"
-        },
-        "table": {
-          "title": "Traduccions {{group}}"
-        }
+      "languages": {
+        "title": "Gestió de idiomes",
+        "description": "Configurar idiomes del sistema i localització"
+      },
+      "languages_public": {
+        "title": "Selecció de idioma",
+        "description": "Seleccionar idioma per defecte"
       },
       "slots": {
         "title": "Graella",
         "description": "Configurar la disposició de la graella de la pàgina principal i tipus de ranures"
       },
-      "sounds": {
+      "sound": {
         "title": "Gestió de Sons",
-        "description": "Pujar i configurar fitxers de so per a esdeveniments de temporitzador"
+        "description": "Pujar i configurar fitxers de so per a esdeveniments d'alarma i finalització"
+      },
+      "sound_public": {
+        "title": "Gestió de so",
+        "description": "Seleccionar so per a esdeveniments d'alarma i configurar volum"
       },
       "mode": {
+        "title": "Modes",
+        "description": "Gestionar modes d'operació del sistema"
+      },
+      "mode_public": {
         "title": "Mode",
-        "description": "Seleccionar mode per defecte",
-        "card_public": {
-          "title": "Mode",
-          "description": "Seleccionar mode per defecte"
-        }
+        "description": "Seleccionar mode per defecte"
       },
       "relays": {
         "title": "Relés",
         "description": "Gestionar relés"
       },
-      "maintenance": {
+      "relays_public": {
         "title": "Manteniment",
-        "description": "Gestionar manteniment general",
-        "card_public": {
-          "title": "Manteniment",
-          "description": "Gestionar manteniment"
-        }
+        "description": "Manteniment i desescarche"
       }
     }
   }

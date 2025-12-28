@@ -11,10 +11,8 @@ export const isDefaultLanguage = (language: LanguageInfo): boolean => {
  * Utility to check if a language can be deleted
  */
 export const canDeleteLanguage = (language: LanguageInfo, totalLanguages: number): boolean => {
-  // Can't delete if it's the default language
   if (language.isDefault) return false;
 
-  // Can't delete if it's the only language
   if (totalLanguages <= 1) return false;
 
   return true;

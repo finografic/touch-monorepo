@@ -95,7 +95,7 @@ export const routes: RouteObject[] = [
           },
           { path: 'mode', element: null },
           { path: 'languages', element: null },
-          { path: 'sounds', element: null },
+          { path: 'sound', element: null },
           { path: 'maintenance', element: null },
           {
             path: 'items',

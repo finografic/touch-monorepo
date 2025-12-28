@@ -4,8 +4,7 @@ import { Box, Flex } from '@radix-ui/themes';
 
 import { useInitializeRelay } from 'queries/relays';
 
-import { AdminPageLayout, AdminSection } from '../..';
-import { NUM_RELAYS } from 'config/app/slots.config';
+import { AdminPageLayout, AdminSection } from 'admin/components';
 import { RelaysConnectionStatus } from './RelaysConnectionStatus';
 import { styles } from './AdminRelaysPage.styles';
 import { DEFROST_SLOT_NUMBER } from 'admin/config/admin.slots.config';
@@ -29,9 +28,8 @@ export const PublicRelaysPage: React.FC = () => {
 
   return (
     <AdminPageLayout
-      title="Maintenance"
-      subtitle="Relays"
-      description={`Test and control the ${NUM_RELAYS}-channel relay board`}
+      title={'admin.pages.relays_public.title'}
+      description={'admin.pages.relays_public.description'}
       styles={styles}
     >
       <AdminSection title="Connection Status" variant="border-solid">

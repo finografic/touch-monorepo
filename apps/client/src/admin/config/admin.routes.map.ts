@@ -78,11 +78,11 @@ export const ADMIN_ROUTE_CONFIGS: AdminRouteConfig[] = [
     id: 'relays',
     path: '/admin/relays',
     element: {
-      public: null,
+      public: PublicRelaysPage,
       admin: AdminRelaysPage,
     },
-    hasNav: { public: false, admin: true },
-    hasCard: { public: false, admin: true },
+    hasNav: { public: true, admin: true },
+    hasCard: { public: true, admin: true },
     icon: ZapIcon,
     color: 'green',
   },
@@ -99,8 +99,8 @@ export const ADMIN_ROUTE_CONFIGS: AdminRouteConfig[] = [
     color: 'blue',
   },
   {
-    id: 'sounds',
-    path: '/admin/sounds',
+    id: 'sound',
+    path: '/admin/sound',
     element: {
       public: PublicSoundPage,
       admin: AdminSoundPage,
@@ -109,18 +109,6 @@ export const ADMIN_ROUTE_CONFIGS: AdminRouteConfig[] = [
     hasCard: { public: true, admin: true },
     icon: VolumeIcon,
     color: 'crimson',
-  },
-  {
-    id: 'maintenance',
-    path: '/admin/maintenance', // relays (public)
-    element: {
-      public: PublicRelaysPage,
-      admin: null,
-    },
-    hasNav: { public: true, admin: false },
-    hasCard: { public: true, admin: false },
-    icon: SettingsIcon,
-    color: 'orange',
   },
 
   // AUTHENTICATED ENTRIES (only visible as admin) ========================== //

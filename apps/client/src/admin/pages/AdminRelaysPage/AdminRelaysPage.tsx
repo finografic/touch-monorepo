@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
-import { Box, Flex } from '@radix-ui/themes';
+import { Flex } from '@radix-ui/themes';
 import { RelaysTable } from 'admin/pages/AdminRelaysPage/RelaysTable';
 import { BulkRelayControls } from 'admin/pages/AdminRelaysPage/BulkRelayControls';
 
@@ -9,8 +9,7 @@ import { useGetSlotConfigurations } from 'queries/slot-configurations';
 import { useAppConfig } from 'providers/AppConfigProvider';
 
 import type { SlotType } from 'types/slots.types';
-import { AdminPageLayout, AdminSection } from '../..';
-import { NUM_RELAYS } from 'config/app/slots.config';
+import { AdminPageLayout, AdminSection } from 'admin/components';
 import { RelaysConnectionStatus } from './RelaysConnectionStatus';
 import { useRelayHandlers } from './useRelayHandlers';
 import { styles } from './AdminRelaysPage.styles';
@@ -100,19 +99,11 @@ export const AdminRelaysPage: React.FC = () => {
     }));
   }, [slotConfigurations, isSuccess, relayStatesMap]);
 
-  // Show loading state while fetching slot configurations
-  if (isLoading) {
-    return (
-      <AdminPageLayout title="Relay Control" isLoading={true} styles={styles}>
-        <Box />
-      </AdminPageLayout>
-    );
-  }
-
   return (
     <AdminPageLayout
-      title="Relay Control"
-      description={`Test and control the ${NUM_RELAYS}-channel relay board`}
+      title={'admin.pages.relays.title'}
+      description={'admin.pages.relays.description'}
+      isLoading={isLoading}
       styles={styles}
     >
       <AdminSection title="Connection Status" variant="border-solid">
