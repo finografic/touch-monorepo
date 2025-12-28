@@ -1,22 +1,9 @@
 import type { CSSProperties } from 'react';
-import type { DataTableProps } from 'primereact/datatable';
-
 import type { ColumnKey } from './OrdersTable';
 
 // ============================================================================
 // Constants
 // ============================================================================
-
-export const PAGINATOR_NUM_ENTRIES = 50;
-
-export const PAGINATOR_PROPS = {
-  paginator: true,
-  rows: PAGINATOR_NUM_ENTRIES,
-  paginatorTemplate:
-    'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown',
-  currentPageReportTemplate: 'Showing {first} to {last} of {totalRecords} entries',
-  // rowsPerPageOptions: [25, 50, 100],
-} satisfies Partial<DataTableProps<any>>;
 
 export type OrdersTableColumnBodyType =
   | 'index'

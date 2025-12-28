@@ -4,7 +4,7 @@ import { useTableHeaders } from 'admin/hooks/useTableHeaders';
 import { FilterMatchMode } from 'primereact/api';
 import { Column } from 'primereact/column';
 import type { ColumnProps } from 'primereact/column';
-import type { DataTableFilterMeta, DataTableProps } from 'primereact/datatable';
+import type { DataTableFilterMeta } from 'primereact/datatable';
 import { DataTable } from 'primereact/datatable';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import type { OrderReadableWithIndex } from '../hooks/useOrdersFilter';
@@ -12,25 +12,9 @@ import { useTableLabelMappings } from './useTableLabelMappings';
 import { EditIcon, TrashIcon } from 'styles/icons';
 import 'primereact/resources/themes/lara-light-cyan/theme.css';
 import 'primereact/resources/primereact.min.css';
-import {
-  ORDERS_TABLE_COLUMNS,
-  PAGINATOR_NUM_ENTRIES,
-  type OrdersTableColumnBodyType,
-} from './OrdersTable.config';
+import { ORDERS_TABLE_COLUMNS, type OrdersTableColumnBodyType } from './OrdersTable.config';
 import { styles } from './OrdersTable.styles';
-
-// ============================================================================
-// Constants
-// ============================================================================
-
-export const PAGINATOR_PROPS = {
-  paginator: true,
-  rows: PAGINATOR_NUM_ENTRIES,
-  paginatorTemplate:
-    'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown',
-  currentPageReportTemplate: 'Showing {first} to {last} of {totalRecords} entries',
-  // rowsPerPageOptions: [25, 50, 100],
-} satisfies Partial<DataTableProps<any>>;
+import { PAGINATOR_PROPS } from 'admin/config/admin.tables.config';
 
 // ============================================================================
 // Column definition types
@@ -83,9 +67,8 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
   const { getHeader } = useTableHeaders();
 
   // Internal state for selection if not controlled externally
-  const [internalSelectedOrders, setInternalSelectedOrders] = useState<OrderReadableWithIndex[]>([]);
-
   // Use external selection if provided, otherwise use internal state
+  const [internalSelectedOrders, setInternalSelectedOrders] = useState<OrderReadableWithIndex[]>([]);
   const selectedOrders = externalSelectedOrders ?? internalSelectedOrders;
   const setSelectedOrders = onSelectionChange
     ? (orders: OrderReadableWithIndex[]) => onSelectionChange(orders)

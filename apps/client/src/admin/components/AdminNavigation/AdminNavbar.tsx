@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { TabNav } from '@radix-ui/themes';
 
 import { usePageTransition } from 'hooks/usePageTransition';
-import { MoreButton } from './MoreButton';
+import { MoreMenu } from './MoreMenu';
 import { HiddenMeasureItems } from './HiddenMeasureItems';
 import type { NavItem } from 'types/nav.types';
 
@@ -19,7 +19,7 @@ export const AdminNavbar: FC<AdminNavbarProps> = ({ navItems }) => {
   const moreButtonRef = useRef<HTMLDivElement>(null);
 
   const [visibleCount, setVisibleCount] = useState(navItems.length);
-  const [isMoreOpen, setIsMoreOpen] = useState(false);
+  const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
 
   const calculateVisibleItemsCount = useCallback(() => {
     if (!containerRef.current) return;
@@ -49,9 +49,12 @@ export const AdminNavbar: FC<AdminNavbarProps> = ({ navItems }) => {
   }, [navItems]);
 
   useLayoutEffect(() => {
-    calculateVisibleItemsCount();
-    window.addEventListener('resize', calculateVisibleItemsCount);
-    return () => window.removeEventListener('resize', calculateVisibleItemsCount);
+    if (containerRef.current) {
+      const observer = new ResizeObserver(() => calculateVisibleItemsCount());
+      observer.observe(containerRef.current);
+
+      return () => observer.disconnect();
+    }
   }, [navItems]);
 
   const visibleNavItems = navItems.slice(0, visibleCount);
@@ -59,7 +62,7 @@ export const AdminNavbar: FC<AdminNavbarProps> = ({ navItems }) => {
 
   const handleNavigate = (path: string) => {
     if (location.pathname === path) return;
-    setIsMoreOpen(false);
+    setIsMoreMenuOpen(false);
     navigateWithTransition(path);
   };
 
@@ -97,10 +100,10 @@ export const AdminNavbar: FC<AdminNavbarProps> = ({ navItems }) => {
           {/* MORE button - using our MoreButton component */}
           {overflowNavItems.length > 0 && (
             <div ref={moreButtonRef} className="more-wrapper">
-              <MoreButton
+              <MoreMenu
                 items={overflowNavItems}
-                isOpen={isMoreOpen}
-                onOpenChange={setIsMoreOpen}
+                isOpen={isMoreMenuOpen}
+                onOpenChange={setIsMoreMenuOpen}
                 onNavigate={handleNavigate}
                 activePath={location.pathname}
               />

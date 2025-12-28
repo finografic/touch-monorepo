@@ -4,7 +4,8 @@ import { ChevronDownIcon } from '@radix-ui/react-icons';
 import { DropdownMenu } from '@radix-ui/themes';
 
 import type { NavItem } from 'types/nav.types';
-import { styles } from './MoreButton.styles';
+import { styles } from './MoreMenu.styles';
+import { useTranslation } from 'react-i18next';
 
 interface MoreButtonProps {
   items: NavItem[];
@@ -16,21 +17,23 @@ interface MoreButtonProps {
   displayIcons?: boolean;
 }
 
-export const MoreButton: React.FC<MoreButtonProps> = ({
+export const MoreMenu: React.FC<MoreButtonProps> = ({
   items,
-  isOpen,
+  isOpen = false,
   onOpenChange,
   onNavigate,
   activePath,
   className = '',
   displayIcons = false,
 }) => {
+  const { t } = useTranslation();
+
   return (
     <div css={styles}>
       <DropdownMenu.Root open={isOpen} onOpenChange={onOpenChange}>
         <DropdownMenu.Trigger>
           <button type="button" className={`nav-button more-button ${className}`}>
-            More
+            {t('ui.buttons.more')}
             <ChevronDownIcon
               width="16"
               height="16"
