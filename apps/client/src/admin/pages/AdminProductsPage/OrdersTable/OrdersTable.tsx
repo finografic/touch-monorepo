@@ -10,11 +10,11 @@ import { useAppConfig } from 'providers/AppConfigProvider';
 import type { OrderReadableWithIndex } from '../hooks/useOrdersFilter';
 import { useTableLabelMappings } from './useTableLabelMappings';
 import { EditIcon, TrashIcon } from 'styles/icons';
-import 'primereact/resources/themes/lara-light-cyan/theme.css';
-import 'primereact/resources/primereact.min.css';
 import { ORDERS_TABLE_COLUMNS, type OrdersTableColumnBodyType } from './OrdersTable.config';
 import { styles } from './OrdersTable.styles';
 import { PAGINATOR_PROPS } from 'admin/config/admin.tables.config';
+import 'primereact/resources/themes/lara-light-cyan/theme.css';
+import 'primereact/resources/primereact.min.css';
 
 // ============================================================================
 // Column definition types
