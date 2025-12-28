@@ -14,17 +14,28 @@ export default fino({
       getDotEnv: 'readonly',
       log: 'readonly',
     },
+    // globals: {
+    //   ...globals.browser,
+    //   getDotEnv: 'readonly',
+    //   log: 'readonly',
+    //   // React: true,
+    // },
   },
-  formatters: true,
-  // react: true,
   typescript: true,
   rules: {
-    'fino/top-level-function': OFF,
-    'no-undef': [ERROR, { typeof: true }],
-    'node/prefer-global/process': [ERROR, 'always'],
-    'regexp/prefer-w': OFF,
-    // 'style/jsx-one-expression-per-line': OFF,
-    'style/jsx-curly-brace-presence': OFF,
+    // ...prettier.rules,
+    // 'prettier/prettier': [
+    //   ERROR,
+    //   {
+    //     printWidth: 100,
+    //     // ... other options
+    //   },
+    // ],
+    'node/prefer-global/process': OFF,
+    // '@typescript-eslint/no-explicit-any': OFF,
+    // '@typescript-eslint/no-unused-vars': WARN,
+    // '@typescript-eslint/no-shadow': OFF,
+    // 'no-console': 0,
     'style/no-multi-spaces': OFF,
     'ts/no-unused-vars': OFF,
     'ts/consistent-type-imports': [
@@ -35,13 +46,12 @@ export default fino({
         fixStyle: 'separate-type-imports',
       },
     ],
+    'ts/no-undef': OFF,
+    'no-unused-vars': OFF,
+    'fino/top-level-function': OFF,
     'jsdoc/check-alignment': OFF,
-    'prefer-arrow-callback': OFF,
-    'test/prefer-lowercase-title': OFF,
 
-    // Disable JSX parentheses rules that conflict with Prettier
-    'style/jsx-wrap-multilines': OFF,
-
+    'unicorn/number-literal-case': OFF,
     'unused-imports/no-unused-imports': OFF, // Don't remove unused imports automatically
 
     // Disable conflicting rules with simple-import-sort
@@ -65,14 +75,19 @@ export default fino({
       ERROR,
       {
         groups: [
-          ['^react', '^@react', '^@finografic', '^@workspace'],
-          ['^@?\\w', '^(pages|components|lib)(/.*|$)'],
-          ['^(hooks|routes|providers|queries)(/.*|$)'],
+          ['^@finografic', '^@workspace'],
+          ['^@?\\w', '^(drizzle|drizzle-orm|stoker|zod)(/.*|$)'],
+          ['^@?\\w', '^(pages|components)(/.*|$)'],
           ['^\\u0000'],
           [
+            '^(i18n)',
+            '^(openapi)',
+            '^(routes)',
+            '^(middlewares)',
+            '^(db|schemas|lib)',
             '^(utils)',
             '^(types|constants)',
-            '^(config|dev-tools)',
+            '^(config)',
             '^\\.\\.(?!/?$)',
             '^\\.\\./?$',
             '^\\./(?=.*/)(?!/?$)',
@@ -88,10 +103,10 @@ export default fino({
     'simple-import-sort/exports': ERROR,
     'style/jsx-one-expression-per-line': OFF,
   },
-  overrides: {
-    jsonc: {
-      // 'jsonc/sort-keys': ERROR,
-      'node/prefer-global/process': OFF,
-    },
-  },
+  // overrides: {
+  //   jsonc: {
+  //     // 'jsonc/sort-keys': ERROR,
+  //     'node/prefer-global/process': OFF,
+  //   },
+  // },
 });

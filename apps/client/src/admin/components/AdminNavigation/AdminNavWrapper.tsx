@@ -1,12 +1,13 @@
-import { useEffect, useMemo, useRef, useState, type FC } from 'react';
+import { type FC, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
+import { AdminNavbar } from 'admin/components/AdminNavigation/AdminNavbar';
 import { getAdminNavItemsByRole } from 'admin/config/admin.routes.selectors';
+
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 
 import { isTranslationKey, translatePageKey } from 'utils/i18n/i18n.helpers-V1';
-import { AdminNavbar } from 'admin/components/AdminNavigation/AdminNavbar';
 import { styles } from 'admin/components/AdminNavigation/AdminNavWrapper.styles';
 
 export const AdminNavWrapper: FC = () => {
@@ -66,7 +67,6 @@ export const AdminNavWrapper: FC = () => {
         {
           id: item.id,
           path: item.path ?? '',
-          // label: t(`admin.pages.${item.id}.title`),
           label: translatePageKey({ t, key: `admin.pages.${item.id}.title`, role: user?.role }),
         },
       ];

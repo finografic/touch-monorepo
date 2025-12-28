@@ -38,7 +38,7 @@ async function runTest() {
 
   try {
     // Load and prepare the flat config
-    const { default: clientConfig } = await import('../apps/client/eslint.config.mjs');
+    const { default: clientConfig } = await import('../apps/client/eslint--V1.config.mjs');
     const typedConfig = clientConfig as FlatConfigItem | FlatConfigItem[];
     const flatConfig = Array.isArray(typedConfig) ? typedConfig : [typedConfig];
 

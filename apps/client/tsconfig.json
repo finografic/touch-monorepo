@@ -83,5 +83,5 @@
     "env.client.ts",
     "vite.utils.ts"
   ],
-  "exclude": ["dist", "node_modules", "eslint.config.mjs"]
+  "exclude": ["dist", "node_modules", "eslint--V1.config.mjs"]
 }
