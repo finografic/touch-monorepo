@@ -2,10 +2,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import { ChevronDownIcon, ChevronUpIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons';
 import { IconButton, TextField } from '@radix-ui/themes';
+import { useOptionalFormMiddleware } from 'forms/FormMiddleware/useFormMiddleware';
 
 import { formatTime, parseTime } from 'utils/time.utils';
 import { STEP_BUTTON_SIZE, STEP_BUTTON_VARIANT } from '../FormMiddleware/FormMiddleware.constants';
-import { useFormMiddleware } from '../FormMiddleware/FormMiddleware.simple';
 import { useColors } from 'styles';
 import { styles } from './InputTime.styles';
 
@@ -35,6 +35,11 @@ export const InputTime: React.FC<InputTimeProps> = ({
 }) => {
   const { colors } = useColors();
 
+  const middleware = useOptionalFormMiddleware();
+  const isMiddlewareMode = Boolean(middleware && name);
+
+  /*
+  // TODO: REMOVE IF FORM WORKING CORRECTLY !!
   // Try to get FormMiddleware context (will be null if not in a FormMiddleware form)
   let middleware = null;
   try {
@@ -45,6 +50,7 @@ export const InputTime: React.FC<InputTimeProps> = ({
 
   // Determine if we're using middleware or standalone mode
   const isMiddlewareMode = middleware && name;
+  */
 
   // Get middleware values when available
   const middlewareValue = isMiddlewareMode && middleware ? middleware.watch(name!) : undefined;

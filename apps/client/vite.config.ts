@@ -1,6 +1,3 @@
-import { findProjectRoot } from '@finografic/project-scripts/utils';
-
-import { paraglideVitePlugin } from '@inlang/paraglide-js';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
@@ -29,17 +26,6 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
         babel: {
           plugins: ['@emotion/babel-plugin'],
         },
-      }),
-      paraglideVitePlugin({
-        project: './project.inlang',
-        outdir: './src/i18n',
-        // Strategy order matters - first match wins
-        // 1. localStorage: User's manual language selection (persisted)
-        // 2. preferredLanguage: Browser/system language (first visit)
-        // 3. baseLocale: Fallback to en-GB
-        strategy: ['localStorage', 'preferredLanguage', 'baseLocale'],
-        // includeEslintDisableComment: false,
-        cleanOutdir: true,
       }),
       tailwindcss(),
       // mode === 'development' && devCookieClearPlugin(),

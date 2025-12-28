@@ -1,12 +1,10 @@
 // @ts-check
-import { ERROR, fino, OFF } from '@finografic/eslint-config';
+import { ERROR, fino, OFF, WARN } from '@finografic/eslint-config';
 
 import reactHooks from 'eslint-plugin-react-hooks';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default fino({
   ignores: [
@@ -103,7 +101,8 @@ export default fino({
     'style/jsx-one-expression-per-line': OFF,
 
     // React Hooks rules (manually enabled since react: true breaks import sorting)
-    'react-hooks/rules-of-hooks': ERROR,
-    'react-hooks/exhaustive-deps': ERROR,
+    // Set to WARN to match fino/react config - less strict during development
+    'react-hooks/rules-of-hooks': ERROR, // Keep ERROR - this is critical
+    'react-hooks/exhaustive-deps': WARN, // Set to WARN to match fino/react config
   },
 });

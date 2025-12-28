@@ -6,7 +6,9 @@ import { DEFAULT_LOCALE, MAX_FRACTION_DIGITS, MIN_FRACTION_DIGITS } from './Form
 import type { FieldConfig, FormMiddlewareContext, FormMiddlewareProviderProps } from './FormMiddleware.types';
 
 // Create the context
-const FormMiddlewareContextValue = createContext<FormMiddlewareContext<any> | null>(null);
+export const FormMiddlewareContextValue = createContext<FormMiddlewareContext<any> | null>(null);
+
+/*
 
 // Custom hook to use the middleware context
 export const useFormMiddleware = <T extends FieldValues = FieldValues>(): FormMiddlewareContext<T> => {
@@ -16,6 +18,7 @@ export const useFormMiddleware = <T extends FieldValues = FieldValues>(): FormMi
   }
   return context as FormMiddlewareContext<T>;
 };
+*/
 
 // Simple middleware provider to start with
 export const FormMiddlewareProvider = <T extends FieldValues = FieldValues>({
