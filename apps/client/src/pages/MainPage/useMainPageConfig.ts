@@ -7,7 +7,8 @@ import { useProductFlowOperations } from 'hooks/buttons/useProductFlowOperations
 import { useTimeFlowOperations } from 'hooks/buttons/useTimeFlowOperations';
 import { useRouteMatching } from 'routes/hooks/useRouteMatching';
 
-import type { BUTTON_TYPE, type ButtonType, PadActionProps  } from 'types/button.types';
+import type { ButtonType, PadActionProps } from 'types/button.types';
+import { BUTTON_TYPE } from 'types/button.types';
 import { ROUTES_CONFIG } from 'config/routes';
 import { PATHS } from 'config/routes/paths.constants';
 import { BUTTON_CONFIGS } from 'config/ui';

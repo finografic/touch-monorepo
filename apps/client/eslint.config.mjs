@@ -8,7 +8,13 @@ import { fileURLToPath } from 'node:url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default fino({
-  ignores: ['**/*.md', '**/*.mdx', '**/*.json', '**/*.jsonc'],
+  ignores: [
+    '**/*.md',
+    '**/*.mdx',
+    '**/*.json',
+    '**/*.jsonc',
+    '**/EXAMPLE_USAGE.tsx', // Example files - ignore linting
+  ],
   plugins: {
     'simple-import-sort': simpleImportSort,
   },

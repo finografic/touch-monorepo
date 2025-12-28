@@ -1,7 +1,9 @@
-/* eslint-disable import/no-duplicates */
+// @ts-nocheck
 /**
  * Example Usage - Color System with Emotion Themes
  * Demonstrates the new performance-optimized approach
+ *
+ * This is an example file - TypeScript checking is disabled
  */
 
 import type { FC } from 'react';
