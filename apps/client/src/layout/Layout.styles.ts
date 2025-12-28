@@ -2,8 +2,8 @@ import { css } from '@emotion/react';
 
 import { colors, layout, spacing, typography } from 'styles';
 import type { EmotionTheme } from 'styles/themes/emotion-theme.types';
-import { stylesAppContent } from 'styles/project/project.app.styles';
 import { stylesAppContent1024x600 } from 'styles/project/project.app.1024x600.styles';
+import { stylesAppContent } from 'styles/project/project.app.styles';
 
 export const styles = (theme: EmotionTheme) => css`
   ${stylesAppContent}

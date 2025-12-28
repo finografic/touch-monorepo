@@ -1,7 +1,9 @@
-import { languagesCodeToKey } from 'admin/utils/languages.utils';
-import type { TranslationsApiItem, TranslationsFormItem } from '../../shared/types/translations.types';
 import type { RegionLocale } from '@workspace/config/i18n.config';
+
+import { languagesCodeToKey } from 'admin/utils/languages.utils';
+
 import type { TranslationsModel } from 'types/models/translations.model';
+import type { TranslationsApiItem, TranslationsFormItem } from '../../shared/types/translations.types';
 
 /**
  * DTO for transforming UI translation items between API and UI

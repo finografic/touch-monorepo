@@ -12,6 +12,7 @@
  *
  */
 
+import { createSetters, createZustandContext } from '@finografic/zustand-context-creator';
 import { sleep } from '@workspace/core/utils';
 
 import { createStore, type StoreApi, useStore } from 'zustand';
@@ -19,7 +20,6 @@ import { subscribeWithSelector } from 'zustand/middleware';
 import { useShallow } from 'zustand/react/shallow';
 import { authClient } from 'lib/auth-client';
 
-import { createSetters, createZustandContext } from '@finografic/zustand-context-creator';
 import type {
   AuthSessionData,
   AuthSignInParams,

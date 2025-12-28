@@ -1,20 +1,20 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Flex, Spinner, Tabs, Text } from '@radix-ui/themes';
-
-import { AdminPageLayout, AdminSection } from 'admin/components';
-
-import { useGetTranslations } from './hooks/useGetTranslations';
-import { useSaveTranslations } from './hooks/useSaveTranslations';
-import { useDeleteTranslations } from './hooks/useDeleteTranslations';
-import { TranslationsTable } from './TranslationsTable';
-import type { I18nTranslationsDomain } from '@workspace/i18n/types';
-import type { I18nDomainGroupKey } from '../shared/types/translations.types';
-import { styles } from '../shared/styles/TranslationsPage.styles';
 import { useParams } from 'react-router-dom';
 import { translations } from '@workspace/i18n';
-import { flattenTranslations } from 'utils/flatten-translations';
+import type { I18nTranslationsDomain } from '@workspace/i18n/types';
+
+import { Flex, Spinner, Tabs, Text } from '@radix-ui/themes';
+import { AdminPageLayout, AdminSection } from 'admin/components';
 import { DEFAULT_SHOW_KEY_COLUMN } from 'admin/pages/Translations/shared/constants/translationsTable.constants';
+
+import { flattenTranslations } from 'utils/flatten-translations';
+import type { I18nDomainGroupKey } from '../shared/types/translations.types';
+import { useDeleteTranslations } from './hooks/useDeleteTranslations';
+import { useGetTranslations } from './hooks/useGetTranslations';
+import { useSaveTranslations } from './hooks/useSaveTranslations';
+import { TranslationsTable } from './TranslationsTable';
+import { styles } from '../shared/styles/TranslationsPage.styles';
 
 export const TranslationsPage: React.FC = () => {
   const { t } = useTranslation();

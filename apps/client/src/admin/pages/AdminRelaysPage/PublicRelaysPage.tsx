@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
 
 import { Box, Flex } from '@radix-ui/themes';
+import { AdminPageLayout, AdminSection } from 'admin/components';
+import { DEFROST_SLOT_NUMBER } from 'admin/config/admin.slots.config';
+import { Button } from 'components/Button';
+import { DefrostTimer } from 'components/Timers/DefrostTimer';
 
+import { useTimers } from 'providers/TimersProvider';
 import { useInitializeRelay } from 'queries/relays';
 
-import { AdminPageLayout, AdminSection } from 'admin/components';
 import { RelaysConnectionStatus } from './RelaysConnectionStatus';
 import { styles } from './AdminRelaysPage.styles';
-import { DEFROST_SLOT_NUMBER } from 'admin/config/admin.slots.config';
-import { useTimers } from 'providers/TimersProvider';
-import { DefrostTimer } from 'components/Timers/DefrostTimer';
-import { Button } from 'components/Button';
 
 export const PublicRelaysPage: React.FC = () => {
   // Maintenance timer controls (slot 15 default, 10 minutes)

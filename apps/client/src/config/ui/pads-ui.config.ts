@@ -1,7 +1,8 @@
-import { getLabelKey } from 'utils/i18n/localization.utils';
-import type { FilterKey, NavigationFieldKey } from 'types/slots.types';
-import type { PadConfig, PadUI } from 'types/pads.types';
 import type { RegionLocale } from '@workspace/i18n';
+
+import { getLabelKey } from 'utils/i18n/localization.utils';
+import type { PadConfig, PadUI } from 'types/pads.types';
+import type { FilterKey, NavigationFieldKey } from 'types/slots.types';
 import { API_FILTER_FIELDS, ROUTE_FILTER_KEYS } from 'config/app';
 import { DEFAULT_LANGUAGE } from 'config/app/i18n.config';
 

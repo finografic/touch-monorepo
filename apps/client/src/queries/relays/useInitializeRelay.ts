@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-
 import { RelaysEndpoints } from 'api/endpoints';
-import { GET_RELAY_STATUS_QUERYKEY, GET_RELAY_STATES_QUERYKEY } from '.';
+
+import { GET_RELAY_STATES_QUERYKEY, GET_RELAY_STATUS_QUERYKEY } from '.';
 
 /**
  * Hook to initialize relay connection

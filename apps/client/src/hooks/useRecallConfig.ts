@@ -1,8 +1,9 @@
 import { useCallback, useMemo } from 'react';
 
-import type { OrderFilters } from 'types/filters.types';
-import { useTimers } from 'providers/TimersProvider/TimersContext';
 import type { RecallConfig } from 'providers/TimersProvider/timer.types';
+import { useTimers } from 'providers/TimersProvider/TimersContext';
+
+import type { OrderFilters } from 'types/filters.types';
 
 interface ConfigData {
   filters: OrderFilters;

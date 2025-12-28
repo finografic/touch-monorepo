@@ -1,11 +1,13 @@
 import { useMemo } from 'react';
-import { useGetAllTranslations } from 'queries/translations';
-import { TranslationsDto } from '../utils/translationsProduct.dto';
-import { useIsMutating } from '@tanstack/react-query';
-import { useAppConfig } from 'providers/AppConfigProvider';
-
 import type { RegionLocale } from '@workspace/config/i18n.config';
-import type { TranslationsSection, SectionKey } from '../translationsProduct.types';
+
+import { useIsMutating } from '@tanstack/react-query';
+
+import { useAppConfig } from 'providers/AppConfigProvider';
+import { useGetAllTranslations } from 'queries/translations';
+
+import type { SectionKey, TranslationsSection } from '../translationsProduct.types';
+import { TranslationsDto } from '../utils/translationsProduct.dto';
 
 export interface UseProductTranslationData {
   isLoading: boolean;

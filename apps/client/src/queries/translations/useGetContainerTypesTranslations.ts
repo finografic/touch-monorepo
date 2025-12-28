@@ -1,9 +1,10 @@
-import type { UseQueryResult } from '@tanstack/react-query';
-import { useQuery } from '@tanstack/react-query';
 import type { ErrorResponse } from '@workspace/core/api';
 
+import type { UseQueryResult } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
+import { type ContainerType, EndpointsContainerType } from 'api/endpoints';
+
 import { ADMIN_DATA_QUERY_CONFIG } from 'config/api';
-import { EndpointsContainerType, type ContainerType } from 'api/endpoints';
 import { GET_CONTAINER_TYPES_TRANSLATIONS_QUERYKEY } from '.';
 
 /**

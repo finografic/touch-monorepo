@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
 import { Flex, Text } from '@radix-ui/themes';
+import { AdminPageLayout, AdminSection } from 'admin/components';
 import { useToast } from 'components/Toast';
 
 import { useGetModes, useUpdateActiveStates } from 'queries/modes';
 
-import { AdminPageLayout, AdminSection } from 'admin/components';
 import { styles } from './AdminModePage.styles';
 
 export const AdminModePage: React.FC = () => {

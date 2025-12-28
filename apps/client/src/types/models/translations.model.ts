@@ -1,8 +1,8 @@
+import type { RegionLocale } from '@workspace/config/i18n.config';
 import type { ConvertKeysToCamelCase, OverridePropTypes } from '@workspace/core/types/utils';
 import type { TranslationsEntity } from '@workspace/server/types/entities/translations.entity';
 
 import type { ModelBaseProps } from 'types/base.types';
-import type { RegionLocale } from '@workspace/config/i18n.config';
 
 /**
  * Frontend model for TranslationsUi - transformed from BE entity

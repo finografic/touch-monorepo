@@ -3,10 +3,10 @@ import type { ErrorResponse } from '@workspace/core/api';
 
 import type { UseQueryResult } from '@tanstack/react-query';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-
 import { RelaysEndpoints, type RelayState } from 'api/endpoints';
-import { GET_RELAY_STATES_QUERYKEY } from 'queries/relays';
+
 import { useAppConfig } from 'providers/AppConfigProvider';
+import { GET_RELAY_STATES_QUERYKEY } from 'queries/relays';
 
 /**
  * Get all relay states with polling support

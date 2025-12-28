@@ -1,6 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-
-import { translationsUiEndpoints, type CreateTranslationUiInput } from 'api/endpoints';
+import { type CreateTranslationUiInput, translationsUiEndpoints } from 'api/endpoints';
 
 /**
  * Hook to create a new UI translation

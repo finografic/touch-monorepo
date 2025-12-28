@@ -1,5 +1,5 @@
-import type { SlotItem } from 'types/slots.types';
 import type { PadUI } from 'types/pads.types';
+import type { SlotItem } from 'types/slots.types';
 
 export const findOrderByNumber = (orders: SlotItem[], slotNumber: number): SlotItem | undefined => {
   return orders.find((order) => order.slotNumber === slotNumber);

@@ -1,5 +1,6 @@
-import { languagesCodeToKey } from 'admin/utils/languages.utils';
 import type { RegionLocale } from '@workspace/config/i18n.config';
+
+import { languagesCodeToKey } from 'admin/utils/languages.utils';
 
 /**
  * Check if a translation item is empty (all language fields are empty)
@@ -15,4 +16,3 @@ export const isItemEmpty = (item: { [key: string]: any }, languageKeys: string[]
 export const getLanguageKeys = (supportedLanguages: RegionLocale[]): string[] => {
   return supportedLanguages.map(languagesCodeToKey);
 };
-

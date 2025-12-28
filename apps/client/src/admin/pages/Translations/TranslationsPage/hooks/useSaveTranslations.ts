@@ -1,14 +1,16 @@
 import { useCallback } from 'react';
-import type { RegionLocale } from '@workspace/config/i18n.config';
 import { useTranslation } from 'react-i18next';
+import type { RegionLocale } from '@workspace/config/i18n.config';
+import type { I18nTranslationsDomain } from '@workspace/i18n/types';
+
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from 'api';
+import { useToast } from 'components/Toast/ToastContext';
+
+import { GET_TRANSLATIONS_QUERYKEY } from 'queries/translations';
 
 import type { TranslationsFormItem } from '../../shared/types/translations.types';
 import { TranslationsDto } from '../utils/translations.dto';
-import { useToast } from 'components/Toast/ToastContext';
-import type { I18nTranslationsDomain } from '@workspace/i18n/types';
-import { GET_TRANSLATIONS_QUERYKEY } from 'queries/translations';
 
 export const useSaveTranslations = ({
   domain,

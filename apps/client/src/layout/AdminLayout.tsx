@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { Suspense, useEffect, useMemo } from 'react';
 import { setConfiguration } from 'react-grid-system';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation  } from 'react-router-dom';
 
 import { AdminNavigation } from 'admin/components/AdminNavigation';
 import { AdminErrorBoundary } from 'components/ErrorBoundary/AdminErrorBoundary';
@@ -13,14 +13,13 @@ import { UserToolbar } from 'components/Toolbars/UserToolbar/UserToolbar';
 
 import { AdminProvider } from 'providers/AdminProvider/AdminProvider';
 import { useAppConfig } from 'providers/AppConfigProvider';
+import { useAuth } from 'providers/AuthProvider/AuthContext';
 import { ContentProvider } from 'providers/ContentProvider';
+import { getPathnameClassName } from 'routes/utils/routes.utils';
 
 import { DevProvider } from 'dev-tools/providers/DevProvider/DevProvider';
 import { BREAKPOINT_VALUES } from 'styles/viewport/viewport.breakpoints';
 import { styles } from './AdminLayout.styles';
-import { useAuth } from 'providers/AuthProvider/AuthContext';
-import { getPathnameClassName } from 'routes/utils/routes.utils';
-import { useLocation } from 'react-router-dom';
 
 export const AdminLayout: FC = () => {
   const { theme } = useAppConfig();

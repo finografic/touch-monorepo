@@ -1,15 +1,15 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import { Flex } from '@radix-ui/themes';
-import { RelaysTable } from 'admin/pages/AdminRelaysPage/RelaysTable';
+import { AdminPageLayout, AdminSection } from 'admin/components';
 import { BulkRelayControls } from 'admin/pages/AdminRelaysPage/BulkRelayControls';
+import { RelaysTable } from 'admin/pages/AdminRelaysPage/RelaysTable';
 
+import { useAppConfig } from 'providers/AppConfigProvider';
 import { useInitializeRelay, useStableRelayStates } from 'queries/relays';
 import { useGetSlotConfigurations } from 'queries/slot-configurations';
-import { useAppConfig } from 'providers/AppConfigProvider';
 
 import type { SlotType } from 'types/slots.types';
-import { AdminPageLayout, AdminSection } from 'admin/components';
 import { RelaysConnectionStatus } from './RelaysConnectionStatus';
 import { useRelayHandlers } from './useRelayHandlers';
 import { styles } from './AdminRelaysPage.styles';

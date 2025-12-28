@@ -1,9 +1,9 @@
+import { useRecallConfig } from 'hooks/useRecallConfig';
 import { useFiltersContext } from 'providers/FiltersProvider';
 import { useLayoutUi } from 'providers/LayoutUiProvider/LayoutUiContext';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useTimers } from 'providers/TimersProvider';
-import { useRecallConfig } from 'hooks/useRecallConfig';
 
 import { DevDataTable } from 'dev-tools/components/DevDataTable';
 import { styles } from './SessionAndTimers.styles';

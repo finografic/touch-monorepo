@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
+import { DEFROST_SLOT_NUMBER } from 'admin/config/admin.slots.config';
 import clsx from 'clsx';
 import { parseCompletionTime } from 'components/Timers/shared/timer.utils';
 import { timerSubscriptionRegistry } from 'components/Timers/shared/TimerSubscriptionRegistry';
 import { useTimerEvents } from 'components/Timers/shared/useTimerEvents';
 
 import { useTimers } from 'providers/TimersProvider/TimersContext';
-import { DEFROST_SLOT_NUMBER } from 'admin/config/admin.slots.config';
 
 import { formatTime } from 'utils/time.utils';
 import { styles } from './AdminSlotTimer.styles';

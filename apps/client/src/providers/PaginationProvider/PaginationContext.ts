@@ -1,8 +1,9 @@
+import { createSetters, createZustandContext } from '@finografic/zustand-context-creator';
+
 import { createStore, type StoreApi, useStore } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 import { useShallow } from 'zustand/react/shallow';
 
-import { createSetters, createZustandContext } from '@finografic/zustand-context-creator';
 import type { PaginationStore, PaginationValues } from './PaginationContext.types';
 
 export const DISPLAY_NAME = 'Pagination';

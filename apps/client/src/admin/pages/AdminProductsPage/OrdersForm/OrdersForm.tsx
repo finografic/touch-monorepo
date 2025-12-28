@@ -2,7 +2,9 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { Col, Row } from 'react-grid-system';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQueryClient } from '@tanstack/react-query';
 import {
   ORDER_FORM_SCHEMA,
   type OrdersFormValues,
@@ -18,7 +20,10 @@ import { SelectCustom } from 'forms/SelectCustom';
 import { SelectSearchable } from 'forms/SelectSearchable/SelectSearchable';
 import { TemperatureInputField } from 'forms/TemperatureInputField';
 import { useToast } from 'components/Toast';
+
 import { useAppConfig } from 'providers/AppConfigProvider';
+import { invalidateReferenceDataQueries } from 'queries/invalidateReferenceData';
+
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import { MIN_TEMP_DIFFERENCE } from 'config/app';
 import { createMockDataHandlers } from './mock-orders.utils';
@@ -27,13 +32,11 @@ import {
   getSubmissionLoadingState,
   useFormSubmissionMutations,
 } from './orders-form.submission';
-import { PROFILE_ITEM_VALUES_EMPTY, useDropdownData, type TempItems } from './orders-form.utils';
+import { PROFILE_ITEM_VALUES_EMPTY, type TempItems, useDropdownData } from './orders-form.utils';
 import { ProfilesPanel } from './ProfilesPanel';
 import { useAddNewItemHandlers } from './useAddNewItemHandlers';
 import 'primereact/resources/themes/lara-light-cyan/theme.css';
 import 'primereact/resources/primereact.min.css';
-import { useQueryClient } from '@tanstack/react-query';
-import { invalidateReferenceDataQueries } from 'queries/invalidateReferenceData';
 import { styles } from './OrdersForm.styles';
 
 // ============================================================================

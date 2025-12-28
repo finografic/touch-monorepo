@@ -1,9 +1,10 @@
+/// <reference types="vitest" />
 /**
  * Color System Tests
  * Tests the enhanced color palette with shade + transparency combinations
  */
 
-import { describe, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import { colors } from 'styles';
 

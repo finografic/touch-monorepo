@@ -1,7 +1,9 @@
-import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import HttpBackend from 'i18next-http-backend';
+import type { SupportedLanguage } from '@workspace/i18n/types';
+
+import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
+import HttpBackend from 'i18next-http-backend';
 
 import {
   DEFAULT_LANGUAGE,
@@ -9,7 +11,6 @@ import {
   ENABLE_BROWSER_LANGUAGE_DETECTION,
   I18N_NAMESPACE,
 } from 'config/app/i18n.config';
-import type { SupportedLanguage } from '@workspace/i18n/types';
 
 i18n
   .use(HttpBackend)

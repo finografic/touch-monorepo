@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-
 import { slotConfigurationsEndpoints } from 'api/endpoints';
+
 import { SLOT_CONFIGURATIONS_QUERY_KEYS } from '.';
 
 /**

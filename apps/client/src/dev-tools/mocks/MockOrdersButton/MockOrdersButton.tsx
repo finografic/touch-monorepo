@@ -2,13 +2,13 @@ import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';
-import { useGetSlotConfigurations } from 'queries/slot-configurations';
 import { useFiltersContext } from 'providers/FiltersProvider';
 import { useLayoutUi } from 'providers/LayoutUiProvider/LayoutUiContext';
 import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useTimers } from 'providers/TimersProvider/TimersContext';
+import { useGetSlotConfigurations } from 'queries/slot-configurations';
 
 import type { OrderFilters } from 'types/filters.types';
 import { FLOW_TYPES } from 'types/flow.types';

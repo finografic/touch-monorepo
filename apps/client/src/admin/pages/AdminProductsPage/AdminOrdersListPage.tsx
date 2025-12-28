@@ -9,8 +9,8 @@ import { useToast } from 'components/Toast';
 import { useDeleteOrder, useGetOrdersReadable } from 'queries/orders';
 
 import { AdminPageLayout, AdminSection } from '../..';
-import { useOrdersFilter } from './hooks/useOrdersFilter';
 import type { OrderReadableWithIndex } from './hooks/useOrdersFilter';
+import { useOrdersFilter } from './hooks/useOrdersFilter';
 
 export const AdminOrdersListPage: React.FC = () => {
   const navigate = useNavigate();

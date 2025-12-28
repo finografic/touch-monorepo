@@ -1,11 +1,11 @@
 import { useCallback, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Box, Flex } from '@radix-ui/themes';
 import { PadNumeric } from 'components/Pads/PadNumeric';
 
-import { useTimePageStore } from './useTimePageStore';
 import { TIME_MAX_SECONDS } from 'config/app';
-import { useTranslation } from 'react-i18next';
+import { useTimePageStore } from './useTimePageStore';
 
 export const TimePage = () => {
   const { t } = useTranslation();

@@ -1,4 +1,4 @@
-import type { PadActionConfig, ButtonType } from 'types/button.types';
+import type { ButtonType, PadActionConfig } from 'types/button.types';
 import { BUTTON_TYPE } from 'types/button.types';
 
 // Base button configurations (UI + behavior definitions)

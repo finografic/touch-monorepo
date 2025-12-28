@@ -1,7 +1,7 @@
-import { useGetDrinkTypesTranslations } from './useGetDrinkTypesTranslations';
-import { useGetDrinkSubtypesTranslations } from './useGetDrinkSubtypesTranslations';
-import { useGetVolumesTranslations } from './useGetVolumesTranslations';
 import { useGetContainerTypesTranslations } from './useGetContainerTypesTranslations';
+import { useGetDrinkSubtypesTranslations } from './useGetDrinkSubtypesTranslations';
+import { useGetDrinkTypesTranslations } from './useGetDrinkTypesTranslations';
+import { useGetVolumesTranslations } from './useGetVolumesTranslations';
 
 /**
  * Get all translation data at once
@@ -42,4 +42,3 @@ export const useGetAllTranslations = () => {
     },
   };
 };
-

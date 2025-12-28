@@ -1,71 +1,57 @@
 // ============================================================================
 // CONTAINER TYPES
 // ============================================================================
-export { EndpointsContainerType, type ContainerTypeUpdate } from './container-type.endpoints';
-
-// ============================================================================
-// DRINK TYPES
-// ============================================================================
-export { EndpointsDrinkType, type DrinkTypeUpdate } from './drink-type.endpoints';
+export { type ContainerTypeUpdate, EndpointsContainerType } from './container-type.endpoints';
 
 // ============================================================================
 // DRINK SUBTYPES
 // ============================================================================
-export { EndpointsDrinkSubtype, type DrinkSubtypeUpdate } from './drink-subtype.endpoints';
+export { type DrinkSubtypeUpdate, EndpointsDrinkSubtype } from './drink-subtype.endpoints';
 
 // ============================================================================
-// VOLUMES
+// DRINK TYPES
 // ============================================================================
-export { EndpointsVolume, type VolumeUpdate } from './volume.endpoints';
-
-// ============================================================================
-// TRANSLATIONS UI
-// ============================================================================
-export {
-  translationsUiEndpoints,
-  type CreateTranslationUiInput,
-  type UpdateTranslationUiInput,
-} from './translations-ui.endpoints';
-
-// ============================================================================
-// ORDERS
-// ============================================================================
-export {
-  EndpointsOrders,
-  type CreateOrderInput,
-  type UpdateOrderInput,
-  type TemperatureProfileInput,
-  type CreateOrderWithProfilesInput,
-} from './orders.endpoints';
-
-// ============================================================================
-// SLOT CONFIGURATIONS
-// ============================================================================
-export { slotConfigurationsEndpoints } from './slot-configurations.endpoints';
+export { type DrinkTypeUpdate, EndpointsDrinkType } from './drink-type.endpoints';
 
 // ============================================================================
 // MODES
 // ============================================================================
 export {
   EndpointsMode,
-  type UpdateModeInput,
-  type UpdateDefaultModeRequest,
   type UpdateActiveStatesRequest,
+  type UpdateDefaultModeRequest,
+  type UpdateModeInput,
 } from './mode.endpoints';
+
+// ============================================================================
+// ORDERS
+// ============================================================================
+export {
+  type CreateOrderInput,
+  type CreateOrderWithProfilesInput,
+  EndpointsOrders,
+  type TemperatureProfileInput,
+  type UpdateOrderInput,
+} from './orders.endpoints';
 
 // ============================================================================
 // RELAYS
 // ============================================================================
 export {
+  type BulkRelayResponse,
+  type DisconnectRelayResponse,
+  type ReconnectResponse,
   RelaysEndpoints,
   type RelayState,
   type RelayStatus,
   type ToggleRelayInput,
   type ToggleRelayResponse,
-  type BulkRelayResponse,
-  type DisconnectRelayResponse,
-  type ReconnectResponse,
 } from './relays.endpoints';
+
+// ============================================================================
+// SLOT CONFIGURATIONS
+// ============================================================================
+export { slotConfigurationsEndpoints } from './slot-configurations.endpoints';
 
 // ============================================================================
 // SOUNDS
@@ -76,3 +62,17 @@ export { SoundsEndpoints, type UpdateSoundSettingsInput } from './sounds.endpoin
 // SUPPORTED LANGUAGES
 // ============================================================================
 export { EndpointsSupportedLanguages } from './supported-languages.endpoints';
+
+// ============================================================================
+// TRANSLATIONS UI
+// ============================================================================
+export {
+  type CreateTranslationUiInput,
+  translationsUiEndpoints,
+  type UpdateTranslationUiInput,
+} from './translations-ui.endpoints';
+
+// ============================================================================
+// VOLUMES
+// ============================================================================
+export { EndpointsVolume, type VolumeUpdate } from './volume.endpoints';

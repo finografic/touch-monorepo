@@ -10,9 +10,9 @@ import { useToast } from 'components/Toast';
 
 import { useBulkUpdateSlotConfigurations, useGetSlotConfigurations } from 'queries/slot-configurations';
 
-import { MAX_COLUMNS, MIN_COLUMNS, NUM_RELAYS, NUM_ROWS_DEFAULT } from 'config/app/slots.config';
 import { calculateColumns } from 'utils/slots.utils';
 import type { SlotType } from 'types/slots.types';
+import { MAX_COLUMNS, MIN_COLUMNS, NUM_RELAYS, NUM_ROWS_DEFAULT } from 'config/app/slots.config';
 import { AdminPageLayout } from '../..';
 import { AdminSection } from '../../components/AdminSection/AdminSection';
 import { SlotGrid } from './SlotGrid/SlotGrid';

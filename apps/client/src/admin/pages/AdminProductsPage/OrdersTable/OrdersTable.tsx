@@ -1,20 +1,23 @@
 import React, { useState } from 'react';
+
 import { Button as RadixButton, Text } from '@radix-ui/themes';
+import { PAGINATOR_PROPS } from 'admin/config/admin.tables.config';
 import { useTableHeaders } from 'admin/hooks/useTableHeaders';
 import { FilterMatchMode } from 'primereact/api';
-import { Column } from 'primereact/column';
 import type { ColumnProps } from 'primereact/column';
+import { Column } from 'primereact/column';
 import type { DataTableFilterMeta } from 'primereact/datatable';
 import { DataTable } from 'primereact/datatable';
+
 import { useAppConfig } from 'providers/AppConfigProvider';
+
 import type { OrderReadableWithIndex } from '../hooks/useOrdersFilter';
+import { ORDERS_TABLE_COLUMNS, type OrdersTableColumnBodyType } from './OrdersTable.config';
 import { useTableLabelMappings } from './useTableLabelMappings';
 import { EditIcon, TrashIcon } from 'styles/icons';
-import { ORDERS_TABLE_COLUMNS, type OrdersTableColumnBodyType } from './OrdersTable.config';
-import { styles } from './OrdersTable.styles';
-import { PAGINATOR_PROPS } from 'admin/config/admin.tables.config';
 import 'primereact/resources/themes/lara-light-cyan/theme.css';
 import 'primereact/resources/primereact.min.css';
+import { styles } from './OrdersTable.styles';
 
 // ============================================================================
 // Column definition types

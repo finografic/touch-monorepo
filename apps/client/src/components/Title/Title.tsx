@@ -1,15 +1,15 @@
 import React from 'react';
-
 import { useTranslation } from 'react-i18next';
+
 import { Heading, Text } from '@radix-ui/themes';
 import clsx from 'clsx';
 
+import { useAuth } from 'providers/AuthProvider';
+
+import { isTranslationKey, translatePageKey } from 'utils/i18n/i18n.helpers-V1';
 import type { Align, Theme } from 'types/ui.types';
 import type { TitleHeadingProps } from './Title.types';
-import { isTranslationKey, translatePageKey } from 'utils/i18n/i18n.helpers-V1';
-
 import { styles } from './Title.styles';
-import { useAuth } from 'providers/AuthProvider';
 
 interface TitleProps extends Partial<TitleHeadingProps> {
   title?: string | undefined;

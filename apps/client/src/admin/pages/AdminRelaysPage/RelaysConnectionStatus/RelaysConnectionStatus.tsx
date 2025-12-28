@@ -4,8 +4,8 @@ import { Badge, Flex, Switch, Text } from '@radix-ui/themes';
 import { Button } from 'components/Button';
 import { Loader } from 'components/Loader/Loader';
 
-import { useGetRelayStates, useGetRelayStatus } from 'queries/relays';
 import { useAppConfig } from 'providers/AppConfigProvider';
+import { useGetRelayStates, useGetRelayStatus } from 'queries/relays';
 
 import { useRelayHandlers } from '../useRelayHandlers';
 

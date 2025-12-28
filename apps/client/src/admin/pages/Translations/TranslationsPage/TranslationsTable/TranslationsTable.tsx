@@ -1,20 +1,21 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { FormProvider } from 'react-hook-form';
-import { useDebouncedCallback } from 'use-debounce';
-import { Flex } from '@radix-ui/themes';
+import type { RegionLocale } from '@workspace/config/i18n.config';
+import type { I18nTranslationsDomain } from '@workspace/i18n/types';
+
 import createCuid from '@bugsnag/cuid';
-import { TranslationsRow } from './components/TranslationsRow';
+import { Flex } from '@radix-ui/themes';
+import clsx from 'clsx';
+import { useDebouncedCallback } from 'use-debounce';
+
 import { TableFormButtons } from '../../shared/components/TableFormButtons';
-import { styles } from '../../shared/styles/TranslationsTable.styles';
+import { DEFAULT_SHOW_KEY_COLUMN } from '../../shared/constants/translationsTable.constants';
+import type { TranslationsFormItem } from '../../shared/types/translations.types';
+import { addTranslationsGroupRow, computePageGrouping } from './components/TranslationsGroupRow';
+import { TranslationsRow } from './components/TranslationsRow';
 import { useTranslationsTableForm } from './hooks/useTranslationsTableForm';
 import { useTranslationsTableHandlers } from './hooks/useTranslationsTableHandlers';
-import { addTranslationsGroupRow, computePageGrouping } from './components/TranslationsGroupRow';
-import { DEFAULT_SHOW_KEY_COLUMN } from '../../shared/constants/translationsTable.constants';
-
-import type { RegionLocale } from '@workspace/config/i18n.config';
-import type { TranslationsFormItem } from '../../shared/types/translations.types';
-import type { I18nTranslationsDomain } from '@workspace/i18n/types';
-import clsx from 'clsx';
+import { styles } from '../../shared/styles/TranslationsTable.styles';
 
 interface TranslationsTableProps {
   domain: I18nTranslationsDomain;

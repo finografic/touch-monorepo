@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
-
 import type { CreateSettersType } from '@finografic/zustand-context-creator';
+
 import type { OrderFilters } from 'types/filters.types';
 import type { FlowTypeValue } from 'types/flow.types';
 import type { OrderReadableModel } from 'types/models/order-readable.model';

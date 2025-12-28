@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
 
 import { Flex } from '@radix-ui/themes';
+import clsx from 'clsx';
 import { Button } from 'components/Button';
+import { LanguageDialog } from 'components/Dialog/dialogs/LanguageDialog';
 import { AdminToggleButton } from 'components/IconButtons/AdminToggleButton/AdminToggleButton';
 import { ThemeToggleButton } from 'components/IconButtons/ThemeToggleButton/ThemeToggleButton';
 import { UserAuthButton } from 'components/IconButtons/UserAuthButton/UserAuthButton';
@@ -13,8 +15,6 @@ import { useAuth } from 'providers/AuthProvider/AuthContext';
 import { clearAllAuthCookiesServer } from 'utils/auth.utils';
 import { LanguageIcon } from 'styles/icons';
 import { styles } from './UserToolbar.styles';
-import clsx from 'clsx';
-import { LanguageDialog } from 'components/Dialog/dialogs/LanguageDialog';
 
 export const UserToolbar = ({ variant }: { variant?: 'light' | 'dark' }) => {
   const { theme } = useAppConfig();

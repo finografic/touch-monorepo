@@ -2,8 +2,8 @@ import type { RegionLocale } from '@workspace/i18n';
 
 import type { DataEntry } from 'types/data.types';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
-import type { FilterKey } from 'types/slots.types';
 import type { PadConfig } from 'types/pads.types';
+import type { FilterKey } from 'types/slots.types';
 
 /**
  * Parameters for handleRouteChange method

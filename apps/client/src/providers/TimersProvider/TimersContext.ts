@@ -1,15 +1,15 @@
+import { createSetters, createZustandContext } from '@finografic/zustand-context-creator';
+
 import { createStore, type StoreApi, useStore } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 import { useShallow } from 'zustand/react/shallow';
 import type { SlotStatus } from 'pages/MainPage/MainPage.types';
 
-import { CONFIG_EXPIRY_TIME_MS } from 'config/app';
-
 import type { TimerBasic, TimerItem } from 'providers/TimersProvider/timer.types';
 
-import { createSetters, createZustandContext } from '@finografic/zustand-context-creator';
-import type { TimersStore, TimersValues } from './TimersContext.types';
+import { CONFIG_EXPIRY_TIME_MS } from 'config/app';
 import type { RecallConfig } from './timer.types';
+import type { TimersStore, TimersValues } from './TimersContext.types';
 
 export const DISPLAY_NAME = 'Timers';
 export const SETTER_PREFIX = '';

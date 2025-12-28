@@ -1,13 +1,14 @@
 import { useCallback } from 'react';
+
 import { useQueryClient } from '@tanstack/react-query';
 import { api } from 'api';
-
-// Types
-import type { SectionKey } from '../translationsProduct.types';
+import { useToast } from 'components/Toast/ToastContext';
 
 // Utilities
 import { invalidateReferenceDataQueries } from 'queries/invalidateReferenceData';
-import { useToast } from 'components/Toast/ToastContext';
+
+// Types
+import type { SectionKey } from '../translationsProduct.types';
 
 /**
  * Hook for immediate HARD deletion (DELETE from database)

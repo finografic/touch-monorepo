@@ -1,10 +1,11 @@
+import { createSetters, createZustandContext } from '@finografic/zustand-context-creator';
+
 import { api } from 'api';
 import { createStore, type StoreApi, useStore } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 import { useShallow } from 'zustand/react/shallow';
 
 import { findOrderByNumber } from 'utils/context.utils';
-import { createSetters, createZustandContext } from '@finografic/zustand-context-creator';
 import type { OrderFilters } from 'types/filters.types';
 import type { FlowTypeValue } from 'types/flow.types';
 import type { OrderReadableModel } from 'types/models/order-readable.model';

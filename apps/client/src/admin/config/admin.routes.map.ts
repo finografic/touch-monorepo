@@ -1,13 +1,16 @@
 import type React from 'react';
 import { Outlet } from 'react-router-dom';
+
 import { AdminLanguagesPage, PublicLanguagesPage } from 'admin/pages/AdminLanguagesPage';
-import { PublicModePage } from 'admin/pages/AdminModePage/PublicModePage';
 import { AdminModePage } from 'admin/pages/AdminModePage/AdminModePage';
+import { PublicModePage } from 'admin/pages/AdminModePage/PublicModePage';
 import { AdminRelaysPage } from 'admin/pages/AdminRelaysPage/AdminRelaysPage';
 import { PublicRelaysPage } from 'admin/pages/AdminRelaysPage/PublicRelaysPage';
 import { AdminSlotsConfigPage } from 'admin/pages/AdminSlotsConfigPage/AdminSlotsConfigPage';
 import { AdminSoundPage, PublicSoundPage } from 'admin/pages/AdminSoundPage';
+import { TranslationsPage } from 'admin/pages/Translations/TranslationsPage';
 import { TranslationsProductPage } from 'admin/pages/Translations/TranslationsProductPage';
+
 import {
   CoffeeIcon,
   EditIcon,
@@ -18,7 +21,7 @@ import {
   VolumeIcon,
   ZapIcon,
 } from 'styles/icons';
-import { TranslationsPage } from 'admin/pages/Translations/TranslationsPage';
+
 export type AuthRoles = 'public' | 'admin';
 
 /** Base properties shared by all admin route entries */

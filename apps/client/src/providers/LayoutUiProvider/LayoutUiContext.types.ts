@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react';
+import type { CreateSettersType } from '@finografic/zustand-context-creator';
+import type { RegionLocale } from '@workspace/i18n';
 
 import type { SlotMeta } from 'pages/MainPage/MainPage.types';
 
-import type { CreateSettersType } from '@finografic/zustand-context-creator';
-import type { RegionLocale } from '@workspace/i18n';
 import type { DataEntry } from 'types/data.types';
 import type { PadConfig, PadType, PadUI } from 'types/pads.types';
 import type { FilterKey } from 'types/slots.types';

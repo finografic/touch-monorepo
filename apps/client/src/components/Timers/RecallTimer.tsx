@@ -1,10 +1,11 @@
 import { useEffect, useMemo } from 'react';
 
-import { formatTimeFromMs } from 'utils/time.utils';
 import { useTimers } from 'providers/TimersProvider/TimersContext';
+
+import { formatTimeFromMs } from 'utils/time.utils';
+import { useDev } from 'dev-tools/providers/DevProvider';
 import { useHeartbeatSubscription } from './shared/useHeartbeatSubscription';
 import { styles } from './RecallTimer.styles';
-import { useDev } from 'dev-tools/providers/DevProvider';
 
 export const RecallTimer = () => {
   const { isDevToolsVisible } = useDev();

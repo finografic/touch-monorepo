@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
 import { Flex } from '@radix-ui/themes';
 import { useDebouncedCallback } from 'use-debounce';
 import { Button } from 'components/Button';
-import { styles } from './TableFormButtons.styles';
+
 import { ChevronLeftIcon, ChevronRightIcon, EyeOffIcon, EyeOnIcon, PlusIcon } from 'styles/icons';
+import { styles } from './TableFormButtons.styles';
 
 // ============================================================================
 // Types

@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
+import { type DrinkSubtypeUpdate, EndpointsDrinkSubtype } from 'api/endpoints';
 
-import { EndpointsDrinkSubtype, type DrinkSubtypeUpdate } from 'api/endpoints';
 import type { DrinkSubtype } from 'types/models/drink-type.model';
 
 export interface UpdateDrinkSubtypeInput {

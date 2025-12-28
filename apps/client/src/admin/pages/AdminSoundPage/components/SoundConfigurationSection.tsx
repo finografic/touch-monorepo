@@ -1,17 +1,16 @@
 import React, { useCallback } from 'react';
 
 import { Box, Button, Flex } from '@radix-ui/themes';
+import { FieldWrapper } from 'forms/FieldWrapper';
 import { SelectCustom } from 'forms/SelectCustom';
 import { useToast } from 'components/Toast';
 
 import { useUpdateSoundSettings } from 'queries/sounds';
-import { stopAllAudio } from 'utils/soundCache.utils';
 
-import { playSoundByPath } from 'utils/soundCache.utils';
+import { playSoundByPath, stopAllAudio  } from 'utils/soundCache.utils';
 import type { SoundFile, SoundSettings, SoundType } from 'types/sounds.types';
 import { VolumeIcon, VolumeOffIcon } from 'styles/icons';
 import { styles } from './SoundConfigurationSection.styles';
-import { FieldWrapper } from 'forms/FieldWrapper';
 
 interface SoundConfigurationSectionProps {
   soundFiles: SoundFile[];

@@ -1,8 +1,8 @@
 import type { RegionLocale } from '@workspace/i18n';
 
 import type { DataEntry } from 'types/data.types';
-import type { FilterKey } from 'types/slots.types';
 import type { PadConfig, PadUI } from 'types/pads.types';
+import type { FilterKey } from 'types/slots.types';
 import { ROUTE_FILTER_KEYS } from 'config/app';
 import { getLocalizedName } from './i18n/localization.utils';
 

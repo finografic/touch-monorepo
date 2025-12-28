@@ -1,6 +1,8 @@
 import type { ReactNode } from 'react';
-import type { RecallConfig, RecallState, TimerBasic, TimerItem } from 'providers/TimersProvider/timer.types';
 import type { CreateSettersType } from '@finografic/zustand-context-creator';
+
+import type { RecallConfig, RecallState, TimerBasic, TimerItem } from 'providers/TimersProvider/timer.types';
+
 import type { SETTER_PREFIX, TimersKeys } from './TimersContext';
 
 export interface TimersValues {

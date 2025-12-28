@@ -1,18 +1,18 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
 import { Flex, Spinner, Tabs, Text } from '@radix-ui/themes';
+import { useQueryClient } from '@tanstack/react-query';
+
+import { invalidateReferenceDataQueries } from 'queries/invalidateReferenceData';
 
 import { AdminPageLayout, AdminSection } from '../../..';
-
+import { useDeleteProductTranslation } from './hooks/useDeleteProductTranslation';
 import { useProductTranslationData } from './hooks/useProductTranslationData';
 import { useSaveProductTranslations } from './hooks/useSaveProductTranslations';
-import { useDeleteProductTranslation } from './hooks/useDeleteProductTranslation';
-import { TranslationsTable } from './TranslationsTable';
 import type { SectionKey } from './translationsProduct.types';
+import { TranslationsTable, TranslationsTableExpandable  } from './TranslationsTable';
 import { styles } from '../shared/styles/TranslationsPage.styles';
-import { TranslationsTableExpandable } from './TranslationsTable';
-import { invalidateReferenceDataQueries } from 'queries/invalidateReferenceData';
-import { useQueryClient } from '@tanstack/react-query';
 
 const TABS_SORT_ORDER: readonly SectionKey[] = [
   'drinkTypes',
@@ -91,7 +91,7 @@ export const TranslationsProductPage: React.FC = () => {
         {sortedSections.map((section) => (
           <Tabs.Content key={section.group} value={section.group}>
             <AdminSection
-              title={t(`admin.pages.products.table.title`, {
+              title={t('admin.pages.products.table.title', {
                 group: t(`admin.pages.translations.tabs.${section.group}`, { defaultValue: section.group }),
               })}
               description={' '}

@@ -1,10 +1,12 @@
 import { useController, useFormContext } from 'react-hook-form';
-import clsx from 'clsx';
 import type { RegionLocale } from '@workspace/config/i18n.config';
-import { Input } from 'forms/Input/Input';
 import type { I18nTranslationsDomain } from '@workspace/i18n/types';
-import { TranslationsRowCell } from '../../../shared/components/TranslationsRowCell';
+
+import clsx from 'clsx';
+import { Input } from 'forms/Input/Input';
+
 import { TranslationsDeleteButton } from '../../../shared/components/TranslationsDeleteButton';
+import { TranslationsRowCell } from '../../../shared/components/TranslationsRowCell';
 
 interface TranslationsRowProps {
   domain: I18nTranslationsDomain;

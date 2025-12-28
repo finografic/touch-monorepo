@@ -1,6 +1,8 @@
-import { useQuery, type UseQueryResult } from '@tanstack/react-query';
 import type { ErrorResponse } from '@workspace/core/api';
+
+import { useQuery, type UseQueryResult } from '@tanstack/react-query';
 import { EndpointsMode } from 'api/endpoints';
+
 import type { ModeModel } from 'types/models/mode.model';
 
 /**

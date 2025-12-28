@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-
 import { SoundsEndpoints } from 'api/endpoints';
+
 import type { SoundSettings } from 'types/sounds.types';
 
 /**

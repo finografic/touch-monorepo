@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { type ContainerType, EndpointsContainerType, type UpdateContainerTypeInput } from 'api/endpoints';
 
-import { EndpointsContainerType, type ContainerType, type UpdateContainerTypeInput } from 'api/endpoints';
 import { GET_CONTAINER_TYPES_TRANSLATIONS_QUERYKEY } from '.';
 
 /**

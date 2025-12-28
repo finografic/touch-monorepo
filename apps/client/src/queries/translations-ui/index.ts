@@ -6,14 +6,14 @@ export const POST_TRANSLATIONS_UI_QUERYKEY = ['post-translations-ui'] as const;
 export const PATCH_TRANSLATIONS_UI_QUERYKEY = ['patch-translations-ui'] as const;
 export const DELETE_TRANSLATIONS_UI_QUERYKEY = ['delete-translations-ui'] as const;
 
+export { useCreateTranslationUi } from './useCreateTranslationUi';
+export { useDeleteTranslationUi } from './useDeleteTranslationUi';
 // ============================================================================
 // HOOKS
 // ============================================================================
 export { useGetTranslationsUi } from './useGetTranslationsUi';
 export { useGetTranslationUi } from './useGetTranslationUi';
-export { useCreateTranslationUi } from './useCreateTranslationUi';
 export { useUpdateTranslationUi } from './useUpdateTranslationUi';
-export { useDeleteTranslationUi } from './useDeleteTranslationUi';
 
 // ============================================================================
 // TYPES (re-exported from endpoints for convenience)

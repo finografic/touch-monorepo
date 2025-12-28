@@ -11,8 +11,8 @@ import type { RouteConfig } from 'routes/routes.types';
 
 import type { DataEntry } from 'types/data.types';
 import type { FilterApiKey } from 'types/filters.types';
-import type { FilterKey } from 'types/slots.types';
 import type { PadConfig } from 'types/pads.types';
+import type { FilterKey } from 'types/slots.types';
 import { ROUTE_FILTER_KEYS } from 'config/app';
 import { getPadsUIConfig } from 'config/ui';
 

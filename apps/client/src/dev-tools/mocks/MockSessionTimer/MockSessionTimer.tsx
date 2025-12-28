@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 
 import { useTimers } from 'providers/TimersProvider';
 import { TimersContext } from 'providers/TimersProvider/TimersContext';
+
 import { CountdownTimerIcon } from 'styles/icons';
 
 export const MockSessionTimer = () => {

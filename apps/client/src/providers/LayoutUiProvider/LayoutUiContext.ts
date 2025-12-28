@@ -1,11 +1,12 @@
+import { createSetters, createZustandContext } from '@finografic/zustand-context-creator';
+import type { RegionLocale } from '@workspace/i18n';
+
 import { createStore, type StoreApi, useStore } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 import { useShallow } from 'zustand/react/shallow';
 import type { SlotMeta } from 'pages/MainPage/MainPage.types';
 
 import { parsePadConfig } from 'utils/pads.utils';
-import { createSetters, createZustandContext } from '@finografic/zustand-context-creator';
-import type { RegionLocale } from '@workspace/i18n';
 import type { DataEntry, Dataset } from 'types/data.types';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { PadConfig, PadType, PadUI } from 'types/pads.types';

@@ -1,8 +1,9 @@
 import { transformFetchError } from '@workspace/core/api';
 
 import { api } from 'api';
-import type { ContainerType } from 'types/models/container.model';
+
 import { slugify } from 'utils/string.utils';
+import type { ContainerType } from 'types/models/container.model';
 
 export type ContainerTypeUpdate = Partial<Omit<ContainerType, 'id'>>;
 

@@ -1,12 +1,12 @@
 // @ts-check
-
 import { ERROR, fino, OFF } from '@finografic/eslint-config';
 
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import globals from 'globals';
+import { dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-// NOTE: Import sorting is now handled by Prettier plugin (@ianvs/prettier-plugin-sort-imports)
-// This is more reliable than ESLint plugins which have registration issues
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default [
   fino({
@@ -16,20 +16,23 @@ export default [
     },
     languageOptions: {
       ecmaVersion: 'latest',
+      // sourceType: 'module',
       globals: {
-        // ...globals.browser, // TODO: REMOVING THIS *FIXED* ESLINT SORT ERRORS !!!
         getDotEnv: 'readonly',
         log: 'readonly',
-        // React: true,
       },
-      // parserOptions: {
-      //   ecmaFeatures: {
-      //     jsx: true,
-      //   },
-      // },
     },
-    formatters: true,
+    // formatters: true,
     // react: true,
+    // typescript: {
+    //   parserOptions: {
+    //     project: './tsconfig.json',
+    //     parser: '@typescript-eslint/parser',
+    //     tsconfigRootDir: __dirname,
+    //   },
+    // },
+
+    formatters: true,
     typescript: true,
     rules: {
       'fino/top-level-function': OFF,
@@ -37,16 +40,8 @@ export default [
       'node/prefer-global/process': [ERROR, 'always'],
       'regexp/prefer-w': OFF,
       // 'style/jsx-one-expression-per-line': OFF,
+      'style/jsx-curly-brace-presence': OFF,
       'style/no-multi-spaces': OFF,
-      'ts/no-unused-vars': OFF,
-      'ts/consistent-type-imports': [
-        ERROR,
-        {
-          prefer: 'type-imports',
-          disallowTypeAnnotations: true,
-          fixStyle: 'separate-type-imports',
-        },
-      ],
       'jsdoc/check-alignment': OFF,
       'prefer-arrow-callback': OFF,
       'test/prefer-lowercase-title': OFF,
@@ -99,19 +94,26 @@ export default [
       ],
       'simple-import-sort/exports': ERROR,
       'style/jsx-one-expression-per-line': OFF,
-      // 'prettier/sort-imports': OFF,
-      // 'prettier/sort-named-imports': OFF,
-      // 'prettier/sort-object-types': OFF,
-      // 'prettier/sort-objects': OFF,
-      // 'prettier/prettier': OFF,
     },
   }),
-  // Override: Disable type-aware rules for .mjs and .cjs files (they don't have type information)
-  // {
-  //   files: ['**/*.mjs', '**/*.cjs'],
-  //   rules: {
-  //     'ts/consistent-type-imports': OFF,
-  //     'ts/no-unused-vars': OFF,
-  //   },
-  // },
+  // Override for test files: Add Vitest globals
+  {
+    files: ['**/*.test.{ts,tsx}', '**/*.spec.{ts,tsx}', '**/__tests__/**/*.{ts,tsx}'],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+        // Vitest globals
+        describe: 'readonly',
+        it: 'readonly',
+        test: 'readonly',
+        expect: 'readonly',
+        beforeEach: 'readonly',
+        afterEach: 'readonly',
+        beforeAll: 'readonly',
+        afterAll: 'readonly',
+        vi: 'readonly',
+        vitest: 'readonly',
+      },
+    },
+  },
 ];

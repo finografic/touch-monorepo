@@ -1,4 +1,5 @@
 import type { SlotMeta } from 'pages/MainPage/MainPage.types';
+
 import type { TimerItem } from 'providers/TimersProvider/timer.types';
 
 /**

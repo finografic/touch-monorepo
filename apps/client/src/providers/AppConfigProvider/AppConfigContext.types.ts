@@ -1,10 +1,10 @@
 import type { ReactNode } from 'react';
-
 import type { CreateSettersType } from '@finografic/zustand-context-creator';
+import type { RegionLocale } from '@workspace/i18n';
+
+import type { SupportedLanguage } from 'types/models/supported-language.model';
 import type { Theme } from 'types/ui.types';
 import type { AppConfigKeys, SETTER_PREFIX } from './AppConfigContext';
-import type { RegionLocale } from '@workspace/i18n';
-import type { SupportedLanguage } from 'types/models/supported-language.model';
 
 export interface AppConfigValues {
   [AppConfigKeys.currentLanguage]: RegionLocale;

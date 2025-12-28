@@ -1,11 +1,12 @@
 import { useCallback, useMemo } from 'react';
+
 import createCuid from '@bugsnag/cuid';
 
 import { useRecallConfig } from 'hooks/useRecallConfig';
 import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';
 import { useFiltersContext } from 'providers/FiltersProvider';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
-import { useTimers, type TimerItem } from 'providers/TimersProvider';
+import { type TimerItem, useTimers } from 'providers/TimersProvider';
 
 import { stopAllAudio } from 'utils/soundCache.utils';
 import { FLOW_TYPES } from 'types/flow.types';

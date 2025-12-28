@@ -1,28 +1,28 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { FormProvider } from 'react-hook-form';
-import { useDebouncedCallback } from 'use-debounce';
-import { Flex, Text } from '@radix-ui/themes';
-import { ChevronRightIcon, ChevronDownIcon } from '@radix-ui/react-icons';
-import createCuid from '@bugsnag/cuid';
-
-// import { TableFormButtons } from 'admin/pages/TranslationsProductPage/TableFormButtons/TableFormButtons';
-import { TableFormButtons } from '../../shared/components/TableFormButtons';
-import { styles } from '../../shared/styles/TranslationsTable.styles';
-import { DEFAULT_SHOW_KEY_COLUMN_PRODUCT } from '../../shared/constants/translationsTable.constants';
-import { useGetDrinkTypes } from 'queries/drink-types';
-import { useToast } from 'components/Toast/ToastContext';
-import { useTranslationsTableForm } from './hooks/useTranslationsTableForm';
-import { useTranslationsTableHandlers } from './hooks/useTranslationsTableHandlers';
-
-import { ExpandedSubtypeRow } from './components/TranslationsRowExpanded';
 import type { RegionLocale } from '@workspace/config/i18n.config';
+
+import createCuid from '@bugsnag/cuid';
+import { ChevronDownIcon, ChevronRightIcon } from '@radix-ui/react-icons';
+import { Flex, Text } from '@radix-ui/themes';
 import type {
   GroupedSubtypes,
   TranslationsFormItem,
 } from 'admin/pages/Translations/TranslationsProductPage/translationsProduct.types';
-import { colors } from 'styles/colors/colors-direct';
+import { useDebouncedCallback } from 'use-debounce';
+import { useToast } from 'components/Toast/ToastContext';
 
+import { useGetDrinkTypes } from 'queries/drink-types';
+
+// import { TableFormButtons } from 'admin/pages/TranslationsProductPage/TableFormButtons/TableFormButtons';
+import { TableFormButtons } from '../../shared/components/TableFormButtons';
 import { COL_CHEVRON_WIDTH, COL_SLUG_WIDTH } from '../../shared/constants/translations-table.config';
+import { DEFAULT_SHOW_KEY_COLUMN_PRODUCT } from '../../shared/constants/translationsTable.constants';
+import { ExpandedSubtypeRow } from './components/TranslationsRowExpanded';
+import { useTranslationsTableForm } from './hooks/useTranslationsTableForm';
+import { useTranslationsTableHandlers } from './hooks/useTranslationsTableHandlers';
+import { colors } from 'styles/colors/colors-direct';
+import { styles } from '../../shared/styles/TranslationsTable.styles';
 
 interface TranslationsTableExpandableProps {
   sectionKey: string;

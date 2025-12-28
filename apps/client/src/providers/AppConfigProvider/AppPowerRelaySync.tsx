@@ -1,8 +1,11 @@
 import { useEffect, useRef } from 'react';
-import { useAppConfig } from './AppConfigContext';
-import { useGetSlotConfigurations } from 'queries/slot-configurations';
-import { useToggleRelay } from 'queries/relays';
+
 import { POWER_SLOT_NUMBER } from 'admin/config/admin.slots.config';
+
+import { useToggleRelay } from 'queries/relays';
+import { useGetSlotConfigurations } from 'queries/slot-configurations';
+
+import { useAppConfig } from './AppConfigContext';
 
 export const AppPowerRelaySync = () => {
   const { isPowerEnabled } = useAppConfig();

@@ -1,11 +1,12 @@
 import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-
-import { useAppConfig } from './AppConfigContext';
 import type { RegionLocale } from '@workspace/i18n';
-import { LOCALE_MAPPING } from 'config/app/i18n.config';
+
 import { useGetSupportedLanguages } from 'queries/supported-languages';
+
 import type { LanguageInfo } from 'types/models/supported-language.model';
+import { LOCALE_MAPPING } from 'config/app/i18n.config';
+import { useAppConfig } from './AppConfigContext';
 
 const getFullLocaleFromSimpleCode = (simpleCode: string): RegionLocale => {
   return LOCALE_MAPPING[simpleCode as keyof typeof LOCALE_MAPPING] || (simpleCode as RegionLocale);

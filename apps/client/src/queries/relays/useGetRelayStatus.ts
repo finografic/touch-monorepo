@@ -1,7 +1,7 @@
 import type { UseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
-
 import { RelaysEndpoints, type RelayStatus } from 'api/endpoints';
+
 import { GET_RELAY_STATUS_QUERYKEY } from '.';
 
 /**

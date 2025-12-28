@@ -4,10 +4,10 @@ import { PadPower } from 'components/Pads/PadPower';
 import { PadSlot } from 'components/Pads/PadSlot';
 
 import { mapGridByColumns } from 'utils/grid.utils';
-import { SlotSpecial, SlotType } from 'types/slots.types';
-import { styles } from './MainPageSlotGrid.styles';
-import { NUM_ROWS_DEFAULT } from 'config/app/slots.config';
 import type { SlotConfiguration } from 'types/slot-config.types';
+import { SlotSpecial, SlotType } from 'types/slots.types';
+import { NUM_ROWS_DEFAULT } from 'config/app/slots.config';
+import { styles } from './MainPageSlotGrid.styles';
 
 interface MainPageSlotGridProps {
   slots: SlotConfiguration[];

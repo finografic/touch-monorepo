@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { type DrinkTypeUpdate, EndpointsDrinkType } from 'api/endpoints';
 
-import { EndpointsDrinkType, type DrinkTypeUpdate } from 'api/endpoints';
 import type { DrinkType } from 'types/models/drink-type.model';
 import { GET_DRINK_TYPES_TRANSLATIONS_QUERYKEY } from '.';
 

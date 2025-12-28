@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-
 import { batchTranslationEndpoints } from 'api/batch/batch-translations';
+
 import { GET_ALL_TRANSLATIONS_QUERYKEY } from '.';
 
 /**
@@ -19,4 +19,3 @@ export const useBatchUpdateTranslations = () => {
     },
   });
 };
-

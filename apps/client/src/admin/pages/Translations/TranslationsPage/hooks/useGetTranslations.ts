@@ -1,17 +1,19 @@
 import { useEffect, useMemo } from 'react';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useLocation } from 'react-router-dom';
-import { api } from 'api';
-import { transformFetchError } from '@workspace/core/api';
-import { TranslationsDto } from '../utils/translations.dto';
-import { useAppConfig } from 'providers/AppConfigProvider';
-
-import type { RegionLocale } from '@workspace/config/i18n.config';
-import type { TranslationsSection } from '../../shared/types/translations.types';
-import type { I18nTranslationsDomain } from '@workspace/i18n/types';
-import { GET_TRANSLATIONS_QUERYKEY } from 'queries/translations';
-import type { TranslationsModel } from 'types/models/translations.model';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
+import type { RegionLocale } from '@workspace/config/i18n.config';
+import { transformFetchError } from '@workspace/core/api';
+import type { I18nTranslationsDomain } from '@workspace/i18n/types';
+
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { api } from 'api';
+
+import { useAppConfig } from 'providers/AppConfigProvider';
+import { GET_TRANSLATIONS_QUERYKEY } from 'queries/translations';
+
+import type { TranslationsModel } from 'types/models/translations.model';
+import type { TranslationsSection } from '../../shared/types/translations.types';
+import { TranslationsDto } from '../utils/translations.dto';
 
 export interface UseUiTranslationData {
   isLoading: boolean;
@@ -118,7 +120,7 @@ export const useGetTranslations = ({
 
       return {
         group,
-        title: t(`admin.pages.translations.domains.title`, { group }),
+        title: t('admin.pages.translations.domains.title', { group }),
         description: `admin.pages.translations.domains.${domain}.description`,
         items: mapItems(sortedItems),
       };

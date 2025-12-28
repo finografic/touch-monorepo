@@ -1,6 +1,8 @@
-import type { AdminRouteConfig, AuthRoles } from 'admin/config/admin.routes.map';
-import { useAuth } from 'providers/AuthProvider';
 import { Navigate, Outlet } from 'react-router-dom';
+
+import type { AdminRouteConfig, AuthRoles } from 'admin/config/admin.routes.map';
+
+import { useAuth } from 'providers/AuthProvider';
 
 export const AdminRouteRenderer: React.FC<{ entry: AdminRouteConfig }> = ({ entry }) => {
   const { isAuthenticated } = useAuth();

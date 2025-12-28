@@ -1,6 +1,6 @@
+import type { NavItem } from 'types/nav.types';
 import type { AdminRouteConfig, AuthRoles } from './admin.routes.map';
 import { ADMIN_ROUTE_CONFIGS } from './admin.routes.map';
-import type { NavItem } from 'types/nav.types';
 
 /**
  * Routes accessible for a given role

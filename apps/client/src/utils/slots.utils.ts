@@ -1,6 +1,6 @@
-import { MAX_COLUMNS, MIN_COLUMNS, NUM_ROWS_DEFAULT } from 'config/app/slots.config';
-import { SlotSpecial, SlotType } from 'types/slots.types';
 import { RELAY_SLOT_COLORS, type RelayConfig } from 'types/relays.types';
+import { SlotSpecial, SlotType } from 'types/slots.types';
+import { MAX_COLUMNS, MIN_COLUMNS, NUM_ROWS_DEFAULT } from 'config/app/slots.config';
 import { colors } from 'styles';
 
 /**

@@ -1,4 +1,5 @@
 import type { SlotMeta } from 'pages/MainPage/MainPage.types';
+
 import type { OrderFilters } from 'types/filters.types';
 import { SlotType } from 'types/slots.types';
 

@@ -1,6 +1,7 @@
 import { transformFetchError } from '@workspace/core/api';
 
 import { api } from 'api';
+
 import type {
   BulkUpdateSlotConfigRequest,
   CreateSlotConfigRequest,
@@ -96,4 +97,3 @@ export const slotConfigurationsEndpoints = {
     }
   },
 } as const;
-

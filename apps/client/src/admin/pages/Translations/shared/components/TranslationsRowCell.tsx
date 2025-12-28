@@ -1,9 +1,11 @@
 import React from 'react';
 import type { UseFormRegister, UseFormWatch } from 'react-hook-form';
+import type { RegionLocale } from '@workspace/config/i18n.config';
+
+import { languagesCodeToKey } from 'admin/utils/languages.utils';
 import clsx from 'clsx';
 import { Input } from 'forms/Input/Input';
-import type { RegionLocale } from '@workspace/config/i18n.config';
-import { languagesCodeToKey } from 'admin/utils/languages.utils';
+
 import { EMPTY_ROW_PLACEHOLDER } from '../constants/translationsTable.constants';
 
 interface TranslationsRowCellProps {

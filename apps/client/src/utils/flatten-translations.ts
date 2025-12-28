@@ -24,16 +24,16 @@
 
 import type { I18nTranslationsDomain } from '@workspace/i18n/types';
 
-type TranslationsByLocale = {
+interface TranslationsByLocale {
   'es-ES': { ui: Record<string, any>; app: Record<string, any>; admin: Record<string, any> };
   'en-GB': { ui: Record<string, any>; app: Record<string, any>; admin: Record<string, any> };
   'ca-ES': { ui: Record<string, any>; app: Record<string, any>; admin: Record<string, any> };
-};
+}
 
-type FlattenedTranslation = {
+interface FlattenedTranslation {
   key: string;
   translations: Record<string, string>;
-};
+}
 
 /**
  * Recursively flatten a nested object to dot notation

@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-
 import { RelaysEndpoints, type ToggleRelayInput, type ToggleRelayResponse } from 'api/endpoints';
-import { GET_RELAY_STATES_QUERYKEY, GET_RELAY_STATE_QUERYKEY } from '.';
+
+import { GET_RELAY_STATE_QUERYKEY, GET_RELAY_STATES_QUERYKEY } from '.';
 
 /**
  * Hook to toggle a relay on/off

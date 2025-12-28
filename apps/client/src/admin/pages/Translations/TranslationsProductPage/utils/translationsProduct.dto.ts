@@ -1,6 +1,7 @@
 import { languagesCodeToKey } from 'admin/utils/language.utils';
-import type { TranslationsApiItem, TranslationsFormItem } from '../translationsProduct.types';
 import type { RegionLocale } from 'node_modules/@workspace/i18n/dist/_tsup-dts-rollup';
+
+import type { TranslationsApiItem, TranslationsFormItem } from '../translationsProduct.types';
 
 /**
  * DTO for transforming translation items between API and UI

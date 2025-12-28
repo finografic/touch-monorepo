@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
-import { useAppConfig } from './AppConfigContext';
 import type { Theme } from 'types/ui.types';
+import { useAppConfig } from './AppConfigContext';
 
 const THEME_STORAGE_KEY = 'touch-app-theme';
 const DEFAULT_THEME: Theme = 'light';

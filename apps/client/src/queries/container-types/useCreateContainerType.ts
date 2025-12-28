@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
+import { type ContainerTypeUpdate, EndpointsContainerType } from 'api/endpoints';
 
-import { EndpointsContainerType, type ContainerTypeUpdate } from 'api/endpoints';
 import type { ContainerType } from 'types/models/container.model';
 
 export interface CreateContainerTypeInput {

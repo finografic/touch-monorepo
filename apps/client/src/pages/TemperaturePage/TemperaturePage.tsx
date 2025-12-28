@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Box, Flex } from '@radix-ui/themes';
 import { PadNumeric } from 'components/Pads/PadNumeric';
 import { ClosestTemperatures } from 'pages/TemperaturePage/ClosestTemperatures';
 import type { TemperatureState } from 'pages/TemperaturePage/TemperaturePage.types';
 
-import { useTranslation } from 'react-i18next';
 import { useSmartFallback } from 'hooks/useSmartFallback';
 import { useFilters } from 'providers/FiltersProvider/useFilters';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';

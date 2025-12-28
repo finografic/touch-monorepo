@@ -1,5 +1,6 @@
-import { slugify } from 'utils/string.utils';
 import type { RegionLocale } from '@workspace/config/i18n.config';
+
+import { slugify } from 'utils/string.utils';
 import { camelCase } from 'utils/string-case.utils';
 
 export const languagesCodeToKey = (code: RegionLocale) =>

@@ -1,11 +1,12 @@
 import { useCallback } from 'react';
 import type { UseFormReturn } from 'react-hook-form';
+
 import type { TranslationsFormItem } from '../../../shared/types/translations.types';
 
 // Form structure: { items: TranslationsFormItem[] }
-type TranslationsFormData = {
+interface TranslationsFormData {
   items: TranslationsFormItem[];
-};
+}
 
 interface UseTranslationsTableHandlersOptions {
   methods: UseFormReturn<TranslationsFormData>;

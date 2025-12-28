@@ -1,11 +1,13 @@
 import { useCallback, useEffect } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
-import clsx from 'clsx';
 import type { RegionLocale } from '@workspace/config/i18n.config';
+
 import { languagesCodeToKey, regenerateSlug } from 'admin/utils/languages.utils';
+import clsx from 'clsx';
 import { Input } from 'forms/Input/Input';
-import { TranslationsRowCell } from '../../../shared/components/TranslationsRowCell';
+
 import { TranslationsDeleteButton } from '../../../shared/components/TranslationsDeleteButton';
+import { TranslationsRowCell } from '../../../shared/components/TranslationsRowCell';
 
 interface TranslationsRowProps {
   index: number;

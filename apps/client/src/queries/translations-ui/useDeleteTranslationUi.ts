@@ -1,5 +1,4 @@
 import { useMutation } from '@tanstack/react-query';
-
 import { translationsUiEndpoints } from 'api/endpoints';
 
 /**

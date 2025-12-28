@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
-
 import type { CreateSettersType } from '@finografic/zustand-context-creator';
+
 import type { HeartbeatKeys, SETTER_PREFIX } from './HeartbeatContext';
 
 export interface HeartbeatValues {

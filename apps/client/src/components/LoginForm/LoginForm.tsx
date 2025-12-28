@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
+
 import { Input } from 'forms/Input/Input';
 import { Button } from 'components/Button';
+
 import { useAuth } from 'providers/AuthProvider/AuthContext';
+
 import { styles } from './LoginForm.styles';
 
 interface LoginFormProps {

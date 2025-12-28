@@ -8,12 +8,11 @@ import clsx from 'clsx';
 import { useStableRelayStates } from 'queries/relays';
 import { useGetSlotConfigurations } from 'queries/slot-configurations';
 
+import { getSlotColor } from 'utils/slots.utils';
 import type { RelayConfig } from 'types/relays.types';
 import type { SlotType } from 'types/slots.types';
-
-import { styles } from './RelaysTable.styles';
 import { NUM_RELAYS } from 'config/app/slots.config';
-import { getSlotColor } from 'utils/slots.utils';
+import { styles } from './RelaysTable.styles';
 
 /**
  * Simplified read-only version of RelaysTable

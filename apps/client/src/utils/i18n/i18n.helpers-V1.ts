@@ -1,5 +1,6 @@
-import type { TFunction } from 'i18next';
 import type { AuthRoles } from 'admin/config/admin.routes.map';
+import type { TFunction } from 'i18next';
+
 import { I18N_TRANSLATION_DOMAINS } from 'config/app/i18n.config';
 
 interface ResolvePageTranslationKeyParams {

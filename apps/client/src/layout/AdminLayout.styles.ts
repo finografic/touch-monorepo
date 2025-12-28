@@ -3,8 +3,8 @@ import { css } from '@emotion/react';
 import { BREAKPOINTS, colors, layout, min, spacing } from 'styles';
 import { padding } from 'styles/layout/base.constants';
 import { cssForms } from 'styles/forms/forms.styles';
-import { stylesAdminContent } from 'styles/project/project.styles';
 import { stylesAppContent1024x600 } from 'styles/project/project.app.1024x600.styles';
+import { stylesAdminContent } from 'styles/project/project.styles';
 
 export const styles = css`
   ${stylesAdminContent}

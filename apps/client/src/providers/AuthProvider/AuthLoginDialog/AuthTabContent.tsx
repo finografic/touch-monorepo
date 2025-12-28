@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
+
 import { Input } from 'forms/Input/Input';
 import { Button } from 'components/Button';
+
 import { useAuth } from 'providers/AuthProvider';
+
 import { styles } from './AuthLoginDialog.styles';
 
 interface AuthLoginTabContentProps {

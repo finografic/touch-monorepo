@@ -1,4 +1,5 @@
 import type { SlotStatus } from 'pages/MainPage/MainPage.types';
+
 import type { OrderFilters } from 'types/filters.types';
 import type { FlowTypeValue } from 'types/flow.types';
 

@@ -1,5 +1,7 @@
+import { type FC, useEffect, useRef } from 'react';
+
 import { TabNav } from '@radix-ui/themes';
-import { useEffect, useRef, type FC } from 'react';
+
 import type { NavItem } from 'types/nav.types';
 
 interface HiddenMeasureItemsProps {

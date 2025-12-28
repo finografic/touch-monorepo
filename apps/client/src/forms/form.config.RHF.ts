@@ -1,4 +1,4 @@
-import type { UseFormProps, KeepStateOptions, FormState, FieldValues, SetValueConfig } from 'react-hook-form';
+import type { FieldValues, FormState, KeepStateOptions, SetValueConfig, UseFormProps } from 'react-hook-form';
 
 // https://react-hook-form.com/api/useform
 export const defaultOptionsRHF: UseFormProps = {

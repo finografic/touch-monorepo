@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-
 import { SoundsEndpoints } from 'api/endpoints';
+
 import type { SoundType } from 'types/sounds.types';
 
 /**

@@ -6,11 +6,10 @@ export const POST_CONTAINER_TYPE_QUERYKEY = ['post-container-type'] as const;
 export const PATCH_CONTAINER_TYPE_QUERYKEY = ['patch-container-type'] as const;
 export const DELETE_CONTAINER_TYPE_QUERYKEY = ['delete-container-type'] as const;
 
+export { useCreateContainerType } from './useCreateContainerType';
+export { useGetContainerType } from './useGetContainerType';
 // ============================================================================
 // HOOKS
 // ============================================================================
 export { useGetContainerTypes } from './useGetContainerTypes';
-export { useGetContainerType } from './useGetContainerType';
-export { useCreateContainerType } from './useCreateContainerType';
 export { useUpdateContainerType } from './useUpdateContainerType';
-

@@ -1,13 +1,13 @@
+import { createSetters, createZustandContext } from '@finografic/zustand-context-creator';
+import type { RegionLocale } from '@workspace/i18n';
+
 import { createStore, type StoreApi, useStore } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 import { useShallow } from 'zustand/react/shallow';
 
-import { createSetters, createZustandContext } from '@finografic/zustand-context-creator';
-import type { AppConfigStore, AppConfigValues } from './AppConfigContext.types';
-import type { RegionLocale } from '@workspace/i18n';
-import { DEFAULT_LANGUAGE } from 'config/app/i18n.config';
-import { DEFAULT_SUPPORTED_LANGUAGES } from 'config/app/i18n.config';
 import type { SupportedLanguage } from 'types/models/supported-language.model';
+import { DEFAULT_LANGUAGE, DEFAULT_SUPPORTED_LANGUAGES  } from 'config/app/i18n.config';
+import type { AppConfigStore, AppConfigValues } from './AppConfigContext.types';
 
 export const DISPLAY_NAME = 'AppConfig';
 export const SETTER_PREFIX = 'AppConfig';

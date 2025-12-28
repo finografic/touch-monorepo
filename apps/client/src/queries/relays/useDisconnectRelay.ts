@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-
 import { RelaysEndpoints } from 'api/endpoints';
+
 import { GET_RELAY_STATUS_QUERYKEY } from '.';
 
 /**

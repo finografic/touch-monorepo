@@ -18,10 +18,10 @@ import { FiltersProvider } from 'providers/FiltersProvider';
 import { LayoutUiProvider } from 'providers/LayoutUiProvider/LayoutUiProvider';
 import { OrdersProvider } from 'providers/OrdersProvider/OrdersProvider';
 import { PaginationProvider } from 'providers/PaginationProvider/PaginationProvider';
+import { getPathnameClassName } from 'routes/utils/routes.utils';
 
 import { DevProvider } from 'dev-tools/providers/DevProvider/DevProvider';
 import { Loader } from '../components/Loader/Loader';
-import { getPathnameClassName } from 'routes/utils/routes.utils';
 import type { EmotionTheme } from 'styles/themes/emotion-theme.types';
 import { BREAKPOINT_VALUES } from 'styles/viewport/viewport.breakpoints';
 import { styles } from './Layout.styles';

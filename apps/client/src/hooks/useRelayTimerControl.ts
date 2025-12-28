@@ -1,9 +1,10 @@
 import { useEffect, useRef } from 'react';
 
-import { useGetSlotConfigurations } from 'queries/slot-configurations';
-import { useToggleRelay } from 'queries/relays';
-import { useTimers } from 'providers/TimersProvider';
 import { DEFROST_SLOT_NUMBER, POWER_SLOT_NUMBER } from 'admin/config/admin.slots.config';
+
+import { useTimers } from 'providers/TimersProvider';
+import { useToggleRelay } from 'queries/relays';
+import { useGetSlotConfigurations } from 'queries/slot-configurations';
 
 /**
  * Hook to automatically control relays based on timer status

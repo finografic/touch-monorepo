@@ -1,4 +1,5 @@
 import { Outlet, type RouteObject } from 'react-router-dom';
+
 import { AdminDashboardPage } from 'admin/AdminDashboardPage';
 import { AdminOrderEditPage } from 'admin/pages/AdminProductsPage/AdminOrderEditPage';
 import { AdminOrdersListPage } from 'admin/pages/AdminProductsPage/AdminOrdersListPage';
@@ -11,7 +12,9 @@ import { MainPage } from 'pages/MainPage/MainPage';
 import { TemperaturePage } from 'pages/TemperaturePage/TemperaturePage';
 import { TimePage } from 'pages/TimePage/TimePage';
 import { UnauthorizedPage } from 'pages/UnauthorizedPage/UnauthorizedPage';
+
 import { ProtectedRoutesByRole } from 'routes/auth/ProtectedRoutesByRole';
+
 import { ROUTE_FILTER_KEYS } from 'config/app';
 import { ALTERNATIVE_PATHS, PATHS } from 'config/routes';
 

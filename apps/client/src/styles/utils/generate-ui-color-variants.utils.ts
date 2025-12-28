@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
-import { colors } from 'styles/colors/colors-direct';
+
 import { UI_COLOR_NAMES } from 'styles/colors/colors.types';
+import { colors } from 'styles/colors/colors-direct';
 
 /**
  * Generate CSS class color variants for UI components

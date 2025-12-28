@@ -1,17 +1,17 @@
 import { useMemo } from 'react';
 
 import { useOrders } from 'providers/OrdersProvider';
-import { useGetModes } from 'queries/modes';
-import { useGetDrinkTypes, useGetDrinkSubtypes } from 'queries/drink-types';
-import { useGetDrinkVolumes } from 'queries/drink-volumes';
 import { useGetContainerTypes } from 'queries/container-types';
+import { useGetDrinkSubtypes, useGetDrinkTypes } from 'queries/drink-types';
+import { useGetDrinkVolumes } from 'queries/drink-volumes';
+import { useGetModes } from 'queries/modes';
 
 import { filterData } from 'utils/filters/filters.utils';
-import { ROUTE_FILTER_KEYS } from 'config/app/app.config';
-import { MOCK_ORDERS_DATA } from './mock-orders.data';
 import type { OrderFilters } from 'types/filters.types';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { FilterKey } from 'types/slots.types';
+import { ROUTE_FILTER_KEYS } from 'config/app/app.config';
+import { MOCK_ORDERS_DATA } from './mock-orders.data';
 
 /**
  * Hook that generates real mock data by:

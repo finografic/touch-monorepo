@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
-import { useFieldArray, useForm } from 'react-hook-form';
 import type { UseFormReturn } from 'react-hook-form';
+import { useFieldArray, useForm } from 'react-hook-form';
 import type { RegionLocale } from '@workspace/config/i18n.config';
+
 import type { TranslationsFormItem } from '../../../shared/types/translations.types';
 import {
   getLanguageKeys,
@@ -14,9 +15,9 @@ interface UseTranslationsTableFormOptions {
 }
 
 // Form structure: { items: TranslationsFormItem[] }
-type TranslationsFormData = {
+interface TranslationsFormData {
   items: TranslationsFormItem[];
-};
+}
 
 interface UseTranslationsTableFormReturn {
   methods: UseFormReturn<TranslationsFormData>;

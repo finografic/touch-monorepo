@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Box, Card, Flex } from '@radix-ui/themes';
 import { getAdminDashboardCards } from 'admin/config/admin.routes.selectors';
@@ -11,7 +12,6 @@ import { useAuth } from 'providers/AuthProvider';
 
 import { AdminPageLayout } from '.';
 import { styles } from './AdminDashboardPage.styles';
-import { useTranslation } from 'react-i18next';
 
 export const AdminDashboardPage: React.FC = () => {
   const { user, isAuthenticated } = useAuth();
@@ -30,8 +30,8 @@ export const AdminDashboardPage: React.FC = () => {
 
   const role = user?.role === 'admin' ? 'admin' : 'public';
 
-  const pageTitle = t(`admin.pages.dashboard.title`);
-  const pageDescription = t(`admin.pages.dashboard.description`);
+  const pageTitle = t('admin.pages.dashboard.title');
+  const pageDescription = t('admin.pages.dashboard.description');
 
   const adminCards = useMemo(() => {
     return getAdminDashboardCards(isAuthenticated, role).map((card) => {

@@ -139,7 +139,7 @@ export const useProductFlowOperations = () => {
       // Force reset timer for Program Product flow (always overwrite/reset)
       saveRecallConfig(
         {
-          filters: filters, // Save all current filters (mode, drinkType, drinkSubtype, drinkVolume, containerType, temperature with profiles)
+          filters, // Save all current filters (mode, drinkType, drinkSubtype, drinkVolume, containerType, temperature with profiles)
           temperatures: {
             default: temperatureFilter?.final || 25,
             initial: temperatureFilter?.initial || 25,

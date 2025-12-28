@@ -2,8 +2,8 @@ import type { ErrorResponse } from '@workspace/core/api';
 
 import type { UseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
-
 import { slotConfigurationsEndpoints } from 'api/endpoints';
+
 import type { SlotConfiguration } from 'types/slot-config.types';
 import { SLOT_CONFIGURATIONS_QUERY_KEYS } from '.';
 

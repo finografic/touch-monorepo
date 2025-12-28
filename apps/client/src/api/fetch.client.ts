@@ -7,12 +7,12 @@
 
 import {
   buildUrl,
-  normalizeResponse,
-  isRetryableError,
   ERROR_MESSAGES,
   FetchError,
   type FetchRequestConfig,
   type FetchResponse,
+  isRetryableError,
+  normalizeResponse,
 } from '@workspace/core/api';
 
 // TypeScript now knows API_URL exists and is a string

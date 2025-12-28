@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { useDebouncedCallback } from 'use-debounce';
 
 import { Flex, Text } from '@radix-ui/themes';
 import { Slider } from 'primereact/slider';
+import { useDebouncedCallback } from 'use-debounce';
 
 import { useGlobalVolume } from 'hooks/useGlobalVolume';
 

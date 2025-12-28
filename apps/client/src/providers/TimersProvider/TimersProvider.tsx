@@ -1,6 +1,7 @@
+import { useRelayTimerControl } from 'hooks/useRelayTimerControl';
+
 import { DISPLAY_NAME, TimersContext } from './TimersContext';
 import type { TimersProviderProps } from './TimersContext.types';
-import { useRelayTimerControl } from 'hooks/useRelayTimerControl';
 
 // Passive controller component that centralizes relay ON/OFF control
 // based on timer status. Mounted once inside TimersProvider so that

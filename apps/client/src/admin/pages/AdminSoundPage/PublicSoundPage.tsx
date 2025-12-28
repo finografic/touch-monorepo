@@ -2,10 +2,11 @@ import React from 'react';
 import { Col, Row } from 'react-grid-system';
 
 import { Flex } from '@radix-ui/themes';
+import { AdminPageLayout, AdminSection } from 'admin/components';
 import { VolumeSlider } from 'admin/pages/AdminSoundPage/VolumeSlider';
 
 import { useGetSoundFiles, useGetSoundSettings } from 'queries/sounds';
-import { AdminPageLayout, AdminSection } from 'admin/components';
+
 import { SoundConfigurationSection } from './components';
 import { styles } from './AdminSoundPage.styles';
 

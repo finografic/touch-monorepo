@@ -1,17 +1,18 @@
 import { css } from '@emotion/react';
-import { colors, fontFamilies } from 'styles';
-import { forms } from 'styles/forms/forms.styles';
+
 import {
+  COL_ACTIONS_WIDTH,
   ROW_HEIGHT,
   TABLE_BORDER,
   TABLE_HEAD_COLOR,
-  TD_FONT_WEIGHT,
   TD_FONT_SIZE,
+  TD_FONT_WEIGHT,
   TD_PADDING,
   TH_FONT_SIZE,
   TH_FONT_WEIGHT,
-  COL_ACTIONS_WIDTH,
 } from '../constants/translations-table.config';
+import { colors, fontFamilies } from 'styles';
+import { forms } from 'styles/forms/forms.styles';
 
 export const styles = css`
   width: 100%;

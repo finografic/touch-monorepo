@@ -1,6 +1,7 @@
 import { transformFetchError } from '@workspace/core/api';
 
 import { api } from 'api';
+
 import type { DrinkType } from 'types/models/drink-type.model';
 
 export type DrinkTypeUpdate = Partial<Omit<DrinkType, 'id'>>;

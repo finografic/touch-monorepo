@@ -1,5 +1,5 @@
-import { type SelectedSlotItem, SlotType } from 'types/slots.types';
 import type { SlotConfiguration, SlotItem } from 'types/slot-config.types';
+import { type SelectedSlotItem, SlotType } from 'types/slots.types';
 
 export const NUM_ROWS_DEFAULT = 3; // Always 3 rows
 export const NUM_RELAYS = 16; // Always 16 total slots

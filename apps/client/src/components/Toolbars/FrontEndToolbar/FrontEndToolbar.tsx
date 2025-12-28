@@ -1,17 +1,17 @@
 import React from 'react';
 
 import { Box, Flex } from '@radix-ui/themes';
+import clsx from 'clsx';
+import { RecallTimer } from 'components/Timers/RecallTimer';
 
+import { useRecallConfig } from 'hooks/useRecallConfig';
 import { useAdmin } from 'providers/AdminProvider/AdminContext';
 import { useAppConfig } from 'providers/AppConfigProvider';
-import { useRecallConfig } from 'hooks/useRecallConfig';
 
 import type { Theme } from 'types/ui.types';
 import { MockSessionTimer } from 'dev-tools/mocks/MockSessionTimer/MockSessionTimer';
 import { useDev } from 'dev-tools/providers/DevProvider';
-import { RecallTimer } from 'components/Timers/RecallTimer';
 import { styles } from './FrontEndToolbar.styles';
-import clsx from 'clsx';
 
 export const FrontEndToolbar: React.FC = () => {
   const { theme } = useAppConfig();

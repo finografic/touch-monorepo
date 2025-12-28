@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
 import { Flex, Text } from '@radix-ui/themes';
+import { AdminPageLayout, AdminSection } from 'admin/components';
 import { FieldWrapper } from 'forms/FieldWrapper';
 import { SelectCustom } from 'forms/SelectCustom';
 import { useToast } from 'components/Toast';
 
 import { useGetModes, useUpdateDefaultMode } from 'queries/modes';
 
-import { AdminPageLayout, AdminSection } from 'admin/components';
 import { styles } from './AdminModePage.styles';
 
 export const PublicModePage: React.FC = () => {

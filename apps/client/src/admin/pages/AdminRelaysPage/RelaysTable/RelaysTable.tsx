@@ -2,27 +2,26 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Col, Row } from 'react-grid-system';
 
 import { Box, Flex, Text } from '@radix-ui/themes';
+import { DEFROST_SLOT_NUMBER, POWER_SLOT_NUMBER } from 'admin/config/admin.slots.config';
 import { getRelaySlotType } from 'admin/utils/relays.utils';
 import clsx from 'clsx';
 import { SelectCustom } from 'forms/SelectCustom';
 import { Button } from 'components/Button';
 
+import { useAppConfig } from 'providers/AppConfigProvider';
+import { useTimers } from 'providers/TimersProvider';
 import { useGetRelayStatus, useToggleRelay } from 'queries/relays';
 import { useBulkUpdateSlotConfigurations } from 'queries/slot-configurations';
-import { useTimers } from 'providers/TimersProvider';
-import { useAppConfig } from 'providers/AppConfigProvider';
 
+import { getSlotColor } from 'utils/slots.utils';
 import type { SelectOption } from 'types/models/select-option.model';
-import { type RelayConfig } from 'types/relays.types';
+import type { RelayConfig } from 'types/relays.types';
 import type { SlotType } from 'types/slots.types';
-
+import { NUM_RELAYS } from 'config/app/slots.config';
 import { AdminSlotTimer } from './components/AdminSlotTimer';
 import { useColors } from 'styles';
 import { RadioIcon } from 'styles/icons';
 import { styles } from './RelaysTable.styles';
-import { NUM_RELAYS } from 'config/app/slots.config';
-import { getSlotColor } from 'utils/slots.utils';
-import { DEFROST_SLOT_NUMBER, POWER_SLOT_NUMBER } from 'admin/config/admin.slots.config';
 
 interface RelaysTableProps {
   configurations: RelayConfig[];

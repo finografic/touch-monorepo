@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
+import type { ErrorResponse } from '@workspace/core/api';
 
 import { useGetSlotConfigurations } from 'queries/slot-configurations';
 
-import { DEFAULT_SLOTS_CONFIG } from 'config/app/slots.config';
 import type { SlotConfiguration, SlotItem } from 'types/slot-config.types';
-import type { ErrorResponse } from '@workspace/core/api';
+import { DEFAULT_SLOTS_CONFIG } from 'config/app/slots.config';
 
 interface SlotItemsConfigReturn {
   items: SlotItem[];
