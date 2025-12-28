@@ -1,5 +1,7 @@
 import { ERROR, fino, IGNORES, INCLUDE_FILES_TS, OFF } from '@finografic/eslint-config';
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
 export default fino({
   typescript: true,
   gitignore: true,
@@ -13,8 +15,20 @@ export default fino({
     },
   },
   overrides: {
-    jsonc: {
+    'jsonc': {
       'jsonc/sort-keys': ERROR,
+    },
+    // ============================
+    // CLIENT (TypeScript, React)
+    // ============================
+    'apps/client/**/*.{ts,tsx}': {
+      languageOptions: {
+        parser: '@typescript-eslint/parser',
+        parserOptions: {
+          project: './apps/client/tsconfig.json',
+          tsconfigRootDir: __dirname,
+        },
+      },
     },
   },
   files: [...INCLUDE_FILES_TS],

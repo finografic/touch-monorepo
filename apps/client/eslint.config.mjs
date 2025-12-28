@@ -1,6 +1,11 @@
+// @ts-check
 import { ERROR, fino, OFF } from '@finografic/eslint-config';
 
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
+import { dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default fino({
   ignores: ['**/*.md', '**/*.mdx', '**/*.json', '**/*.jsonc'],
@@ -15,8 +20,17 @@ export default fino({
       log: 'readonly',
     },
   },
-  formatters: true,
+  // formatters: true,
   // react: true,
+  // typescript: {
+  //   parserOptions: {
+  //     project: './tsconfig.json',
+  //     parser: '@typescript-eslint/parser',
+  //     tsconfigRootDir: __dirname,
+  //   },
+  // },
+
+  formatters: true,
   typescript: true,
   rules: {
     'fino/top-level-function': OFF,
@@ -26,15 +40,6 @@ export default fino({
     // 'style/jsx-one-expression-per-line': OFF,
     'style/jsx-curly-brace-presence': OFF,
     'style/no-multi-spaces': OFF,
-    'ts/no-unused-vars': OFF,
-    'ts/consistent-type-imports': [
-      ERROR,
-      {
-        prefer: 'type-imports',
-        disallowTypeAnnotations: true,
-        fixStyle: 'separate-type-imports',
-      },
-    ],
     'jsdoc/check-alignment': OFF,
     'prefer-arrow-callback': OFF,
     'test/prefer-lowercase-title': OFF,
@@ -87,11 +92,5 @@ export default fino({
     ],
     'simple-import-sort/exports': ERROR,
     'style/jsx-one-expression-per-line': OFF,
-  },
-  overrides: {
-    jsonc: {
-      // 'jsonc/sort-keys': ERROR,
-      'node/prefer-global/process': OFF,
-    },
   },
 });
