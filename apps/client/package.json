@@ -39,6 +39,8 @@
     "lint.prod": "cross-env NODE_ENV=production eslint .",
     "lint.fix.prod": "cross-env NODE_ENV=production eslint . --fix",
     "lint.strict": "cross-env STRICT_LINT=true eslint .",
+    "lint.imports": "eslint src --rule \"simple-import-sort/imports:error\" --rule \"simple-import-sort/exports:off\"",
+    "lint.imports.fix": "pnpm lint.imports --fix",
     "lint.DRY": "eslint \"./src/**/*.{ts,tsx}\" --fix-dry-run",
     "lint.fix.DEV": "eslint \"./src/**/*.{ts,tsx}\" --fix",
     "lint.DRY.consistent-type-imports": "eslint --rule 'ts/consistent-type-imports: error' --fix-dry-run ./src",
