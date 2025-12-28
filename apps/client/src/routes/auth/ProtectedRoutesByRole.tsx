@@ -1,7 +1,7 @@
 import React from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 
-import { getAdminEntryByPath } from 'admin/config/admin.routes.selectors';
+import { getAdminRouteByPath } from 'admin/config/admin.routes.selectors';
 import { useAuth } from 'providers/AuthProvider';
 import { AdminRouteRenderer } from 'routes/auth/AdminRouteRenderer';
 
@@ -31,7 +31,7 @@ export const ProtectedRoutesByRole: React.FC = () => {
     return <Outlet />;
   }
 
-  const entry = getAdminEntryByPath(location.pathname);
+  const entry = getAdminRouteByPath(location.pathname);
 
   // Route not owned by admin config (or deep nested path)
   if (!entry) {

@@ -15,64 +15,44 @@ export const AdminNavbar: FC<AdminNavbarProps> = ({ navItems }) => {
   const location = useLocation();
   const { navigateWithTransition, isTransitioning } = usePageTransition({ delay: 100 });
   const containerRef = useRef<HTMLDivElement>(null);
-  const itemsRef = useRef<(HTMLButtonElement | null)[]>([]);
+  const navItemsRef = useRef<(HTMLButtonElement | null)[]>([]);
   const moreButtonRef = useRef<HTMLDivElement>(null);
-  const calculationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Extract labels from navItems for width calculation
-  const items = useMemo(() => navItems.map((item) => item.label), [navItems]);
-
-  const [visibleCount, setVisibleCount] = useState(items.length);
+  const [visibleCount, setVisibleCount] = useState(navItems.length);
   const [isMoreOpen, setIsMoreOpen] = useState(false);
 
-  const calculate = useCallback(() => {
+  const calculateVisibleItemsCount = useCallback(() => {
     if (!containerRef.current) return;
 
     const containerWidth = containerRef.current.offsetWidth;
+
     // Get MORE button width from the ref (MoreButton component)
-    const moreButtonEl = moreButtonRef.current?.querySelector('button');
-    const moreWidth = moreButtonEl?.offsetWidth ?? 120; // Fallback to 120px
+    const moreButtonElement = moreButtonRef.current?.querySelector('button');
+    const moreWidth = moreButtonElement?.offsetWidth ?? 120; // Fallback to 120px
 
-    let used = 0;
-    let fitCount = items.length;
+    let totalWidthUsed = 0;
+    let fitCount = navItems.length;
 
-    for (let i = 0; i < items.length; i++) {
-      const el = itemsRef.current[i];
-      if (!el) continue;
+    for (let i = 0; i < navItems.length; i++) {
+      const navItemElement = navItemsRef.current[i];
+      if (!navItemElement) continue;
 
-      used += el.offsetWidth;
+      totalWidthUsed += navItemElement.offsetWidth;
 
-      if (used + moreWidth > containerWidth) {
+      if (totalWidthUsed + moreWidth > containerWidth) {
         fitCount = i;
         break;
       }
     }
 
     setVisibleCount(fitCount);
-  }, [items]);
+  }, [navItems]);
 
   useLayoutEffect(() => {
-    calculate();
-    window.addEventListener('resize', calculate);
-    return () => window.removeEventListener('resize', calculate);
-  }, [items]);
-
-  // NOTE: trigger calculation AFTER items are MEASURED (after render/update)
-  useEffect(() => {
-    if (calculationTimeoutRef.current) {
-      clearTimeout(calculationTimeoutRef.current);
-    }
-
-    calculationTimeoutRef.current = setTimeout(() => {
-      calculate();
-    }, 500);
-
-    return () => {
-      if (calculationTimeoutRef.current) {
-        clearTimeout(calculationTimeoutRef.current);
-      }
-    };
-  }, [items, calculate]);
+    calculateVisibleItemsCount();
+    window.addEventListener('resize', calculateVisibleItemsCount);
+    return () => window.removeEventListener('resize', calculateVisibleItemsCount);
+  }, [navItems]);
 
   const visibleNavItems = navItems.slice(0, visibleCount);
   const overflowNavItems = navItems.slice(visibleCount);
@@ -93,7 +73,7 @@ export const AdminNavbar: FC<AdminNavbarProps> = ({ navItems }) => {
             return (
               <TabNav.Link key={navItem.id} asChild active={isActive}>
                 <button
-                  ref={(el) => (itemsRef.current[i] = el)}
+                  ref={(el) => (navItemsRef.current[i] = el)}
                   type="button"
                   className={`nav-button ${isActive ? 'active' : ''} ${
                     isTransitioning ? 'transitioning' : ''
@@ -108,9 +88,13 @@ export const AdminNavbar: FC<AdminNavbarProps> = ({ navItems }) => {
           })}
 
           {/* HIDDEN measurement items - for width calculation */}
-          <HiddenMeasureItems navItems={navItems} itemsRef={itemsRef} />
+          <HiddenMeasureItems
+            navItems={navItems}
+            navItemsRef={navItemsRef}
+            calculateVisibleItemsCount={calculateVisibleItemsCount}
+          />
 
-          {/* More button - using our MoreButton component */}
+          {/* MORE button - using our MoreButton component */}
           {overflowNavItems.length > 0 && (
             <div ref={moreButtonRef} className="more-wrapper">
               <MoreButton

@@ -26,13 +26,12 @@ export const useTemperatureFormAndFilter = ({ profiles, dataFiltered }: UseTempe
   const { setFilters: setOrdersFilters } = useOrders();
   const { currentSessionId, sessions, updateSessionFilters } = useSession();
 
-  // Get default consumption temperature from filtered data
   const defaultTempConsume = useMemo(() => {
     if (!dataFiltered?.length) return undefined;
     return dataFiltered[0].defaultTempConsume;
   }, [dataFiltered]);
 
-  // Find the minimum available profile temperature and calculate min/max range
+  // NOTE: find the minimum AVAILABLE profile in `temperature` and calculate min/max range
   const { minProfileTemp, minMaxTemperatures } = useMemo(() => {
     if (!profiles.length) {
       return {

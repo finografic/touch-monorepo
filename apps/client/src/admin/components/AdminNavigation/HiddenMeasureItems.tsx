@@ -1,9 +1,11 @@
 import { TabNav } from '@radix-ui/themes';
+import { useEffect, useRef, type FC } from 'react';
 import type { NavItem } from 'types/nav.types';
 
 interface HiddenMeasureItemsProps {
   navItems: NavItem[];
-  itemsRef: React.MutableRefObject<(HTMLButtonElement | null)[]>;
+  navItemsRef: React.MutableRefObject<(HTMLButtonElement | null)[]>;
+  calculateVisibleItemsCount: () => void;
 }
 
 /**
@@ -11,16 +13,41 @@ interface HiddenMeasureItemsProps {
  * Renders all items invisibly so their widths can be measured
  * Must match the structure of visible items for accurate measurement
  */
-export function HiddenMeasureItems({ navItems, itemsRef }: HiddenMeasureItemsProps) {
+export const HiddenMeasureItems: FC<HiddenMeasureItemsProps> = ({
+  navItems,
+  navItemsRef,
+  calculateVisibleItemsCount,
+}) => {
+  const calculationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // NOTE: trigger calculation AFTER items are MEASURED (after render/update)
+  useEffect(
+    function initializeDelayedMeasurement() {
+      if (calculationTimeoutRef.current) {
+        clearTimeout(calculationTimeoutRef.current);
+      }
+
+      calculationTimeoutRef.current = setTimeout(() => {
+        calculateVisibleItemsCount();
+      }, 500);
+
+      return () => {
+        if (calculationTimeoutRef.current) {
+          clearTimeout(calculationTimeoutRef.current);
+        }
+      };
+    },
+    [navItems, calculateVisibleItemsCount],
+  );
+
   return (
     <div className="measure">
       {navItems.map((navItem, i) => (
         <TabNav.Link key={`measure-${navItem.id}`} asChild>
           <button
             ref={(el) => {
-              // Register element for width measurement
-              if (el && i < itemsRef.current.length) {
-                itemsRef.current[i] = el;
+              if (el && i < navItemsRef.current.length) {
+                navItemsRef.current[i] = el;
               }
             }}
             type="button"
@@ -32,4 +59,4 @@ export function HiddenMeasureItems({ navItems, itemsRef }: HiddenMeasureItemsPro
       ))}
     </div>
   );
-}
+};
