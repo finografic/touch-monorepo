@@ -8,7 +8,7 @@ import { useTimerEvents } from 'components/Timers/shared/useTimerEvents';
 
 import { useTimers } from 'providers/TimersProvider/TimersContext';
 
-import { formatTime } from 'utils/time.utils';
+import { formatTimeDuration } from 'utils/time.utils';
 import { styles } from './AdminSlotTimer.styles';
 
 interface AdminSlotTimerProps {
@@ -106,7 +106,7 @@ export const AdminSlotTimer: React.FC<AdminSlotTimerProps> = ({ slotNumber, onCo
   return (
     <div css={styles}>
       <div className={clsx('admin-slot-timer', `status-${activeTimer.status}`)}>
-        <span>{activeTimer.status === 'completed' ? '00:00' : formatTime(remainingTime)}</span>
+        <span>{activeTimer.status === 'completed' ? '00:00' : formatTimeDuration(remainingTime)}</span>
       </div>
     </div>
   );

@@ -2,7 +2,7 @@ import { useEffect, useMemo } from 'react';
 
 import { useTimers } from 'providers/TimersProvider/TimersContext';
 
-import { formatTimeFromMs } from 'utils/time.utils';
+import { formatTimeDuration } from 'utils/time.utils';
 import { useDev } from 'dev-tools/providers/DevProvider';
 import { useHeartbeatSubscription } from './shared/useHeartbeatSubscription';
 import { styles } from './RecallTimer.styles';
@@ -40,7 +40,7 @@ export const RecallTimer = () => {
     <div css={styles}>
       <div className="config-timer">
         <span>
-          Configuration expires in: <strong>{formatTimeFromMs(remainingTime)}</strong>
+          Configuration expires in: <strong>{formatTimeDuration({ ms: remainingTime })}</strong>
         </span>
       </div>
     </div>

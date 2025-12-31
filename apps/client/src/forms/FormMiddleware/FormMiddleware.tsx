@@ -12,7 +12,7 @@ import {
   formatTimeValue,
   generateRandomValue,
   parseNumericValue,
-  parseTimeValue,
+  parseTimeDurationToSecondsValue,
 } from './FormMiddlewareUtils';
 
 // Create the context
@@ -259,7 +259,7 @@ export const FormMiddlewareProvider = <T extends FieldValues = FieldValues>({
         case 'number':
           return parseNumericValue(displayValue);
         case 'time':
-          return parseTimeValue(displayValue);
+          return parseTimeDurationToSecondsValue(displayValue);
       }
 
       return displayValue;

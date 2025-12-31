@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { useCallback } from 'react';
 
-import { formatTimeDisplay, isValidTimeInSeconds } from 'config/app';
+import { isValidTimeInSeconds } from 'config/app';
 import { styles } from './PadTimeGroup.styles';
 
 interface TimeInputGroupProps {

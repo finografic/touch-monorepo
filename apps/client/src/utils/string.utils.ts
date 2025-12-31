@@ -71,9 +71,6 @@ export const slugify = (str = '', args: any = {}): string => {
  */
 
 export const unslugify = (labelOriginal = ''): string => {
-  // SPECIAL-CASE EXCEPTIONS
-  if (labelOriginal === 'url') return labelOriginal.toUpperCase();
-
   // DEFAULT AUTO-FORMATTING
   let formatted = labelOriginal;
   formatted = camelCaseToSentence(labelOriginal);

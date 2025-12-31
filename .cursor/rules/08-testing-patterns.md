@@ -125,6 +125,44 @@ beforeEach(() => {
 2. **Integration Tests** - Test component interactions
 3. **E2E Tests** - Test complete user workflows
 
+### Test Coverage Philosophy
+
+**Keep tests slim and focused** - Aim for 2-4 tests per utility function:
+
+1. **Happy path** - The main use case
+2. **Edge case** - One critical boundary condition
+3. **Error case** - Invalid input handling (if applicable)
+4. **Variation** - Only if the function has significantly different behavior paths
+
+**Avoid over-testing:**
+- ❌ Don't test every possible input combination
+- ❌ Don't test implementation details
+- ❌ Don't duplicate coverage with redundant tests
+- ✅ Focus on behavior, not exhaustive permutations
+
+**Example: Good test coverage (9 tests for 3 functions)**
+
+```typescript
+describe('time.utils', () => {
+  describe('formatTimeDuration', () => {
+    it('formats seconds to mm:ss', () => { /* happy path */ });
+    it('formats milliseconds to mm:ss', () => { /* variation */ });
+    it('handles null/undefined', () => { /* edge case */ });
+  });
+
+  describe('parseTimeDurationToSeconds', () => {
+    it('parses mm:ss to seconds', () => { /* happy path */ });
+    it('returns 0 for invalid input', () => { /* error case */ });
+    it('round-trips with formatTimeDuration', () => { /* integration */ });
+  });
+
+  describe('isValidTimeDuration', () => {
+    it('validates with default range', () => { /* happy path */ });
+    it('validates with custom range', () => { /* variation */ });
+  });
+});
+```
+
 ### Test Structure
 
 ```typescript

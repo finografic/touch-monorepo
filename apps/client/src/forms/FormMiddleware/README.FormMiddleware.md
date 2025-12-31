@@ -226,7 +226,7 @@ When deciding what logic to centralize vs. keep local, we use this framework:
 ```typescript
 // KEPT LOCAL (Reusable Domain Logic):
 const formatTime = (seconds) => "mm:ss"; // Time-specific conversion
-const parseTime = (timeString) => seconds; // Format parsing
+const parseTimeDurationToSeconds = (timeString) => seconds; // Format parsing
 // Input formatting: "5" → "00:05", "130" → "01:30"
 
 // MOVED TO MIDDLEWARE (Form Integration):

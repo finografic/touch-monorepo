@@ -1,6 +1,6 @@
 import type { FieldPath, FieldValues } from 'react-hook-form';
 
-import { formatTime, parseTime  } from 'utils/time.utils';
+import { formatTimeDuration, parseTimeDurationToSeconds } from 'utils/time.utils';
 import type { FieldConfig } from './FormMiddleware.types';
 
 // Localization utilities
@@ -11,8 +11,8 @@ export const formatTemperatureValue = (value: number, locale: string): string =>
   }).format(value);
 };
 
-// Re-export formatTime for backward compatibility
-export const formatTimeValue = formatTime;
+// Re-export formatTimeDuration for backward compatibility
+export const formatTimeValue = formatTimeDuration;
 
 export const parseNumericValue = (displayValue: string): number | undefined => {
   const normalizedValue = displayValue.replace(',', '.');
@@ -20,9 +20,9 @@ export const parseNumericValue = (displayValue: string): number | undefined => {
   return Number.isNaN(parsed) ? undefined : parsed;
 };
 
-// Re-export parseTime for backward compatibility
-export const parseTimeValue = (displayValue: string): number | undefined => {
-  const result = parseTime(displayValue);
+// Re-export parseTimeDurationToSeconds for backward compatibility
+export const parseTimeDurationToSecondsValue = (displayValue: string): number | undefined => {
+  const result = parseTimeDurationToSeconds(displayValue);
   return result === 0 && displayValue !== '00:00' ? undefined : result;
 };
 

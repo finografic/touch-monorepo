@@ -4,7 +4,7 @@ import { ChevronDownIcon, ChevronUpIcon, ExclamationTriangleIcon } from '@radix-
 import { IconButton, TextField } from '@radix-ui/themes';
 import { useOptionalFormMiddleware } from 'forms/FormMiddleware/useFormMiddleware';
 
-import { formatTime, parseTime } from 'utils/time.utils';
+import { formatTimeDuration, parseTimeDurationToSeconds } from 'utils/time.utils';
 import { STEP_BUTTON_SIZE, STEP_BUTTON_VARIANT } from '../FormMiddleware/FormMiddleware.constants';
 import { useColors } from 'styles';
 import { styles } from './InputTime.styles';
@@ -80,7 +80,7 @@ export const InputTime: React.FC<InputTimeProps> = ({
 
   // Local state for display value and validation
   const [displayValue, setDisplayValue] = useState(() => {
-    return shouldShowPlaceholder ? '' : formatTime(currentSeconds);
+    return shouldShowPlaceholder ? '' : formatTimeDuration(currentSeconds);
   });
   const [isInvalid, setIsInvalid] = useState(false);
 
@@ -90,26 +90,26 @@ export const InputTime: React.FC<InputTimeProps> = ({
       setDisplayValue(''); // Empty string shows placeholder
       setIsInvalid(false);
     } else {
-      setDisplayValue(formatTime(currentSeconds));
+      setDisplayValue(formatTimeDuration(currentSeconds));
       setIsInvalid(false);
     }
-  }, [currentValue, currentSeconds, formatTime, shouldShowPlaceholder]);
+  }, [currentValue, currentSeconds, formatTimeDuration, shouldShowPlaceholder]);
 
   const handleStepUp = useCallback(() => {
     const baseValue = currentValue ?? 0; // Start from 0 if undefined
     const newValue = Math.min(baseValue + step, constraints.max ?? max);
-    setDisplayValue(formatTime(newValue));
+    setDisplayValue(formatTimeDuration(newValue));
     setIsInvalid(false);
     notifyChange(newValue);
-  }, [currentValue, step, constraints.max, max, formatTime, notifyChange]);
+  }, [currentValue, step, constraints.max, max, formatTimeDuration, notifyChange]);
 
   const handleStepDown = useCallback(() => {
     const baseValue = currentValue ?? 0; // Start from 0 if undefined
     const newValue = Math.max(baseValue - step, constraints.min ?? min);
-    setDisplayValue(formatTime(newValue));
+    setDisplayValue(formatTimeDuration(newValue));
     setIsInvalid(false);
     notifyChange(newValue);
-  }, [currentValue, step, constraints.min, min, formatTime, notifyChange]);
+  }, [currentValue, step, constraints.min, min, formatTimeDuration, notifyChange]);
 
   // Handle user typing mm:ss format
   const handleDisplayChange = useCallback(
@@ -122,7 +122,7 @@ export const InputTime: React.FC<InputTimeProps> = ({
 
       // If it's a valid mm:ss format, convert to seconds
       if (inputValue.match(/^\d{1,2}:\d{2}$/)) {
-        const seconds = parseTime(inputValue);
+        const seconds = parseTimeDurationToSeconds(inputValue);
         const minConstraint = constraints.min ?? min;
         const maxConstraint = constraints.max ?? max;
         if (seconds >= minConstraint && seconds <= maxConstraint) {
@@ -130,7 +130,7 @@ export const InputTime: React.FC<InputTimeProps> = ({
         }
       }
     },
-    [parseTime, constraints.min, constraints.max, min, max, notifyChange],
+    [parseTimeDurationToSeconds, constraints.min, constraints.max, min, max, notifyChange],
   );
 
   // Prevent ENTER from submitting form
@@ -181,7 +181,7 @@ export const InputTime: React.FC<InputTimeProps> = ({
         }
 
         // Validate the formatted time
-        const seconds = parseTime(formattedValue);
+        const seconds = parseTimeDurationToSeconds(formattedValue);
         const minConstraint = constraints.min ?? min;
         const maxConstraint = constraints.max ?? max;
         if (seconds >= minConstraint && seconds <= maxConstraint) {
@@ -191,7 +191,7 @@ export const InputTime: React.FC<InputTimeProps> = ({
         } else {
           // Invalid time, revert to previous valid value or empty
           if (currentValue !== undefined) {
-            setDisplayValue(formatTime(currentValue));
+            setDisplayValue(formatTimeDuration(currentValue));
           } else {
             setDisplayValue('');
           }
@@ -202,7 +202,7 @@ export const InputTime: React.FC<InputTimeProps> = ({
         setIsInvalid(true);
       }
     },
-    [currentValue, formatTime, parseTime, constraints.min, constraints.max, min, max, notifyChange],
+    [currentValue, formatTimeDuration, parseTimeDurationToSeconds, constraints.min, constraints.max, min, max, notifyChange],
   );
 
   return (

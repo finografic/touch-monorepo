@@ -4,7 +4,7 @@ import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { useTimers } from 'providers/TimersProvider';
 
 import { playAlarmSound, playCompleteSound } from 'utils/sound.utils';
-import { formatTime } from 'utils/time.utils';
+import { formatTimeDuration } from 'utils/time.utils';
 import { parseCompletionTime } from './shared/timer.utils';
 import { timerSubscriptionRegistry } from './shared/TimerSubscriptionRegistry';
 import { useTimerEvents } from './shared/useTimerEvents';
@@ -103,5 +103,5 @@ export const Timer: React.FC<TimerProps> = ({ slotNumber, onComplete }) => {
     return <span>00:00</span>;
   }
 
-  return <span>{formatTime(remainingTime)}</span>;
+  return <span>{formatTimeDuration(remainingTime)}</span>;
 };

@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import { useTimers } from 'providers/TimersProvider';
 
-import { formatTime } from 'utils/time.utils';
+import { formatTimeDuration } from 'utils/time.utils';
 import { parseCompletionTime } from './shared/timer.utils';
 import { timerSubscriptionRegistry } from './shared/TimerSubscriptionRegistry';
 import { styles } from './DefrostTimer.styles';
@@ -78,16 +78,16 @@ export const DefrostTimer: React.FC<DefrostTimerProps> = ({ slotNumber, onComple
   //   return <span>00:00</span>;
   // }
 
-  // return <span>{formatTime(remainingTime)}</span>;
+  // return <span>{formatTimeDuration(remainingTime)}</span>;
 
   return (
     <div css={styles}>
       <div className="defrost-timer">
         <span>
           {/* {process.env.NODE_ENV === 'development' && <TimerResetIcon />} */}
-          {/* <strong>{formatTimeFromMs(remainingTime)}</strong> */}
+          {/* <strong>{formatTimeDuration({ ms: remainingTime })}</strong> */}
           {defrost && defrost.status === 'processing' ? (
-            <span>{formatTime(remainingTime)}</span>
+            <span>{formatTimeDuration(remainingTime)}</span>
           ) : (
             <span>00:00</span>
           )}
