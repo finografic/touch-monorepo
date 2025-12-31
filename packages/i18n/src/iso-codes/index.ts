@@ -8,7 +8,7 @@
  */
 
 // Country codes (ISO 3166-1)
-export { COUNTRY_CODES } from './contry-codes.constants';
+export { COUNTRY_CODES } from './country-codes.constants';
 
 // Language mapping (ISO 639-1/639-2)
 export { LANG_CODE_MAPPING } from './language-mapping.contants';

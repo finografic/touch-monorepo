@@ -234,6 +234,8 @@
   // MD042/no-empty-links : No empty links : https://github.com/DavidAnson/markdownlint/blob/v0.40.0/doc/md042.md
   "MD042": true,
 
+  /*
+  // NOTE: DISABLE DEFAULT
   // MD043/required-headings : Required heading structure : https://github.com/DavidAnson/markdownlint/blob/v0.40.0/doc/md043.md
   "MD043": {
     // List of headings
@@ -241,6 +243,9 @@
     // Match case of headings
     "match_case": false,
   },
+  */
+  // NEW: OVERRIDE
+  "MD043": false,
 
   // MD044/proper-names : Proper names should have the correct capitalization : https://github.com/DavidAnson/markdownlint/blob/v0.40.0/doc/md044.md
   "MD044": {

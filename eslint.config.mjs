@@ -18,9 +18,6 @@ export default fino({
     'jsonc': {
       'jsonc/sort-keys': ERROR,
     },
-    // ============================
-    // CLIENT (TypeScript, React)
-    // ============================
     'apps/client/**/*.{ts,tsx}': {
       languageOptions: {
         parser: '@typescript-eslint/parser',
