@@ -1,8 +1,8 @@
+import { USBRelayService } from 'services/usbrelay.service';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 
 import type { AppRouteHandler } from 'types/app.types';
 import { relayConfig } from 'config/relay.config';
-import { USBRelayService } from '../../services/usbrelay.service';
 import type {
   DisconnectRelayRoute,
   GetRelayStateRoute,

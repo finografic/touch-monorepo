@@ -1,6 +1,6 @@
 import * as HID from 'node-hid';
 
-import { relayConfig } from '../config/relay.config';
+import { relayConfig } from 'config/relay.config';
 
 export interface RelayState {
   readonly slotNumber: number;
