@@ -13,7 +13,7 @@ import {
   TEMP_INPUT_PLACEHOLDER,
   TEMP_STEP,
 } from '../FormMiddleware/FormMiddleware.constants';
-import { useFormMiddleware } from '../FormMiddleware/FormMiddleware.simple';
+import { useFormMiddleware } from '../FormMiddleware';
 import { useColors } from 'styles';
 import { styles } from './InputTemperature.styles';
 

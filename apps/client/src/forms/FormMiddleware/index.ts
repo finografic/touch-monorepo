@@ -1,4 +1,5 @@
-export { FormMiddlewareProvider, useFormMiddleware } from './FormMiddleware.simple';
+export { FormMiddlewareProvider } from './FormMiddleware.simple';
+export { useFormMiddleware, useOptionalFormMiddleware } from './useFormMiddleware';
 export type {
   FieldConfig,
   FieldDependencyEffect,

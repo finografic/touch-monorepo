@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import { ChevronDownIcon, ChevronUpIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons';
 import { IconButton, TextField } from '@radix-ui/themes';
-import { useOptionalFormMiddleware } from 'forms/FormMiddleware/useFormMiddleware';
+import { useOptionalFormMiddleware } from 'forms/FormMiddleware';
 
 import { formatTimeDuration, parseTimeDurationToSeconds } from 'utils/time.utils';
 import { STEP_BUTTON_SIZE, STEP_BUTTON_VARIANT } from '../FormMiddleware/FormMiddleware.constants';
