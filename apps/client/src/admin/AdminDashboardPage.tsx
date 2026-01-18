@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 
 import { Box, Card, Flex } from '@radix-ui/themes';
 import { getAdminDashboardCards } from 'admin/config/admin.routes.selectors';
-import { setLocale } from 'i18n/runtime';
 import { SectionHeader } from 'components/SectionHeader/SectionHeader';
 
 import { usePageTransition } from 'hooks/usePageTransition';
@@ -22,11 +21,6 @@ export const AdminDashboardPage: React.FC = () => {
   const handleCardClick = (path: string) => {
     navigateWithTransition(path);
   };
-
-  // Set ParaglideJS locale to match app's current language
-  useEffect(() => {
-    setLocale(currentLanguage as 'en-GB' | 'es-ES');
-  }, [currentLanguage]);
 
   const role = user?.role === 'admin' ? 'admin' : 'public';
 

@@ -1,27 +1,32 @@
 {
   "name": "@workspace/config",
   "type": "module",
-  "main": "index.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsc --build",
     "clean": "rm -rf dist"
   },
   "exports": {
     ".": {
-      "import": "./index.ts"
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
     },
     "./env.shared": {
-      "import": "./env.shared.ts",
-      "types": "./env.shared.ts"
+      "import": "./dist/env.shared.js",
+      "types": "./dist/env.shared.d.ts"
     },
     "./i18n.config": {
-      "import": "./i18n.config.ts"
+      "import": "./dist/i18n.config.js",
+      "types": "./dist/i18n.config.d.ts"
     },
     "./i18n": {
-      "import": "./i18n.config.ts"
+      "import": "./dist/i18n.config.js",
+      "types": "./dist/i18n.config.d.ts"
     },
     "./paths": {
-      "import": "./paths.ts"
+      "import": "./dist/paths.js",
+      "types": "./dist/paths.d.ts"
     }
   },
   "dependencies": {

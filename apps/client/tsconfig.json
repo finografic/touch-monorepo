@@ -78,7 +78,6 @@
     "src/**/*",
     "src/**/*.json",
     "messages/**/*.json",
-    "project.inlang/**/*",
     "src/i18n/utils/**/*.ts",
     "env.client.ts",
     "vite.utils.ts"

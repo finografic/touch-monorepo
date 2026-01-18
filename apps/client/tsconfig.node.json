@@ -14,7 +14,6 @@
     "postcss.config.mjs",
     "src/utils/**/*.ts",
     "messages/**/*.json",
-    "project.inlang/**/*",
     "src/i18n/utils/**/*.ts",
   ],
   "exclude": [

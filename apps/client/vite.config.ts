@@ -62,8 +62,6 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
         '@workspace/i18n': resolve(WORKSPACE_ROOT, 'packages/i18n/src/index.ts'),
         '@workspace/i18n/generators': resolve(WORKSPACE_ROOT, 'packages/i18n/src/generators/index.ts'),
         'i18n/utils': resolve(__dirname, 'src/i18n/utils/index.ts'),
-        'i18n/messages.js': resolve(__dirname, 'src/i18n/messages/messages.js'),
-        'i18n/runtime.js': resolve(__dirname, 'src/i18n/messages/runtime.js'),
         'messages': resolve(__dirname, '../messages'),
       },
     },
