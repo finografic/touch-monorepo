@@ -1,5 +1,4 @@
 export { FormMiddlewareProvider } from './FormMiddleware.simple';
-export { useFormMiddleware, useOptionalFormMiddleware } from './useFormMiddleware';
 export type {
   FieldConfig,
   FieldDependencyEffect,
@@ -8,3 +7,4 @@ export type {
   ProgressiveFieldConfig,
 } from './FormMiddleware.types';
 export * from './FormMiddlewareUtils';
+export { useFormMiddleware, useOptionalFormMiddleware } from './useFormMiddleware';
