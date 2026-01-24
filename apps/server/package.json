@@ -81,6 +81,7 @@
     "db.migrations.run": "tsx src/db/utils/migrate.ts",
     "db.views.create": "tsx src/db/utils/create-view.ts all",
     "db.views.create.single": "tsx src/db/utils/create-view.ts",
+    "db.cleanup.short-keys": "tsx src/scripts/cleanup-short-keys.ts",
     "·········· DB.STUDIO": "·················································",
     "db.studio": "drizzle-kit studio",
     "·········· UTILS": "·····················································",

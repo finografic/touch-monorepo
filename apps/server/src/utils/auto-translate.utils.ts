@@ -5,6 +5,9 @@ import { container_types } from 'db/schemas/container_types.schema';
 import { drink_subtypes } from 'db/schemas/drink_subtypes.schema';
 import { drink_types } from 'db/schemas/drink_types.schema';
 import { volumes } from 'db/schemas/volumes.schema';
+import { translations_admin } from 'db/schemas/translations_admin.schema';
+import { translations_app } from 'db/schemas/translations_app.schema';
+import { translations_ui } from 'db/schemas/translations_ui.schema';
 
 // Rate limiting configuration to avoid API limits
 const TRANSLATION_DELAY_MS = 1000; // 1 second between translations
@@ -42,6 +45,12 @@ export async function initializeNewLanguageInTranslations(languageCode: string):
         default:
           console.warn(`⚠️ Unknown table: ${entity.tableName}`);
       }
+
+    // Also initialize translations tables
+    console.log(`📝 Initializing translations tables...`);
+    await initializeTranslationsAdmin(languageCode);
+    await initializeTranslationsApp(languageCode);
+    await initializeTranslationsUi(languageCode);
     }
 
     console.log(`✅ Language key "${languageCode}" initialized in all translations`);
@@ -144,6 +153,75 @@ async function initializeContainerTypes(languageCode: string) {
 }
 
 /**
+ * Initialize language key in translations_admin translations
+ */
+async function initializeTranslationsAdmin(languageCode: string) {
+  const records = await db.query.translations_admin.findMany();
+
+  for (const record of records) {
+    const currentTranslations = (record.translations as any) || {};
+    if (!currentTranslations[languageCode]) {
+      const updatedTranslations = {
+        ...currentTranslations,
+        [languageCode]: '', // Initialize with empty string, will be populated by auto-translation
+      };
+
+      await db
+        .update(translations_admin)
+        .set({ translations: updatedTranslations as any })
+        .where(eq(translations_admin.id, record.id));
+    }
+  }
+  console.log(`✅ Initialized ${records.length} translations_admin records`);
+}
+
+/**
+ * Initialize language key in translations_app translations
+ */
+async function initializeTranslationsApp(languageCode: string) {
+  const records = await db.query.translations_app.findMany();
+
+  for (const record of records) {
+    const currentTranslations = (record.translations as any) || {};
+    if (!currentTranslations[languageCode]) {
+      const updatedTranslations = {
+        ...currentTranslations,
+        [languageCode]: '', // Initialize with empty string, will be populated by auto-translation
+      };
+
+      await db
+        .update(translations_app)
+        .set({ translations: updatedTranslations as any })
+        .where(eq(translations_app.id, record.id));
+    }
+  }
+  console.log(`✅ Initialized ${records.length} translations_app records`);
+}
+
+/**
+ * Initialize language key in translations_ui translations
+ */
+async function initializeTranslationsUi(languageCode: string) {
+  const records = await db.query.translations_ui.findMany();
+
+  for (const record of records) {
+    const currentTranslations = (record.translations as any) || {};
+    if (!currentTranslations[languageCode]) {
+      const updatedTranslations = {
+        ...currentTranslations,
+        [languageCode]: '', // Initialize with empty string, will be populated by auto-translation
+      };
+
+      await db
+        .update(translations_ui)
+        .set({ translations: updatedTranslations as any })
+        .where(eq(translations_ui.id, record.id));
+    }
+  }
+  console.log(`✅ Initialized ${records.length} translations_ui records`);
+}
+
+/**
  * Auto-translate existing content when a new language is added
  * Uses English (en-GB) as the source language and translates to the target language
  * Now works with JSON translations column
@@ -183,6 +261,12 @@ export async function autoTranslateExistingContent(targetLanguageCode: string): 
         default:
           console.warn(`⚠️ Unknown table: ${entity.tableName}`);
       }
+
+    // Also translate translations tables
+    console.log(`📝 Translating translations tables...`);
+    await translateTranslationsAdmin(sourceLanguage, targetLanguageCode);
+    await translateTranslationsApp(sourceLanguage, targetLanguageCode);
+    await translateTranslationsUi(sourceLanguage, targetLanguageCode);
     }
 
     console.log(`✅ Auto-translation completed for ${targetLanguageCode}`);
@@ -369,6 +453,147 @@ async function translateContainerTypes(sourceLang: string, targetLang: string) {
         console.log(`✅ ${record.name}: "${sourceText}" → "${translatedText}"`);
       } catch (updateError) {
         console.error(`❌ Failed to update ${record.name}:`, updateError);
+      }
+
+      // Rate limiting to avoid API limits
+      await new Promise((resolve) => setTimeout(resolve, TRANSLATION_DELAY_MS));
+    }
+  }
+}
+
+/**
+ * Translate translations_admin table using JSON translations column
+ */
+async function translateTranslationsAdmin(sourceLang: string, targetLang: string) {
+  console.log(`📝 Translating translations_admin table: ${sourceLang} → ${targetLang}`);
+
+  const records = await db.query.translations_admin.findMany();
+  console.log(`📊 Found ${records.length} admin translation records to translate`);
+
+  for (const record of records) {
+    // Skip if translation already exists and is not null/empty
+    if (record.translations?.[targetLang]) {
+      console.log(`⏭️ Skipping ${record.key} - translation already exists`);
+      continue;
+    }
+
+    // Get source text - use existing translation for the source language
+    const sourceText = record.translations?.[sourceLang];
+
+    if (sourceText) {
+      console.log(`🔤 Translating "${sourceText}" to ${targetLang}...`);
+      const translatedText = await translateText(sourceText, targetLang);
+
+      try {
+        // Update JSON translations
+        const currentTranslations = record.translations || {};
+        const updatedTranslations = {
+          ...currentTranslations,
+          [targetLang]: translatedText,
+        };
+
+        await db
+          .update(translations_admin)
+          .set({ translations: updatedTranslations })
+          .where(eq(translations_admin.id, record.id));
+
+        console.log(`✅ ${record.key}: "${sourceText}" → "${translatedText}"`);
+      } catch (updateError) {
+        console.error(`❌ Failed to update ${record.key}:`, updateError);
+      }
+
+      // Rate limiting to avoid API limits
+      await new Promise((resolve) => setTimeout(resolve, TRANSLATION_DELAY_MS));
+    }
+  }
+}
+
+/**
+ * Translate translations_app table using JSON translations column
+ */
+async function translateTranslationsApp(sourceLang: string, targetLang: string) {
+  console.log(`📱 Translating translations_app table: ${sourceLang} → ${targetLang}`);
+
+  const records = await db.query.translations_app.findMany();
+  console.log(`📊 Found ${records.length} app translation records to translate`);
+
+  for (const record of records) {
+    // Skip if translation already exists and is not null/empty
+    if (record.translations?.[targetLang]) {
+      console.log(`⏭️ Skipping ${record.key} - translation already exists`);
+      continue;
+    }
+
+    // Get source text - use existing translation for the source language
+    const sourceText = record.translations?.[sourceLang];
+
+    if (sourceText) {
+      console.log(`🔤 Translating "${sourceText}" to ${targetLang}...`);
+      const translatedText = await translateText(sourceText, targetLang);
+
+      try {
+        // Update JSON translations
+        const currentTranslations = record.translations || {};
+        const updatedTranslations = {
+          ...currentTranslations,
+          [targetLang]: translatedText,
+        };
+
+        await db
+          .update(translations_app)
+          .set({ translations: updatedTranslations })
+          .where(eq(translations_app.id, record.id));
+
+        console.log(`✅ ${record.key}: "${sourceText}" → "${translatedText}"`);
+      } catch (updateError) {
+        console.error(`❌ Failed to update ${record.key}:`, updateError);
+      }
+
+      // Rate limiting to avoid API limits
+      await new Promise((resolve) => setTimeout(resolve, TRANSLATION_DELAY_MS));
+    }
+  }
+}
+
+/**
+ * Translate translations_ui table using JSON translations column
+ */
+async function translateTranslationsUi(sourceLang: string, targetLang: string) {
+  console.log(`🖥️ Translating translations_ui table: ${sourceLang} → ${targetLang}`);
+
+  const records = await db.query.translations_ui.findMany();
+  console.log(`📊 Found ${records.length} UI translation records to translate`);
+
+  for (const record of records) {
+    // Skip if translation already exists and is not null/empty
+    if (record.translations?.[targetLang]) {
+      console.log(`⏭️ Skipping ${record.key} - translation already exists`);
+      continue;
+    }
+
+    // Get source text - use existing translation for the source language
+    const sourceText = record.translations?.[sourceLang];
+
+    if (sourceText) {
+      console.log(`🔤 Translating "${sourceText}" to ${targetLang}...`);
+      const translatedText = await translateText(sourceText, targetLang);
+
+      try {
+        // Update JSON translations
+        const currentTranslations = record.translations || {};
+        const updatedTranslations = {
+          ...currentTranslations,
+          [targetLang]: translatedText,
+        };
+
+        await db
+          .update(translations_ui)
+          .set({ translations: updatedTranslations })
+          .where(eq(translations_ui.id, record.id));
+
+        console.log(`✅ ${record.key}: "${sourceText}" → "${translatedText}"`);
+      } catch (updateError) {
+        console.error(`❌ Failed to update ${record.key}:`, updateError);
       }
 
       // Rate limiting to avoid API limits

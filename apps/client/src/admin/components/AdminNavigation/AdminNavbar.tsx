@@ -76,7 +76,7 @@ export const AdminNavbar: FC<AdminNavbarProps> = ({ navItems }) => {
             const isActive = location.pathname === navItem.path;
 
             return (
-              <TabNav.Link key={navItem.id} asChild active={isActive}>
+              <TabNav.Link asChild active={isActive} key={`nav-item-${navItem.id}-${i}`}>
                 <button
                   ref={(el) => (navItemsRef.current[i] = el)}
                   type="button"

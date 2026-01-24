@@ -45,7 +45,7 @@ export const HiddenMeasureItems: FC<HiddenMeasureItemsProps> = ({
   return (
     <div className="measure">
       {navItems.map((navItem, i) => (
-        <TabNav.Link key={`measure-${navItem.id}`} asChild>
+        <TabNav.Link asChild key={`measure-${navItem.id}-${i}`} >
           <button
             ref={(el) => {
               if (el && i < navItemsRef.current.length) {
