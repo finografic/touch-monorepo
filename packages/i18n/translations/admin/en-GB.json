@@ -21,7 +21,7 @@
           "labels": "Labels",
           "components": "Components",
           "orders": "Orders",
-          "products": "Products",
+          "items": "Products",
           "buttons": "Buttons",
           "dialogs": "Dialogs",
           "time": "Time",
@@ -48,7 +48,7 @@
           }
         }
       },
-      "products": {
+      "items": {
         "title": "Product Translations",
         "description": "Edit product translations",
         "tabs": {

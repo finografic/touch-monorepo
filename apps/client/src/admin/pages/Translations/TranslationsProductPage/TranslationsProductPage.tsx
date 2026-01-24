@@ -78,7 +78,7 @@ export const TranslationsProductPage: React.FC = () => {
   }
 
   return (
-    <AdminPageLayout title={t('admin.pages.products.title')} styles={styles}>
+    <AdminPageLayout title={t('admin.pages.items.title')} styles={styles}>
       <Tabs.Root value={activeTab} onValueChange={(value) => setActiveTab(value as SectionKey)}>
         <Tabs.List>
           {sortedSections.map((section) => (
@@ -91,7 +91,7 @@ export const TranslationsProductPage: React.FC = () => {
         {sortedSections.map((section) => (
           <Tabs.Content key={section.group} value={section.group}>
             <AdminSection
-              title={t('admin.pages.products.table.title', {
+              title={t('admin.pages.items.table.title', {
                 group: t(`admin.pages.translations.tabs.${section.group}`, { defaultValue: section.group }),
               })}
               description={' '}

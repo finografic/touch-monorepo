@@ -17,7 +17,6 @@ import {
   GridIcon,
   LanguageIcon,
   ListIcon,
-  SettingsIcon,
   VolumeIcon,
   ZapIcon,
 } from 'styles/icons';
@@ -116,7 +115,7 @@ export const ADMIN_ROUTE_CONFIGS: AdminRouteConfig[] = [
 
   // AUTHENTICATED ENTRIES (only visible as admin) ========================== //
   {
-    id: 'products',
+    id: 'items',
     path: '/admin/translations-product',
     element: {
       public: null,

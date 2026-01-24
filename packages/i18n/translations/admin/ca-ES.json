@@ -21,7 +21,7 @@
           "labels": "Etiquetes",
           "components": "Components",
           "orders": "Comandes",
-          "products": "Productes",
+          "items": "Productes",
           "buttons": "Botons",
           "dialogs": "Diàlegs",
           "time": "Temps",
@@ -48,7 +48,7 @@
           }
         }
       },
-      "products": {
+      "items": {
         "title": "Traduccions de productes",
         "description": "Editar etiquetes de productes",
         "tabs": {

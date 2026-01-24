@@ -1,4 +1,4 @@
-import { type FC, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { type FC, useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { TabNav } from '@radix-ui/themes';
