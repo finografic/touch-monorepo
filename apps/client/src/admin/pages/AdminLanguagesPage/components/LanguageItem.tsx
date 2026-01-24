@@ -1,10 +1,12 @@
 import React from 'react';
 import type { LanguageInfo } from '@workspace/config/i18n.config';
+import type { LanguageInfo as LanguageInfo_2 } from '@workspace/i18n/types';
 
 import { Flex, Text } from '@radix-ui/themes';
 
 interface LanguagesListSelectedProps {
-  language: LanguageInfo;
+  // language: LanguageInfo;
+  language: LanguageInfo_2;
 }
 
 export const LanguageItem: React.FC<LanguagesListSelectedProps> = ({ language }) => {

@@ -3,7 +3,16 @@ import { EndpointsSupportedLanguages } from 'api/endpoints';
 
 import type { SupportedLanguage } from 'types/models/supported-language.model';
 import { ADMIN_DATA_QUERY_CONFIG } from 'config/api';
-import type { SupportedLanguageInput, SupportedLanguageUpdate } from './supported-languages.types';
+import type { SupportedLanguageUpdate } from './supported-languages.types';
+
+// import type { SupportedLanguageInput, SupportedLanguageUpdate } from './supported-languages.types';
+
+// import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+// import { EndpointsSupportedLanguages } from 'api/endpoints';
+
+// import type { SupportedLanguage } from 'types/models/supported-language.model';
+// import { ADMIN_DATA_QUERY_CONFIG } from 'config/api';
+// import type { SupportedLanguageInput, SupportedLanguageUpdate } from './supported-languages.types';
 
 // Query keys
 export const supportedLanguagesKeys = {
@@ -12,6 +21,7 @@ export const supportedLanguagesKeys = {
   list: (filters: string) => [...supportedLanguagesKeys.lists(), { filters }] as const,
   details: () => [...supportedLanguagesKeys.all, 'detail'] as const,
   detail: (id: string) => [...supportedLanguagesKeys.details(), id] as const,
+  translationStatus: (isoCode: string) => [...supportedLanguagesKeys.all, 'translationStatus', isoCode] as const,
 };
 
 // Get all supported languages
@@ -81,6 +91,24 @@ export const useToggleSupportedLanguageActive = () => {
     onSuccess: (_, { id }) => {
       queryClient.invalidateQueries({ queryKey: supportedLanguagesKeys.detail(id) });
       queryClient.invalidateQueries({ queryKey: supportedLanguagesKeys.lists() });
+    },
+  });
+};
+
+// Get translation status for a language (with polling)
+export const useTranslationStatus = (isoCode: string | null, enabled: boolean = true) => {
+  return useQuery({
+    queryKey: supportedLanguagesKeys.translationStatus(isoCode || ''),
+    queryFn: () => EndpointsSupportedLanguages.getTranslationStatus(isoCode!),
+    enabled: enabled && !!isoCode,
+    refetchInterval: (query) => {
+      const data = query.state.data;
+      // Poll every 2 seconds if translation is in progress
+      if (data?.status === 'pending' || data?.status === 'in-progress') {
+        return 2000;
+      }
+      // Stop polling if completed or failed
+      return false;
     },
   });
 };

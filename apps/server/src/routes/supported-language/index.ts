@@ -7,4 +7,5 @@ export default createRouter()
   .openapi(routes.getOne, handlers.getOne)
   .openapi(routes.create, handlers.create)
   .openapi(routes.patch, handlers.patch)
-  .openapi(routes.remove, handlers.remove);
+  .openapi(routes.remove, handlers.remove)
+  .openapi(routes.getTranslationStatus, handlers.getTranslationStatusHandler);

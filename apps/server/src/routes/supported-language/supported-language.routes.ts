@@ -82,6 +82,25 @@ export const patch = createRoute({
   },
 });
 
+// export const remove = createRoute({
+//   path: '/supported-languages/{id}',
+//   method: 'delete',
+//   request: {
+//     params: IdCuidParamsSchema,
+//   },
+//   tags,
+//   responses: {
+//     [HttpStatusCodes.NO_CONTENT]: {
+//       description: 'Supported language deleted',
+//     },
+//     [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Supported language not found'),
+//     [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
+//       createErrorSchema(IdParamsSchema),
+//       'Invalid id error',
+//     ),
+//   },
+// });
+
 export const remove = createRoute({
   path: '/supported-languages/{id}',
   method: 'delete',
@@ -101,8 +120,42 @@ export const remove = createRoute({
   },
 });
 
+export const getTranslationStatus = createRoute({
+  path: '/supported-languages/{isoCode}/translation-status',
+  method: 'get',
+  request: {
+    params: z.object({
+      isoCode: z.string().describe('ISO language code (e.g., pt-BR)'),
+    }),
+  },
+  tags,
+  responses: {
+    [HttpStatusCodes.OK]: jsonContent(
+      z.object({
+        status: z.enum(['pending', 'in-progress', 'completed', 'failed']),
+        startedAt: z.string().datetime(),
+        completedAt: z.string().datetime().optional(),
+        error: z.string().optional(),
+        progress: z
+          .object({
+            currentTable: z.string(),
+            totalTables: z.number(),
+            completedTables: z.number(),
+          })
+          .optional(),
+      }),
+      'Translation status for the language',
+    ),
+    [HttpStatusCodes.NOT_FOUND]: jsonContent(
+      z.object({ message: z.string() }),
+      'Translation status not found (translation may not have started)',
+    ),
+  },
+});
+
 export type ListRoute = typeof list;
 export type CreateRoute = typeof create;
 export type GetOneRoute = typeof getOne;
 export type PatchRoute = typeof patch;
 export type RemoveRoute = typeof remove;
+export type GetTranslationStatusRoute = typeof getTranslationStatus;

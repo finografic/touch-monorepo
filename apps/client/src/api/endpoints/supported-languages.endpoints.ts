@@ -108,4 +108,25 @@ export const EndpointsSupportedLanguages = {
   deleteSupportedLanguage: async (id: string): Promise<void> => {
     return EndpointsSupportedLanguages.delete(id);
   },
+
+  /**
+   * Get translation status for a language
+   */
+  getTranslationStatus: async (isoCode: string): Promise<{
+    status: 'pending' | 'in-progress' | 'completed' | 'failed';
+    startedAt: string;
+    completedAt?: string;
+    error?: string;
+    progress?: {
+      currentTable: string;
+      totalTables: number;
+      completedTables: number;
+    };
+  }> => {
+    try {
+      return await api.get(`/supported-languages/${isoCode}/translation-status`);
+    } catch (error) {
+      throw transformFetchError(error);
+    }
+  },
 } as const;

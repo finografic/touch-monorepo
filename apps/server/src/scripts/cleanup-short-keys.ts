@@ -69,7 +69,8 @@ async function removeShortLanguageKeys() {
             .where(eq(schema.id, record.id));
 
           tableUpdated++;
-          console.log(`✅ Cleaned ${name} record ${record.id || record.name}`);
+          // console.log(`✅ Cleaned ${name} record ${record.id || (record as any).name}`);
+          console.log(`✅ Cleaned ${name} record ${record.id}`);
         } catch (error) {
           console.error(`❌ Failed to clean ${name} record:`, error);
         }

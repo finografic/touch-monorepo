@@ -1,8 +1,10 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Col, Row } from 'react-grid-system';
 import { useTranslation } from 'react-i18next';
-import type { LanguageInfo } from '@workspace/config/i18n.config';
-import type { LanguageInfo as LanguageInfo2 } from '@workspace/i18n/types';
+// import type { LanguageInfo } from '@workspace/config/i18n.config';
+// import type { LanguageInfo as LanguageInfo_2 } from '@workspace/i18n/types';
+// import type { LanguageInfo } from '@workspace/config/i18n.config';
+import type { LanguageInfo } from '@workspace/i18n/types';
 
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { Box, Button, Callout, Flex, Text } from '@radix-ui/themes';
@@ -17,6 +19,7 @@ import {
   useCreateSupportedLanguage,
   useDeleteSupportedLanguage,
   useGetSupportedLanguages,
+  useTranslationStatus,
 } from 'queries/supported-languages';
 
 import { getFlagUrl } from 'utils/i18n/flag.utils';
@@ -43,6 +46,7 @@ export const AdminLanguagesPage: React.FC = () => {
   const queryClient = useQueryClient();
   const [message, setMessage] = useState<{ type: 'error' | 'success'; text: string } | null>(null);
   const [selectedLanguages, setSelectedLanguages] = useState<LanguageInfo[]>([]);
+  const [translatingLanguageCode, setTranslatingLanguageCode] = useState<string | null>(null);
 
   // Delete confirmation dialog state
   const [deleteDialog, setDeleteDialog] = useState<{ isOpen: boolean; language: LanguageInfo | null }>({
@@ -54,6 +58,40 @@ export const AdminLanguagesPage: React.FC = () => {
   const { data: supportedLanguagesData, isLoading, error } = useGetSupportedLanguages();
   const createLanguageMutation = useCreateSupportedLanguage();
   const deleteLanguageMutation = useDeleteSupportedLanguage();
+
+  // Poll translation status if a language is being translated
+  const translationStatus = useTranslationStatus(translatingLanguageCode, !!translatingLanguageCode);
+
+  // Handle translation status changes
+  useEffect(() => {
+    if (translationStatus.data) {
+      const { status, progress, error: translationError } = translationStatus.data;
+
+      if (status === 'completed') {
+        setMessage({
+          type: 'success',
+          text: `✅ Translation completed for ${translatingLanguageCode}! All translations are ready.`,
+        });
+        setTranslatingLanguageCode(null);
+        queryClient.invalidateQueries({ queryKey: supportedLanguagesKeys.lists() });
+        setTimeout(() => setMessage(null), 8000);
+      } else if (status === 'failed') {
+        setMessage({
+          type: 'error',
+          text: `❌ Translation failed for ${translatingLanguageCode}: ${translationError || 'Unknown error'}`,
+        });
+        setTranslatingLanguageCode(null);
+        setTimeout(() => setMessage(null), 8000);
+      } else if (status === 'in-progress' && progress) {
+        // Update message with progress
+        const progressText = `Translating ${progress.currentTable}... (${progress.completedTables}/${progress.totalTables} tables)`;
+        setMessage({
+          type: 'success',
+          text: `🔄 ${progressText}`,
+        });
+      }
+    }
+  }, [translationStatus.data, translatingLanguageCode, queryClient]);
 
   // Convert database data to the unified LanguageInfo format using DTO
   const languages: LanguageInfo[] = supportedLanguagesData
@@ -89,7 +127,7 @@ export const AdminLanguagesPage: React.FC = () => {
     }
 
     // Show confirmation dialog instead of immediately deleting
-    setDeleteDialog({ isOpen: true, language: languageToDelete });
+    setDeleteDialog({ isOpen: true, language: languageToDelete as LanguageInfo });
   };
 
   const handleConfirmDelete = async () => {
@@ -156,9 +194,7 @@ export const AdminLanguagesPage: React.FC = () => {
     }
 
     try {
-      setMessage({ type: 'success', text: 'Saving languages...' });
-
-      // Save each selected language
+      // Save each selected language (language is added immediately, translation happens in background)
       for (const language of selectedLanguages) {
         const languageData = {
           isoCode: language.code,
@@ -171,32 +207,38 @@ export const AdminLanguagesPage: React.FC = () => {
 
         console.log('Creating language:', languageData);
         await createLanguageMutation.mutateAsync(languageData);
+
+        // Set the last language as the one being translated (for polling)
+        setTranslatingLanguageCode(language.code);
       }
 
       // Clear selected languages and refresh data
       setSelectedLanguages([]);
       queryClient.invalidateQueries({ queryKey: supportedLanguagesKeys.lists() });
 
+      // Show initial message - polling will update it with progress
       setMessage({
         type: 'success',
-        text: `Successfully added ${selectedLanguages.length} language(s)! Translation columns created instantly. 🌐 Auto-translation is now running in the background - check the AdminTranslationsPage in a few minutes to see the results.`,
+        text: `✅ Successfully added ${selectedLanguages.length} language(s)! Generating translations... This may take a few minutes.`,
       });
-      setTimeout(() => setMessage(null), 8000); // Longer timeout for longer message
     } catch (error) {
       console.error('Error saving languages:', error);
       setMessage({
         type: 'error',
         text: `Failed to save languages: ${error instanceof Error ? error.message : 'Unknown error'}`,
       });
+      setTranslatingLanguageCode(null);
       setTimeout(() => setMessage(null), 5000);
     }
   };
 
+  /*
   if (isLoading) {
     return (
       <AdminPageLayout
         title={t('admin.pages.languages.title')}
-        subtitle={t('admin.pages.languages.subtitle')}
+        subtitle={t('admin.pages.languages.subtitle', {defaultValue: ''})}
+        description={t('admin.pages.languages.description', {defaultValue: ''})}
         isLoading={true}
         styles={styles}
       >
@@ -211,7 +253,8 @@ export const AdminLanguagesPage: React.FC = () => {
     return (
       <AdminPageLayout
         title={t('admin.pages.languages.title')}
-        subtitle={t('admin.pages.languages.subtitle')}
+        subtitle={t('admin.pages.languages.subtitle', {defaultValue: ''})}
+        description={t('admin.pages.languages.description', {defaultValue: ''})}
         error={error.message}
         styles={styles}
       >
@@ -221,11 +264,15 @@ export const AdminLanguagesPage: React.FC = () => {
       </AdminPageLayout>
     );
   }
+  */
 
   return (
     <AdminPageLayout
       title={t('admin.pages.languages.title')}
-      subtitle={t('admin.pages.languages.subtitle')}
+      subtitle={t('admin.pages.languages.subtitle', {defaultValue: ''})}
+      description={t('admin.pages.languages.description', {defaultValue: ''})}
+      isLoading={isLoading}
+      error={error?.message}
       styles={styles}
     >
       <AdminSection>
@@ -293,7 +340,9 @@ export const AdminLanguagesPage: React.FC = () => {
                 loading={createLanguageMutation.isPending}
                 disabled={createLanguageMutation.isPending || selectedLanguages.length === 0}
               >
-                {createLanguageMutation.isPending ? 'Adding languages...' : 'Confirm: Add new languages'}
+                {createLanguageMutation.isPending
+                  ? 'Adding languages...'
+                  : 'Confirm: Add new languages'}
               </Button>
             </Col>
           </Row>

@@ -11,6 +11,15 @@ import {
   ENABLE_BROWSER_LANGUAGE_DETECTION,
   I18N_NAMESPACE,
 } from 'config/app/i18n.config';
+import type { RegionLocale } from '@workspace/i18n';
+
+const STORAGE_KEY = 'supported-languages';
+
+const stored = localStorage.getItem(STORAGE_KEY);
+
+export const SUPPORTED_LANGUAGES: RegionLocale[] = stored
+  ? (JSON.parse(stored) as RegionLocale[])
+  : DEFAULT_SUPPORTED_LANGUAGES;
 
 i18n
   .use(HttpBackend)
@@ -45,7 +54,7 @@ i18n
     /**
      * Languages
      */
-    supportedLngs: DEFAULT_SUPPORTED_LANGUAGES,
+    supportedLngs: SUPPORTED_LANGUAGES,
     nonExplicitSupportedLngs: false,
     detection: {
       order: ['querystring', 'localStorage', 'sessionStorage', 'navigator'],

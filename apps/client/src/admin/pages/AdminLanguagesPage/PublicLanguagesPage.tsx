@@ -13,7 +13,8 @@ export const PublicLanguagesPage: React.FC = () => {
   return (
     <AdminPageLayout
       title={t('admin.pages.languages_public.title')}
-      description={t('admin.pages.languages_public.description')}
+      subtitle={t('admin.pages.languages_public.subtitle', {defaultValue: ''})}
+      description={t('admin.pages.languages_public.description', {defaultValue: ''})}
       styles={styles}
     >
       <AdminSection>

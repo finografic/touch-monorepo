@@ -13,14 +13,17 @@ import {
   translateLanguageInBackground,
   // validateLanguageCode,
 } from 'utils/translation-columns.utils';
+import { setTranslationStatus } from 'utils/translation-status';
 import type { AppRouteHandler } from 'types/app.types';
 import type {
   CreateRoute,
   GetOneRoute,
+  GetTranslationStatusRoute,
   ListRoute,
   PatchRoute,
   RemoveRoute,
 } from './supported-language.routes';
+import { getTranslationStatus } from 'utils/translation-status';
 // import { autoTranslateExistingContent } from 'utils/auto-translate.utils';
 
 export const list: AppRouteHandler<ListRoute> = async (context) => {
@@ -99,8 +102,8 @@ export const create: AppRouteHandler<CreateRoute> = async (context) => {
       `✅ Successfully created language ${supportedLanguage.isoCode} with translation columns (sort_order: ${nextSortOrder})`,
     );
 
-    // Start background translation (non-blocking)
-    // This runs in the background and doesn't block the response
+    // Set initial status and start background translation (non-blocking)
+    setTranslationStatus(supportedLanguage.isoCode, 'pending');
     setImmediate(async () => {
       try {
         console.log(`🔄 Starting background translation for ${supportedLanguage.isoCode}...`);
@@ -108,19 +111,16 @@ export const create: AppRouteHandler<CreateRoute> = async (context) => {
         console.log(`🎉 Background translation completed for ${supportedLanguage.isoCode}`);
       } catch (error) {
         console.error(`❌ Background translation failed for ${supportedLanguage.isoCode}:`, error);
-        // In a real app, you might want to:
-        // - Update a status field in the database
-        // - Send a notification to admins
-        // - Emit a WebSocket event to update the UI
       }
     });
 
-    // Return immediately while translation happens in background
+    // Return immediately - language is added, translation happens in background
     return context.json(
       {
         ...inserted,
         isActive: Boolean(inserted.isActive),
         isDefault: Boolean(inserted.isDefault),
+        translationStatus: 'pending', // Indicates translation is in progress
       },
       HttpStatusCodes.OK,
     );
@@ -246,4 +246,29 @@ export const remove: AppRouteHandler<RemoveRoute> = async (context) => {
     console.error('Error deleting supported language and translation columns:', error);
     throw error; // Let the framework handle the error response
   }
+};
+
+export const getTranslationStatusHandler: AppRouteHandler<GetTranslationStatusRoute> = async (context) => {
+  const { isoCode } = context.req.valid('param');
+  const status = getTranslationStatus(isoCode);
+
+  if (!status) {
+    return context.json(
+      {
+        message: `Translation status not found for language: ${isoCode}`,
+      },
+      HttpStatusCodes.NOT_FOUND,
+    );
+  }
+
+  return context.json(
+    {
+      status: status.status,
+      startedAt: status.startedAt.toISOString(),
+      completedAt: status.completedAt?.toISOString(),
+      error: status.error,
+      progress: status.progress,
+    },
+    HttpStatusCodes.OK,
+  );
 };
