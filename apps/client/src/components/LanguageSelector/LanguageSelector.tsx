@@ -25,12 +25,17 @@ export const LanguageSelector = ({ onLanguageChange }: LanguageSelectorProps) =>
 
   const handleLanguageChange = (languageCode: string) => {
     const regionLocale = languageCode as RegionLocale;
-    // Map flag codes to i18n language codes
-    const i18nCode = regionLocale.includes('-') ? regionLocale.split('-')[0] : regionLocale;
 
-    // Update both context and i18n
+    console.log('%c __LANG__ LanguageSelector change', 'color:cyan', {
+      selected: regionLocale,
+      supportedLngs: i18n.options.supportedLngs
+    });
+
+    // Update context first
     setCurrentLanguage(regionLocale);
-    i18n.changeLanguage(i18nCode);
+
+    // Change i18n language - now supports full locale codes from DB
+    i18n.changeLanguage(regionLocale);
 
     // Call optional callback
     onLanguageChange?.(regionLocale);
