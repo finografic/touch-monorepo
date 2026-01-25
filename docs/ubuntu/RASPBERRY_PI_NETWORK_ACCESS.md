@@ -214,12 +214,22 @@ sudo systemctl enable smbd  # Enable on boot
 ### Alternative: Connect via Terminal
 
 ```bash
-# Mount Samba share
-mkdir ~/pi-share
-sudo mount -t cifs //192.168.1.100/pi-home ~/pi-share -o username=pi,password=YOUR_PASSWORD,uid=$(id -u),gid=$(id -g)
+# Create mount point if it doesn't exist
+mkdir -p ~/Public/touch
 
+# Mount using mount_smbfs (macOS native SMB client)
+sudo mount_smbfs //touch:1234@192.168.1.31/touch ~/Public/touch
+```
+
+Or with more options:
+
+```bash
+sudo mount_smbfs -o uid=$(id -u),gid=$(id -g) //touch:1234@192.168.1.31/touch ~/Public/touch
+```
+
+```bash
 # Unmount when done
-sudo umount ~/pi-share
+sudo umount ~/touch
 ```
 
 ---
