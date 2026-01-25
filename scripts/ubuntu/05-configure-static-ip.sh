@@ -19,7 +19,7 @@ echo -e "${GREEN}🔧 Raspberry Pi Static IP Configuration${NC}"
 echo ""
 
 # Check if running as root
-if [ "$(id -u)" -ne 0 ]; then 
+if [ "$(id -u)" -ne 0 ]; then
     echo -e "${RED}❌ Please run as root (use sudo)${NC}"
     exit 1
 fi
