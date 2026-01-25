@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Box, Card, Flex } from '@radix-ui/themes';
@@ -6,15 +6,13 @@ import { getAdminDashboardCards } from 'admin/config/admin.routes.selectors';
 import { SectionHeader } from 'components/SectionHeader/SectionHeader';
 
 import { usePageTransition } from 'hooks/usePageTransition';
-import { useAppConfig } from 'providers/AppConfigProvider';
 import { useAuth } from 'providers/AuthProvider';
 
 import { AdminPageLayout } from '.';
 import { styles } from './AdminDashboardPage.styles';
 
 export const AdminDashboardPage: React.FC = () => {
-  const { user, isAuthenticated } = useAuth();
-  const { currentLanguage } = useAppConfig();
+  const { user } = useAuth();
   const { navigateWithTransition, isTransitioning } = usePageTransition({ delay: 150 });
   const { t } = useTranslation();
 
@@ -28,7 +26,7 @@ export const AdminDashboardPage: React.FC = () => {
   const pageDescription = t('admin.pages.dashboard.description');
 
   const adminCards = useMemo(() => {
-    return getAdminDashboardCards(isAuthenticated, role).map((card) => {
+    return getAdminDashboardCards(role).map((card) => {
       const title = t(`admin.pages.${card.id}.title`);
       const description = t(`admin.pages.${card.id}.description`);
 
@@ -41,7 +39,7 @@ export const AdminDashboardPage: React.FC = () => {
         color: card.color,
       };
     });
-  }, [isAuthenticated, role]);
+  }, [role, t]);
 
   const gridColumns = adminCards.length === 1 ? 1 : 2;
 
@@ -49,9 +47,9 @@ export const AdminDashboardPage: React.FC = () => {
     <AdminPageLayout title={pageTitle} subtitle={pageDescription} align="center">
       <Box className="admin-dashboard" css={styles}>
         <div className="admin-cards" style={{ ['--cols' as any]: gridColumns }}>
-          {adminCards.map((card) => (
+          {adminCards.map((card, i) => (
             <Card
-              key={card.id}
+              key={`${card.id}-${i}`}
               className="admin-card"
               size="3"
               variant="surface"
