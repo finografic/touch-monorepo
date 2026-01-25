@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Col, Row } from 'react-grid-system';
+import { Col, Row } from 'react-grid-system'; // DEPRECATED: consider using react-grid-layout
 
 import { Box, Flex, Text } from '@radix-ui/themes';
 import { DEFROST_SLOT_NUMBER, POWER_SLOT_NUMBER } from 'admin/config/admin.slots.config';

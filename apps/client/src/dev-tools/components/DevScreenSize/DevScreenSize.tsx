@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react';
 import { Fragment } from 'react';
-import { Visible } from 'react-grid-system';
+import { Visible } from 'react-grid-system'; // DEPRECATED: consider using react-grid-layout
 
 import { useDev } from 'dev-tools/providers/DevProvider/DevContext';
 import { styles } from './DevScreenSize.styles';

@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import React, { useEffect, useMemo } from 'react';
-import { Col, Container, Row } from 'react-grid-system';
+import { Col, Container, Row } from 'react-grid-system'; // DEPRECATED: consider using react-grid-layout
 import { useLocation } from 'react-router-dom';
 
 import { Flex } from '@radix-ui/themes';

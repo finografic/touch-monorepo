@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Col, Row } from 'react-grid-system';
+import { Col, Row } from 'react-grid-system'; // DEPRECATED: consider using react-grid-layout
 
 import { Box, Flex } from '@radix-ui/themes';
 import { getRelaySlotType } from 'admin/utils/relays.utils';

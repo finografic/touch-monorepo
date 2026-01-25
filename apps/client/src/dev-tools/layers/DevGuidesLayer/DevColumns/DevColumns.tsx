@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react';
 import { useState } from 'react';
-import { Col, Row } from 'react-grid-system';
+import { Col, Row } from 'react-grid-system'; // DEPRECATED: consider using react-grid-layout
 
 import { styles } from './DevColumns.styles';
 

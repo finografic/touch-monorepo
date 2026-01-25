@@ -1,5 +1,5 @@
 import type { ReactElement } from 'react';
-import { Row } from 'react-grid-system';
+import { Row } from 'react-grid-system'; // DEPRECATED: consider using react-grid-layout
 import { KEY_PRESS, useKeyPressToggle } from '@workspace/core/hooks';
 
 import { DevScreenSize } from 'dev-tools/components/DevScreenSize/DevScreenSize';

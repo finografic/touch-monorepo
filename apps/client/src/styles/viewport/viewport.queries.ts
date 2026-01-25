@@ -1,4 +1,4 @@
-import { setConfiguration } from 'react-grid-system';
+import { setConfiguration } from 'react-grid-system'; // DEPRECATED: consider using react-grid-layout
 
 import { BREAKPOINTS } from './viewport.breakpoints';
 import type { BreakpointMap, MediaQueryMap, ScreenClass } from './viewport.types';

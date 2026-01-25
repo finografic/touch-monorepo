@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react';
 import { useEffect } from 'react';
-import { Col, Row } from 'react-grid-system';
+import { Col, Row } from 'react-grid-system'; // DEPRECATED: consider using react-grid-layout
 import type { RouteObject } from 'react-router-dom';
 import { useRouteLoaderData } from 'react-router-dom';
 

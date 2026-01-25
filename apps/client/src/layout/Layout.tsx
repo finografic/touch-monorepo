@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { Suspense, useEffect, useMemo } from 'react';
-import { setConfiguration } from 'react-grid-system';
+import { setConfiguration } from 'react-grid-system'; // DEPRECATED: consider using react-grid-layout
 import { useTranslation } from 'react-i18next';
 import { Outlet, useLocation } from 'react-router-dom';
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Col, Row } from 'react-grid-system';
+import { Col, Row } from 'react-grid-system'; // DEPRECATED: consider using react-grid-layout
 import { useTranslation } from 'react-i18next';
 // import type { LanguageInfo } from '@workspace/config/i18n.config';
 // import type { LanguageInfo as LanguageInfo_2 } from '@workspace/i18n/types';

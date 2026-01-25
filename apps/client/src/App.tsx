@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { ScreenClassProvider } from 'react-grid-system';
+import { ScreenClassProvider } from 'react-grid-system'; // DEPRECATED: consider using react-grid-layout // DEPRECATED: consider using react-grid-layout
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 
 import { Global } from '@emotion/react';

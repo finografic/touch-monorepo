@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { Suspense, useEffect, useMemo } from 'react';
-import { setConfiguration } from 'react-grid-system';
+import { setConfiguration } from 'react-grid-system'; // DEPRECATED: consider using react-grid-layout
 import { Outlet, useLocation  } from 'react-router-dom';
 
 import { AdminNavigation } from 'admin/components/AdminNavigation';
