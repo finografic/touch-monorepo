@@ -1,5 +1,5 @@
 #!/usr/bin/env tsx
-import { copyFile, mkdir, readFile, writeFile, cp, readdir, stat } from 'fs/promises';
+import { copyFile, mkdir, readFile, writeFile, cp } from 'fs/promises';
 import { join, resolve, dirname } from 'path';
 import { execSync } from 'child_process';
 import { existsSync } from 'fs';
@@ -159,11 +159,15 @@ async function copyDataFiles(): Promise<void> {
   }
 }
 
+
+
 async function consolidateEnvironmentFiles(): Promise<void> {
   console.log('⚙️  Consolidating environment files...');
 
   try {
-    // Only include essential production variables
+    // HARD REQUIREMENT: Pi LAN IP
+    const PI_HOST = '192.168.1.31';
+
     const envContent: string[] = [
       '# PRODUCTION ENVIRONMENT - AUTO-GENERATED',
       '# DO NOT EDIT MANUALLY',
@@ -173,16 +177,16 @@ async function consolidateEnvironmentFiles(): Promise<void> {
       '',
       '# API Server Configuration',
       'API_PROTOCOL=http',
-      'API_HOST=localhost',
+      `API_HOST=${PI_HOST}`,
       'API_PORT=4040',
       'API_BASE_PATH=/api',
-      'API_URL=http://localhost:4040/api',
+      `API_URL=http://${PI_HOST}:4040/api`,
       '',
       '# Client Configuration',
       'CLIENT_PROTOCOL=http',
-      'CLIENT_HOST=localhost',
+      `CLIENT_HOST=${PI_HOST}`,
       'CLIENT_PORT=3000',
-      'CLIENT_ORIGIN=http://localhost:3000',
+      `CLIENT_ORIGIN=http://${PI_HOST}:3000`,
       'VITE_APP_NAME=Touch Monorepo',
       '',
       '# Database Configuration',
@@ -190,12 +194,12 @@ async function consolidateEnvironmentFiles(): Promise<void> {
       'DB_HOST=localhost',
       'DB_USER=admin',
       'DB_PORT=0',
-      'DATABASE_URL=./dist/data/db/production.sqlite.db',
       'DB_NAME=production.sqlite.db',
+      'DATABASE_URL=./dist/data/db/production.sqlite.db',
       '',
       '# Authentication',
       'BETTER_AUTH_SECRET=your-super-secret-auth-key-minimum-32-characters-long',
-      'BETTER_AUTH_URL=http://localhost:4040',
+      `BETTER_AUTH_URL=http://${PI_HOST}:4040`,
       '',
       '# File Uploads',
       'UPLOAD_DIR=./dist/data/uploads',
@@ -205,7 +209,7 @@ async function consolidateEnvironmentFiles(): Promise<void> {
       'LOGS_DIR=./dist/data/logs',
       'UPLOADS_DIR=./dist/data/uploads',
       '',
-      '# Relay Board Configuration (HID-based USBRelay8)',
+      '# Relay Board Configuration',
       'RELAY_ENABLED=true',
       'RELAY_NUM_RELAYS=16',
       'RELAY_RECONNECT_ATTEMPTS=5',
@@ -214,17 +218,17 @@ async function consolidateEnvironmentFiles(): Promise<void> {
       '',
     ];
 
-    // Create single .env.production in deployment root
     const envPath = join(config.distDir, '.env.production');
-    await writeFile(envPath, envContent.join('\n'));
-    console.log('✅ Created environment file:', envPath);
+    await writeFile(envPath, envContent.join('\n'), 'utf-8');
 
+    console.log('✅ Created environment file:', envPath);
     console.log('✅ Environment files consolidated');
   } catch (error) {
     console.error('❌ Failed to consolidate environment files:', error);
     throw error;
   }
 }
+
 
 async function createPortsUtility(): Promise<void> {
   console.log('🔧 Creating ports utility...');

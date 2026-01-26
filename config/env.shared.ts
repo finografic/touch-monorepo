@@ -81,16 +81,17 @@ const envSharedValidated = SharedEnvSchema.parse({
   NODE_ENV: process.env.NODE_ENV,
   API_PROTOCOL: process.env.API_PROTOCOL,
   API_HOST: process.env.API_HOST,
-  API_PORT: Number(process.env.API_PORT),
+  API_PORT: process.env.API_PORT ? Number(process.env.API_PORT) : undefined,
   API_BASE_PATH: process.env.API_BASE_PATH,
   CLIENT_PROTOCOL: process.env.CLIENT_PROTOCOL,
   CLIENT_HOST: process.env.CLIENT_HOST,
-  CLIENT_PORT: Number(process.env.CLIENT_PORT),
+  CLIENT_PORT: process.env.CLIENT_PORT ? Number(process.env.CLIENT_PORT) : undefined,
   //
   BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET,
   BETTER_AUTH_URL: process.env.BETTER_AUTH_URL,
   AUTH_COOKIE_PREFIX: process.env.AUTH_COOKIE_PREFIX,
-  AUTH_COOKIE_SUFFIX: process.env.AUTH_COOKIE_SUFFIX,
+  TOKEN_COOKIE_SUFFIX: process.env.TOKEN_COOKIE_SUFFIX,
+  DATA_COOKIE_SUFFIX: process.env.DATA_COOKIE_SUFFIX,
   //
   RELAY_ENABLED: process.env.RELAY_ENABLED === 'true',
   RELAY_NUM_RELAYS:

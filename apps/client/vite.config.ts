@@ -9,13 +9,15 @@ import { devCookieClearPlugin, logApiURL } from './vite.utils';
 
 export default defineConfig(({ mode }: UserConfig): UserConfig => {
   const WORKSPACE_ROOT = resolve(__dirname, '../..');
-  // const viteEnv = loadEnv(mode as string, process.cwd(), '');
   logApiURL({ mode });
+
+  const isProd = mode === 'production';
 
   return {
     css: {
       transformer: 'lightningcss',
     },
+
     plugins: [
       tsconfigPaths({
         projects: ['./tsconfig.vite.json'],
@@ -28,56 +30,99 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
         },
       }),
       tailwindcss(),
-      // mode === 'development' && devCookieClearPlugin(),
+
+      // Safe to run in prod too (no-op there)
       devCookieClearPlugin(),
     ].filter(Boolean),
+
+    /**
+     * IMPORTANT
+     * Relative base is REQUIRED because the client is served
+     * by the Hono server, not Vite preview.
+     */
     base: './',
+
+    /**
+     * Dev server ONLY
+     * (not used in production on the Pi)
+     */
     server: {
-      port: 3000,
-      host: 'localhost',
+      port: envClient.CLIENT_PORT ?? 3000,
+
+      /**
+       * CRITICAL:
+       * - localhost breaks LAN access
+       * - 0.0.0.0 exposes on all interfaces
+       */
+      host: '0.0.0.0',
+
       watch: {
         usePolling: true,
         interval: 1000,
       },
+
+      /**
+       * Proxy MUST use env, never hardcoded localhost
+       */
       proxy: {
-        '/api': 'http://localhost:4040',
+        '/api': {
+          target: envClient.API_BASE_URL,
+          changeOrigin: true,
+          secure: false,
+        },
       },
-      // Cache busting for development
+
       headers: {
         'Cache-Control': 'no-cache, no-store, must-revalidate',
-        'Pragma': 'no-cache',
-        'Expires': '0',
+        Pragma: 'no-cache',
+        Expires: '0',
       },
     },
+
     clearScreen: false,
+
+    /**
+     * This is the ONLY supported way to expose env
+     * to the client in your architecture.
+     *
+     * DO NOT use import.meta.env here.
+     */
     define: {
-      'global': 'window',
-      'process.env': JSON.stringify({ ...envClient, WORKSPACE_ROOT }),
+      global: 'window',
+      'process.env': JSON.stringify({
+        ...envClient,
+        WORKSPACE_ROOT,
+      }),
     },
+
     resolve: {
       extensions: ['.tsx', '.ts', '.jsx', '.js', '.mjs', '.cjs', '.json'],
       alias: {
         '@workspace/core/types': resolve(WORKSPACE_ROOT, 'packages/core/src/types'),
         '@workspace/core/types/utils': resolve(WORKSPACE_ROOT, 'packages/core/src/types/utils'),
         '@workspace/i18n': resolve(WORKSPACE_ROOT, 'packages/i18n/src/index.ts'),
-        '@workspace/i18n/generators': resolve(WORKSPACE_ROOT, 'packages/i18n/src/generators/index.ts'),
+        '@workspace/i18n/generators': resolve(
+          WORKSPACE_ROOT,
+          'packages/i18n/src/generators/index.ts',
+        ),
         'i18n/utils': resolve(__dirname, 'src/i18n/utils/index.ts'),
-        'messages': resolve(__dirname, '../messages'),
+        messages: resolve(__dirname, '../messages'),
       },
     },
+
     build: {
       outDir: 'dist',
-      emptyOutDir: true, // Changed from false to true to clean the directory
+      emptyOutDir: true,
       copyPublicDir: true,
       reportCompressedSize: true,
-      minify: 'esbuild', // Use esbuild for faster minification
-      sourcemap: false, // Disable sourcemaps in production to save memory
+      minify: 'esbuild',
+      sourcemap: false,
       manifest: true,
       target: 'es2020',
-      chunkSizeWarningLimit: 1000, // Increase chunk size warning limit
+      chunkSizeWarningLimit: 1000,
+
       rollupOptions: {
         external: [
-          // Explicitly exclude Node.js modules from browser builds
           'node:fs',
           'node:os',
           'node:path',
@@ -94,21 +139,28 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
               if (id.includes('node_modules/lodash')) {
                 return 'lodash';
               }
-              // Default vendor chunk for other node_modules
               return 'vendor';
             }
           },
-          entryFileNames: mode === 'development' ? 'app.[hash].js' : 'app.js',
-          chunkFileNames: mode === 'development' ? '[name].[hash].js' : '[name].js',
-          assetFileNames: mode === 'development' ? 'assets/[name].[hash].[ext]' : 'assets/[name].[ext]',
+          entryFileNames: isProd ? 'app.js' : 'app.[hash].js',
+          chunkFileNames: isProd ? '[name].js' : '[name].[hash].js',
+          assetFileNames: isProd
+            ? 'assets/[name].[ext]'
+            : 'assets/[name].[hash].[ext]',
           sourcemapExcludeSources: true,
         },
       },
     },
+
+    /**
+     * Vite preview is NOT used on the Pi,
+     * but keep it LAN-safe anyway.
+     */
     preview: {
       port: 5000,
-      host: 'localhost',
+      host: '0.0.0.0',
     },
+
     optimizeDeps: {
       include: [
         'react/jsx-runtime',

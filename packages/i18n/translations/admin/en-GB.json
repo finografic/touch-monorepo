@@ -49,16 +49,7 @@
         }
       },
       "items": {
-        "title": "Product Translations",
-        "description": "Edit product translations",
-        "tabs": {
-          "mode": "Mode",
-          "drinkType": "Drink Type",
-          "drinkSubtype": "Subtype",
-          "volume": "Volume",
-          "container": "Container",
-          "actions": "Actions"
-        },
+        "title": "Configurations Management",
         "table": {
           "title": "Translations {{group}}",
           "headers": {

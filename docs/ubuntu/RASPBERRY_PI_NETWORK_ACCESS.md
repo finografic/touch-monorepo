@@ -77,11 +77,11 @@ Most routers have a web interface (usually `192.168.1.1` or `192.168.0.1`) that 
 
 ### Access URLs
 
-Once you have the IP address (let's say it's `192.168.1.100`):
+Once you have the IP address (let's say it's `192.168.1.31`):
 
-- **Client (React App)**: `http://192.168.1.100:3000`
-- **API Server**: `http://192.168.1.100:4040`
-- **API Endpoint**: `http://192.168.1.100:4040/api`
+- **Client (React App)**: `http://192.168.1.31:3000`
+- **API Server**: `http://192.168.1.31:4040`
+- **API Endpoint**: `http://192.168.1.31:4040/api`
 
 ### Configuration Changes Needed
 
@@ -120,7 +120,7 @@ API_PORT=4040
 API_HOST=0.0.0.0  # Optional, serve() binds to 0.0.0.0 by default
 
 # Client origin for CORS (important!)
-CLIENT_ORIGIN=http://192.168.1.100:3000
+CLIENT_ORIGIN=http://192.168.1.31:3000
 # Or allow all origins in development:
 # CLIENT_ORIGIN=*
 
@@ -135,10 +135,10 @@ From your Mac terminal:
 
 ```bash
 # Test API server
-curl http://192.168.1.100:4040/api/health-check
+curl http://192.168.1.31:4040/api/health-check
 
 # Test client (should return HTML)
-curl http://192.168.1.100:3000
+curl http://192.168.1.31:3000
 ```
 
 ---
@@ -207,7 +207,7 @@ sudo systemctl enable smbd  # Enable on boot
 
 1. **Open Finder**
 2. **Press `Cmd + K`** (or Go → Connect to Server)
-3. **Enter**: `smb://192.168.1.100` (replace with your Pi's IP)
+3. **Enter**: `smb://192.168.1.31` (replace with your Pi's IP)
 4. **Authenticate** with username `pi` and your Samba password
 5. **Select the share** you want to access
 
@@ -244,9 +244,9 @@ sudo systemctl enable ssh
 sudo systemctl start ssh
 
 # From Mac: Connect via SSH
-ssh pi@192.168.1.100
+ssh pi@192.168.1.31
 # Or with your username
-ssh your-username@192.168.1.100
+ssh your-username@192.168.1.31
 ```
 
 ---

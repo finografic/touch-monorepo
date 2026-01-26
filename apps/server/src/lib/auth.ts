@@ -19,47 +19,54 @@ const betterAuthConfig = {
     provider: 'sqlite',
     schema: { user, account, session, verification },
   }),
+
   basePath: '/api/auth',
+
   trustedOrigins: [env.CLIENT_ORIGIN],
+
   emailAndPassword: {
     enabled: true,
     minPasswordLength: 4,
     maxPasswordLength: 32,
-    sendResetPassword: async ({ user, url, token }, request) => {
+    sendResetPassword: async ({ user, url, token }) => {
       console.log('Reset password requested for:', user.email);
-      console.log('Reset URL:', url, token, request);
-      // TODO: Implement email sending
+      console.log('Reset URL:', url, token);
     },
   },
+
   session: {
-    expiresIn: 30 * 24 * 60 * 60, // 30 days
-    updateAge: 24 * 60 * 60, // 24 hours
+    expiresIn: 30 * 24 * 60 * 60,
+    updateAge: 24 * 60 * 60,
     cookieCache: {
-      enabled: true, // Enable cookie cache for performance (reduces DB lookups)
-      maxAge: 5 * 60, // 5 minutes - short-lived for security
+      enabled: true,
+      maxAge: 5 * 60,
     },
   },
+
   advanced: {
     cookiePrefix: env.COOKIES.COOKIE_PREFIX,
-    useSecureCookies: env.NODE_ENV === 'production',
+
+    useSecureCookies: false, // REQUIRED for HTTP on LAN
+
     database: {
       generateId: () => crypto.randomUUID(),
     },
+
     cookies: {
       sessionToken: {
         name: env.COOKIES.TOKEN_COOKIE,
         attributes: {
-          httpOnly: true, // Prevent JavaScript access (XSS protection)
-          sameSite: env.NODE_ENV === 'production' ? 'lax' : 'lax', // Use 'lax' for consistency
-          secure: env.NODE_ENV === 'production', // HTTPS only in production
-          path: '/', // Available across entire domain
+          httpOnly: true,
+          sameSite: 'lax',
+          secure: false, // MUST be false without HTTPS
+          path: '/',
         },
       },
     },
   },
+
   plugins,
 } satisfies BetterAuthOptions;
 
 export const auth = betterAuth(betterAuthConfig);
-
 export type Session = typeof auth.$Infer.Session;

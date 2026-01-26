@@ -9,7 +9,6 @@ import drinkSubtypes from 'routes/drink-subtypes';
 import drinkType from 'routes/drink-type';
 import health from 'routes/health-check/health-check.index';
 import i18n from 'routes/i18n';
-// Import routes
 import index from 'routes/index.route';
 import orders from 'routes/orders';
 import relay from 'routes/relay';
@@ -32,7 +31,7 @@ const app = createApp();
 app.use(
   '/*',
   cors({
-    origin: [envShared.CLIENT_ORIGIN || ''],
+    origin: envShared.CLIENT_ORIGIN,
     allowMethods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     credentials: true,
   }),
@@ -76,11 +75,10 @@ routes.forEach((route) => {
   app.route(envShared.API_BASE_PATH, route);
 });
 
-// Serve the React app for all non-API routes
+// Serve React app
 app.get('*', async (c) => {
   const path = c.req.path;
 
-  // Don't serve React app for API routes
   if (path.startsWith('/api/')) {
     return c.notFound();
   }
@@ -90,58 +88,28 @@ app.get('*', async (c) => {
     const pathModule = await import('path');
     const { fileURLToPath } = await import('url');
 
-    // Get current directory in ES modules
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = pathModule.dirname(__filename);
 
-    // Determine the file path based on the request
-    let filePath: string;
+    let filePath =
+      path === '/' || path === ''
+        ? pathModule.join(__dirname, '../../../apps/client/dist/index.html')
+        : pathModule.join(__dirname, '../../../apps/client/dist', path);
 
-    if (path === '/' || path === '') {
-      // Serve index.html for root path
-      filePath = pathModule.join(__dirname, '../../../apps/client/dist/index.html');
-    } else {
-      // Serve other static files from the dist directory
-      filePath = pathModule.join(__dirname, '../../../apps/client/dist', path);
-    }
-
-    // Check if file exists
     try {
       await fs.access(filePath);
     } catch {
-      // If file doesn't exist, serve index.html for SPA routing
       filePath = pathModule.join(__dirname, '../../../apps/client/dist/index.html');
     }
 
     const content = await fs.readFile(filePath, 'utf-8');
     const { mimeType } = getMimeType({ filePath, pathModule });
 
-    // Set appropriate headers
     c.header('Content-Type', mimeType);
-
-    // For JavaScript and CSS files, use c.body() to preserve the MIME type
-    if (mimeType === 'application/javascript' || mimeType === 'text/css') {
-      return c.body(content);
-    }
-
-    return c.html(content);
+    return c.body(content);
   } catch (error) {
-    // If the file doesn't exist, return a simple message
-    const errorMessage = error instanceof Error ? error.message : String(error);
-    return c.html(`
-      <html>
-        <head><title>Touch Client</title></head>
-        <body>
-          <h1>Touch Client Server</h1>
-          <p>The server is running, but there was an error serving the client files.</p>
-          <p>Error: ${errorMessage}</p>
-          <p>Please ensure the client is built: <code>cd apps/client && pnpm build</code></p>
-        </body>
-      </html>
-    `);
+    return c.html('<h1>Client build missing</h1>');
   }
 });
-
-export type AppType = (typeof routes)[number];
 
 export default app;

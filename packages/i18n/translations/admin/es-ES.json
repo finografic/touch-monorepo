@@ -49,16 +49,7 @@
         }
       },
       "items": {
-        "title": "Idioma de productes",
-        "description": "Editar etiquetes de productes",
-        "tabs": {
-          "mode": "Modo",
-          "drinkType": "Tipo de Bebida",
-          "drinkSubtype": "Subtipo",
-          "volume": "Volumen",
-          "container": "Envase",
-          "actions": "Acciones"
-        },
+        "title": "Gestión de configuraciones",
         "table": {
           "title": "Traducciones {{group}}",
           "headers": {

@@ -49,16 +49,7 @@
         }
       },
       "items": {
-        "title": "Traduccions de productes",
-        "description": "Editar etiquetes de productes",
-        "tabs": {
-          "mode": "Mode",
-          "drinkType": "Tipus de Beguda",
-          "drinkSubtype": "Subtipus",
-          "volume": "Volum",
-          "container": "Envas",
-          "actions": "Accions"
-        },
+        "title": "Gestió de configuracions",
         "table": {
           "title": "Traduccions {{group}}",
           "headers": {

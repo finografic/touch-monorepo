@@ -1,4 +1,7 @@
 import { envShared } from '@workspace/config/env.shared';
+/**
+ * Raw process.env → typed + validated
+ */
 declare const envServerValidated: {
     DB_PATH: string;
     DB_HOST: string;
@@ -19,6 +22,10 @@ declare const envServerValidated: {
     DB_PASS?: string | undefined;
 };
 type EnvServer = typeof envShared & typeof envServerValidated;
+/**
+ * Final exported env
+ * Safe to import anywhere in server runtime
+ */
 export declare const env: EnvServer;
 export {};
 //# sourceMappingURL=env.server.d.ts.map
