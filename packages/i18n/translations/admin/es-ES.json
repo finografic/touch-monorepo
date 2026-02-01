@@ -78,6 +78,10 @@
         "title": "Selección de idioma",
         "description": "Seleccionar idioma por defecto"
       },
+      "translations_product": {
+        "title": "Traducciones de productos",
+        "description": "Editar traducciones para contenido"
+      },
       "slots": {
         "title": "Grid",
         "description": "Configure MainPage grid layout and slot types"

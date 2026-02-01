@@ -11,15 +11,7 @@ import { AdminSoundPage, PublicSoundPage } from 'admin/pages/AdminSoundPage';
 import { TranslationsPage } from 'admin/pages/Translations/TranslationsPage';
 import { TranslationsProductPage } from 'admin/pages/Translations/TranslationsProductPage';
 
-import {
-  CoffeeIcon,
-  EditIcon,
-  GridIcon,
-  LanguageIcon,
-  ListIcon,
-  VolumeIcon,
-  ZapIcon,
-} from 'styles/icons';
+import { CoffeeIcon, EditIcon, GridIcon, LanguageIcon, ListIcon, VolumeIcon, ZapIcon } from 'styles/icons';
 
 export type AuthRoles = 'public' | 'admin';
 
@@ -115,7 +107,7 @@ export const ADMIN_ROUTE_CONFIGS: AdminRouteConfig[] = [
 
   // AUTHENTICATED ENTRIES (only visible as admin) ========================== //
   {
-    id: 'items',
+    id: 'translations_product',
     path: '/admin/translations-product',
     element: {
       public: null,
@@ -140,7 +132,7 @@ export const ADMIN_ROUTE_CONFIGS: AdminRouteConfig[] = [
     color: 'purple',
     children: [
       {
-        id: 'translationsUi',
+        id: 'translations_ui',
         path: '/admin/translations/ui',
         element: {
           public: null,
@@ -148,7 +140,7 @@ export const ADMIN_ROUTE_CONFIGS: AdminRouteConfig[] = [
         },
       },
       {
-        id: 'translationsApp',
+        id: 'translations_app',
         path: '/admin/translations/app',
         element: {
           public: null,
@@ -156,7 +148,7 @@ export const ADMIN_ROUTE_CONFIGS: AdminRouteConfig[] = [
         },
       },
       {
-        id: 'translationsAdmin',
+        id: 'translations_admin',
         path: '/admin/translations/admin',
         element: {
           public: null,

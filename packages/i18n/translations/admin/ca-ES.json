@@ -78,6 +78,10 @@
         "title": "Selecció de idioma",
         "description": "Seleccionar idioma per defecte"
       },
+      "translations_product": {
+        "title": "Traduccions de productes",
+        "description": "Editar traduccions per contingut de base de dades"
+      },
       "slots": {
         "title": "Graella",
         "description": "Configurar la disposició de la graella de la pàgina principal i tipus de ranures"
