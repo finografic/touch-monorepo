@@ -70,6 +70,29 @@
           }
         }
       },
+      "translations_product": {
+        "title": "Product Translations",
+        "description": "Edit translations for database content",
+        "table": {
+          "title": "Translations {{group}}",
+          "headers": {
+            "displayIndex": "#",
+            "index": "#",
+            "mode": "Mode",
+            "drinkType": "Drink Type",
+            "drinkSubtype": "Subtype",
+            "subtype": "Subtype",
+            "volume": "Volume",
+            "containerType": "Container",
+            "container": "Container",
+            "temperature": "Temperature",
+            "defaultTempConsume": "Temperature",
+            "actions": "Actions",
+            "name": "Name",
+            "dbKey": "db key"
+          }
+        }
+      },
       "languages": {
         "title": "Language Management",
         "description": "Configure system languages and localization"
@@ -77,10 +100,6 @@
       "languages_public": {
         "title": "Language Selection",
         "description": "Select default language"
-      },
-      "translations_product": {
-        "title": "Product Translations",
-        "description": "Edit translations for database content"
       },
       "slots": {
         "title": "Grid",

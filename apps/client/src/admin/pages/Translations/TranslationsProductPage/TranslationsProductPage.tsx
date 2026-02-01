@@ -64,9 +64,9 @@ export const TranslationsProductPage: React.FC = () => {
   if (isLoading || isSaving || isDeleting || !activeSection) {
     return (
       <AdminPageLayout
-        title={t('admin.pages.translations.content.editTables')}
+        title={t('admin.pages.translations_product.title')}
         subtitle="Admin"
-        description="Manage product translations"
+        description={t('admin.pages.translations_product.description')}
         styles={styles}
       >
         <Flex direction="column" gap="4" align="center" justify="center" p="6">
@@ -78,7 +78,7 @@ export const TranslationsProductPage: React.FC = () => {
   }
 
   return (
-    <AdminPageLayout title={t('admin.pages.items.title')} styles={styles}>
+    <AdminPageLayout title={t('admin.pages.translations_product.title')} styles={styles}>
       <Tabs.Root value={activeTab} onValueChange={(value) => setActiveTab(value as SectionKey)}>
         <Tabs.List>
           {sortedSections.map((section) => (
@@ -91,7 +91,7 @@ export const TranslationsProductPage: React.FC = () => {
         {sortedSections.map((section) => (
           <Tabs.Content key={section.group} value={section.group}>
             <AdminSection
-              title={t('admin.pages.items.table.title', {
+              title={t('admin.pages.translations_product.table.title', {
                 group: t(`admin.pages.translations.tabs.${section.group}`, { defaultValue: section.group }),
               })}
               description={' '}

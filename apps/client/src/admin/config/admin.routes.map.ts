@@ -43,7 +43,7 @@ export const ADMIN_ROUTE_CONFIGS: AdminRouteConfig[] = [
     hasNav: { public: true, admin: true }, // no nav
     hasCard: { public: false, admin: false }, // no card
   },
-  // PUBLIC ENTRIES (accessible without login) ============================== //
+  // ======================================================================== //
   {
     id: 'items',
     path: '/admin/items', // orders (parent route for list + edit)

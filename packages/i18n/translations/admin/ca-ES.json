@@ -70,6 +70,29 @@
           }
         }
       },
+      "translations_product": {
+        "title": "Traduccions de productes",
+        "description": "Editar traduccions per contingut de base de dades",
+        "table": {
+          "title": "Traduccions {{group}}",
+          "headers": {
+            "displayIndex": "#",
+            "index": "#",
+            "mode": "Mode",
+            "drinkType": "Tipus de Beguda",
+            "drinkSubtype": "Subtipus",
+            "subtype": "Subtipus",
+            "volume": "Volum",
+            "containerType": "Envas",
+            "container": "Envas",
+            "temperature": "Temperatura",
+            "defaultTempConsume": "Temperatura",
+            "actions": "Accions",
+            "name": "Nom",
+            "dbKey": "clau db"
+          }
+        }
+      },
       "languages": {
         "title": "Gestió de idiomes",
         "description": "Configurar idiomes del sistema i localització"
@@ -77,10 +100,6 @@
       "languages_public": {
         "title": "Selecció de idioma",
         "description": "Seleccionar idioma per defecte"
-      },
-      "translations_product": {
-        "title": "Traduccions de productes",
-        "description": "Editar traduccions per contingut de base de dades"
       },
       "slots": {
         "title": "Graella",
