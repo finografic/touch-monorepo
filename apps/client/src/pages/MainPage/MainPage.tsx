@@ -62,7 +62,9 @@ export function MainPage() {
   );
 
   // Restore selected slots from current session when navigating back to MainPage
-  // BUT: Skip restoration if we're returning from a completed flow (not a cancellation)
+  // BUT: Skip restoration if we're returning from a completed flow (not a cancellation).
+  // Do NOT restore slots that have active timers (e.g. after Main→Admin→Main with Time Flow
+  // still "current" — those slots are now timers and must stay unchecked).
   useEffect(
     function restoreSelectedSlots() {
       // Don't restore if flow was completed (START was clicked, not CANCEL)
@@ -76,14 +78,23 @@ export function MainPage() {
 
         // Only restore if we have slotNumbers and selectedSlots is empty or doesn't match
         if (sessionSlotNumbers.length > 0) {
+          const slotsWithActiveTimers = new Set(
+            timers
+              .filter((t) => t.status === 'processing' || t.status === 'completed')
+              .map((t) => t.slotNumber),
+          );
+          const sessionSlotNumbersToRestore = sessionSlotNumbers.filter(
+            (num) => !slotsWithActiveTimers.has(num),
+          );
+
           const currentSlotNumbers = selectedSlots.map((slot) => slot.slotNumber);
           const slotNumbersMatch =
-            sessionSlotNumbers.every((num) => currentSlotNumbers.includes(num)) &&
-            currentSlotNumbers.length === sessionSlotNumbers.length;
+            sessionSlotNumbersToRestore.every((num) => currentSlotNumbers.includes(num)) &&
+            currentSlotNumbers.length === sessionSlotNumbersToRestore.length;
 
-          if (!slotNumbersMatch) {
-            // Rebuild selectedSlots from session's slotNumbers
-            const restoredSlots: SlotMeta[] = sessionSlotNumbers
+          if (!slotNumbersMatch && sessionSlotNumbersToRestore.length > 0) {
+            // Rebuild selectedSlots only for session slots that do NOT have active timers
+            const restoredSlots: SlotMeta[] = sessionSlotNumbersToRestore
               .map((slotNumber) => {
                 const orderConfig = slotsConfig.find((config) => config.slotNumber === slotNumber);
                 if (orderConfig) {
@@ -111,7 +122,7 @@ export function MainPage() {
         hasRestoredSlots.current = false;
       }
     },
-    [currentSessionId, sessions, selectedSlots, setSelectedSlots, slotsConfig, flowCompleted],
+    [currentSessionId, sessions, selectedSlots, setSelectedSlots, slotsConfig, flowCompleted, timers],
   );
 
   // 🚀 PERFORMANCE OPTIMIZATION: Use Map for O(1) timer lookups (memoized)
