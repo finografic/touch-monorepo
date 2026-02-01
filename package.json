@@ -110,7 +110,7 @@
     "@changesets/cli": "2.27.10",
     "@emotion/babel-plugin": "11.13.5",
     "@finografic/eslint-config": "9.0.8",
-    "@finografic/project-scripts": "8.2.0",
+    "@finografic/project-scripts": "8.12.0",
     "@ianvs/prettier-plugin-sort-imports": "4.7.0",
     "@microsoft/api-extractor": "^7.52.11",
     "@types/better-sqlite3": "^7.6.13",

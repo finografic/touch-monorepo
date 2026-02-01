@@ -25,11 +25,6 @@
           "buttons": "Botons",
           "dialogs": "Diàlegs",
           "time": "Temps",
-          "modes": "Modes",
-          "drinkTypes": "Tipus de Beguda",
-          "drinkSubtypes": "Subtipus de Beguda",
-          "volumes": "Volums",
-          "containerTypes": "Tipus d'Envas",
           "actions": "Accions"
         },
         "domains": {
@@ -71,26 +66,17 @@
         }
       },
       "translations_product": {
-        "title": "Traduccions de productes",
+        "title": "Idioma de productes",
         "description": "Editar traduccions per contingut de base de dades",
-        "table": {
-          "title": "Traduccions {{group}}",
-          "headers": {
-            "displayIndex": "#",
-            "index": "#",
-            "mode": "Mode",
-            "drinkType": "Tipus de Beguda",
-            "drinkSubtype": "Subtipus",
-            "subtype": "Subtipus",
-            "volume": "Volum",
-            "containerType": "Envas",
-            "container": "Envas",
-            "temperature": "Temperatura",
-            "defaultTempConsume": "Temperatura",
-            "actions": "Accions",
-            "name": "Nom",
-            "dbKey": "clau db"
-          }
+        "tabs": {
+          "modes": "Modes",
+          "drinkTypes": "Tipus de Beguda",
+          "drinkSubtypes": "Subtipus de Beguda",
+          "volumes": "Volums",
+          "containerTypes": "Tipus d'Envas"
+        },
+        "currentTab": {
+          "title": "Traduccions {{group}}"
         }
       },
       "languages": {

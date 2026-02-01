@@ -83,7 +83,7 @@ export const TranslationsProductPage: React.FC = () => {
         <Tabs.List>
           {sortedSections.map((section) => (
             <Tabs.Trigger key={section.group} value={section.group}>
-              {t(`admin.pages.translations.tabs.${section.group}`, { defaultValue: section.group })}
+              {t(`admin.pages.translations_product.tabs.${section.group}`, { defaultValue: section.group })}
             </Tabs.Trigger>
           ))}
         </Tabs.List>
@@ -91,8 +91,8 @@ export const TranslationsProductPage: React.FC = () => {
         {sortedSections.map((section) => (
           <Tabs.Content key={section.group} value={section.group}>
             <AdminSection
-              title={t('admin.pages.translations_product.table.title', {
-                group: t(`admin.pages.translations.tabs.${section.group}`, { defaultValue: section.group }),
+              title={t('admin.pages.translations_product.currentTab.title', {
+                group: t(`admin.pages.translations_product.tabs.${section.group}`, { defaultValue: section.group }),
               })}
               description={' '}
             >

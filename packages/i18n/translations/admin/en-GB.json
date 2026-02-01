@@ -25,11 +25,6 @@
           "buttons": "Buttons",
           "dialogs": "Dialogs",
           "time": "Time",
-          "modes": "Modes",
-          "drinkTypes": "Drink Types",
-          "drinkSubtypes": "Drink Subtypes",
-          "volumes": "Volumes",
-          "containerTypes": "Container Types",
           "actions": "Actions"
         },
         "domains": {
@@ -73,24 +68,15 @@
       "translations_product": {
         "title": "Product Translations",
         "description": "Edit translations for database content",
-        "table": {
-          "title": "Translations {{group}}",
-          "headers": {
-            "displayIndex": "#",
-            "index": "#",
-            "mode": "Mode",
-            "drinkType": "Drink Type",
-            "drinkSubtype": "Subtype",
-            "subtype": "Subtype",
-            "volume": "Volume",
-            "containerType": "Container",
-            "container": "Container",
-            "temperature": "Temperature",
-            "defaultTempConsume": "Temperature",
-            "actions": "Actions",
-            "name": "Name",
-            "dbKey": "db key"
-          }
+        "tabs": {
+          "modes": "Modes",
+          "drinkTypes": "Drink Types",
+          "drinkSubtypes": "Drink Subtypes",
+          "volumes": "Volumes",
+          "containerTypes": "Container Types"
+        },
+        "currentTab": {
+          "title": "Translations {{group}}"
         }
       },
       "languages": {

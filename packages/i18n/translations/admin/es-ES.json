@@ -25,11 +25,6 @@
           "buttons": "Botones",
           "dialogs": "Diálogos",
           "time": "Tiempo",
-          "modes": "Modos",
-          "drinkTypes": "Tipos de Bebida",
-          "drinkSubtypes": "Subtipos de Bebida",
-          "volumes": "Volúmenes",
-          "containerTypes": "Tipos de Envase",
           "actions": "Acciones"
         },
         "domains": {
@@ -51,7 +46,7 @@
       "items": {
         "title": "Gestión de configuraciones",
         "table": {
-          "title": "Traducciones {{group}}",
+          "title": "Traducciones de productos - {{group}}",
           "headers": {
             "displayIndex": "#",
             "index": "#",
@@ -73,24 +68,15 @@
       "translations_product": {
         "title": "Idioma de productos",
         "description": "Editar traducciones para contenido de base de datos",
-        "table": {
-          "title": "Traducciones {{group}}",
-          "headers": {
-            "displayIndex": "#",
-            "index": "#",
-            "mode": "Modo",
-            "drinkType": "Tipo de Bebida",
-            "drinkSubtype": "Subtipo",
-            "subtype": "Subtipo",
-            "volume": "Volumen",
-            "containerType": "Envase",
-            "container": "Envase",
-            "temperature": "Temperatura",
-            "defaultTempConsume": "Temperatura",
-            "actions": "Acciones",
-            "name": "Nombre",
-            "dbKey": "clave db"
-          }
+        "tabs": {
+          "modes": "Modos",
+          "drinkTypes": "Tipos de Bebida",
+          "drinkSubtypes": "Subtipos de Bebida",
+          "volumes": "Volúmenes",
+          "containerTypes": "Tipos de Envase"
+        },
+        "currentTab": {
+          "title": "Traducciones {{group}}"
         }
       },
       "languages": {
