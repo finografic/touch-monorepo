@@ -266,27 +266,8 @@ async function consolidateEnvironmentFiles(options: BuildOptions): Promise<void>
 async function createPortsUtility(): Promise<void> {
   console.log('🔧 Creating ports utility...');
 
-  const portsUtility = `import { execSync } from 'child_process';
-
-// Function to kill processes on specific ports
-export function killPortIfOccupied(port) {
-  try {
-    const result = execSync('lsof -ti:' + port, { stdio: 'pipe' })
-      .toString()
-      .trim();
-    if (result) {
-      console.log('⚠️  Port ' + port + ' is occupied, killing process...');
-      execSync('lsof -ti:' + port + ' | xargs kill -9', { stdio: 'inherit' });
-      console.log('✅ Killed process on port ' + port);
-    } else {
-      console.log('✅ Port ' + port + ' is available');
-    }
-  } catch (error) {
-    // Port is not in use
-    console.log('✅ Port ' + port + ' is available');
-  }
-}
-`;
+  const templatePath = join(__dirname, 'templates/ports.utils.js.template');
+  const portsUtility = await readFile(templatePath, 'utf-8');
 
   await writeFile(join(config.distDir, 'ports.utils.js'), portsUtility);
   console.log('✅ Ports utility created');
@@ -414,83 +395,10 @@ async function addWindowsScriptsToPackageJson(options: BuildOptions): Promise<vo
 async function createReadme(): Promise<void> {
   console.log('📖 Creating README...');
 
-  const readme = `# Touch Monorepo - Deployment
+  const templatePath = join(__dirname, 'templates/README.md.template');
+  const template = await readFile(templatePath, 'utf-8');
 
-This is a self-contained deployment build of the Touch Monorepo application.
-
-## Quick Start
-
-\`\`\`bash
-# Start both server and client
-npm start
-
-# Or start them separately
-npm run start:server  # Backend server on port 4040
-npm run start:client  # Frontend with API proxy on port 3000
-
-# Or run directly
-node start-server.js & node start-client.js
-\`\`\`
-
-## Structure
-
-\`\`\`
-deployment/
-├── dist/                    # Build artifacts (regenerated each time)
-│   ├── client/             # Client build output
-│   ├── server/             # Server build output
-│   └── data/               # Database, migrations, uploads
-├── node_modules/           # Dependencies (preserved)
-├── .env                    # Environment configuration
-├── .env.production         # Production environment
-├── package.json            # Dependencies and scripts
-├── ports.utils.js          # Port management utility
-├── start-server.js         # Backend server startup
-├── start-client.js         # Frontend server with API proxy
-├── test-production.js      # Test script
-└── README.md               # This file
-\`\`\`
-
-## Scripts
-
-- \`start-server.js\` - Starts the backend API server on port 4040
-- \`start-client.js\` - Starts the frontend server on port 3000 with API proxy
-- \`ports.utils.js\` - Utility for managing port conflicts
-- \`test-production.js\` - Tests the deployment build
-
-## Configuration
-
-Edit \`.env\` to customize:
-- \`API_PORT\` - Backend server port (default: 4040)
-- \`CLIENT_PORT\` - Frontend server port (default: 3000)
-- Database settings
-- Other environment variables
-
-## Data
-
-The SQLite database is located at \`dist/data/db/production.sqlite.db\`.
-Uploads are stored in \`dist/data/uploads/\`.
-
-## Requirements
-
-- Node.js 20.0.0 or higher
-- No other dependencies required
-
-## Troubleshooting
-
-1. **Port conflicts**: The scripts automatically kill processes on occupied ports
-2. **Database issues**: Check that \`dist/data/db/production.sqlite.db\` exists
-3. **Permission issues**: Ensure scripts are executable (\`chmod +x start-server.js start-client.js\`)
-
-## Architecture
-
-This deployment structure separates:
-- **Build artifacts** (\`dist/\`) - Regenerated on each build
-- **Runtime files** (scripts, configs) - Preserved between builds
-- **Dependencies** (\`node_modules/\`) - Installed once and preserved
-
-Generated on: ${new Date().toISOString()}
-`;
+  const readme = template.replace(/{{TIMESTAMP}}/g, new Date().toISOString());
 
   await writeFile(join(config.distDir, 'README.md'), readme);
   console.log('✅ README created');
@@ -499,110 +407,8 @@ Generated on: ${new Date().toISOString()}
 async function createTestScript(): Promise<void> {
   console.log('🧪 Creating test script...');
 
-  const testScript = `#!/usr/bin/env node
-/**
- * Touch Monorepo Production Build Test Script
- * Tests the production build to ensure everything is working
- */
-
-import path from 'path';
-import { existsSync } from 'fs';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-import { killPortIfOccupied } from './ports.utils.js';
-import dotenv from 'dotenv';
-
-// Get __dirname equivalent for ES modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-// Load environment variables
-const envPath = path.join(__dirname, '.env.production');
-if (existsSync(envPath)) {
-  dotenv.config({ path: envPath });
-}
-
-// Get host/port from env or use defaults
-const API_HOST = process.env.API_HOST || 'localhost';
-const API_PORT = process.env.API_PORT || '4040';
-const CLIENT_HOST = process.env.CLIENT_HOST || 'localhost';
-const CLIENT_PORT = process.env.CLIENT_PORT || '3000';
-
-console.log('🧪 Testing Touch Monorepo Production Build...');
-console.log('='.repeat(50));
-
-// Test 1: Check required files exist
-console.log('\\n📁 Checking required files...');
-const requiredFiles = [
-  'dist/server/index.js',
-  'dist/client/index.html',
-  'dist/data/db/production.sqlite.db',
-  '.env',
-  'start-server.js',
-  'start-client.js',
-  'ports.utils.js',
-  'package.json'
-];
-
-let allFilesExist = true;
-for (const file of requiredFiles) {
-  const filePath = path.join(__dirname, file);
-  const exists = existsSync(filePath);
-  console.log((exists ? '✅' : '❌') + ' ' + file);
-  if (!exists) allFilesExist = false;
-}
-
-if (!allFilesExist) {
-  console.error('\\n❌ Some required files are missing!');
-  process.exit(1);
-}
-
-console.log('\\n✅ All required files found');
-
-// Test 2: Check ports utility
-console.log('\\n🔧 Testing ports utility...');
-try {
-  killPortIfOccupied('9999'); // Test with a port that shouldn't be in use
-  console.log('✅ Ports utility is working');
-} catch (error) {
-  console.log('❌ Ports utility error:', error.message);
-}
-
-// Test 3: Check if servers are running
-console.log('\\n🌐 Testing server connectivity...');
-
-try {
-  // Test server API
-  const serverResponse = await fetch(\`http://\${API_HOST}:\${API_PORT}/api\`);
-  if (serverResponse.ok) {
-    console.log('✅ Server API is responding');
-  } else {
-    console.log('❌ Server API is not responding correctly');
-  }
-} catch (error) {
-  console.log('❌ Server API is not accessible:', error.message);
-}
-
-try {
-  // Test client
-  const clientResponse = await fetch(\`http://\${CLIENT_HOST}:\${CLIENT_PORT}\`);
-  if (clientResponse.ok) {
-    console.log('✅ Client is responding');
-  } else {
-    console.log('❌ Client is not responding correctly');
-  }
-} catch (error) {
-  console.log('❌ Client is not accessible:', error.message);
-}
-
-console.log('\\n🎉 Production build test completed!');
-console.log('\\n📋 Summary:');
-console.log(\`- Server: http://\${API_HOST}:\${API_PORT}\`);
-console.log(\`- Client: http://\${CLIENT_HOST}:\${CLIENT_PORT}\`);
-console.log('- Database: ./dist/data/db/production.sqlite.db');
-console.log('\\n🚀 To start the servers:');
-console.log('  node start-server.js & node start-client.js');
-`;
+  const templatePath = join(__dirname, 'templates/test-production.js.template');
+  const testScript = await readFile(templatePath, 'utf-8');
 
   await writeFile(join(config.distDir, 'test-production.js'), testScript);
 
@@ -722,99 +528,10 @@ async function cleanPlatformArtifacts(): Promise<void> {
 async function createSetupScripts(options: BuildOptions): Promise<void> {
   console.log('🔧 Creating universal setup script...');
 
-  // Universal setup script that detects platform and installs Node.js
-  const universalSetupScript = `#!/bin/bash
-set -e
+  const templatePath = join(__dirname, 'templates/setup.sh.template');
+  const setupScript = await readFile(templatePath, 'utf-8');
 
-echo "========================================"
-echo "Touch Monorepo - Universal Setup"
-echo "========================================"
-echo "Detecting platform and setting up..."
-echo
-
-# Detect operating system
-if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "cygwin" || "$OSTYPE" == "win32" ]]; then
-    PLATFORM="windows"
-elif [[ "$OSTYPE" == "darwin"* ]]; then
-    PLATFORM="macos"
-else
-    PLATFORM="linux"
-fi
-
-echo "🔍 Detected platform: $PLATFORM"
-echo
-
-# Check if Node.js is installed
-if ! command -v node >/dev/null 2>&1; then
-    echo "❌ Node.js is not installed. Installing..."
-
-    case $PLATFORM in
-        "windows")
-            echo "⚠️  Please install Node.js manually from https://nodejs.org/"
-            echo "   Then run this script again."
-            read -p "Press Enter after installing Node.js..."
-            ;;
-        "linux")
-            if command -v apt >/dev/null 2>&1; then
-                sudo apt update && sudo apt install -y nodejs npm
-            elif command -v dnf >/dev/null 2>&1; then
-                sudo dnf install -y nodejs npm
-            elif command -v pacman >/dev/null 2>&1; then
-                sudo pacman -Sy --noconfirm nodejs npm
-            else
-                echo "⚠️  Could not auto-install Node.js."
-                echo "   Please install Node.js 20+ from https://nodejs.org/"
-                echo "   Then run this script again."
-                exit 1
-            fi
-            ;;
-        "macos")
-            if command -v brew >/dev/null 2>&1; then
-                brew install node
-            else
-                echo "🍺 Installing Homebrew first..."
-                /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-                echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
-                eval "$(/opt/homebrew/bin/brew shellenv)"
-                brew install node
-            fi
-            ;;
-    esac
-fi
-
-# Verify Node.js installation
-if ! command -v node >/dev/null 2>&1; then
-    echo "❌ Node.js still not found. Please install manually and try again."
-    exit 1
-fi
-
-echo "✅ Node.js: $(node -v)"
-echo "✅ npm: $(npm -v)"
-echo
-
-echo "📦 Installing application dependencies..."
-npm install --production
-
-if [ $? -eq 0 ]; then
-    echo "✅ Dependencies installed successfully!"
-else
-    echo "❌ Failed to install dependencies"
-    exit 1
-fi
-
-echo
-echo "🎉 Setup completed successfully!"
-echo
-echo "🚀 To start the application, run:"
-echo "   ./start"
-echo
-echo "   Or manually:"
-echo "   npm start"
-echo
-`;
-
-  // Always create universal setup.sh
-  await writeFile(join(config.distDir, 'setup.sh'), universalSetupScript);
+  await writeFile(join(config.distDir, 'setup.sh'), setupScript);
   execSync(`chmod +x ${join(config.distDir, 'setup.sh')}`, { stdio: 'inherit' });
   console.log('✅ Universal setup script created (setup.sh)');
 }
@@ -822,48 +539,9 @@ echo
 async function createStartScript(): Promise<void> {
   console.log('🚀 Creating simple start script...');
 
-  // Simple, cross-platform start script (no extension)
-  const startScript = `#!/bin/bash
-set -e
+  const templatePath = join(__dirname, 'templates/start.sh.template');
+  const startScript = await readFile(templatePath, 'utf-8');
 
-echo "🚀 Starting Touch Monorepo..."
-echo
-
-# Load environment variables if available
-if [ -f ".env.production" ]; then
-    export $(grep -v '^#' .env.production | xargs)
-fi
-
-# Set defaults if not in env
-API_HOST=\${API_HOST:-localhost}
-API_PORT=\${API_PORT:-4040}
-CLIENT_HOST=\${CLIENT_HOST:-localhost}
-CLIENT_PORT=\${CLIENT_PORT:-3000}
-
-# Check if Node.js is available
-if ! command -v node >/dev/null 2>&1; then
-    echo "❌ Node.js not found. Please run ./setup.sh first."
-    exit 1
-fi
-
-# Check if dependencies are installed
-if [ ! -d "node_modules" ]; then
-    echo "❌ Dependencies not installed. Please run ./setup.sh first."
-    exit 1
-fi
-
-echo "✅ Starting server and client..."
-echo "   Server: http://\$API_HOST:\$API_PORT"
-echo "   Client: http://\$CLIENT_HOST:\$CLIENT_PORT"
-echo
-echo "Press Ctrl+C to stop"
-echo
-
-# Start the application
-npm start
-`;
-
-  // Create the start script (no extension)
   await writeFile(join(config.distDir, 'start'), startScript);
   execSync(`chmod +x ${join(config.distDir, 'start')}`, { stdio: 'inherit' });
   console.log('✅ Simple start script created (start)');
@@ -1036,201 +714,35 @@ async function createStandalonePackage(options: BuildOptions): Promise<void> {
 async function createUserDocumentation(options: BuildOptions): Promise<void> {
   console.log('📝 Creating user documentation...');
 
-  // English User Guide - Simplified Universal Version
-  const englishGuide = `# Touch Monorepo - User Guide
+  // Read templates
+  const englishTemplatePath = join(__dirname, 'templates/USER_GUIDE_EN.md.template');
+  const spanishTemplatePath = join(__dirname, 'templates/GUIA_USUARIO_ES.md.template');
 
-## 🎯 Welcome!
+  const englishTemplate = await readFile(englishTemplatePath, 'utf-8');
+  const spanishTemplate = await readFile(spanishTemplatePath, 'utf-8');
 
-This guide will help you set up and run the Touch Monorepo application on your computer. **Super simple - just two steps!**
-
-## 📋 What You Need
-
-- **Any Computer**: Windows, Linux, or macOS
-- **Internet connection**: For initial setup (one-time only)
-
-## 🚀 Quick Start Guide (2 Steps!)
-
-### Step 1: Extract the Files
-
-1. **Find the downloaded file**: Look for a file ending in \`.zip\`
-2. **Right-click the file** and select "Extract All" or "Extract Here"
-3. **Choose a location** (like your Desktop or Documents folder)
-4. **Open the extracted folder**
-
-### Step 2: Run Setup & Start
-
-**On Windows:**
-1. **Open PowerShell or Command Prompt** in the folder
-2. **Run setup**: \`bash setup.sh\` (installs Node.js if needed)
-3. **Start app**: \`bash start\`
-
-**On Mac/Linux:**
-1. **Open Terminal** in the folder
-2. **Run setup**: \`./setup.sh\` (installs Node.js if needed)
-3. **Start app**: \`./start\`
-
-**That's it!** 🎉
-
-## 🌐 Using the Application
-
-1. **Your web browser should open automatically** to: http://localhost:3000
-2. **If it doesn't open**, manually go to: http://localhost:3000
-3. **The application is ready to use!**
-
-## 🔧 Troubleshooting
-
-### Common Issues
-
-**"Command not found" or "Permission denied"**
-- **Windows**: Make sure you're using PowerShell or Command Prompt, not File Explorer
-- **Mac/Linux**: Make sure you're using Terminal
-
-**"Node.js is not installed"**
-- The setup script will try to install it automatically
-- If it fails, go to https://nodejs.org/ and install manually
-- Then run \`./setup.sh\` again
-
-**"Port is already in use"**
-- Close any other applications using ports 3000 or 4040
-- Restart your computer and try again
-
-**Application won't start**
-- Make sure you ran \`./setup.sh\` first
-- Check that you're in the correct folder
-- Try restarting your computer
-
-### Still Having Trouble?
-
-1. **Make sure you're in the right folder** (the extracted folder)
-2. **Try running setup again**: \`./setup.sh\`
-3. **Check for error messages** and note them down
-4. **Restart your computer** and try again
-
-## 📞 Support
-
-For technical support, please provide:
-- Your operating system (Windows/Mac/Linux)
-- Any error messages you see
-- What step you're stuck on
-
-## 🎉 You're Ready!
-
-Once the application is running:
-- **Access it**: http://localhost:3000
-- **To stop**: Press Ctrl+C in the terminal
-- **To start again**: Run \`./start\`
-
-**Note**: Keep the terminal window open while using the application.
-
----
-
-*Generated on: ${new Date().toLocaleDateString('en-US', {
+  // Generate timestamps
+  const englishTimestamp = new Date().toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
     hour: '2-digit',
     minute: '2-digit',
-  })}*
-`;
+  });
 
-  // Spanish User Guide
-  const spanishGuide = `# Touch Monorepo - Guía de Usuario
-
-## 🎯 ¡Bienvenido!
-
-Esta guía te ayudará a configurar y ejecutar la aplicación Touch Monorepo en tu computadora. **¡Súper simple - solo dos pasos!**
-
-## 📋 Lo Que Necesitas
-
-- **Cualquier Computadora**: Windows, Linux, o macOS
-- **Conexión a internet**: Para la configuración inicial (solo una vez)
-
-## 🚀 Guía de Inicio Rápido (¡2 Pasos!)
-
-### Paso 1: Extraer los Archivos
-
-1. **Encuentra el archivo descargado**: Busca un archivo que termine en \`.zip\`
-2. **Haz clic derecho en el archivo** y selecciona "Extraer todo" o "Extraer aquí"
-3. **Elige una ubicación** (como tu Escritorio o carpeta Documentos)
-4. **Abre la carpeta extraída**
-
-### Paso 2: Ejecutar Configuración e Iniciar
-
-**En Windows:**
-1. **Abre PowerShell o Símbolo del Sistema** en la carpeta
-2. **Ejecuta configuración**: \`bash setup.sh\` (instala Node.js si es necesario)
-3. **Inicia la app**: \`bash start\`
-
-**En Mac/Linux:**
-1. **Abre Terminal** en la carpeta
-2. **Ejecuta configuración**: \`./setup.sh\` (instala Node.js si es necesario)
-3. **Inicia la app**: \`./start\`
-
-**¡Eso es todo!** 🎉
-
-## 🌐 Usando la Aplicación
-
-1. **Tu navegador web debería abrirse automáticamente** a: http://localhost:3000
-2. **Si no se abre**, ve manualmente a: http://localhost:3000
-3. **¡La aplicación está lista para usar!**
-
-## 🔧 Solución de Problemas
-
-### Problemas Comunes
-
-**"Comando no encontrado" o "Permiso denegado"**
-- **Windows**: Asegúrate de usar PowerShell o Símbolo del Sistema, no el Explorador de Archivos
-- **Mac/Linux**: Asegúrate de usar Terminal
-
-**"Node.js no está instalado"**
-- El script de configuración intentará instalarlo automáticamente
-- Si falla, ve a https://nodejs.org/ e instala manualmente
-- Luego ejecuta \`./setup.sh\` nuevamente
-
-**"El puerto ya está en uso"**
-- Cierra cualquier otra aplicación usando los puertos 3000 o 4040
-- Reinicia tu computadora e inténtalo de nuevo
-
-**La aplicación no se inicia**
-- Asegúrate de haber ejecutado \`./setup.sh\` primero
-- Verifica que estés en la carpeta correcta
-- Intenta reiniciar tu computadora
-
-### ¿Sigues Teniendo Problemas?
-
-1. **Asegúrate de estar en la carpeta correcta** (la carpeta extraída)
-2. **Intenta ejecutar la configuración nuevamente**: \`./setup.sh\`
-3. **Revisa los mensajes de error** y anótalos
-4. **Reinicia tu computadora** e inténtalo de nuevo
-
-## 📞 Soporte
-
-Para soporte técnico, por favor proporciona:
-- Tu sistema operativo (Windows/Mac/Linux)
-- Cualquier mensaje de error que veas
-- En qué paso estás atascado
-
-## 🎉 ¡Estás Listo!
-
-Una vez que la aplicación esté ejecutándose:
-- **Accede a ella**: http://localhost:3000
-- **Para detener**: Presiona Ctrl+C en la terminal
-- **Para iniciar de nuevo**: Ejecuta \`./start\`
-
-**Nota**: Mantén la ventana de terminal abierta mientras usas la aplicación.
-
----
-
-*Generado el: ${new Date().toLocaleDateString('es-ES', {
+  const spanishTimestamp = new Date().toLocaleDateString('es-ES', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
     hour: '2-digit',
     minute: '2-digit',
-  })}*
-`;
+  });
 
-  // Write the documentation files with simple names
+  // Replace placeholders
+  const englishGuide = englishTemplate.replace(/{{TIMESTAMP}}/g, englishTimestamp);
+  const spanishGuide = spanishTemplate.replace(/{{TIMESTAMP}}/g, spanishTimestamp);
+
+  // Write the documentation files
   await writeFile(join(config.distDir, 'USER_GUIDE_EN.md'), englishGuide);
   await writeFile(join(config.distDir, 'GUIA_USUARIO_ES.md'), spanishGuide);
 

@@ -1,0 +1,88 @@
+#!/bin/bash
+set -e
+
+echo "========================================"
+echo "Touch Monorepo - Universal Setup"
+echo "========================================"
+echo "Detecting platform and setting up..."
+echo
+
+# Detect operating system
+if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "cygwin" || "$OSTYPE" == "win32" ]]; then
+    PLATFORM="windows"
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+    PLATFORM="macos"
+else
+    PLATFORM="linux"
+fi
+
+echo "🔍 Detected platform: $PLATFORM"
+echo
+
+# Check if Node.js is installed
+if ! command -v node >/dev/null 2>&1; then
+    echo "❌ Node.js is not installed. Installing..."
+
+    case $PLATFORM in
+        "windows")
+            echo "⚠️  Please install Node.js manually from https://nodejs.org/"
+            echo "   Then run this script again."
+            read -p "Press Enter after installing Node.js..."
+            ;;
+        "linux")
+            if command -v apt >/dev/null 2>&1; then
+                sudo apt update && sudo apt install -y nodejs npm
+            elif command -v dnf >/dev/null 2>&1; then
+                sudo dnf install -y nodejs npm
+            elif command -v pacman >/dev/null 2>&1; then
+                sudo pacman -Sy --noconfirm nodejs npm
+            else
+                echo "⚠️  Could not auto-install Node.js."
+                echo "   Please install Node.js 20+ from https://nodejs.org/"
+                echo "   Then run this script again."
+                exit 1
+            fi
+            ;;
+        "macos")
+            if command -v brew >/dev/null 2>&1; then
+                brew install node
+            else
+                echo "🍺 Installing Homebrew first..."
+                /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+                echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+                eval "$(/opt/homebrew/bin/brew shellenv)"
+                brew install node
+            fi
+            ;;
+    esac
+fi
+
+# Verify Node.js installation
+if ! command -v node >/dev/null 2>&1; then
+    echo "❌ Node.js still not found. Please install manually and try again."
+    exit 1
+fi
+
+echo "✅ Node.js: $(node -v)"
+echo "✅ npm: $(npm -v)"
+echo
+
+echo "📦 Installing application dependencies..."
+npm install --production
+
+if [ $? -eq 0 ]; then
+    echo "✅ Dependencies installed successfully!"
+else
+    echo "❌ Failed to install dependencies"
+    exit 1
+fi
+
+echo
+echo "🎉 Setup completed successfully!"
+echo
+echo "🚀 To start the application, run:"
+echo "   ./start"
+echo
+echo "   Or manually:"
+echo "   npm start"
+echo

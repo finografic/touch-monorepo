@@ -1,0 +1,103 @@
+#!/usr/bin/env node
+/**
+ * Touch Monorepo Production Build Test Script
+ * Tests the production build to ensure everything is working
+ */
+
+import path from 'path';
+import { existsSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import { killPortIfOccupied } from './ports.utils.js';
+import dotenv from 'dotenv';
+
+// Get __dirname equivalent for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Load environment variables
+const envPath = path.join(__dirname, '.env.production');
+if (existsSync(envPath)) {
+  dotenv.config({ path: envPath });
+}
+
+// Get host/port from env or use defaults
+const API_HOST = process.env.API_HOST || 'localhost';
+const API_PORT = process.env.API_PORT || '4040';
+const CLIENT_HOST = process.env.CLIENT_HOST || 'localhost';
+const CLIENT_PORT = process.env.CLIENT_PORT || '3000';
+
+console.log('🧪 Testing Touch Monorepo Production Build...');
+console.log('='.repeat(50));
+
+// Test 1: Check required files exist
+console.log('\n📁 Checking required files...');
+const requiredFiles = [
+  'dist/server/index.js',
+  'dist/client/index.html',
+  'dist/data/db/production.sqlite.db',
+  '.env',
+  'start-server.js',
+  'start-client.js',
+  'ports.utils.js',
+  'package.json'
+];
+
+let allFilesExist = true;
+for (const file of requiredFiles) {
+  const filePath = path.join(__dirname, file);
+  const exists = existsSync(filePath);
+  console.log((exists ? '✅' : '❌') + ' ' + file);
+  if (!exists) allFilesExist = false;
+}
+
+if (!allFilesExist) {
+  console.error('\n❌ Some required files are missing!');
+  process.exit(1);
+}
+
+console.log('\n✅ All required files found');
+
+// Test 2: Check ports utility
+console.log('\n🔧 Testing ports utility...');
+try {
+  killPortIfOccupied('9999'); // Test with a port that shouldn't be in use
+  console.log('✅ Ports utility is working');
+} catch (error) {
+  console.log('❌ Ports utility error:', error.message);
+}
+
+// Test 3: Check if servers are running
+console.log('\n🌐 Testing server connectivity...');
+
+try {
+  // Test server API
+  const serverResponse = await fetch(`http://${API_HOST}:${API_PORT}/api`);
+  if (serverResponse.ok) {
+    console.log('✅ Server API is responding');
+  } else {
+    console.log('❌ Server API is not responding correctly');
+  }
+} catch (error) {
+  console.log('❌ Server API is not accessible:', error.message);
+}
+
+try {
+  // Test client
+  const clientResponse = await fetch(`http://${CLIENT_HOST}:${CLIENT_PORT}`);
+  if (clientResponse.ok) {
+    console.log('✅ Client is responding');
+  } else {
+    console.log('❌ Client is not responding correctly');
+  }
+} catch (error) {
+  console.log('❌ Client is not accessible:', error.message);
+}
+
+console.log('\n🎉 Production build test completed!');
+console.log('\n📋 Summary:');
+console.log(`- Server: http://${API_HOST}:${API_PORT}`);
+console.log(`- Client: http://${CLIENT_HOST}:${CLIENT_PORT}`);
+console.log('- Database: ./dist/data/db/production.sqlite.db');
+console.log('\n🚀 To start the servers:');
+console.log('  node start-server.js & node start-client.js');

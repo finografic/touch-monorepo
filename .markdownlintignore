@@ -1,0 +1,9 @@
+# Ignore markdown template files (processed at build time)
+packages/build-deployment/src/templates/*.template
+
+# Ignore node_modules
+node_modules/
+
+# Ignore deployment output
+deployments/
+.temp/

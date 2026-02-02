@@ -1,0 +1,88 @@
+# Touch Monorepo - Guía de Usuario
+
+## 🎯 ¡Bienvenido!
+
+Esta guía te ayudará a configurar y ejecutar la aplicación Touch Monorepo en tu computadora. **¡Súper simple - solo dos pasos!**
+
+## 📋 Lo Que Necesitas
+
+- **Cualquier Computadora**: Windows, Linux, o macOS
+- **Conexión a internet**: Para la configuración inicial (solo una vez)
+
+## 🚀 Guía de Inicio Rápido (¡2 Pasos!)
+
+### Paso 1: Extraer los Archivos
+
+1. **Encuentra el archivo descargado**: Busca un archivo que termine en `.zip`
+2. **Haz clic derecho en el archivo** y selecciona "Extraer todo" o "Extraer aquí"
+3. **Elige una ubicación** (como tu Escritorio o carpeta Documentos)
+4. **Abre la carpeta extraída**
+
+### Paso 2: Ejecutar Configuración e Iniciar
+
+**En Windows:**
+1. **Abre PowerShell o Símbolo del Sistema** en la carpeta
+2. **Ejecuta configuración**: `bash setup.sh` (instala Node.js si es necesario)
+3. **Inicia la app**: `bash start`
+
+**En Mac/Linux:**
+1. **Abre Terminal** en la carpeta
+2. **Ejecuta configuración**: `./setup.sh` (instala Node.js si es necesario)
+3. **Inicia la app**: `./start`
+
+**¡Eso es todo!** 🎉
+
+## 🌐 Usando la Aplicación
+
+1. **Tu navegador web debería abrirse automáticamente** a: http://localhost:3000
+2. **Si no se abre**, ve manualmente a: http://localhost:3000
+3. **¡La aplicación está lista para usar!**
+
+## 🔧 Solución de Problemas
+
+### Problemas Comunes
+
+**"Comando no encontrado" o "Permiso denegado"**
+- **Windows**: Asegúrate de usar PowerShell o Símbolo del Sistema, no el Explorador de Archivos
+- **Mac/Linux**: Asegúrate de usar Terminal
+
+**"Node.js no está instalado"**
+- El script de configuración intentará instalarlo automáticamente
+- Si falla, ve a https://nodejs.org/ e instala manualmente
+- Luego ejecuta `./setup.sh` nuevamente
+
+**"El puerto ya está en uso"**
+- Cierra cualquier otra aplicación usando los puertos 3000 o 4040
+- Reinicia tu computadora e inténtalo de nuevo
+
+**La aplicación no se inicia**
+- Asegúrate de haber ejecutado `./setup.sh` primero
+- Verifica que estés en la carpeta correcta
+- Intenta reiniciar tu computadora
+
+### ¿Sigues Teniendo Problemas?
+
+1. **Asegúrate de estar en la carpeta correcta** (la carpeta extraída)
+2. **Intenta ejecutar la configuración nuevamente**: `./setup.sh`
+3. **Revisa los mensajes de error** y anótalos
+4. **Reinicia tu computadora** e inténtalo de nuevo
+
+## 📞 Soporte
+
+Para soporte técnico, por favor proporciona:
+- Tu sistema operativo (Windows/Mac/Linux)
+- Cualquier mensaje de error que veas
+- En qué paso estás atascado
+
+## 🎉 ¡Estás Listo!
+
+Una vez que la aplicación esté ejecutándose:
+- **Accede a ella**: http://localhost:3000
+- **Para detener**: Presiona Ctrl+C en la terminal
+- **Para iniciar de nuevo**: Ejecuta `./start`
+
+**Nota**: Mantén la ventana de terminal abierta mientras usas la aplicación.
+
+---
+
+*Generado el: {{TIMESTAMP}}*

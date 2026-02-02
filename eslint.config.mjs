@@ -43,5 +43,5 @@ export default fino({
       },
     ],
   },
-  ignorePatterns: ['**/.inlang/**'],
+  ignorePatterns: ['**/.inlang/**', '**/*.template'],
 });
