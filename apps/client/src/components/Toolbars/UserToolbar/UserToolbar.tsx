@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import { Button } from 'components/Button';
 import { LanguageDialog } from 'components/Dialog/dialogs/LanguageDialog';
 import { AdminToggleButton } from 'components/IconButtons/AdminToggleButton/AdminToggleButton';
+import { FullscreenToggleButton } from 'components/IconButtons/FullscreenToggleButton';
 import { ThemeToggleButton } from 'components/IconButtons/ThemeToggleButton/ThemeToggleButton';
 import { UserAuthButton } from 'components/IconButtons/UserAuthButton/UserAuthButton';
 
@@ -34,6 +35,15 @@ export const UserToolbar = ({ variant }: { variant?: 'light' | 'dark' }) => {
     <>
       <div css={styles} className={clsx('toolbar', 'toolbar-user', `theme-${variant || theme}`)}>
         <Flex gap="0" align="center">
+
+          <div className="button-box">
+          <FullscreenToggleButton />
+          </div>
+
+          <div className="button-box">
+            <ThemeToggleButton />
+          </div>
+
           <div className="button-box">
             <Button
               className="button button-language"
@@ -41,10 +51,6 @@ export const UserToolbar = ({ variant }: { variant?: 'light' | 'dark' }) => {
             >
               <LanguageIcon />
             </Button>
-          </div>
-
-          <div className="button-box">
-            <ThemeToggleButton />
           </div>
 
           <div className="button-box">
