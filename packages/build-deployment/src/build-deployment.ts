@@ -171,6 +171,33 @@ async function consolidateEnvironmentFiles(options: BuildOptions): Promise<void>
 
     console.log(`📍 Using host: ${HOST} (${isLinuxDeployment ? 'Raspberry Pi' : 'local'})`);
 
+    // Read source .env.production to get sensitive values
+    const sourceEnvPath = join(config.workspaceRoot, '.env.production');
+    let sourceEnv: Record<string, string> = {};
+
+    if (existsSync(sourceEnvPath)) {
+      const sourceEnvContent = await readFile(sourceEnvPath, 'utf-8');
+      sourceEnv = Object.fromEntries(
+        sourceEnvContent
+          .split('\n')
+          .filter((line) => line.trim() && !line.startsWith('#'))
+          .map((line) => {
+            const [key, ...valueParts] = line.split('=');
+            return [key.trim(), valueParts.join('=').trim()];
+          }),
+      );
+      console.log('✅ Read source .env.production for sensitive values');
+    } else {
+      console.log('⚠️  Source .env.production not found, using defaults');
+    }
+
+    // Get values from source or use defaults
+    const BETTER_AUTH_SECRET =
+      sourceEnv.BETTER_AUTH_SECRET || 'your-super-secret-auth-key-minimum-32-characters-long';
+    const AUTH_COOKIE_PREFIX = sourceEnv.AUTH_COOKIE_PREFIX || 'touch-monorepo';
+    const TOKEN_COOKIE_SUFFIX = sourceEnv.TOKEN_COOKIE_SUFFIX || 'session_token';
+    const DATA_COOKIE_SUFFIX = sourceEnv.DATA_COOKIE_SUFFIX || 'session_data';
+
     const envContent: string[] = [
       '# PRODUCTION ENVIRONMENT - AUTO-GENERATED',
       '# DO NOT EDIT MANUALLY',
@@ -201,8 +228,11 @@ async function consolidateEnvironmentFiles(options: BuildOptions): Promise<void>
       'DATABASE_URL=./dist/data/db/production.sqlite.db',
       '',
       '# Authentication',
-      'BETTER_AUTH_SECRET=your-super-secret-auth-key-minimum-32-characters-long',
+      `BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET}`,
       `BETTER_AUTH_URL=http://${HOST}:4040`,
+      `AUTH_COOKIE_PREFIX=${AUTH_COOKIE_PREFIX}`,
+      `TOKEN_COOKIE_SUFFIX=${TOKEN_COOKIE_SUFFIX}`,
+      `DATA_COOKIE_SUFFIX=${DATA_COOKIE_SUFFIX}`,
       '',
       '# File Uploads',
       'UPLOAD_DIR=./dist/data/uploads',
