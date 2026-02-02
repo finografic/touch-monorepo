@@ -510,10 +510,23 @@ import { existsSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import { killPortIfOccupied } from './ports.utils.js';
+import dotenv from 'dotenv';
 
 // Get __dirname equivalent for ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+// Load environment variables
+const envPath = path.join(__dirname, '.env.production');
+if (existsSync(envPath)) {
+  dotenv.config({ path: envPath });
+}
+
+// Get host/port from env or use defaults
+const API_HOST = process.env.API_HOST || 'localhost';
+const API_PORT = process.env.API_PORT || '4040';
+const CLIENT_HOST = process.env.CLIENT_HOST || 'localhost';
+const CLIENT_PORT = process.env.CLIENT_PORT || '3000';
 
 console.log('🧪 Testing Touch Monorepo Production Build...');
 console.log('='.repeat(50));
@@ -560,7 +573,7 @@ console.log('\\n🌐 Testing server connectivity...');
 
 try {
   // Test server API
-  const serverResponse = await fetch('http://localhost:4040/api');
+  const serverResponse = await fetch(\`http://\${API_HOST}:\${API_PORT}/api\`);
   if (serverResponse.ok) {
     console.log('✅ Server API is responding');
   } else {
@@ -572,7 +585,7 @@ try {
 
 try {
   // Test client
-  const clientResponse = await fetch('http://localhost:3000');
+  const clientResponse = await fetch(\`http://\${CLIENT_HOST}:\${CLIENT_PORT}\`);
   if (clientResponse.ok) {
     console.log('✅ Client is responding');
   } else {
@@ -584,8 +597,8 @@ try {
 
 console.log('\\n🎉 Production build test completed!');
 console.log('\\n📋 Summary:');
-console.log('- Server: http://localhost:4040');
-console.log('- Client: http://localhost:3000');
+console.log(\`- Server: http://\${API_HOST}:\${API_PORT}\`);
+console.log(\`- Client: http://\${CLIENT_HOST}:\${CLIENT_PORT}\`);
 console.log('- Database: ./dist/data/db/production.sqlite.db');
 console.log('\\n🚀 To start the servers:');
 console.log('  node start-server.js & node start-client.js');
@@ -816,6 +829,17 @@ set -e
 echo "🚀 Starting Touch Monorepo..."
 echo
 
+# Load environment variables if available
+if [ -f ".env.production" ]; then
+    export $(grep -v '^#' .env.production | xargs)
+fi
+
+# Set defaults if not in env
+API_HOST=\${API_HOST:-localhost}
+API_PORT=\${API_PORT:-4040}
+CLIENT_HOST=\${CLIENT_HOST:-localhost}
+CLIENT_PORT=\${CLIENT_PORT:-3000}
+
 # Check if Node.js is available
 if ! command -v node >/dev/null 2>&1; then
     echo "❌ Node.js not found. Please run ./setup.sh first."
@@ -829,8 +853,8 @@ if [ ! -d "node_modules" ]; then
 fi
 
 echo "✅ Starting server and client..."
-echo "   Server: http://localhost:4040"
-echo "   Client: http://localhost:3000"
+echo "   Server: http://\$API_HOST:\$API_PORT"
+echo "   Client: http://\$CLIENT_HOST:\$CLIENT_PORT"
 echo
 echo "Press Ctrl+C to stop"
 echo

@@ -32,8 +32,8 @@ const CLIENT_DIR = path.join(__dirname, 'dist/client');
 
 console.log('🌐 Starting Touch Monorepo Client Server...');
 console.log('📍 Client directory:', CLIENT_DIR);
-console.log('🌐 Server will run on: http://localhost:' + PORT);
-console.log('🔗 API proxy will forward to: http://localhost:' + API_PORT);
+console.log(`🌐 Server will run on: http://${HOST}:${PORT}`);
+console.log(`🔗 API proxy will forward to: http://${API_HOST}:${API_PORT}`);
 
 // Check for occupied ports
 console.log('🔧 Checking for occupied ports...');
