@@ -161,12 +161,15 @@ async function copyDataFiles(): Promise<void> {
 
 
 
-async function consolidateEnvironmentFiles(): Promise<void> {
+async function consolidateEnvironmentFiles(options: BuildOptions): Promise<void> {
   console.log('⚙️  Consolidating environment files...');
 
   try {
-    // HARD REQUIREMENT: Pi LAN IP
-    const PI_HOST = '192.168.1.31';
+    // Use Pi IP for Linux (Raspberry Pi) deployments, localhost for others
+    const isLinuxDeployment = options.platform === 'linux';
+    const HOST = isLinuxDeployment ? '192.168.1.31' : 'localhost';
+
+    console.log(`📍 Using host: ${HOST} (${isLinuxDeployment ? 'Raspberry Pi' : 'local'})`);
 
     const envContent: string[] = [
       '# PRODUCTION ENVIRONMENT - AUTO-GENERATED',
@@ -177,16 +180,16 @@ async function consolidateEnvironmentFiles(): Promise<void> {
       '',
       '# API Server Configuration',
       'API_PROTOCOL=http',
-      `API_HOST=${PI_HOST}`,
+      `API_HOST=${HOST}`,
       'API_PORT=4040',
       'API_BASE_PATH=/api',
-      `API_URL=http://${PI_HOST}:4040/api`,
+      `API_URL=http://${HOST}:4040/api`,
       '',
       '# Client Configuration',
       'CLIENT_PROTOCOL=http',
-      `CLIENT_HOST=${PI_HOST}`,
+      `CLIENT_HOST=${HOST}`,
       'CLIENT_PORT=3000',
-      `CLIENT_ORIGIN=http://${PI_HOST}:3000`,
+      `CLIENT_ORIGIN=http://${HOST}:3000`,
       'VITE_APP_NAME=Touch Monorepo',
       '',
       '# Database Configuration',
@@ -199,7 +202,7 @@ async function consolidateEnvironmentFiles(): Promise<void> {
       '',
       '# Authentication',
       'BETTER_AUTH_SECRET=your-super-secret-auth-key-minimum-32-characters-long',
-      `BETTER_AUTH_URL=http://${PI_HOST}:4040`,
+      `BETTER_AUTH_URL=http://${HOST}:4040`,
       '',
       '# File Uploads',
       'UPLOAD_DIR=./dist/data/uploads',
@@ -1360,7 +1363,7 @@ async function main(): Promise<void> {
     await buildClient();
     await buildServer();
     await copyDataFiles();
-    await consolidateEnvironmentFiles();
+    await consolidateEnvironmentFiles(options);
     await createPortsUtility();
     await createStartupScript();
     await createClientServer();
