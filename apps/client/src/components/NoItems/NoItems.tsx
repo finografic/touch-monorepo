@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
 import { Callout } from '@radix-ui/themes';
 
+import { ExclamationTriangleIcon } from 'styles/icons';
 import { styles } from './NoItems.styles';
 
 interface NoItemsProps {

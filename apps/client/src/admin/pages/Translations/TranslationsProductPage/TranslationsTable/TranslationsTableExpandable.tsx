@@ -3,7 +3,6 @@ import { FormProvider } from 'react-hook-form';
 import type { RegionLocale } from '@workspace/config/i18n.config';
 
 import createCuid from '@bugsnag/cuid';
-import { ChevronDownIcon, ChevronRightIcon } from '@radix-ui/react-icons';
 import { Flex, Text } from '@radix-ui/themes';
 import type {
   GroupedSubtypes,
@@ -22,6 +21,7 @@ import { ExpandedSubtypeRow } from './components/TranslationsRowExpanded';
 import { useTranslationsTableForm } from './hooks/useTranslationsTableForm';
 import { useTranslationsTableHandlers } from './hooks/useTranslationsTableHandlers';
 import { colors } from 'styles/colors/colors-direct';
+import { ChevronDownIcon, ChevronRightIcon } from 'styles/icons';
 import { styles } from '../../shared/styles/TranslationsTable.styles';
 
 interface TranslationsTableExpandableProps {

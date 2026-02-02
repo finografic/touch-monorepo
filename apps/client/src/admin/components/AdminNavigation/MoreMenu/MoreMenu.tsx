@@ -1,10 +1,10 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { ChevronDownIcon } from '@radix-ui/react-icons';
 import { DropdownMenu } from '@radix-ui/themes';
 
 import type { NavItem } from 'types/nav.types';
+import { ChevronDownIcon } from 'styles/icons';
 import { styles } from './MoreMenu.styles';
 
 interface MoreButtonProps {

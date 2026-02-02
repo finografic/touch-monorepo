@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { MinusIcon, PlusIcon } from '@radix-ui/react-icons';
 import { Badge, Flex, Text } from '@radix-ui/themes';
 import clsx from 'clsx';
 import { useDebouncedCallback } from 'use-debounce';
@@ -16,6 +15,7 @@ import { MAX_COLUMNS, MIN_COLUMNS, NUM_RELAYS, NUM_ROWS_DEFAULT } from 'config/a
 import { AdminPageLayout } from '../..';
 import { AdminSection } from '../../components/AdminSection/AdminSection';
 import { SlotGrid } from './SlotGrid/SlotGrid';
+import { MinusIcon, PlusIcon } from 'styles/icons';
 import { styles } from './AdminSlotsConfigPage.styles';
 
 // Types for form values

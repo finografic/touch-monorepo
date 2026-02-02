@@ -1,4 +1,4 @@
-import { ReloadIcon } from '@radix-ui/react-icons';
+import { ReloadIcon } from 'styles/icons';
 
 interface LoaderProps {
   message?: string;

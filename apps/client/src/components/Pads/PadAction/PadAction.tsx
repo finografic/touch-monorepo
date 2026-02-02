@@ -1,9 +1,9 @@
 import { forwardRef } from 'react';
 
-import { DoubleArrowLeftIcon, DoubleArrowRightIcon } from '@radix-ui/react-icons';
 import clsx from 'clsx';
 
 import type { PadActionProps } from 'types/button.types';
+import { DoubleArrowLeftIcon, DoubleArrowRightIcon } from 'styles/icons';
 import { stylesPadAction } from './PadAction.styles';
 
 export const PadAction = forwardRef<HTMLButtonElement, PadActionProps>(

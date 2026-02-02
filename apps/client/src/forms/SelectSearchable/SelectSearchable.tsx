@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
-import { CheckIcon, ChevronDownIcon, Cross2Icon, MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import { TextField } from '@radix-ui/themes';
 import { AddNewButton } from 'forms/SelectSearchable/AddNewButton';
 import { matchSorter } from 'match-sorter';
@@ -9,7 +8,7 @@ import { slugify } from 'utils/string.utils';
 import type { SelectOption } from 'types/models/select-option.model';
 import { DropdownPortal } from './DropdownPortal';
 import { useColors } from 'styles';
-import { AddIcon, PlusIcon } from 'styles/icons';
+import { CheckCircleIcon, ChevronDownIcon, Cross2Icon, MagnifyingGlassIcon, PlusIcon } from 'styles/icons';
 import { styles, stylesDropdown } from './SelectSearchable.styles';
 
 interface SearchableSelectProps {
@@ -85,7 +84,7 @@ export const SelectSearchable: React.FC<SearchableSelectProps> = ({
 
   // Determine which icon to show
   const shouldShowAddIcon = canAddNew && searchValue.trim().length > 3 && !exactMatch && !justAdded;
-  const iconToShow = justAdded ? CheckIcon : shouldShowAddIcon ? PlusIcon : MagnifyingGlassIcon;
+  const iconToShow = justAdded ? CheckCircleIcon : shouldShowAddIcon ? PlusIcon : MagnifyingGlassIcon;
 
   // Simple sliding window
   const slidingWindow = useMemo(() => {

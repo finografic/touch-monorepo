@@ -1,13 +1,12 @@
 import React from 'react';
 import type { FieldArrayWithId } from 'react-hook-form';
 
-import { ShuffleIcon } from '@radix-ui/react-icons';
 import { Text } from '@radix-ui/themes';
 import { InputTime } from 'forms/InputTime';
 import { TemperatureInputField } from 'forms/TemperatureInputField';
 import { Button } from 'components/Button';
 
-import { DeleteIcon } from 'styles/icons';
+import { DeleteIcon, ShuffleIcon  } from 'styles/icons';
 import { styles } from './RepeaterTableRow.styles';
 
 interface TimeRowData {

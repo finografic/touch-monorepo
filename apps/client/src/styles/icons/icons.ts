@@ -1,170 +1,114 @@
-// NOTE: ICON DEFINITIONS - Radix + Lucide with auto-className
+// NOTE: ICON DEFINITIONS - Lucide icons with auto-className wrapper
 // ref + search: https://lucide.dev/icons/
 
-import {
-  // ChevronDownIcon as _ChevronDownIcon,
-  CountdownTimerIcon as _CountdownTimerIcon,
-  Cross2Icon as _Cross2Icon,
-  DoubleArrowLeftIcon as _DoubleArrowLeftIcon,
-  DoubleArrowRightIcon as _DoubleArrowRightIcon,
-  ExclamationTriangleIcon as _ExclamationTriangleIcon,
-  HamburgerMenuIcon as _HamburgerMenuIcon,
-  InfoCircledIcon as _InfoCircledIcon,
-  PlusIcon as _PlusIcon,
-  ReloadIcon as _ReloadIcon,
-  SpeakerLoudIcon as _SpeakerLoudIcon,
-  StarIcon as _StarIcon,
-  TextAlignLeftIcon as _TextAlignLeftIcon,
-  TextAlignTopIcon as _TextAlignTopIcon,
-  TimerIcon as _TimerIcon,
-  TrashIcon as _TrashIcon,
-} from '@radix-ui/react-icons';
-import {
-  AppWindowMac as _AppWindowMacIcon,
-  AppWindowMac as _WindowIcon,
-  BadgeCheck as _BadgeCheckIcon,
-  CheckCircle2 as _CheckCircle2Icon,
-  ChevronDownIcon as _ChevronDownIcon,
-  ChevronLeftIcon as _ChevronLeftIcon,
-  ChevronRightIcon as _ChevronRightIcon,
-  ChevronUpIcon as _ChevronUpIcon,
-  CircleStop as _StopIcon,
-  CircleUserRound as _CircleUserRoundIcon,
-  Clipboard as _ClipboardIcon,
-  Coffee as _CoffeeIcon,
-  Cog as _SettingsIcon,
-  Columns3 as _Columns3Icon,
-  Columns4 as _Columns4Icon,
-  Eye as _EyeIcon,
-  EyeOff as _EyeOffIcon,
-  FastForward as _FastForwardIcon,
-  Grid3x2Icon as _Grid3x2Icon,
-  House as _HomeIcon,
-  Languages as _LanguagesIcon,
-  List as _ListIcon,
-  ListChecks as _ListChecksIcon,
-  Lock as _LockIcon,
-  Moon as _MoonIcon,
-  PanelBottomClose as _PanelBottomCloseIcon,
-  PanelBottomOpen as _PanelBottomOpenIcon,
-  PanelLeftClose as _PanelLeftCloseIcon,
-  PanelLeftOpen as _PanelLeftOpenIcon,
-  PencilLine as _EditIcon,
-  Radio as _RadioIcon,
-  RefreshCcwIcon as _RefreshCcwIcon,
-  Search as _MagnifyingGlassIcon,
-  ShieldCheck as _ShieldCheckIcon,
-  ShieldUser as _ShieldUserIcon,
-  Sun as _SunIcon,
-  Thermometer as _TempIcon,
-  TimerReset as _TimerResetIcon,
-  Trash2 as _Trash2Icon,
-  User as _UserIcon,
-  UserLock as _UserLockIcon,
-  UserRoundCheck as _UserRoundCheckIcon,
-  Volume2Icon as _Volume2Icon,
-  VolumeOffIcon as _VolumeOffIcon,
-  Wine as _WineIcon,
-  X as _DeleteIcon,
-  Zap as _ZapIcon,
-} from 'lucide-react';
+import * as Lucide from 'lucide-react';
 
 import { createIconWrapper } from './icons.utils';
 
 // ============================================================================
-// ICON EXPORTS - Enhanced with auto-className
+// ICON MAPPING - Single source of truth
+// ============================================================================
+// Maps exported icon names to their Lucide equivalents
+// Some icons have aliases (multiple exports pointing to same Lucide icon)
+
+const ICONS = {
+  // Core UI
+  AddIcon: Lucide.Plus,
+  BadgeCheckIcon: Lucide.BadgeCheck,
+  CheckCircleIcon: Lucide.CheckCircle2,
+  ClipboardIcon: Lucide.Clipboard,
+  CloseIcon: Lucide.X,
+  CoffeeIcon: Lucide.Coffee,
+  Columns3Icon: Lucide.Columns3,
+  Columns4Icon: Lucide.Columns4,
+  CountdownTimerIcon: Lucide.Hourglass,
+  Cross2Icon: Lucide.X,
+  DeleteIcon: Lucide.X,
+  DialogIcon: Lucide.AppWindowMac,
+  DropdownIcon: Lucide.ChevronDown,
+  EditIcon: Lucide.PencilLine,
+  ExclamationTriangleIcon: Lucide.TriangleAlert,
+  EyeOffIcon: Lucide.EyeOff,
+  EyeOnIcon: Lucide.Eye,
+  FastForwardIcon: Lucide.FastForward,
+  FullscreenIcon: Lucide.Fullscreen,
+  GridIcon: Lucide.Grid3x3,
+  HomeIcon: Lucide.House,
+  InfoCircledIcon: Lucide.Info,
+  LanguageIcon: Lucide.Languages,
+  ListChecksIcon: Lucide.ListChecks,
+  ListIcon: Lucide.List,
+  LockIcon: Lucide.Lock,
+  MagnifyingGlassIcon: Lucide.Search,
+  MenuIcon: Lucide.Menu,
+  MinimizeIcon: Lucide.Minimize,
+  MinusIcon: Lucide.Minus,
+  MoonIcon: Lucide.Moon,
+  PlusIcon: Lucide.Plus,
+  RadioIcon: Lucide.Radio,
+  RefreshIcon: Lucide.RefreshCcw,
+  ReloadIcon: Lucide.RotateCw,
+  SettingsIcon: Lucide.Cog,
+  ShieldCheckIcon: Lucide.ShieldCheck,
+  ShuffleIcon: Lucide.Shuffle,
+  SpeakerLoudIcon: Lucide.Volume2,
+  StarIcon: Lucide.Star,
+  StopIcon: Lucide.CircleStop,
+  SunIcon: Lucide.Sun,
+  TempIcon: Lucide.Thermometer,
+  TextAlignLeftIcon: Lucide.AlignLeft,
+  TextAlignTopIcon: Lucide.AlignStartVertical, // TODO: check this icon
+  TimerIcon: Lucide.Timer,
+  TimerResetIcon: Lucide.TimerReset,
+  TrashIcon: Lucide.Trash2,
+  UploadIcon: Lucide.Upload,
+  UserCircleIcon: Lucide.CircleUserRound,
+  UserIcon: Lucide.User,
+  UserLockIcon: Lucide.UserLock,
+  UserRoundCheckIcon: Lucide.UserRoundCheck,
+  UserShieldIcon: Lucide.ShieldUser,
+  VolumeIcon: Lucide.Volume2,
+  VolumeOffIcon: Lucide.VolumeOff,
+  WindowIcon: Lucide.AppWindowMac,
+  WineIcon: Lucide.Wine,
+  ZapIcon: Lucide.Zap,
+
+  // Navigation - Chevrons
+  ChevronDownIcon: Lucide.ChevronDown,
+  ChevronLeftIcon: Lucide.ChevronLeft,
+  ChevronRightIcon: Lucide.ChevronRight,
+  ChevronUpIcon: Lucide.ChevronUp,
+  DoubleArrowLeftIcon: Lucide.ChevronsLeft,
+  DoubleArrowRightIcon: Lucide.ChevronsRight,
+
+  // Panels
+  PanelBottomCloseIcon: Lucide.PanelBottomClose,
+  PanelBottomOpenIcon: Lucide.PanelBottomOpen,
+  PanelLeftCloseIcon: Lucide.PanelLeftClose,
+  PanelLeftOpenIcon: Lucide.PanelLeftOpen,
+} as const;
+
+// ============================================================================
+// AUTO-GENERATE WRAPPED ICONS
 // ============================================================================
 
-// Core Radix Icons - with semantic export names
-export const CountdownTimerIcon = createIconWrapper(_CountdownTimerIcon, 'CountdownTimerIcon');
-export const Cross2Icon = createIconWrapper(_Cross2Icon, 'Cross2Icon');
-export const DialogIcon = createIconWrapper(_AppWindowMacIcon, 'DialogIcon');
-export const ExclamationTriangleIcon = createIconWrapper(_ExclamationTriangleIcon, 'ExclamationTriangleIcon');
-export const ReloadIcon = createIconWrapper(_ReloadIcon, 'ReloadIcon');
-export const ShieldCheckIcon = createIconWrapper(_ShieldCheckIcon, 'ShieldCheckIcon');
-export const StarIcon = createIconWrapper(_StarIcon, 'StarIcon');
-export const TextAlignLeftIcon = createIconWrapper(_TextAlignLeftIcon, 'TextAlignLeftIcon');
-export const TextAlignTopIcon = createIconWrapper(_TextAlignTopIcon, 'TextAlignTopIcon');
-export const TimerIcon = createIconWrapper(_TimerIcon, 'TimerIcon');
+type IconKeys = keyof typeof ICONS;
+type WrappedIconMap = { [K in IconKeys]: ReturnType<typeof createIconWrapper> };
 
-// Navigation & Buttons
-export const DoubleArrowLeftIcon = createIconWrapper(_DoubleArrowLeftIcon, 'DoubleArrowLeftIcon');
-export const DoubleArrowRightIcon = createIconWrapper(_DoubleArrowRightIcon, 'DoubleArrowRightIcon');
-
-// Common Aliases - these get semantic names, not original names
-export const CloseIcon = createIconWrapper(_Cross2Icon, 'CloseIcon');
-export const DropdownIcon = createIconWrapper(_ChevronDownIcon, 'DropdownIcon');
-export const MenuIcon = createIconWrapper(_HamburgerMenuIcon, 'MenuIcon');
-
-// Lucide Icons - UI Elements
-export const CoffeeIcon = createIconWrapper(_CoffeeIcon, 'CoffeeIcon');
-export const LanguageIcon = createIconWrapper(_LanguagesIcon, 'LanguageIcon');
-export const MoonIcon = createIconWrapper(_MoonIcon, 'MoonIcon');
-export const SunIcon = createIconWrapper(_SunIcon, 'SunIcon');
-export const TempIcon = createIconWrapper(_TempIcon, 'TempIcon');
-export const WindowIcon = createIconWrapper(_WindowIcon, 'WindowIcon');
-export const WineIcon = createIconWrapper(_WineIcon, 'WineIcon');
-
-// Admin & Actions
-export const AddIcon = createIconWrapper(_PlusIcon);
-export const BadgeCheckIcon = createIconWrapper(_BadgeCheckIcon);
-export const CheckCircleIcon = createIconWrapper(_CheckCircle2Icon);
-export const ChevronLeftIcon = createIconWrapper(_ChevronLeftIcon);
-export const ChevronRightIcon = createIconWrapper(_ChevronRightIcon);
-export const ChevronUpIcon = createIconWrapper(_ChevronUpIcon);
-export const ChevronDownIcon = createIconWrapper(_ChevronDownIcon);
-export const ClipboardIcon = createIconWrapper(_ClipboardIcon);
-export const DeleteIcon = createIconWrapper(_DeleteIcon);
-export const EditIcon = createIconWrapper(_EditIcon);
-export const FastForwardIcon = createIconWrapper(_FastForwardIcon);
-export const GridIcon = createIconWrapper(_Grid3x2Icon);
-export const HomeIcon = createIconWrapper(_HomeIcon);
-export const InfoCircledIcon = createIconWrapper(_InfoCircledIcon);
-export const ListIcon = createIconWrapper(_ListIcon);
-export const ListChecksIcon = createIconWrapper(_ListChecksIcon);
-export const LockIcon = createIconWrapper(_LockIcon);
-export const MagnifyingGlassIcon = createIconWrapper(_MagnifyingGlassIcon);
-export const PanelBottomCloseIcon = createIconWrapper(_PanelBottomCloseIcon);
-export const PanelBottomOpenIcon = createIconWrapper(_PanelBottomOpenIcon);
-export const PanelLeftCloseIcon = createIconWrapper(_PanelLeftCloseIcon);
-export const PanelLeftOpenIcon = createIconWrapper(_PanelLeftOpenIcon);
-export const EyeOnIcon = createIconWrapper(_EyeIcon);
-export const EyeOffIcon = createIconWrapper(_EyeOffIcon);
-export const Columns3Icon = createIconWrapper(_Columns3Icon);
-export const Columns4Icon = createIconWrapper(_Columns4Icon);
-export const PlusIcon = createIconWrapper(_PlusIcon);
-export const RadioIcon = createIconWrapper(_RadioIcon);
-export const RefreshIcon = createIconWrapper(_RefreshCcwIcon);
-export const SettingsIcon = createIconWrapper(_SettingsIcon);
-export const SpeakerLoudIcon = createIconWrapper(_SpeakerLoudIcon);
-export const StopIcon = createIconWrapper(_StopIcon);
-export const TimerResetIcon = createIconWrapper(_TimerResetIcon);
-export const TrashIcon = createIconWrapper(_Trash2Icon);
-export const UserCircleIcon = createIconWrapper(_CircleUserRoundIcon);
-export const UserIcon = createIconWrapper(_UserIcon);
-export const UserLockIcon = createIconWrapper(_UserLockIcon);
-export const UserRoundCheckIcon = createIconWrapper(_UserRoundCheckIcon);
-export const UserShildIcon = createIconWrapper(_ShieldUserIcon);
-export const VolumeIcon = createIconWrapper(_Volume2Icon);
-export const VolumeOffIcon = createIconWrapper(_VolumeOffIcon);
-export const ZapIcon = createIconWrapper(_ZapIcon);
+// Wrap all icons automatically
+const wrappedIcons = Object.fromEntries(
+  Object.entries(ICONS).map(([name, icon]) => [name, createIconWrapper(icon, name)]),
+) as WrappedIconMap;
 
 // ============================================================================
-// AUTOMATIC ICON MAP & TYPES
+// NAMED EXPORTS (for tree-shaking + direct imports)
 // ============================================================================
 
-/**
- * Automatic icon map - no manual maintenance required!
- * This creates a map of icon names to their components automatically
- */
-export const ICON_MAP = {
+export const {
+  // Core UI
   AddIcon,
   BadgeCheckIcon,
   CheckCircleIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  ChevronUpIcon,
-  ChevronDownIcon,
   ClipboardIcon,
   CloseIcon,
   CoffeeIcon,
@@ -174,34 +118,32 @@ export const ICON_MAP = {
   Cross2Icon,
   DeleteIcon,
   DialogIcon,
-  DoubleArrowLeftIcon,
-  DoubleArrowRightIcon,
   DropdownIcon,
   EditIcon,
   ExclamationTriangleIcon,
-  EyeOnIcon,
   EyeOffIcon,
+  EyeOnIcon,
   FastForwardIcon,
+  FullscreenIcon,
   GridIcon,
   HomeIcon,
   InfoCircledIcon,
   LanguageIcon,
-  ListIcon,
   ListChecksIcon,
+  ListIcon,
   LockIcon,
   MagnifyingGlassIcon,
   MenuIcon,
+  MinimizeIcon,
+  MinusIcon,
   MoonIcon,
-  PanelBottomCloseIcon,
-  PanelBottomOpenIcon,
-  PanelLeftCloseIcon,
-  PanelLeftOpenIcon,
   PlusIcon,
   RadioIcon,
   RefreshIcon,
   ReloadIcon,
   SettingsIcon,
   ShieldCheckIcon,
+  ShuffleIcon,
   SpeakerLoudIcon,
   StarIcon,
   StopIcon,
@@ -212,46 +154,57 @@ export const ICON_MAP = {
   TimerIcon,
   TimerResetIcon,
   TrashIcon,
+  UploadIcon,
   UserCircleIcon,
   UserIcon,
   UserLockIcon,
   UserRoundCheckIcon,
-  UserShildIcon,
+  UserShieldIcon,
   VolumeIcon,
   VolumeOffIcon,
   WindowIcon,
   WineIcon,
   ZapIcon,
-} as const;
 
-/**
- * Icon name type - automatically generated from ICON_MAP keys
- */
-export type IconName = keyof typeof ICON_MAP;
+  // Navigation - Chevrons
+  ChevronDownIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ChevronUpIcon,
+  DoubleArrowLeftIcon,
+  DoubleArrowRightIcon,
 
-/**
- * Icon component type - automatically generated from ICON_MAP values
- */
-export type IconType = (typeof ICON_MAP)[IconName];
+  // Panels
+  PanelBottomCloseIcon,
+  PanelBottomOpenIcon,
+  PanelLeftCloseIcon,
+  PanelLeftOpenIcon,
+} = wrappedIcons;
 
-/**
- * Helper function to get an icon by name
- * Useful for dynamic icon rendering
- */
+// ============================================================================
+// ICON MAP & TYPES (for dynamic usage)
+// ============================================================================
+
+/** Auto-generated icon map from ICONS definition */
+export const ICON_MAP = wrappedIcons;
+
+/** Icon name type - all valid icon names */
+export type IconName = IconKeys;
+
+/** Icon component type */
+export type IconType = WrappedIconMap[IconName];
+
+/** Get an icon component by name (for dynamic rendering) */
 export function getIconByName(iconName: IconName): IconType {
   return ICON_MAP[iconName];
 }
 
-/**
- * Helper function to check if a string is a valid icon name
- */
+/** Check if a string is a valid icon name */
 export function isValidIconName(name: string): name is IconName {
   return name in ICON_MAP;
 }
 
-/**
- * Get all available icon names
- */
+/** Get all available icon names */
 export function getAvailableIconNames(): IconName[] {
   return Object.keys(ICON_MAP) as IconName[];
 }

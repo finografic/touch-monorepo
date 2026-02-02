@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 // import type { LanguageInfo } from '@workspace/config/i18n.config';
 import type { LanguageInfo } from '@workspace/i18n/types';
 
-import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { Box, Button, Callout, Flex, Text } from '@radix-ui/themes';
 import { useQueryClient } from '@tanstack/react-query';
 import { convertToLanguageOptions } from 'forms/SearchableLanguageInput/data/curated-languages';
@@ -27,6 +26,7 @@ import { AdminPageLayout, AdminSection } from '../..';
 import { LanguageDeleteDialog } from './components/LanguageDeleteDialog';
 import { LanguagesList, LanguagesListSelected, LaungaugeDataStats } from './components';
 import { convertSearchResultToLanguageInfo } from './languages.utils';
+import { InfoCircledIcon } from 'styles/icons';
 import { styles } from './AdminLanguagesPage.styles';
 
 // Interface for the search component results (matches LanguageOption from SearchableLanguageInput)
@@ -269,8 +269,8 @@ export const AdminLanguagesPage: React.FC = () => {
   return (
     <AdminPageLayout
       title={t('admin.pages.languages.title')}
-      subtitle={t('admin.pages.languages.subtitle', {defaultValue: ''})}
-      description={t('admin.pages.languages.description', {defaultValue: ''})}
+      subtitle={t('admin.pages.languages.subtitle', { defaultValue: '' })}
+      description={t('admin.pages.languages.description', { defaultValue: '' })}
       isLoading={isLoading}
       error={error?.message}
       styles={styles}

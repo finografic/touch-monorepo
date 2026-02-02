@@ -154,6 +154,7 @@ These rules are intentionally disabled to improve developer experience:
 2. **Prettier (`@ianvs/prettier-plugin-sort-imports`)** - Better at detecting errors and enforcing rules on save
 
 This hybrid approach gives you:
+
 - **Granular control** from ESLint's detailed grouping rules
 - **Better error detection** from Prettier's plugin
 - **Automatic enforcement** on save via Prettier
@@ -205,7 +206,7 @@ export default fino({
 });
 ```
 
-**Prettier Configuration** (`prettier.config.cjs`):
+**Prettier Configuration** (`prettier.config.mjs`):
 
 ```javascript
 module.exports = {
@@ -375,7 +376,7 @@ These rules conflict with `simple-import-sort` and cause it to stop working comp
 - [ ] `import/no-duplicates` rule is NOT present (conflicts with simple-import-sort)
 - [ ] `fino/import-dedupe` rule is NOT present (conflicts with simple-import-sort)
 - [ ] ESLint config structure matches the exact working version shown above
-- [ ] Prettier plugin is installed and configured in `prettier.config.cjs`
+- [ ] Prettier plugin is installed and configured in `prettier.config.mjs`
 - [ ] Both ESLint and Prettier import order configs are aligned
 - [ ] Project has been rebuilt after any config changes (`pnpm install` or full rebuild)
 
@@ -389,4 +390,3 @@ These rules conflict with `simple-import-sort` and cause it to stop working comp
 6. **Never modify ESLint config structure** - Keep plugins directly in `fino()` call
 7. **Keep ESLint and Prettier configs aligned** - Both should use the same import order groups
 8. **Use both systems together** - ESLint for rules, Prettier for enforcement on save
-
