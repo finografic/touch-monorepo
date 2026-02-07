@@ -180,31 +180,3 @@ export const {
   PanelLeftCloseIcon,
   PanelLeftOpenIcon,
 } = wrappedIcons;
-
-// ============================================================================
-// ICON MAP & TYPES (for dynamic usage)
-// ============================================================================
-
-/** Auto-generated icon map from ICONS definition */
-export const ICON_MAP = wrappedIcons;
-
-/** Icon name type - all valid icon names */
-export type IconName = IconKeys;
-
-/** Icon component type */
-export type IconType = WrappedIconMap[IconName];
-
-/** Get an icon component by name (for dynamic rendering) */
-export function getIconByName(iconName: IconName): IconType {
-  return ICON_MAP[iconName];
-}
-
-/** Check if a string is a valid icon name */
-export function isValidIconName(name: string): name is IconName {
-  return name in ICON_MAP;
-}
-
-/** Get all available icon names */
-export function getAvailableIconNames(): IconName[] {
-  return Object.keys(ICON_MAP) as IconName[];
-}

@@ -1,135 +1,67 @@
-# 🎨 Icon System
+# Icon System
 
-📅 Sep 28, 2025
+Lucide icons wrapped with a consistent `.icon` class and `data-icon-name` (Lucide kebab-case) for styling and targeting.
 
-Modern, organized icon system with automatic type generation and consistent styling.
+**Ref:** [lucide.dev/icons](https://lucide.dev/icons/)
 
-## 📁 Structure
+## Structure
 
 ```
 styles/icons/
-├── index.ts          # Main exports
-├── icons.ts          # Icon definitions and map
-├── icons.utils.ts    # Helper utilities
+├── index.ts          # Re-exports from icons.ts
+├── icons.ts          # Icon definitions (ICONS map → named exports)
+├── icons.utils.ts    # createIconWrapper helper
 ├── icons.css         # Icon styling
-└── README.md         # This file
+└── README.md
 ```
 
-## 🚀 Usage
-
-### Basic Icon Usage
+## Usage
 
 ```tsx
-import { HomeIcon, EditIcon, DeleteIcon } from 'styles/icons';
+import { ChevronDownIcon, HomeIcon, EditIcon } from 'styles/icons';
 
-// Direct usage
-<HomeIcon />
-<EditIcon className="text-blue-500" />
-<DeleteIcon size={24} />
+<ChevronDownIcon />
+<HomeIcon className="text-blue-500" />
+<EditIcon size={24} />
 ```
 
-### Dynamic Icon Usage
+### DOM output
 
-```tsx
-import { getIconByName, ICON_MAP, type IconName } from 'styles/icons';
+Each icon renders with:
 
-// Get icon by name
-const iconName: IconName = 'HomeIcon';
-const IconComponent = getIconByName(iconName);
-<IconComponent />
+- `class="icon icon-name--chevron-down"` (or the icon’s kebab name)
+- `data-icon-name="chevron-down"` (Lucide-style kebab-case)
 
-// Render icon from string
-function DynamicIcon({ name }: { name: IconName }) {
-  const Icon = ICON_MAP[name];
-  return <Icon />;
-}
-```
+Use these for CSS targeting, e.g. `.icon[data-icon-name="chevron-down"]`.
 
-### Button Integration
+## Adding new icons
 
-```tsx
-import { Button } from 'components/Button';
-import { SaveIcon, type IconType } from 'styles/icons';
+1. Add the Lucide icon to the `ICONS` map in `icons.ts`:
 
-// With specific icon
-<Button icon={<SaveIcon />}>Save</Button>
-
-// With icon type
-const icon: IconType = SaveIcon;
-<Button icon={<icon />}>Save</Button>
-```
-
-## 🔧 Types
-
-### Available Types
-
-- `IconName` - Union of all available icon names
-- `IconType` - Type of icon components
-- `ICON_MAP` - Map of icon names to components
-
-### Type Safety
-
-```tsx
-// ✅ Type-safe icon names
-const validIcon: IconName = 'HomeIcon';
-
-// ❌ TypeScript error
-const invalidIcon: IconName = 'NonExistentIcon';
-```
-
-## ➕ Adding New Icons
-
-1. **Import the icon** in `icons.ts`:
-
-```tsx
-import { NewIcon as _NewIcon } from 'lucide-react';
-```
-
-2. **Create wrapped export**:
-
-```tsx
-export const NewIcon = createIconWrapper(_NewIcon);
-```
-
-3. **Add to ICON_MAP**:
-
-```tsx
-export const ICON_MAP = {
-  // ... existing icons
-  NewIcon,
+```ts
+// icons.ts
+const ICONS = {
+  // ...
+  NewIcon: Lucide.SomeLucideIcon,
 } as const;
 ```
 
-That's it! Types are automatically generated. ✨
+2. Add the corresponding destructured export in the same file (under the `wrappedIcons` destructuring block).
 
-## 🎨 Styling
+That’s it. The wrapper handles class names and `data-icon-name` automatically.
 
-All icons automatically get the `.icon` class and inherit styling from `icons.css`:
+## Styling
 
-- Consistent sizing (1.25rem default)
-- Smooth transitions
+All icons get the `.icon` class. See `icons.css` for:
+
+- Default size (2rem)
 - Color inheritance (`currentColor`)
 - Size variants (`.icon-sm`, `.icon-md`, `.icon-lg`, `.icon-xl`)
 - Interactive states for buttons
 
-## 🔍 Available Icons
+## Benefits
 
-Current icon count: **${Object.keys(ICON_MAP).length}** icons
-
-### Categories
-
-- **Core UI**: Close, Menu, Dropdown, etc.
-- **Navigation**: Home, Back, Forward, etc.
-- **Actions**: Edit, Delete, Add, Save, etc.
-- **Status**: Success, Warning, Error, Info, etc.
-- **Theme**: Sun, Moon, etc.
-- **Admin**: User, Lock, Shield, etc.
-
-## 🚀 Benefits
-
-- ✅ **Zero maintenance** - Types auto-generated
-- ✅ **Consistent styling** - All icons use same CSS
-- ✅ **Type safety** - Full TypeScript support
-- ✅ **Tree shaking** - Only import what you use
-- ✅ **Dynamic usage** - Runtime icon selection
-- ✅ **Easy migration** - Drop-in replacement for react-icons
+- Consistent styling and targeting via `.icon` and `data-icon-name`
+- Tree-shaking: only import what you use
+- Single source of truth for icon names in `icons.ts`
+- Lucide kebab-case metadata for easy cross-reference with lucide.dev
