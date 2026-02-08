@@ -12,8 +12,9 @@ import {
 import { useAppConfig } from './AppConfigContext';
 
 const getFullLocaleFromSimpleCode = (code: string): RegionLocale =>
-  LOCALE_MAPPING[code as keyof typeof LOCALE_MAPPING] ||
-  (code as RegionLocale);
+LOCALE_MAPPING[code as keyof typeof LOCALE_MAPPING] ||
+(code as RegionLocale);
+
 
 /** i18n locks supportedLngs at init; new languages require a reload to become selectable */
 const hasNewLanguages = (
@@ -60,11 +61,10 @@ export const AppLanguageSync = () => {
     );
 
     if (hasNewLanguages(supportedLanguageCodes, i18n.options.supportedLngs)) {
-      // Persist current language before reload so it survives
-      const current = i18n.language as string;
-      const full = getFullLocaleFromSimpleCode(current);
-      if (supportedLanguageCodes.includes(full as RegionLocale)) {
-        localStorage.setItem(CURRENT_LANGUAGE_STORAGE_KEY, full);
+      const currentLanguage = i18n.language as string;
+      const localeCode = getFullLocaleFromSimpleCode(currentLanguage);
+      if (supportedLanguageCodes.includes(localeCode as RegionLocale)) {
+        localStorage.setItem(CURRENT_LANGUAGE_STORAGE_KEY, localeCode);
       }
     }
   }, [
@@ -79,10 +79,9 @@ export const AppLanguageSync = () => {
   /**
    * 2️⃣ Sync context when language changes; persist current language for reload survival
    */
-  useEffect(() => {
+  useEffect(function syncContextWhenLanguage() {
     const applyLanguage = (lng: string) => {
       const full = getFullLocaleFromSimpleCode(lng);
-      console.log('%c __LANG__ applying', 'color:lime', full);
       setCurrentLanguage(full);
       localStorage.setItem(CURRENT_LANGUAGE_STORAGE_KEY, full);
     };

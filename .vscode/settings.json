@@ -16,6 +16,12 @@
     "preferences.includePackageJsonAutoImports": "off",
     "suggest.autoImports": false
   },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
@@ -160,7 +166,7 @@
 
   // Only show diffs when explicitly requested
   "scm.diffDecorations": "none", // Don't show inline diff decorations
-  "scm.diffDecorationsGutterVisibility": "never", // Never show gutter decorations
+  "scm.diffDecorationsGutterVisibility": "hover", // Never show gutter decorations
 
   // Disable automatic diff view on file open
   "git.openRepositoryInParentFolders": "never",

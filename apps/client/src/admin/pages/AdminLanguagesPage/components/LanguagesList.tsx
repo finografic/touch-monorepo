@@ -44,8 +44,6 @@ export const LanguagesList: React.FC<LanguagesListProps> = ({ languages, onDelet
               <Flex align="stretch" gap="3">
                 {language.isDefault && (
                   <Flex align="center" className="col col-default">
-                    {/* Default Badge */}
-
                     <Text
                       size="2"
                       color="green"
@@ -62,22 +60,20 @@ export const LanguagesList: React.FC<LanguagesListProps> = ({ languages, onDelet
                   </Flex>
                 )}
 
-                {/* Active Toggle */}
                 <Flex className="col col-active">
                   <Switch
                     checked={language.isActive ?? true}
                     color="green"
                     disabled={language.isDefault || isLoading}
+                    size="2"
                     onCheckedChange={() => {
                       if (language.id && !language.isDefault) {
                         handleToggleActive(language.id, language.isActive ?? true);
                       }
                     }}
-                    size="2"
                   />
                 </Flex>
 
-                {/* Delete Button */}
                 <Flex align="center" className="col col-delete">
                   <IconButton
                     className={clsx('button-delete', {
@@ -87,6 +83,7 @@ export const LanguagesList: React.FC<LanguagesListProps> = ({ languages, onDelet
                     color="red"
                     onClick={() => onDeleteLanguage(language.code)}
                     disabled={!isDeletable}
+                    size="2"
                     title={
                       !isDeletable
                         ? language.isDefault
@@ -94,7 +91,6 @@ export const LanguagesList: React.FC<LanguagesListProps> = ({ languages, onDelet
                           : 'Cannot delete when only one language remains'
                         : 'Delete language'
                     }
-                    size="2"
                   >
                     {isDeletable ? <TrashIcon /> : <LockIcon />}
                   </IconButton>

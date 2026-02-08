@@ -35,7 +35,7 @@ export const styles = css`
 
     box-sizing: content-box;
     padding: 0 3.5rem 0 3rem !important;
-    margin-top: 1.25rem;
+    margin-top: 24px;
     margin-bottom: 0.75rem;
 
     ${min.sm} {
@@ -87,6 +87,7 @@ export const styles = css`
       display: flex;
       align-items: center;
       justify-content: center;
+      height: 48px;
 
       :hover {
         color: ${colors.text};

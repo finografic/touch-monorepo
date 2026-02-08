@@ -1,7 +1,6 @@
 import { css } from '@emotion/react';
 
-import { colors, layout, min, spacing } from 'styles';
-import { BREAKPOINTS } from 'styles/viewport/viewport.breakpoints';
+import { colors, layout, spacing } from 'styles';
 
 export const styles = css`
   &.admin-page-container {
