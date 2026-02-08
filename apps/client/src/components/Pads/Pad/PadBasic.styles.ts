@@ -37,15 +37,18 @@ export const stylesPad = css`
     background-color: ${colors.infoXLight25};
   }
 
-  &:hover {
-    color: ${colors.infoDark};
-    border-color: ${colors.infoDark};
-    background-color: ${colors.infoLight50};
-    transform: scale(${button.transform.padHoverScale});
-    &.checked {
+  /* Hover only on pointer devices; touch screens get stuck :hover after tap */
+  @media (hover: hover) {
+    &:hover {
       color: ${colors.infoDark};
       border-color: ${colors.infoDark};
       background-color: ${colors.infoLight50};
+      transform: scale(${button.transform.padHoverScale});
+      &.checked {
+        color: ${colors.infoDark};
+        border-color: ${colors.infoDark};
+        background-color: ${colors.infoLight50};
+      }
     }
   }
 

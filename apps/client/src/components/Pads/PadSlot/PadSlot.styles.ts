@@ -19,8 +19,9 @@ export const styles = css`
       background-color 150ms ease,
       transform 150ms ease;
 
-    &:not(:disabled) {
-      &:hover {
+    /* Hover only on pointer devices; touch screens get stuck :hover after tap */
+    @media (hover: hover) {
+      &:not(:disabled):hover {
         transform: scale(${button.transform.padHoverScale});
       }
     }
@@ -32,11 +33,18 @@ export const styles = css`
 
     /* ====================================================================== */
 
+    /* item-type-A/B/C: hover only on pointer devices; touch screens get stuck :hover after tap */
     &.item-type-A {
       color: ${colors.defaultXLight};
       border-color: ${colors.defaultXLight};
       background-color: transparent;
-      &:hover,
+      @media (hover: hover) {
+        &:hover {
+          color: ${colors.defaultDark};
+          border-color: ${colors.defaultDark};
+          background-color: ${colors.defaultXLight50};
+        }
+      }
       &.checked,
       &.selected,
       &.selected.checking-blocked {
@@ -53,7 +61,13 @@ export const styles = css`
       color: ${colors.infoLight};
       border-color: ${colors.infoLight};
       background-color: transparent;
-      /* &:hover, */
+      @media (hover: hover) {
+        &:hover {
+          color: ${colors.infoXDark};
+          border-color: ${colors.infoXDark};
+          background-color: ${colors.infoLight50};
+        }
+      }
       &.checked,
       &.selected,
       &.selected.checking-blocked {
@@ -61,16 +75,22 @@ export const styles = css`
         border-color: ${colors.infoXDark};
         background-color: ${colors.infoLight50};
       }
-      /* &:active {
+      &:active {
         background-color: ${colors.infoLight75};
-      } */
+      }
     }
 
     &.item-type-C {
       color: ${colors.dangerLight};
       border-color: ${colors.dangerLight};
       background-color: transparent;
-      &:hover,
+      @media (hover: hover) {
+        &:hover {
+          color: ${colors.dangerXDark};
+          border-color: ${colors.dangerXDark};
+          background-color: ${colors.dangerLight50};
+        }
+      }
       &.checked,
       &.selected,
       &.selected.checking-blocked {
@@ -122,16 +142,20 @@ export const styles = css`
       color: ${colors.danger};
       border: ${layout.borderWidth} solid ${colors.danger};
       background-color: ${colors.danger25};
-      &:hover {
-        color: ${colors.danger};
-        border-color: ${colors.danger};
-        background-color: ${colors.danger25};
-        transform: none;
+      @media (hover: hover) {
+        &:hover {
+          color: ${colors.danger};
+          border-color: ${colors.danger};
+          background-color: ${colors.danger25};
+          transform: none;
+        }
       }
       &:disabled {
-        &:hover {
-          border-color: ${colors.greyDark};
-          background-color: ${colors.danger25};
+        @media (hover: hover) {
+          &:hover {
+            border-color: ${colors.greyDark};
+            background-color: ${colors.danger25};
+          }
         }
       }
     }
