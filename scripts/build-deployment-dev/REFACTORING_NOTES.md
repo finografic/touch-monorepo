@@ -14,6 +14,7 @@ The primary objective was to refactor the monolithic `build-deployment.ts` file 
 ## 📊 Original Structure Problems
 
 The original monolithic file contained:
+
 - All type definitions inline
 - Mixed utility functions
 - Hardcoded constants scattered throughout
@@ -43,6 +44,7 @@ scripts/src/build-deployment/
 ```
 
 **Benefits achieved:**
+
 - ✅ **Maintainable**: Each module has single responsibility
 - ✅ **Debuggable**: Issues isolated to specific modules
 - ✅ **Testable**: Individual functions can be unit tested
@@ -57,6 +59,7 @@ scripts/src/build-deployment/
 **Problem**: The modular approach revealed that manually specifying deployment dependencies was error-prone and incomplete.
 
 **Specific Issues**:
+
 - Missing `npm-run-all` → `run-p: command not found`
 - Missing `@dotenvx/dotenvx` → Module resolution errors
 - Missing `drizzle-zod` → Import failures
@@ -69,6 +72,7 @@ scripts/src/build-deployment/
 **Problem**: The deployment environment expected ES modules but generated scripts used CommonJS syntax.
 
 **Specific Issues**:
+
 - `require()` calls in ES module context
 - Missing `__dirname` in ES modules
 - Template literal syntax errors in generated scripts
@@ -80,6 +84,7 @@ scripts/src/build-deployment/
 **Problem**: Different behavior between development and production environments.
 
 **Specific Issues**:
+
 - Client serving logic (static files vs. missing `server.js`)
 - Logging configuration (colorful vs. flat output)
 - File path resolution differences
@@ -138,12 +143,14 @@ The modular approach introduced several layers of complexity:
 ### **Build System Integration**
 
 The deployment system interacts with multiple build tools:
+
 - Vite (client building)
 - tsup (server building)
 - npm (dependency management)
 - Node.js (runtime execution)
 
 Each tool has different expectations for:
+
 - File paths and resolution
 - Module systems (ES/CommonJS)
 - Environment variables
@@ -152,6 +159,7 @@ Each tool has different expectations for:
 ### **State Management**
 
 The monolithic approach had implicit state sharing, while the modular approach required explicit:
+
 - Configuration passing
 - Error propagation
 - Cleanup coordination
@@ -274,6 +282,7 @@ class DeploymentBuilder {
 ### **Phase 2: Targeted Improvements**
 
 Focus on specific pain points without full refactoring:
+
 - Extract utility functions that are genuinely reusable
 - Improve error messages and debugging
 - Add comprehensive testing
@@ -282,6 +291,7 @@ Focus on specific pain points without full refactoring:
 ### **Phase 3: Gradual Migration**
 
 When ready to revisit:
+
 - Start with **Approach 1** (Incremental Modularization)
 - Focus on **configuration design** first
 - Implement **comprehensive testing** before any refactoring
@@ -341,6 +351,7 @@ class DeploymentError extends Error {
 ## 🎯 Conclusion
 
 The modular refactoring was architecturally superior but practically challenging due to:
+
 - Complex build tool integration
 - Hidden state dependencies
 - Environment-specific behavior
@@ -349,6 +360,7 @@ The modular refactoring was architecturally superior but practically challenging
 The **pragmatic decision** to revert to the working solution was correct. The modular version serves as valuable reference for future improvements.
 
 **Future refactoring should be:**
+
 - ✅ **Incremental** rather than revolutionary
 - ✅ **Well-tested** with comprehensive coverage
 - ✅ **Environment-validated** across dev/production

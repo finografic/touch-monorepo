@@ -12,9 +12,7 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "preferences.includePackageJsonAutoImports": "off",
-    "suggest.autoImports": false
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -117,9 +115,7 @@
   "i18n-ally.pathMatcher": "{domain}/{locale}.json",
   // Enable full nested key support
   "i18n-ally.enabledParsers": ["json"],
-  // Enable annotation in code (shows translations inline)
-  "i18n-ally.annotation.inPlace": true,
-  "i18n-ally.annotation.maxLength": 30,
+
   "tailwindCSS.experimental.classRegex": [
     ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
     ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
@@ -134,25 +130,14 @@
   "javascript.validate.enable": true,
   "typescript.validate.enable": true,
 
-  // Auto Import Extension Settings
-  "auto-import.imports": {
-    "enabled": true,
-    "sortOnSave": false, // Let ESLint handle sorting
-    "removeUnusedImports": false, // Let ESLint handle this
-    "addMissingImports": true,
-    "organizeImports": false // Disable to prevent conflicts with ESLint
-  },
-
   // TypeScript Auto Import Settings (Built-in) - duplicates removed since already configured above
   "typescript.suggest.includeAutomaticOptionalChainCompletions": false,
 
   // JavaScript Auto Import Settings
   "javascript.suggest.autoImports": false,
-  "javascript.preferences.includePackageJsonAutoImports": "off",
 
   // Additional import-related settings
   "typescript.suggest.includeCompletionsForImportStatements": true,
-  "typescript.suggest.includeCompletionsWithSnippetText": true,
 
   // ESLint will handle import sorting and organization
 
@@ -175,10 +160,6 @@
   "scm.alwaysShowActions": false,
   "scm.alwaysShowRepositories": false,
 
-  // Disable Cursor's automatic code review panels
-  "cursor.chat.showDiff": false, // Don't auto-show diffs in chat
-  "cursor.chat.autoReview": false, // Don't auto-create review panels
-
   // Git diff settings - only show when explicitly requested
   "diffEditor.ignoreTrimWhitespace": true,
   "diffEditor.renderSideBySide": false,
@@ -195,8 +176,6 @@
   // Prevent Problems panel from auto-opening when issues are detected
   "problems.showCurrentInStatus": false, // Don't show problem count in status bar
   "problems.autoReveal": false, // Don't auto-reveal problems in editor
-  "problems.showNearby": false, // Don't show nearby problems
-
   // Disable automatic panel opening
   "workbench.panel.opensMaximized": "never", // Never auto-maximize panels
   "workbench.panel.defaultLocation": "bottom", // Keep it at bottom but don't auto-open
@@ -216,11 +195,7 @@
   "typescript.disableAutomaticTypeAcquisition": false, // Keep this enabled but control panel
 
   // ESLint settings - prevent auto-opening
-  "eslint.alwaysShowStatus": false, // Don't always show ESLint status
   "eslint.run": "onType", // Only run on type, not on save (reduces panel triggers)
-
-  // General panel behavior
-  "workbench.panel.alwaysShowTabs": false, // Keep activity bar visible
 
   // SQLTools extension settings
   "sqltools.useNodeRuntime": false,
