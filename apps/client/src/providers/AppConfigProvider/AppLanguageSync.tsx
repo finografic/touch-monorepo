@@ -4,14 +4,28 @@ import type { RegionLocale } from '@workspace/i18n';
 
 import { useGetSupportedLanguages } from 'queries/supported-languages';
 import type { LanguageInfo } from 'types/models/supported-language.model';
-import { LOCALE_MAPPING } from 'config/app/i18n.config';
+import {
+  CURRENT_LANGUAGE_STORAGE_KEY,
+  LOCALE_MAPPING,
+  SUPPORTED_LANGUAGES_STORAGE_KEY,
+} from 'config/app/i18n.config';
 import { useAppConfig } from './AppConfigContext';
-
-const STORAGE_KEY = 'supported-languages';
 
 const getFullLocaleFromSimpleCode = (code: string): RegionLocale =>
   LOCALE_MAPPING[code as keyof typeof LOCALE_MAPPING] ||
   (code as RegionLocale);
+
+/** i18n locks supportedLngs at init; new languages require a reload to become selectable */
+const hasNewLanguages = (
+  fromApi: RegionLocale[],
+  i18nSupportedLngs: false | readonly string[],
+): boolean => {
+  if (!i18nSupportedLngs || !Array.isArray(i18nSupportedLngs)) return false;
+  const known = new Set(
+    (i18nSupportedLngs as string[]).filter((l) => l !== 'cimode'),
+  );
+  return fromApi.some((code) => !known.has(code));
+};
 
 export const AppLanguageSync = () => {
   const { i18n } = useTranslation();
@@ -32,6 +46,7 @@ export const AppLanguageSync = () => {
 
   /**
    * 1️⃣ Persist supported languages for NEXT BOOT
+   * If API returned new languages not in i18n's init-time supportedLngs, reload so they become selectable
    */
   useEffect(function persistSupportedLanguages() {
     if (!languagesData || supportedLanguageCodes.length === 0) return;
@@ -39,20 +54,37 @@ export const AppLanguageSync = () => {
     setSupportedLanguages(supportedLanguageCodes);
     setSupportedLanguagesFull(languagesData);
 
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(supportedLanguageCodes));
-  }, [languagesData, supportedLanguageCodes, setSupportedLanguages, setSupportedLanguagesFull]);
+    localStorage.setItem(
+      SUPPORTED_LANGUAGES_STORAGE_KEY,
+      JSON.stringify(supportedLanguageCodes),
+    );
+
+    if (hasNewLanguages(supportedLanguageCodes, i18n.options.supportedLngs)) {
+      // Persist current language before reload so it survives
+      const current = i18n.language as string;
+      const full = getFullLocaleFromSimpleCode(current);
+      if (supportedLanguageCodes.includes(full as RegionLocale)) {
+        localStorage.setItem(CURRENT_LANGUAGE_STORAGE_KEY, full);
+      }
+    }
+  }, [
+    languagesData,
+    supportedLanguageCodes,
+    setSupportedLanguages,
+    setSupportedLanguagesFull,
+    i18n.options.supportedLngs,
+    i18n.language,
+  ]);
 
   /**
-   * 2️⃣ Ensure resources reload AFTER language switch
+   * 2️⃣ Sync context when language changes; persist current language for reload survival
    */
   useEffect(() => {
-    const applyLanguage = async (lng: string) => {
+    const applyLanguage = (lng: string) => {
       const full = getFullLocaleFromSimpleCode(lng);
       console.log('%c __LANG__ applying', 'color:lime', full);
-
-      // Force backend reload for current language
-      await i18n.reloadResources(full);
       setCurrentLanguage(full);
+      localStorage.setItem(CURRENT_LANGUAGE_STORAGE_KEY, full);
     };
 
     applyLanguage(i18n.language);

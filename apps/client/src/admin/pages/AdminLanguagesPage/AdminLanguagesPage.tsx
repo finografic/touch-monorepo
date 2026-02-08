@@ -1,9 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Col, Row } from 'react-grid-system'; // DEPRECATED: consider using react-grid-layout
 import { useTranslation } from 'react-i18next';
-// import type { LanguageInfo } from '@workspace/config/i18n.config';
-// import type { LanguageInfo as LanguageInfo_2 } from '@workspace/i18n/types';
-// import type { LanguageInfo } from '@workspace/config/i18n.config';
 import type { LanguageInfo } from '@workspace/i18n/types';
 
 import { Box, Button, Callout, Flex, Text } from '@radix-ui/themes';
@@ -74,7 +71,10 @@ export const AdminLanguagesPage: React.FC = () => {
         });
         setTranslatingLanguageCode(null);
         queryClient.invalidateQueries({ queryKey: supportedLanguagesKeys.lists() });
-        setTimeout(() => setMessage(null), 8000);
+        setTimeout(() => {
+          setMessage(null);
+          window.location.reload();
+        }, 8000);
       } else if (status === 'failed') {
         setMessage({
           type: 'error',
@@ -232,40 +232,6 @@ export const AdminLanguagesPage: React.FC = () => {
     }
   };
 
-  /*
-  if (isLoading) {
-    return (
-      <AdminPageLayout
-        title={t('admin.pages.languages.title')}
-        subtitle={t('admin.pages.languages.subtitle', {defaultValue: ''})}
-        description={t('admin.pages.languages.description', {defaultValue: ''})}
-        isLoading={true}
-        styles={styles}
-      >
-        <AdminSection>
-          <Text>Loading supported languages...</Text>
-        </AdminSection>
-      </AdminPageLayout>
-    );
-  }
-
-  if (error) {
-    return (
-      <AdminPageLayout
-        title={t('admin.pages.languages.title')}
-        subtitle={t('admin.pages.languages.subtitle', {defaultValue: ''})}
-        description={t('admin.pages.languages.description', {defaultValue: ''})}
-        error={error.message}
-        styles={styles}
-      >
-        <AdminSection>
-          <Text color="red">Error loading supported languages: {error.message}</Text>
-        </AdminSection>
-      </AdminPageLayout>
-    );
-  }
-  */
-
   return (
     <AdminPageLayout
       title={t('admin.pages.languages.title')}
@@ -292,7 +258,7 @@ export const AdminLanguagesPage: React.FC = () => {
             <SectionHeader title={`Configured Languages (${languages.length})`} />
           </Flex>
           <LanguagesList
-            languages={languages}
+            languages={languages as LanguageInfo[]}
             onDeleteLanguage={handleDeleteLanguage}
             canDelete={languages.length > 1}
           />

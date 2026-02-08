@@ -9,6 +9,9 @@ export const FORCE_DEFAULT_LANGUAGE: RegionLocale = 'es-ES' as const; // Updated
 export const DEFAULT_LANGUAGE: RegionLocale = 'es-ES' as const; // Updated to locale format
 export const DEFAULT_SUPPORTED_LANGUAGES: RegionLocale[] = ['es-ES', 'en-GB', 'ca-ES'] as const;
 
+export const SUPPORTED_LANGUAGES_STORAGE_KEY = 'supported-languages';
+export const CURRENT_LANGUAGE_STORAGE_KEY = 'current-language';
+
 export const LOCALE_MAPPING: Record<string, RegionLocale> = {
   es: 'es-ES',
   en: 'en-GB',

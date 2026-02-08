@@ -6,20 +6,27 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import HttpBackend from 'i18next-http-backend';
 
 import {
+  CURRENT_LANGUAGE_STORAGE_KEY,
   DEFAULT_LANGUAGE,
   DEFAULT_SUPPORTED_LANGUAGES,
   ENABLE_BROWSER_LANGUAGE_DETECTION,
   I18N_NAMESPACE,
+  SUPPORTED_LANGUAGES_STORAGE_KEY,
 } from 'config/app/i18n.config';
 import type { RegionLocale } from '@workspace/i18n';
 
-const STORAGE_KEY = 'supported-languages';
-
-const stored = localStorage.getItem(STORAGE_KEY);
+const stored = localStorage.getItem(SUPPORTED_LANGUAGES_STORAGE_KEY);
 
 export const SUPPORTED_LANGUAGES: RegionLocale[] = stored
   ? (JSON.parse(stored) as RegionLocale[])
   : DEFAULT_SUPPORTED_LANGUAGES;
+
+const storedCurrent = localStorage.getItem(CURRENT_LANGUAGE_STORAGE_KEY);
+const initialLng: RegionLocale =
+  storedCurrent &&
+  SUPPORTED_LANGUAGES.includes(storedCurrent as RegionLocale)
+    ? (storedCurrent as RegionLocale)
+    : DEFAULT_LANGUAGE;
 
 i18n
   .use(HttpBackend)
@@ -56,6 +63,8 @@ i18n
      */
     supportedLngs: SUPPORTED_LANGUAGES,
     nonExplicitSupportedLngs: false,
+    // Only load current language; fallback (es-ES) already in memory from init
+    load: 'currentOnly',
     detection: {
       order: ['querystring', 'localStorage', 'sessionStorage', 'navigator'],
       lookupQuerystring: 'lng',
@@ -76,7 +85,7 @@ i18n
       },
     },
 
-    lng: ENABLE_BROWSER_LANGUAGE_DETECTION ? undefined : DEFAULT_LANGUAGE,
+    lng: ENABLE_BROWSER_LANGUAGE_DETECTION ? undefined : initialLng,
     fallbackLng: DEFAULT_LANGUAGE,
 
     /**

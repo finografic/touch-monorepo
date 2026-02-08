@@ -116,6 +116,8 @@ The failure was **bootstrap timing**, not loading.
 * Fetch supported languages from DB
 * Update AppConfig context
 * **Persist language list to localStorage**
+* **If API returns new languages not in i18n's init-time supportedLngs → reload** (so they become selectable without manual refresh)
+* **Persist current language to localStorage** (so refresh preserves selection)
 
 This is *preparation*, not activation.
 
@@ -126,8 +128,9 @@ This is *preparation*, not activation.
 At startup:
 
 * Read supported languages from localStorage
+* Read current language from localStorage (if valid)
 * Fall back to defaults if missing
-* Initialize i18next with the full list
+* Initialize i18next with the full list and initial language
 
 This satisfies i18next’s init-time invariant.
 
