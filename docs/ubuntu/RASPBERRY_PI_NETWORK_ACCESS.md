@@ -47,7 +47,7 @@ Most routers have a web interface (usually `192.168.1.1` or `192.168.0.1`) that 
 
 - Client dev server: port 3000
 - API server: port 4040
-- Access via: `http://<PI_IP>:3000` (client proxies `/api` to 4040)
+- Access via: `http://<PI_IP>:3000` (client proxies `/atouch` to 4040)
 
 ### Prerequisites
 
@@ -81,7 +81,7 @@ Once you have the IP address (let's say it's `192.168.1.31`):
 
 - **Client (React App)**: `http://192.168.1.31:3000`
 - **API Server**: `http://192.168.1.31:4040`
-- **API Endpoint**: `http://192.168.1.31:4040/api`
+- **API Endpoint**: `http://192.168.1.31:4040/atouch`
 
 ### Configuration Changes Needed
 
@@ -135,7 +135,7 @@ From your Mac terminal:
 
 ```bash
 # Test API server
-curl http://192.168.1.31:4040/api/health-check
+curl http://192.168.1.31:4040/atouch/health-check
 
 # Test client (should return HTML)
 curl http://192.168.1.31:3000
@@ -166,19 +166,19 @@ sudo nano /etc/samba/smb.conf
 Add this to the end of `/etc/samba/smb.conf`:
 
 ```ini
-[pi-home]
+[touch-home]
    comment = Raspberry Pi Home Directory
-   path = /home/pi
+   path = /home/touch
    browseable = yes
    writable = yes
    guest ok = no
-   valid users = pi
+   valid users = touch
    create mask = 0644
    directory mask = 0755
 
 [shared]
    comment = Shared Folder
-   path = /home/pi/shared
+   path = /home/touch/shared
    browseable = yes
    writable = yes
    guest ok = yes
@@ -189,11 +189,11 @@ Add this to the end of `/etc/samba/smb.conf`:
 ### Set Samba Password
 
 ```bash
-# Set password for user 'pi' (or your username)
-sudo smbpasswd -a pi
+# Set password for user 'touch' (or your username)
+sudo smbpasswd -a touch
 
 # Enable the user
-sudo smbpasswd -e pi
+sudo smbpasswd -e touch
 ```
 
 ### Restart Samba Service
@@ -207,8 +207,8 @@ sudo systemctl enable smbd  # Enable on boot
 
 1. **Open Finder**
 2. **Press `Cmd + K`** (or Go → Connect to Server)
-3. **Enter**: `smb://192.168.1.31` (replace with your Pi's IP)
-4. **Authenticate** with username `pi` and your Samba password
+3. **Enter**: `smb://192.168.1.31`
+4. **Authenticate** with username `touch` and password `1234` (or your Samba password)
 5. **Select the share** you want to access
 
 ### Alternative: Connect via Terminal
@@ -234,7 +234,28 @@ sudo umount ~/touch
 
 ---
 
-## 4. SSH Access (Bonus)
+## 4. Deploy to Pi (Script)
+
+From the monorepo root:
+
+```bash
+./scripts/deploy-to-pi.sh
+```
+
+This script will:
+
+1. Build Linux deployment zip (if not provided)
+2. **SSH**: `killall node` — stop Node processes
+3. **SSH**: `rm -rf` — clear `/home/touch/Desktop/APP/*` (including dot files, node_modules)
+4. **rsync**: Copy zip to Pi
+5. **SSH**: Unzip
+6. **SSH**: `npm install`
+
+**Samba vs SSH**: Samba is file sharing only — it cannot execute commands. You **must use SSH** for `killall` and `rm -rf`. For passwordless deployment: `ssh-copy-id touch@192.168.1.31`
+
+---
+
+## 5. SSH Access (Bonus)
 
 If you want SSH access (useful for remote management):
 
@@ -244,9 +265,8 @@ sudo systemctl enable ssh
 sudo systemctl start ssh
 
 # From Mac: Connect via SSH
-ssh pi@192.168.1.31
-# Or with your username
-ssh your-username@192.168.1.31
+ssh touch@192.168.1.31
+# Password: 1234
 ```
 
 ---
@@ -276,8 +296,8 @@ ssh your-username@192.168.1.31
 4. **Test from Pi itself**:
 
    ```bash
-   curl http://localhost:4040/api/health-check
-   curl http://$(hostname -I | awk '{print $1}'):4040/api/health-check
+   curl http://localhost:4040/atouch/health-check
+   curl http://$(hostname -I | awk '{print $1}'):4040/atouch/health-check
    ```
 
 ### Can't access Samba share
@@ -297,7 +317,7 @@ ssh your-username@192.168.1.31
 3. **Verify share permissions**:
 
    ```bash
-   ls -la /home/pi/shared
+   ls -la /home/touch/shared
    ```
 
 4. **Check Samba logs**:
@@ -326,9 +346,9 @@ sudo kill -9 <PID>
 | Service | Protocol | Port | URL Format |
 |---------|----------|------|------------|
 | Client (Vite) | HTTP | 3000 | `http://<PI_IP>:3000` |
-| API Server | HTTP | 4040 | `http://<PI_IP>:4040/api` |
+| API Server | HTTP | 4040 | `http://192.168.1.31:4040/api` |
 | Samba | SMB | 445 | `smb://<PI_IP>` |
-| SSH | SSH | 22 | `ssh pi@<PI_IP>` |
+| SSH | SSH | 22 | `ssh touch@192.168.1.31` |
 
 ---
 

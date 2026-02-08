@@ -17,6 +17,7 @@
     "dev": "run-p dev.turbo db.studio",
     "dev.reset": "run-s reset",
     "dev.db.reset": "run-s db.reset",
+    "dev.deploy.pi": "./scripts/deploy-to-pi.sh",
     "dev.deploy": "pnpm build.deployment",
     "dev.client": "pnpm build.client && pnpm dev",
     "dev.i18n.update": "pnpm i18n.force",
