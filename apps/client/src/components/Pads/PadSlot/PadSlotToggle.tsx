@@ -23,23 +23,7 @@ export const PadSlotToggle = ({
   className,
   children,
 }: PadSlotToggleProps) => {
-  const {
-    // selectedSlots,
-    toggleMainPageSlot,
-  } = useLayoutUi();
-  // const isChecked = selectedSlots.includes({
-  //   slotType,
-  //   slotNumber,
-  //   isChecked,
-  //   status: timer?.status || 'idle',
-  // });
-
-  // log('__CHECKBOX:', 'hotpink', {
-  //   slotType,
-  //   slotNumber,
-  //   status,
-  //   isChecked,
-  // });
+  const { toggleMainPageSlot } = useLayoutUi();
 
   const handleClick = () => {
     toggleMainPageSlot({ slotType, slotNumber, isChecked, status });

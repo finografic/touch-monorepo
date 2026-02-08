@@ -60,8 +60,6 @@ export const PadSlot: React.FC<PadMenuProps> = ({ slotType, slotNumber, classNam
           slotNumber={slotNumber}
           status={status}
           isChecked={isChecked}
-          // TODO: LEAVE IN OR OUT ??
-          // className={clsx(mergedClassNames, { 'checking-blocked': isIdleSlotChecked })}
           className={clsx(mergedClassNames)}
         >
           <Timer key={`timer-${slotNumber}`} slotNumber={slotNumber} onComplete={handleTimerComplete} />

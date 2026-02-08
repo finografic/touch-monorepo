@@ -53,7 +53,7 @@ export const styles = css`
       color: ${colors.infoLight};
       border-color: ${colors.infoLight};
       background-color: transparent;
-      &:hover,
+      /* &:hover, */
       &.checked,
       &.selected,
       &.selected.checking-blocked {
@@ -61,9 +61,9 @@ export const styles = css`
         border-color: ${colors.infoXDark};
         background-color: ${colors.infoLight50};
       }
-      &:active {
+      /* &:active {
         background-color: ${colors.infoLight75};
-      }
+      } */
     }
 
     &.item-type-C {
