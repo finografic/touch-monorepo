@@ -1,7 +1,6 @@
 import { css } from '@emotion/react';
 
-import { colors, layout, spacing, typography } from 'styles';
-import { padding } from 'styles/layout/base.constants';
+import { spacing } from 'styles';
 
 const MAIN_CONTENT_HEIGHT = 450;
 const SLOT_GRID_WIDTH = 350;

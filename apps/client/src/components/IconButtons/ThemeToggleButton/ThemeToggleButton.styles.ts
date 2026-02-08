@@ -7,15 +7,11 @@ export const styles = css`
     svg.icon {
       color: ${colors.white75};
     }
-
     &:hover {
       border-color: transparent;
       svg.icon {
         color: ${colors.infoXLight};
       }
-    }
-
-    &:active {
     }
   }
 `;

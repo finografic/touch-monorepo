@@ -31,6 +31,9 @@
   :root {
     zoom: 0.7;
   }
+  body {
+    margin: auto;
+  }
 }
 
 /* Touch interaction optimizations */
