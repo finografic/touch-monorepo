@@ -55,7 +55,7 @@ export const cssGlobal = css`
     overflow-x: hidden;
     overflow-y: auto;
     /** NEXT LINE ENSURES *NO* JUMP WHEN SCROLLBAR TOGGLES **/
-    margin-right: calc(-1 * (100vw - 100%));
+    /* margin-right: calc(-1 * (100vw - 100%)); */
 
     /* Dynamic background color based on theme */
     background-color: var(--color-background) !important;
