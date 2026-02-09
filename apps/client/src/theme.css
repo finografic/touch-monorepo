@@ -26,9 +26,8 @@
   touch-action: manipulation;
 }
 
-/* Touch screens: :hover can "stick" after tap (no mouse leave). Chromium on Pi reports
-   @media (hover: hover) incorrectly. theme-init.js adds html.is-touch when touch is
-   detected; global.styles.ts overrides pad hover to base state when html.is-touch. */
+/* Touch screens: :hover can "stick" after tap. Pad slots use state selectors only
+   (.checked, .selected, .active, [data-state="checked"], [aria-checked="true"]) — no :hover. */
 
 /* Compact display zoom for small screens (e.g., Raspberry Pi 1024x600) */
 @media (max-width: 1024px) {

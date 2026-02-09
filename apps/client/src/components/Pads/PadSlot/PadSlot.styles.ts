@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import { padProps, stylesPad } from 'components/Pads/Pad/PadBasic.styles';
 
-import { button, colors, layout } from 'styles';
+import { colors, layout } from 'styles';
 
 export const styles = css`
   &.pad-slot,
@@ -19,13 +19,6 @@ export const styles = css`
       background-color 150ms ease,
       transform 150ms ease;
 
-    /* Hover only on pointer devices; touch screens get stuck :hover after tap */
-    @media (hover: hover) {
-      &:not(:disabled):hover {
-        transform: scale(${button.transform.padHoverScale});
-      }
-    }
-
     &.pad-large {
       width: ${padProps.padLG.width} !important;
       height: ${padProps.padLG.height} !important;
@@ -33,21 +26,17 @@ export const styles = css`
 
     /* ====================================================================== */
 
-    /* item-type-A/B/C: hover only on pointer devices; touch screens get stuck :hover after tap */
+    /* item-type-A/B/C: state-based styling only (no :hover — touch screens get stuck) */
     &.item-type-A {
       color: ${colors.defaultXLight};
       border-color: ${colors.defaultXLight};
       background-color: transparent;
-      @media (hover: hover) {
-        &:hover {
-          color: ${colors.defaultDark};
-          border-color: ${colors.defaultDark};
-          background-color: ${colors.defaultXLight50};
-        }
-      }
       &.checked,
       &.selected,
-      &.selected.checking-blocked {
+      &.active,
+      &.selected.checking-blocked,
+      &[data-state='checked'],
+      &[aria-checked='true'] {
         color: ${colors.defaultDark};
         border-color: ${colors.defaultDark};
         background-color: ${colors.defaultXLight50};
@@ -61,16 +50,12 @@ export const styles = css`
       color: ${colors.infoLight};
       border-color: ${colors.infoLight};
       background-color: transparent;
-      @media (hover: hover) {
-        &:hover {
-          color: ${colors.infoXDark};
-          border-color: ${colors.infoXDark};
-          background-color: ${colors.infoLight50};
-        }
-      }
       &.checked,
       &.selected,
-      &.selected.checking-blocked {
+      &.active,
+      &.selected.checking-blocked,
+      &[data-state='checked'],
+      &[aria-checked='true'] {
         color: ${colors.infoXDark};
         border-color: ${colors.infoXDark};
         background-color: ${colors.infoLight50};
@@ -84,16 +69,12 @@ export const styles = css`
       color: ${colors.dangerLight};
       border-color: ${colors.dangerLight};
       background-color: transparent;
-      @media (hover: hover) {
-        &:hover {
-          color: ${colors.dangerXDark};
-          border-color: ${colors.dangerXDark};
-          background-color: ${colors.dangerLight50};
-        }
-      }
       &.checked,
       &.selected,
-      &.selected.checking-blocked {
+      &.active,
+      &.selected.checking-blocked,
+      &[data-state='checked'],
+      &[aria-checked='true'] {
         color: ${colors.dangerXDark};
         border-color: ${colors.dangerXDark};
         background-color: ${colors.dangerLight50};
@@ -142,22 +123,6 @@ export const styles = css`
       color: ${colors.danger};
       border: ${layout.borderWidth} solid ${colors.danger};
       background-color: ${colors.danger25};
-      @media (hover: hover) {
-        &:hover {
-          color: ${colors.danger};
-          border-color: ${colors.danger};
-          background-color: ${colors.danger25};
-          transform: none;
-        }
-      }
-      &:disabled {
-        @media (hover: hover) {
-          &:hover {
-            border-color: ${colors.greyDark};
-            background-color: ${colors.danger25};
-          }
-        }
-      }
     }
   }
 `;

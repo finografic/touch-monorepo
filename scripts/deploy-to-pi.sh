@@ -66,6 +66,7 @@ echo ""
 # Step 3: Wipe APP directory (including dot files, node_modules)
 echo "🗑️  Clearing ${PI_APP_DIR}..."
 ssh "${ssh_common[@]}" "${PI_USER}@${PI_HOST}" "find ${PI_APP_DIR} -mindepth 1 -maxdepth 1 -exec rm -rf {} + 2>/dev/null || true"
+sleep 0.5
 echo "   Done"
 echo ""
 
@@ -73,18 +74,20 @@ echo ""
 echo "📤 Copying zip to Pi..."
 rsync -avz --progress -e "ssh -o ControlPath=$SSH_CONTROL" "$ZIP_PATH" "${PI_USER}@${PI_HOST}:${PI_APP_DIR}/"
 ZIP_NAME=$(basename "$ZIP_PATH")
+sleep 0.5
 echo "   Done"
 echo ""
 
 # Step 5: Unzip on Pi
 echo "📂 Unzipping on Pi..."
 ssh "${ssh_common[@]}" "${PI_USER}@${PI_HOST}" "cd ${PI_APP_DIR} && unzip -o ${ZIP_NAME} && rm ${ZIP_NAME}"
+sleep 0.5
 echo "   Done"
 echo ""
 
-# Step 6: npm install on Pi (PATH needed for node; LC_ALL=C avoids locale warnings)
+# Step 6: npm install on Pi (source nvm so node/npm are in PATH; LC_ALL=C avoids locale warnings)
 echo "📦 Running npm install on Pi..."
-ssh "${ssh_common[@]}" "${PI_USER}@${PI_HOST}" "cd ${PI_APP_DIR} && export PATH=${PI_NODE_BIN}:\$PATH && export LC_ALL=C && npm install"
+ssh "${ssh_common[@]}" "${PI_USER}@${PI_HOST}" "cd ${PI_APP_DIR} && source ~/.nvm/nvm.sh 2>/dev/null || export PATH=${PI_NODE_BIN}:\$PATH && export LC_ALL=C && npm install"
 echo "   Done"
 echo ""
 

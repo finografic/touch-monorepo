@@ -31,25 +31,12 @@ export const stylesPad = css`
     border-radius: 50%;
   }
 
-  &.checked {
+  &.checked,
+  &[data-state='checked'],
+  &[aria-checked='true'] {
     color: ${colors.infoDark};
     border-color: ${colors.infoDark};
     background-color: ${colors.infoXLight25};
-  }
-
-  /* Hover only on pointer devices; touch screens get stuck :hover after tap */
-  @media (hover: hover) {
-    &:hover {
-      color: ${colors.infoDark};
-      border-color: ${colors.infoDark};
-      background-color: ${colors.infoLight50};
-      transform: scale(${button.transform.padHoverScale});
-      &.checked {
-        color: ${colors.infoDark};
-        border-color: ${colors.infoDark};
-        background-color: ${colors.infoLight50};
-      }
-    }
   }
 
   /* Disabled styles inherited from stylesButtonBase */
