@@ -33,6 +33,11 @@ export const AdminLayout: FC = () => {
 
   useEffect(function initializeLayoutTheme() {
     document.documentElement.setAttribute('data-theme', theme);
+    document.documentElement.setAttribute('data-layout', 'admin');
+  }, []);
+
+  useEffect(function cleanupLayoutAttr() {
+    return () => document.documentElement.removeAttribute('data-layout');
   }, []);
 
   return (

@@ -197,10 +197,27 @@ export const cssGlobal = css`
   }
 
   /* ========================================================================
-   * COMPACT DISPLAY: 1024x600 and smaller (Front-End Only)
+   * COMPACT DISPLAY: 1024x600 and smaller
    * ======================================================================== */
 
   @media (max-width: 1024px) and (max-height: 600px) {
+    /* 100dvh avoids scrollbar from 100vh overshoot on Pi/touch (browser chrome) */
+    html,
+    body {
+      height: 100vh;
+      height: 100dvh;
+    }
+
+    /* Front-end Layout only: no body scrollbar (admin needs scrollbar for tables) */
+    html[data-layout='front'] body {
+      overflow-y: hidden;
+    }
+
+    #root {
+      min-height: 100vh;
+      min-height: 100dvh;
+    }
+
     div[role='dialog'].rt-DialogContent[data-state='open'] {
       transform: scale(0.85) !important;
     }

@@ -258,6 +258,12 @@ export const styles = css`
    * Optimize layout for constrained display size
    * ======================================================================== */
   @media (max-width: 1024px) and (max-height: 600px) {
+    /* 100dvh = dynamic viewport height (avoids body scrollbar from 100vh overshoot on Pi) */
+    height: 100vh;
+    height: 100dvh;
+    /* Use 100% width to avoid horizontal scroll when vertical scrollbar appears */
+    width: 100%;
+
     /* Reduce header height */
     > header {
       height: 50px;
@@ -315,22 +321,29 @@ export const styles = css`
       padding: 0 1rem; /* Reduced from 3rem */
     }
 
-    /* ========================================================================
-   * COMPACT DISPLAY: 1024x600 and smaller (Front-End Only)
-   * Import and apply compact display styles within media query
-   * ======================================================================== */
-    @media (max-width: 1024px) and (max-height: 600px) {
-      ${stylesAppContent1024x600}
+    /* Shared compact styles from project.app.1024x600 */
+    ${stylesAppContent1024x600}
 
-      &[data-touch="true"] {
-        header.app-header > .container {
+    &[data-touch="true"] {
+      header.app-header {
+        margin-top: 0.25rem;
+        box-shadow: -0.25rem 0 0 0.25rem ${colors.greyXXDark};
+        .container {
           max-width: none;
+          .toolbar-user {
+            z-index: 5000;
+            transform: translateX(-0.5rem);
+            button {
+              transform: scale(1.1);
+            }
+          }
         }
       }
-      main#layout-main {
-        margin-top: 0.5rem;
-        zoom: 0.9;
-      }
+    }
+
+    main#layout-main {
+      margin-top: 0.5rem;
+      zoom: 0.9;
     }
   }
 `;

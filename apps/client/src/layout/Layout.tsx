@@ -38,6 +38,11 @@ export const Layout: FC = () => {
 
   useEffect(function initializeLayoutTheme() {
     document.documentElement.setAttribute('data-theme', theme);
+    document.documentElement.setAttribute('data-layout', 'front');
+  }, []);
+
+  useEffect(function cleanupLayoutAttr() {
+    return () => document.documentElement.removeAttribute('data-layout');
   }, []);
 
   setConfiguration({ breakpoints: [...BREAKPOINT_VALUES] });

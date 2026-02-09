@@ -17,8 +17,6 @@ export const styles = (theme: EmotionTheme) => css`
   background-color: ${theme.colors.background};
   color: ${theme.colors.text};
   overflow: hidden;
-  overflow-x: visible;
-  overflow-y: visible;
 
   > header {
     width: 100%;
@@ -35,11 +33,7 @@ export const styles = (theme: EmotionTheme) => css`
     flex: 1;
     position: relative;
 
-    /* transform: translate(0, -10%); */
-    /* overflow-y: hidden; */
-    /* overflow-y: auto; */
-    overflow-x: visible;
-    overflow-y: visible;
+    overflow-x: hidden;
 
     .main-content {
       width: 100%;
@@ -146,11 +140,29 @@ export const styles = (theme: EmotionTheme) => css`
    * Import and apply compact display styles within media query
    * ======================================================================== */
   @media (max-width: 1024px) and (max-height: 600px) {
+    /* 100dvh = dynamic viewport height (avoids scrollbar from 100vh overshoot on Pi) */
+    height: 100vh;
+    height: 100dvh;
+    /* 100% avoids horizontal scroll when vertical scrollbar would appear */
+    width: 100%;
+    overflow: hidden;
+
     ${stylesAppContent1024x600}
 
     &[data-touch="true"] {
-      header.app-header > .container {
-        max-width: none;
+      header.app-header {
+        margin-top: 0.75rem;
+        box-shadow: -0.75rem 0 0 0.75rem ${colors.white};
+        .container {
+          max-width: none;
+          .toolbar-user {
+            z-index: 5000;
+            transform: translateX(-0.5rem);
+            button {
+              transform: scale(1.2);
+            }
+          }
+        }
       }
       .page-content {
         margin-top: 1rem;
