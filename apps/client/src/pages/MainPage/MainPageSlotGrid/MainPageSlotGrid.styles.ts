@@ -71,22 +71,14 @@ export const styles = css`
         color: ${colors.successXLight};
         border-color: ${colors.successLight};
 
-        &:hover {
-          color: ${colors.successDark};
-          border-color: ${colors.successDark};
-          background-color: ${colors.successLight50};
-        }
-
-        &.checked {
+        /* State-based only (no :hover — touch screens get stuck) */
+        &.checked,
+        &.selected,
+        &[data-state='checked'],
+        &[aria-checked='true'] {
           color: ${colors.successDark};
           border-color: ${colors.successDark};
           background-color: ${colors.successXXLight50};
-
-          &:hover {
-            color: ${colors.successDark};
-            border-color: ${colors.successDark};
-            background-color: ${colors.successLight50};
-          }
         }
       }
     }

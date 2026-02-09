@@ -71,12 +71,11 @@ export const styles = css`
       font-weight: 500;
     }
 
-    &.checked {
+    /* State-based only (no :hover — touch screens get stuck) */
+    &.checked,
+    &[data-state='checked'],
+    &[aria-checked='true'] {
       border: ${button.border.width} solid ${colors.default};
-    }
-
-    &:hover {
-      border: ${button.border.width} solid ${colors.secondaryXLight};
     }
     /* background-color: ${colors.default};
     color: ${colors.white};

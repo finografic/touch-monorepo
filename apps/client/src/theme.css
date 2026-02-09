@@ -32,7 +32,7 @@
 /* Compact display zoom for small screens (e.g., Raspberry Pi 1024x600) */
 @media (max-width: 1024px) {
   :root {
-    zoom: 0.9;
+    /* zoom: 0.9; */
   }
   body {
     margin: auto;

@@ -11,6 +11,7 @@ import { Header } from 'components/Header/Header';
 import { PageHeader } from 'components/PageHeader';
 import { UserToolbar } from 'components/Toolbars';
 
+import { useIsTouch } from 'hooks/useIsTouch';
 import { AdminProvider } from 'providers/AdminProvider/AdminProvider';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { ContentProvider } from 'providers/ContentProvider';
@@ -29,6 +30,7 @@ import { styles } from './Layout.styles';
 export const Layout: FC = () => {
   const { t } = useTranslation();
   const location = useLocation();
+  const isTouch = useIsTouch();
   const dataPathname = useMemo(() => getPathnameClassName(location), [location.pathname]);
 
   const { theme } = useAppConfig();
@@ -48,7 +50,12 @@ export const Layout: FC = () => {
             <AdminProvider>
               <ContentProvider>
                 <DevProvider>
-                  <div id="layout" data-pathname={dataPathname} css={styles(emotionTheme)}>
+                  <div
+                    id="layout"
+                    data-pathname={dataPathname}
+                    data-touch={isTouch}
+                    css={styles(emotionTheme)}
+                  >
                     <Header titleAlign="center" toolbarAlign="right" toolbar={<UserToolbar />} />
                     <main>
                       <div className="main-content">

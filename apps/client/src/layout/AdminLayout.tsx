@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { Suspense, useEffect, useMemo } from 'react';
 import { setConfiguration } from 'react-grid-system'; // DEPRECATED: consider using react-grid-layout
-import { Outlet, useLocation  } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 
 import { AdminNavigation } from 'admin/components/AdminNavigation';
 import { AdminErrorBoundary } from 'components/ErrorBoundary/AdminErrorBoundary';
@@ -11,6 +11,7 @@ import { Loader } from 'components/Loader/Loader';
 import { PageHeader } from 'components/PageHeader/PageHeader';
 import { UserToolbar } from 'components/Toolbars/UserToolbar/UserToolbar';
 
+import { useIsTouch } from 'hooks/useIsTouch';
 import { AdminProvider } from 'providers/AdminProvider/AdminProvider';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
@@ -24,6 +25,7 @@ import { styles } from './AdminLayout.styles';
 export const AdminLayout: FC = () => {
   const { theme } = useAppConfig();
   const location = useLocation();
+  const isTouch = useIsTouch();
   const { isAuthenticated } = useAuth();
   const dataPathname = useMemo(() => getPathnameClassName(location), [location.pathname, isAuthenticated]);
 
@@ -40,6 +42,7 @@ export const AdminLayout: FC = () => {
           <div
             id="admin-layout"
             data-pathname={dataPathname}
+            data-touch={isTouch}
             data-authenticated={isAuthenticated}
             css={styles}
           >

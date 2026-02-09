@@ -18,7 +18,7 @@ Pad slots and checkboxes are styled based on their checked/selected state, not h
 - `[data-state="checked"]` — Radix UI Checkbox.Root
 - `[aria-checked="true"]` — accessibility attribute
 
-## Files Changed
+## Files Changed (Done)
 
 | File | Changes |
 |------|---------|
@@ -35,6 +35,27 @@ Pad slots and checkboxes are styled based on their checked/selected state, not h
 | Local (desktop) | Mouse | Toggles correctly — state-based styling only |
 
 No hover feedback on any device, but the toggle state and visual feedback work consistently everywhere.
+
+---
+
+## Candidates for Same Fix (Pi Touch Screen)
+
+Components that use `checked` / `selected` + `:hover` and may appear on the Pi front-end:
+
+| File | Role | Status |
+|------|------|--------|
+| **MainPageSlotGrid.styles.ts** | Power button on main page | **Fixed** — state-based selectors only |
+| **LanguageSelector.styles.ts** | Language radio in UserToolbar dialog | **Fixed** — state-based selectors only |
+| **PadPower.styles.ts** | Power pad | Unused — PadPower uses PadSlot.styles |
+
+### Other Components (Admin / Forms — Lower Pi Priority)
+
+- `OrdersTable.styles.ts` — `input[type='checkbox']:checked` + hover (admin)
+- `AdminRelaysPage` — relay toggle (admin)
+- `AdminLanguagesPage` — LanguagesList `checked` (admin)
+- Forms (SelectWithNew, SelectAlt, etc.) — admin/forms, less likely on Pi touch
+
+---
 
 ## Future: Restore Hover for Mouse Only
 

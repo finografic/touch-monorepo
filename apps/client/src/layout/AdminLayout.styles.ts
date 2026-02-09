@@ -321,6 +321,16 @@ export const styles = css`
    * ======================================================================== */
     @media (max-width: 1024px) and (max-height: 600px) {
       ${stylesAppContent1024x600}
+
+      &[data-touch="true"] {
+        header.app-header > .container {
+          max-width: none;
+        }
+      }
+      main#layout-main {
+        margin-top: 0.5rem;
+        zoom: 0.9;
+      }
     }
   }
 `;
