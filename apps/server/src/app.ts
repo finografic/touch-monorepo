@@ -31,7 +31,9 @@ const app = createApp();
 app.use(
   '/*',
   cors({
-    origin: envShared.CLIENT_ORIGIN,
+    // Accept any origin so the app works from any IP on the local network.
+    // The client port may differ from the API port, making requests cross-origin.
+    origin: (origin) => origin,
     allowMethods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     credentials: true,
   }),

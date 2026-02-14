@@ -22,7 +22,8 @@ const betterAuthConfig = {
 
   basePath: '/api/auth',
 
-  trustedOrigins: [env.CLIENT_ORIGIN],
+  // Trust any origin so the app works from any IP on the local network.
+  trustedOrigins: ['*'],
 
   emailAndPassword: {
     enabled: true,

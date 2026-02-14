@@ -15,12 +15,28 @@ import {
   normalizeResponse,
 } from '@workspace/core/api';
 
-// TypeScript now knows API_URL exists and is a string
-const { API_URL } = process.env;
+/**
+ * Runtime API URL detection.
+ * In production, derives the API host from window.location.hostname so the
+ * client works on any network without baking an IP at build time.
+ * In development, Vite proxy handles /api so we use the baked-in value.
+ */
+const isProduction = process.env.NODE_ENV === 'production';
+const API_PORT = process.env.API_PORT ?? 4040;
+const API_BASE_PATH = process.env.API_BASE_PATH ?? '/api';
 
-if (!API_URL) {
-  throw new Error('API_URL is not defined in process.env');
-}
+export const getApiBaseUrl = (): string => {
+  if (isProduction && typeof window !== 'undefined') {
+    return `${window.location.protocol}//${window.location.hostname}:${API_PORT}`;
+  }
+  return process.env.API_BASE_URL!;
+};
+
+export const getApiUrl = (): string => {
+  return `${getApiBaseUrl()}${API_BASE_PATH}`;
+};
+
+const API_URL = getApiUrl();
 
 /**
  * Creates a timeout promise that rejects after specified milliseconds

@@ -117,7 +117,8 @@ export const clearAllAuthCookiesServer = async (): Promise<boolean> => {
   try {
     console.log('%c🧨 [NUCLEAR] Calling server to delete all auth cookies...', 'color:grey');
 
-    const response = await fetch(`${process.env.API_BASE_URL}/api/auth/clear-all-cookies`, {
+    const { getApiBaseUrl } = await import('../api/fetch.client');
+    const response = await fetch(`${getApiBaseUrl()}/api/auth/clear-all-cookies`, {
       method: 'POST',
       credentials: 'include', // Include cookies in request
       headers: {

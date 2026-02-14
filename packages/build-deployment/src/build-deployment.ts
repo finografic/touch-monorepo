@@ -165,11 +165,12 @@ async function consolidateEnvironmentFiles(options: BuildOptions): Promise<void>
   console.log('⚙️  Consolidating environment files...');
 
   try {
-    // Use Pi IP for Linux (Raspberry Pi) deployments, localhost for others
-    const isLinuxDeployment = options.platform === 'linux';
-    const HOST = isLinuxDeployment ? '192.168.1.31' : 'localhost';
+    // Use localhost for all platforms. The client detects the correct host
+    // dynamically via window.location.hostname at runtime, and the server
+    // accepts any origin for CORS, so no hardcoded IP is needed.
+    const HOST = 'localhost';
 
-    console.log(`📍 Using host: ${HOST} (${isLinuxDeployment ? 'Raspberry Pi' : 'local'})`);
+    console.log(`📍 Using host: ${HOST} (dynamic detection at runtime)`);
 
     // Read source .env.production to get sensitive values
     const sourceEnvPath = join(config.workspaceRoot, '.env.production');
@@ -926,15 +927,6 @@ async function main(): Promise<void> {
     await killPortsIfOccupied();
     await cleanDistDirectory();
     await createDistStructure();
-
-    // Set host env vars BEFORE building so Vite bakes the correct IP into the client bundle.
-    // For Linux (Raspberry Pi) deployments use the static Pi IP; for everything else use localhost.
-    const isLinuxDeployment = options.platform === 'linux';
-    const HOST = isLinuxDeployment ? '192.168.1.31' : 'localhost';
-    process.env.API_HOST = HOST;
-    process.env.CLIENT_HOST = HOST;
-    process.env.BETTER_AUTH_URL = `http://${HOST}:4040`;
-    console.log(`📍 Pre-build host override: ${HOST} (${isLinuxDeployment ? 'Raspberry Pi' : 'local'})`);
 
     await buildClient();
     await buildServer();

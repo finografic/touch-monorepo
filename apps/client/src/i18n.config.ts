@@ -39,11 +39,11 @@ i18n
 
     // http config
     backend: {
-      // In production, use absolute URL if API_URL is available
-      // In development, use relative path (Vite proxy handles /api -> backend)
+      // In production, derive API host from window.location so it works on any network.
+      // In development, use relative path (Vite proxy handles /api -> backend).
       loadPath:
-        process.env.NODE_ENV === 'production' && typeof process.env.API_URL === 'string'
-          ? `${process.env.API_URL}/i18n/translations?lng={{lng}}`
+        process.env.NODE_ENV === 'production' && typeof window !== 'undefined'
+          ? `${window.location.protocol}//${window.location.hostname}:${process.env.API_PORT ?? 4040}/api/i18n/translations?lng={{lng}}`
           : '/api/i18n/translations?lng={{lng}}',
       requestOptions:
         process.env.NODE_ENV === 'development'
@@ -130,7 +130,7 @@ i18n
       if (!hasTranslations) {
         console.warn('[i18n] ⚠️ Translations not loaded in production!');
         console.warn('[i18n] loadPath:', (i18n.options.backend as any)?.loadPath);
-        console.warn('[i18n] API_URL:', process.env.API_URL);
+        console.warn('[i18n] API host:', window.location.hostname);
         console.warn('[i18n] language:', i18n.language);
       }
     }

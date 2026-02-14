@@ -17,13 +17,14 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const PORT = process.env.CLIENT_PORT || '{{CLIENT_PORT}}';
+const API_HOST = process.env.API_HOST || 'localhost';
 const API_PORT = process.env.API_PORT || '4040';
 const CLIENT_DIR = path.join(__dirname, 'dist/client');
 
 console.log('🌐 Starting Touch Monorepo Client Server...');
 console.log('📍 Client directory:', CLIENT_DIR);
 console.log('🌐 Server will run on: http://localhost:' + PORT);
-console.log('🔗 API proxy will forward to: http://localhost:' + API_PORT);
+console.log(`🔗 API proxy will forward to: http://${API_HOST}:${API_PORT}`);
 
 // Check for occupied ports
 console.log('🔧 Checking for occupied ports...');
@@ -37,7 +38,7 @@ const server = http.createServer((req, res) => {
   // Check if this is an API request
   if (pathname.startsWith('/api/') || pathname === '/api') {
     // Proxy API requests to the backend server
-    const apiUrl = `http://localhost:${API_PORT}${pathname}`;
+    const apiUrl = `http://${API_HOST}:${API_PORT}${pathname}`;
     console.log('🔗 Proxying API request:', pathname, '->', apiUrl);
 
     const apiReq = http.request(
@@ -46,7 +47,7 @@ const server = http.createServer((req, res) => {
         method: req.method,
         headers: {
           ...req.headers,
-          host: `localhost:${API_PORT}`,
+          host: `${API_HOST}:${API_PORT}`,
         },
       },
       (apiRes) => {
@@ -161,7 +162,7 @@ const server = http.createServer((req, res) => {
 server.listen(PORT, () => {
   console.log('✅ Client server started successfully!');
   console.log('🌐 Client: http://localhost:' + PORT);
-  console.log('🔗 API: http://localhost:' + API_PORT);
+  console.log(`🔗 API: http://${API_HOST}:${API_PORT}`);
   console.log('🎨 Touch Monorepo Client is now available');
   console.log('');
   console.log('Press Ctrl+C to stop');
