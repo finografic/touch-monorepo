@@ -156,10 +156,10 @@ const validateSlotNumber = (slotNumber: number): void => {
   }
 };
 
-const isConnected = (): boolean => {
+function isConnected(): boolean {
   // Connected if at least board 1 is connected
   return device1 !== null && connectionState === 'connected';
-};
+}
 
 const getDeviceForRelay = (slotNumber: number): any => {
   // Relays 1-8 use device1 (Board 1)
@@ -411,7 +411,7 @@ const initializeRelayStates = async (): Promise<void> => {
       relayStates.set(slotNumber, hardwareState);
     });
 
-    console.log('🔄 Initialized relay states from hardware');
+    console.log('✅ Initialized relay states from hardware');
     console.log(
       '📊 Current states:',
       Array.from(relayStates.entries())
@@ -424,7 +424,7 @@ const initializeRelayStates = async (): Promise<void> => {
     validSlotNumbers.forEach((slotNumber) => {
       relayStates.set(slotNumber, false);
     });
-    console.log('🔄 Fallback: Initialized relay states (all OFF)');
+    console.log('✓ Fallback: Initialized relay states (all OFF)');
   }
 };
 

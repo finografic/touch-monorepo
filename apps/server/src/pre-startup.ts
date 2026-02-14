@@ -8,7 +8,7 @@ console.log('🔧 Pre-startup: Resetting relay board...');
 const parseHexString = (hexStr: string | undefined, defaultValue: number): number => {
   if (!hexStr) return defaultValue;
   const cleaned = hexStr.startsWith('0x') || hexStr.startsWith('0X') ? hexStr.slice(2) : hexStr;
-  return parseInt(cleaned, 16);
+  return Number.parseInt(cleaned, 16);
 };
 
 const USBRELAY_VENDOR_ID = parseHexString(process.env.USBRELAY_VENDOR_ID, 0x16c0);
