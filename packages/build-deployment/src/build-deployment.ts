@@ -926,6 +926,16 @@ async function main(): Promise<void> {
     await killPortsIfOccupied();
     await cleanDistDirectory();
     await createDistStructure();
+
+    // Set host env vars BEFORE building so Vite bakes the correct IP into the client bundle.
+    // For Linux (Raspberry Pi) deployments use the static Pi IP; for everything else use localhost.
+    const isLinuxDeployment = options.platform === 'linux';
+    const HOST = isLinuxDeployment ? '192.168.1.31' : 'localhost';
+    process.env.API_HOST = HOST;
+    process.env.CLIENT_HOST = HOST;
+    process.env.BETTER_AUTH_URL = `http://${HOST}:4040`;
+    console.log(`📍 Pre-build host override: ${HOST} (${isLinuxDeployment ? 'Raspberry Pi' : 'local'})`);
+
     await buildClient();
     await buildServer();
     await copyDataFiles();
