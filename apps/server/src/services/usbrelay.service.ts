@@ -40,7 +40,7 @@ const readHardwareState = async (): Promise<Map<number, boolean>> => {
   const hardwareStates = new Map<number, boolean>();
 
   if (!isConnected()) {
-    console.log('🔌 Cannot read hardware state - device not connected');
+    console.log('⚠️  Cannot read hardware state - device not connected');
     return hardwareStates;
   }
 
@@ -413,9 +413,9 @@ const initializeRelayStates = async (): Promise<void> => {
 
     console.log('✅ Initialized relay states from hardware');
     console.log(
-      '📊 Current states:',
+      '■ RELAYS - current states:',
       Array.from(relayStates.entries())
-        .map(([slot, state]) => `Relay ${slot}: ${state ? 'ON' : 'OFF'}`)
+        .map(([slot, state]) => `${slot}: ${state ? 'ON' : 'OFF'}`)
         .join(', '),
     );
   } catch (error) {

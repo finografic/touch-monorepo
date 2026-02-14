@@ -16,7 +16,7 @@ const dbPath =
 const sqlite = new Database(dbPath);
 
 if (sqlite.open) {
-  console.log('\n✅ Connected to database:', chalk.green(env.DB_NAME));
+  console.log('\n✅ Connected to database:', chalk.yellowBright(env.DB_NAME));
 } else {
   console.error('\n❌ Failed to open database');
 }

@@ -358,7 +358,7 @@ function main() {
     console.log('');
     console.log('🎨 These files mirror the OKLCH palette (from generate-oklch-themes.ts)');
     console.log('💡 Use for visual reference in IDE (color swatches)');
-    console.log('⚠️  App uses OKLCH colors directly - these are for reference only!');
+    console.log('⚠️ App uses OKLCH colors directly - these are for reference only!');
   } catch (error) {
     console.error('❌ Error generating theme files:', error);
     process.exit(1);
