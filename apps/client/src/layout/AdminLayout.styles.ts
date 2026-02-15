@@ -297,6 +297,10 @@ export const styles = css`
         section {
           min-height: auto; /* Remove fixed min-height */
 
+          header.admin-page-header {
+            margin-top: 0.75rem;
+          }
+
           header.admin-page-title {
             padding: 0 ${padding.xs};
             h1 {
