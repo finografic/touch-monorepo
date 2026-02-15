@@ -298,7 +298,7 @@ export const styles = css`
           min-height: auto; /* Remove fixed min-height */
 
           header.admin-page-header {
-            margin-top: 0.75rem;
+            margin-top: 0.33rem;
           }
 
           header.admin-page-title {
@@ -356,6 +356,15 @@ export const styles = css`
     main#layout-main {
       margin-top: 0.5rem;
       zoom: 0.9;
+    }
+
+    .navbar {
+      margin-top: 22px;
+      ul.admin-nav {
+        button.rt-TabNavLink.nav-button {
+          height: 36px !important;
+        }
+      }
     }
   }
 `;
