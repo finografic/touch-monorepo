@@ -92,6 +92,28 @@ export const styles = css`
   /* ========================================================================
    * COMPACT DISPLAY: 1024x600 and smaller
    * ======================================================================== */
+
+  @media (max-width: 800px) and (max-height: 480px) {
+    .app-header {
+      height: 50px; /* Reduced from 70px */
+
+      .container {
+        .col-header-left {
+          padding-left: 0.75rem !important; /* Reduced from 1rem */
+        }
+
+        .col-header-right {
+          padding-right: 1rem !important; /* Reduced from 1.5rem */
+        }
+      }
+
+      h1 {
+        font-size: 1.2rem; /* Reduced from 1.4rem */
+        margin: 0;
+      }
+    }
+  }
+
   @media (max-width: 1024px) and (max-height: 600px) {
     .app-header {
       height: 50px; /* Reduced from 70px */

@@ -197,6 +197,33 @@ export const cssGlobal = css`
   }
 
   /* ========================================================================
+   * TINY DISPLAY: 800x480 and smaller
+   * ======================================================================== */
+
+  @media (max-width: 800px) and (max-height: 480px) {
+    /* 100dvh avoids scrollbar from 100vh overshoot on Pi/touch (browser chrome) */
+    html,
+    body {
+      height: 100vh;
+      height: 100dvh;
+    }
+
+    /* Front-end Layout only: no body scrollbar (admin needs scrollbar for tables) */
+    html[data-layout='front'] body {
+      overflow-y: hidden;
+    }
+
+    #root {
+      min-height: 100vh;
+      min-height: 100dvh;
+    }
+
+    div[role='dialog'].rt-DialogContent[data-state='open'] {
+      transform: scale(0.85) !important;
+    }
+  }
+
+  /* ========================================================================
    * COMPACT DISPLAY: 1024x600 and smaller
    * ======================================================================== */
 
@@ -219,7 +246,7 @@ export const cssGlobal = css`
     }
 
     div[role='dialog'].rt-DialogContent[data-state='open'] {
-      transform: scale(0.85) !important;
+      transform: scale(0.9) !important;
     }
   }
 `;

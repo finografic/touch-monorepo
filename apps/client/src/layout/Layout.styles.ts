@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 
 import { colors, layout, spacing, typography } from 'styles';
 import type { EmotionTheme } from 'styles/themes/emotion-theme.types';
+import { stylesAppContent800x480 } from 'styles/project/project.app.800x480.styles';
 import { stylesAppContent1024x600 } from 'styles/project/project.app.1024x600.styles';
 import { stylesAppContent } from 'styles/project/project.app.styles';
 
@@ -136,9 +137,50 @@ export const styles = (theme: EmotionTheme) => css`
   }
 
   /* ========================================================================
+   * TINY DISPLAY: 800x480 and smaller (Front-End Only)
+   * Import and apply compact display styles within media query
+   * ======================================================================== */
+
+  @media (max-width: 800px) and (max-height: 480px) {
+    /* 100dvh = dynamic viewport height (avoids scrollbar from 100vh overshoot on Pi) */
+    height: 100vh;
+    height: 100dvh;
+    /* 100% avoids horizontal scroll when vertical scrollbar would appear */
+    width: 100%;
+    overflow: hidden;
+
+    ${stylesAppContent800x480}
+
+    &[data-touch="true"] {
+      header.app-header {
+        margin-top: 0.75rem;
+        box-shadow: -0.75rem 0 0 0.75rem ${colors.white};
+        .container {
+          max-width: none;
+          .toolbar-user {
+            z-index: 5000;
+            transform: translateX(-0.5rem);
+            button {
+              transform: scale(1.2);
+            }
+          }
+        }
+      }
+      .page-content {
+        margin-top: 1rem;
+        zoom: 0.9;
+      }
+      .nav-wrapper {
+        bottom: 2.5rem !important;
+      }
+    }
+  }
+
+  /* ========================================================================
    * COMPACT DISPLAY: 1024x600 and smaller (Front-End Only)
    * Import and apply compact display styles within media query
    * ======================================================================== */
+
   @media (max-width: 1024px) and (max-height: 600px) {
     /* 100dvh = dynamic viewport height (avoids scrollbar from 100vh overshoot on Pi) */
     height: 100vh;

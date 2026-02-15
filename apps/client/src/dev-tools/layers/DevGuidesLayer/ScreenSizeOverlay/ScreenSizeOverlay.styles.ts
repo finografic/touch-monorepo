@@ -14,6 +14,10 @@ export const styles = css`
     box-shadow: inset 0 0 0 3px ${colors.greyDark};
     z-index: 999999;
 
+    @media (max-width: 800px) and (max-height: 480px) {
+      opacity: 0.55;
+    }
+
     @media (max-width: 1024px) and (max-height: 600px) {
       opacity: 0.55;
     }

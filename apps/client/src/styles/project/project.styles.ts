@@ -1,8 +1,7 @@
 import { css } from '@emotion/react';
 
 import { forms } from '../forms/forms.constants';
-import { colors, layout, min, spacing } from 'styles';
-import { BREAKPOINTS, BREAKPOINTS_PX } from 'styles/viewport/viewport.breakpoints';
+import { colors, layout } from 'styles';
 
 export const stylesAdminContent = css`
   /* ADMIN-PAGE-LAYOUT ======================================================= */

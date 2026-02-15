@@ -20,6 +20,9 @@
  * ============================================================================ */
 
 :root {
+  /* Scale factor (easy to adjust) */
+  --scale-factor: 1;
+
   /* Touch-friendly defaults */
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
@@ -38,18 +41,33 @@
 }
 
 /* Compact display zoom for small screens (e.g., Raspberry Pi 1024x600) */
-@media (max-width: 1024px) {
+
+@media (max-width: 800px) {
   :root {
-      /* Scale factor (easy to adjust) */
-    --scale-factor: 0.9;
-    /* zoom: 0.9; */
+    /* Scale factor (easy to adjust) */
+    --scale-factor: 0.85;
+
     /* Scale everything based on rem */
-    font-size: 14.4px; /* 16px * 0.9 = 14.4px */
-    /* OR */
-    font-size: 90%; /* 90% of browser default (16px) */
+    font-size: 13.6px; /* 16px * 0.85 = 13.6px */
+
   }
   body {
-    /* margin: auto; */
+    margin: 0;
+    padding: 0;
+  }
+}
+
+
+@media (max-width: 1024px) {
+  :root {
+    /* Scale factor (easy to adjust) */
+    --scale-factor: 0.9;
+
+    /* Scale everything based on rem */
+    font-size: 14.4px; /* 16px * 0.85 = 13.6px */
+
+  }
+  body {
     margin: 0;
     padding: 0;
   }

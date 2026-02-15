@@ -413,7 +413,7 @@ const initializeRelayStates = async (): Promise<void> => {
 
     console.log('✅ Initialized relay states from hardware');
     console.log(
-      '■ RELAYS - current states:',
+      '■  RELAYS - current states:',
       Array.from(relayStates.entries())
         .map(([slot, state]) => `${slot}:${state ? 'ON' : 'OFF'}`)
         .join(','),
