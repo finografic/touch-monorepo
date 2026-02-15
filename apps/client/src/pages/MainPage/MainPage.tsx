@@ -161,7 +161,7 @@ export function MainPage() {
 
   return (
     <Flex css={styles} direction="column">
-      <div className="main-content">
+      <div className="main-page-buttons-container">
         <MainPageSlotGrid slots={slotsConfig} columns={columns} rows={NUM_ROWS_DEFAULT} />
 
         <div className="content-buttons">

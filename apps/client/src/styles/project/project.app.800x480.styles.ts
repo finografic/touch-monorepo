@@ -1,11 +1,12 @@
 import { css } from '@emotion/react';
+import { padProps } from 'components/Pads/Pad/PadBasic.styles';
 
-import { spacing } from 'styles';
+import { layout, spacing } from 'styles';
 
-const MAIN_CONTENT_HEIGHT = 450;
+const MAIN_CONTENT_HEIGHT = 380;
 const SLOT_GRID_WIDTH = 350;
 const SLOT_GRID_HEIGHT = 336;
-const SLOT_GRID_TRANSLATE_Y = '3rem';
+const SLOT_GRID_TRANSLATE_Y = '0';
 const UI_SCALE = 0.85;
 
 /**
@@ -61,9 +62,9 @@ export const stylesAppContent800x480 = css`
 
         /* Page Content */
         .page-content {
-          transform: translateY(0.75rem);
+          /* transform: translateY(0.75rem); */
 
-          padding: 0.5rem 1rem !important; /* Further reduced from 1rem */
+          padding: 0;
           /* align-items: flex-start !important; */
 
           /* PRODUCT SELECTION PADS */
@@ -208,7 +209,6 @@ export const stylesAppContent800x480 = css`
   .content-buttons {
     row-gap: 1rem; /* Static gap between buttons - keep this fixed */
     height: 330px !important; /* Fixed container height */
-    transform: translateY(3rem);
 
     button.pad-rect {
       flex: 1; /* Buttons stretch to fill available vertical space equally */
@@ -217,6 +217,17 @@ export const stylesAppContent800x480 = css`
       font-size: 1.15rem; /* Reduced from 1.4rem */
       padding: 0.75rem; /* Reduced padding - flex will handle vertical spacing */
     }
+  }
+
+  div[role='radiogroup'] {
+    padding: 0;
+    row-gap: 0.5rem; /* Static gap between buttons - keep this fixed */
+    column-gap: 1.5rem; /* Static gap between buttons - keep this fixed */
+  }
+
+  .pad.radio {
+    width: calc(${UI_SCALE} * ${padProps.pad.width} * 0.7) !important;
+    height: calc(${UI_SCALE} * ${padProps.pad.height} * 0.7) !important;
   }
 
   /* ========================================================================
@@ -234,6 +245,11 @@ export const stylesAppContent800x480 = css`
 
   /* Footer navigation buttons */
   nav.page-navigation {
+    height: calc(${UI_SCALE} * ${layout.footer.height}) !important;
+    position: fixed;
+    bottom: 0.75rem !important;
+    top: unset !important;
+
     .nav-list {
       gap: 0.4rem; /* Reduced from 0.66rem */
       padding: 0.25rem; /* Reduced from 0.5rem */
@@ -255,13 +271,6 @@ export const stylesAppContent800x480 = css`
         height: 1.33rem;
       }
     }
-
-    div.nav-wrapper {
-      position: fixed !important;
-      bottom: 55px !important;
-      left: 0;
-      right: 0;
-    }
   }
 
   /* ========================================================================
@@ -272,16 +281,15 @@ export const stylesAppContent800x480 = css`
     padding-right: 15px;
   }
 
-  .toolbar,
-  footer {
+  .toolbar {
     button {
       /* ORIG SIZE: 42px x 42px */
-      width: 28px !important;
-      height: 28px !important;
+      width: 24px !important;
+      height: 24px !important;
       svg {
         /* ORIG SIZE: 24px x 24px */
-        width: 24px !important;
-        height: 24px !important;
+        width: 20px !important;
+        height: 20px !important;
       }
     }
   }
@@ -295,7 +303,6 @@ export const stylesAppContent800x480 = css`
    * ======================================================================== */
 
   &[data-pathname='main'] .page-content {
-    transform: translateY(-2.25rem) !important;
   }
 
   &[data-pathname='time'] .page-content {
@@ -313,25 +320,5 @@ export const stylesAppContent800x480 = css`
   }
 
   &[data-authenticated='false'] {
-    header.admin-app-header {
-      padding: 0 0.25rem 0 1.5rem;
-    }
-
-    header.admin-page-header {
-      padding-bottom: 0;
-    }
-
-    nav .nav-button {
-      font-size: 0.8rem;
-      height: 34px;
-    }
-
-    .page-content {
-      transform: translateY(-8%) scale(0.8) !important;
-      .admin-page-content {
-        transform: translateY(-1rem) !important;
-        overflow-y: visible !important;
-      }
-    }
   }
 `;

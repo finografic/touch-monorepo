@@ -34,7 +34,7 @@ export const styles = (theme: EmotionTheme) => css`
     flex: 1;
     position: relative;
 
-    overflow-x: hidden;
+    overflow: hidden;
 
     .main-content {
       width: 100%;
@@ -80,6 +80,7 @@ export const styles = (theme: EmotionTheme) => css`
 
         nav.page-navigation {
           width: 100%;
+          height: ${layout.footer.height};
           padding: 1rem 2rem;
           flex-shrink: 0;
           top: 5rem;
@@ -94,7 +95,7 @@ export const styles = (theme: EmotionTheme) => css`
 
   > footer {
     width: 100%;
-    height: ${layout.header.height};
+    height: ${layout.footer.height};
     min-height: ${layout.header.height};
     max-height: ${layout.header.height};
     display: flex;
@@ -141,17 +142,16 @@ export const styles = (theme: EmotionTheme) => css`
    * Import and apply compact display styles within media query
    * ======================================================================== */
 
-  @media (max-width: 800px) and (max-height: 480px) {
-    /* 100dvh = dynamic viewport height (avoids scrollbar from 100vh overshoot on Pi) */
+  @media (max-width: 1024px) and (max-height: 600px) {
     height: 100vh;
-    height: 100dvh;
-    /* 100% avoids horizontal scroll when vertical scrollbar would appear */
-    width: 100%;
+    height: 100dvh; /* 100dvh = dynamic viewport height (avoids scrollbar from 100vh overshoot on Pi) */
+    width: 100%; /* 100% avoids horizontal scroll when vertical scrollbar would appear */
     overflow: hidden;
 
+    /* ${stylesAppContent1024x600} */
     ${stylesAppContent800x480}
 
-    &[data-touch="true"] {
+    &[data-touch='true'] {
       header.app-header {
         margin-top: 0.75rem;
         box-shadow: -0.75rem 0 0 0.75rem ${colors.white};
@@ -165,54 +165,17 @@ export const styles = (theme: EmotionTheme) => css`
             }
           }
         }
-      }
-      .page-content {
-        margin-top: 1rem;
-        zoom: 0.9;
-      }
-      .nav-wrapper {
-        bottom: 2.5rem !important;
       }
     }
-  }
 
-  /* ========================================================================
-   * COMPACT DISPLAY: 1024x600 and smaller (Front-End Only)
-   * Import and apply compact display styles within media query
-   * ======================================================================== */
+    .page-content {
+      zoom: 0.9;
+      transform: translateY(-3%);
+    }
 
-  @media (max-width: 1024px) and (max-height: 600px) {
-    /* 100dvh = dynamic viewport height (avoids scrollbar from 100vh overshoot on Pi) */
-    height: 100vh;
-    height: 100dvh;
-    /* 100% avoids horizontal scroll when vertical scrollbar would appear */
-    width: 100%;
-    overflow: hidden;
-
-    ${stylesAppContent1024x600}
-
-    &[data-touch="true"] {
-      header.app-header {
-        margin-top: 0.75rem;
-        box-shadow: -0.75rem 0 0 0.75rem ${colors.white};
-        .container {
-          max-width: none;
-          .toolbar-user {
-            z-index: 5000;
-            transform: translateX(-0.5rem);
-            button {
-              transform: scale(1.2);
-            }
-          }
-        }
-      }
-      .page-content {
-        margin-top: 1rem;
-        zoom: 0.9;
-      }
-      .nav-wrapper {
-        bottom: 2.5rem !important;
-      }
+    &[data-pathname='main'] .page-content {
+      zoom: 0.8;
+      transform: translateY(-3%);
     }
   }
 `;

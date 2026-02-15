@@ -24,7 +24,7 @@ export const styles = css`
     transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); /* Custom easing for "pop" effect */
 
     /* Closed state */
-    width: ${buttonSize}px; /* Reduced from 64px */
+    width: ${buttonSize}px;
     height: ${buttonSize}px; /* Added height control for circle */
     border-radius: 50%;
     transform: translate(0, calc(-${buttonBottom}px + 7px));

@@ -61,8 +61,6 @@ export const stylesAppContent1024x600 = css`
 
         /* Page Content */
         .page-content {
-          transform: translateY(0.75rem);
-
           padding: 0.5rem 1rem !important; /* Further reduced from 1rem */
           /* align-items: flex-start !important; */
 
@@ -208,7 +206,6 @@ export const stylesAppContent1024x600 = css`
   .content-buttons {
     row-gap: 1rem; /* Static gap between buttons - keep this fixed */
     height: 330px !important; /* Fixed container height */
-    transform: translateY(3rem);
 
     button.pad-rect {
       flex: 1; /* Buttons stretch to fill available vertical space equally */

@@ -7,7 +7,6 @@ export const padStyles = css`
   &.pad {
     ${stylesPad}
 
-    min-height: 80px;
     border-radius: 8px;
     user-select: none;
 

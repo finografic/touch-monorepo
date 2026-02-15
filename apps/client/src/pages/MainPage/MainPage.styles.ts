@@ -5,7 +5,7 @@ import { colors } from 'styles';
 export const styles = css`
   color: ${colors.white};
 
-  .main-content {
+  .main-page-buttons-container {
     width: 100%;
     display: flex;
     flex-wrap: nowrap;

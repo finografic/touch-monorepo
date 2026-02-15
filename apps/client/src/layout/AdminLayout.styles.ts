@@ -259,107 +259,10 @@ export const styles = css`
    * Optimize layout for constrained display size
    * ======================================================================== */
 
-  @media (max-width: 800px) and (max-height: 480px) {
-    /* 100dvh = dynamic viewport height (avoids body scrollbar from 100vh overshoot on Pi) */
-    height: 100vh;
-    height: 100dvh;
-    /* Use 100% width to avoid horizontal scroll when vertical scrollbar appears */
-    width: 100%;
-
-    /* Reduce header height */
-    > header {
-      height: 50px;
-      min-height: 50px;
-      max-height: 50px;
-
-      h1 {
-        font-size: 1.25rem !important; /* Reduced from 1.5rem */
-      }
-    }
-
-    /* Reduce footer height */
-    > footer {
-      height: 40px;
-      min-height: 40px;
-      max-height: 40px;
-    }
-
-    /* Optimize main content area */
-    > main {
-      .main-content {
-        padding: 0.5rem 0; /* Reduced from 2rem */
-
-        section {
-          min-height: auto; /* Remove fixed min-height */
-
-          header.admin-page-title {
-            padding: 0 ${padding.xs};
-            h1 {
-              font-size: 1.5rem; /* Reduced from 1.8rem */
-              margin: 0 0 0.25rem 0; /* Reduced margin */
-            }
-          }
-
-          .admin-page-content {
-            padding: 0.75rem; /* Reduced padding */
-            overflow-y: auto; /* Enable scrolling if needed */
-
-            h2 {
-              font-size: 1.2rem; /* Reduced from 1.4rem */
-            }
-          }
-        }
-      }
-    }
-
-    /* Reduce paragraph spacing */
-    p {
-      font-size: 1rem; /* Reduced from 1.2rem */
-      padding-bottom: 1rem; /* Reduced from 2rem */
-    }
-
-    /* Optimize navigation */
-    .admin-navigation {
-      padding: 0 1rem; /* Reduced from 3rem */
-    }
-
-    /* Shared compact styles from project.app.1024x600 */
-    ${stylesAppContent800x480}
-
-    &[data-touch="true"] {
-      header.app-header {
-        margin-top: 0.25rem;
-        box-shadow: -0.25rem 0 0 0.25rem ${colors.greyXXDark};
-        .container {
-          max-width: none;
-          .toolbar-user {
-            z-index: 5000;
-            transform: translateX(-0.5rem);
-            button {
-              transform: scale(1.1);
-            }
-          }
-        }
-      }
-    }
-
-    main#layout-main {
-      margin-top: 0.5rem;
-      zoom: 0.9;
-    }
-  }
-
-  /* ========================================================================
-   * COMPACT DISPLAY: 1024x600 and smaller
-   * Optimize layout for constrained display size
-   * ======================================================================== */
-
   @media (max-width: 1024px) and (max-height: 600px) {
-    /* 100dvh = dynamic viewport height (avoids body scrollbar from 100vh overshoot on Pi) */
     height: 100vh;
-    height: 100dvh;
-    /* Use 100% width to avoid horizontal scroll when vertical scrollbar appears */
-    width: 100%;
+    height: 100dvh; /* 100dvh = dynamic viewport height (avoids scrollbar from 100vh overshoot on Pi) */
+    width: 100%; /* 100% avoids horizontal scroll when vertical scrollbar would appear */
 
     /* Reduce header height */
     > header {
@@ -377,6 +280,13 @@ export const styles = css`
       height: 40px;
       min-height: 40px;
       max-height: 40px;
+
+      .col.col-left {
+        padding-left: 1rem; /* Reduced from 2rem */
+      }
+      .col.col-right {
+        padding-right: 1rem; /* Reduced from 2rem */
+      }
     }
 
     /* Optimize main content area */
@@ -419,7 +329,8 @@ export const styles = css`
     }
 
     /* Shared compact styles from project.app.1024x600 */
-    ${stylesAppContent1024x600}
+    /* ${stylesAppContent1024x600} */
+    ${stylesAppContent800x480}
 
     &[data-touch="true"] {
       header.app-header {

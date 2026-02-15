@@ -1,21 +1,7 @@
 import { css } from '@emotion/react';
+import { padProps } from 'components/Pads/Pad/PadBasic.styles';
 
 import { colors } from 'styles';
-
-const props = {
-  pad: {
-    width: '110px',
-    height: '110px',
-  },
-  padLG: {
-    width: '150px',
-    height: '150px',
-  },
-  special: {
-    width: '150px',
-    height: '239px',
-  },
-};
 
 export const styles = css`
   &.main-page-slot-grid {
@@ -50,8 +36,8 @@ export const styles = css`
 
     /* Power button styling */
     .pad-special {
-      width: ${props.pad.width};
-      height: ${props.pad.height};
+      width: ${padProps.pad.width};
+      height: ${padProps.pad.height};
       border-radius: 50%;
       border: 2px solid ${colors.greyDark};
       display: flex;
@@ -66,8 +52,8 @@ export const styles = css`
       &.power {
         border-radius: 10px;
         grid-row: span 2;
-        width: ${props.special.width};
-        height: ${props.special.height};
+        width: ${padProps.special.width};
+        height: ${padProps.special.height};
         color: ${colors.successXLight};
         border-color: ${colors.successLight};
 
@@ -81,6 +67,9 @@ export const styles = css`
           background-color: ${colors.successXXLight50};
         }
       }
+    }
+
+    @media (max-width: 1024px) and (max-height: 600px) {
     }
   }
 `;
