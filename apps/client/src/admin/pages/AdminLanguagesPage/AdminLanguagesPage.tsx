@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Col, Row } from 'react-grid-system'; // DEPRECATED: consider using react-grid-layout
 import { useTranslation } from 'react-i18next';
 import type { LanguageInfo } from '@workspace/i18n/types';
@@ -51,6 +51,10 @@ export const AdminLanguagesPage: React.FC = () => {
     language: null,
   });
 
+  // Timeouts: refs so we clear on unmount and avoid double-firing
+  const reloadTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const clearMessageTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   // Fetch supported languages from database
   const { data: supportedLanguagesData, isLoading, error } = useGetSupportedLanguages();
   const createLanguageMutation = useCreateSupportedLanguage();
@@ -61,45 +65,64 @@ export const AdminLanguagesPage: React.FC = () => {
 
   // Handle translation status changes
   useEffect(() => {
-    if (translationStatus.data) {
-      const { status, progress, error: translationError } = translationStatus.data;
+    if (!translationStatus.data) return;
 
-      if (status === 'completed') {
-        setMessage({
-          type: 'success',
-          text: `✅ Translation completed for ${translatingLanguageCode}! All translations are ready.`,
-        });
-        setTranslatingLanguageCode(null);
-        queryClient.invalidateQueries({ queryKey: supportedLanguagesKeys.lists() });
-        setTimeout(() => {
-          // setMessage(null);
-          window.location.reload();
-        }, 8000);
-      } else if (status === 'failed') {
-        setMessage({
-          type: 'error',
-          text: `❌ Translation failed for ${translatingLanguageCode}: ${translationError || 'Unknown error'}`,
-        });
-        setTranslatingLanguageCode(null);
-        setTimeout(() => setMessage(null), 8000);
-      } else if (status === 'in-progress' && progress) {
-        // Update message with progress
-        const progressText = `Translating ${progress.currentTable}... (${progress.completedTables}/${progress.totalTables} tables)`;
-        setMessage({
-          type: 'success',
-          text: `🔄 ${progressText}`,
-        });
-      }
+    const { status, progress, error: translationError } = translationStatus.data;
+
+    if (status === 'completed') {
+      if (reloadTimeoutRef.current) clearTimeout(reloadTimeoutRef.current);
+      setMessage({
+        type: 'success',
+        text: `✅ Translation completed for ${translatingLanguageCode}! All translations are ready.`,
+      });
+      setTranslatingLanguageCode(null);
+      queryClient.invalidateQueries({ queryKey: supportedLanguagesKeys.lists() });
+      reloadTimeoutRef.current = setTimeout(() => {
+        reloadTimeoutRef.current = null;
+        window.location.reload();
+      }, 8000);
+    } else if (status === 'failed') {
+      if (clearMessageTimeoutRef.current) clearTimeout(clearMessageTimeoutRef.current);
+      setMessage({
+        type: 'error',
+        text: `❌ Translation failed for ${translatingLanguageCode}: ${translationError || 'Unknown error'}`,
+      });
+      setTranslatingLanguageCode(null);
+      clearMessageTimeoutRef.current = setTimeout(() => {
+        clearMessageTimeoutRef.current = null;
+        setMessage(null);
+      }, 8000);
+    } else if (status === 'in-progress' && progress) {
+      const progressText = `Translating ${progress.currentTable}... (${progress.completedTables}/${progress.totalTables} tables)`;
+      setMessage({
+        type: 'success',
+        text: `🔄 ${progressText}`,
+      });
     }
+
+    return () => {
+      if (reloadTimeoutRef.current) {
+        clearTimeout(reloadTimeoutRef.current);
+        reloadTimeoutRef.current = null;
+      }
+      if (clearMessageTimeoutRef.current) {
+        clearTimeout(clearMessageTimeoutRef.current);
+        clearMessageTimeoutRef.current = null;
+      }
+    };
   }, [translationStatus.data, translatingLanguageCode, queryClient]);
 
-  // Convert database data to the unified LanguageInfo format using DTO
-  const languages: LanguageInfo[] = supportedLanguagesData
-    ? LanguagesDto.fromApi(
-        Array.isArray(supportedLanguagesData) ? supportedLanguagesData : supportedLanguagesData || [],
-        (flagCode) => getFlagUrl(flagCode, 'medium'),
-      )
-    : [];
+  // Convert database data to the unified LanguageInfo format using DTO (memoized so useMemo below has stable deps)
+  const languages: LanguageInfo[] = useMemo(
+    () =>
+      supportedLanguagesData
+        ? LanguagesDto.fromApi(
+            Array.isArray(supportedLanguagesData) ? supportedLanguagesData : supportedLanguagesData || [],
+            (flagCode) => getFlagUrl(flagCode, 'medium'),
+          )
+        : [],
+    [supportedLanguagesData],
+  );
 
   // Convert curated languages to the format expected by SearchableLanguageInput
   const { countries, curatedLanguageOptions } = useMemo(() => {
