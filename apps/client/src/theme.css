@@ -23,19 +23,35 @@
   /* Touch-friendly defaults */
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
   touch-action: manipulation;
-}
 
-/* Touch screens: :hover can "stick" after tap. Pad slots use state selectors only
-   (.checked, .selected, .active, [data-state="checked"], [aria-checked="true"]) — no :hover. */
+  /* Smooth scrolling */
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+
+  /* Better font rendering on low-res displays */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
 
 /* Compact display zoom for small screens (e.g., Raspberry Pi 1024x600) */
 @media (max-width: 1024px) {
   :root {
+      /* Scale factor (easy to adjust) */
+    --scale-factor: 0.9;
     /* zoom: 0.9; */
+    /* Scale everything based on rem */
+    font-size: 14.4px; /* 16px * 0.9 = 14.4px */
+    /* OR */
+    font-size: 90%; /* 90% of browser default (16px) */
   }
   body {
-    margin: auto;
+    /* margin: auto; */
+    margin: 0;
+    padding: 0;
   }
 }
 

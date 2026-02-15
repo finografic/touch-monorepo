@@ -415,8 +415,8 @@ const initializeRelayStates = async (): Promise<void> => {
     console.log(
       '■ RELAYS - current states:',
       Array.from(relayStates.entries())
-        .map(([slot, state]) => `${slot}: ${state ? 'ON' : 'OFF'}`)
-        .join(', '),
+        .map(([slot, state]) => `${slot}:${state ? 'ON' : 'OFF'}`)
+        .join(','),
     );
   } catch (error) {
     console.error('❌ Error initializing relay states:', error);

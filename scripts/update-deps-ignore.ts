@@ -29,6 +29,20 @@ const IGNORE_PACKAGES: string[] = [
   'better-sqlite3', // Native SQLite bindings (requires node-gyp)
   '@types/better-sqlite3',
 
+  // TODO: SEVER - ADDED MANUALLY- CHECK THESE !!
+  '@hono/zod-openapi',
+  '@hono/zod-validator',
+  '@scalar/hono-api-reference',
+  'better-auth',
+  'drizzle-zod',
+  'stoker',
+
+  // TODO: REACT - LOCK
+  'react',
+  'react-dom',
+  '@types/react',
+  '@types/react-dom',
+
   // TODO: PROBLEMATIC PACKAGES - ⚠️ CAUTION REQUIRED
   'better-sqlite3',
   '@types/better-sqlite3',
@@ -62,7 +76,7 @@ function filterIgnoredPackages(allPackages: string[], ignored: string[]): string
 /**
  * Update packages using pnpm
  */
-function updatePackages(packages: string[]): void {
+function updatePackages(packages: string[], packageJsonPath: string): void {
   if (packages.length === 0) {
     console.log('✅ No packages to update (all are ignored)');
     return;
@@ -73,11 +87,12 @@ function updatePackages(packages: string[]): void {
   console.log('');
 
   try {
-    // Update all packages at once
+    // cwd = package being updated (e.g. apps/server or apps/client when run via pnpm --filter)
+    const packageDir = dirname(packageJsonPath);
     const packagesArg = packages.join(' ');
     execSync(`pnpm update --latest ${packagesArg}`, {
       stdio: 'inherit',
-      cwd: join(__dirname, '..'),
+      cwd: packageDir,
     });
     console.log('\n✅ All packages updated successfully!');
   } catch (error) {
@@ -88,9 +103,11 @@ function updatePackages(packages: string[]): void {
 
 /**
  * Main function
+ * Uses process.cwd() so when run via pnpm --filter @workspace/server (or client),
+ * it updates that package's package.json.
  */
 async function main() {
-  const packageJsonPath = join(__dirname, '..', 'package.json');
+  const packageJsonPath = join(process.cwd(), 'package.json');
 
   console.log('🔍 Reading package.json...');
   const allPackages = await getAllDependencies(packageJsonPath);
@@ -105,7 +122,7 @@ async function main() {
   }
   console.log('');
 
-  updatePackages(packagesToUpdate);
+  updatePackages(packagesToUpdate, packageJsonPath);
 }
 
 main().catch((error) => {
