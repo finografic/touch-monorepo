@@ -72,7 +72,7 @@ export const AdminLanguagesPage: React.FC = () => {
         setTranslatingLanguageCode(null);
         queryClient.invalidateQueries({ queryKey: supportedLanguagesKeys.lists() });
         setTimeout(() => {
-          setMessage(null);
+          // setMessage(null);
           window.location.reload();
         }, 8000);
       } else if (status === 'failed') {
@@ -306,9 +306,7 @@ export const AdminLanguagesPage: React.FC = () => {
                 loading={createLanguageMutation.isPending}
                 disabled={createLanguageMutation.isPending || selectedLanguages.length === 0}
               >
-                {createLanguageMutation.isPending
-                  ? 'Adding languages...'
-                  : 'Confirm: Add new languages'}
+                {createLanguageMutation.isPending ? 'Adding languages...' : 'Confirm: Add new languages'}
               </Button>
             </Col>
           </Row>
