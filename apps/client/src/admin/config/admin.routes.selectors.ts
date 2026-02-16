@@ -57,7 +57,7 @@ export const getAdminRouteByPath = (path: string): AdminRouteConfig | undefined 
   return findRouteByPathRecursive(ADMIN_ROUTE_CONFIGS, path);
 };
 
-const findRouteByPathRecursive = (routes: AdminRouteConfig[], path: string): AdminRouteConfig | undefined => {
+function findRouteByPathRecursive(routes: AdminRouteConfig[], path: string): AdminRouteConfig | undefined {
   for (const route of routes) {
     if (route.path === path) return route;
 
@@ -67,4 +67,4 @@ const findRouteByPathRecursive = (routes: AdminRouteConfig[], path: string): Adm
     }
   }
   return undefined;
-};
+}

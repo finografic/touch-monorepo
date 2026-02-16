@@ -13,6 +13,7 @@ import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useTimers } from 'providers/TimersProvider';
 import { useGetDefaultMode } from 'queries/modes/useGetDefaultMode';
 
+import { calculateColumns } from 'utils/slots.utils';
 import { NUM_ROWS_DEFAULT } from 'config/app';
 import { MainPageSlotGrid } from './MainPageSlotGrid/MainPageSlotGrid';
 import type { SlotMeta } from './MainPage.types';
@@ -155,9 +156,9 @@ export function MainPage() {
     return <Spinner size="3" />;
   }
 
-  // Dynamically determine grid dimensions
+  // Dynamically determine grid dimensions (shared with Admin slot config)
   const totalSlots = slotsConfig.filter((slot) => slot.isActive).length;
-  const columns = Math.floor((totalSlots - 1) / NUM_ROWS_DEFAULT); // Dynamic columns (2,3,4,5)
+  const columns = calculateColumns(totalSlots);
 
   return (
     <Flex css={styles} direction="column">
