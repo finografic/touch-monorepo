@@ -135,6 +135,16 @@ Desktop.ini
 .cursor/screenshots/
 
 # =============================================================================
+# CLAUDE CODE
+# =============================================================================
+
+# Local permissions (machine-specific paths, personal preferences)
+.claude/settings.local.json
+
+# Session memory (ephemeral breadcrumbs, not shared)
+.claude/memory.md
+
+# =============================================================================
 # WEB SERVER DEFAULT FOLDERS
 # =============================================================================
 
