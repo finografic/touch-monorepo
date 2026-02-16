@@ -13,17 +13,22 @@ interface MainPageSlotGridProps {
   slots: SlotConfiguration[];
   columns: number;
   rows: number;
+  /** When true, all slots are in the grid (no separate "special" slot). Used for minimal 4-slot 2×2. */
+  minimalLayout?: boolean;
 }
 
 const MainPageSlotGridComponent: React.FC<MainPageSlotGridProps> = ({
   slots,
   columns,
   rows = NUM_ROWS_DEFAULT,
+  minimalLayout = false,
 }) => {
   const activeSlots = useMemo(() => slots.filter((s) => s.isActive), [slots]);
   const totalSlots = activeSlots.length;
-  const mainGridSlots = activeSlots.slice(0, totalSlots - 1); // All except the last
-  const lastSlot = activeSlots[totalSlots - 1]; // The last slot
+  const mainGridSlots = minimalLayout
+    ? activeSlots
+    : activeSlots.slice(0, totalSlots - 1); // All except the last (or all when minimal)
+  const lastSlot = minimalLayout ? null : activeSlots[totalSlots - 1] ?? null;
 
   // Calculate dynamic width based on columns
   // Each pad is ~110px, gap is 2.5rem (40px), so: (columns * 110) + ((columns - 1) * 40)
@@ -50,7 +55,7 @@ const MainPageSlotGridComponent: React.FC<MainPageSlotGridProps> = ({
       </div>
 
       <div className="slot-col-lg">
-        {lastSlot && (
+        {!minimalLayout && lastSlot && (
           <PadSlot
             key={lastSlot.slotNumber}
             slotType={SlotType.C}
@@ -58,8 +63,7 @@ const MainPageSlotGridComponent: React.FC<MainPageSlotGridProps> = ({
             variant="large"
           />
         )}
-        {/* <div className="pad-special power" /> */}
-        <PadPower key={lastSlot.slotNumber + 1} slotType={SlotSpecial.ENF} variant="large" />
+        <PadPower key="pad-power" slotType={SlotSpecial.ENF} variant="large" />
       </div>
     </div>
   );

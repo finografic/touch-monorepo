@@ -26,6 +26,10 @@ export const styles = css`
     margin: 0 -0.25rem 1rem -0.25rem;
   }
 
+  /***************************************************************
+   * SLOTS
+   ***************************************************************/
+
   .slot-list-container {
     display: flex;
     flex-direction: column;
@@ -67,6 +71,30 @@ export const styles = css`
     margin-top: 1rem;
     padding: 0 0 1rem 0;
     border-radius: ${layout.borderRadius};
+  }
+
+  /***************************************************************
+   * LAYOUT MODE + LEGEND
+   ***************************************************************/
+
+  .layout-mode-container {
+    /* display: flex;
+    flex-direction: column;
+    padding: 0rem 1rem 1.5rem 1rem;
+    width: 180px; */
+    justify-content: space-between;
+
+    .rt-Text.rt-r-size-3 {
+      font-weight: 700;
+      color: ${colors.textLight};
+    }
+
+    button[role='switch'] {
+      & + span {
+        font-weight: 600;
+        color: ${colors.textXLight};
+      }
+    }
   }
 
   .legend-circle {
