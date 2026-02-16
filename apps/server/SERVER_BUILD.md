@@ -27,6 +27,7 @@ The core issue was that `env.server.ts` is located at the root of `apps/server/`
 ### 1. TypeScript Configuration (`tsconfig.json`)
 
 **Key Settings:**
+
 ```json
 {
   "compilerOptions": {
@@ -45,6 +46,7 @@ The core issue was that `env.server.ts` is located at the root of `apps/server/`
 ```
 
 **Why this works:**
+
 - `rootDir: "./src"` strips the `src/` prefix from output (so `src/types/` → `dist/types/`)
 - `outDir: "./dist"` outputs to `apps/server/dist/` (not `apps/dist/`)
 - Path alias points to a shim file (`./env.server.d.ts`) instead of the root file
@@ -55,6 +57,7 @@ The core issue was that `env.server.ts` is located at the root of `apps/server/`
 **Location:** `apps/server/src/env.server.d.ts`
 
 **Content:**
+
 ```typescript
 // Type declarations for env.server.ts
 // This file allows TypeScript to resolve the env.server import
@@ -65,12 +68,14 @@ export { env } from '../env.server';
 ```
 
 **Purpose:**
+
 - Provides type resolution for `env.server` imports
 - Prevents TypeScript from trying to compile the root `env.server.ts` file
 - Allows `rootDir: "./src"` to work correctly
 - Works for both build (tsc) and dev (tsx) modes
 
 **Important:** The import path is `../env.server` (one level up from `src/`), not `../../env.server.d`. This ensures:
+
 - ✅ TypeScript can resolve types from the source file
 - ✅ `tsx` (dev mode) can resolve the actual source file at runtime
 - ✅ The path correctly points to `apps/server/env.server.ts`
@@ -82,10 +87,12 @@ export { env } from '../env.server';
 **Status:** ✅ **KEEP THIS FILE**
 
 **Why:**
+
 - Contains the actual type declarations for `env.server.ts`
 - Required by the shim file (`src/env.server.d.ts`) to re-export types
 - Should be committed to the repository
 - If `env.server.ts` changes, regenerate it manually:
+
   ```bash
   cd apps/server
   pnpm exec tsc env.server.ts --declaration --emitDeclarationOnly --esModuleInterop
@@ -94,6 +101,7 @@ export { env } from '../env.server';
 ### 4. Bundler Configuration (`tsup.config.ts`)
 
 **Key Settings:**
+
 ```typescript
 export default defineConfig({
   format: ['esm'],
@@ -114,6 +122,7 @@ export default defineConfig({
 ```
 
 **Why this works:**
+
 - `tsup` (esbuild) needs the actual source file (`.ts`) for bundling, not the declaration file
 - The alias tells esbuild where to find `env.server.ts` at the project root
 - TypeScript uses the shim file for type checking, esbuild uses the source file for bundling
@@ -121,6 +130,7 @@ export default defineConfig({
 ### 5. Package.json Exports
 
 **Key Exports:**
+
 ```json
 {
   "exports": {
@@ -141,6 +151,7 @@ export default defineConfig({
 ```
 
 **Important:**
+
 - Exports point to `./dist/types/...` (no `src/` prefix)
 - This matches the output structure when `rootDir: "./src"` is used
 - Client imports like `@workspace/server/types` resolve correctly
@@ -148,6 +159,7 @@ export default defineConfig({
 ## Output Structure
 
 ### Correct Structure (After Fix)
+
 ```
 apps/server/
 ├── dist/
@@ -166,6 +178,7 @@ apps/server/
 ```
 
 ### Incorrect Structure (Before Fix)
+
 ```
 apps/
 ├── dist/                  ❌ Wrong location
@@ -197,21 +210,27 @@ apps/
 ## Troubleshooting
 
 ### Issue: "File is not under 'rootDir'"
+
 **Solution:** Create a shim file in `src/` that re-exports from the root declaration file
 
 ### Issue: "Could not resolve 'env.server'"
+
 **Solution:** Add esbuild alias in `tsup.config.ts` pointing to the source file
 
 ### Issue: Client imports broken (`@workspace/server/types`)
+
 **Solution:**
+
 1. Check `outDir` is `"./dist"` (not `"../dist"`)
 2. Check `rootDir` is `"./src"` (strips prefix)
 3. Verify package.json exports match the output structure
 
 ### Issue: Declarations have `src/` prefix
+
 **Solution:** Set `rootDir: "./src"` in `tsconfig.json`
 
 ### Issue: Declarations in wrong location
+
 **Solution:** Set `outDir: "./dist"` in `tsconfig.json` (not `"../dist"`)
 
 ## Build Commands
@@ -231,6 +250,7 @@ pnpm exec tsc env.server.ts --declaration --emitDeclarationOnly --esModuleIntero
 ## Files to Keep
 
 ✅ **Keep these files:**
+
 - `apps/server/env.server.d.ts` - Root declaration file (needed by shim)
 - `apps/server/src/env.server.d.ts` - Shim file (needed for TypeScript resolution)
 - `apps/server/env.server.ts` - Source file (needed for runtime)
@@ -246,11 +266,13 @@ pnpm exec tsc env.server.ts --declaration --emitDeclarationOnly --esModuleIntero
 ## Summary
 
 The build configuration uses a **dual-path approach**:
+
 1. **TypeScript** resolves `env.server` via a shim file (`src/env.server.d.ts`) for type checking
 2. **esbuild/tsup** resolves `env.server` via an alias to the source file (`env.server.ts`) for bundling
 3. **tsx (dev mode)** resolves `env.server` via the shim file, which imports from the source file
 
 This allows:
+
 - ✅ `rootDir: "./src"` to work (clean output structure)
 - ✅ `outDir: "./dist"` to work (correct output location)
 - ✅ Type checking to work (via shim)
@@ -261,6 +283,7 @@ This allows:
 ## Dev Mode Considerations
 
 **Important for `tsx` (dev mode):**
+
 - The shim file (`src/env.server.d.ts`) must import from the **source file** (`../env.server`), not the declaration file
 - This is because `tsx` needs to execute the actual TypeScript source at runtime
 - The path `../env.server` correctly resolves to `apps/server/env.server.ts` (one level up from `src/`)
@@ -270,4 +293,3 @@ This allows:
 
 **Last Updated:** 2024-11-19
 **Related Issues:** env.server.ts path resolution, TypeScript rootDir conflicts, build output structure
-

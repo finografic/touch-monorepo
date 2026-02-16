@@ -56,3 +56,32 @@ So:
 - **Admin:** `useGetSlotConfigurations()` directly → same DB; form state is synced from that and passed to `SlotGrid`.
 
 So the **stored DB configuration is read in both front and admin**; the shared piece for **parsing and rendering the grid** is **`mapGridByColumns`** in **`utils/grid.utils.ts`**, and it is used in both places. Column count could be unified by having MainPage use **`calculateColumns`** from **`utils/slots.utils.ts`** instead of its inline formula, if you want one shared rule for “active slots → columns.”
+
+---
+
+ok, i don't have a table for general configurations... BUT i have been thinking about it..
+
+I would best similar to the AppConfigContext / AppConfigProvider, which stores miscelaneous high-level config values that do not change often rarely change..
+
+Thatis on option.  Localstorage is not ensoure, as this would need to persist between sessions, reboots, etc..
+
+OK, MY REAL WORLD PROBLEM TO SOLVE:
+
+I do not actually need the reduce the number of rows...  BUT I NEED 1 single configuration that would be the FIRST possible configuration, when using the - / + column rows...
+
+Currently there is a CONSTRAINT for mininum 2 COLUMNS...
+
+REQUIRED CONFIGURATION is a FIXED CONFIGURATION, see attached:
+
+- 4 slots only
+- 2 columns, 2 rows
+- no "extra" red button
+
+UI/UX TO ASSIGN THIS CONFIGURATION:
+
+I can think of two options:
+
+1. "remove column" button allows one additonal click that sets this configuration
+2. a new TOGGLE button that togggles between the standard grid, and the NEW config -- no matter how many columns are set, it wil toggle back to that config.
+
+What do you think ?
