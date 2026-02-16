@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>@workspace/design-system — Color Palette</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: #fafafa;
+      color: #1a1a1a;
+      padding: 2rem;
+    }
+    h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem; }
+    .subtitle { font-size: 0.875rem; color: #666; margin-bottom: 2rem; }
+    h2 { font-size: 1.1rem; font-weight: 600; margin: 2rem 0 0.75rem; color: #333; }
+    h3 { font-size: 0.8rem; font-weight: 600; margin: 1.5rem 0 0.5rem; color: #666; text-transform: uppercase; letter-spacing: 0.05em; }
+
+    .palette-row {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 0.5rem;
+    }
+    .swatch {
+      width: 80px;
+      height: 56px;
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 4px;
+      font-size: 9px;
+      font-weight: 500;
+      border: 1px solid rgba(0,0,0,0.06);
+      position: relative;
+    }
+    .swatch-label {
+      font-size: 8px;
+      font-weight: 600;
+      opacity: 0.85;
+      text-align: center;
+      line-height: 1.2;
+    }
+    .swatch.light-text .swatch-label { color: #fff; }
+    .swatch.dark-text .swatch-label { color: #1a1a1a; }
+
+    .semantic-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 8px;
+      margin-bottom: 1rem;
+    }
+    .semantic-swatch {
+      height: 48px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 600;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .section { margin-bottom: 2.5rem; }
+    .divider { border: none; border-top: 1px solid #e5e5e5; margin: 2rem 0; }
+
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+    @media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
+
+    footer { margin-top: 3rem; font-size: 0.75rem; color: #999; }
+  </style>
+</head>
+<body>
+
+  <h1>@workspace/design-system</h1>
+  <p class="subtitle">🎨 Color Palette — OKLCH Color Space</p>
+
+  <!-- ================================================================== -->
+  <div class="section">
+    <h2>Core Palette</h2>
+    <p style="font-size: 0.8rem; color: #666; margin-bottom: 1rem;">
+      Base colors sourced from Tailwind, expressed in OKLCH. Shades derived via <code>color-mix(in oklch, ...)</code>.
+    </p>
+
+    <div class="palette-row" id="primary-row"></div>
+    <div class="palette-row" id="secondary-row"></div>
+    <div class="palette-row" id="success-row"></div>
+    <div class="palette-row" id="warning-row"></div>
+    <div class="palette-row" id="danger-row"></div>
+    <div class="palette-row" id="info-row"></div>
+    <div class="palette-row" id="grey-row"></div>
+    <div class="palette-row" id="neutral-row"></div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- ================================================================== -->
+  <div class="section">
+    <h2>Semantic Tokens — Light Mode</h2>
+
+    <div class="two-col">
+      <div>
+        <h3>Background (bg.*)</h3>
+        <div class="semantic-grid" id="bg-tokens"></div>
+      </div>
+      <div>
+        <h3>Foreground (fg.*)</h3>
+        <div class="semantic-grid" id="fg-tokens"></div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <h3>Border (border.*)</h3>
+        <div class="semantic-grid" id="border-tokens"></div>
+      </div>
+      <div>
+        <h3>Accent (accent.*)</h3>
+        <div class="semantic-grid" id="accent-tokens"></div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- ================================================================== -->
+  <div class="section">
+    <h2>Status Colors</h2>
+    <div class="semantic-grid" id="status-tokens"></div>
+  </div>
+
+  <footer>
+    Generated from <code>@workspace/design-system</code> tokens.
+    Open this file in a browser and screenshot for README usage.
+  </footer>
+
+  <script>
+    // ── Base OKLCH colors ────────────────────────────────────────────
+    const base = {
+      primary:   'oklch(48.8% 0.243 264.376)',
+      secondary: 'oklch(49.6% 0.265 301.924)',
+      success:   'oklch(65.4% 0.194 149.214)',
+      warning:   'oklch(76.9% 0.188 70.08)',
+      danger:    'oklch(57.7% 0.245 27.325)',
+      info:      'oklch(58.8% 0.158 241.966)',
+      grey:      'oklch(55.2% 0.016 285.938)',
+      neutral:   'oklch(55.3% 0.013 58.071)',
+    };
+
+    const shades = [
+      { name: 'lightest', mix: 10 },
+      { name: 'lighter',  mix: 20 },
+      { name: 'light',    mix: 40 },
+      { name: 'DEFAULT',  mix: 100 },
+      { name: 'dark',     mix: 80, darkMix: true },
+      { name: 'darker',   mix: 60, darkMix: true },
+    ];
+
+    function makeColor(baseColor, shade) {
+      if (shade.mix === 100) return baseColor;
+      if (shade.darkMix) return `color-mix(in oklch, ${baseColor} ${shade.mix}%, black)`;
+      return `color-mix(in oklch, ${baseColor} ${shade.mix}%, white)`;
+    }
+
+    function isLight(shade) {
+      return shade.name === 'lightest' || shade.name === 'lighter' || shade.name === 'light';
+    }
+
+    // ── Render core palette ──────────────────────────────────────────
+    for (const [colorName, colorValue] of Object.entries(base)) {
+      const row = document.getElementById(`${colorName}-row`);
+      if (!row) continue;
+
+      // Color name label
+      const label = document.createElement('div');
+      label.style.cssText = 'width: 70px; display: flex; align-items: center; font-size: 11px; font-weight: 600; color: #555;';
+      label.textContent = colorName;
+      row.appendChild(label);
+
+      for (const shade of shades) {
+        const color = makeColor(colorValue, shade);
+        const swatch = document.createElement('div');
+        swatch.className = `swatch ${isLight(shade) ? 'dark-text' : 'light-text'}`;
+        swatch.style.backgroundColor = color;
+        swatch.innerHTML = `<span class="swatch-label">${shade.name}</span>`;
+        row.appendChild(swatch);
+      }
+    }
+
+    // ── Semantic tokens ──────────────────────────────────────────────
+    const semanticBg = {
+      'bg':          '#ffffff',
+      'bg.subtle':   `color-mix(in oklch, ${base.grey} 10%, white)`,
+      'bg.muted':    `color-mix(in oklch, ${base.grey} 20%, white)`,
+      'bg.emphasized': `color-mix(in oklch, ${base.grey} 40%, white)`,
+      'bg.inverted': '#000000',
+      'bg.panel':    '#ffffff',
+    };
+    const semanticFg = {
+      'fg':          'oklch(28% 0 0)',
+      'fg.muted':    'oklch(40% 0.01 285)',
+      'fg.subtle':   base.grey,
+      'fg.inverted': '#ffffff',
+    };
+    const semanticBorder = {
+      'border':            `color-mix(in oklch, ${base.grey} 20%, white)`,
+      'border.muted':      `color-mix(in oklch, ${base.grey} 10%, white)`,
+      'border.subtle':     `color-mix(in oklch, ${base.grey} 10%, white)`,
+      'border.emphasized': `color-mix(in oklch, ${base.grey} 40%, white)`,
+      'border.inverted':   'oklch(28% 0 0)',
+    };
+    const semanticAccent = {
+      'accent':            base.primary,
+      'accent.subtle':     `color-mix(in oklch, ${base.primary} 10%, white)`,
+      'accent.muted':      `color-mix(in oklch, ${base.primary} 20%, white)`,
+      'accent.emphasized': `color-mix(in oklch, ${base.primary} 40%, white)`,
+      'accent.solid':      base.primary,
+      'accent.focusRing':  `color-mix(in oklch, ${base.primary} 40%, white)`,
+    };
+
+    function renderSemanticGrid(containerId, tokens, textColorFn) {
+      const container = document.getElementById(containerId);
+      for (const [name, color] of Object.entries(tokens)) {
+        const el = document.createElement('div');
+        el.className = 'semantic-swatch';
+        el.style.backgroundColor = color;
+        const needsLightText = textColorFn ? textColorFn(name) : false;
+        el.style.color = needsLightText ? '#fff' : '#1a1a1a';
+        el.textContent = name;
+        container.appendChild(el);
+      }
+    }
+
+    renderSemanticGrid('bg-tokens', semanticBg, (n) => n.includes('inverted'));
+    renderSemanticGrid('fg-tokens', semanticFg, (n) => n === 'fg' || n === 'fg.muted');
+    renderSemanticGrid('border-tokens', semanticBorder, (n) => n.includes('inverted'));
+    renderSemanticGrid('accent-tokens', semanticAccent, (n) => n === 'accent' || n === 'accent.solid');
+
+    // ── Status ───────────────────────────────────────────────────────
+    const statusTokens = {
+      'bg.error':      `color-mix(in oklch, ${base.danger} 10%, white)`,
+      'fg.error':      base.danger,
+      'border.error':  base.danger,
+      'bg.warning':    `color-mix(in oklch, ${base.warning} 10%, white)`,
+      'fg.warning':    `color-mix(in oklch, ${base.warning} 80%, black)`,
+      'border.warning': base.warning,
+      'bg.success':    `color-mix(in oklch, ${base.success} 10%, white)`,
+      'fg.success':    `color-mix(in oklch, ${base.success} 80%, black)`,
+      'border.success': base.success,
+      'bg.info':       `color-mix(in oklch, ${base.info} 10%, white)`,
+      'fg.info':       `color-mix(in oklch, ${base.info} 80%, black)`,
+      'border.info':   base.info,
+    };
+    renderSemanticGrid('status-tokens', statusTokens, (n) => n.startsWith('fg.') || n.startsWith('border.'));
+  </script>
+</body>
+</html>

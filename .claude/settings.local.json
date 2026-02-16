@@ -16,7 +16,10 @@
       "Bash(git -C /Users/justin/repos-finografic/touch-monorepostatus)",
       "Bash(git -C /Users/justin/repos-finografic/touch-monorepo diff)",
       "Bash(git -C:*)",
-      "Bash(gh api:*)"
+      "Bash(gh api:*)",
+      "WebFetch(domain:ark-ui.com)",
+      "Bash(npx tsup:*)",
+      "Bash(git -C /Users/justin/repos-finografic/touch-monorepo add packages/design-system/ pnpm-lock.yaml .claude/settings.local.json)"
     ]
   }
 }

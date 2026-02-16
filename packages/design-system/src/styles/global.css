@@ -1,0 +1,7 @@
+/**
+ * Global CSS — aggregates all shared styles
+ * Import this single file in your app entry point.
+ */
+
+@import url(./reset.css);
+@import url(./keyframes.css);
