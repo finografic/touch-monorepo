@@ -3,6 +3,7 @@ import { envShared } from '@workspace/config/env.shared';
 import chalk from 'chalk';
 import { cors } from 'hono/cors';
 
+import appConfiguration from 'routes/app-configuration';
 import auth from 'routes/auth/auth.routes';
 import containerType from 'routes/container-type';
 import drinkSubtypes from 'routes/drink-subtypes';
@@ -68,6 +69,7 @@ const routes = [
   supportedLanguage,
   sounds,
   slotConfigurations,
+  appConfiguration,
   translations,
   i18n,
   relay,

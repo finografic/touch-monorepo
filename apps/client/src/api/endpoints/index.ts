@@ -1,4 +1,9 @@
 // ============================================================================
+// APP CONFIGURATION
+// ============================================================================
+export { appConfigurationEndpoints } from './app-configuration.endpoints';
+
+// ============================================================================
 // CONTAINER TYPES
 // ============================================================================
 export { type ContainerTypeUpdate, EndpointsContainerType } from './container-type.endpoints';

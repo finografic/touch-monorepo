@@ -6,6 +6,7 @@ export * from './auth_user.schema';
 export * from './auth_verification.schema';
 
 // Configuration schemas
+export * from './app_configuration.schema';
 export * from './container_types.schema';
 export * from './drink_subtypes.schema';
 export * from './drink_types.schema';

@@ -2,6 +2,10 @@ import type { SeedConfig, ViewConfig } from '@finografic/project-scripts/db-setu
 
 export const seedConfigs: SeedConfig[] = [
   {
+    name: 'app_configuration',
+    description: 'App-level configuration (grid_layout mode, etc..)',
+  },
+  {
     name: 'supported_languages',
     description: 'Supported languages',
   },
