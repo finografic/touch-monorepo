@@ -1,5 +1,7 @@
 {
   "permissions": {
-    "allow": []
+    "allow": [
+      "Bash(git -C /Users/justin/repos-finografic/touch-monorepo diff --stat)"
+    ]
   }
 }
