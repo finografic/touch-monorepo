@@ -45,17 +45,17 @@ Use this list when renaming constants/properties to align with DB key names. For
 
 ---
 
-## Client – temp min/max/default constants (INITIAL_TEMP_*, FINAL_TEMP_*, TEMP_*_MIN/MAX, etc.)
+## Client – temp min/max/default constants (TEMP_CONSUME_*, FINAL_TEMP_*, TEMP_*_MIN/MAX, etc.)
 
 | File path | Variable name | Inferred usage |
 |-----------|---------------|----------------|
-| apps/client/src/config/app/temperature.config.ts | INITIAL_TEMP_DEFAULT, INITIAL_TEMP_MIN, INITIAL_TEMP_MAX, FINAL_TEMP_DEFAULT, FINAL_TEMP_MIN, FINAL_TEMP_MAX, MIN_TEMP_DIFFERENCE | App-level temp defaults and bounds (temperature page / flow) |
+| apps/client/src/config/app/temperature.config.ts | TEMP_CONSUME_DEFAULT, TEMP_CONSUME_MIN, TEMP_CONSUME_MAX, FINAL_TEMP_DEFAULT, FINAL_TEMP_MIN, FINAL_TEMP_MAX, MIN_TEMP_DIFFERENCE | App-level temp defaults and bounds (temperature page / flow) |
 | apps/client/src/admin/pages/Translations/TranslationsProductPage/hooks/useSaveProductTranslations.ts | TEMP_CONSUME_MIN, TEMP_CONSUME_MAX, TEMP_FREEZE_MIN, TEMP_FREEZE_MAX | Clamp bounds for drink type/subtype schema (-10..30 consume, -20..10 freeze) |
 | apps/client/src/forms/FormMiddleware/FormMiddleware.constants.ts | DEFAULT_TEMP_MIN, DEFAULT_TEMP_MAX, TEMP_CONSUME_MAX, TEMP_STEP | Input constraints and step for temperature fields |
 | apps/client/src/forms/InputTemperature/InputTemperature.tsx | DEFAULT_TEMP_MIN, DEFAULT_TEMP_MAX, TEMP_STEP | Fallback min/max and step for input |
 | apps/client/src/forms/TemperatureInputField/TemperatureInputField.tsx | DEFAULT_TEMP_MIN, DEFAULT_TEMP_MAX, TEMP_STEP | Default min, max, step props |
-| apps/client/src/pages/TemperaturePage/useTemperatureFormAndFilter.ts | INITIAL_TEMP_DEFAULT, FINAL_TEMP_DEFAULT, MIN_TEMP_DIFFERENCE | Filter defaults and next-button validation |
-| apps/client/src/pages/TemperaturePage/TemperaturePage.tsx | INITIAL_TEMP_DEFAULT, MIN_TEMP_DIFFERENCE | Initial state and final max (initial - MIN_TEMP_DIFFERENCE) |
+| apps/client/src/pages/TemperaturePage/useTemperatureFormAndFilter.ts | TEMP_CONSUME_DEFAULT, TEMP_FREEZE_DEFAULT, MIN_TEMP_DIFFERENCE | Filter defaults and next-button validation |
+| apps/client/src/pages/TemperaturePage/TemperaturePage.tsx | TEMP_CONSUME_DEFAULT, MIN_TEMP_DIFFERENCE | Initial state and final max (initial - MIN_TEMP_DIFFERENCE) |
 | apps/client/src/pages/TemperaturePage/TemperatureForm.tsx | MIN_TEMP_DIFFERENCE | Max final temp = initial - MIN_TEMP_DIFFERENCE |
 | apps/client/src/admin/pages/AdminProductsPage/OrdersForm/OrdersForm.tsx | MIN_TEMP_DIFFERENCE | Max freeze temp = consume - MIN_TEMP_DIFFERENCE |
 | apps/client/src/admin/pages/AdminProductsPage/OrdersForm/OrdersForm.schema.ts | MIN_TEMP_DIFFERENCE | Refine: freeze <= consume - MIN_TEMP_DIFFERENCE |
@@ -98,7 +98,7 @@ Use this list when renaming constants/properties to align with DB key names. For
 | docs/FormMiddleware-System.md | defaultTempConsume, defaultTempFreeze, DEFAULT_TEMP_MIN, DEFAULT_TEMP_MAX, TEMP_STEP, MIN_TEMP_DIFFERENCE | Form middleware examples |
 | apps/client/src/api/API_ENDPOINTS_AND_QUERIES_GUIDE.md | defaultTempConsume, defaultTempFreeze | API guide examples |
 | apps/client/src/pages/TemperaturePage/TEMPERATURE_SYSTEM_ANALYSIS.md | defaultTempConsume, defaultTempFreeze | Analysis doc |
-| apps/client/src/pages/TemperaturePage/TEMPERATURE_PAGE_FLOW.md | defaultTempConsume, INITIAL_TEMP_DEFAULT, FINAL_TEMP_*, etc. | Flow doc |
+| apps/client/src/pages/TemperaturePage/TEMPERATURE_PAGE_FLOW.md | defaultTempConsume, TEMP_CONSUME_DEFAULT, FINAL_TEMP_*, etc. | Flow doc |
 | apps/client/src/forms/TemperatureInputField/TEMPERATURE_INPUT_MIGRATION.md | MIN_TEMP_DIFFERENCE | Migration notes |
 | apps/server/src/routes/temperature-profile/docs/README.EN.temperature.md | default_temp_consume, default_temp_freeze, min_temp_consume, max_temp_consume | Temperature profile docs |
 | apps/server/src/routes/temperature-profile/docs/README.ES.temperature.md | (same) | Same, Spanish |
@@ -125,4 +125,4 @@ Use this list when renaming constants/properties to align with DB key names. For
 
 - **DB column names (keep as-is in SQL/migrations/snapshots):** `default_temp_consume`, `default_temp_freeze`
 - **Code to align:** All **camelCase** usages (`defaultTempConsume`, `defaultTempFreeze`) that represent these two concepts can be renamed to the DB key style you choose (e.g. `default_temp_consume` / `default_temp_freeze` in TS/API if you want code to match DB).
-- **Constants:** Names like `TEMP_CONSUME_MIN`, `TEMP_FREEZE_MAX`, `INITIAL_TEMP_DEFAULT`, `FINAL_TEMP_MIN`, etc. are separate from the DB column names; rename only if you want them to follow a single naming convention (e.g. all snake_case or all prefixed the same way).
+- **Constants:** Names like `TEMP_CONSUME_MIN`, `TEMP_FREEZE_MAX`, `TEMP_CONSUME_DEFAULT`, `FINAL_TEMP_MIN`, etc. are separate from the DB column names; rename only if you want them to follow a single naming convention (e.g. all snake_case or all prefixed the same way).
