@@ -195,6 +195,15 @@ export const TranslationsTableExpandable: React.FC<TranslationsTableExpandablePr
           />
         </Flex>
 
+        <div>
+          <div>
+            <Text>SAVING</Text>
+          </div>
+          <div>
+            <Text>{Boolean(isSaving).toString()}</Text>
+          </div>
+        </div>
+
         {/* <table className="translations-table expandable"> */}
         <table
           className={`translations-table expandable ${showKeyColumn ? 'is-visible-key-column' : 'is-hidden-key-column'}`}
