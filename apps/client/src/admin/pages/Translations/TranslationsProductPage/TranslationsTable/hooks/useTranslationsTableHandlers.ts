@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { type MutableRefObject, useCallback } from 'react';
 import type { UseFormReturn } from 'react-hook-form';
 
 import type { TranslationsFormItem } from '../../translationsProduct.types';
@@ -11,7 +11,7 @@ interface UseTranslationsTableHandlersOptions {
   isItemEmpty: (item: TranslationsFormItem) => boolean;
   onSave?: ({ items }: { items: TranslationsFormItem[] }) => Promise<{ savedItems: TranslationsFormItem[] }>;
   onDelete?: (itemId: string, drinkTypeId?: string) => Promise<{ success: boolean; deletedId: string }>;
-  initialItemsRef: React.MutableRefObject<TranslationsFormItem[]>;
+  initialItemsRef: MutableRefObject<TranslationsFormItem[]>;
 }
 
 interface UseTranslationsTableHandlersReturn {
@@ -49,6 +49,7 @@ export const useTranslationsTableHandlers = ({
       }
 
       const itemName = item.name || 'this item';
+      // eslint-disable-next-line no-alert
       const confirmed = window.confirm(
         `Are you sure you want to delete "${itemName}"?\n\nThis action cannot be undone.`,
       );
@@ -82,17 +83,56 @@ export const useTranslationsTableHandlers = ({
   // Save Handler
   // ======================================================================== //
 
+  /**
+   * Build a comparable snapshot of fields we send to the API for this item.
+   * Used to exclude existing rows that RHF marked dirty but are unchanged.
+   * Normalizes numbers so 12 and "12" compare equal (avoids sending unchanged
+   * rows that only differ by type after refetch/form state).
+   */
+  const getComparablePayload = useCallback(
+    (item: TranslationsFormItem) => {
+      const base: Record<string, unknown> = {
+        name: String(item.name ?? ''),
+        ...Object.fromEntries(
+          languageKeys.map((k) => [k, String(item[k as keyof TranslationsFormItem] ?? '')]),
+        ),
+      };
+      if ((item as any).drinkTypeId != null) {
+        const consume = (item as any).defaultTempConsume;
+        const freeze = (item as any).defaultTempFreeze;
+        base.defaultTempConsume = consume === undefined || consume === null ? undefined : Number(consume);
+        base.defaultTempFreeze = freeze === undefined || freeze === null ? undefined : Number(freeze);
+      }
+      return JSON.stringify(base);
+    },
+    [languageKeys],
+  );
+
   const handleSave = methods.handleSubmit(async (data) => {
     const { dirtyFields } = methods.formState;
+    const initial = initialItemsRef.current;
 
-    // 1. Remove empty rows
-    const nonEmptyItems = data.items.filter((item) => !isItemEmpty(item));
+    // 1. Remove empty rows, keeping original index for dirty check
+    const withIndex = data.items
+      .map((item, index) => ({ item, index }))
+      .filter(({ item }) => !isItemEmpty(item));
 
-    // 2. Keep only dirty or new rows
-    const changedItems = nonEmptyItems.filter((item, index) => {
-      if (item.id.startsWith('temp-')) return true;
-      return Boolean(dirtyFields.items?.[index]);
-    });
+    // 2. Keep only dirty or new (temp) rows — use ORIGINAL index for dirtyFields
+    const dirtyOrNew = withIndex.filter(
+      ({ item, index }) => item.id.startsWith('temp-') || Boolean(dirtyFields.items?.[index]),
+    );
+
+    // 3. For existing (non-temp) rows, only include if actually changed from initial.
+    //    RHF can mark rows dirty incorrectly (e.g. after append); sending them causes
+    //    wrong-type PATCH (e.g. Vino) and validation errors (e.g. defaultTempFreeze).
+    const changedItems = dirtyOrNew
+      .filter(({ item }) => {
+        if (item.id.startsWith('temp-')) return true;
+        const initialItem = initial.find((i) => i.id === item.id);
+        if (!initialItem) return true;
+        return getComparablePayload(item) !== getComparablePayload(initialItem);
+      })
+      .map(({ item }) => item);
 
     if (changedItems.length === 0) return;
 

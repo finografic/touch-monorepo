@@ -17,6 +17,21 @@ import { invalidateReferenceDataQueries } from 'queries/invalidateReferenceData'
 import type { SectionKey, TranslationsFormItem } from '../translationsProduct.types';
 import { TranslationsDto } from '../utils/translationsProduct.dto';
 
+// Match server schema: insertDrinkSubtypeSchema / drink_types (min/max)
+const TEMP_CONSUME_MIN = -10;
+const TEMP_CONSUME_MAX = 30;
+const TEMP_FREEZE_MIN = -20;
+const TEMP_FREEZE_MAX = 10;
+
+function clampTempConsume(v: number | undefined | null): number {
+  const n = v === undefined || v === null ? 5 : Number(v);
+  return Math.max(TEMP_CONSUME_MIN, Math.min(TEMP_CONSUME_MAX, n));
+}
+function clampTempFreeze(v: number | undefined | null): number {
+  const n = v === undefined || v === null ? -2 : Number(v);
+  return Math.max(TEMP_FREEZE_MIN, Math.min(TEMP_FREEZE_MAX, n));
+}
+
 export const useSaveProductTranslations = (sectionKey: SectionKey, supportedLanguages: RegionLocale[]) => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
@@ -50,8 +65,8 @@ export const useSaveProductTranslations = (sectionKey: SectionKey, supportedLang
                 name: payload.name,
                 translations: payload.translations,
                 hasSubtypes: (item as any).hasSubtypes ?? false,
-                defaultTempConsume: (item as any).defaultTempConsume ?? 5,
-                defaultTempFreeze: (item as any).defaultTempFreeze ?? -2,
+                defaultTempConsume: clampTempConsume((item as any).defaultTempConsume),
+                defaultTempFreeze: clampTempFreeze((item as any).defaultTempFreeze),
               });
               break;
 
@@ -81,8 +96,8 @@ export const useSaveProductTranslations = (sectionKey: SectionKey, supportedLang
                 name: payload.name,
                 drinkTypeId,
                 translations: payload.translations,
-                defaultTempConsume: (item as any).defaultTempConsume ?? 5,
-                defaultTempFreeze: (item as any).defaultTempFreeze ?? -2,
+                defaultTempConsume: clampTempConsume((item as any).defaultTempConsume),
+                defaultTempFreeze: clampTempFreeze((item as any).defaultTempFreeze),
               });
               break;
             }
@@ -104,8 +119,8 @@ export const useSaveProductTranslations = (sectionKey: SectionKey, supportedLang
                 name: payload.name,
                 translations: payload.translations,
                 hasSubtypes: (item as any).hasSubtypes,
-                defaultTempConsume: (item as any).defaultTempConsume,
-                defaultTempFreeze: (item as any).defaultTempFreeze,
+                defaultTempConsume: clampTempConsume((item as any).defaultTempConsume),
+                defaultTempFreeze: clampTempFreeze((item as any).defaultTempFreeze),
               },
             });
             break;
@@ -144,8 +159,8 @@ export const useSaveProductTranslations = (sectionKey: SectionKey, supportedLang
               updates: {
                 name: payload.name,
                 translations: payload.translations,
-                defaultTempConsume: (item as any).defaultTempConsume,
-                defaultTempFreeze: (item as any).defaultTempFreeze,
+                defaultTempConsume: clampTempConsume((item as any).defaultTempConsume),
+                defaultTempFreeze: clampTempFreeze((item as any).defaultTempFreeze),
               },
             });
             break;
@@ -174,6 +189,7 @@ export const useSaveProductTranslations = (sectionKey: SectionKey, supportedLang
     [
       sectionKey,
       supportedLanguages,
+      queryClient,
       createDrinkType,
       updateDrinkType,
       createDrinkSubtype,

@@ -13,7 +13,6 @@ import { useToast } from 'components/Toast/ToastContext';
 
 import { useGetDrinkTypes } from 'queries/drink-types';
 
-// import { TableFormButtons } from 'admin/pages/TranslationsProductPage/TableFormButtons/TableFormButtons';
 import { TableFormButtons } from '../../shared/components/TableFormButtons';
 import { COL_CHEVRON_WIDTH, COL_SLUG_WIDTH } from '../../shared/constants/translations-table.config';
 import { DEFAULT_SHOW_KEY_COLUMN_PRODUCT } from '../../shared/constants/translationsTable.constants';
@@ -151,6 +150,8 @@ export const TranslationsTableExpandable: React.FC<TranslationsTableExpandablePr
         id: `temp-${createCuid()}`,
         name: '',
         drinkTypeId: expandedGroupId,
+        defaultTempConsume: 5,
+        defaultTempFreeze: -2,
         ...Object.fromEntries(languageKeys.map((k) => [k, ''])),
       } as TranslationsFormItem);
     },
@@ -194,15 +195,6 @@ export const TranslationsTableExpandable: React.FC<TranslationsTableExpandablePr
             setShowKeyColumn={setShowKeyColumn}
           />
         </Flex>
-
-        <div>
-          <div>
-            <Text>SAVING</Text>
-          </div>
-          <div>
-            <Text>{Boolean(isSaving).toString()}</Text>
-          </div>
-        </div>
 
         {/* <table className="translations-table expandable"> */}
         <table
