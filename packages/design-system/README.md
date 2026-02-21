@@ -81,15 +81,9 @@ All colors use the **OKLCH color space** for perceptually uniform shade generati
 > **Preview:** Open `docs/color-palette-preview.html` in a browser to see the full palette rendered.
 > Screenshot it for use in documentation.
 
+![COLOR_PALETTE](./docs/COLOR_PALETTE.png)
 
-
-<img src="./docs/COLOR_PALLETTE.png" alt="COLOR_PALLETTE" style="width:100%;" />
-
-
-
-<img src="./docs/SEMANTIC_TOKENS.png" alt="COLOR_PALLETTE" style="width:100%;" />
-
-
+![COLOR_PALETTE](./docs/SEMANTIC_TOKENS.png)
 
 ### How shades are generated
 
