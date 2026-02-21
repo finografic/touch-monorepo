@@ -1,7 +1,13 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git -C /Users/justin/repos-finografic/touch-monorepo diff --stat)"
+      "Bash(git -C /Users/justin/repos-finografic/touch-monorepo diff --stat)",
+      "Bash(ls:*)",
+      "Bash(pnpm add:*)",
+      "Bash(pnpm build:*)",
+      "Bash(pnpm lint:*)",
+      "Bash(pnpm lint.fix:*)",
+      "Bash(pnpm typecheck:*)"
     ]
   }
 }
