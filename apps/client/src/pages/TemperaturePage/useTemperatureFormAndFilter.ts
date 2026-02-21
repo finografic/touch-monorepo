@@ -11,7 +11,12 @@ import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { findClosestProfile } from 'utils/temperature.utils';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { TemperatureProfile } from 'types/temperature.types';
-import { FINAL_TEMP_DEFAULT, INITIAL_TEMP_DEFAULT, MIN_TEMP_DIFFERENCE, ROUTE_FILTER_KEYS } from 'config/app';
+import {
+  MIN_TEMP_DIFFERENCE,
+  ROUTE_FILTER_KEYS,
+  TEMP_CONSUME_DEFAULT,
+  TEMP_FREEZE_DEFAULT,
+} from 'config/app';
 
 interface UseTemperatureManagementProps {
   profiles: TemperatureProfile[];
@@ -109,8 +114,8 @@ export const useTemperatureFormAndFilter = ({ profiles, dataFiltered }: UseTempe
     (setTemperatures: (temps: TemperatureState) => void) => {
       if (refIsInitialized.current) return;
 
-      const initial = INITIAL_TEMP_DEFAULT;
-      const final = filters?.temperature?.defaultConsume ?? FINAL_TEMP_DEFAULT;
+      const initial = TEMP_CONSUME_DEFAULT;
+      const final = filters?.temperature?.defaultConsume ?? TEMP_FREEZE_DEFAULT;
       setTemperatures({ initial, final });
       updateFilters({ initial, final });
 

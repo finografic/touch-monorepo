@@ -12,7 +12,7 @@ import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 
 import type { Temperature } from 'types/slots.types';
 import { TemperatureKey } from 'types/temperature.types';
-import { INITIAL_TEMP_DEFAULT, MIN_TEMP_DIFFERENCE } from 'config/app';
+import { TEMP_CONSUME_DEFAULT, MIN_TEMP_DIFFERENCE } from 'config/app';
 import { useTemperatureFormAndFilter } from './useTemperatureFormAndFilter';
 import { styles } from './TemperaturePage.styles';
 
@@ -25,8 +25,8 @@ export const TemperaturePage = () => {
   const { createFallbackEntry } = useSmartFallback();
 
   const [temperatures, setTemperatures] = useState<TemperatureState>({
-    [TemperatureKey.Initial]: INITIAL_TEMP_DEFAULT,
-    [TemperatureKey.Final]: INITIAL_TEMP_DEFAULT,
+    [TemperatureKey.Initial]: TEMP_CONSUME_DEFAULT,
+    [TemperatureKey.Final]: TEMP_CONSUME_DEFAULT,
   });
 
   // 🚨 DIRTY FIX: Use fallback entry if no data available
