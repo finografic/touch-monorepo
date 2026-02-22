@@ -1,10 +1,14 @@
 import type { SlotConfiguration, SlotItem } from 'types/slot-config.types';
 import { type SelectedSlotItem, SlotType } from 'types/slots.types';
 
-export const NUM_ROWS_DEFAULT = 3; // Always 3 rows
+export const NUM_ROWS_DEFAULT = 3; // Standard grid (3+ columns)
 export const NUM_RELAYS = 16; // Always 16 total slots
-export const MIN_COLUMNS = 2;
+export const MIN_COLUMNS = 1; // Allow 1×2 or 2×2 smaller layouts
 export const MAX_COLUMNS = 4;
+
+/** When columns < 3 we use 2 rows (1×2 or 2×2); when >= 3 we use NUM_ROWS_DEFAULT. */
+export const getEffectiveRows = (columns: number): number =>
+  columns < 3 ? 2 : NUM_ROWS_DEFAULT;
 
 export const INITIAL_SLOT_ITEM: SelectedSlotItem = {
   id: '',

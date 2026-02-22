@@ -1,18 +1,23 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { Badge, Flex, Switch, Text } from '@radix-ui/themes';
+import { Badge, Flex, Text } from '@radix-ui/themes';
 import clsx from 'clsx';
 import { useDebouncedCallback } from 'use-debounce';
 import { Button } from 'components/Button';
 import { useToast } from 'components/Toast';
 
-import { useGetAppConfigurationByKey, useUpdateAppConfiguration } from 'queries/app-configuration';
 import { useBulkUpdateSlotConfigurations, useGetSlotConfigurations } from 'queries/slot-configurations';
 
 import { calculateColumns } from 'utils/slots.utils';
 import type { SlotType } from 'types/slots.types';
-import { MAX_COLUMNS, MIN_COLUMNS, NUM_RELAYS, NUM_ROWS_DEFAULT } from 'config/app/slots.config';
+import {
+  getEffectiveRows,
+  MAX_COLUMNS,
+  MIN_COLUMNS,
+  NUM_RELAYS,
+  NUM_ROWS_DEFAULT,
+} from 'config/app/slots.config';
 import { AdminPageLayout } from '../..';
 import { AdminSection } from '../../components/AdminSection/AdminSection';
 import { SlotGrid } from './SlotGrid/SlotGrid';
@@ -32,17 +37,10 @@ interface SlotConfigForm {
   slots: SlotConfigFormValue[];
 }
 
-const GRID_LAYOUT_CONFIG_KEY = 'grid_layout';
-
 export const AdminSlotsConfigPage: React.FC = () => {
   const { data: slotConfigs, isLoading, error } = useGetSlotConfigurations();
-  const { data: gridLayoutConfig, isLoading: isGridLayoutLoading } =
-    useGetAppConfigurationByKey(GRID_LAYOUT_CONFIG_KEY);
-  const updateAppConfigMutation = useUpdateAppConfiguration();
   const bulkUpdateMutation = useBulkUpdateSlotConfigurations();
   const { toast } = useToast();
-
-  const isMinimalLayout = gridLayoutConfig?.isActive ?? false;
 
   const getColumnsFromConfigs = (configs: SlotConfigFormValue[]): number => {
     const activeCount = configs.filter((c) => c.isActive).length;
@@ -113,9 +111,11 @@ export const AdminSlotsConfigPage: React.FC = () => {
     if (numActiveColumns < MAX_COLUMNS) {
       const prevColumns = numActiveColumns;
       const newColumns = Math.min(MAX_COLUMNS, prevColumns + 1);
+      const prevRows = getEffectiveRows(prevColumns);
+      const newRows = getEffectiveRows(newColumns);
 
-      const prevLastIndex = prevColumns * NUM_ROWS_DEFAULT; // inclusive, 1-indexed slotNumber
-      const newLastIndex = newColumns * NUM_ROWS_DEFAULT + 1;
+      const prevLastIndex = prevColumns * prevRows; // last grid slot (1-indexed)
+      const newLastIndex = newColumns * newRows + 1; // grid slots + 1 special
 
       const updatedSlots = slots.map((slot) => {
         const n = slot.slotNumber;
@@ -131,7 +131,6 @@ export const AdminSlotsConfigPage: React.FC = () => {
         return { ...slot, isActive: false, slotType: 'B' as SlotType };
       });
 
-      // update form columns and slots
       setValue('columns', newColumns, { shouldDirty: true });
       setValue('slots', updatedSlots, { shouldDirty: true });
       await saveConfiguration(updatedSlots);
@@ -142,8 +141,9 @@ export const AdminSlotsConfigPage: React.FC = () => {
     if (numActiveColumns > MIN_COLUMNS) {
       const prevColumns = numActiveColumns;
       const newColumns = Math.max(MIN_COLUMNS, prevColumns - 1);
+      const newRows = getEffectiveRows(newColumns);
 
-      const newLastIndex = newColumns * NUM_ROWS_DEFAULT + 1;
+      const newLastIndex = newColumns * newRows + 1; // grid slots + 1 special
 
       const updatedSlots = slots.map((slot) => {
         const n = slot.slotNumber;
@@ -171,25 +171,8 @@ export const AdminSlotsConfigPage: React.FC = () => {
     debouncedSave(updatedSlots);
   };
 
-  const handleMinimalLayoutToggle = async (checked: boolean) => {
-    if (!gridLayoutConfig) return;
-    try {
-      await updateAppConfigMutation.mutateAsync({
-        id: gridLayoutConfig.id,
-        data: { isActive: checked },
-      });
-      toast({
-        variant: 'success',
-        message: checked ? 'Minimal layout (4 slots, 2×2) enabled' : 'Standard grid layout enabled',
-      });
-    } catch (err) {
-      console.error('Failed to update grid layout config', err);
-      toast({
-        variant: 'error',
-        message: 'Failed to update grid layout',
-      });
-    }
-  };
+  const effectiveRows = getEffectiveRows(numActiveColumns);
+  const gridSlotsCount = numActiveColumns * effectiveRows;
 
   return (
     <>
@@ -203,56 +186,32 @@ export const AdminSlotsConfigPage: React.FC = () => {
         >
           <AdminSection
             title="Slot Grid Layout Preview"
-            subtitle={isMinimalLayout ? '2×2 minimal' : `${numActiveColumns} columns`}
+            subtitle={`${numActiveColumns} columns × ${effectiveRows} rows`}
             description={
-              isMinimalLayout
-                ? 'Minimal layout: 4 slots, 2 columns × 2 rows, no separate slot.'
-                : `Click on slots to change their type. Slot ${numActiveColumns * NUM_ROWS_DEFAULT + 1} is positioned separately`
+              numActiveColumns < 3
+                ? `Small layout: ${gridSlotsCount} grid slots + 1 special (rows auto-set to 2).`
+                : `Click on slots to change their type. Slot ${gridSlotsCount + 1} is positioned separately.`
             }
             className={clsx('admin-slot-config')}
-            isLoading={isLoading || isGridLayoutLoading}
+            isLoading={isLoading}
             variant="border-solid"
           >
             <Flex gap="4" justify="between">
               <Flex direction="column" gap="6" px="1">
                 <SlotGrid
-                  configurations={
-                    isMinimalLayout
-                      ? slots.filter((s) => s.slotNumber <= 4).map((s) => ({ ...s, isActive: true }))
-                      : slots
-                  }
-                  columns={isMinimalLayout ? 2 : numActiveColumns}
-                  rows={isMinimalLayout ? 2 : NUM_ROWS_DEFAULT}
+                  configurations={slots}
+                  columns={numActiveColumns}
+                  rows={effectiveRows}
                   onConfigurationChange={handleGridConfigChange}
                 />
                 <Flex gap="4" align="center" mt="-4" pb="4">
                   <Badge size="3" variant="soft" color="blue" className="dimesions-badge">
-                    {isMinimalLayout
-                      ? '2 columns × 2 rows = 4 slots (minimal)'
-                      : `${numActiveColumns} columns × ${NUM_ROWS_DEFAULT} rows = ${activeSlots.length - 1} grid slots + 1 special slot`}
+                    {numActiveColumns} columns × {effectiveRows} rows = {gridSlotsCount} grid slots
+                    + 1 special slot
                   </Badge>
                 </Flex>
               </Flex>
               <Flex direction="column" justify="between" gap="4">
-                {gridLayoutConfig && (
-                  <div className="layout-mode-container">
-                    <Flex direction="column" gap="2" pt="2">
-                      <Text size="3" weight="bold" mb="2">
-                        Layout mode
-                      </Text>
-                      <Flex align="center" gap="2">
-                        <Switch
-                          checked={isMinimalLayout}
-                          onCheckedChange={handleMinimalLayoutToggle}
-                          disabled={updateAppConfigMutation.isPending}
-                        />
-                        <Text size="2" weight="medium">
-                          Minimal (4 slots, 2×2)
-                        </Text>
-                      </Flex>
-                    </Flex>
-                  </div>
-                )}
                 <div className="slot-types-container">
                   <div className="slot-legend">
                     <Flex direction="column" gap="4" pt="2">
@@ -280,7 +239,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
                   variant="outline"
                   color="warning"
                   onClick={handleRemoveColumn}
-                  disabled={numActiveColumns <= MIN_COLUMNS || isMinimalLayout}
+                  disabled={numActiveColumns <= MIN_COLUMNS}
                 >
                   <Flex justify="start" align="center" width="180px" gap="4" ml="4">
                     <MinusIcon />
@@ -291,7 +250,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
                   variant="outline"
                   color="success"
                   onClick={handleAddColumn}
-                  disabled={numActiveColumns >= MAX_COLUMNS || isMinimalLayout}
+                  disabled={numActiveColumns >= MAX_COLUMNS}
                 >
                   <Flex justify="start" align="center" width="180px" gap="4" ml="4">
                     <PlusIcon />

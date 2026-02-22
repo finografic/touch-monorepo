@@ -11,11 +11,10 @@ import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useTimers } from 'providers/TimersProvider';
-import { useGetAppConfigurationByKey } from 'queries/app-configuration';
 import { useGetDefaultMode } from 'queries/modes/useGetDefaultMode';
 
 import { calculateColumns } from 'utils/slots.utils';
-import { NUM_ROWS_DEFAULT } from 'config/app';
+import { getEffectiveRows } from 'config/app/slots.config';
 import { MainPageSlotGrid } from './MainPageSlotGrid/MainPageSlotGrid';
 import type { SlotMeta } from './MainPage.types';
 import { useMainPageConfig } from './useMainPageConfig';
@@ -31,8 +30,6 @@ export function MainPage() {
   const { currentSessionId, sessions } = useSession();
   const { setSelectedSlots, selectedSlots } = useLayoutUi();
   const { allSlots: slotsConfig, isLoading } = useSlotItemsConfig();
-  const { data: gridLayoutConfig } = useGetAppConfigurationByKey('grid_layout');
-  const isMinimalLayout = gridLayoutConfig?.isActive ?? false;
 
   // Check if we're returning from a completed flow (not a cancellation)
   const flowCompleted = (location.state as any)?.flowCompleted === true;
@@ -159,22 +156,18 @@ export function MainPage() {
     return <Spinner size="3" />;
   }
 
-  // Grid dimensions: minimal (4 slots, 2×2) from app_configuration or standard from slot config
+  // Grid dimensions from active slot count: columns from calculateColumns, rows from getEffectiveRows
   const activeSlots = slotsConfig.filter((slot) => slot.isActive);
-  const slotsForGrid = isMinimalLayout
-    ? activeSlots.slice(0, 4)
-    : activeSlots;
-  const columns = isMinimalLayout ? 2 : calculateColumns(activeSlots.length);
-  const rows = isMinimalLayout ? 2 : NUM_ROWS_DEFAULT;
+  const columns = calculateColumns(activeSlots.length);
+  const rows = getEffectiveRows(columns);
 
   return (
     <Flex css={styles} direction="column">
       <div className="main-page-buttons-container">
         <MainPageSlotGrid
-          slots={slotsForGrid}
+          slots={activeSlots}
           columns={columns}
           rows={rows}
-          minimalLayout={isMinimalLayout}
         />
 
         <div className="content-buttons">
