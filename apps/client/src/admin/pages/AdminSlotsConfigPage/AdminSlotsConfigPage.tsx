@@ -109,29 +109,46 @@ export const AdminSlotsConfigPage: React.FC = () => {
     [bulkUpdateMutation, toast],
   );
 
-  /** Sync slot_special_grid data.is_visible when crossing the 3-column threshold. */
-  const syncSlotSpecialGridVisibility = useCallback(
+  /** Sync data.is_visible for BOTH slot_special_grid and slot_special_alt when crossing the 3-column threshold. */
+  const syncGridAndAltVisibility = useCallback(
     async (newColumns: number) => {
-      const config = gridSpecialConfig?.data;
-      if (!config?.id || !config.data) return;
       const isVisible = newColumns >= 3;
-      if (config.data.is_visible === isVisible) return;
-      try {
-        await updateSlotSpecialMutation.mutateAsync({
+      const gridConfig = gridSpecialConfig?.data;
+      const altConfig = altSpecialConfig?.data;
+      const updates: Array<{ param: 'special_grid' | 'special_alt'; id: string; data: { is_visible: boolean; slot_number: number; relay_number: number } }> = [];
+      if (gridConfig?.id && gridConfig.data && gridConfig.data.is_visible !== isVisible) {
+        updates.push({
           param: 'special_grid',
-          id: config.id,
-          data: { data: { ...config.data, is_visible: isVisible } },
+          id: gridConfig.id,
+          data: { ...gridConfig.data, is_visible: isVisible },
         });
+      }
+      if (altConfig?.id && altConfig.data && altConfig.data.is_visible !== isVisible) {
+        updates.push({
+          param: 'special_alt',
+          id: altConfig.id,
+          data: { ...altConfig.data, is_visible: isVisible },
+        });
+      }
+      if (updates.length === 0) return;
+      try {
+        for (const u of updates) {
+          await updateSlotSpecialMutation.mutateAsync({
+            param: u.param,
+            id: u.id,
+            data: { data: u.data },
+          });
+        }
         toast({
           variant: 'success',
-          message: `Special grid button ${isVisible ? 'shown' : 'hidden'} (${newColumns} columns)`,
+          message: `Special grid/alt visibility ${isVisible ? 'shown' : 'hidden'} (${newColumns} columns)`,
         });
       } catch (err) {
-        console.error('Failed to update slot_special_grid visibility', err);
-        toast({ variant: 'error', message: 'Failed to update special grid visibility' });
+        console.error('Failed to update special grid/alt visibility', err);
+        toast({ variant: 'error', message: 'Failed to update special slot visibility' });
       }
     },
-    [gridSpecialConfig?.data, updateSlotSpecialMutation, toast],
+    [gridSpecialConfig?.data, altSpecialConfig?.data, updateSlotSpecialMutation, toast],
   );
 
   const debouncedSave = useDebouncedCallback(
@@ -167,7 +184,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
       setValue('columns', newColumns, { shouldDirty: true });
       setValue('slots', updatedSlots, { shouldDirty: true });
       await saveConfiguration(updatedSlots);
-      await syncSlotSpecialGridVisibility(newColumns);
+      await syncGridAndAltVisibility(newColumns);
     }
   };
 
@@ -193,7 +210,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
       setValue('columns', newColumns, { shouldDirty: true });
       setValue('slots', updatedSlots, { shouldDirty: true });
       await saveConfiguration(updatedSlots);
-      await syncSlotSpecialGridVisibility(newColumns);
+      await syncGridAndAltVisibility(newColumns);
     }
   };
 
@@ -279,6 +296,22 @@ export const AdminSlotsConfigPage: React.FC = () => {
                             onCheckedChange={async (checked) => {
                               if (!fullConfig?.id) return;
                               try {
+                                if (checked) {
+                                  if (param === 'special_alt' && gridSpecialConfig?.data?.isActive === true) {
+                                    await updateSlotSpecialMutation.mutateAsync({
+                                      param: 'special_grid',
+                                      id: gridSpecialConfig.data.id,
+                                      data: { isActive: false },
+                                    });
+                                  }
+                                  if (param === 'special_grid' && altSpecialConfig?.data?.isActive === true) {
+                                    await updateSlotSpecialMutation.mutateAsync({
+                                      param: 'special_alt',
+                                      id: altSpecialConfig.data.id,
+                                      data: { isActive: false },
+                                    });
+                                  }
+                                }
                                 await updateSlotSpecialMutation.mutateAsync({
                                   param,
                                   id: fullConfig.id,
