@@ -13,12 +13,12 @@ const DEFAULT_APP_CONFIG = [
   },
   {
     name: 'slot_special_grid',
-    isActive: false,
+    isActive: true,
     data: JSON.stringify({ is_visible: true, slot_number: 10, relay_number: 10 }),
   },
   {
     name: 'slot_special_power',
-    isActive: false,
+    isActive: true,
     data: JSON.stringify({ is_visible: true, slot_number: 14, relay_number: 14 }),
   },
   {
@@ -35,7 +35,12 @@ export async function seed() {
     const existingNames = await db
       .select({ name: app_configuration.name })
       .from(app_configuration)
-      .where(inArray(app_configuration.name, DEFAULT_APP_CONFIG.map((r) => r.name)));
+      .where(
+        inArray(
+          app_configuration.name,
+          DEFAULT_APP_CONFIG.map((r) => r.name),
+        ),
+      );
     const existingSet = new Set(existingNames.map((r) => r.name));
 
     const toInsert = DEFAULT_APP_CONFIG.filter((row) => !existingSet.has(row.name));

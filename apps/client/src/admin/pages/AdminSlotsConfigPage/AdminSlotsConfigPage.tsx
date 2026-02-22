@@ -1,23 +1,27 @@
+/* eslint-disable simple-import-sort/imports -- import order fixed manually; run eslint --fix to re-sort */
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { Badge, Flex, Text } from '@radix-ui/themes';
+import { Badge, Flex, Switch, Text } from '@radix-ui/themes';
 import clsx from 'clsx';
 import { useDebouncedCallback } from 'use-debounce';
 import { Button } from 'components/Button';
 import { useToast } from 'components/Toast';
-
+import {
+  useGetSlotSpecialConfig,
+  useUpdateSlotSpecialConfig,
+} from 'queries/app-configuration';
 import { useBulkUpdateSlotConfigurations, useGetSlotConfigurations } from 'queries/slot-configurations';
-
-import { calculateColumns } from 'utils/slots.utils';
+import type { SlotSpecialParam } from 'types/app-configuration.types';
 import type { SlotType } from 'types/slots.types';
+import { calculateColumns } from 'utils/slots.utils';
 import {
   getEffectiveRows,
   MAX_COLUMNS,
   MIN_COLUMNS,
   NUM_RELAYS,
-  NUM_ROWS_DEFAULT,
 } from 'config/app/slots.config';
+
 import { AdminPageLayout } from '../..';
 import { AdminSection } from '../../components/AdminSection/AdminSection';
 import { SlotGrid } from './SlotGrid/SlotGrid';
@@ -41,6 +45,11 @@ export const AdminSlotsConfigPage: React.FC = () => {
   const { data: slotConfigs, isLoading, error } = useGetSlotConfigurations();
   const bulkUpdateMutation = useBulkUpdateSlotConfigurations();
   const { toast } = useToast();
+
+  const gridSpecialConfig = useGetSlotSpecialConfig('special_grid');
+  const powerSpecialConfig = useGetSlotSpecialConfig('special_power');
+  const altSpecialConfig = useGetSlotSpecialConfig('special_alt');
+  const updateSlotSpecialMutation = useUpdateSlotSpecialConfig();
 
   const getColumnsFromConfigs = (configs: SlotConfigFormValue[]): number => {
     const activeCount = configs.filter((c) => c.isActive).length;
@@ -81,7 +90,6 @@ export const AdminSlotsConfigPage: React.FC = () => {
     }
   }, [slotConfigs, reset]);
 
-  // Save configuration helper
   const saveConfiguration = useCallback(
     async (updatedSlots: SlotConfigFormValue[]) => {
       try {
@@ -99,6 +107,31 @@ export const AdminSlotsConfigPage: React.FC = () => {
       }
     },
     [bulkUpdateMutation, toast],
+  );
+
+  /** Sync slot_special_grid data.is_visible when crossing the 3-column threshold. */
+  const syncSlotSpecialGridVisibility = useCallback(
+    async (newColumns: number) => {
+      const config = gridSpecialConfig?.data;
+      if (!config?.id || !config.data) return;
+      const isVisible = newColumns >= 3;
+      if (config.data.is_visible === isVisible) return;
+      try {
+        await updateSlotSpecialMutation.mutateAsync({
+          param: 'special_grid',
+          id: config.id,
+          data: { data: { ...config.data, is_visible: isVisible } },
+        });
+        toast({
+          variant: 'success',
+          message: `Special grid button ${isVisible ? 'shown' : 'hidden'} (${newColumns} columns)`,
+        });
+      } catch (err) {
+        console.error('Failed to update slot_special_grid visibility', err);
+        toast({ variant: 'error', message: 'Failed to update special grid visibility' });
+      }
+    },
+    [gridSpecialConfig?.data, updateSlotSpecialMutation, toast],
   );
 
   const debouncedSave = useDebouncedCallback(
@@ -134,6 +167,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
       setValue('columns', newColumns, { shouldDirty: true });
       setValue('slots', updatedSlots, { shouldDirty: true });
       await saveConfiguration(updatedSlots);
+      await syncSlotSpecialGridVisibility(newColumns);
     }
   };
 
@@ -159,6 +193,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
       setValue('columns', newColumns, { shouldDirty: true });
       setValue('slots', updatedSlots, { shouldDirty: true });
       await saveConfiguration(updatedSlots);
+      await syncSlotSpecialGridVisibility(newColumns);
     }
   };
 
@@ -212,6 +247,57 @@ export const AdminSlotsConfigPage: React.FC = () => {
                 </Flex>
               </Flex>
               <Flex direction="column" justify="between" gap="4">
+                <div className="layout-mode-container">
+                  <Flex direction="column" gap="2" pt="2">
+                    <Text size="3" weight="bold" mb="2">
+                      Special slot buttons
+                    </Text>
+                    {(
+                      [
+                        { param: 'special_grid' as SlotSpecialParam, label: 'Special grid' },
+                        { param: 'special_power' as SlotSpecialParam, label: 'Special power' },
+                        { param: 'special_alt' as SlotSpecialParam, label: 'Special alt' },
+                      ] as const
+                    ).map(({ param, label }) => {
+                      const fullConfig =
+                        param === 'special_grid'
+                          ? gridSpecialConfig?.data
+                          : param === 'special_power'
+                            ? powerSpecialConfig?.data
+                            : altSpecialConfig?.data;
+                      const isActive = fullConfig?.isActive ?? false;
+                      const isLoading = fullConfig === undefined;
+                      return (
+                        <Flex key={param} align="center" gap="2">
+                          <Switch
+                            checked={isActive}
+                            onCheckedChange={async (checked) => {
+                              if (!fullConfig?.id) return;
+                              try {
+                                await updateSlotSpecialMutation.mutateAsync({
+                                  param,
+                                  id: fullConfig.id,
+                                  data: { isActive: checked },
+                                });
+                                toast({
+                                  variant: 'success',
+                                  message: `${label} button ${checked ? 'enabled' : 'disabled'}`,
+                                });
+                              } catch (err) {
+                                console.error(`Failed to update ${param}`, err);
+                                toast({ variant: 'error', message: `Failed to update ${label}` });
+                              }
+                            }}
+                            disabled={updateSlotSpecialMutation.isPending || isLoading}
+                          />
+                          <Text size="2" weight="medium">
+                            {label}
+                          </Text>
+                        </Flex>
+                      );
+                    })}
+                  </Flex>
+                </div>
                 <div className="slot-types-container">
                   <div className="slot-legend">
                     <Flex direction="column" gap="4" pt="2">
