@@ -13,12 +13,15 @@ interface MainPageSlotGridProps {
   slots: SlotConfiguration[];
   columns: number;
   rows: number;
+  /** Show the special slot (e.g. Slot 10) only when true (columns >= 3 and Special grid switch ON). */
+  showSpecialSlot?: boolean;
 }
 
 const MainPageSlotGridComponent: React.FC<MainPageSlotGridProps> = ({
   slots,
   columns,
   rows = NUM_ROWS_DEFAULT,
+  showSpecialSlot = false,
 }) => {
   const activeSlots = useMemo(() => slots.filter((s) => s.isActive), [slots]);
   const gridCount = columns * rows;
@@ -50,7 +53,7 @@ const MainPageSlotGridComponent: React.FC<MainPageSlotGridProps> = ({
       </div>
 
       <div className="slot-col-lg">
-        {lastSlot && (
+        {showSpecialSlot && lastSlot && (
           <PadSlot
             key={lastSlot.slotNumber}
             slotType={SlotType.C}

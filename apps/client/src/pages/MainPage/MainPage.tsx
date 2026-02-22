@@ -12,6 +12,7 @@ import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useTimers } from 'providers/TimersProvider';
 import { useGetDefaultMode } from 'queries/modes/useGetDefaultMode';
+import { useGetSlotSpecialConfig } from 'queries/app-configuration';
 
 import { calculateColumns } from 'utils/slots.utils';
 import { getEffectiveRows } from 'config/app/slots.config';
@@ -30,6 +31,7 @@ export function MainPage() {
   const { currentSessionId, sessions } = useSession();
   const { setSelectedSlots, selectedSlots } = useLayoutUi();
   const { allSlots: slotsConfig, isLoading } = useSlotItemsConfig();
+  const { data: gridSpecialConfig } = useGetSlotSpecialConfig('special_grid');
 
   // Check if we're returning from a completed flow (not a cancellation)
   const flowCompleted = (location.state as any)?.flowCompleted === true;
@@ -161,6 +163,10 @@ export function MainPage() {
   const columns = calculateColumns(activeSlots.length);
   const rows = getEffectiveRows(columns);
 
+  // Special slot (e.g. Slot 10) only when: columns >= 3 (data.is_visible) AND switch ON (is_active)
+  const showSpecialSlot =
+    gridSpecialConfig?.data?.is_visible === true && gridSpecialConfig?.isActive === true;
+
   return (
     <Flex css={styles} direction="column">
       <div className="main-page-buttons-container">
@@ -168,6 +174,7 @@ export function MainPage() {
           slots={activeSlots}
           columns={columns}
           rows={rows}
+          showSpecialSlot={showSpecialSlot}
         />
 
         <div className="content-buttons">

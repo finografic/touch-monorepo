@@ -209,6 +209,10 @@ export const AdminSlotsConfigPage: React.FC = () => {
   const effectiveRows = getEffectiveRows(numActiveColumns);
   const gridSlotsCount = numActiveColumns * effectiveRows;
 
+  // Match main app: special slot only when columns >= 3 AND Special grid switch ON
+  const showSpecialSlotInPreview =
+    numActiveColumns >= 3 && gridSpecialConfig?.data?.isActive === true;
+
   return (
     <>
       <FormProvider {...methods}>
@@ -238,6 +242,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
                   columns={numActiveColumns}
                   rows={effectiveRows}
                   onConfigurationChange={handleGridConfigChange}
+                  showSpecialSlot={showSpecialSlotInPreview}
                 />
                 <Flex gap="4" align="center" mt="-4" pb="4">
                   <Badge size="3" variant="soft" color="blue" className="dimesions-badge">
@@ -255,8 +260,8 @@ export const AdminSlotsConfigPage: React.FC = () => {
                     {(
                       [
                         { param: 'special_grid' as SlotSpecialParam, label: 'Special grid' },
-                        { param: 'special_power' as SlotSpecialParam, label: 'Special power' },
                         { param: 'special_alt' as SlotSpecialParam, label: 'Special alt' },
+                        { param: 'special_power' as SlotSpecialParam, label: 'Special power' },
                       ] as const
                     ).map(({ param, label }) => {
                       const fullConfig =

@@ -19,6 +19,8 @@ interface SlotGridProps {
   columns: number;
   rows: number;
   onConfigurationChange: (slotNumber: number, newConfig: Partial<SlotConfig>) => void;
+  /** When false, the special (last) slot is hidden (matches main app: columns >= 3 and switch ON). */
+  showSpecialSlot?: boolean;
 }
 
 const SlotGridComponent: React.FC<SlotGridProps> = ({
@@ -26,6 +28,7 @@ const SlotGridComponent: React.FC<SlotGridProps> = ({
   columns,
   rows,
   onConfigurationChange,
+  showSpecialSlot = false,
 }) => {
   const activeSlots = useMemo(() => configurations.filter((s) => s.isActive), [configurations]);
   const gridMax = columns * rows;
@@ -114,7 +117,7 @@ const SlotGridComponent: React.FC<SlotGridProps> = ({
             );
           })}
         </div>
-        {lastSlot && (
+        {showSpecialSlot && lastSlot && (
           <div className="slot-item-special">
             <SlotButton
               slotNumber={lastSlot.slotNumber}
