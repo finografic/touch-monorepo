@@ -7,20 +7,12 @@ import clsx from 'clsx';
 import { useDebouncedCallback } from 'use-debounce';
 import { Button } from 'components/Button';
 import { useToast } from 'components/Toast';
-import {
-  useGetSlotSpecialConfig,
-  useUpdateSlotSpecialConfig,
-} from 'queries/app-configuration';
+import { useGetSlotSpecialConfig, useUpdateSlotSpecialConfig } from 'queries/app-configuration';
 import { useBulkUpdateSlotConfigurations, useGetSlotConfigurations } from 'queries/slot-configurations';
 import type { SlotSpecialParam } from 'types/app-configuration.types';
 import type { SlotType } from 'types/slots.types';
 import { calculateColumns } from 'utils/slots.utils';
-import {
-  getEffectiveRows,
-  MAX_COLUMNS,
-  MIN_COLUMNS,
-  NUM_RELAYS,
-} from 'config/app/slots.config';
+import { getEffectiveRows, MAX_COLUMNS, MIN_COLUMNS, NUM_RELAYS } from 'config/app/slots.config';
 
 import { AdminPageLayout } from '../..';
 import { AdminSection } from '../../components/AdminSection/AdminSection';
@@ -115,7 +107,11 @@ export const AdminSlotsConfigPage: React.FC = () => {
       const isVisible = newColumns >= 3;
       const gridConfig = gridSpecialConfig?.data;
       const altConfig = altSpecialConfig?.data;
-      const updates: Array<{ param: 'special_grid' | 'special_alt'; id: string; data: { is_visible: boolean; slot_number: number; relay_number: number } }> = [];
+      const updates: Array<{
+        param: 'special_grid' | 'special_alt';
+        id: string;
+        data: { is_visible: boolean; slot_number: number; relay_number: number };
+      }> = [];
       if (gridConfig?.id && gridConfig.data && gridConfig.data.is_visible !== isVisible) {
         updates.push({
           param: 'special_grid',
@@ -227,12 +223,10 @@ export const AdminSlotsConfigPage: React.FC = () => {
   const gridSlotsCount = numActiveColumns * effectiveRows;
 
   // Match main app: special slot only when columns >= 3 AND Special grid switch ON
-  const showSpecialSlotInPreview =
-    numActiveColumns >= 3 && gridSpecialConfig?.data?.isActive === true;
+  const showSpecialSlotInPreview = numActiveColumns >= 3 && gridSpecialConfig?.data?.isActive === true;
 
-  const showSpecialAltSlotInPreview =
-    numActiveColumns >= 3 && altSpecialConfig?.data?.isActive === true;
-  const altSlotNumber = altSpecialConfig?.data?.slot_number ?? 15;
+  const showSpecialAltSlotInPreview = numActiveColumns >= 3 && altSpecialConfig?.data?.isActive === true;
+  const altSlotNumber = altSpecialConfig?.data?.data.slot_number ?? 15;
 
   return (
     <>
@@ -269,8 +263,8 @@ export const AdminSlotsConfigPage: React.FC = () => {
                 />
                 <Flex gap="4" align="center" mt="-4" pb="4">
                   <Badge size="3" variant="soft" color="blue" className="dimesions-badge">
-                    {numActiveColumns} columns × {effectiveRows} rows = {gridSlotsCount} grid slots
-                    + 1 special slot
+                    {numActiveColumns} columns × {effectiveRows} rows = {gridSlotsCount} grid slots + 1
+                    special slot
                   </Badge>
                 </Flex>
               </Flex>
