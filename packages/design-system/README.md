@@ -107,7 +107,7 @@ This happens in the browser at runtime — no build step, no code generation, st
 ```
 ┌─────────────────────────────────────────────────────┐
 │  Raw Tokens (what colors ARE)                       │
-│  colors.primary = oklch(48.8% 0.243 264.376)       │
+│  colors.primary = oklch(48.8% 0.243 264.376)        │
 │  colors.danger.light = color-mix(... 40%, white)    │
 ├─────────────────────────────────────────────────────┤
 │  Semantic Tokens (what colors MEAN)                 │
