@@ -59,26 +59,44 @@ const MainPageSlotGridComponent: React.FC<MainPageSlotGridProps> = ({
       </div>
 
       <div className="slot-col-lg">
-        {showSpecialSlot && lastSlot && (
-          <PadSlot
-            key={lastSlot.slotNumber}
-            slotType={SlotType.C}
-            slotNumber={lastSlot.slotNumber}
-            variant="large"
-            className="pad-special-grid"
-          />
-        )}
+        <div className="slot-special-row">
+          <div className="slot-item-special">
+            {showSpecialSlot && lastSlot && (
+              <PadSlot
+                key={lastSlot.slotNumber}
+                slotType={SlotType.C}
+                slotNumber={lastSlot.slotNumber}
+                variant="large"
+                className="pad-special-grid"
+              />
+            )}
+            {!showSpecialSlot && showSpecialAltSlot && (
+              <PadSlot
+                key={`alt-${altSlotNumber}`}
+                slotType={SlotType.C}
+                slotNumber={altSlotNumber}
+                variant="large"
+                className="pad-special-alt"
+                interactive={false}
+              />
+            )}
+          </div>
+          {showSpecialSlot && showSpecialAltSlot && (
+            <div className="slot-item-special">
+              <PadSlot
+                key={`alt-${altSlotNumber}`}
+                slotType={SlotType.C}
+                slotNumber={altSlotNumber}
+                variant="large"
+                className="pad-special-alt"
+                interactive={false}
+              />
+            </div>
+          )}
+        </div>
         {showSpecialAltSlot && (
-          <PadSlot
-            key={`alt-${altSlotNumber}`}
-            slotType={SlotType.C}
-            slotNumber={altSlotNumber}
-            variant="large"
-            className="pad-special-alt"
-            interactive={false}
-          />
+          <PadPower key="pad-power" slotType={SlotSpecial.ENF} variant="large" />
         )}
-        <PadPower key="pad-power" slotType={SlotSpecial.ENF} variant="large" />
       </div>
     </div>
   );

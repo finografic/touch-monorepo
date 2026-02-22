@@ -101,10 +101,12 @@ export const AdminSlotsConfigPage: React.FC = () => {
     [bulkUpdateMutation, toast],
   );
 
-  /** Sync data.is_visible for BOTH slot_special_grid and slot_special_alt when crossing the 3-column threshold. */
+  /** Sync data.is_visible for BOTH slot_special_grid and slot_special_alt when crossing the 3-column threshold (same rule: >= 3 visible). */
   const syncGridAndAltVisibility = useCallback(
     async (newColumns: number) => {
       const isVisible = newColumns >= 3;
+      const gridVisible = isVisible;
+      const altVisible = isVisible;
       const gridConfig = gridSpecialConfig?.data;
       const altConfig = altSpecialConfig?.data;
       const updates: Array<{
@@ -112,18 +114,18 @@ export const AdminSlotsConfigPage: React.FC = () => {
         id: string;
         data: { is_visible: boolean; slot_number: number; relay_number: number };
       }> = [];
-      if (gridConfig?.id && gridConfig.data && gridConfig.data.is_visible !== isVisible) {
+      if (gridConfig?.id && gridConfig.data && gridConfig.data.is_visible !== gridVisible) {
         updates.push({
           param: 'special_grid',
           id: gridConfig.id,
-          data: { ...gridConfig.data, is_visible: isVisible },
+          data: { ...gridConfig.data, is_visible: gridVisible },
         });
       }
-      if (altConfig?.id && altConfig.data && altConfig.data.is_visible !== isVisible) {
+      if (altConfig?.id && altConfig.data && altConfig.data.is_visible !== altVisible) {
         updates.push({
           param: 'special_alt',
           id: altConfig.id,
-          data: { ...altConfig.data, is_visible: isVisible },
+          data: { ...altConfig.data, is_visible: altVisible },
         });
       }
       if (updates.length === 0) return;
@@ -137,7 +139,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
         }
         toast({
           variant: 'success',
-          message: `Special grid/alt visibility ${isVisible ? 'shown' : 'hidden'} (${newColumns} columns)`,
+          message: `Special slot visibility updated (${newColumns} columns)`,
         });
       } catch (err) {
         console.error('Failed to update special grid/alt visibility', err);
@@ -299,22 +301,6 @@ export const AdminSlotsConfigPage: React.FC = () => {
                             onCheckedChange={async (checked) => {
                               if (!fullConfig?.id) return;
                               try {
-                                if (checked) {
-                                  if (param === 'special_alt' && gridSpecialConfig?.data?.isActive === true) {
-                                    await updateSlotSpecialMutation.mutateAsync({
-                                      param: 'special_grid',
-                                      id: gridSpecialConfig.data.id,
-                                      data: { isActive: false },
-                                    });
-                                  }
-                                  if (param === 'special_grid' && altSpecialConfig?.data?.isActive === true) {
-                                    await updateSlotSpecialMutation.mutateAsync({
-                                      param: 'special_alt',
-                                      id: altSpecialConfig.data.id,
-                                      data: { isActive: false },
-                                    });
-                                  }
-                                }
                                 await updateSlotSpecialMutation.mutateAsync({
                                   param,
                                   id: fullConfig.id,

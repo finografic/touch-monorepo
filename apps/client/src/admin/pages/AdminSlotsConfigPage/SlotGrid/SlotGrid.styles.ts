@@ -28,6 +28,13 @@ export const styles = css`
     }
   }
 
+  .slot-special-row {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+
   .slot-item-special {
     display: flex;
     flex-direction: column;

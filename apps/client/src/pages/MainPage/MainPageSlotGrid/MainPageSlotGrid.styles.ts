@@ -21,7 +21,7 @@ export const styles = css`
       flex-shrink: 0;
     }
 
-    /* Special slot container (last slot + power button) */
+    /* Special slot container (1 or 2 special columns + power button) */
     .slot-col-lg {
       display: flex;
       flex-direction: column;
@@ -32,6 +32,19 @@ export const styles = css`
       max-width: 360px;
       height: 100%;
       margin-left: 1.5rem;
+    }
+
+    .slot-special-row {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 1.5rem;
+    }
+
+    .slot-col-lg .slot-item-special {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     /* Power button styling */

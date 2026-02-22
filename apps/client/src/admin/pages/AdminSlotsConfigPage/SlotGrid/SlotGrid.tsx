@@ -127,29 +127,28 @@ const SlotGridComponent: React.FC<SlotGridProps> = ({
           })}
         </div>
 
-        <div className="slot-item-special">
-          {showSpecialSlot && lastSlot && (
-            <SlotButton
-              slotNumber={lastSlot.slotNumber}
-              slotType={lastSlot.slotType}
-              onClick={handleSlotClick}
-              label={getSlotLabel(lastSlot.slotType)}
-              color={getSlotColor(lastSlot.slotType)}
-            />
-          )}
-          {showPowerSlot && <SlotButton slotNumber={14} slotType="C" label="power" color="power" />}
-        </div>
-
-        {showSpecialAltSlot && !showSpecialSlot && (
+        <div className="slot-special-row">
           <div className="slot-item-special">
-            <SlotButton slotNumber={altSlotNumber} slotType="C" label="(alt)" color="secondary" />
+            {showSpecialSlot && lastSlot && (
+              <SlotButton
+                slotNumber={lastSlot.slotNumber}
+                slotType={lastSlot.slotType}
+                onClick={handleSlotClick}
+                label={getSlotLabel(lastSlot.slotType)}
+                color={getSlotColor(lastSlot.slotType)}
+              />
+            )}
+            {!showSpecialSlot && showSpecialAltSlot && (
+              <SlotButton slotNumber={altSlotNumber} slotType="C" label="(alt)" color="secondary" />
+            )}
+            {showPowerSlot && <SlotButton slotNumber={0} slotType="C" label="power" color="power" />}
           </div>
-        )}
-        {/* {showPowerSlot && (
-          <div className="slot-item-power" title="Power (no interaction)">
-            <SlotButton slotNumber={14} slotType="C" label="power" color="power" />
-          </div>
-        )} */}
+          {showSpecialSlot && showSpecialAltSlot && (
+            <div className="slot-item-special">
+              <SlotButton slotNumber={altSlotNumber} slotType="C" label="(alt)" color="secondary" />
+            </div>
+          )}
+        </div>
       </div>
     </Box>
   );
