@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { TEMP_FREEZE_DEFAULT } from '@workspace/shared/constants';
 
 import type { TimeRow } from './orders-form.utils';
 import { PROFILE_ITEM_VALUES_EMPTY } from './orders-form.utils';
@@ -55,7 +56,7 @@ export const createMockDataHandlers = ({
   volumeOptions,
   containerTypeOptions,
   setValue,
-  defaultTempFreeze = -2,
+  defaultTempFreeze = TEMP_FREEZE_DEFAULT,
   modeOptions,
 }: MockDataOptions): MockDataHandlers => {
   const generateRandomValuesForRow = useCallback(

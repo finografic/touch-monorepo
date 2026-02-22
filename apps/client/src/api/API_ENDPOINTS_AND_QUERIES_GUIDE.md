@@ -203,12 +203,13 @@ export const EndpointsDrinkType = {
 
   create: async (updates: DrinkTypeUpdate): Promise<DrinkType> => {
     try {
+      // TEMP_CONSUME_FALLBACK, TEMP_FREEZE_FALLBACK from '@workspace/shared/constants'
       const createData = {
         name: updates.name || '',
         translations: updates.translations || {},
         hasSubtypes: updates.hasSubtypes ?? false,
-        defaultTempConsume: updates.defaultTempConsume ?? 5,
-        defaultTempFreeze: updates.defaultTempFreeze ?? -2,
+        defaultTempConsume: updates.defaultTempConsume ?? TEMP_CONSUME_FALLBACK,
+        defaultTempFreeze: updates.defaultTempFreeze ?? TEMP_FREEZE_FALLBACK,
         ...updates,
       };
 
@@ -559,6 +560,7 @@ export const useGetResource = (): UseQueryResult<Resource[], ErrorResponse> => {
 ### Example 1: Simple Resource (Volume)
 
 **Endpoint:**
+
 ```typescript
 // api/endpoints/volume.endpoints.ts
 import { transformFetchError } from '@workspace/core/api';
@@ -581,6 +583,7 @@ export const EndpointsVolume = {
 ```
 
 **Query Hook:**
+
 ```typescript
 // queries/drink-volumes/useGetDrinkVolumes.ts
 import type { ErrorResponse } from '@workspace/core/api';
@@ -602,6 +605,7 @@ export const useGetDrinkVolumes = (): UseQueryResult<DrinkVolume[], ErrorRespons
 ### Example 2: Nested Resource (Drink Subtype)
 
 **Endpoint:**
+
 ```typescript
 // api/endpoints/drink-subtype.endpoints.ts
 export const EndpointsDrinkSubtype = {
@@ -618,6 +622,7 @@ export const EndpointsDrinkSubtype = {
 ```
 
 **Query Hook:**
+
 ```typescript
 // queries/drink-types/useGetDrinkSubtypes.ts
 export const useGetDrinkSubtypes = ({
@@ -774,4 +779,3 @@ When creating a new resource:
 ---
 
 **Remember:** Keep it simple, type-safe, and consistent. The server already returns camelCase JSON, so no transformation is needed. Use model types directly, and let the endpoint layer handle API communication.
-

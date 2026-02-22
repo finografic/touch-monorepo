@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { MIN_TEMP_DIFFERENCE, TEMP_CONSUME_DEFAULT } from '@workspace/shared/constants';
+import { MIN_TEMP_DIFFERENCE, TEMP_CONSUME_FORM_DEFAULT } from '@workspace/shared/constants';
 
 import { Box, Flex } from '@radix-ui/themes';
 import { PadNumeric } from 'components/Pads/PadNumeric';
@@ -25,8 +25,8 @@ export const TemperaturePage = () => {
   const { createFallbackEntry } = useSmartFallback();
 
   const [temperatures, setTemperatures] = useState<TemperatureState>({
-    [TemperatureKey.Initial]: TEMP_CONSUME_DEFAULT,
-    [TemperatureKey.Final]: TEMP_CONSUME_DEFAULT,
+    [TemperatureKey.Initial]: TEMP_CONSUME_FORM_DEFAULT,
+    [TemperatureKey.Final]: TEMP_CONSUME_FORM_DEFAULT,
   });
 
   // 🚨 DIRTY FIX: Use fallback entry if no data available

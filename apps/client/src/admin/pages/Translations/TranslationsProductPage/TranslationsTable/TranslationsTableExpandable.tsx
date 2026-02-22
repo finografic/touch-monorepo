@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { FormProvider } from 'react-hook-form';
 import type { RegionLocale } from '@workspace/config/i18n.config';
+import { TEMP_CONSUME_DEFAULT, TEMP_FREEZE_DEFAULT } from '@workspace/shared/constants';
 
 import createCuid from '@bugsnag/cuid';
 import { Flex, Text } from '@radix-ui/themes';
@@ -150,8 +151,8 @@ export const TranslationsTableExpandable: React.FC<TranslationsTableExpandablePr
         id: `temp-${createCuid()}`,
         name: '',
         drinkTypeId: expandedGroupId,
-        defaultTempConsume: 5,
-        defaultTempFreeze: -2,
+        defaultTempConsume: TEMP_CONSUME_DEFAULT,
+        defaultTempFreeze: TEMP_FREEZE_DEFAULT,
         ...Object.fromEntries(languageKeys.map((k) => [k, ''])),
       } as TranslationsFormItem);
     },

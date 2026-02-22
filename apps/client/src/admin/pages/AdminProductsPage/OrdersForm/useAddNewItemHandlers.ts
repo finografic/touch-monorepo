@@ -1,9 +1,16 @@
+import { TEMP_CONSUME_DEFAULT, TEMP_FREEZE_DEFAULT } from '@workspace/shared/constants';
+
 import { useQueryClient } from '@tanstack/react-query';
 import { useToast } from 'components/Toast';
 
 import { GET_CONTAINER_TYPES_QUERYKEY } from 'queries/container-types';
 import { useCreateContainerType } from 'queries/container-types/useCreateContainerType';
-import { GET_DRINK_SUBTYPES_QUERYKEY, GET_DRINK_TYPES_QUERYKEY, useCreateDrinkSubtype, useCreateDrinkType  } from 'queries/drink-types';
+import {
+  GET_DRINK_SUBTYPES_QUERYKEY,
+  GET_DRINK_TYPES_QUERYKEY,
+  useCreateDrinkSubtype,
+  useCreateDrinkType,
+} from 'queries/drink-types';
 import { GET_DRINK_VOLUMES_QUERYKEY } from 'queries/drink-volumes';
 import { useCreateVolume } from 'queries/drink-volumes/useCreateVolume';
 
@@ -49,8 +56,8 @@ export const useAddNewItemHandlers = ({
       const createdDrinkType = await createDrinkTypeMutation.mutateAsync({
         name: displayValue.trim(),
         hasSubtypes: false, // Default to false, can be updated later
-        defaultTempConsume: formValues.defaultTempConsume || 5,
-        defaultTempFreeze: formValues.defaultTempFreeze || -2,
+        defaultTempConsume: formValues.defaultTempConsume ?? TEMP_CONSUME_DEFAULT,
+        defaultTempFreeze: formValues.defaultTempFreeze ?? TEMP_FREEZE_DEFAULT,
       });
 
       // Wait for the query to refetch to ensure dropdown options are updated
@@ -101,8 +108,8 @@ export const useAddNewItemHandlers = ({
       const createdSubtype = await createDrinkSubtypeMutation.mutateAsync({
         name: displayValue.trim(),
         drinkTypeId: selectedDrinkType.id,
-        defaultTempConsume: formValues.defaultTempConsume || 5,
-        defaultTempFreeze: formValues.defaultTempFreeze || -2,
+        defaultTempConsume: formValues.defaultTempConsume ?? TEMP_CONSUME_DEFAULT,
+        defaultTempFreeze: formValues.defaultTempFreeze ?? TEMP_FREEZE_DEFAULT,
       });
 
       // Wait for the query to refetch

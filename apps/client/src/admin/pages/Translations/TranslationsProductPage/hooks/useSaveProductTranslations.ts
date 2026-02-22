@@ -1,10 +1,12 @@
 import { useCallback } from 'react';
 import type { RegionLocale } from '@workspace/config/i18n.config';
 import {
-  TEMP_CONSUME_MAX,
-  TEMP_CONSUME_MIN,
-  TEMP_FREEZE_MAX,
-  TEMP_FREEZE_MIN,
+  TEMP_CONSUME_DEFAULT,
+  TEMP_CONSUME_SCHEMA_MAX,
+  TEMP_CONSUME_SCHEMA_MIN,
+  TEMP_FREEZE_DEFAULT,
+  TEMP_FREEZE_SCHEMA_MAX,
+  TEMP_FREEZE_SCHEMA_MIN,
 } from '@workspace/shared/constants';
 
 import { useQueryClient } from '@tanstack/react-query';
@@ -24,12 +26,12 @@ import type { SectionKey, TranslationsFormItem } from '../translationsProduct.ty
 import { TranslationsDto } from '../utils/translationsProduct.dto';
 
 function clampTempConsume(v: number | undefined | null): number {
-  const n = v === undefined || v === null ? 5 : Number(v);
-  return Math.max(TEMP_CONSUME_MIN, Math.min(TEMP_CONSUME_MAX, n));
+  const n = v === undefined || v === null ? TEMP_CONSUME_DEFAULT : Number(v);
+  return Math.max(TEMP_CONSUME_SCHEMA_MIN, Math.min(TEMP_CONSUME_SCHEMA_MAX, n));
 }
 function clampTempFreeze(v: number | undefined | null): number {
-  const n = v === undefined || v === null ? -2 : Number(v);
-  return Math.max(TEMP_FREEZE_MIN, Math.min(TEMP_FREEZE_MAX, n));
+  const n = v === undefined || v === null ? TEMP_FREEZE_DEFAULT : Number(v);
+  return Math.max(TEMP_FREEZE_SCHEMA_MIN, Math.min(TEMP_FREEZE_SCHEMA_MAX, n));
 }
 
 export const useSaveProductTranslations = (sectionKey: SectionKey, supportedLanguages: RegionLocale[]) => {

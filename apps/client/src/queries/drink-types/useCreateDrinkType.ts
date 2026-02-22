@@ -1,3 +1,5 @@
+import { TEMP_CONSUME_DEFAULT, TEMP_FREEZE_DEFAULT } from '@workspace/shared/constants';
+
 import { useMutation } from '@tanstack/react-query';
 import { type DrinkTypeUpdate, EndpointsDrinkType } from 'api/endpoints';
 
@@ -17,8 +19,8 @@ export const useCreateDrinkType = () => {
       const updates: DrinkTypeUpdate = {
         name: data.name,
         hasSubtypes: data.hasSubtypes ?? false,
-        defaultTempConsume: data.defaultTempConsume ?? 5,
-        defaultTempFreeze: data.defaultTempFreeze ?? -2,
+        defaultTempConsume: data.defaultTempConsume ?? TEMP_CONSUME_DEFAULT,
+        defaultTempFreeze: data.defaultTempFreeze ?? TEMP_FREEZE_DEFAULT,
         translations: data.translations || {},
       };
       return EndpointsDrinkType.create(updates);

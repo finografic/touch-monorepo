@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { Col, Row } from 'react-grid-system'; // DEPRECATED: consider using react-grid-layout
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { MIN_TEMP_DIFFERENCE } from '@workspace/shared/constants';
+import { MIN_TEMP_DIFFERENCE, TEMP_CONSUME_DEFAULT, TEMP_FREEZE_DEFAULT } from '@workspace/shared/constants';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
@@ -95,8 +95,8 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
       drinkSubtype: orderData?.drinkSubtype || '',
       volume: orderData?.volume || '',
       containerType: orderData?.containerType || '',
-      defaultTempConsume: orderData?.defaultTempConsume || 5,
-      defaultTempFreeze: orderData?.defaultTempFreeze || -2,
+      defaultTempConsume: orderData?.defaultTempConsume ?? TEMP_CONSUME_DEFAULT,
+      defaultTempFreeze: orderData?.defaultTempFreeze ?? TEMP_FREEZE_DEFAULT,
       timeRows: (() => {
         const existingProfiles =
           isEditMode && orderData?.temperatureProfiles?.length
@@ -211,8 +211,8 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
         drinkSubtype: '',
         volume: '',
         containerType: '',
-        defaultTempConsume: 5,
-        defaultTempFreeze: -2,
+        defaultTempConsume: TEMP_CONSUME_DEFAULT,
+        defaultTempFreeze: TEMP_FREEZE_DEFAULT,
         timeRows: Array.from({ length: MIN_TABLE_ROWS }, () => PROFILE_ITEM_VALUES_EMPTY),
       });
 

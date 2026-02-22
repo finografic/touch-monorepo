@@ -1,5 +1,9 @@
 import { useCallback, useMemo, useRef } from 'react';
-import { MIN_TEMP_DIFFERENCE, TEMP_CONSUME_DEFAULT, TEMP_FREEZE_DEFAULT } from '@workspace/shared/constants';
+import {
+  MIN_TEMP_DIFFERENCE,
+  TEMP_CONSUME_FORM_DEFAULT,
+  TEMP_FREEZE_FORM_DEFAULT,
+} from '@workspace/shared/constants';
 
 import type { TemperatureState } from 'pages/TemperaturePage/TemperaturePage.types';
 
@@ -110,8 +114,8 @@ export const useTemperatureFormAndFilter = ({ profiles, dataFiltered }: UseTempe
     (setTemperatures: (temps: TemperatureState) => void) => {
       if (refIsInitialized.current) return;
 
-      const initial = TEMP_CONSUME_DEFAULT;
-      const final = filters?.temperature?.defaultConsume ?? TEMP_FREEZE_DEFAULT;
+      const initial = TEMP_CONSUME_FORM_DEFAULT;
+      const final = filters?.temperature?.defaultConsume ?? TEMP_FREEZE_FORM_DEFAULT;
       setTemperatures({ initial, final });
       updateFilters({ initial, final });
 

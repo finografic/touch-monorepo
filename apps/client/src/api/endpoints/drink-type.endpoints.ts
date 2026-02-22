@@ -1,4 +1,5 @@
 import { transformFetchError } from '@workspace/core/api';
+import { TEMP_CONSUME_DEFAULT, TEMP_FREEZE_DEFAULT } from '@workspace/shared/constants';
 
 import { api } from 'api';
 
@@ -38,8 +39,8 @@ export const EndpointsDrinkType = {
         name: updates.name || '',
         translations: updates.translations || {},
         hasSubtypes: updates.hasSubtypes ?? false,
-        defaultTempConsume: updates.defaultTempConsume ?? 5,
-        defaultTempFreeze: updates.defaultTempFreeze ?? -2,
+        defaultTempConsume: updates.defaultTempConsume ?? TEMP_CONSUME_DEFAULT,
+        defaultTempFreeze: updates.defaultTempFreeze ?? TEMP_FREEZE_DEFAULT,
         ...updates,
       };
 

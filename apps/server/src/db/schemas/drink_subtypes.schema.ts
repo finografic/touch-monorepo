@@ -1,3 +1,10 @@
+import {
+  TEMP_CONSUME_SCHEMA_MAX,
+  TEMP_CONSUME_SCHEMA_MIN,
+  TEMP_FREEZE_SCHEMA_MAX,
+  TEMP_FREEZE_SCHEMA_MIN,
+} from '@workspace/shared/constants';
+
 import createCuid from '@bugsnag/cuid';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
@@ -32,8 +39,10 @@ export const drink_subtypes = sqliteTable('drink_subtypes', {
 // Zod schema for validation
 const insertDrinkSubtypeSchema = createInsertSchema(drink_subtypes, {
   name: (schema) => schema.name.min(1).max(50),
-  defaultTempConsume: (schema) => schema.defaultTempConsume.min(-10).max(30),
-  defaultTempFreeze: (schema) => schema.defaultTempFreeze.min(-20).max(10),
+  defaultTempConsume: (schema) =>
+    schema.defaultTempConsume.min(TEMP_CONSUME_SCHEMA_MIN).max(TEMP_CONSUME_SCHEMA_MAX),
+  defaultTempFreeze: (schema) =>
+    schema.defaultTempFreeze.min(TEMP_FREEZE_SCHEMA_MIN).max(TEMP_FREEZE_SCHEMA_MAX),
   isActive: () => sqliteBooleanField(), // Handle boolean/integer conversion
 })
   .required({
