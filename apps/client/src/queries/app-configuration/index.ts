@@ -8,4 +8,6 @@ export const APP_CONFIGURATION_QUERY_KEYS = {
 
 export * from './useGetAppConfigurationByKey';
 export * from './useGetAppConfigurations';
+export * from './useGetSlotSpecialConfig';
 export * from './useUpdateAppConfiguration';
+export * from './useUpdateSlotSpecialConfig';
