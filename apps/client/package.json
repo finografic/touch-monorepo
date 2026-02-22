@@ -89,6 +89,7 @@
     "@uidotdev/usehooks": "2.4.1",
     "@workspace/config": "workspace:*",
     "@workspace/core": "workspace:*",
+    "@workspace/shared": "workspace:*",
     "@workspace/i18n": "workspace:*",
     "@workspace/server": "workspace:*",
     "better-auth": "1.3.6",

@@ -1,0 +1,33 @@
+{
+  "name": "@workspace/shared",
+  "type": "module",
+  "version": "0.0.1",
+  "private": true,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./constants": {
+      "types": "./dist/constants/index.d.ts",
+      "import": "./dist/constants/index.js"
+    },
+    "./constants/*": {
+      "types": "./dist/constants/*.d.ts",
+      "import": "./dist/constants/*.js"
+    }
+  },
+  "scripts": {
+    "dev": "tsup --watch",
+    "build": "tsup",
+    "clean": "rm -rf dist",
+    "typecheck": "pnpm exec tsc --project tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "20.11.24",
+    "tsup": "8.5.1",
+    "typescript": "^5.9.2"
+  }
+}

@@ -104,6 +104,7 @@
     "@scalar/hono-api-reference": "0.9.25",
     "@vitalets/google-translate-api": "9.2.1",
     "@workspace/core": "workspace:*",
+    "@workspace/shared": "workspace:*",
     "better-auth": "1.3.6",
     "better-call": "1.1.0",
     "better-sqlite3": "11.9.0",

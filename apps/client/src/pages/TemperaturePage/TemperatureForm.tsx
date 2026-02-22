@@ -1,10 +1,10 @@
+import { MIN_TEMP_DIFFERENCE } from '@workspace/shared/constants';
+
 import { Box, Flex } from '@radix-ui/themes';
 import { PadTemperature } from 'components/Pads/PadTemperature/PadTemperature';
 
 import type { Temperature } from 'types/slots.types';
 import { TemperatureKey } from 'types/temperature.types';
-import { MIN_TEMP_DIFFERENCE } from 'config/app';
-import { styles } from './TemperaturePage.styles';
 
 interface TemperatureFormProps {
   temperatures: {

@@ -1,8 +1,10 @@
 export const TEMP_CONSUME_DEFAULT = 25;
+export const TEMP_CONSUME_FALLBACK = 5;
 export const TEMP_CONSUME_MIN = 10;
 export const TEMP_CONSUME_MAX = 30;
 
 export const TEMP_FREEZE_DEFAULT = 8;
+export const TEMP_FREEZE_FALLBACK = -2;
 export const TEMP_FREEZE_MIN = 10;
 export const TEMP_FREEZE_MAX = 40;
 

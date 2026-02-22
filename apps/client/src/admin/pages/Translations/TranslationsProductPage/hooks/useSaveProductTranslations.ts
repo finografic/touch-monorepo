@@ -1,5 +1,11 @@
 import { useCallback } from 'react';
 import type { RegionLocale } from '@workspace/config/i18n.config';
+import {
+  TEMP_CONSUME_MAX,
+  TEMP_CONSUME_MIN,
+  TEMP_FREEZE_MAX,
+  TEMP_FREEZE_MIN,
+} from '@workspace/shared/constants';
 
 import { useQueryClient } from '@tanstack/react-query';
 import { useToast } from 'components/Toast/ToastContext';
@@ -16,12 +22,6 @@ import { invalidateReferenceDataQueries } from 'queries/invalidateReferenceData'
 
 import type { SectionKey, TranslationsFormItem } from '../translationsProduct.types';
 import { TranslationsDto } from '../utils/translationsProduct.dto';
-
-// Match server schema: insertDrinkSubtypeSchema / drink_types (min/max)
-const TEMP_CONSUME_MIN = -10;
-const TEMP_CONSUME_MAX = 30;
-const TEMP_FREEZE_MIN = -20;
-const TEMP_FREEZE_MAX = 10;
 
 function clampTempConsume(v: number | undefined | null): number {
   const n = v === undefined || v === null ? 5 : Number(v);

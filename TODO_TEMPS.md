@@ -1,12 +1,36 @@
 # TODO: Temperature-related names (for search/replace to match DB keys)
 
+---
+
+## ✅ Done – `@workspace/shared` (single source of truth)
+
+Constants moved to `packages/shared/src/constants/temperature.config.ts`,
+exported from `@workspace/shared/constants`:
+
+- `TEMP_CONSUME_DEFAULT` = `25`
+- `TEMP_CONSUME_MIN` = `10`
+- `TEMP_CONSUME_MAX` = `30`
+- `TEMP_FREEZE_DEFAULT` = `8`
+- `TEMP_FREEZE_MIN` = `10`
+- `TEMP_FREEZE_MAX` = `40`
+- `MIN_TEMP_DIFFERENCE` = `0`
+
+Both `@workspace/client` and `@workspace/server` declare `@workspace/shared`
+as a dependency. The original `apps/client/src/config/app/temperature.config.ts`
+has been removed.
+
+Next: update server-side files and any remaining client files that still
+hard-code these values to import from `@workspace/shared/constants`.
+
+---
+
 DB column names: `default_temp_consume`, `default_temp_freeze`
 
 Use this list when renaming constants/properties to align with DB key names. Format: `file path` | `variable name` | inferred usage
 
 ---
 
-## Client – default_temp_* / defaultTemp* (property names)
+## Client – default_temp_*/ defaultTemp* (property names)
 
 | File path | Variable / property name | Inferred usage |
 |-----------|--------------------------|----------------|
@@ -62,7 +86,7 @@ Use this list when renaming constants/properties to align with DB key names. For
 
 ---
 
-## Server – default_temp_* (DB columns) and defaultTemp* (Zod/API)
+## Server – default_temp_*(DB columns) and defaultTemp* (Zod/API)
 
 | File path | Variable name | Inferred usage |
 |-----------|---------------|----------------|

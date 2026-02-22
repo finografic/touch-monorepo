@@ -1,4 +1,5 @@
-import { MIN_TEMP_DIFFERENCE } from 'config/app';
+import { MIN_TEMP_DIFFERENCE } from '@workspace/shared/constants';
+
 import type { FieldConfig, ProgressiveFieldConfig } from './FormMiddleware.types';
 
 // Example of how OrdersForm would be configured with the middleware system

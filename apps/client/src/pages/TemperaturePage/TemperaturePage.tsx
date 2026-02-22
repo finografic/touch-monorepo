@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { MIN_TEMP_DIFFERENCE, TEMP_CONSUME_DEFAULT } from '@workspace/shared/constants';
 
 import { Box, Flex } from '@radix-ui/themes';
 import { PadNumeric } from 'components/Pads/PadNumeric';
@@ -12,7 +13,6 @@ import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 
 import type { Temperature } from 'types/slots.types';
 import { TemperatureKey } from 'types/temperature.types';
-import { TEMP_CONSUME_DEFAULT, MIN_TEMP_DIFFERENCE } from 'config/app';
 import { useTemperatureFormAndFilter } from './useTemperatureFormAndFilter';
 import { styles } from './TemperaturePage.styles';
 

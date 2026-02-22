@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useRef } from 'react';
+import { MIN_TEMP_DIFFERENCE, TEMP_CONSUME_DEFAULT, TEMP_FREEZE_DEFAULT } from '@workspace/shared/constants';
 
 import type { TemperatureState } from 'pages/TemperaturePage/TemperaturePage.types';
 
@@ -11,12 +12,7 @@ import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { findClosestProfile } from 'utils/temperature.utils';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { TemperatureProfile } from 'types/temperature.types';
-import {
-  MIN_TEMP_DIFFERENCE,
-  ROUTE_FILTER_KEYS,
-  TEMP_CONSUME_DEFAULT,
-  TEMP_FREEZE_DEFAULT,
-} from 'config/app';
+import { ROUTE_FILTER_KEYS } from 'config/app';
 
 interface UseTemperatureManagementProps {
   profiles: TemperatureProfile[];

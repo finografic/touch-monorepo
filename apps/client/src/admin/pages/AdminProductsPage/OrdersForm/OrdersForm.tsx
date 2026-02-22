@@ -2,6 +2,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { Col, Row } from 'react-grid-system'; // DEPRECATED: consider using react-grid-layout
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { MIN_TEMP_DIFFERENCE } from '@workspace/shared/constants';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
@@ -25,7 +26,6 @@ import { useAppConfig } from 'providers/AppConfigProvider';
 import { invalidateReferenceDataQueries } from 'queries/invalidateReferenceData';
 
 import type { OrderReadableModel } from 'types/models/order-readable.model';
-import { MIN_TEMP_DIFFERENCE } from 'config/app';
 import { createMockDataHandlers } from './mock-orders.utils';
 import {
   createFormSubmissionHandler,
@@ -242,7 +242,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
   // Form Field Handlers
   // ========================================================================
 
-  const handleFieldChange = (fieldName: string, value: any, allFormValues: MiddlewareOrdersFormValues) => {
+  function handleFieldChange(fieldName: string, value: any, allFormValues: MiddlewareOrdersFormValues) {
     if (fieldName === 'defaultTempConsume') {
       const currentFreezeTemp = allFormValues.defaultTempFreeze;
       const maxFreezeTemp = value - MIN_TEMP_DIFFERENCE;
@@ -251,7 +251,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
         setValue('defaultTempFreeze', maxFreezeTemp, { shouldValidate: true });
       }
     }
-  };
+  }
 
   // ========================================================================
   // Table & Row Management
