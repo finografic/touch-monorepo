@@ -26,7 +26,7 @@ import { useAppConfig } from 'providers/AppConfigProvider';
 import { invalidateReferenceDataQueries } from 'queries/invalidateReferenceData';
 
 import type { OrderReadableModel } from 'types/models/order-readable.model';
-import { createMockDataHandlers } from './mock-orders.utils';
+import { useMockDataHandlers } from './mock-orders.utils';
 import {
   createFormSubmissionHandler,
   getSubmissionLoadingState,
@@ -163,7 +163,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
     handleSimpleFieldChange,
   });
 
-  const mockDataHandlers = createMockDataHandlers({
+  const mockDataHandlers = useMockDataHandlers({
     drinkTypeOptions: dropdownData.drinkTypeOptions,
     volumeOptions: dropdownData.volumeOptions,
     containerTypeOptions: dropdownData.containerTypeOptions,

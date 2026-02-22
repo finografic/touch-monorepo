@@ -51,7 +51,7 @@ export const generateRandomTemperature = (defaultTempFreeze: number): number => 
 // Mock Data Generation
 // ============================================================================
 
-export const createMockDataHandlers = ({
+export const useMockDataHandlers = ({
   drinkTypeOptions,
   volumeOptions,
   containerTypeOptions,
