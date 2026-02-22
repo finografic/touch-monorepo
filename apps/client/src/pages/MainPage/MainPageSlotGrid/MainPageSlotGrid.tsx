@@ -15,6 +15,10 @@ interface MainPageSlotGridProps {
   rows: number;
   /** Show the special slot (e.g. Slot 10) only when true (columns >= 3 and Special grid switch ON). */
   showSpecialSlot?: boolean;
+  /** Show the alt special slot when true (columns >= 3 and Special alt switch ON). */
+  showSpecialAltSlot?: boolean;
+  /** Slot number to display for the alt special slot (from slot_special_alt config). */
+  altSlotNumber?: number;
 }
 
 const MainPageSlotGridComponent: React.FC<MainPageSlotGridProps> = ({
@@ -22,6 +26,8 @@ const MainPageSlotGridComponent: React.FC<MainPageSlotGridProps> = ({
   columns,
   rows = NUM_ROWS_DEFAULT,
   showSpecialSlot = false,
+  showSpecialAltSlot = false,
+  altSlotNumber = 15,
 }) => {
   const activeSlots = useMemo(() => slots.filter((s) => s.isActive), [slots]);
   const gridCount = columns * rows;
@@ -59,6 +65,17 @@ const MainPageSlotGridComponent: React.FC<MainPageSlotGridProps> = ({
             slotType={SlotType.C}
             slotNumber={lastSlot.slotNumber}
             variant="large"
+            className="pad-special-grid"
+          />
+        )}
+        {showSpecialAltSlot && (
+          <PadSlot
+            key={`alt-${altSlotNumber}`}
+            slotType={SlotType.C}
+            slotNumber={altSlotNumber}
+            variant="large"
+            className="pad-special-alt"
+            interactive={false}
           />
         )}
         <PadPower key="pad-power" slotType={SlotSpecial.ENF} variant="large" />

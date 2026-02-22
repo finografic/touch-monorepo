@@ -60,4 +60,10 @@ export const styles = css`
     border-color: ${colors.dangerLight};
     color: ${colors.dangerLight};
   }
+
+  .slot-secondary {
+    border-color: ${colors.secondaryLight};
+    color: ${colors.secondaryLight};
+    cursor: default;
+  }
 `;

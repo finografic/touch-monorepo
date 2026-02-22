@@ -32,6 +32,7 @@ export function MainPage() {
   const { setSelectedSlots, selectedSlots } = useLayoutUi();
   const { allSlots: slotsConfig, isLoading } = useSlotItemsConfig();
   const { data: gridSpecialConfig } = useGetSlotSpecialConfig('special_grid');
+  const { data: altSpecialConfig } = useGetSlotSpecialConfig('special_alt');
 
   // Check if we're returning from a completed flow (not a cancellation)
   const flowCompleted = (location.state as any)?.flowCompleted === true;
@@ -167,6 +168,10 @@ export function MainPage() {
   const showSpecialSlot =
     gridSpecialConfig?.data?.is_visible === true && gridSpecialConfig?.isActive === true;
 
+  const showSpecialAltSlot =
+    altSpecialConfig?.data?.is_visible === true && altSpecialConfig?.isActive === true;
+  const altSlotNumber = altSpecialConfig?.data?.slot_number ?? 15;
+
   return (
     <Flex css={styles} direction="column">
       <div className="main-page-buttons-container">
@@ -175,6 +180,8 @@ export function MainPage() {
           columns={columns}
           rows={rows}
           showSpecialSlot={showSpecialSlot}
+          showSpecialAltSlot={showSpecialAltSlot}
+          altSlotNumber={altSlotNumber}
         />
 
         <div className="content-buttons">

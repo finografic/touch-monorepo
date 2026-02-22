@@ -19,8 +19,12 @@ interface SlotGridProps {
   columns: number;
   rows: number;
   onConfigurationChange: (slotNumber: number, newConfig: Partial<SlotConfig>) => void;
-  /** When false, the special (last) slot is hidden (matches main app: columns >= 3 and switch ON). */
+  /** When true, show the grid special slot (Slot 10, red, cycles type) in the special position. */
   showSpecialSlot?: boolean;
+  /** When true, show the alt special slot (secondary, no click) in the same special position. */
+  showSpecialAltSlot?: boolean;
+  /** Slot number to display for the alt special slot. */
+  altSlotNumber?: number;
 }
 
 const SlotGridComponent: React.FC<SlotGridProps> = ({
@@ -29,6 +33,8 @@ const SlotGridComponent: React.FC<SlotGridProps> = ({
   rows,
   onConfigurationChange,
   showSpecialSlot = false,
+  showSpecialAltSlot = false,
+  altSlotNumber = 15,
 }) => {
   const activeSlots = useMemo(() => configurations.filter((s) => s.isActive), [configurations]);
   const gridMax = columns * rows;
@@ -125,6 +131,16 @@ const SlotGridComponent: React.FC<SlotGridProps> = ({
               onClick={handleSlotClick}
               label={getSlotLabel(lastSlot.slotType)}
               color={getSlotColor(lastSlot.slotType)}
+            />
+          </div>
+        )}
+        {showSpecialAltSlot && !showSpecialSlot && (
+          <div className="slot-item-special">
+            <SlotButton
+              slotNumber={altSlotNumber}
+              slotType="C"
+              label="(alt)"
+              color="secondary"
             />
           </div>
         )}

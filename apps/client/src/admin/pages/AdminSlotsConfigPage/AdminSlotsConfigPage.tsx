@@ -230,6 +230,10 @@ export const AdminSlotsConfigPage: React.FC = () => {
   const showSpecialSlotInPreview =
     numActiveColumns >= 3 && gridSpecialConfig?.data?.isActive === true;
 
+  const showSpecialAltSlotInPreview =
+    numActiveColumns >= 3 && altSpecialConfig?.data?.isActive === true;
+  const altSlotNumber = altSpecialConfig?.data?.slot_number ?? 15;
+
   return (
     <>
       <FormProvider {...methods}>
@@ -260,6 +264,8 @@ export const AdminSlotsConfigPage: React.FC = () => {
                   rows={effectiveRows}
                   onConfigurationChange={handleGridConfigChange}
                   showSpecialSlot={showSpecialSlotInPreview}
+                  showSpecialAltSlot={showSpecialAltSlotInPreview}
+                  altSlotNumber={altSlotNumber}
                 />
                 <Flex gap="4" align="center" mt="-4" pb="4">
                   <Badge size="3" variant="soft" color="blue" className="dimesions-badge">

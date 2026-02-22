@@ -84,6 +84,35 @@ export const styles = css`
       }
     }
 
+    /* Special large slots (sidebar): grid = danger/red, alt = secondary */
+    &.pad-special-grid {
+      color: ${colors.dangerLight};
+      border-color: ${colors.dangerLight};
+      background-color: transparent;
+      &.checked,
+      &.selected,
+      &[data-state='checked'],
+      &[aria-checked='true'] {
+        color: ${colors.dangerXDark};
+        border-color: ${colors.dangerXDark};
+        background-color: ${colors.dangerLight50};
+      }
+    }
+    &.pad-special-alt {
+      color: ${colors.secondaryLight};
+      border-color: ${colors.secondaryLight};
+      background-color: transparent;
+      cursor: default;
+      &.checked,
+      &.selected,
+      &[data-state='checked'],
+      &[aria-checked='true'] {
+        color: ${colors.secondaryXDark};
+        border-color: ${colors.secondaryXDark};
+        background-color: ${colors.secondaryLight50};
+      }
+    }
+
     /* ====================================================================== */
 
     /* ACTIVE TIMERS */

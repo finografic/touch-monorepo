@@ -17,9 +17,17 @@ export interface PadMenuProps {
   slotNumber: number;
   className?: string;
   variant?: 'large' | 'default';
+  /** When false, renders as a non-interactive div (no type cycling). Used for e.g. slot_special_alt. */
+  interactive?: boolean;
 }
 
-export const PadSlot: React.FC<PadMenuProps> = ({ slotType, slotNumber, className, variant = 'default' }) => {
+export const PadSlot: React.FC<PadMenuProps> = ({
+  slotType,
+  slotNumber,
+  className,
+  variant = 'default',
+  interactive = true,
+}) => {
   const { timers } = useTimers();
   const { selectedSlots, toggleMainPageSlot } = useLayoutUi();
 
@@ -48,6 +56,14 @@ export const PadSlot: React.FC<PadMenuProps> = ({ slotType, slotNumber, classNam
   const handleTimerComplete = React.useCallback(() => {
     console.log(`PadSlot Timer ${slotNumber}: completed - do nothing (from component handler)`);
   }, [slotNumber]);
+
+  if (!interactive) {
+    return (
+      <div css={styles} className={mergedClassNames} aria-hidden="true">
+        {slotNumber}
+      </div>
+    );
+  }
 
   if (hasTimer) {
     const isIdleSlotChecked = selectedSlots.some((slot) => slot.status === 'idle');

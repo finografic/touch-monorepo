@@ -5,7 +5,7 @@ import { Button, Flex, Text } from '@radix-ui/themes';
 interface SlotButtonProps {
   slotNumber: number;
   slotType: string;
-  onClick: (slotNumber: number) => void;
+  onClick?: (slotNumber: number) => void;
   label: string;
   color: string;
 }
@@ -15,7 +15,7 @@ export const SlotButton: React.FC<SlotButtonProps> = memo(
     return (
       <Button
         className={`slot-button slot-${color}`}
-        onClick={() => onClick(slotNumber)}
+        onClick={onClick ? () => onClick(slotNumber) : undefined}
         variant="outline"
         size="3"
       >
