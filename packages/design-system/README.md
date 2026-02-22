@@ -25,12 +25,12 @@ Pages were built with deep nesting of `<Flex>`, `<Box>`, and `<Text>` from Radix
 
 **Separate behavior from styling, and styling from layout.**
 
-| Layer | Tool | Responsibility |
-|---|---|---|
-| **Accessible behavior** | Ark UI primitives | Keyboard, focus, ARIA, state machines |
-| **Design tokens** | Panda CSS preset | Colors, spacing, typography, shadows |
-| **Component styling** | Panda CSS recipes (`cva`) | Button variants, badge colors, input sizes |
-| **Layout** | Semantic HTML + CSS | `<section>`, `<fieldset>`, `<label>`, flexbox/grid |
+| Layer                   | Tool                      | Responsibility                                     |
+| ----------------------- | ------------------------- | -------------------------------------------------- |
+| **Accessible behavior** | Ark UI primitives         | Keyboard, focus, ARIA, state machines              |
+| **Design tokens**       | Panda CSS preset          | Colors, spacing, typography, shadows               |
+| **Component styling**   | Panda CSS recipes (`cva`) | Button variants, badge colors, input sizes         |
+| **Layout**              | Semantic HTML + CSS       | `<section>`, `<fieldset>`, `<label>`, flexbox/grid |
 
 No `<Flex>`. No `<Text>`. No `<Box>`. Just HTML elements styled by one system.
 
@@ -177,11 +177,11 @@ Import `global.css` once at your app entry point. It loads the others in the cor
 import '@workspace/design-system/styles/global.css';
 ```
 
-| File | Purpose |
-|---|---|
-| `reset.css` | Removes browser defaults. Normalizes box-sizing, typography, form elements, media elements. Loaded **first**. |
+| File            | Purpose                                                                                                                       |
+| --------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `reset.css`     | Removes browser defaults. Normalizes box-sizing, typography, form elements, media elements. Loaded **first**.                 |
 | `keyframes.css` | Defines reusable `@keyframes` animations (`slide-fade-in`, `fade-in`, `scale-in`, etc.) used by Ark UI component transitions. |
-| `global.css` | Aggregates the above two via `@import`. This is the only file you import. |
+| `global.css`    | Aggregates the above two via `@import`. This is the only file you import.                                                     |
 
 > **Note:** Component styles are NOT in CSS files — they're defined as Panda CSS recipes and applied via generated utility classes at build time.
 
@@ -191,12 +191,12 @@ import '@workspace/design-system/styles/global.css';
 
 ### Token files and what they define
 
-| File | Tokens | Example usage in recipes |
-|---|---|---|
-| `colors.ts` | `colorTokens` (raw palette), `semanticColorTokens` (role-based) | `bg: 'accent.solid'`, `color: 'fg.inverted'` |
-| `typography.ts` | `fontTokens`, `fontSizeTokens`, `fontWeightTokens`, `lineHeightTokens`, `textStyles` | `fontSize: 'sm'`, `fontWeight: 'semibold'` |
-| `spacing.ts` | `spacingTokens`, `radiiTokens`, `borderWidthTokens`, `shadowTokens`, `breakpoints`, `zIndexTokens` | `padding: '4'`, `borderRadius: 'md'`, `gap: '2'` |
-| `animations.ts` | `keyframes`, `durationTokens`, `easingTokens` | `transitionDuration: 'normal'`, `animation: 'slide-fade-in'` |
+| File            | Tokens                                                                                             | Example usage in recipes                                     |
+| --------------- | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| `colors.ts`     | `colorTokens` (raw palette), `semanticColorTokens` (role-based)                                    | `bg: 'accent.solid'`, `color: 'fg.inverted'`                 |
+| `typography.ts` | `fontTokens`, `fontSizeTokens`, `fontWeightTokens`, `lineHeightTokens`, `textStyles`               | `fontSize: 'sm'`, `fontWeight: 'semibold'`                   |
+| `spacing.ts`    | `spacingTokens`, `radiiTokens`, `borderWidthTokens`, `shadowTokens`, `breakpoints`, `zIndexTokens` | `padding: '4'`, `borderRadius: 'md'`, `gap: '2'`             |
+| `animations.ts` | `keyframes`, `durationTokens`, `easingTokens`                                                      | `transitionDuration: 'normal'`, `animation: 'slide-fade-in'` |
 
 ### Using tokens directly (in Panda CSS styles)
 
@@ -205,13 +205,13 @@ import { css } from '../styled-system/css';
 
 // Tokens are referenced by their key names
 const cardStyle = css({
-  bg: 'bg.panel',           // semantic color token
+  bg: 'bg.panel', // semantic color token
   border: '1px solid',
-  borderColor: 'border',     // semantic color token
-  borderRadius: 'md',        // radii token → 0.5rem
-  padding: '4',              // spacing token → 1rem
-  shadow: 'md',              // shadow token
-  color: 'fg',               // semantic color token
+  borderColor: 'border', // semantic color token
+  borderRadius: 'md', // radii token → 0.5rem
+  padding: '4', // spacing token → 1rem
+  shadow: 'md', // shadow token
+  color: 'fg', // semantic color token
 });
 ```
 
@@ -221,7 +221,7 @@ const cardStyle = css({
 import { css } from '../styled-system/css';
 
 const headingStyle = css({
-  textStyle: 'heading.3',  // → fontSize: 2.25rem, fontWeight: 600, lineHeight: 1.375
+  textStyle: 'heading.3', // → fontSize: 2.25rem, fontWeight: 600, lineHeight: 1.375
   color: 'fg',
 });
 ```
@@ -282,7 +282,7 @@ import { badge } from '../styled-system/recipes';
 
 <span className={badge({ variant: 'soft', colorScheme: 'info', size: 'lg' })}>
   3 columns × 4 rows = 12 grid slots + 1 special slot
-</span>
+</span>;
 ```
 
 **Variants:** `size` (sm, md, lg) · `variant` (solid, soft, outline) · `colorScheme` (primary, success, warning, danger, info, neutral)
@@ -318,7 +318,7 @@ import { input } from '../styled-system/recipes';
   className={input({ size: 'md' })}
   type="text"
   placeholder="Enter value..."
-/>
+/>;
 ```
 
 **Variants:** `size` (sm, md, lg)
@@ -334,7 +334,7 @@ import { Switch } from '@workspace/design-system/components';
   label="Minimal layout (4 slots, 2×2)"
   checked={isMinimal}
   onCheckedChange={({ checked }) => handleToggle(checked)}
-/>
+/>;
 ```
 
 Or with the recipe directly on Ark primitives:
@@ -349,7 +349,7 @@ import { switchRecipe } from '../styled-system/recipes';
   </ArkSwitch.Control>
   <ArkSwitch.Label>Enable feature</ArkSwitch.Label>
   <ArkSwitch.HiddenInput />
-</ArkSwitch.Root>
+</ArkSwitch.Root>;
 ```
 
 **Variants:** `size` (sm, md, lg)

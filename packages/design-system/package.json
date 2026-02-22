@@ -37,11 +37,16 @@
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
+    "·········· FORMATTING": "················································",
+    "format": "dprint fmt **/*.md --diff",
+    "format.check": "dprint check",
+    "·········· UTILS": "·····················································",
     "panda:codegen": "panda codegen",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@ark-ui/react": "^5.11.0",
+    "@finografic/dprint-config": "0.12.4",
     "@pandacss/dev": "^0.53.1"
   },
   "devDependencies": {
