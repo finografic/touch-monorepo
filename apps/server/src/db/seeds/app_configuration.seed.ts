@@ -14,17 +14,17 @@ const DEFAULT_APP_CONFIG = [
   {
     name: 'slot_special_grid',
     isActive: false,
-    data: JSON.stringify({ slot_number: 10, relay_number: 10 }),
+    data: JSON.stringify({ is_visible: true, slot_number: 10, relay_number: 10 }),
   },
   {
     name: 'slot_special_power',
     isActive: false,
-    data: JSON.stringify({ slot_number: 14, relay_number: 14 }),
+    data: JSON.stringify({ is_visible: true, slot_number: 14, relay_number: 14 }),
   },
   {
     name: 'slot_special_alt',
     isActive: false,
-    data: JSON.stringify({ slot_number: 15, relay_number: 15 }),
+    data: JSON.stringify({ is_visible: false, slot_number: 15, relay_number: 15 }),
   },
 ];
 

@@ -19,8 +19,9 @@ export interface UpdateAppConfigurationRequest {
   data?: Record<string, unknown>;
 }
 
-/** Data shape for slot_special_* app config entries: which slot/relay to use. */
+/** Data shape for slot_special_* app config entries: visibility + which slot/relay to use. */
 export interface SlotSpecialConfig {
+  is_visible: boolean;
   slot_number: number;
   relay_number: number;
 }

@@ -8,8 +8,9 @@ import { IdCuidParamsSchema } from 'schemas/id-cuid-params.schema';
 
 const tags = ['AppConfiguration'];
 
-/** Data shape for slot_special_* config entries (slot_number, relay_number). */
+/** Data shape for slot_special_* config entries (is_visible, slot_number, relay_number). */
 export const slotSpecialDataSchema = z.object({
+  is_visible: z.boolean(),
   slot_number: z.number().int().min(1),
   relay_number: z.number().int().min(1),
 });

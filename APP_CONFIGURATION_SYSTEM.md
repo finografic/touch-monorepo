@@ -19,7 +19,7 @@ This document describes the **app-level configuration** feature: a small key/val
 
 - **Migration:** `data/migrations/0001_app_configuration.sql`
 - **Schema (Drizzle):** `apps/server/src/db/schemas/app_configuration.schema.ts`
-- **Seed:** `apps/server/src/db/seeds/app_configuration.seed.ts` — ensures rows exist for: `grid_layout` (data `{}`), `slot_special_grid` (data `{ slot_number: 10, relay_number: 10 }`), `slot_special_power` (14, 14), `slot_special_alt` (15, 15). Missing keys are inserted; seeded first in `config/db-setup.config.ts`.
+- **Seed:** `apps/server/src/db/seeds/app_configuration.seed.ts` — ensures rows exist for: `grid_layout` (data `{}`), `slot_special_grid` (data `{ is_visible: true, slot_number: 10, relay_number: 10 }`), `slot_special_power` (is_visible: true, 14, 14), `slot_special_alt` (is_visible: false, 15, 15). Missing keys are inserted; seeded first in `config/db-setup.config.ts`.
 
 ---
 
@@ -57,7 +57,7 @@ This document describes the **app-level configuration** feature: a small key/val
 | `getByKey(name)` | GET by key (e.g. `'grid_layout'`) |
 | `update(id, { isActive?, data? })` | PATCH one entry              |
 
-**Types:** `apps/client/src/types/app-configuration.types.ts` — `AppConfiguration`, `UpdateAppConfigurationRequest`, `SlotSpecialConfig` (`{ slot_number, relay_number }`), `SlotSpecialParam` (`'special_grid' | 'special_power' | 'special_alt'`), `SLOT_SPECIAL_CONFIG_KEYS`, `SlotSpecialAppConfiguration`. Shared entity shape also exported from `config/app-configuration.entity.ts` as `AppConfigurationEntity`.
+**Types:** `apps/client/src/types/app-configuration.types.ts` — `AppConfiguration`, `UpdateAppConfigurationRequest`, `SlotSpecialConfig` (`{ is_visible, slot_number, relay_number }`), `SlotSpecialParam` (`'special_grid' | 'special_power' | 'special_alt'`), `SLOT_SPECIAL_CONFIG_KEYS`, `SlotSpecialAppConfiguration`. Shared entity shape also exported from `config/app-configuration.entity.ts` as `AppConfigurationEntity`.
 
 ---
 
@@ -115,15 +115,15 @@ So the Admin switch directly controls what the main app shows: standard grid vs 
 
 ## 6. Slot-special configs (slot_special_grid, slot_special_power, slot_special_alt)
 
-Three app_configuration entries toggle `is_active` and store `data: { slot_number, relay_number }`:
+Three app_configuration entries: `is_active` (column) is separate from visibility; `data` holds `{ is_visible, slot_number, relay_number }`. Use `data.is_visible` to control UI visibility; `is_active` can mean something else (e.g. enabled state).
 
-| Key                 | Default data              | Param (hooks)   |
-| ------------------- | ------------------------- | ---------------- |
-| `slot_special_grid` | `{ slot_number: 10, relay_number: 10 }` | `special_grid`  |
-| `slot_special_power`| `{ slot_number: 14, relay_number: 14 }` | `special_power` |
-| `slot_special_alt`  | `{ slot_number: 15, relay_number: 15 }` | `special_alt`   |
+| Key                 | Default data                                              | Param (hooks)   |
+| ------------------- | --------------------------------------------------------- | ---------------- |
+| `slot_special_grid` | `{ is_visible: true, slot_number: 10, relay_number: 10 }` | `special_grid`  |
+| `slot_special_power`| `{ is_visible: true, slot_number: 14, relay_number: 14 }` | `special_power` |
+| `slot_special_alt`  | `{ is_visible: false, slot_number: 15, relay_number: 15 }` | `special_alt`   |
 
-- **Interface:** `SlotSpecialConfig` in `apps/client/src/types/app-configuration.types.ts`.
+- **Interface:** `SlotSpecialConfig` in `apps/client/src/types/app-configuration.types.ts` (`is_visible`, `slot_number`, `relay_number`).
 - **Server schema:** `slotSpecialDataSchema` (Zod) in `apps/server/src/routes/app-configuration/app-configuration.routes.ts`.
 - **Client hooks:** `useGetSlotSpecialConfig('special_grid' | 'special_power' | 'special_alt')` and `useUpdateSlotSpecialConfig()` with `{ param, id, data }`. Use `SLOT_SPECIAL_CONFIG_KEYS` to map param → key.
 - **API:** Same GET-by-key and PATCH-by-id as other app config; key names are `slot_special_grid`, etc.
