@@ -8,15 +8,18 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
     },
     "./constants": {
       "types": "./dist/constants/index.d.ts",
-      "import": "./dist/constants/index.js"
+      "import": "./dist/constants/index.js",
+      "require": "./dist/constants/index.js"
     },
     "./constants/*": {
       "types": "./dist/constants/*.d.ts",
-      "import": "./dist/constants/*.js"
+      "import": "./dist/constants/*.js",
+      "require": "./dist/constants/*.js"
     }
   },
   "scripts": {
