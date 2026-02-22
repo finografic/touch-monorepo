@@ -34,7 +34,27 @@ export const styles = css`
     gap: 1rem;
     padding: 1rem 0;
     border-radius: ${layout.borderRadius};
+    row-gap: 1.5rem;
+    height: 350px;
     /* min-width: 100px; */
+  }
+
+  .slot-item-power {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 0;
+    border-radius: ${layout.borderRadius};
+    pointer-events: none;
+    /* Same width as slot buttons; height = 2 grid squares (90*2 + row-gap 1.5rem) */
+    width: 90px;
+    min-height: calc(90px * 2 + 1.5rem);
+
+    button.slot-button {
+      width: 90px;
+      /* height: calc(90px * 2 + 1.5rem); */
+      aspect-ratio: auto;
+      cursor: default;
+    }
   }
 
   button.slot-button {
@@ -64,6 +84,13 @@ export const styles = css`
   .slot-secondary {
     border-color: ${colors.secondaryLight};
     color: ${colors.secondaryLight};
+    cursor: default;
+  }
+
+  .slot-power {
+    border-color: ${colors.success};
+    color: ${colors.successLight};
+    flex-grow: 2;
     cursor: default;
   }
 `;

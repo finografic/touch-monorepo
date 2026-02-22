@@ -11,8 +11,8 @@ import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useTimers } from 'providers/TimersProvider';
-import { useGetDefaultMode } from 'queries/modes/useGetDefaultMode';
 import { useGetSlotSpecialConfig } from 'queries/app-configuration';
+import { useGetDefaultMode } from 'queries/modes/useGetDefaultMode';
 
 import { calculateColumns } from 'utils/slots.utils';
 import { getEffectiveRows } from 'config/app/slots.config';

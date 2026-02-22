@@ -228,6 +228,8 @@ export const AdminSlotsConfigPage: React.FC = () => {
   const showSpecialAltSlotInPreview = numActiveColumns >= 3 && altSpecialConfig?.data?.isActive === true;
   const altSlotNumber = altSpecialConfig?.data?.data.slot_number ?? 15;
 
+  const showPowerSlotInPreview = powerSpecialConfig?.data?.isActive === true;
+
   return (
     <>
       <FormProvider {...methods}>
@@ -260,6 +262,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
                   showSpecialSlot={showSpecialSlotInPreview}
                   showSpecialAltSlot={showSpecialAltSlotInPreview}
                   altSlotNumber={altSlotNumber}
+                  showPowerSlot={showPowerSlotInPreview}
                 />
                 <Flex gap="4" align="center" mt="-4" pb="4">
                   <Badge size="3" variant="soft" color="blue" className="dimesions-badge">

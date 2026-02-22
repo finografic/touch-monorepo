@@ -25,6 +25,8 @@ interface SlotGridProps {
   showSpecialAltSlot?: boolean;
   /** Slot number to display for the alt special slot. */
   altSlotNumber?: number;
+  /** When true, show the power placeholder (same position as MainPage power button). */
+  showPowerSlot?: boolean;
 }
 
 const SlotGridComponent: React.FC<SlotGridProps> = ({
@@ -35,6 +37,7 @@ const SlotGridComponent: React.FC<SlotGridProps> = ({
   showSpecialSlot = false,
   showSpecialAltSlot = false,
   altSlotNumber = 15,
+  showPowerSlot = false,
 }) => {
   const activeSlots = useMemo(() => configurations.filter((s) => s.isActive), [configurations]);
   const gridMax = columns * rows;
@@ -123,8 +126,9 @@ const SlotGridComponent: React.FC<SlotGridProps> = ({
             );
           })}
         </div>
-        {showSpecialSlot && lastSlot && (
-          <div className="slot-item-special">
+
+        <div className="slot-item-special">
+          {showSpecialSlot && lastSlot && (
             <SlotButton
               slotNumber={lastSlot.slotNumber}
               slotType={lastSlot.slotType}
@@ -132,18 +136,20 @@ const SlotGridComponent: React.FC<SlotGridProps> = ({
               label={getSlotLabel(lastSlot.slotType)}
               color={getSlotColor(lastSlot.slotType)}
             />
-          </div>
-        )}
+          )}
+          {showPowerSlot && <SlotButton slotNumber={14} slotType="C" label="power" color="power" />}
+        </div>
+
         {showSpecialAltSlot && !showSpecialSlot && (
           <div className="slot-item-special">
-            <SlotButton
-              slotNumber={altSlotNumber}
-              slotType="C"
-              label="(alt)"
-              color="secondary"
-            />
+            <SlotButton slotNumber={altSlotNumber} slotType="C" label="(alt)" color="secondary" />
           </div>
         )}
+        {/* {showPowerSlot && (
+          <div className="slot-item-power" title="Power (no interaction)">
+            <SlotButton slotNumber={14} slotType="C" label="power" color="power" />
+          </div>
+        )} */}
       </div>
     </Box>
   );

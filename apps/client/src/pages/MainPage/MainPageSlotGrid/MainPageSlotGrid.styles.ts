@@ -52,6 +52,7 @@ export const styles = css`
       &.power {
         border-radius: 10px;
         grid-row: span 2;
+        flex-grow: 2;
         width: ${padProps.special.width};
         height: ${padProps.special.height};
         color: ${colors.successXLight};
