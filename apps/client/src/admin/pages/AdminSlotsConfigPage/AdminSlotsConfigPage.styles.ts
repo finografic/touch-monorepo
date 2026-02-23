@@ -126,4 +126,12 @@ export const styles = css`
   .legend-type-c {
     background: ${colors.dangerLight};
   }
+
+  .legend-type-alt {
+    background: ${colors.secondaryXLight};
+  }
+
+  .legend-type-power {
+    background: ${colors.success};
+  }
 `;

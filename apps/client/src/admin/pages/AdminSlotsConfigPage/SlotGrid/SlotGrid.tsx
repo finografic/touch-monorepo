@@ -40,6 +40,7 @@ const SlotGridComponent: React.FC<SlotGridProps> = ({
   showPowerSlot = false,
 }) => {
   const activeSlots = useMemo(() => configurations.filter((s) => s.isActive), [configurations]);
+
   const gridMax = columns * rows;
 
   const overflowSlots = useMemo(
@@ -87,9 +88,10 @@ const SlotGridComponent: React.FC<SlotGridProps> = ({
       const typeOrder = [SlotType.A, SlotType.B, SlotType.C];
       const currentIndex = typeOrder.indexOf(currentConfig.slotType);
       const nextIndex = (currentIndex + 1) % typeOrder.length;
-      const newSlotType = typeOrder[nextIndex];
 
-      onConfigurationChange(slotNumber, { slotType: newSlotType });
+      onConfigurationChange(slotNumber, {
+        slotType: typeOrder[nextIndex],
+      });
     },
     [activeSlots, onConfigurationChange],
   );
@@ -97,6 +99,46 @@ const SlotGridComponent: React.FC<SlotGridProps> = ({
   // Compute grid width to keep consistent spacing across different column counts
   const columnWidth = 120; // px per column
   const gridWidth = `${columns * columnWidth}px`;
+
+  /**
+   * ------------------------------------------------------------------
+   * Special row rendering logic (moved OUT of JSX)
+   * ------------------------------------------------------------------
+   */
+
+  const primarySpecialSlot = useMemo(() => {
+    if (showSpecialSlot && lastSlot) {
+      return (
+        <SlotButton
+          slotNumber={lastSlot.slotNumber}
+          slotType={lastSlot.slotType}
+          onClick={handleSlotClick}
+          label={getSlotLabel(lastSlot.slotType)}
+          color={getSlotColor(lastSlot.slotType)}
+        />
+      );
+    }
+
+    if (!showSpecialSlot && showSpecialAltSlot) {
+      return <SlotButton slotNumber={altSlotNumber} slotType="C" label="(alt)" color="secondary" />;
+    }
+
+    return null;
+  }, [
+    showSpecialSlot,
+    showSpecialAltSlot,
+    lastSlot,
+    altSlotNumber,
+    handleSlotClick,
+    getSlotLabel,
+    getSlotColor,
+  ]);
+
+  const secondarySpecialSlot = useMemo(() => {
+    if (!(showSpecialSlot && showSpecialAltSlot)) return null;
+
+    return <SlotButton slotNumber={altSlotNumber} slotType="C" label="(alt)" color="secondary" />;
+  }, [showSpecialSlot, showSpecialAltSlot, altSlotNumber]);
 
   return (
     <Box css={styles}>
@@ -113,6 +155,7 @@ const SlotGridComponent: React.FC<SlotGridProps> = ({
           {mapGridByColumns({ rows, columns }, (slotNumber) => {
             const config = regularSlots.find((c) => c.slotNumber === slotNumber);
             if (!config) return null;
+
             return (
               <div key={config.slotNumber} className="slot-grid-item">
                 <SlotButton
@@ -129,24 +172,21 @@ const SlotGridComponent: React.FC<SlotGridProps> = ({
 
         <div className="slot-special-row">
           <div className="slot-item-special">
-            {showSpecialSlot && lastSlot && (
+            {primarySpecialSlot}
+
+            {showPowerSlot && (
               <SlotButton
-                slotNumber={lastSlot.slotNumber}
-                slotType={lastSlot.slotType}
-                onClick={handleSlotClick}
-                label={getSlotLabel(lastSlot.slotType)}
-                color={getSlotColor(lastSlot.slotType)}
+                slotNumber={0}
+                slotType="C"
+                label="power"
+                color="power"
+                style={{ maxHeight: columns <= 2 ? '202px' : 'auto' }}
               />
             )}
-            {!showSpecialSlot && showSpecialAltSlot && (
-              <SlotButton slotNumber={altSlotNumber} slotType="C" label="(alt)" color="secondary" />
-            )}
-            {showPowerSlot && <SlotButton slotNumber={0} slotType="C" label="power" color="power" />}
           </div>
-          {showSpecialSlot && showSpecialAltSlot && (
-            <div className="slot-item-special">
-              <SlotButton slotNumber={altSlotNumber} slotType="C" label="(alt)" color="secondary" />
-            </div>
+
+          {columns <= 3 && secondarySpecialSlot && (
+            <div className="slot-item-special">{secondarySpecialSlot}</div>
           )}
         </div>
       </div>

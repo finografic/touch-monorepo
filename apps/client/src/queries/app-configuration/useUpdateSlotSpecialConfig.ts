@@ -1,10 +1,12 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-
 import { appConfigurationEndpoints } from 'api/endpoints';
-import type { AppConfiguration } from 'types/app-configuration.types';
-import type { SlotSpecialParam, UpdateAppConfigurationRequest } from 'types/app-configuration.types';
-import { SLOT_SPECIAL_CONFIG_KEYS } from 'types/app-configuration.types';
 
+import type {
+  AppConfiguration,
+  SlotSpecialParam,
+  UpdateAppConfigurationRequest,
+} from 'types/app-configuration.types';
+import { SLOT_SPECIAL_CONFIG_KEYS } from 'types/app-configuration.types';
 import { APP_CONFIGURATION_QUERY_KEYS } from './index';
 
 export interface UpdateSlotSpecialConfigVariables {

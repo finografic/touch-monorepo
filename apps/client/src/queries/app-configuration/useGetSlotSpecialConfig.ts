@@ -2,12 +2,10 @@ import type { ErrorResponse } from '@workspace/core/api';
 
 import type { UseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
-
 import { appConfigurationEndpoints } from 'api/endpoints';
 
 import type { SlotSpecialAppConfiguration, SlotSpecialParam } from 'types/app-configuration.types';
 import { SLOT_SPECIAL_CONFIG_KEYS } from 'types/app-configuration.types';
-
 import { APP_CONFIGURATION_QUERY_KEYS } from './index';
 
 /**
@@ -24,7 +22,7 @@ export const useGetSlotSpecialConfig = (
       const config = await appConfigurationEndpoints.getByKey(key);
       return {
         ...config,
-        data: config.data as SlotSpecialAppConfiguration['data'],
+        data: config.data as unknown as SlotSpecialAppConfiguration['data'],
       };
     },
     enabled: !!param,

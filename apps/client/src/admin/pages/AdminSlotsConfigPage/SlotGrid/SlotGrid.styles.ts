@@ -96,7 +96,7 @@ export const styles = css`
 
   .slot-power {
     border-color: ${colors.success};
-    color: ${colors.successLight};
+    color: ${colors.success};
     flex-grow: 2;
     cursor: default;
   }

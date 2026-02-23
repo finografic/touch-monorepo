@@ -3,13 +3,16 @@ import React, { memo, useMemo } from 'react';
 import { PadPower } from 'components/Pads/PadPower';
 import { PadSlot } from 'components/Pads/PadSlot';
 
+import { useGetSlotSpecialConfig } from 'queries/app-configuration/useGetSlotSpecialConfig';
+
 import { mapGridByColumns } from 'utils/grid.utils';
 import type { SlotConfiguration } from 'types/slot-config.types';
 import { SlotSpecial, SlotType } from 'types/slots.types';
 import { NUM_ROWS_DEFAULT } from 'config/app/slots.config';
-import { styles } from './MainPageSlotGrid.styles';
+import { resolveSlotGridLayout } from './utils/slot-grid-layout';
+import { styles } from './MainSlotGrid.styles';
 
-interface MainPageSlotGridProps {
+interface MainSlotGridProps {
   slots: SlotConfiguration[];
   columns: number;
   rows: number;
@@ -21,7 +24,7 @@ interface MainPageSlotGridProps {
   altSlotNumber?: number;
 }
 
-const MainPageSlotGridComponent: React.FC<MainPageSlotGridProps> = ({
+const MainSlotGridComponent: React.FC<MainSlotGridProps> = ({
   slots,
   columns,
   rows = NUM_ROWS_DEFAULT,
@@ -29,15 +32,35 @@ const MainPageSlotGridComponent: React.FC<MainPageSlotGridProps> = ({
   showSpecialAltSlot = false,
   altSlotNumber = 15,
 }) => {
-  const activeSlots = useMemo(() => slots.filter((s) => s.isActive), [slots]);
-  const gridCount = columns * rows;
-  const mainGridSlots = activeSlots.slice(0, gridCount);
-  const lastSlot = activeSlots[gridCount] ?? null;
+  const slotSpecialGridConfig = useGetSlotSpecialConfig('special_grid');
+  const slotSpecialPowerConfig = useGetSlotSpecialConfig('special_power');
+  const slotSpecialAltConfig = useGetSlotSpecialConfig('special_alt');
 
-  // Calculate dynamic width based on columns
-  // Each pad is ~110px, gap is 2.5rem (40px), so: (columns * 110) + ((columns - 1) * 40)
+  /**
+   * ------------------------------------------------------------------
+   * Shared layout resolution (single source of truth)
+   * ------------------------------------------------------------------
+   */
+  const layout = useMemo(
+    () =>
+      resolveSlotGridLayout({
+        slots,
+        columns,
+        rows,
+        getSlotNumber: (s) => s.slotNumber,
+        isActive: (s) => s.isActive,
+        showSpecialSlot,
+        showSpecialAltSlot,
+      }),
+    [slots, columns, rows, showSpecialSlot, showSpecialAltSlot],
+  );
+
+  /**
+   * Calculate dynamic width based on columns
+   * Each pad ≈110px, gap 2.5rem (40px)
+   */
   const padWidth = 110;
-  const gapSize = 40; // 2.5rem
+  const gapSize = 40;
   const gridWidth = columns * padWidth + (columns - 1) * gapSize;
 
   return (
@@ -51,7 +74,8 @@ const MainPageSlotGridComponent: React.FC<MainPageSlotGridProps> = ({
         }}
       >
         {mapGridByColumns({ rows, columns }, (slotNumber) => {
-          const slot = mainGridSlots.find((s) => s.slotNumber === slotNumber);
+          const slot = layout.regularSlots.get(slotNumber);
+
           return slot ? (
             <PadSlot key={slot.slotNumber} slotType={slot.slotType} slotNumber={slot.slotNumber} />
           ) : null;
@@ -61,16 +85,17 @@ const MainPageSlotGridComponent: React.FC<MainPageSlotGridProps> = ({
       <div className="slot-col-lg">
         <div className="slot-special-row">
           <div className="slot-item-special">
-            {showSpecialSlot && lastSlot && (
+            {layout.primarySpecialSlot && (
               <PadSlot
-                key={lastSlot.slotNumber}
+                key={layout.primarySpecialSlot.slotNumber}
                 slotType={SlotType.C}
-                slotNumber={lastSlot.slotNumber}
+                slotNumber={layout.primarySpecialSlot.slotNumber}
                 variant="large"
                 className="pad-special-grid"
               />
             )}
-            {!showSpecialSlot && showSpecialAltSlot && (
+
+            {layout.showAltInPrimary && (
               <PadSlot
                 key={`alt-${altSlotNumber}`}
                 slotType={SlotType.C}
@@ -81,7 +106,8 @@ const MainPageSlotGridComponent: React.FC<MainPageSlotGridProps> = ({
               />
             )}
           </div>
-          {showSpecialSlot && showSpecialAltSlot && (
+
+          {layout.showSecondaryAlt && (
             <div className="slot-item-special">
               <PadSlot
                 key={`alt-${altSlotNumber}`}
@@ -94,7 +120,10 @@ const MainPageSlotGridComponent: React.FC<MainPageSlotGridProps> = ({
             </div>
           )}
         </div>
-        {showSpecialAltSlot && (
+
+        {/* {showSpecialAltSlot && <PadPower key="pad-power" slotType={SlotSpecial.ENF} variant="large" />} */}
+
+        {slotSpecialPowerConfig.data.isActive && slotSpecialPowerConfig.data.data.is_visible && (
           <PadPower key="pad-power" slotType={SlotSpecial.ENF} variant="large" />
         )}
       </div>
@@ -102,4 +131,4 @@ const MainPageSlotGridComponent: React.FC<MainPageSlotGridProps> = ({
   );
 };
 
-export const MainPageSlotGrid = memo(MainPageSlotGridComponent);
+export const MainSlotGrid = memo(MainSlotGridComponent);

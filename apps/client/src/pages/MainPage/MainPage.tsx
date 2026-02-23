@@ -16,7 +16,7 @@ import { useGetDefaultMode } from 'queries/modes/useGetDefaultMode';
 
 import { calculateColumns } from 'utils/slots.utils';
 import { getEffectiveRows } from 'config/app/slots.config';
-import { MainPageSlotGrid } from './MainPageSlotGrid/MainPageSlotGrid';
+import { MainSlotGrid } from './MainSlotGrid/MainSlotGrid';
 import type { SlotMeta } from './MainPage.types';
 import { useMainPageConfig } from './useMainPageConfig';
 import { styles } from './MainPage.styles';
@@ -175,7 +175,7 @@ export function MainPage() {
   return (
     <Flex css={styles} direction="column">
       <div className="main-page-buttons-container">
-        <MainPageSlotGrid
+        <MainSlotGrid
           slots={activeSlots}
           columns={columns}
           rows={rows}

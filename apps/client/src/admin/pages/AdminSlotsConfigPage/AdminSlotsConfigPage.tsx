@@ -340,6 +340,14 @@ export const AdminSlotsConfigPage: React.FC = () => {
                         <div className="legend-circle legend-type-c">C</div>
                         <Text size="3">Type C</Text>
                       </Flex>
+                      <Flex align="center" gap="4">
+                        <div className="legend-circle legend-type-alt">C</div>
+                        <Text size="3">Type Alt</Text>
+                      </Flex>
+                      <Flex align="center" gap="4">
+                        <div className="legend-circle legend-type-power">C</div>
+                        <Text size="3">Power</Text>
+                      </Flex>
                     </Flex>
                   </div>
                 </div>
