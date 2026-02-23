@@ -31,7 +31,8 @@ export const fontTokens = {
     value: 'ui-serif, Georgia, Cambria, "Times New Roman", Times, serif',
   },
   mono: {
-    value: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+    value:
+      'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
   },
 } as const;
 
@@ -86,63 +87,65 @@ export const lineHeightTokens = {
 // ============================================================================
 
 export const textStyles = {
-  'heading.1': {
+  h1: {
     value: {
       fontSize: '3.75rem',
       fontWeight: '700',
       lineHeight: '1.25',
     },
   },
-  'heading.2': {
+  h2: {
     value: {
       fontSize: '3rem',
       fontWeight: '700',
       lineHeight: '1.25',
     },
   },
-  'heading.3': {
+  h3: {
     value: {
       fontSize: '2.25rem',
       fontWeight: '600',
       lineHeight: '1.375',
     },
   },
-  'heading.4': {
+  h4: {
     value: {
       fontSize: '1.875rem',
       fontWeight: '600',
       lineHeight: '1.375',
     },
   },
-  'heading.5': {
+  h5: {
     value: {
       fontSize: '1.5rem',
       fontWeight: '600',
       lineHeight: '1.375',
     },
   },
-  'body.lg': {
-    value: {
-      fontSize: '1.125rem',
-      fontWeight: '400',
-      lineHeight: '1.5',
+  body: {
+    lg: {
+      value: {
+        fontSize: '1.125rem',
+        fontWeight: '400',
+        lineHeight: '1.5',
+      },
+    },
+    md: {
+      value: {
+        fontSize: '1rem',
+        fontWeight: '400',
+        lineHeight: '1.5',
+      },
+    },
+    sm: {
+      value: {
+        fontSize: '0.875rem',
+        fontWeight: '400',
+        lineHeight: '1.5',
+      },
     },
   },
-  'body.md': {
-    value: {
-      fontSize: '1rem',
-      fontWeight: '400',
-      lineHeight: '1.5',
-    },
-  },
-  'body.sm': {
-    value: {
-      fontSize: '0.875rem',
-      fontWeight: '400',
-      lineHeight: '1.5',
-    },
-  },
-  'caption': {
+  caption: {
     value: {
       fontSize: '0.75rem',
       fontWeight: '400',
