@@ -121,11 +121,11 @@ const MainSlotGridComponent: React.FC<MainSlotGridProps> = ({
           )}
         </div>
 
-        {/* {showSpecialAltSlot && <PadPower key="pad-power" slotType={SlotSpecial.ENF} variant="large" />} */}
-
-        {slotSpecialPowerConfig.data.isActive && slotSpecialPowerConfig.data.data.is_visible && (
-          <PadPower key="pad-power" slotType={SlotSpecial.ENF} variant="large" />
-        )}
+        {/* Only render power pad when config has loaded and is visible */}
+        {slotSpecialPowerConfig.data?.isActive &&
+          slotSpecialPowerConfig.data.data?.is_visible && (
+            <PadPower key="pad-power" slotType={SlotSpecial.ENF} variant="large" />
+          )}
       </div>
     </div>
   );
