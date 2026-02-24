@@ -40,6 +40,7 @@ Both client and server must be configured so every `@workspace/*` dependency is 
 
 1. In `apps/client/vite.config.ts`:
    - Add **aliases** for the package and every **subpath** the client imports (e.g. `@workspace/foo`, `@workspace/foo/constants`), pointing to the **source** entry files (e.g. `packages/foo/src/index.ts`, `packages/foo/src/constants/index.ts`).
+   - **Order matters:** list **more specific** aliases **first** (e.g. `@workspace/foo/constants` before `@workspace/foo`). Otherwise Vite can match the shorter alias and append the subpath to the file path (e.g. `index.ts/constants` → `ENOTDIR`).
    - Add the same package (and subpaths if used) to **`optimizeDeps.include`**.
 
 If you add a new workspace package and use it in the client but **don’t** add aliases + `optimizeDeps.include`, the client may still work in dev (pnpm links the package) but the production build can miss or mis-resolve it.
