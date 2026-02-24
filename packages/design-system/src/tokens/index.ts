@@ -7,5 +7,5 @@ export {
   shadowTokens,
   breakpoints,
   zIndexTokens,
-} from './spacing';
+} from './spacing.tokens';
 export { keyframes, durationTokens, easingTokens } from './animations';
