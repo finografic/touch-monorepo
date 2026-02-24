@@ -105,6 +105,11 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
           WORKSPACE_ROOT,
           'packages/i18n/src/generators/index.ts',
         ),
+        '@workspace/shared': resolve(WORKSPACE_ROOT, 'packages/shared/src/index.ts'),
+        '@workspace/shared/constants': resolve(
+          WORKSPACE_ROOT,
+          'packages/shared/src/constants/index.ts',
+        ),
         'i18n/utils': resolve(__dirname, 'src/i18n/utils/index.ts'),
         messages: resolve(__dirname, '../messages'),
       },
@@ -168,6 +173,8 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
         '@workspace/core/types',
         '@workspace/core/types/utils',
         '@workspace/i18n',
+        '@workspace/shared',
+        '@workspace/shared/constants',
         '@finografic/zustand-context-creator',
       ],
       esbuildOptions: {

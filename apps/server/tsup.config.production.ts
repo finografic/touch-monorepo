@@ -91,5 +91,6 @@ export default defineConfig({
     '@scalar/*', // Bundle scalar modules
     '@workspace/core',
     '@workspace/i18n',
+    '@workspace/shared',
   ],
 } satisfies Options);
