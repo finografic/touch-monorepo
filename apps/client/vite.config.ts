@@ -102,9 +102,9 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
         '@workspace/core/types/utils': resolve(WORKSPACE_ROOT, 'packages/core/src/types/utils'),
         '@workspace/i18n': resolve(WORKSPACE_ROOT, 'packages/i18n/src/index.ts'),
         '@workspace/i18n/generators': resolve(WORKSPACE_ROOT, 'packages/i18n/src/generators/index.ts'),
-        // IMPORTANT:More specific first: /constants must match before bare @workspace/shared
+        // IMPORTANT: More specific first: /constants must match before bare @workspace/shared
         '@workspace/shared/constants': resolve(WORKSPACE_ROOT, 'packages/shared/src/constants/index.ts'),
-        // IMPORTANT:More specific first: /constants must match before bare @workspace/shared
+        // IMPORTANT: More specific first: /constants must match before bare @workspace/shared
         '@workspace/shared': resolve(WORKSPACE_ROOT, 'packages/shared/src/index.ts'),
         'i18n/utils': resolve(__dirname, 'src/i18n/utils/index.ts'),
         'messages': resolve(__dirname, '../messages'),

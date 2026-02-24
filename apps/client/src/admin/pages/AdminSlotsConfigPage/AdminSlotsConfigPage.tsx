@@ -281,11 +281,23 @@ export const AdminSlotsConfigPage: React.FC = () => {
                     </Text>
                     {(
                       [
-                        { param: 'special_grid' as SlotSpecialParam, label: 'Special grid' },
-                        { param: 'special_alt' as SlotSpecialParam, label: 'Special alt' },
-                        { param: 'special_power' as SlotSpecialParam, label: 'Special power' },
+                        {
+                          param: 'special_grid' as SlotSpecialParam,
+                          label: 'Special grid',
+                          className: 'switch-special-grid',
+                        },
+                        {
+                          param: 'special_alt' as SlotSpecialParam,
+                          label: 'Special alt',
+                          className: 'switch-special-alt',
+                        },
+                        {
+                          param: 'special_power' as SlotSpecialParam,
+                          label: 'Special power',
+                          className: 'switch-special-power',
+                        },
                       ] as const
-                    ).map(({ param, label }) => {
+                    ).map(({ param, label, className }) => {
                       const fullConfig =
                         param === 'special_grid'
                           ? gridSpecialConfig?.data
@@ -295,9 +307,11 @@ export const AdminSlotsConfigPage: React.FC = () => {
                       const isActive = fullConfig?.isActive ?? false;
                       const isLoading = fullConfig === undefined;
                       return (
-                        <Flex key={param} align="center" gap="2">
+                        <Flex key={param} align="center" gap="2" mt="1">
                           <Switch
+                            size="3"
                             checked={isActive}
+                            className={className}
                             onCheckedChange={async (checked) => {
                               if (!fullConfig?.id) return;
                               try {
@@ -306,10 +320,6 @@ export const AdminSlotsConfigPage: React.FC = () => {
                                   id: fullConfig.id,
                                   data: { isActive: checked },
                                 });
-                                toast({
-                                  variant: 'success',
-                                  message: `${label} button ${checked ? 'enabled' : 'disabled'}`,
-                                });
                               } catch (err) {
                                 console.error(`Failed to update ${param}`, err);
                                 toast({ variant: 'error', message: `Failed to update ${label}` });
@@ -317,9 +327,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
                             }}
                             disabled={updateSlotSpecialMutation.isPending || isLoading}
                           />
-                          <Text size="2" weight="medium">
-                            {label}
-                          </Text>
+                          <label htmlFor={param}>{label}</label>
                         </Flex>
                       );
                     })}

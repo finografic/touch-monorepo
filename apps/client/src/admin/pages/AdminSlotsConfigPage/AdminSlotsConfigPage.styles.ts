@@ -78,10 +78,8 @@ export const styles = css`
    ***************************************************************/
 
   .layout-mode-container {
-    /* display: flex;
-    flex-direction: column;
-    padding: 0rem 1rem 1.5rem 1rem;
-    width: 180px; */
+    margin-top: -3rem;
+    margin-right: 2rem;
     justify-content: space-between;
 
     .rt-Text.rt-r-size-3 {
@@ -90,8 +88,10 @@ export const styles = css`
     }
 
     button[role='switch'] {
-      & + span {
-        font-weight: 600;
+      margin-left: 0.9rem;
+      & + label {
+        margin-left: 0.55rem;
+        font-weight: 400;
         color: ${colors.textXLight};
       }
     }
@@ -109,10 +109,23 @@ export const styles = css`
     color: white;
     & + span {
       margin-left: 0.33rem;
+      font-size: 14px;
       font-weight: 600;
-      color: ${colors.textLight};
+      color: ${colors.textXLight};
       padding-bottom: 0.15rem;
     }
+  }
+
+  button[role='switch'].switch-special-grid:before {
+    background-image: linear-gradient(to right, ${colors.dangerLight} 40%, transparent 60%);
+  }
+
+  button[role='switch'].switch-special-alt:before {
+    background-image: linear-gradient(to right, ${colors.secondaryXLight} 40%, transparent 60%);
+  }
+
+  button[role='switch'].switch-special-power:before {
+    background-image: linear-gradient(to right, ${colors.success} 40%, transparent 60%);
   }
 
   .legend-type-a {
