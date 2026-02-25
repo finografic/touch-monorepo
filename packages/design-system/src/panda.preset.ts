@@ -70,17 +70,17 @@ export const designSystemPreset = definePreset({
       colors: semanticColorTokens,
       shadows: {
         sm: {
-          value: { base: '{shadows.sm}', _dark: '0 1px 2px 0 rgba(0, 0, 0, 0.3)' },
+          value: { base: '{shadows.base.sm}', _dark: '0 1px 2px 0 rgba(0, 0, 0, 0.3)' },
         },
         md: {
           value: {
-            base: '{shadows.md}',
+            base: '{shadows.base.md}',
             _dark: '0 4px 8px -2px rgba(0, 0, 0, 0.4), 0 1.5px 4px rgba(0, 0, 0, 0.3)',
           },
         },
         lg: {
           value: {
-            base: '{shadows.lg}',
+            base: '{shadows.base.lg}',
             _dark: '0 8px 24px rgba(0, 0, 0, 0.5), 0 1.5px 4px rgba(0, 0, 0, 0.2)',
           },
         },

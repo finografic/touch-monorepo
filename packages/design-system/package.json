@@ -3,35 +3,35 @@
   "type": "module",
   "version": "0.0.1",
   "private": true,
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs"
     },
     "./tokens": {
-      "types": "./dist/tokens/index.d.ts",
-      "import": "./dist/tokens/index.js"
+      "types": "./dist/tokens/index.d.mts",
+      "import": "./dist/tokens/index.mjs"
     },
     "./recipes": {
-      "types": "./dist/recipes/index.d.ts",
-      "import": "./dist/recipes/index.js"
+      "types": "./dist/recipes/index.d.mts",
+      "import": "./dist/recipes/index.mjs"
     },
     "./components": {
-      "types": "./dist/components/index.d.ts",
-      "import": "./dist/components/index.js"
+      "types": "./dist/components/index.d.mts",
+      "import": "./dist/components/index.mjs"
     },
     "./styles/reset.css": "./src/styles/reset.css",
     "./styles/keyframes.css": "./src/styles/keyframes.css",
     "./styles/global.css": "./src/styles/global.css",
     "./icons": {
-      "types": "./dist/icons/index.d.ts",
-      "import": "./dist/icons/index.js"
+      "types": "./dist/icons/index.d.mts",
+      "import": "./dist/icons/index.mjs"
     },
     "./panda.preset": {
-      "types": "./dist/panda.preset.d.ts",
-      "import": "./dist/panda.preset.js"
+      "types": "./dist/panda.preset.d.mts",
+      "import": "./dist/panda.preset.mjs"
     }
   },
   "files": [
@@ -39,8 +39,8 @@
     "src/styles"
   ],
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
+    "build": "tsdown",
+    "dev": "tsdown --watch",
     "·········· LINTING": "················································",
     "lint": "eslint .",
     "lint.fix": "eslint . --fix",
@@ -68,7 +68,7 @@
     "globals": "^16.5.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "tsup": "8.5.1",
+    "tsdown": "^0.20.3",
     "typescript": "^5.9.2",
     "typescript-eslint": "^8.55.0"
   },

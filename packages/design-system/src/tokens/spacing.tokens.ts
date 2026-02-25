@@ -60,9 +60,11 @@ export const borderWidthTokens = {
 // ============================================================================
 
 export const shadowTokens = {
-  sm: { value: '0 1px 2px 0 rgba(16, 24, 40, 0.05)' },
-  md: { value: '0 4px 8px -2px rgba(16, 24, 40, 0.18), 0 1.5px 4px rgba(16, 24, 40, 0.14)' },
-  lg: { value: '0 8px 24px rgba(16, 24, 40, 0.18), 0 1.5px 4px rgba(16, 24, 40, 0.08)' },
+  base: {
+    sm: { value: '0 1px 2px 0 rgba(16, 24, 40, 0.05)' },
+    md: { value: '0 4px 8px -2px rgba(16, 24, 40, 0.18), 0 1.5px 4px rgba(16, 24, 40, 0.14)' },
+    lg: { value: '0 8px 24px rgba(16, 24, 40, 0.18), 0 1.5px 4px rgba(16, 24, 40, 0.08)' },
+  },
 } as const;
 
 // ============================================================================
