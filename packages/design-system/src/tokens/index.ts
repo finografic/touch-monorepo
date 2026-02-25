@@ -14,3 +14,5 @@ export {
   zIndexTokens,
 } from './spacing.tokens';
 export { keyframes, durationTokens, easingTokens } from './animations.tokens';
+export { layoutTokens, LAYOUT_VARS } from './layout.tokens';
+export type { LayoutVarName } from './layout.tokens';
