@@ -141,5 +141,47 @@ export const designSystemPreset = definePreset({
       maxWidth: '100%',
       height: 'auto',
     },
+
+    // ── SVG defaults ──────────────────────────────────────────────────────────
+    'svg': {
+      flexShrink: 0,
+    },
+
+    // ── Text selection ────────────────────────────────────────────────────────
+    '::selection': {
+      bg: 'accent.muted',
+      color: 'fg',
+    },
+
+    // ── Focus visible (global fallback — components override individually) ────
+    ':focus-visible': {
+      outline: '2px solid',
+      outlineColor: 'accent.focusRing',
+      outlineOffset: '2px',
+    },
+
+    // ── Scrollbar (webkit) ────────────────────────────────────────────────────
+    // Thin custom scrollbars for overflow containers.
+    // Body/html scrollbars are intentionally excluded (browser default is fine).
+    ':not(body):not(html)::-webkit-scrollbar': {
+      width: '6px',
+      height: '6px',
+    },
+    ':not(body):not(html)::-webkit-scrollbar-track': {
+      bg: 'bg.subtle',
+      borderRadius: 'sm',
+    },
+    ':not(body):not(html)::-webkit-scrollbar-thumb': {
+      bg: 'border',
+      borderRadius: 'sm',
+      border: '1px solid transparent',
+      backgroundClip: 'content-box',
+    },
+    ':not(body):not(html)::-webkit-scrollbar-thumb:hover': {
+      bg: 'fg.subtle',
+    },
+    ':not(body):not(html)::-webkit-scrollbar-corner': {
+      bg: 'bg.subtle',
+    },
   },
 });

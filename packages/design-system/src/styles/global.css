@@ -5,3 +5,48 @@
 
 @import url(./reset.css);
 @import url(./keyframes.css);
+
+/* ============================================================================
+ * SVG ICON UTILITIES
+ *
+ * Opt-in sizing via .icon + modifier classes.
+ * Apply .icon to any <svg> to get consistent sizing and behaviour.
+ *
+ * Usage:
+ *   <svg class="icon icon-md" aria-hidden>...</svg>  →  1rem / 16px
+ *   <svg class="icon icon-spin" aria-hidden>...</svg> →  spin animation
+ *
+ * Size scale:
+ *   icon-xs   0.75rem  12px
+ *   icon-sm   0.875rem 14px
+ *   icon      1.25rem  20px   ← default (no modifier)
+ *   icon-md   1rem     16px
+ *   icon-lg   1.25rem  20px
+ *   icon-xl   1.5rem   24px
+ *   icon-2xl  2rem     32px
+ * ============================================================================ */
+
+svg.icon {
+  display: inline-block;
+  flex-shrink: 0;
+  color: currentColor;
+  fill: none;
+  stroke: currentColor;
+  width: 1.25rem;
+  height: 1.25rem;
+  vertical-align: middle;
+  transition: color 150ms ease, opacity 150ms ease;
+}
+
+svg.icon-xs  { width: 0.75rem;  height: 0.75rem; }
+svg.icon-sm  { width: 0.875rem; height: 0.875rem; }
+svg.icon-md  { width: 1rem;     height: 1rem; }
+svg.icon-lg  { width: 1.25rem;  height: 1.25rem; }
+svg.icon-xl  { width: 1.5rem;   height: 1.5rem; }
+svg.icon-2xl { width: 2rem;     height: 2rem; }
+
+/* Contextual — scales with surrounding text size */
+svg.icon-em  { width: 1em; height: 1em; }
+
+/* Spin — use with Loader or async states */
+svg.icon-spin { animation: spin 1s linear infinite; }
