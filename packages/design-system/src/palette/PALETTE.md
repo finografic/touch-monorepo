@@ -46,19 +46,19 @@ OKLCH is perfect for this because you can generate perceptually uniform shade ra
 
 **Go 11 shades, adopt 50–950.** Your semantic names map cleanly onto the numeric scale — you're not losing anything, you're gaining four useful intermediate stops. The mapping at the bottom of the generator file shows exactly how your old names land:
 
-| Old Name  | → Shade | What's New                                |
-| --------- | ------- | ----------------------------------------- |
-| —         | `50`    | Near-white endpoint you wanted            |
-| `xxlight` | `100`   |                                           |
-| `xlight`  | `200`   |                                           |
-| `light`   | `300`   |                                           |
-| —         | `400`   | **New:** hover-on-light-bg, "almost base" |
-| `base`    | `500`   | Your anchor                               |
-| —         | `600`   | **New:** hover-on-solid-bg, active states |
-| `dark`    | `700`   |                                           |
-| `xdark`   | `800`   |                                           |
-| `xxdark`  | `900`   |                                           |
-| —         | `950`   | Near-black endpoint you wanted            |
+| Old Name   | → Shade | What's New                                |
+| ---------- | ------- | ----------------------------------------- |
+| `xxxlight` | `50`    | Near-white endpoint you wanted            |
+| `xxlight`  | `100`   |                                           |
+| `xlight`   | `200`   |                                           |
+| `lighter`  | `300`   |                                           |
+| `light`    | `400`   | **New:** hover-on-light-bg, "almost base" |
+| `base`     | `500`   | Your anchor                               |
+| `dark`     | `600`   | **New:** hover-on-solid-bg, active states |
+| `darker`   | `700`   |                                           |
+| `xdark`    | `800`   |                                           |
+| `xxdark`   | `900`   |                                           |
+| `xxxdark`  | `950`   | Near-black endpoint you wanted            |
 
 The `400` and `600` stops are the ones you'll thank yourself for later — Park UI's recipes use them heavily for hover/active states on buttons and surfaces, and without them you'd be hacking around with opacity or custom overrides.
 

@@ -286,19 +286,19 @@ export const SEMANTIC_BASES = {
 /**
  * Migration cheatsheet:
  *
- * OLD NAME        → SHADE  NOTES
+ * NAME            → SHADE  NOTES
  * ──────────────────────────────────────────────
- * (new)           → 50     near-white, bg tints
- * xxlight         → 100    lightest named variant
- * xlight          → 200    light variant
- * light           → 300    medium-light
- * (new)           → 400    hover-on-light-bg
- * base            → 500    your primary color
- * (new)           → 600    hover-on-solid-bg
- * dark            → 700    dark variant
- * xdark           → 800    extra dark
- * xxdark          → 900    darkest named variant
- * (new)           → 950    near-black, text on dark
+ * xxxlight        → 50     near-white endpoint
+ * xxlight         → 100
+ * xlight          → 200
+ * lighter         → 300    medium-light
+ * light           → 400    hover-on-light-bg
+ * base            → 500    anchor (DEFAULT)
+ * dark            → 600    hover-on-solid-bg, active
+ * darker          → 700
+ * xdark           → 800
+ * xxdark          → 900
+ * xxxdark         → 950    near-black endpoint
  */
 
 // ---------------------------------------------------------------------------

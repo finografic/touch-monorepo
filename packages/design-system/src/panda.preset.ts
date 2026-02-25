@@ -18,8 +18,8 @@
 
 import { definePreset } from '@pandacss/dev';
 
-import { durationTokens, easingTokens, keyframes } from './tokens/animations';
-import { colorTokens, semanticColorTokens } from './tokens/colors';
+import { durationTokens, easingTokens, keyframes } from './tokens/animations.tokens';
+import { colorTokens, semanticColorTokens } from './tokens/colors.tokens';
 import {
   borderWidthTokens,
   breakpoints,
@@ -27,14 +27,14 @@ import {
   shadowTokens,
   spacingTokens,
   zIndexTokens,
-} from './tokens/spacing';
+} from './tokens/spacing.tokens';
 import {
   fontSizeTokens,
   fontTokens,
   fontWeightTokens,
   lineHeightTokens,
   textStyles,
-} from './tokens/typography';
+} from './tokens/typography.tokens';
 import { buttonRecipe } from './recipes/button';
 import { badgeRecipe } from './recipes/badge';
 import { calloutRecipe } from './recipes/callout';
@@ -67,10 +67,16 @@ export const designSystemPreset = definePreset({
           value: { base: '{shadows.sm}', _dark: '0 1px 2px 0 rgba(0, 0, 0, 0.3)' },
         },
         md: {
-          value: { base: '{shadows.md}', _dark: '0 4px 8px -2px rgba(0, 0, 0, 0.4), 0 1.5px 4px rgba(0, 0, 0, 0.3)' },
+          value: {
+            base: '{shadows.md}',
+            _dark: '0 4px 8px -2px rgba(0, 0, 0, 0.4), 0 1.5px 4px rgba(0, 0, 0, 0.3)',
+          },
         },
         lg: {
-          value: { base: '{shadows.lg}', _dark: '0 8px 24px rgba(0, 0, 0, 0.5), 0 1.5px 4px rgba(0, 0, 0, 0.2)' },
+          value: {
+            base: '{shadows.lg}',
+            _dark: '0 8px 24px rgba(0, 0, 0, 0.5), 0 1.5px 4px rgba(0, 0, 0, 0.2)',
+          },
         },
       },
     },

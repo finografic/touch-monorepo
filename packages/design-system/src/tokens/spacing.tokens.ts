@@ -34,14 +34,14 @@ export const spacingTokens = {
 // ============================================================================
 
 export const radiiTokens = {
-  none: { value: '0' },
-  xs: { value: '0.25rem' },
-  sm: { value: '0.33rem' },
-  md: { value: '0.5rem' },
-  lg: { value: '0.66rem' },
-  xl: { value: '1rem' },
+  'none': { value: '0' },
+  'xs': { value: '0.25rem' },
+  'sm': { value: '0.33rem' },
+  'md': { value: '0.5rem' },
+  'lg': { value: '0.66rem' },
+  'xl': { value: '1rem' },
   '2xl': { value: '1.25rem' },
-  full: { value: '9999px' },
+  'full': { value: '9999px' },
 } as const;
 
 // ============================================================================
@@ -70,11 +70,11 @@ export const shadowTokens = {
 // ============================================================================
 
 export const breakpoints = {
-  xs: '0px',
-  sm: '520px',
-  md: '768px',
-  lg: '1024px',
-  xl: '1280px',
+  'xs': '0px',
+  'sm': '520px',
+  'md': '768px',
+  'lg': '1024px',
+  'xl': '1280px',
   '2xl': '1640px',
 } as const;
 

@@ -150,12 +150,17 @@
     };
 
     const shades = [
-      { name: 'lightest', mix: 10 },
-      { name: 'lighter',  mix: 20 },
-      { name: 'light',    mix: 40 },
-      { name: 'DEFAULT',  mix: 100 },
-      { name: 'dark',     mix: 80, darkMix: true },
-      { name: 'darker',   mix: 60, darkMix: true },
+      { name: 'xxxlight', mix: 5 },
+      { name: 'xxlight',  mix: 10 },
+      { name: 'xlight',   mix: 20 },
+      { name: 'lighter',  mix: 38 },
+      { name: 'light',    mix: 58 },
+      { name: 'base',     mix: 100 },
+      { name: 'dark',     mix: 82, darkMix: true },
+      { name: 'darker',   mix: 65, darkMix: true },
+      { name: 'xdark',    mix: 47, darkMix: true },
+      { name: 'xxdark',   mix: 30, darkMix: true },
+      { name: 'xxxdark',  mix: 15, darkMix: true },
     ];
 
     function makeColor(baseColor, shade) {
@@ -165,7 +170,8 @@
     }
 
     function isLight(shade) {
-      return shade.name === 'lightest' || shade.name === 'lighter' || shade.name === 'light';
+      return shade.name === 'xxxlight' || shade.name === 'xxlight' || shade.name === 'xlight'
+          || shade.name === 'lighter'  || shade.name === 'light';
     }
 
     // ── Render core palette ──────────────────────────────────────────

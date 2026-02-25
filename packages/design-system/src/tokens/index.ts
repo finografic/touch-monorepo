@@ -1,5 +1,11 @@
-export { baseColors, colorTokens, semanticColorTokens } from './colors';
-export { fontTokens, fontSizeTokens, fontWeightTokens, lineHeightTokens, textStyles } from './typography';
+export { baseColors, colorTokens, semanticColorTokens } from './colors.tokens';
+export {
+  fontTokens,
+  fontSizeTokens,
+  fontWeightTokens,
+  lineHeightTokens,
+  textStyles,
+} from './typography.tokens';
 export {
   spacingTokens,
   radiiTokens,
@@ -8,4 +14,4 @@ export {
   breakpoints,
   zIndexTokens,
 } from './spacing.tokens';
-export { keyframes, durationTokens, easingTokens } from './animations';
+export { keyframes, durationTokens, easingTokens } from './animations.tokens';

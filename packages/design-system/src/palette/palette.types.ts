@@ -4,12 +4,9 @@
 
 /** Parsed OKLCH color components */
 export interface OklchColor {
-  /** Lightness: 0 (black) to 1 (white) */
-  l: number;
-  /** Chroma: 0 (grey) to ~0.4 (max saturation) */
-  c: number;
-  /** Hue: 0–360 degrees */
-  h: number;
+  l: number /** Lightness: 0 (black) to 1 (white) */;
+  c: number /** Chroma: 0 (grey) to ~0.4 (max saturation) */;
+  h: number /** Hue: 0–360 degrees */;
 }
 
 /** The 11 Panda CSS / Tailwind shade stops */

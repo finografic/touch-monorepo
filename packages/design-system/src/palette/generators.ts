@@ -67,9 +67,9 @@ export function generatePalette(base: string): ShadePalette {
  * });
  *
  * // In styles:
- * css({ bg: 'primary.500' })   // base primary
- * css({ bg: 'primary.100' })   // light tint
- * css({ bg: 'danger.700' })    // dark danger
+ * css({ bg: 'primary.base' })     // base primary
+ * css({ bg: 'primary.xxlight' })  // light tint
+ * css({ bg: 'danger.darker' })    // dark danger
  * ```
  */
 export function generateAllPalettes(

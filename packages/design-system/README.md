@@ -90,14 +90,22 @@ All colors use the **OKLCH color space** for perceptually uniform shade generati
 Base colors are defined as OKLCH values. Shades are derived using CSS `color-mix()`:
 
 ```css
-/* Lighter shades — mix with white */
-color-mix(in oklch, oklch(48.8% 0.243 264.376) 40%, white)  /* primary.light */
-color-mix(in oklch, oklch(48.8% 0.243 264.376) 20%, white)  /* primary.lighter */
-color-mix(in oklch, oklch(48.8% 0.243 264.376) 10%, white)  /* primary.lightest */
+/* Lighter shades — mix with white (% of base) */
+color-mix(in oklch, oklch(48.8% 0.243 264.376)  5%, white)  /* primary.xxxlight */
+color-mix(in oklch, oklch(48.8% 0.243 264.376) 10%, white)  /* primary.xxlight  */
+color-mix(in oklch, oklch(48.8% 0.243 264.376) 20%, white)  /* primary.xlight   */
+color-mix(in oklch, oklch(48.8% 0.243 264.376) 38%, white)  /* primary.lighter  */
+color-mix(in oklch, oklch(48.8% 0.243 264.376) 58%, white)  /* primary.light    */
 
-/* Darker shades — mix with black */
-color-mix(in oklch, oklch(48.8% 0.243 264.376) 80%, black)  /* primary.dark */
-color-mix(in oklch, oklch(48.8% 0.243 264.376) 60%, black)  /* primary.darker */
+/* Base */
+oklch(48.8% 0.243 264.376)                                  /* primary / primary.base */
+
+/* Darker shades — mix with black (% of base) */
+color-mix(in oklch, oklch(48.8% 0.243 264.376) 82%, black)  /* primary.dark    */
+color-mix(in oklch, oklch(48.8% 0.243 264.376) 65%, black)  /* primary.darker  */
+color-mix(in oklch, oklch(48.8% 0.243 264.376) 47%, black)  /* primary.xdark   */
+color-mix(in oklch, oklch(48.8% 0.243 264.376) 30%, black)  /* primary.xxdark  */
+color-mix(in oklch, oklch(48.8% 0.243 264.376) 15%, black)  /* primary.xxxdark */
 ```
 
 This happens in the browser at runtime — no build step, no code generation, stays in OKLCH space.
@@ -108,10 +116,10 @@ This happens in the browser at runtime — no build step, no code generation, st
 ┌─────────────────────────────────────────────────────┐
 │  Raw Tokens (what colors ARE)                       │
 │  colors.primary = oklch(48.8% 0.243 264.376)        │
-│  colors.danger.light = color-mix(... 40%, white)    │
+│  colors.danger.light = color-mix(... 58%, white)    │
 ├─────────────────────────────────────────────────────┤
 │  Semantic Tokens (what colors MEAN)                 │
-│  bg.error = colors.danger.lightest                  │
+│  bg.error = colors.danger.xlight                    │
 │  fg.error = colors.danger                           │
 │  border.error = colors.danger                       │
 ├─────────────────────────────────────────────────────┤
