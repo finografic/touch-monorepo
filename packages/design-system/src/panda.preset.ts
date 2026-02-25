@@ -43,9 +43,14 @@ import { dialogRecipe } from './recipes/dialog';
 import { formFieldRecipe } from './recipes/form-field';
 import { inputRecipe } from './recipes/input';
 import { labelRecipe } from './recipes/label';
+import { menuRecipe } from './recipes/menu';
+import { popoverRecipe } from './recipes/popover';
+import { selectRecipe } from './recipes/select';
 import { switchRecipe } from './recipes/switch';
+import { tabsRecipe } from './recipes/tabs';
 import { textRecipe } from './recipes/text';
 import { toastRecipe } from './recipes/toast';
+import { tooltipRecipe } from './recipes/tooltip';
 
 export const designSystemPreset = definePreset({
   name: '@workspace/design-system',
@@ -106,7 +111,12 @@ export const designSystemPreset = definePreset({
         checkbox:  checkboxRecipe,
         dialog:    dialogRecipe,
         formField: formFieldRecipe,
+        menu:      menuRecipe,
+        popover:   popoverRecipe,
+        select:    selectRecipe,
+        tabs:      tabsRecipe,
         toast:     toastRecipe,
+        tooltip:   tooltipRecipe,
       },
 
       breakpoints: BREAKPOINTS_PX,
