@@ -17,10 +17,13 @@
 - [x] Animation tokens — keyframes, durations, easings
 - [x] Viewport module — `BREAKPOINTS`, media query helpers, conversion utils
 - [x] Panda CSS preset — single import for consuming apps
-- [x] Recipes — `button`, `badge`, `callout`, `input`, `switch`
-- [x] Components — `Button`, `Switch`, `Dialog`, `Checkbox`, `Toast`
+- [x] Recipes — `button`, `badge`, `callout`, `input`, `switch`, `text`, `label`, `form-field` (slot), `checkbox` (slot), `dialog` (slot), `toast` (slot)
+- [x] Components — `Button`, `Switch`, `SwitchField`, `Dialog`, `Checkbox`, `CheckboxField`, `Toast`, `Toaster`
 - [x] Palette generator — OKLCH ramp utilities in `src/palette/`
-- [x] Global CSS — reset, keyframes, base styles
+- [x] Global CSS — reset, keyframes, base styles, icon utilities (`.icon`, `.icon-*` size variants, `.icon-spin`)
+- [x] Layout tokens — `layoutTokens` JS object + `LAYOUT_VARS` CSS var name strings (`src/tokens/layout.tokens.ts`)
+- [x] Global CSS preset additions — scrollbar styling, `::selection`, `:focus-visible` ring, `svg` flex-shrink
+- [x] Icon system — `src/icons/` (see Phase 5.5)
 
 ### Not Yet Started
 Everything below.
@@ -148,6 +151,68 @@ Before plugging into client, the package must build cleanly.
 
 ---
 
+## Phase 5.5 — Icon System
+
+Migrated from `apps/client/src/styles/icons/` to `packages/design-system/src/icons/`.
+
+### What changed from V1
+
+| V1 (client) | V2 (design-system) |
+|---|---|
+| `clsx` for className merge | Inline `filter + join` — no dep |
+| ICONS map **+** manual destructure block | ICONS map only — `icons` object exported, no duplicate list |
+| Named exports: `import { CloseIcon }` | Object export: `const { CloseIcon } = icons` |
+| Radix icons could coexist | Lucide only |
+| `icons.css` — partial overlap with global.css | Icon CSS consolidated into `styles/global.css` |
+
+### Files
+
+```
+src/icons/
+  icons.utils.ts   createIconWrapper(), toIconName(), IconProps type
+  icons.ts         ICONS registry, wrappedIcons, public API
+  index.ts         barrel export
+  picker.html      Standalone dev tool — search + click-to-copy (no build needed)
+```
+
+### Public API
+
+```ts
+import { icons, ICON_NAMES }        from '@workspace/design-system/icons';
+import type { IconName, IconComponent, IconProps } from '@workspace/design-system/icons';
+import { createIconWrapper }         from '@workspace/design-system/icons'; // extend app-side
+
+const { CloseIcon, TrashIcon } = icons;
+```
+
+### Adding a new icon
+
+1. Open `src/icons/icons.ts`
+2. Add one entry to the `ICONS` object: `MyNewIcon: Lucide.SomeIcon`
+3. Done — it's automatically wrapped and available via `icons.MyNewIcon`
+
+### picker.html
+
+Open `src/icons/picker.html` in any browser — no server needed (CDN Lucide is fetched once).
+- Shows only **registered** icons (from the embedded ICONS array)
+- Search by export name or Lucide icon name
+- Click a card → copies the import snippet to clipboard
+
+> **TODO — write-to-file picker:** A full Lucide browser (all ~1500 icons) that writes
+> directly to `icons.ts` would require a local Node.js server (browsers can't write to
+> the FS). Sketch: `picker-server.mjs` serves the HTML + `POST /api/add-icon` endpoint
+> that edits `icons.ts` in-place. Left as a future improvement.
+>
+> **Note:** `picker.html` embeds the ICONS registry as a static JS array — keep it in sync
+> with `icons.ts` when adding icons.
+
+### Dependencies added
+
+- `lucide-react ^0.564.0` added to `package.json` dependencies
+- `./icons` export path added to `package.json` exports map
+
+---
+
 ## Phase 6 — Client Migration (expect breakage)
 
 This is not a lift-and-shift. It's a deliberate replacement pass.
@@ -176,14 +241,15 @@ This is not a lift-and-shift. It's a deliberate replacement pass.
 ## Rough Priority Order
 
 ```
-Phase 1a  Layout tokens
-Phase 2   Missing recipes (text, form-field, label first)
-Phase 3   Flesh out Dialog, Checkbox, Toast stubs
-Phase 4   Global styles (scrollbar, focus ring)
-Phase 5   Build validation
-Phase 1b  Color token audit (alongside Phase 5 — panda codegen will surface gaps)
-Phase 3   Remaining components (Select, Menu, Tabs)
-Phase 6   Client migration
+✅ Phase 1a   Layout tokens
+✅ Phase 2    Recipes: text, form-field, label, checkbox, dialog, toast
+✅ Phase 3    Components: Button, SwitchField, CheckboxField, Dialog, Toast
+✅ Phase 4    Global styles: scrollbar, focus ring, selection, svg, icon utilities
+✅ Phase 5.5  Icon system: src/icons/ with Lucide wrappers + picker.html
+   Phase 5    Build validation (tsup + panda codegen + typecheck)
+   Phase 1b   Color token audit (run panda codegen first — it surfaces gaps)
+   Phase 3+   Remaining components: Select, Menu, Tabs, Tooltip, Popover
+   Phase 6    Client migration
 ```
 
 ---
@@ -194,4 +260,4 @@ Phase 6   Client migration
 - **Radix layout primitives:** Client uses `<Flex>`, `<Box>`, `<Grid>` from Radix Themes heavily. Need a plan for replacing these (Panda patterns + semantic HTML, or a layout utility layer).
 - **Dark mode trigger:** Panda uses a `.dark` class or `prefers-color-scheme`. Client needs to decide the mechanism and wire it up before semantic tokens are testable.
 - **Font loading:** Currently system stack in tokens. If client moves to a custom font, update `fontTokens` in typography and add `@font-face` to global CSS.
-- **Icon system:** V1 has `styles/icons/`. Client likely uses a specific icon library. Decide whether icons belong in the design system or stay app-side.
+- ~~**Icon system:**~~ Resolved — `src/icons/` in design-system, Lucide only. See Phase 5.5.

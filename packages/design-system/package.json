@@ -25,6 +25,10 @@
     "./styles/reset.css": "./src/styles/reset.css",
     "./styles/keyframes.css": "./src/styles/keyframes.css",
     "./styles/global.css": "./src/styles/global.css",
+    "./icons": {
+      "types": "./dist/icons/index.d.ts",
+      "import": "./dist/icons/index.js"
+    },
     "./panda.preset": {
       "types": "./dist/panda.preset.d.ts",
       "import": "./dist/panda.preset.js"
@@ -50,7 +54,8 @@
   "dependencies": {
     "@ark-ui/react": "^5.11.0",
     "@finografic/dprint-config": "0.12.4",
-    "@pandacss/dev": "^0.53.1"
+    "@pandacss/dev": "^0.53.1",
+    "lucide-react": "^0.564.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.3",

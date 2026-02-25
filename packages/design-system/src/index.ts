@@ -1,5 +1,8 @@
 // Design system main entry point
 //
+// Icons — Lucide wrappers with .icon class normalization
+export * from './icons';
+//
 // Tokens — raw + semantic design tokens
 export * from './tokens';
 //
