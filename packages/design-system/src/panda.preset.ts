@@ -22,12 +22,12 @@ import { durationTokens, easingTokens, keyframes } from './tokens/animations.tok
 import { colorTokens, semanticColorTokens } from './tokens/colors.tokens';
 import {
   borderWidthTokens,
-  breakpoints,
   radiiTokens,
   shadowTokens,
   spacingTokens,
   zIndexTokens,
 } from './tokens/spacing.tokens';
+import { BREAKPOINTS_PX } from './viewport/viewport.breakpoints';
 import {
   fontSizeTokens,
   fontTokens,
@@ -94,7 +94,7 @@ export const designSystemPreset = definePreset({
         switch: switchRecipe,
       },
 
-      breakpoints,
+      breakpoints: BREAKPOINTS_PX,
     },
   },
 

@@ -11,7 +11,6 @@ export {
   radiiTokens,
   borderWidthTokens,
   shadowTokens,
-  breakpoints,
   zIndexTokens,
 } from './spacing.tokens';
 export { keyframes, durationTokens, easingTokens } from './animations.tokens';
