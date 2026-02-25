@@ -38,8 +38,11 @@ import {
 import { buttonRecipe } from './recipes/button';
 import { badgeRecipe } from './recipes/badge';
 import { calloutRecipe } from './recipes/callout';
+import { formFieldRecipe } from './recipes/form-field';
 import { inputRecipe } from './recipes/input';
+import { labelRecipe } from './recipes/label';
 import { switchRecipe } from './recipes/switch';
+import { textRecipe } from './recipes/text';
 
 export const designSystemPreset = definePreset({
   name: '@workspace/design-system',
@@ -91,7 +94,13 @@ export const designSystemPreset = definePreset({
         badge: badgeRecipe,
         callout: calloutRecipe,
         input: inputRecipe,
+        label: labelRecipe,
         switch: switchRecipe,
+        text: textRecipe,
+      },
+
+      slotRecipes: {
+        formField: formFieldRecipe,
       },
 
       breakpoints: BREAKPOINTS_PX,
