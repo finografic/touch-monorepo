@@ -4,10 +4,7 @@ import { colors, layout } from 'styles';
 
 export const styles = css`
   .admin-slot-config {
-    /* max-width: 1200px; */
-    /* margin: 0 auto; */
     margin-top: 1rem;
-    /* padding: 1rem; */
   }
 
   .loading,

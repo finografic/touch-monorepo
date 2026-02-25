@@ -24,12 +24,9 @@
 // ---------------------------------------------------------------------------
 
 export interface OklchColor {
-  /** Lightness: 0 (black) to 1 (white) */
-  l: number;
-  /** Chroma: 0 (grey) to ~0.4 (max saturation) */
-  c: number;
-  /** Hue: 0–360 degrees */
-  h: number;
+  l: number /** Lightness: 0 (black) to 1 (white) */;
+  c: number /** Chroma: 0 (grey) to ~0.4 (max saturation) */;
+  h: number /** Hue: 0–360 degrees */;
 }
 
 /** The 11 Panda CSS / Tailwind shade stops */
@@ -47,9 +44,7 @@ export type ShadePalette = Record<ShadeStop, string>;
  * Accepts both `oklch(48.8% 0.243 264.376)` and `oklch(0.488 0.243 264.376)`.
  */
 export function parseOklch(raw: string): OklchColor {
-  const match = raw.match(
-    /oklch\(\s*([\d.]+)(%?)\s+([\d.]+)\s+([\d.]+)\s*\)/,
-  );
+  const match = raw.match(/oklch\(\s*([\d.]+)(%?)\s+([\d.]+)\s+([\d.]+)\s*\)/);
   if (!match) throw new Error(`Invalid OKLCH string: "${raw}"`);
 
   const [, lStr, pct, cStr, hStr] = match;
@@ -87,7 +82,7 @@ function buildLightnessRamp(baseLightness: number): Record<ShadeStop, number> {
     [100, 0.93],
     [200, 0.87],
     [300, 0.79],
-    [400, 0.70],
+    [400, 0.7],
   ];
 
   // Dark end targets (relative to base — darker colors need less range)
@@ -95,7 +90,7 @@ function buildLightnessRamp(baseLightness: number): Record<ShadeStop, number> {
   const darkFloor = 0.13; // shade 950 target
   const darkTargets: [ShadeStop, number][] = [
     [600, baseLightness - (baseLightness - darkFloor) * 0.18],
-    [700, baseLightness - (baseLightness - darkFloor) * 0.40],
+    [700, baseLightness - (baseLightness - darkFloor) * 0.4],
     [800, baseLightness - (baseLightness - darkFloor) * 0.62],
     [900, baseLightness - (baseLightness - darkFloor) * 0.82],
     [950, darkFloor],
@@ -104,16 +99,15 @@ function buildLightnessRamp(baseLightness: number): Record<ShadeStop, number> {
   // If the base is already very light (e.g. warning/amber at L=0.77),
   // we need to push the light targets even lighter.
   // If the base is very dark, light targets naturally have more range.
-  const adjustedLightTargets = lightTargets.map(
-    ([shade, target]): [ShadeStop, number] => {
-      // Blend: if base is lighter than target, push target up proportionally
-      if (baseLightness > target) {
-        const ratio = (shade === 50 ? 0.3 : shade === 100 ? 0.5 : shade === 200 ? 0.7 : shade === 300 ? 0.85 : 0.95);
-        return [shade, baseLightness + (1.0 - baseLightness) * ratio];
-      }
-      return [shade, target];
-    },
-  );
+  const adjustedLightTargets = lightTargets.map(([shade, target]): [ShadeStop, number] => {
+    // Blend: if base is lighter than target, push target up proportionally
+    if (baseLightness > target) {
+      const ratio =
+        shade === 50 ? 0.3 : shade === 100 ? 0.5 : shade === 200 ? 0.7 : shade === 300 ? 0.85 : 0.95;
+      return [shade, baseLightness + (1.0 - baseLightness) * ratio];
+    }
+    return [shade, target];
+  });
 
   const ramp: Record<number, number> = { 500: baseLightness };
   for (const [shade, l] of adjustedLightTargets) ramp[shade] = clamp(l, 0, 1);
@@ -139,11 +133,11 @@ function chromaMultiplier(shade: ShadeStop): number {
   // Taper chroma at extremes
   const tapers: Partial<Record<ShadeStop, number>> = {
     50: 0.15,
-    100: 0.30,
+    100: 0.3,
     200: 0.55,
-    300: 0.80,
-    700: 0.90,
-    800: 0.80,
+    300: 0.8,
+    700: 0.9,
+    800: 0.8,
     900: 0.65,
     950: 0.45,
   };
