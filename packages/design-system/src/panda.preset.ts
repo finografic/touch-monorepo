@@ -38,11 +38,14 @@ import {
 import { buttonRecipe } from './recipes/button';
 import { badgeRecipe } from './recipes/badge';
 import { calloutRecipe } from './recipes/callout';
+import { checkboxRecipe } from './recipes/checkbox';
+import { dialogRecipe } from './recipes/dialog';
 import { formFieldRecipe } from './recipes/form-field';
 import { inputRecipe } from './recipes/input';
 import { labelRecipe } from './recipes/label';
 import { switchRecipe } from './recipes/switch';
 import { textRecipe } from './recipes/text';
+import { toastRecipe } from './recipes/toast';
 
 export const designSystemPreset = definePreset({
   name: '@workspace/design-system',
@@ -100,7 +103,10 @@ export const designSystemPreset = definePreset({
       },
 
       slotRecipes: {
+        checkbox:  checkboxRecipe,
+        dialog:    dialogRecipe,
         formField: formFieldRecipe,
+        toast:     toastRecipe,
       },
 
       breakpoints: BREAKPOINTS_PX,
