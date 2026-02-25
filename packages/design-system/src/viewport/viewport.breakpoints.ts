@@ -1,14 +1,16 @@
 /**
  * Breakpoint values (numeric pixels).
  *
- * We follow the Radix UI breakpoint scale.
+ * We follow the Panda CSS / Tailwind CSS default breakpoint scale,
+ * which aligns with Park UI (the official Ark UI + Panda design system).
  *
- * Reference values (not active):
+ * Reference values:
  *
- *   Tailwind CSS  xs:   0  sm: 640  md: 768  lg: 1024  xl: 1280  2xl: 1536
- *   Radix UI      xs:   0  sm: 520  md: 768  lg: 1024  xl: 1280  2xl: 1640  ← active
+ *   Tailwind/Panda  xs:   0  sm: 640  md: 768  lg: 1024  xl: 1280  2xl: 1536  ← active
+ *   Radix UI        xs:   0  sm: 520  md: 768  lg: 1024  xl: 1280  2xl: 1640  (V1 client used this)
  *
- * @see https://www.radix-ui.com/themes/docs/theme/breakpoints
+ * @see https://panda-css.com/docs/customization/theme#breakpoints
+ * @see https://tailwindcss.com/docs/responsive-design
  *
  * NOTE: xs:0 is included for completeness but is rarely queried directly —
  * mobile-first design starts from zero by default. Each subsequent breakpoint
@@ -23,12 +25,12 @@ import { toEmNumeric, toPixelString, toRemNumeric } from './viewport.utils';
 // ============================================================================
 
 export const BREAKPOINTS: Record<ScreenClass, number> = {
-  'xs': 0,
-  'sm': 520,
-  'md': 768,
-  'lg': 1024,
-  'xl': 1280,
-  '2xl': 1640,
+  xs: 0,
+  sm: 640,
+  md: 768,
+  lg: 1024,
+  xl: 1280,
+  '2xl': 1536,
 } as const;
 
 // ============================================================================
@@ -43,7 +45,7 @@ const mapBreakpoints = <T>(fn: (v: number) => T): BpRecord<T> =>
 /** All breakpoint values excluding xs=0, useful for loop-based queries. */
 export const BREAKPOINT_VALUES = Object.values(BREAKPOINTS).slice(1);
 
-/** Pixel strings — e.g. `{ sm: '520px', ... }`. Used by Panda CSS config. */
+/** Pixel strings — e.g. `{ sm: '640px', ... }`. Used by Panda CSS config. */
 export const BREAKPOINTS_PX = mapBreakpoints(toPixelString);
 
 /** Rem values — e.g. `{ sm: 32.5, ... }`. */
