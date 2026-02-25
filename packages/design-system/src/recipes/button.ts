@@ -1,15 +1,34 @@
 /**
  * Button Recipe
  *
- * Panda CSS cva() recipe for buttons — mapped from existing button.constants.ts
- * and enhanced with Ark UI blog patterns.
+ * Panda CSS defineRecipe() for buttons.
  *
- * Usage with Ark UI:
+ * All CSS is generated STATICALLY at build time (panda codegen).
+ * At runtime, buttonRecipe({ variant, colorScheme, size }) returns only
+ * a string of pre-existing class names — no CSS is created or injected.
+ *
+ * Architecture: colorPalette
+ * ─────────────────────────────────────────────────────────────────────
+ * The `colorScheme` variant sets `colorPalette` to the matching token
+ * group (e.g. 'primary'). The `variant` styles then reference
+ * `colorPalette.*` shade names, which Panda resolves to the correct
+ * palette at codegen time — so the variant styles are written once and
+ * work for all 8 color schemes with no compound variants.
+ *
+ * The only compound variant needed is warning+solid (amber base is too
+ * light for white text — needs dark fg instead).
+ *
+ * Sizes:  xs · sm · md · lg · xl          default: md
+ * Variants: solid · subtle · outline · ghost · link  default: outline
+ * Colors: default · primary · secondary · success · warning · danger · info · grey
+ *         default: default
+ *
+ * Usage:
  * ```tsx
  * import { ark } from '@ark-ui/react';
  * import { buttonRecipe } from '@workspace/design-system/recipes';
  *
- * <ark.button className={buttonRecipe({ size: 'md', variant: 'solid' })}>
+ * <ark.button className={buttonRecipe({ size: 'md', variant: 'solid', colorScheme: 'primary' })}>
  *   Click me
  * </ark.button>
  * ```
@@ -18,14 +37,13 @@ import { defineRecipe } from '@pandacss/dev';
 
 export const buttonRecipe = defineRecipe({
   className: 'button',
-  description: 'Interactive button with size and variant options',
+  description: 'Interactive button — size × variant × colorScheme',
 
   base: {
     display: 'inline-flex',
     appearance: 'none',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: '2',
     userSelect: 'none',
     position: 'relative',
     whiteSpace: 'nowrap',
@@ -59,133 +77,158 @@ export const buttonRecipe = defineRecipe({
   },
 
   variants: {
+    // ── Size ──────────────────────────────────────────────────────────
     size: {
+      xs: {
+        h: '7',
+        minW: '7',
+        px: '2',
+        gap: '1',
+        fontSize: 'xs',
+        '& svg': { w: '3', h: '3' },
+      },
       sm: {
-        height: '9',
-        minWidth: '9',
+        h: '8',
+        minW: '8',
+        px: '3',
+        gap: '1.5',
         fontSize: 'sm',
-        paddingInline: '3',
-        gap: '2',
-        '& svg': { width: '4', height: '4' },
+        '& svg': { w: '4', h: '4' },
       },
       md: {
-        height: '10',
-        minWidth: '10',
-        fontSize: 'sm',
-        paddingInline: '4',
+        h: '10',
+        minW: '10',
+        px: '4',
         gap: '2',
-        '& svg': { width: '5', height: '5' },
+        fontSize: 'sm',
+        '& svg': { w: '4', h: '4' },
       },
       lg: {
-        height: '12',
-        minWidth: '12',
+        h: '11',
+        minW: '11',
+        px: '5',
+        gap: '2',
         fontSize: 'md',
-        paddingInline: '5',
-        gap: '3',
-        '& svg': { width: '5', height: '5' },
+        '& svg': { w: '5', h: '5' },
+      },
+      xl: {
+        h: '12',
+        minW: '12',
+        px: '6',
+        gap: '2.5',
+        fontSize: 'md',
+        '& svg': { w: '5', h: '5' },
       },
     },
 
+    // ── Variant ───────────────────────────────────────────────────────
+    // All color references use `colorPalette.*` — resolved per colorScheme
+    // at codegen time. See colorScheme variant below.
     variant: {
       solid: {
-        bg: 'accent.solid',
-        color: 'fg.inverted',
-        borderColor: 'transparent',
+        bg: 'colorPalette.base',
+        color: 'white',
+        borderColor: 'colorPalette.base',
         _hover: {
-          bg: 'accent.emphasized',
+          bg: 'colorPalette.dark',
+          borderColor: 'colorPalette.dark',
         },
         _active: {
-          bg: 'accent.fg',
+          bg: 'colorPalette.darker',
+          borderColor: 'colorPalette.darker',
         },
       },
+
       subtle: {
-        bg: 'bg.subtle',
-        color: 'fg.muted',
-        borderColor: 'transparent',
+        bg: 'colorPalette.xlight',
+        color: 'colorPalette.darker',
+        borderColor: 'colorPalette.lighter',
         _hover: {
-          bg: 'bg.emphasized',
+          bg: 'colorPalette.lighter',
+          color: 'colorPalette.xxdark',
+          borderColor: 'colorPalette.dark',
         },
         _active: {
-          bg: 'bg.muted',
+          bg: 'colorPalette.light',
+          borderColor: 'colorPalette.darker',
         },
       },
+
       outline: {
-        borderColor: 'border',
-        color: 'fg.muted',
         bg: 'transparent',
+        color: 'colorPalette.base',
+        borderColor: 'colorPalette.base',
         _hover: {
-          bg: 'bg.subtle',
-          borderColor: 'border.emphasized',
+          bg: 'colorPalette.xlight',
+          color: 'colorPalette.dark',
+          borderColor: 'colorPalette.dark',
         },
         _active: {
-          bg: 'bg.muted',
+          bg: 'colorPalette.lighter',
         },
       },
+
       ghost: {
-        color: 'fg.muted',
         bg: 'transparent',
+        color: 'colorPalette.base',
         borderColor: 'transparent',
         _hover: {
-          bg: 'bg.subtle',
+          bg: 'colorPalette.xlight',
+          color: 'colorPalette.dark',
         },
         _active: {
-          bg: 'bg.muted',
+          bg: 'colorPalette.lighter',
+        },
+      },
+
+      link: {
+        bg: 'transparent',
+        color: 'colorPalette.base',
+        borderColor: 'transparent',
+        paddingInline: '0',
+        height: 'auto',
+        minWidth: '0',
+        textDecoration: 'underline',
+        textUnderlineOffset: '2px',
+        _hover: {
+          color: 'colorPalette.dark',
+          textDecorationThickness: '2px',
+        },
+        _active: {
+          color: 'colorPalette.darker',
         },
       },
     },
 
+    // ── Color scheme ──────────────────────────────────────────────────
+    // Sets colorPalette to the matching token group. The variant styles
+    // above reference colorPalette.* — Panda resolves each combination
+    // to the correct palette at codegen, generating static CSS for all
+    // 8 × 5 = 40 variant/color combinations automatically.
     colorScheme: {
-      primary: {},
-      success: {},
-      warning: {},
-      danger: {},
-      info: {},
-      neutral: {},
+      default:   { colorPalette: 'neutral' },
+      primary:   { colorPalette: 'primary' },
+      secondary: { colorPalette: 'secondary' },
+      success:   { colorPalette: 'success' },
+      warning:   { colorPalette: 'warning' },
+      danger:    { colorPalette: 'danger' },
+      info:      { colorPalette: 'info' },
+      grey:      { colorPalette: 'grey' },
     },
   },
 
   compoundVariants: [
-    // Solid + color scheme overrides
-    {
-      variant: 'solid',
-      colorScheme: 'success',
-      css: { bg: 'success', _hover: { bg: 'success.dark' } },
-    },
-    {
-      variant: 'solid',
-      colorScheme: 'danger',
-      css: { bg: 'danger', _hover: { bg: 'danger.dark' } },
-    },
+    // warning.base (amber-500) is too light for white text — override to dark fg
     {
       variant: 'solid',
       colorScheme: 'warning',
-      css: { bg: 'warning', color: 'fg', _hover: { bg: 'warning.dark' } },
-    },
-    {
-      variant: 'solid',
-      colorScheme: 'info',
-      css: { bg: 'info', _hover: { bg: 'info.dark' } },
-    },
-    // Outline + color scheme overrides
-    {
-      variant: 'outline',
-      colorScheme: 'success',
-      css: { borderColor: 'border.success', color: 'fg.success' },
-    },
-    {
-      variant: 'outline',
-      colorScheme: 'danger',
-      css: { borderColor: 'border.danger', color: 'fg.danger' },
-    },
-    {
-      variant: 'outline',
-      colorScheme: 'warning',
-      css: { borderColor: 'border.warning', color: 'fg.warning' },
+      css: { color: 'fg' },
     },
   ],
 
   defaultVariants: {
     size: 'md',
     variant: 'outline',
+    colorScheme: 'default',
   },
 });
