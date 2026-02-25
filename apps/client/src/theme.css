@@ -1,14 +1,10 @@
-@import 'tailwindcss';
-
-@plugin "tailwindcss-animate";
-
-@custom-variant dark (&:is(.dark *));
+@import '@workspace/design-system/styles/reset.css';
 
 /**
  * MINIMAL THEME FILE
  *
  * This file contains only:
- * - Tailwind imports (for preflight reset)
+ * - Design system reset (preflight)
  * - Essential theme variables for Radix UI compatibility
  *
  * All color theming is now handled by Emotion ThemeProvider
@@ -98,6 +94,15 @@ label {
 }
 
 /* ============================================================================
+ * KEYFRAMES
+ * ============================================================================ */
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ============================================================================
  * THEME COLOR VARIABLES
  * ============================================================================ */
 
@@ -124,8 +129,8 @@ label {
   --color-grey-light: #e1e2e6;
 }
 
-/* Minimal theme variables for Radix UI compatibility */
-@theme inline {
+/* Radius variables for Radix UI compatibility */
+:root {
   --radius-sm: calc(var(--radius, 0.5rem) - 4px);
   --radius-md: calc(var(--radius, 0.5rem) - 2px);
   --radius-lg: var(--radius, 0.5rem);

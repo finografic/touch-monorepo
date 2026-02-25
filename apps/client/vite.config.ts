@@ -1,4 +1,3 @@
-import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
 import { defineConfig, type UserConfig } from 'vite';
@@ -29,8 +28,6 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
           plugins: ['@emotion/babel-plugin'],
         },
       }),
-      tailwindcss(),
-
       // Safe to run in prod too (no-op there)
       devCookieClearPlugin(),
     ].filter(Boolean),

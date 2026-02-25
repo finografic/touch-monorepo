@@ -20,15 +20,18 @@ export const DynamicTableViewport = () => {
   }, [headerRect]);
 
   return (
-    <div className="page-wrapper flex flex-col h-screen overflow-hidden">
-      <div ref={headerRef} className="form-section pb-2">
+    <div className="page-wrapper" style={{ display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden' }}>
+      <div ref={headerRef} className="form-section" style={{ paddingBottom: '0.5rem' }}>
         {/* Form Inputs / Filters / Controls */}
       </div>
 
       <div
         ref={tableRef}
-        className="table-rows-container overflow-y-auto border rounded-md"
+        className="table-rows-container"
         style={{
+          overflowY: 'auto',
+          border: '1px solid',
+          borderRadius: '0.375rem',
           height: tableHeight ? `${tableHeight}px` : 'auto',
           transition: 'height 0.2s ease',
         }}

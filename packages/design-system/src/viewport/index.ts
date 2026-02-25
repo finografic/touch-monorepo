@@ -6,7 +6,8 @@ export {
   BREAKPOINTS_EM,
 } from './viewport.breakpoints';
 
-export { QUERIES_MIN, QUERIES_MAX, MEDIA_QUERIES, sizes, min, max } from './viewport.queries';
+export { QUERIES_MIN, QUERIES_MAX, MEDIA_QUERIES } from './viewport.queries';
+export { sizes, min, max } from './viewport.emotion';
 
 export type {
   ScreenClass,

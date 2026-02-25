@@ -22,25 +22,31 @@ directly — mobile-first design starts from zero by default.
 ## Reference: Other Scales
 
 ### Tailwind CSS / Panda CSS defaults ← active
+
 ```
 xs:    0   sm: 640   md: 768   lg: 1024   xl: 1280   2xl: 1536
 ```
+
 - Panda CSS ships these as its default theme breakpoints (`@pandacss/preset-panda`)
 - Park UI uses these values directly
 - `xs` is not included in Panda defaults; we add it at `0`
 
 ### Radix UI Themes
+
 ```
 xs:    0   sm: 520   md: 768   lg: 1024   xl: 1280   2xl: 1640
 ```
+
 - Used by `@radix-ui/themes`
 - **V1 client (`apps/client/src/styles/`) was built on this scale**
 - Key differences vs active: `sm` is 120px narrower (520 vs 640), `2xl` is 104px wider (1640 vs 1536)
 
 ### Previous design-system values (before this change)
+
 ```
 xs:    0   sm: 520   md: 768   lg: 1024   xl: 1280   2xl: 1640
 ```
+
 Matched the Radix UI scale. Changed to Panda/TW defaults for alignment with
 Panda CSS tooling and Park UI documentation.
 
@@ -69,6 +75,7 @@ Panda CSS tooling and Park UI documentation.
 Breakpoints surface in three ways in this system:
 
 ### 1. Panda CSS responsive utilities
+
 Any token or utility value can be made responsive using object or array syntax:
 
 ```ts
@@ -80,6 +87,7 @@ css({ display: ['flex', null, 'grid'] })
 ```
 
 ### 2. Component recipes (responsive size props)
+
 Ark UI wrappers accept responsive Panda values for `size`, `variant`, etc.:
 
 ```tsx
@@ -87,6 +95,7 @@ Ark UI wrappers accept responsive Panda values for `size`, `variant`, etc.:
 ```
 
 Prominent components where this is relevant:
+
 - **Button** — `size` prop (sm/md/lg) typically shifts at `md`
 - **Dialog / Drawer** — width and placement flip at `md`
 - **Select / Menu** _(planned)_ — dropdown anchoring changes at `md`
@@ -95,7 +104,8 @@ Prominent components where this is relevant:
 - **Layout tokens** _(planned)_ — sidebar collapse at `lg`, nav at `md`
 
 ### 3. CSS-in-JS helpers (Emotion, during V1 → V2 transition)
-The `min` and `max` exports from `viewport.queries.ts` produce `@media` strings
+
+The `min` and `max` exports from `viewport.emotion.ts` produce `@media` strings
 for direct use in Emotion `css()` calls in the client during the migration period:
 
 ```ts

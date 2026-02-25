@@ -63,7 +63,7 @@ export const ListBoxSelect: React.FC<ListBoxSelectProps> = ({ soundSettings, sou
           })),
         ]}
         optionLabel="label"
-        className="w-full md:w-14rem"
+        style={{ width: '100%' }}
       />
     </Flex>
   );

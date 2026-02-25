@@ -7,8 +7,13 @@ interface LoaderProps {
 
 export const Loader = ({ message = 'Loading...', className = '' }: LoaderProps) => {
   return (
-    <div className={`flex items-center gap-2 text-blue-500 ${className}`} role="status" aria-live="polite">
-      <ReloadIcon className="h-5 w-5 animate-spin" />
+    <div
+      className={className}
+      role="status"
+      aria-live="polite"
+      style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#3b82f6' }}
+    >
+      <ReloadIcon style={{ width: '1.25rem', height: '1.25rem', animation: 'spin 1s linear infinite' }} />
       <span>{message}</span>
     </div>
   );
