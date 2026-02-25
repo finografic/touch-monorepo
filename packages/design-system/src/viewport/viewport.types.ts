@@ -2,9 +2,6 @@ export type ScreenClass = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 
 export type BreakpointMap<T> = { [key in ScreenClass]?: T };
 
-export type ScreenSizePropsMinScope<T> = [ScreenClass, BreakpointMap<T>];
-export type ScreenSizePropsMaxScope<T> = [Exclude<ScreenClass, 'xs'>, BreakpointMap<T>];
-
 export interface MediaQueryProps {
   query: string;
   props: unknown;
