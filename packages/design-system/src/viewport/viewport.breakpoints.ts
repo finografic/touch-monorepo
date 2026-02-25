@@ -23,11 +23,11 @@ import { toEmNumeric, toPixelString, toRemNumeric } from './viewport.utils';
 // ============================================================================
 
 export const BREAKPOINTS: Record<ScreenClass, number> = {
-  xs: 0,
-  sm: 520,
-  md: 768,
-  lg: 1024,
-  xl: 1280,
+  'xs': 0,
+  'sm': 520,
+  'md': 768,
+  'lg': 1024,
+  'xl': 1280,
   '2xl': 1640,
 } as const;
 
