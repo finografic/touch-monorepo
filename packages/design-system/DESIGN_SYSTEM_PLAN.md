@@ -11,6 +11,7 @@
 ## Current State
 
 ### Done
+
 - [x] Color tokens — 11-stop word-name shade scale (`xxxlight`…`xxxdark`), semantic tokens (`bg.*`, `fg.*`, `border.*`, `accent.*`)
 - [x] Typography tokens — font families, sizes, weights, line heights, text styles
 - [x] Spacing tokens — scale, radii, border widths, shadows, z-index
@@ -26,6 +27,7 @@
 - [x] Icon system — `src/icons/` (see Phase 5.5)
 
 ### Not Yet Started
+
 Everything below.
 
 ---
@@ -35,6 +37,7 @@ Everything below.
 The token layer needs to cover everything `styles/` currently provides before any client migration.
 
 ### 1a. Layout tokens
+
 Reference: `styles/layout/layout.config.ts`, `styles/layout/base.constants.ts`
 
 App-level structural values. These live in the design system as tokens but are
@@ -52,6 +55,7 @@ Add to `src/tokens/layout.tokens.ts` and export from `src/tokens/index.ts`.
 Document clearly that apps are expected to override these.
 
 ### 1b. Color token audit
+
 Reference: `styles/colors/colors.source.ts`
 
 - Verify base OKLCH values match V1 source (primary, secondary, success, warning, danger, info, grey, default, text)
@@ -61,6 +65,7 @@ Reference: `styles/colors/colors.source.ts`
   utilities are in place, but note for migration
 
 ### 1c. Typography completeness
+
 Reference: `styles/fonts/typography.contants.ts`, `styles/constants/typography.constants.ts`
 
 - Confirm font stacks match V1
@@ -92,6 +97,7 @@ visual variants in the client needs a recipe.
 Each recipe follows the same CVA pattern already established in `src/recipes/`.
 
 ### Existing recipes to revisit
+
 - `button.ts` — compound variants cover primary/danger/etc.; check against `styles/constants/button.constants.ts` for any missing states (loading, icon-only)
 - `input.ts` — add error state, optional icon slot
 
@@ -143,11 +149,11 @@ These go into `src/styles/global.css` and are applied via `globalCss` in the pre
 
 Before plugging into client, the package must build cleanly.
 
-- [ ] Run `tsup` — verify `dist/` output includes all new modules (viewport, layout tokens)
-- [ ] Run `panda codegen` in a test context — verify all token references resolve (no broken `{colors.*.xlight}` etc.)
-- [ ] Verify `panda.preset.ts` compiles and is importable from outside the package
-- [ ] Confirm `package.json` exports map covers `./panda.preset` and `./styles/global.css`
-- [ ] Check for TypeScript errors across all `src/` files
+- [x] Run `tsup` → migrated to `tsdown`; `dist/` output verified, exports `.mjs`/`.d.mts`
+- [x] Run `panda codegen` in a test context — all token references resolve
+- [x] Verify `panda.preset.ts` compiles and is importable from outside the package
+- [x] Confirm `package.json` exports map covers `./panda.preset`, `./styles/global.css`, `./icons`
+- [x] Check for TypeScript errors across all `src/` files
 
 ---
 
@@ -194,6 +200,7 @@ const { CloseIcon, TrashIcon } = icons;
 ### picker.html
 
 Open `src/icons/picker.html` in any browser — no server needed (CDN Lucide is fetched once).
+
 - Shows only **registered** icons (from the embedded ICONS array)
 - Search by export name or Lucide icon name
 - Click a card → copies the import snippet to clipboard
@@ -218,6 +225,7 @@ Open `src/icons/picker.html` in any browser — no server needed (CDN Lucide is 
 This is not a lift-and-shift. It's a deliberate replacement pass.
 
 ### Approach
+
 1. **Add the preset to `apps/client/panda.config.ts`** — this is the first test; Panda codegen will fail on anything that doesn't resolve
 2. **Replace Emotion theme usage** — `useTheme()` / `theme.colors.*` calls in components need to become Panda utility classes or CSS variables
 3. **Replace `styles/` imports** — work file-by-file through the client; `styles/colors/*`, `styles/fonts/*`, `styles/layout/*`, `styles/viewport/*` all have design-system equivalents
@@ -225,6 +233,7 @@ This is not a lift-and-shift. It's a deliberate replacement pass.
 5. **Remove `styles/` folder** — only once all references are gone
 
 ### Expected breakage areas
+
 - Every file that imports from `styles/colors/` — color names will differ (OKLCH shades vs hex theme)
 - Every file using `@emotion/react` css template tag — needs Panda `css()` or utility classes
 - Radix UI `<Flex>`, `<Box>`, `<Text>` layout primitives — no direct equivalent in Ark; use HTML + Panda utilities
@@ -232,6 +241,7 @@ This is not a lift-and-shift. It's a deliberate replacement pass.
 - App layout dimensions (header/footer height etc.) — will move to layout tokens
 
 ### Keep `styles/` as reference while migrating
+
 - Do NOT delete `styles/` until migration is done
 - Use it to verify token values match what client currently renders
 - The `styles/colors/colors.source.ts` OKLCH values are the ground truth for `baseColors` in the design system
@@ -246,18 +256,25 @@ This is not a lift-and-shift. It's a deliberate replacement pass.
 ✅ Phase 3    Components: Button, SwitchField, CheckboxField, Dialog, Toast
 ✅ Phase 4    Global styles: scrollbar, focus ring, selection, svg, icon utilities
 ✅ Phase 5.5  Icon system: src/icons/ with Lucide wrappers + picker.html
-   Phase 5    Build validation (tsup + panda codegen + typecheck)
-   Phase 1b   Color token audit (run panda codegen first — it surfaces gaps)
-   Phase 3+   Remaining components: Select, Menu, Tabs, Tooltip, Popover
-   Phase 6    Client migration
+✅ Phase 5    Build validation (tsdown + panda codegen + typecheck — all clean)
+✅ Phase 1b   Color token audit (badge token gaps + shadow circular ref fixed)
+✅ Phase 3+   Remaining components: Select, Menu, Tabs, Tooltip, Popover
+✅ Phase 6a   Client: Panda CSS wired (panda.config.ts, codegen script, styled-system/)
+✅ Phase 6b   Client: dark mode via [data-theme="dark"], globalCss via preset
+🚧 Phase 6c   Client: replace Radix Themes layout primitives (Flex 28×, Box 22×)
+   Phase 6d   Client: swap Radix component imports → design-system equivalents
+   Phase 6e   Client: migrate Emotion .styles.ts files → Panda utilities (incremental)
+   Phase 6f   Client: remove styles/ folder + Radix Themes + Emotion
 ```
 
 ---
 
 ## Open Questions
 
-- **Emotion co-existence:** Will Panda and Emotion run side-by-side during migration, or do we do a hard cutover? Side-by-side is safer but messy.
-- **Radix layout primitives:** Client uses `<Flex>`, `<Box>`, `<Grid>` from Radix Themes heavily. Need a plan for replacing these (Panda patterns + semantic HTML, or a layout utility layer).
-- **Dark mode trigger:** Panda uses a `.dark` class or `prefers-color-scheme`. Client needs to decide the mechanism and wire it up before semantic tokens are testable.
+- ~~**Emotion co-existence:**~~ Resolved — Emotion stays alongside Panda during migration; 117 `.styles.ts` files NOT rewritten in one pass (incremental, Phase 6e).
+- ~~**Radix layout primitives:**~~ Resolved — Phase 6c: replace with plain divs + Panda utilities; thin local `Stack`/`Row` wrapper considered to reduce noise.
+- ~~**Dark mode trigger:**~~ Resolved — `[data-theme="dark"]` condition in `panda.config.ts`, matches existing `EmotionThemeProvider`.
 - **Font loading:** Currently system stack in tokens. If client moves to a custom font, update `fontTokens` in typography and add `@font-face` to global CSS.
 - ~~**Icon system:**~~ Resolved — `src/icons/` in design-system, Lucide only. See Phase 5.5.
+- **Spinner:** No design-system recipe yet. Blocking Phase 6d. Options: add recipe, keep Radix Spinner, or inline CSS.
+- **Card:** 5 uses in client, no recipe. Probably inline Panda styles or local wrapper.
