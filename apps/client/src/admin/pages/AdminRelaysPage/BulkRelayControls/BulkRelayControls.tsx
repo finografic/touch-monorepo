@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Flex } from '@radix-ui/themes';
+import { Flex } from 'styled-system/jsx';
 import { Button } from 'components/Button';
 
 import { useAppConfig } from 'providers/AppConfigProvider';

@@ -1,10 +1,10 @@
 import type { ReactNode } from 'react';
 import React, { useEffect, useMemo } from 'react';
-import { Col, Container, Row } from '@workspace/design-system/grid';
 import { useLocation } from 'react-router-dom';
+import { Col, Container, Row } from '@workspace/design-system/grid';
 
-import { Flex } from '@radix-ui/themes';
 import clsx from 'clsx';
+import { Flex } from 'styled-system/jsx';
 import { HeaderTitle } from 'components/Header/HeaderTitle';
 
 import { useAuth } from 'providers/AuthProvider/AuthContext';

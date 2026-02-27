@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 
-import { Dialog, Flex, IconButton, Tabs, VisuallyHidden } from '@radix-ui/themes';
+import { Dialog, IconButton, Tabs, VisuallyHidden } from '@radix-ui/themes';
+import { Flex } from 'styled-system/jsx';
 import clsx from 'clsx';
 import { Button } from 'components/Button';
 import type { DialogConfig } from 'components/Dialog/GenericDialog.types';
@@ -77,7 +78,7 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({
 
         <div className={clsx('dialog-header', { 'has-title': hasTitle })}>
           {hasTitle ? (
-            <Flex display="flex" justify="between" align="center">
+            <Flex display="flex" justify="space-between" align="center">
               <Dialog.Title size="5">
                 {config.title} <span className="subtitle">{config.subtitle}</span>
               </Dialog.Title>

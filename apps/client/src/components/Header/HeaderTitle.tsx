@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
-import { Flex } from '@radix-ui/themes';
+import { Flex } from 'styled-system/jsx';
 
 import { useAppConfig } from 'providers/AppConfigProvider';
 

@@ -1,6 +1,7 @@
 import React, { useCallback, useRef, useState } from 'react';
 
-import { Button, Flex, Text } from '@radix-ui/themes';
+import { Button, Text } from '@radix-ui/themes';
+import { Flex } from 'styled-system/jsx';
 import { useToast } from 'components/Toast';
 
 import { useUploadSoundFiles } from 'queries/sounds';

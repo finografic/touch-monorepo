@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Flex } from '@radix-ui/themes';
+import { Flex } from 'styled-system/jsx';
 import { LanguageDialog } from 'components/Dialog/dialogs/LanguageDialog';
 import { RecallTimer } from 'components/Timers/RecallTimer';
 

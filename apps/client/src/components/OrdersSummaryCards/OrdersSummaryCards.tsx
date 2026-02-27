@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { Card, Flex, Text } from '@radix-ui/themes';
+import { Card, Text } from '@radix-ui/themes';
+import { Flex } from 'styled-system/jsx';
 
 interface OrdersSummaryCardsProps {
   totalOrders: number;

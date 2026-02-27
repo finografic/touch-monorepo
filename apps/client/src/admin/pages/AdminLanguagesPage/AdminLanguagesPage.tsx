@@ -3,7 +3,8 @@ import { Col, Row } from '@workspace/design-system/grid';
 import { useTranslation } from 'react-i18next';
 import type { LanguageInfo } from '@workspace/i18n/types';
 
-import { Box, Button, Callout, Flex, Text } from '@radix-ui/themes';
+import { Button, Callout, Text } from '@radix-ui/themes';
+import { Box, Flex } from 'styled-system/jsx';
 import { useQueryClient } from '@tanstack/react-query';
 import { convertToLanguageOptions } from 'forms/SearchableLanguageInput/data/curated-languages';
 import { SearchableLanguageInputCurated } from 'forms/SearchableLanguageInput/SearchableLanguageInputCurated';
@@ -277,7 +278,7 @@ export const AdminLanguagesPage: React.FC = () => {
 
         {/* Languages List */}
         <Box className="languages-section" mb="6">
-          <Flex justify="between" align="center">
+          <Flex justify="space-between" align="center">
             <SectionHeader title={`Configured Languages (${languages.length})`} />
           </Flex>
           <LanguagesList

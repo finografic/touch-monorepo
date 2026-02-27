@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Flex } from '@radix-ui/themes';
+import { Box, Flex } from 'styled-system/jsx';
 import clsx from 'clsx';
 import { RecallTimer } from 'components/Timers/RecallTimer';
 

@@ -1,4 +1,5 @@
-import { ComponentPropsWithoutRef, forwardRef } from 'react';
+import type { ComponentPropsWithoutRef, ElementRef } from 'react';
+import { forwardRef } from 'react';
 
 type ColSpan = number | 'content';
 
@@ -11,7 +12,7 @@ interface ColProps extends ComponentPropsWithoutRef<'div'> {
   xxl?: ColSpan;
 }
 
-const Col = forwardRef<HTMLDivElement, ColProps>(
+const Col = forwardRef<ElementRef<'div'>, ColProps>(
   ({ xs, sm, md, lg, xl, xxl, className, ...props }, ref) => {
     const classes = [
       'ds-col',

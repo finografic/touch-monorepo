@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 
-import { Flex, TextField } from '@radix-ui/themes';
+import { TextField } from '@radix-ui/themes';
+import { Flex } from 'styled-system/jsx';
 import clsx from 'clsx';
 import { useDebouncedCallback } from 'use-debounce';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Col, Row } from '@workspace/design-system/grid';
 
-import { Flex } from '@radix-ui/themes';
+import { Flex } from 'styled-system/jsx';
 import { AdminPageLayout, AdminSection } from 'admin/components';
 import { VolumeSlider } from 'admin/pages/AdminSoundPage/VolumeSlider';
 

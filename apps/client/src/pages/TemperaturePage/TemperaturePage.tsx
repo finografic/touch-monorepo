@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { MIN_TEMP_DIFFERENCE, TEMP_CONSUME_FORM_DEFAULT } from '@workspace/shared/constants';
 
-import { Box, Flex } from '@radix-ui/themes';
+import { Box, Flex } from 'styled-system/jsx';
 import { PadNumeric } from 'components/Pads/PadNumeric';
 import { ClosestTemperatures } from 'pages/TemperaturePage/ClosestTemperatures';
 import type { TemperatureState } from 'pages/TemperaturePage/TemperaturePage.types';

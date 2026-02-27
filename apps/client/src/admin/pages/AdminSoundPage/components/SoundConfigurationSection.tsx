@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 
-import { Box, Button, Flex } from '@radix-ui/themes';
+import { Button } from '@radix-ui/themes';
+import { Box, Flex } from 'styled-system/jsx';
 import { FieldWrapper } from 'forms/FieldWrapper';
 import { SelectCustom } from 'forms/SelectCustom';
 import { useToast } from 'components/Toast';

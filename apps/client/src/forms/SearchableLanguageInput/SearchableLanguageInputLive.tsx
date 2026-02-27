@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 
-import { Box, Flex, Text } from '@radix-ui/themes';
+import { Text } from '@radix-ui/themes';
+import { Box, Flex } from 'styled-system/jsx';
 
 import { useGetFilteredCountries } from '../../queries/countries';
 

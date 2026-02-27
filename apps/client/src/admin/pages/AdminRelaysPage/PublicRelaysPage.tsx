@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { Box, Flex } from '@radix-ui/themes';
+import { Box, Flex } from 'styled-system/jsx';
 import { AdminPageLayout, AdminSection } from 'admin/components';
 import { DEFROST_SLOT_NUMBER } from 'admin/config/admin.slots.config';
 import { Button } from 'components/Button';
@@ -39,7 +39,7 @@ export const PublicRelaysPage: React.FC = () => {
         <Box className="admin-relay-control">
           <Flex direction="column" gap="2" style={{ marginTop: '-1rem' }}>
             <DefrostTimer slotNumber={DEFROST_SLOT_NUMBER} />
-            <Flex justify="between" align="center">
+            <Flex justify="space-between" align="center">
               <Flex gap="2">
                 <Button
                   onClick={() => startDefrostTimer(DEFROST_SLOT_NUMBER, 600)}

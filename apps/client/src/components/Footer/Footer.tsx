@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { Flex } from '@radix-ui/themes';
+import { Flex } from 'styled-system/jsx';
 import { AdminToolbar } from 'components/Toolbars/AdminToolbar/AdminToolbar';
 import { FrontEndToolbar } from 'components/Toolbars/FrontEndToolbar/FrontEndToolbar';
 
@@ -13,7 +13,7 @@ export const Footer: FC = () => {
 
   return (
     <footer css={styles}>
-      <Flex width="100%" justify="between" align="center">
+      <Flex width="100%" justify="space-between" align="center">
         <Flex justify="start" style={{ flex: '1' }} className="col col-left">
           {location.pathname.startsWith('/admin') ? <AdminToolbar /> : <FrontEndToolbar />}
         </Flex>

@@ -1,7 +1,8 @@
 import React from 'react';
 import type { LanguageInfo } from '@workspace/i18n/types';
 
-import { Box, Callout, Card, Flex, Heading, IconButton } from '@radix-ui/themes';
+import { Callout, Card, Heading, IconButton } from '@radix-ui/themes';
+import { Box, Flex } from 'styled-system/jsx';
 import clsx from 'clsx';
 
 import { LanguageItem } from './LanguageItem';

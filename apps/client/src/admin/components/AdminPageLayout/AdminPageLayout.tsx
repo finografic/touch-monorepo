@@ -2,7 +2,8 @@ import type { ReactNode } from 'react';
 import React, { memo } from 'react';
 
 import type { SerializedStyles } from '@emotion/react';
-import { Callout, Flex } from '@radix-ui/themes';
+import { Callout } from '@radix-ui/themes';
+import { Flex } from 'styled-system/jsx';
 import { Loader } from 'components/Loader/Loader';
 import { Title } from 'components/Title';
 
@@ -44,7 +45,7 @@ export const AdminPageLayout: React.FC<AdminPageLayoutProps> = memo(
       <section css={[stylesLayout, styles]} className="container admin-page-container">
         {showHeader && (
           <header className="admin-page-header">
-            <Flex justify="between" align="center" gap="4">
+            <Flex justify="space-between" align="center" gap="4">
               {/* Left side: Title - Flexible width */}
               <Flex className="admin-page-header-left" style={{ flex: '1 1 auto', minWidth: 0 }}>
                 <Title

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
-import { Flex, Text } from '@radix-ui/themes';
+import { Text } from '@radix-ui/themes';
+import { Flex } from 'styled-system/jsx';
 import { AdminPageLayout, AdminSection } from 'admin/components';
 import { useToast } from 'components/Toast';
 

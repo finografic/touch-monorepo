@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
 
-import { Button, Flex, Text } from '@radix-ui/themes';
+import { Button, Text } from '@radix-ui/themes';
+import { Flex } from 'styled-system/jsx';
 
 interface SlotButtonProps {
   slotNumber: number;

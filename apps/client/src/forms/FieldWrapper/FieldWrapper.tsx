@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import type { FieldError } from 'react-hook-form';
 import { useFormContext } from 'react-hook-form';
 
-import { Box, Text } from '@radix-ui/themes';
+import { Text } from '@radix-ui/themes';
 import clsx from 'clsx';
 import { useDebouncedCallback } from 'use-debounce';
 
@@ -71,7 +71,7 @@ export const FieldWrapper: React.FC<FieldWrapperProps> = ({
   const fieldId = name || `field-${Math.random().toString(36).substring(2, 9)}`;
 
   return (
-    <Box
+    <div
       css={styles}
       className={clsx(
         'field-wrapper',
@@ -90,7 +90,7 @@ export const FieldWrapper: React.FC<FieldWrapperProps> = ({
         </label>
       )}
 
-      <Box className="field-element">
+      <div className="field-element">
         {/* Clone children to add id if it's an input */}
         {React.Children.map(children, (child) => {
           if (React.isValidElement(child)) {
@@ -98,21 +98,21 @@ export const FieldWrapper: React.FC<FieldWrapperProps> = ({
           }
           return child;
         })}
-      </Box>
+      </div>
 
       {showDebouncedWarning && !showError && (
-        <Box className="field-validation validation-warning">
+        <div className="field-validation validation-warning">
           <ExclamationTriangleIcon />
           {displayMessage}
-        </Box>
+        </div>
       )}
 
       {showError && (
-        <Box className="field-validation validation-error">
+        <div className="field-validation validation-error">
           <Cross2Icon />
           {displayMessage}
-        </Box>
+        </div>
       )}
-    </Box>
+    </div>
   );
 };

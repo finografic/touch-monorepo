@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
-import { Flex, Text } from '@radix-ui/themes';
+import { Text } from '@radix-ui/themes';
+import { Flex } from 'styled-system/jsx';
 import { Slider } from 'primereact/slider';
 import { useDebouncedCallback } from 'use-debounce';
 

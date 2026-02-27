@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 
-import { Button, Callout, Flex, Text } from '@radix-ui/themes';
+import { Button, Callout, Text } from '@radix-ui/themes';
+import { Flex } from 'styled-system/jsx';
 import { useToast } from 'components/Toast';
 
 import { useRemoveSoundFile } from 'queries/sounds';
@@ -98,7 +99,7 @@ export const SoundLibrarySection: React.FC<SoundLibrarySectionProps> = ({
                 backgroundColor: 'white',
               }}
             >
-              <Flex justify="between" align="center" gap="3">
+              <Flex justify="space-between" align="center" gap="3">
                 {/* Checkmark Column - Fixed Width */}
                 <div style={{ width: '24px', display: 'flex', justifyContent: 'center' }}>
                   {soundSettings[soundType] === file.id && <BadgeCheckIcon className="icon-check" />}

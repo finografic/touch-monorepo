@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Col, Row } from '@workspace/design-system/grid';
 
-import { Box, Flex, Text } from '@radix-ui/themes';
+import { Text } from '@radix-ui/themes';
+import { Box, Flex } from 'styled-system/jsx';
 import { DEFROST_SLOT_NUMBER, POWER_SLOT_NUMBER } from 'admin/config/admin.slots.config';
 import { getRelaySlotType } from 'admin/utils/relays.utils';
 import clsx from 'clsx';
@@ -326,7 +327,7 @@ export const RelaysTable: React.FC<RelaysTableProps> = ({
 
   return (
     <Box css={styles}>
-      <Flex justify="between" gap="4" width="100%">
+      <Flex justify="space-between" gap="4" width="100%">
         <Flex gap="4" width="100%">
           <div className="slot-list">
             {/* TODO: ORDER BY *SLOT NUMBER* */}

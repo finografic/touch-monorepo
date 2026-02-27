@@ -2,7 +2,9 @@ import type { ReactNode } from 'react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Container, Flex, Heading, Text } from '@radix-ui/themes';
+import { Heading, Text } from '@radix-ui/themes';
+import { Flex } from 'styled-system/jsx';
+import { Container } from '@workspace/design-system/grid';
 import { LucideArrowRightSquare } from 'lucide-react';
 
 import { useContent } from 'providers/ContentProvider/ContentContext';
@@ -74,7 +76,7 @@ export const PageHeader: React.FC = () => {
   return (
     <div css={styles}>
       <header className="page-header">
-        <Container size="4">
+        <Container>
           <Flex direction="column" align="center" gap="8">
             {isPageTitleVisible && pageTitle && (
               <Heading size="4" align="center" className="page-title">

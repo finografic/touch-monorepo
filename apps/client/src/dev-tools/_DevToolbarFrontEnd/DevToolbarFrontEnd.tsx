@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-import { Flex } from '@radix-ui/themes';
+import { Flex } from 'styled-system/jsx';
 
 import { useKeyPressFrontEnd } from 'hooks/useKeyPressFrontEnd';
 import { useResetAppState } from 'hooks/useResetAppState';

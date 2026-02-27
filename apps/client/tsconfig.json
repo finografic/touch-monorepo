@@ -44,6 +44,9 @@
       "types": ["./src/types"],
       "types/*": ["./src/types/*"],
       "utils/*": ["./src/utils/*"],
+      // Panda CSS generated output (gitignored, regenerated on build)
+      "styled-system": ["./styled-system"],
+      "styled-system/*": ["./styled-system/*"],
       // Custom aliases for specific use cases
       "@workspace/i18n/flags/images": ["./src/components/LanguageSelector/languages/images"],
       "@workspace/i18n/flags/images/*": ["./src/components/LanguageSelector/languages/images/*"]

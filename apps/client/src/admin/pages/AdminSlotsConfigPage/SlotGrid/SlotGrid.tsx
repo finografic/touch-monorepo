@@ -1,6 +1,6 @@
 import React, { memo, useCallback, useMemo } from 'react';
 
-import { Box } from '@radix-ui/themes';
+import { Box } from 'styled-system/jsx';
 
 import { mapGridByColumns } from 'utils/grid.utils';
 import { SlotType } from 'types/slots.types';

@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Box, Card, Flex } from '@radix-ui/themes';
+import { Card } from '@radix-ui/themes';
+import { Box, Flex } from 'styled-system/jsx';
 import { getAdminDashboardCards } from 'admin/config/admin.routes.selectors';
 import { SectionHeader } from 'components/SectionHeader/SectionHeader';
 

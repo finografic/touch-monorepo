@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Box, Flex } from '@radix-ui/themes';
+import { Box, Flex } from 'styled-system/jsx';
 import { PadNumeric } from 'components/Pads/PadNumeric';
 
 import { TIME_MAX_SECONDS } from 'config/app';

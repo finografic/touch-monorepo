@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
-import { Flex, Text } from '@radix-ui/themes';
+import { Text } from '@radix-ui/themes';
+import { Flex } from 'styled-system/jsx';
 import { AdminPageLayout, AdminSection } from 'admin/components';
 import { FieldWrapper } from 'forms/FieldWrapper';
 import { SelectCustom } from 'forms/SelectCustom';
@@ -76,7 +77,7 @@ export const PublicModePage: React.FC = () => {
         }
         variant="border-solid"
       >
-        <Flex align="start" justify="between">
+        <Flex align="start" justify="space-between">
           <Flex direction="column" gap="4" align="start">
             <Flex direction="column" gap="2" style={{ minWidth: '260px' }}>
               <FieldWrapper>

@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { Col, Row } from '@workspace/design-system/grid';
 
-import { Box, Flex } from '@radix-ui/themes';
+import { Box, Flex } from 'styled-system/jsx';
 import { getRelaySlotType } from 'admin/utils/relays.utils';
 import clsx from 'clsx';
 
@@ -56,7 +56,7 @@ export const RelaysTableReadOnly: React.FC = () => {
 
   return (
     <Box css={styles}>
-      <Flex justify="between" gap="4" width="100%">
+      <Flex justify="space-between" gap="4" width="100%">
         <Flex gap="4" width="100%">
           <div className="slot-list">
             {relayConfigurations.map((config) => {

@@ -1,6 +1,7 @@
 import type { FC, ReactNode } from 'react';
 
-import { Box, Button, Flex } from '@radix-ui/themes';
+import { Button } from '@radix-ui/themes';
+import { Box, Flex } from 'styled-system/jsx';
 import clsx from 'clsx';
 
 import { PanelBottomCloseIcon, PanelBottomOpenIcon } from 'styles/icons';
@@ -21,7 +22,7 @@ export const DrawerBar: FC<DrawerBarProps> = ({
 }) => {
   return (
     <div css={styles} role={isActionActive ? 'search' : 'search'}>
-      <Flex width="100%" justify="between" className={clsx('drawer-bar', theme)}>
+      <Flex width="100%" justify="space-between" className={clsx('drawer-bar', theme)}>
         <Flex
           justify="start"
           align="center"

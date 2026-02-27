@@ -4,7 +4,8 @@ import type { RegionLocale } from '@workspace/config/i18n.config';
 import { TEMP_CONSUME_DEFAULT, TEMP_FREEZE_DEFAULT } from '@workspace/shared/constants';
 
 import createCuid from '@bugsnag/cuid';
-import { Flex, Text } from '@radix-ui/themes';
+import { Text } from '@radix-ui/themes';
+import { Flex } from 'styled-system/jsx';
 import type {
   GroupedSubtypes,
   TranslationsFormItem,
@@ -239,7 +240,7 @@ export const TranslationsTableExpandable: React.FC<TranslationsTableExpandablePr
                     <td className="col-key" colSpan={supportedLanguages.length + 2}>
                       <Flex
                         className="group-header-content"
-                        justify="between"
+                        justify="space-between"
                         align="center"
                         style={{ width: '100%' }}
                       >

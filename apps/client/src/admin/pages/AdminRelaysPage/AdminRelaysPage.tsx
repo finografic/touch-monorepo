@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
-import { Flex } from '@radix-ui/themes';
+import { Flex } from 'styled-system/jsx';
 import { AdminPageLayout, AdminSection } from 'admin/components';
 import { BulkRelayControls } from 'admin/pages/AdminRelaysPage/BulkRelayControls';
 import { RelaysTable } from 'admin/pages/AdminRelaysPage/RelaysTable';

@@ -4,7 +4,8 @@ import { useParams } from 'react-router-dom';
 import { translations } from '@workspace/i18n';
 import type { I18nTranslationsDomain } from '@workspace/i18n/types';
 
-import { Flex, Spinner, Tabs, Text } from '@radix-ui/themes';
+import { Spinner, Tabs, Text } from '@radix-ui/themes';
+import { Flex } from 'styled-system/jsx';
 import { AdminPageLayout, AdminSection } from 'admin/components';
 import { DEFAULT_SHOW_KEY_COLUMN } from 'admin/pages/Translations/shared/constants/translationsTable.constants';
 

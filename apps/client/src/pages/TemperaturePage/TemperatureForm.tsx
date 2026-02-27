@@ -1,6 +1,6 @@
 import { MIN_TEMP_DIFFERENCE } from '@workspace/shared/constants';
 
-import { Box, Flex } from '@radix-ui/themes';
+import { Box, Flex } from 'styled-system/jsx';
 import { PadTemperature } from 'components/Pads/PadTemperature/PadTemperature';
 
 import type { Temperature } from 'types/slots.types';

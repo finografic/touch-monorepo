@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { Flex } from '@radix-ui/themes';
+import { Flex } from 'styled-system/jsx';
 import clsx from 'clsx';
 import { Button } from 'components/Button';
 import { LanguageDialog } from 'components/Dialog/dialogs/LanguageDialog';

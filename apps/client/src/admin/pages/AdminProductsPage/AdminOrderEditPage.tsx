@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { Flex, Spinner, Text } from '@radix-ui/themes';
+import { Spinner, Text } from '@radix-ui/themes';
+import { Flex } from 'styled-system/jsx';
 import { OrdersForm } from 'admin/pages/AdminProductsPage/OrdersForm';
 import { Button } from 'components/Button';
 import { useToast } from 'components/Toast';

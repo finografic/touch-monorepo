@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Heading, Text } from '@radix-ui/themes';
+import { Heading, Text } from '@radix-ui/themes';
 import type { Responsive } from '@radix-ui/themes/dist/esm/props/prop-def.js';
 import clsx from 'clsx';
 
@@ -26,7 +26,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
   // TODO: USE Title.tsx ??
   // see: apps/client/src/admin/components/AdminPageLayout.tsx
   return (
-    <Box className={clsx('section-header', className)} css={styles}>
+    <div className={clsx('section-header', className)} css={styles}>
       {title && (
         <Heading
           className="section-header-title"
@@ -46,6 +46,6 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
           {description}
         </Text>
       )}
-    </Box>
+    </div>
   );
 };

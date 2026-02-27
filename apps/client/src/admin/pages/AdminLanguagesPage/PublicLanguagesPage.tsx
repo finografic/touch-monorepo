@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Box } from '@radix-ui/themes';
+import { Box } from 'styled-system/jsx';
 import { LanguageSelector } from 'components/LanguageSelector/LanguageSelector';
 
 import { AdminPageLayout, AdminSection } from '../..';

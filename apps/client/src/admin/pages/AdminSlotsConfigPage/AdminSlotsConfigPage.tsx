@@ -2,7 +2,8 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { Badge, Flex, Switch, Text } from '@radix-ui/themes';
+import { Badge, Switch, Text } from '@radix-ui/themes';
+import { Flex } from 'styled-system/jsx';
 import clsx from 'clsx';
 import { useDebouncedCallback } from 'use-debounce';
 import { Button } from 'components/Button';
@@ -254,7 +255,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
             isLoading={isLoading}
             variant="border-solid"
           >
-            <Flex gap="4" justify="between">
+            <Flex gap="4" justify="space-between">
               <Flex direction="column" gap="6" px="1">
                 <SlotGrid
                   configurations={slots}
@@ -273,7 +274,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
                   </Badge>
                 </Flex>
               </Flex>
-              <Flex direction="column" justify="between" gap="4">
+              <Flex direction="column" justify="space-between" gap="4">
                 <div className="layout-mode-container">
                   <Flex direction="column" gap="2" pt="2">
                     <Text size="3" weight="bold" mb="2">
@@ -362,7 +363,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
               </Flex>
             </Flex>
 
-            <Flex justify="between" gap="4" pr="3">
+            <Flex justify="space-between" gap="4" pr="3">
               <Flex gap="4">
                 <Button
                   variant="outline"

@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 
-import { Flex } from '@radix-ui/themes';
+import { Flex } from 'styled-system/jsx';
 import { ListBox } from 'primereact/listbox';
 import { useToast } from 'components/Toast';
 

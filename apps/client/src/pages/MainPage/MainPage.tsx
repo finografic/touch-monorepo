@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { Flex, Spinner } from '@radix-ui/themes';
+import { Spinner } from '@radix-ui/themes';
+import { Flex } from 'styled-system/jsx';
 import { PadAction } from 'components/Pads/PadAction/PadAction';
 
 import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';

@@ -22,17 +22,23 @@
     "@workspace/shared#build": {
       "outputs": ["dist/**", "*.tsbuildinfo"]
     },
-
     "@workspace/i18n#build": {
       "dependsOn": ["@workspace/core#build"],
       "outputs": ["dist/**", "*.tsbuildinfo"]
     },
-
     "@workspace/config#build": {
       "dependsOn": ["@workspace/i18n#build"],
       "outputs": ["dist/**", "*.tsbuildinfo"]
     },
-
+    "@workspace/design-system#build": {
+      "dependsOn": [
+        "@workspace/core#build",
+        "@workspace/shared#build",
+        "@workspace/i18n#build",
+        "@workspace/config#build"
+      ],
+      "outputs": ["dist/**"]
+    },
     "@workspace/server#build": {
       "dependsOn": [
         "@workspace/core#build",
@@ -60,7 +66,7 @@
     "dev": {
       "cache": false,
       "persistent": true,
-      "dependsOn": ["@workspace/core#build"],
+      "dependsOn": ["@workspace/core#build", "@workspace/design-system#build"],
       "env": ["NODE_ENV", "PORT"]
     },
     "lint": {

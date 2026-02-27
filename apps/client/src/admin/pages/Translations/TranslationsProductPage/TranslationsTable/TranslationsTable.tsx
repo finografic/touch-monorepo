@@ -3,7 +3,7 @@ import { FormProvider } from 'react-hook-form';
 import type { RegionLocale } from '@workspace/config/i18n.config';
 
 import createCuid from '@bugsnag/cuid';
-import { Flex } from '@radix-ui/themes';
+import { Flex } from 'styled-system/jsx';
 import { useDebouncedCallback } from 'use-debounce';
 
 // import { TableFormButtons } from 'admin/pages/TranslationsProductPage/TableFormButtons/TableFormButtons';

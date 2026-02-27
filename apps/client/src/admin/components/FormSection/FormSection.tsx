@@ -1,6 +1,7 @@
 import React, { type ReactNode } from 'react';
 
-import { Box, Flex, Heading, Text } from '@radix-ui/themes';
+import { Heading, Text } from '@radix-ui/themes';
+import { Box, Flex } from 'styled-system/jsx';
 
 interface FormSectionProps {
   title?: string;

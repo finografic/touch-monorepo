@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Flex, Spinner, Tabs, Text } from '@radix-ui/themes';
+import { Spinner, Tabs, Text } from '@radix-ui/themes';
+import { Flex } from 'styled-system/jsx';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { invalidateReferenceDataQueries } from 'queries/invalidateReferenceData';

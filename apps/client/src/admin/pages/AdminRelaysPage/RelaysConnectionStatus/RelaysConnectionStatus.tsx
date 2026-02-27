@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { Badge, Flex, Switch, Text } from '@radix-ui/themes';
+import { Badge, Switch, Text } from '@radix-ui/themes';
+import { Flex } from 'styled-system/jsx';
 import { Button } from 'components/Button';
 import { Loader } from 'components/Loader/Loader';
 
@@ -72,7 +73,7 @@ export const RelaysConnectionStatus: React.FC = () => {
   // ========================================================================
 
   return (
-    <Flex justify="between" align="center">
+    <Flex justify="space-between" align="center">
       <Flex direction="column" gap="2">
         <Flex align="center" gap="3" className="status-buttons">
           <Badge color={relayStatus?.connected ? 'green' : 'red'} variant="soft" size="3">

@@ -1,7 +1,8 @@
 import type { FC, ReactNode } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
-import { Box, Button, Callout, Card, Flex, Heading, Text } from '@radix-ui/themes';
+import { Button, Callout, Card, Heading, Text } from '@radix-ui/themes';
+import { Box, Flex } from 'styled-system/jsx';
 
 import { ExclamationTriangleIcon, ReloadIcon } from 'styles/icons';
 

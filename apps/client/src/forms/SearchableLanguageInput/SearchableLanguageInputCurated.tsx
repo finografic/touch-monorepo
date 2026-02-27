@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
-import { Box, Card, Flex, Text, TextField } from '@radix-ui/themes';
+import { Card, Text, TextField } from '@radix-ui/themes';
+import { Box, Flex } from 'styled-system/jsx';
 import { matchSorter } from 'match-sorter';
 
 import { ChevronDownIcon, MagnifyingGlassIcon } from 'styles/icons';

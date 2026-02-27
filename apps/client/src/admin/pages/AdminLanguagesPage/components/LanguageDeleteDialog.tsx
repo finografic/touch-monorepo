@@ -1,7 +1,8 @@
 import React from 'react';
 import type { LanguageInfo } from '@workspace/i18n/types';
 
-import { AlertDialog, Button, Flex, Text } from '@radix-ui/themes';
+import { AlertDialog, Button, Text } from '@radix-ui/themes';
+import { Flex } from 'styled-system/jsx';
 
 interface LanguageDeleteDialogProps {
   language: LanguageInfo | null;
