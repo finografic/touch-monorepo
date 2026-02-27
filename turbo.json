@@ -47,7 +47,8 @@
         "@workspace/core#build",
         "@workspace/shared#build",
         "@workspace/i18n#build",
-        "@workspace/config#build"
+        "@workspace/config#build",
+        "@workspace/design-system#build"
       ],
       "outputs": ["dist/**", "*.tsbuildinfo"]
     },

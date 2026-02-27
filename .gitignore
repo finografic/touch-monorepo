@@ -20,6 +20,9 @@ bin/
 # TypeScript build info
 *.tsbuildinfo
 
+# design-system / pandaCSS
+apps/client/styled-system/
+
 # =============================================================================
 # DEPENDENCIES
 # =============================================================================
