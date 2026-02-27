@@ -25,6 +25,11 @@
     "./styles/reset.css": "./src/styles/reset.css",
     "./styles/keyframes.css": "./src/styles/keyframes.css",
     "./styles/global.css": "./src/styles/global.css",
+    "./grid": {
+      "types": "./dist/grid/index.d.mts",
+      "import": "./dist/grid/index.mjs"
+    },
+    "./grid/grid.css": "./src/grid/grid.css",
     "./icons": {
       "types": "./dist/icons/index.d.mts",
       "import": "./dist/icons/index.mjs"
@@ -36,7 +41,8 @@
   },
   "files": [
     "dist",
-    "src/styles"
+    "src/styles",
+    "src/grid"
   ],
   "scripts": {
     "build": "tsdown",

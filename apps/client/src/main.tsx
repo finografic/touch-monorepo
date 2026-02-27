@@ -19,6 +19,7 @@ import './styled-system/styles.css'; // Panda CSS — design-system tokens + rec
 import '@radix-ui/themes/styles.css';
 import './styles/radix-ui/overrides.css';
 import './styles/icons/icons.css';
+import '@workspace/design-system/grid/grid.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
