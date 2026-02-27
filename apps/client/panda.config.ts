@@ -1,6 +1,6 @@
-import { defineConfig } from '@pandacss/dev';
-
 import { designSystemPreset } from '@workspace/design-system/panda.preset';
+
+import { defineConfig } from '@pandacss/dev';
 
 export default defineConfig({
   /**
@@ -25,6 +25,13 @@ export default defineConfig({
    * Output directory (gitignored).
    */
   outdir: 'styled-system',
+
+  /**
+   * Generate React JSX components from Panda patterns.
+   * Gives us <Box mx="4" py="2"> etc. with full token + responsive support.
+   * Use Box for spacing/layout wrappers. Use Row/Col for flex grid layout.
+   */
+  jsxFramework: 'react',
 
   /**
    * Dark mode — match the client's existing EmotionThemeProvider which
