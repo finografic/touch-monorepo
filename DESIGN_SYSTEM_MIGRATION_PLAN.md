@@ -193,6 +193,13 @@ const SomeComponent = () => {
 
 ## ⬜ Phase 6e — Migrate Emotion `.styles.ts` Files
 
+NOTE: I think i will do this gradually / incremental, stated.
+TODO: steps below can be done immediately
+
+- ensure ALL imports of COLORS and LAYOUT (some others) variable objects are coming from NEW design-system.
+- PERHAPS: for colors, create convenience `colors` export and just change import ??
+- OR: the new Panda DS already export colors like that, no ??
+
 **Scope:** Incremental. Not all 117 files need migrating at once.
 
 ### Strategy
