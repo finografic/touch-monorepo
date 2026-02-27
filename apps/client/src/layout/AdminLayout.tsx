@@ -1,6 +1,5 @@
 import type { FC } from 'react';
 import { Suspense, useEffect, useMemo } from 'react';
-import { setConfiguration } from 'react-grid-system'; // DEPRECATED: consider using react-grid-layout
 import { Outlet, useLocation } from 'react-router-dom';
 
 import { AdminNavigation } from 'admin/components/AdminNavigation';
@@ -19,7 +18,6 @@ import { ContentProvider } from 'providers/ContentProvider';
 import { getPathnameClassName } from 'routes/utils/routes.utils';
 
 import { DevProvider } from 'dev-tools/providers/DevProvider/DevProvider';
-import { BREAKPOINT_VALUES } from 'styles/viewport/viewport.breakpoints';
 import { styles } from './AdminLayout.styles';
 
 export const AdminLayout: FC = () => {
@@ -28,8 +26,6 @@ export const AdminLayout: FC = () => {
   const isTouch = useIsTouch();
   const { isAuthenticated } = useAuth();
   const dataPathname = useMemo(() => getPathnameClassName(location), [location.pathname, isAuthenticated]);
-
-  setConfiguration({ breakpoints: [...BREAKPOINT_VALUES] });
 
   useEffect(function initializeLayoutTheme() {
     document.documentElement.setAttribute('data-theme', theme);

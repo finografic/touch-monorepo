@@ -1,5 +1,4 @@
 import { Suspense } from 'react';
-import { ScreenClassProvider } from 'react-grid-system'; // DEPRECATED: consider using react-grid-layout // DEPRECATED: consider using react-grid-layout
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 
 import { Global } from '@emotion/react';
@@ -33,15 +32,13 @@ const AppBaseLayout = () => (
           <ToastProvider>
             <AuthProviderWithInitialization>
               <SessionProvider>
-                <ScreenClassProvider>
-                  <TimersProvider>
-                    <Toaster />
-                    <Suspense fallback={<Spinner size="3" />}>
-                      <Outlet />
-                    </Suspense>
-                    <SnoozeTimer shouldDebounce={false} />
-                  </TimersProvider>
-                </ScreenClassProvider>
+                <TimersProvider>
+                  <Toaster />
+                  <Suspense fallback={<Spinner size="3" />}>
+                    <Outlet />
+                  </Suspense>
+                  <SnoozeTimer shouldDebounce={false} />
+                </TimersProvider>
               </SessionProvider>
             </AuthProviderWithInitialization>
           </ToastProvider>

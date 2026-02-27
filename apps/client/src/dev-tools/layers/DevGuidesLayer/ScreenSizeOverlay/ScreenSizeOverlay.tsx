@@ -1,5 +1,4 @@
 import type { ReactElement } from 'react';
-import { Row } from 'react-grid-system'; // DEPRECATED: consider using react-grid-layout
 import { KEY_PRESS, useKeyPressToggle } from '@workspace/core/hooks';
 
 import { DevScreenSize } from 'dev-tools/components/DevScreenSize/DevScreenSize';
@@ -27,10 +26,10 @@ export const ScreenSizeOverlay = (): ReactElement | null => {
   return (
     <>
       {isDevToolsVisible && <DevScreenSize />}
-      <Row css={styles}>
+      <div css={styles}>
         {/* {isDevGuidesVisibile && <div className="screen-overlay screen-800x480" />} */}
         {isDevGuidesVisibile && <div className="screen-overlay screen-1024x600" />}
-      </Row>
+      </div>
     </>
   );
 };

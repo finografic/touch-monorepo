@@ -1,5 +1,3 @@
-import { setConfiguration } from 'react-grid-system'; // DEPRECATED: consider using react-grid-layout
-
 import { BREAKPOINTS } from './viewport.breakpoints';
 import type { BreakpointMap, MediaQueryMap, ScreenClass } from './viewport.types';
 import { mapNewBreakpointRules, toMediaMaxWidth, toMediaMinWidth } from './viewport.utils';
@@ -47,9 +45,3 @@ for (const [key, value] of Object.entries(BREAKPOINTS)) {
   max[key] = `@media (max-width: ${value}px)`;
 }
 
-const containerBreakpoints = Object.values(BREAKPOINTS).slice(1);
-const containerWidths = containerBreakpoints.map((value, _index) => {
-  return value * 0.95;
-});
-
-setConfiguration({ containerWidths });

@@ -1,5 +1,5 @@
 import type { ReactElement } from 'react';
-import { Col, Row } from 'react-grid-system'; // DEPRECATED: consider using react-grid-layout
+import { Col, Row } from '@workspace/design-system/grid';
 import { useTranslation } from 'react-i18next';
 
 import { useNavigateState } from 'routes/hooks/useNavigateState';

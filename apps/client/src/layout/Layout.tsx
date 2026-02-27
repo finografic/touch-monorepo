@@ -1,6 +1,5 @@
 import type { FC } from 'react';
 import { Suspense, useEffect, useMemo } from 'react';
-import { setConfiguration } from 'react-grid-system'; // DEPRECATED: consider using react-grid-layout
 import { useTranslation } from 'react-i18next';
 import { Outlet, useLocation } from 'react-router-dom';
 
@@ -24,7 +23,6 @@ import { getPathnameClassName } from 'routes/utils/routes.utils';
 import { DevProvider } from 'dev-tools/providers/DevProvider/DevProvider';
 import { Loader } from '../components/Loader/Loader';
 import type { EmotionTheme } from 'styles/themes/emotion-theme.types';
-import { BREAKPOINT_VALUES } from 'styles/viewport/viewport.breakpoints';
 import { styles } from './Layout.styles';
 
 export const Layout: FC = () => {
@@ -44,8 +42,6 @@ export const Layout: FC = () => {
   useEffect(function cleanupLayoutAttr() {
     return () => document.documentElement.removeAttribute('data-layout');
   }, []);
-
-  setConfiguration({ breakpoints: [...BREAKPOINT_VALUES] });
 
   return (
     <OrdersProvider>

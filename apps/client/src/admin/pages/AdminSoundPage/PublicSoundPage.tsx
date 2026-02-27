@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Row } from 'react-grid-system'; // DEPRECATED: consider using react-grid-layout
+import { Col, Row } from '@workspace/design-system/grid';
 
 import { Flex } from '@radix-ui/themes';
 import { AdminPageLayout, AdminSection } from 'admin/components';
