@@ -13,7 +13,7 @@
 |---|---|---|
 | 6a | Panda CSS infrastructure wired into client | ✅ Done |
 | 6b | Dark mode + global styles via preset | ✅ Done |
-| 6c | Replace Radix Themes layout primitives | 🚧 Next |
+| 6c | Build Grid module in design-system + replace all layout primitives | 🚧 Next |
 | 6d | Swap Radix component imports → design-system | ⬜ Pending |
 | 6e | Migrate Emotion `.styles.ts` files → Panda | ⬜ Pending |
 | 6f | Remove `styles/` folder + Radix Themes + Emotion | ⬜ Pending |
@@ -43,53 +43,171 @@
 
 ---
 
-## 🚧 Phase 6c — Replace Radix Themes Layout Primitives
+## 🚧 Phase 6c — Replace All Layout Primitives (Grid Module)
 
-**Scope:** Remove all layout-only Radix Themes usage. Components (Button, Dialog, etc.) are handled in 6d.
+**Scope:** Replace BOTH `react-grid-system` AND Radix Themes layout primitives in a single
+pass by building a proper `Grid` module inside `@workspace/design-system`.
 
-### Inventory
+---
 
-| Component | Approx. uses | Replacement |
+### Inventory — `react-grid-system` (archived Nov 2025)
+
+> The package was archived ~3 months ago. It still works but is a dead end.
+> All usages carry a `// DEPRECATED` comment in the client already.
+
+| Component / Export | Files | Notes |
 |---|---|---|
-| `<Flex>` | 28 | `<div>` + Panda flex utilities |
-| `<Box>` | 22 | `<div>` or semantic element + Panda utilities |
-| `<Grid>` | ~5 | `<div>` + Panda grid utilities |
-| `<Container>` | ~3 | `<div>` + Panda `maxW` / `mx: auto` |
-| `<Text>` (layout) | ~10 | `<span>` / `<p>` + `text` recipe |
-| `<Heading>` | ~5 | `<h1>`–`<h6>` + `text` recipe |
-| `<Section>` | ~2 | `<section>` + Panda utilities |
+| `Row` | 11 | Most common — flex row wrapper |
+| `Col` | 10 | Responsive column (xs/sm/md/lg/xl props) |
+| `Container` | 1 | Header.tsx only |
+| `ScreenClassProvider` | 1 | App.tsx — wraps entire app |
+| `setConfiguration` | 3 | AdminLayout.tsx, Layout.tsx, viewport.queries.ts |
+| `Visible` | 1 | DevScreenSize dev tool only |
+| **Total files** | **16** | |
 
-### Approach
+### Inventory — Radix Themes layout primitives
 
-**Option A — Inline replacement (no wrapper):**
-Each `<Flex direction="column" gap="2">` becomes `<div className={css({ display: 'flex', flexDirection: 'column', gap: '2' })}>`.
+| Component | Approx. uses | Notes |
+|---|---|---|
+| `<Flex>` | 28 | Flex container with align/justify/gap props |
+| `<Box>` | 22 | Generic block wrapper |
+| `<Grid>` | ~5 | CSS grid wrapper |
+| `<Container>` | ~3 | Max-width centered wrapper |
+| `<Text>` (layout) | ~10 | Inline/block text with variant props |
+| `<Heading>` | ~5 | Heading element with size variants |
+| `<Section>` | ~2 | Semantic section wrapper |
 
-**Option B — Thin local wrappers (recommended for high-frequency patterns):**
-Add `apps/client/src/components/layout/` with `Stack`, `Row`, `Col` wrappers that accept
-a minimal prop API and emit Panda utility classes. Reduces noise on the 50+ call sites.
+**Combined total: ~86 layout call sites across two separate systems.**
 
-```tsx
-// Example — Stack.tsx
-const Stack = ({ gap = '4', children, ...props }) => (
-  <div className={css({ display: 'flex', flexDirection: 'column', gap })} {...props}>
-    {children}
-  </div>
-);
+---
+
+### Recommendation: Build `src/grid/` in the design-system
+
+Rather than migrating to plain divs or splitting into two separate passes,
+build `Row`, `Col`, and `Container` as first-class design-system components
+backed by **Panda CSS** (static CSS classes, not JS inline styles).
+
+**Why not just fork react-grid-system:**
+
+| react-grid-system (original) | Design-system Grid module |
+|---|---|
+| Inline styles computed at runtime | Static CSS classes via Panda codegen |
+| `window.resize` → React context → re-render | Pure CSS media queries — zero JS |
+| `ScreenClassProvider` required at app root | No provider needed |
+| `setConfiguration()` to set breakpoints | Breakpoints live in `panda.config.ts` |
+| 7 breakpoints (xxl, xxxl) | 6 breakpoints — matches existing tokens |
+| Archived, no future updates | Owned by us, evolves with the design-system |
+
+**The prop API stays identical** — `<Col xs={12} md={6}>` works exactly the same.
+The difference is in the implementation: instead of JS measuring the window, Panda
+generates a CSS class for each responsive width at build time.
+
+**Breakpoint alignment — design-system vs react-grid-system:**
+
+| Name | react-grid-system | Design-system (Panda/Tailwind) |
+|---|---|---|
+| xs | 0px | 0px |
+| sm | 576px | 640px |
+| md | 768px | 768px ✓ |
+| lg | 992px | 1024px |
+| xl | 1200px | 1280px |
+| 2xl / xxl | 1600px | 1536px |
+| xxxl | 1920px | — (drop or map to 2xl) |
+
+Small shifts at sm/lg/xl — not meaningful for the layouts we have.
+Drop `xxxl`; map any existing `xxl` usages to `2xl`.
+
+---
+
+### Design — `src/grid/` module
+
+**Components to build:**
+
 ```
+src/grid/
+  Col.tsx          Responsive column — xs/sm/md/lg/xl/2xl props (1-12 or "content")
+  Row.tsx          Flex row container — align, justify, gap, wrap props
+  Container.tsx    Max-width centered wrapper — fluid prop, uses layout tokens
+  index.ts         Barrel export
+```
+
+**Col props:**
+```ts
+xs?: 1-12 | 'content'   // width at base (mobile-first)
+sm?: 1-12 | 'content'
+md?: 1-12 | 'content'
+lg?: 1-12 | 'content'
+xl?: 1-12 | 'content'
+'2xl'?: 1-12 | 'content'
+offset?: { xs?, sm?, md?, lg?, xl?, '2xl'? }
+order?: { xs?, sm?, md?, lg?, xl?, '2xl'? }
+```
+
+**Row props:**
+```ts
+align?: 'start' | 'center' | 'end' | 'stretch'
+justify?: 'start' | 'center' | 'end' | 'between' | 'around'
+gap?: SpacingToken       // maps to Panda spacing tokens
+wrap?: 'wrap' | 'nowrap'
+direction?: 'row' | 'column' | 'row-reverse' | 'column-reverse'
+```
+
+**Container props:**
+```ts
+fluid?: boolean          // true = 100% width, false = maxWidth per breakpoint
+maxW?: string            // override (defaults to layout token contentMaxWidth)
+```
+
+**Panda implementation sketch (Col):**
+```ts
+// Maps xs={6} → { base: '50%', sm: ..., md: ... }
+// col(n) = `${(n / 12) * 100}%`
+// Uses css({ width: { base: col(xs), md: col(md) }, ... })
+```
+
+**Export path:** `@workspace/design-system/grid`
+Added to `package.json` exports map alongside `./icons`, `./panda.preset`.
+
+---
+
+### Also replaces: Radix Flex/Box/Grid/Container
+
+Once `Row`, `Col`, `Container` exist, Radix layout primitives become unnecessary:
+
+| Radix Themes | Replacement |
+|---|---|
+| `<Flex>` | `<Row>` (if horizontal) or `<div className={css({...})}>` |
+| `<Box>` | `<div>` with Panda utilities inline |
+| `<Grid>` | `<div className={css({ display: 'grid', ... })}>` |
+| `<Container>` | `<Container>` from design-system/grid |
+| `<Text>` | `<span>` / `<p>` + `text` recipe |
+| `<Heading>` | `<h1>`–`<h6>` + `text` recipe |
+| `<Section>` | `<section>` + Panda utilities |
+
+---
 
 ### Steps
 
-1. Audit all `@radix-ui/themes` imports in `apps/client/src/` — list files
-2. Decide: Option A or B (or hybrid — wrappers for `Flex`/`Box`, inline for `Grid`/`Container`)
-3. Create local layout wrappers if Option B
-4. Replace layout primitive usages file-by-file
-5. Verify no remaining `Flex`, `Box`, `Grid`, `Container`, `Section` imports from `@radix-ui/themes`
-6. Run `pnpm typecheck` + `pnpm dev` — confirm no visual regressions
+**6c-i — Build the Grid module in design-system**
+1. Create `src/grid/Col.tsx`, `Row.tsx`, `Container.tsx`, `index.ts`
+2. Add `./grid` to `package.json` exports map
+3. Run `panda codegen` + `pnpm typecheck` + `pnpm build` — confirm clean
 
-### Key constraint
+**6c-ii — Replace react-grid-system (16 files)**
+1. Remove `ScreenClassProvider` from `App.tsx` + remove `setConfiguration` calls (3 files)
+2. Replace `Row`/`Col`/`Container` imports → `@workspace/design-system/grid` (11/10/1 files)
+3. Replace `Visible` in DevScreenSize with Panda responsive `display` utility
+4. Remove `react-grid-system` from `apps/client/package.json`
 
-After Phase 6c, `@radix-ui/themes` imports in client should only remain for **component** usage
-(Button, Dialog, Badge, etc.) — those are handled in 6d.
+**6c-iii — Replace Radix Themes layout primitives (~86 call sites)**
+1. Grep `@radix-ui/themes` for layout-only imports: `Flex`, `Box`, `Grid`, `Container`, `Text`, `Heading`, `Section`
+2. Replace file-by-file — use `<Row>`/`<Col>` where bootstrap grid makes sense; `<div css={...}>` otherwise
+3. Verify no remaining layout-only `@radix-ui/themes` imports
+
+**6c-iv — Verify**
+- `pnpm typecheck` clean
+- `pnpm dev` — no visual regressions
+- `@radix-ui/themes` imports remaining only in component usage files (for 6d)
 
 ---
 
@@ -194,7 +312,9 @@ Do NOT attempt a full rewrite. Work in priority order:
 2. Dark mode via `[data-theme="dark"]` condition — matches `EmotionThemeProvider` (2026-02-26)
 3. `panda cssgen` (no PostCSS) — compatible with lightningcss Vite transformer (2026-02-26)
 4. `preflight: false` in client `panda.config.ts` — reset already in `theme.css` (2026-02-26)
-5. Layout primitives: thin local wrappers preferred over 50+ inline `css()` call sites (TBD — confirm in 6c)
+5. Build `src/grid/` in design-system — replaces both `react-grid-system` and Radix layout primitives (2026-02-27)
+6. Grid module uses Panda CSS (static classes); no `ScreenClassProvider` or `setConfiguration` needed (2026-02-27)
+7. Grid breakpoints align with existing Panda/Tailwind scale (xs/sm/md/lg/xl/2xl); `xxxl` dropped (2026-02-27)
 
 ---
 
@@ -202,5 +322,4 @@ Do NOT attempt a full rewrite. Work in priority order:
 
 1. **Spinner** — Add `spinnerRecipe` to design-system, keep Radix `<Spinner>`, or inline CSS? Blocking 6d.
 2. **Card** — Add `cardRecipe` or use inline Panda `css()` for 5 call sites?
-3. **Local layout wrappers** — Confirm Option A (inline) vs Option B (Stack/Row/Col) before starting 6c.
-4. **Emotion removal** — Is full Emotion removal the goal after 6f, or keep Emotion for complex one-off styles?
+3. **Emotion removal** — Is full Emotion removal the goal after 6f, or keep Emotion for complex one-off styles?
