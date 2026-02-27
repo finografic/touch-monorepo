@@ -128,10 +128,56 @@
 ### Blockers
 
 - **Spinner** — no recipe in design-system. Decision needed before 6d can complete:
-  - A) Add `spinnerRecipe` to design-system (Ark UI has a spinner primitive)
-  - B) Keep Radix `<Spinner>` for now; remove after 6e
-  - C) Inline CSS animation (simplest, no dep)
-- **Card** — add `cardRecipe` to design-system, or use inline Panda `css()` for 5 call sites
+  - A) ✅ Add `spinnerRecipe` to design-system (Ark UI has a spinner primitive)
+  - B) ❌ Keep Radix `<Spinner>` for now; remove after 6e
+  - C) ✅ ()Inline CSS animation (simplest, no dep)
+
+  TODO: USING CODE BELOW (mix of A+C ??)
+  TODO: TEMP USER EDIT - FIX AND CLEAN SECTION BELOW
+  NOTE: Ark-UI docs has examples for thier AsyncList, where the code uses:
+
+```tsx
+import { LoaderIcon } from 'lucide-react';
+
+const SomeComponent = () => {
+  return (
+    <>
+      {list.loading && <LoaderIcon className={styles.Spinner} /> Loading}
+    </>
+  );
+}
+```
+
+```css
+/* Loading status */
+.loading {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.875rem;
+  color: var(--demo-neutral-emphasized);
+}
+
+.spinner {
+  width: 1rem;
+  height: 1rem;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+```
+
+- **Card**
+  — ✅ add `cardRecipe` to design-system,
+  - ❌ or use inline Panda `css()` for 5 call sites
+  TODO: recipe, for sure
 
 ### Steps
 
@@ -208,6 +254,7 @@ component/layer, stacking up across inherited elements. With Radix Themes and Em
 injecting CSS vars, the cascades multiply.
 
 **Root causes (in priority order):**
+
 1. **Panda CSS base layer resets** — Panda emits utility CSS vars on `*, :before, :after` for every
    component. With many Panda components on one page, these stack visibly in DevTools. They are
    functionally correct (later declarations win) but create visual noise.
@@ -216,6 +263,7 @@ injecting CSS vars, the cascades multiply.
    Resolved when Emotion is removed in 6f.
 
 **Steps:**
+
 1. After 6f, re-audit in DevTools — confirm how many overrides remain
 2. If Panda base layer still noisy: review `panda.config.ts` `preflight` setting and utility
    reset scope; consider scoping resets to a container class instead of `*`
@@ -244,7 +292,7 @@ injecting CSS vars, the cascades multiply.
 
 ## Open Questions
 
-1. **Spinner** — Add `spinnerRecipe` to design-system, keep Radix `<Spinner>`, or inline CSS? Blocking 6d.
-2. **Card** — Add `cardRecipe` or use inline Panda `css()` for 5 call sites?
-3. **Emotion removal** — Is full Emotion removal the goal after 6f, or keep Emotion for complex one-off styles?
-4. **Token override scope** — After 6f, if Panda base layer resets are still noisy, scope to container vs `*`?
+1. **Spinner** — ✅ [SEE_ABOVE] Add `spinnerRecipe` to design-system, keep Radix `<Spinner>`, or inline CSS? Blocking 6d.
+2. **Card** — ✅ [SEE_ABOVE] Add `cardRecipe` or use inline Panda `css()` for 5 call sites?
+3. **Emotion removal** — 🤔 [TBD -- keep for now, until i am 100% certain] Is full Emotion removal the goal after 6f, or keep Emotion for complex one-off styles?
+4. **Token override scope** — After 6f, if Panda base layer resets are still noisy, scope to container vs `*`? [WHAT IS BEST?? AVOID NOISY AND LAYER SOUNDS GOOD, BUT I AM NO EXPERT WITH CSS LAYERS]
