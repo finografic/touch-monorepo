@@ -7,6 +7,7 @@ export default defineConfig({
     'recipes/index': 'src/recipes/index.ts',
     'components/index': 'src/components/index.ts',
     'grid/index': 'src/grid/index.ts',
+    'forms/index': 'src/forms/index.ts',
     'icons/index': 'src/icons/index.ts',
     'panda.preset': 'src/panda.preset.ts',
   },

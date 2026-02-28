@@ -30,6 +30,11 @@
       "import": "./dist/grid/index.mjs"
     },
     "./grid/grid.css": "./src/grid/grid.css",
+    "./forms": {
+      "types": "./dist/forms/index.d.mts",
+      "import": "./dist/forms/index.mjs"
+    },
+    "./forms/forms.css": "./src/forms/forms.css",
     "./icons": {
       "types": "./dist/icons/index.d.mts",
       "import": "./dist/icons/index.mjs"
@@ -42,7 +47,8 @@
   "files": [
     "dist",
     "src/styles",
-    "src/grid"
+    "src/grid",
+    "src/forms"
   ],
   "scripts": {
     "build": "tsdown",
@@ -61,7 +67,8 @@
     "@ark-ui/react": "^5.11.0",
     "@finografic/dprint-config": "0.12.4",
     "@pandacss/dev": "^0.53.1",
-    "lucide-react": "^0.564.0"
+    "lucide-react": "^0.564.0",
+    "match-sorter": "8.2.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.3",
