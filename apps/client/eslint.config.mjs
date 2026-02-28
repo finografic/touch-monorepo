@@ -51,6 +51,16 @@ export default fino({
     'prefer-arrow-callback': OFF,
     'test/prefer-lowercase-title': OFF,
 
+    'no-restricted-syntax': [
+      'warn',
+      {
+        // Panda CSS spacing/sizing scale props — prefer numeric: gap={4} not gap="4"
+        selector:
+          'JSXAttribute[name.name=/^(gap|gapX|gapY|columnGap|rowGap|p|px|py|pt|pb|pl|pr|m|mx|my|mt|mb|ml|mr|inset|insetX|insetY|spaceX|spaceY|w|h|minW|minH|maxW|maxH|top|left|right|bottom|size)$/][value.type="Literal"][value.value=/^\\d+$/]',
+        message: 'Use numeric prop instead of string: gap={4} not gap="4"',
+      },
+    ],
+
     // Disable JSX parentheses rules that conflict with Prettier
     'style/jsx-wrap-multilines': OFF,
 
