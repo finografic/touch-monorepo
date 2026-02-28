@@ -1,52 +1,39 @@
 import { css } from '@emotion/react';
 
 import { colors } from 'styles';
-import { forms } from 'styles/forms/forms.styles';
 
 export const styles = css`
-  /* Temperature input using TextField.Root structure like InputTime */
   .temperature-input-root {
-    .rt-TextFieldInput {
-      text-align: right; /* Right align like time inputs */
-      padding-right: 0.5rem; /* Add space for unit display */
+    .ds-input-field__input {
+      text-align: right;
+      padding-right: 0.5rem;
 
       &:disabled {
-        background-color: ${colors.greyXXLight75}; /* Even lighter than forms default */
-        border-color: ${forms.inputs.disabled.border.color};
-        color: ${forms.inputs.disabled.text.color};
-        font-weight: ${forms.inputs.disabled.text.fontWeight};
-        opacity: ${forms.inputs.disabled.opacity};
+        background-color: ${colors.greyXXLight75};
+        color: ${colors.greyDark};
+        font-weight: 400;
+        opacity: 0.6;
       }
     }
 
-    /* Style disabled slots */
-    &:has(.rt-TextFieldInput:disabled) .rt-TextFieldSlot {
-      background-color: ${colors.greyXXLight50}; /* Lighter background for slot */
-      border-color: ${colors.greyXLight}; /* Dimmed border */
-      opacity: 0.7; /* Additional dimming */
+    &:has(:disabled) .ds-input-field__slot {
+      background-color: ${colors.greyXXLight50};
+      border-color: ${colors.greyXLight};
+      opacity: 0.7;
 
-      /* Disabled buttons in left slot */
-      &.temperature-controls-slot .rt-IconButton:disabled {
+      &.temperature-controls-slot .button:disabled {
         background-color: transparent;
-        border-color: ${colors.greyXLight};
         color: ${colors.greyLight};
         opacity: 0.5;
       }
 
-      /* Disabled unit text in right slot */
       &.temperature-unit-slot span {
         color: ${colors.greyLight};
         opacity: 0.5;
       }
     }
 
-    /* Specific slot styling */
-    .temperature-controls-slot {
-      /* Left slot with step buttons */
-    }
-
     .temperature-unit-slot {
-      /* Right slot with unit display */
       padding: 0 0.5rem;
       font-weight: 500;
       color: ${colors.greyDark};
@@ -55,33 +42,11 @@ export const styles = css`
     }
   }
 
-  /* Error state styling */
   &.field-error .temperature-input-root {
-    .rt-TextFieldInput {
-      border-color: ${colors.dangerDark} !important;
-
-      &:focus {
-        box-shadow: 0 0 0 3px ${colors.dangerDark25} !important;
-      }
-    }
-
-    .rt-TextFieldSlot {
-      border-color: ${colors.dangerDark} !important;
-    }
+    border-color: ${colors.dangerDark} !important;
   }
 
-  /* Warning state styling */
   &.field-warning .temperature-input-root {
-    .rt-TextFieldInput {
-      border-color: ${colors.warningDark} !important;
-
-      &:focus {
-        box-shadow: 0 0 0 3px ${colors.warningDark25} !important;
-      }
-    }
-
-    .rt-TextFieldSlot {
-      border-color: ${colors.warningDark} !important;
-    }
+    border-color: ${colors.warningDark} !important;
   }
 `;

@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { IconButton, TextField } from '@radix-ui/themes';
+import { InputField } from '@workspace/design-system/forms';
 import { useOptionalFormMiddleware } from 'forms/FormMiddleware';
 
 import { formatTimeDuration, parseTimeDurationToSeconds } from 'utils/time.utils';
-import { STEP_BUTTON_SIZE, STEP_BUTTON_VARIANT } from '../FormMiddleware/FormMiddleware.constants';
+import { STEP_BUTTON_VARIANT } from '../FormMiddleware/FormMiddleware.constants';
+import { Button } from 'components/Button';
 import { useColors } from 'styles';
 import { ChevronDownIcon, ChevronUpIcon, ExclamationTriangleIcon } from 'styles/icons';
 import { styles } from './InputTime.styles';
@@ -207,7 +208,7 @@ export const InputTime: React.FC<InputTimeProps> = ({
 
   return (
     <div css={styles} className={`input-time ${isInvalid ? 'field-warning' : ''}`}>
-      <TextField.Root
+      <InputField.Root
         className="time-input-root"
         type="text"
         placeholder="mm:ss"
@@ -216,33 +217,28 @@ export const InputTime: React.FC<InputTimeProps> = ({
         onChange={handleDisplayChange}
         onBlur={handleBlur}
         onKeyDown={handleKeyDown}
-        color="gray"
-        size="3"
-        variant="surface"
       >
-        <TextField.Slot side="left" className="input-slot-left time-controls-slot">
+        <InputField.Slot side="left" className="input-slot-left time-controls-slot">
           {!isInvalid && (
             <div>
-              <IconButton
+              <Button
                 type="button"
                 variant={STEP_BUTTON_VARIANT}
-                size={STEP_BUTTON_SIZE}
+                size="sm"
                 onClick={handleStepUp}
                 disabled={!isEnabled}
                 style={{ height: '16px', width: '20px', minWidth: '20px' }}
-              >
-                <ChevronUpIcon style={{ height: '12px', width: '12px' }} />
-              </IconButton>
-              <IconButton
+                icon={<ChevronUpIcon style={{ height: '12px', width: '12px' }} />}
+              />
+              <Button
                 type="button"
                 variant={STEP_BUTTON_VARIANT}
-                size={STEP_BUTTON_SIZE}
+                size="sm"
                 onClick={handleStepDown}
                 disabled={!isEnabled}
                 style={{ height: '16px', width: '20px', minWidth: '20px' }}
-              >
-                <ChevronDownIcon style={{ height: '12px', width: '12px' }} />
-              </IconButton>
+                icon={<ChevronDownIcon style={{ height: '12px', width: '12px' }} />}
+              />
             </div>
           )}
           {isInvalid && (
@@ -255,8 +251,8 @@ export const InputTime: React.FC<InputTimeProps> = ({
               }}
             />
           )}
-        </TextField.Slot>
-      </TextField.Root>
+        </InputField.Slot>
+      </InputField.Root>
     </div>
   );
 };
