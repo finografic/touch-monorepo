@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Slider } from 'primereact/slider';
+import { Slider } from '@workspace/design-system/forms';
 import { Flex } from 'styled-system/jsx';
 import { useDebouncedCallback } from 'use-debounce';
 
@@ -17,7 +17,7 @@ export const VolumeSlider: React.FC = () => {
   return (
     <Flex
       direction="column"
-      gap="4"
+      gap={4}
       align="center"
       style={{
         width: '100%',
@@ -27,17 +27,24 @@ export const VolumeSlider: React.FC = () => {
       }}
     >
       <span>Volume</span>
-      <Slider
+      <Slider.Root
         value={displayVolume}
-        onChange={(e) => {
-          setDisplayVolume(e.value as number);
-          handleVolumeChange(e.value as number);
+        onValueChange={(newVolume) => {
+          setDisplayVolume(newVolume);
+          handleVolumeChange(newVolume);
         }}
         min={0}
         max={100}
         step={1}
         className="volume-slider"
-      />
+      >
+        <Slider.Control>
+          <Slider.Track>
+            <Slider.Range />
+          </Slider.Track>
+          <Slider.Thumb index={0} />
+        </Slider.Control>
+      </Slider.Root>
       <span>{displayVolume}%</span>
     </Flex>
   );

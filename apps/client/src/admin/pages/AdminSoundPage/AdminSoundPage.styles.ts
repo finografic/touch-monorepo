@@ -40,26 +40,20 @@ export const styles = css`
     .volume-slider {
       width: 100%;
       max-width: 400px;
-      height: 6px;
 
-      /* transform: scale(1.5); */
-
-      /* Custom slider track */
-      [data-radix-slider-track] {
+      .ds-slider__track {
         background-color: ${colors.greyLight};
         height: 6px;
         border-radius: 3px;
       }
 
-      /* Custom slider range */
-      [data-radix-slider-range] {
+      .ds-slider__range {
         background-color: ${colors.infoDark};
         height: 6px;
         border-radius: 3px;
       }
 
-      /* Custom slider thumb */
-      [data-radix-slider-thumb] {
+      .ds-slider__thumb {
         background-color: ${colors.infoDark};
         border: 2px solid ${colors.white};
         width: 20px;
@@ -93,18 +87,5 @@ export const styles = css`
     }
   }
 
-  .p-slider-handle {
-    width: 1.5rem;
-    height: 1.5rem;
-    border: 3px solid ${colors.infoLight};
-    border-radius: 50%;
-    transform: translateY(-50%);
-    :hover {
-      background-color: ${colors.white};
-    }
-  }
 
-  .p-slider-range {
-    background-color: ${colors.infoXLight};
-  }
 `;

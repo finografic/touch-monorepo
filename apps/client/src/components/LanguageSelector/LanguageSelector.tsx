@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import type { LanguageSelectorProps, RegionLocale } from '@workspace/config/i18n';
 
-import { RadioCards, Text } from '@radix-ui/themes';
+import { RadioGroup } from '@workspace/design-system/forms';
 import { Flex } from 'styled-system/jsx';
 import clsx from 'clsx';
 
@@ -13,7 +13,7 @@ import { styles } from './LanguageSelector.styles';
 
 export const LanguageSelector = ({ onLanguageChange }: LanguageSelectorProps) => {
   const { i18n } = useTranslation();
-  const { currentLanguage, setCurrentLanguage, theme, supportedLanguagesFull } = useAppConfig();
+  const { currentLanguage, setCurrentLanguage, supportedLanguagesFull } = useAppConfig();
 
   // Transform full SupportedLanguage[] from context to LanguageInfo[] format
   const languages = supportedLanguagesFull
@@ -53,7 +53,7 @@ export const LanguageSelector = ({ onLanguageChange }: LanguageSelectorProps) =>
   if (isLoading) {
     return (
       <div className="language-selector" css={styles}>
-        <Text>Loading languages...</Text>
+        <span>Loading languages...</span>
       </div>
     );
   }
@@ -61,7 +61,7 @@ export const LanguageSelector = ({ onLanguageChange }: LanguageSelectorProps) =>
   if (languages.length === 0) {
     return (
       <div className="language-selector" css={styles}>
-        <Text color="gray">No languages available</Text>
+        <span style={{ color: 'var(--colors-grey-default)' }}>No languages available</span>
       </div>
     );
   }
@@ -70,23 +70,21 @@ export const LanguageSelector = ({ onLanguageChange }: LanguageSelectorProps) =>
 
   return (
     <div className="language-selector" css={styles}>
-      <RadioCards.Root
+      <RadioGroup.Root
+        variant="card"
         value={getCurrentLanguageCode()}
-        onValueChange={handleLanguageChange}
-        columns="1"
-        size="2"
-        color="blue"
+        onValueChange={({ value }) => handleLanguageChange(value)}
       >
         {languages
           .filter((language) => language && language.code) // Filter out any malformed language objects
           .map((language) => (
-            <RadioCards.Item
+            <RadioGroup.Item
               key={language.code}
               value={language.code}
               className={clsx('language-radio', language.code === currentLanguageCode ? 'checked' : '')}
             >
               <Flex direction="column" width="100%">
-                <Flex align="center" gap="4" mb="1">
+                <Flex align="center" gap={4} mb={1}>
                   <img
                     src={language.flag || ''}
                     alt={language.label || 'Language'}
@@ -94,15 +92,15 @@ export const LanguageSelector = ({ onLanguageChange }: LanguageSelectorProps) =>
                     height="30"
                     style={{ borderRadius: '2px' }}
                   />
-                  <Text weight="bold" size="4">
+                  <strong>
                     {language.code}
                     <span className="label-language"> - {language.nativeLabel || ''}</span>
-                  </Text>
+                  </strong>
                 </Flex>
               </Flex>
-            </RadioCards.Item>
+            </RadioGroup.Item>
           ))}
-      </RadioCards.Root>
+      </RadioGroup.Root>
     </div>
   );
 };
