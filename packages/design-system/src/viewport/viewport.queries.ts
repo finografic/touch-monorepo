@@ -8,7 +8,7 @@ import { toMediaMaxWidth, toMediaMinWidth } from './viewport.utils';
 
 /** Min-width media query strings for each breakpoint (no `@media` wrapper). */
 export const QUERIES_MIN: Record<ScreenClass, string> = {
-  'xs': `(min-width: 0px)`,
+  'xs': '(min-width: 0px)',
   'sm': `(min-width: ${BREAKPOINTS.sm}px)`,
   'md': `(min-width: ${BREAKPOINTS.md}px)`,
   'lg': `(min-width: ${BREAKPOINTS.lg}px)`,

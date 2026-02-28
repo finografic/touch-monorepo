@@ -1,9 +1,9 @@
-import { useMemo, useState } from 'react';
 import { Combobox as ArkCombobox, createListCollection } from '@ark-ui/react';
 import { matchSorter } from 'match-sorter';
+import { useMemo, useState } from 'react';
 
-import { icons } from '../../icons';
-import type { SelectOption } from '../select-option';
+import { icons } from '../../../icons';
+import type { SelectOption } from '../select.types';
 
 const { CheckIcon, ChevronDownIcon, MagnifyingGlassIcon, PlusIcon, XIcon } = icons;
 
@@ -36,10 +36,7 @@ export function SelectSearchable({
   const canAddNew = typeof onAddNew === 'function';
 
   // Resolve the display label for the current value
-  const selectedOption = useMemo(
-    () => options.find((o) => o.value === value),
-    [options, value],
-  );
+  const selectedOption = useMemo(() => options.find((o) => o.value === value), [options, value]);
 
   // Filter options with match-sorter
   const filtered = useMemo(() => {
@@ -116,7 +113,11 @@ export function SelectSearchable({
           <button
             type="button"
             className="ds-searchable-select__clear"
-            onClick={(e) => { e.stopPropagation(); onClear(); setInputValue(''); }}
+            onClick={(e) => {
+              e.stopPropagation();
+              onClear();
+              setInputValue('');
+            }}
             aria-label="Clear"
             tabIndex={-1}
           >
@@ -157,11 +158,7 @@ export function SelectSearchable({
 
             {/* Add New row */}
             {showAddNew && (
-              <button
-                type="button"
-                className="ds-searchable-select__add-new"
-                onClick={handleAddNew}
-              >
+              <button type="button" className="ds-searchable-select__add-new" onClick={handleAddNew}>
                 <PlusIcon width={14} height={14} />
                 Add &ldquo;{inputValue.trim()}&rdquo;
               </button>

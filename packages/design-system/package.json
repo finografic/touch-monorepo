@@ -63,6 +63,10 @@
     "·········· FORMATTING": "················································",
     "format": "dprint fmt **/*.md --diff",
     "format.check": "dprint check",
+    "·········· CLEAN": "·····················································",
+    "clean": "pnpm --package=@finografic/project-scripts dlx purge-builds --recursive --detach",
+    "clean.dry": "pnpm --package=@finografic/project-scripts dlx purge-builds --recursive --dry-run",
+    "update.project-scripts": "pnpm update @finografic/project-scripts --latest --recursive",
     "·········· UTILS": "·····················································",
     "panda:codegen": "panda codegen",
     "typecheck": "tsc --noEmit"
@@ -72,10 +76,12 @@
     "@finografic/dprint-config": "0.12.4",
     "@pandacss/dev": "^0.53.1",
     "lucide-react": "^0.564.0",
-    "match-sorter": "8.2.0"
+    "match-sorter": "8.2.0",
+    "react-hook-form": "7.71.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.3",
+    "@finografic/project-scripts": "8.12.0",
     "@stylistic/eslint-plugin": "^4.4.1",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.5",

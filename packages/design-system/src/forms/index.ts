@@ -1,24 +1,16 @@
 export { Checkbox } from './Checkbox';
-
+export type { DialogContentPropsDS, DialogRootPropsDS, DialogSize } from './Dialog';
 export { Dialog } from './Dialog';
-export type { DialogSize, DialogRootPropsDS, DialogContentPropsDS } from './Dialog';
-
-export { RadioGroup } from './RadioGroup';
-export type { RadioGroupRootPropsDS } from './RadioGroup';
-
-export { Slider } from './Slider';
-export type { SliderRootPropsDS } from './Slider';
-
-export { FieldBox } from './FieldBox';
 export type { FieldBoxProps } from './FieldBox';
-
-export { InputField, InputFieldRoot, InputFieldSlot } from './InputField';
+export { FieldBox } from './FieldBox';
 export type { InputFieldRootProps, InputFieldSlotProps } from './InputField';
-
-export { Select } from './Select';
-export type { SelectProps } from './Select';
-
-export { SelectSearchable } from './SelectSearchable';
-export type { SelectSearchableProps } from './SelectSearchable';
-
-export type { SelectOption } from './select-option';
+export { InputField, InputFieldRoot, InputFieldSlot } from './InputField';
+export type { RadioGroupRootPropsDS } from './RadioGroup';
+export { RadioGroup } from './RadioGroup';
+export type { SelectOption } from './Select/select.types';
+export type { SelectProps } from './Select/SelectDefault';
+export { Select } from './Select/SelectDefault';
+export type { SelectSearchableProps } from './Select/SelectSearchable';
+export { SelectSearchable } from './Select/SelectSearchable';
+export type { SliderRootPropsDS } from './Slider';
+export { Slider } from './Slider';

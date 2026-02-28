@@ -1,8 +1,8 @@
 import { createListCollection, Select as ArkSelect } from '@ark-ui/react';
 import { useMemo } from 'react';
 
-import { icons } from '../../icons';
-import type { SelectOption } from '../select-option';
+import { icons } from '../../../icons';
+import type { SelectOption } from '../select.types';
 
 const { ChevronDownIcon, CheckIcon } = icons;
 

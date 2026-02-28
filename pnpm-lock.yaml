@@ -409,7 +409,7 @@ importers:
         version: 8.0.0(postcss@8.5.6)
       '@ianvs/prettier-plugin-sort-imports':
         specifier: 4.7.1
-        version: 4.7.1(@vue/compiler-sfc@3.4.19)(prettier@3.4.2)
+        version: 4.7.1(@vue/compiler-sfc@3.4.19)(prettier@3.8.1)
       '@pandacss/dev':
         specifier: ^0.53.1
         version: 0.53.7(typescript@5.9.3)
@@ -596,7 +596,7 @@ importers:
     devDependencies:
       '@finografic/eslint-config':
         specifier: 9.0.8
-        version: 9.0.8(@emotion/eslint-plugin@11.12.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(@eslint-react/eslint-plugin@2.13.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(@types/node@22.19.13)(@typescript-eslint/rule-tester@8.56.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/typescript-estree@8.56.1(typescript@5.9.3))(@unocss/eslint-plugin@66.6.2(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-format@0.1.3(eslint@9.39.3(jiti@2.6.1)))(eslint-plugin-react-hooks@7.0.1(eslint@9.39.3(jiti@2.6.1)))(eslint-plugin-react-refresh@0.5.0(eslint@9.39.3(jiti@2.6.1)))(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3)(vitest@4.0.18(@types/node@22.19.13)(happy-dom@20.6.1)(jiti@2.6.1)(lightningcss@1.31.1)(tsx@4.21.0)(yaml@2.8.2))
+        version: 9.0.8(@emotion/eslint-plugin@11.12.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(@types/node@22.19.13)(@typescript-eslint/rule-tester@8.56.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/typescript-estree@8.56.1(typescript@5.9.3))(@unocss/eslint-plugin@66.6.2(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-format@0.1.3(eslint@9.39.3(jiti@2.6.1)))(eslint-plugin-react-hooks@7.0.1(eslint@9.39.3(jiti@2.6.1)))(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3)(vitest@4.0.18(@types/node@22.19.13)(happy-dom@20.6.1)(jiti@2.6.1)(lightningcss@1.31.1)(tsx@4.21.0)(yaml@2.8.2))
       '@finografic/project-scripts':
         specifier: 8.12.0
         version: 8.12.0(@types/node@22.19.13)(jsonc-eslint-parser@2.4.2)(tsx@4.21.0)
@@ -786,6 +786,9 @@ importers:
       match-sorter:
         specifier: 8.2.0
         version: 8.2.0
+      react-hook-form:
+        specifier: 7.71.1
+        version: 7.71.1(react@18.3.1)
     devDependencies:
       '@eslint/js':
         specifier: ^9.39.3
@@ -2037,6 +2040,17 @@ packages:
       eslint-plugin-format: '>=0.1.0'
       eslint-plugin-react-hooks: ^5.0.0
       eslint-plugin-react-refresh: ^0.4.4
+    peerDependenciesMeta:
+      '@eslint-react/eslint-plugin':
+        optional: true
+      '@unocss/eslint-plugin':
+        optional: true
+      eslint-plugin-format:
+        optional: true
+      eslint-plugin-react-hooks:
+        optional: true
+      eslint-plugin-react-refresh:
+        optional: true
 
   '@finografic/project-scripts@8.12.0':
     resolution: {integrity: sha512-6ZUqxu73JZ/B6PUqopSWh7YQ/1wyRb6o3ojrfDjETi8x2T+raDpuLRlBAj8wSUt2D2dP/NvTIUL7CCP8xjXCJA==, tarball: https://npm.pkg.github.com/download/@finografic/project-scripts/8.12.0/b2d25b4a6ca58e3d7d9c72bd8e9e2d58d6e86f11}
@@ -11877,7 +11891,6 @@ snapshots:
       '@dotenvx/dotenvx': 1.39.0
       '@emotion/eslint-plugin': 11.12.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3)
       '@eslint-community/eslint-plugin-eslint-comments': 4.6.0(eslint@9.39.3(jiti@2.6.1))
-      '@eslint-react/eslint-plugin': 2.13.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3)
       '@eslint/markdown': 6.6.0
       '@inquirer/checkbox': 4.1.4(@types/node@20.11.24)
       '@inquirer/confirm': 5.1.8(@types/node@20.11.24)
@@ -11890,13 +11903,11 @@ snapshots:
       '@typescript-eslint/eslint-plugin': 8.55.0(@typescript-eslint/parser@8.55.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3)
       '@typescript-eslint/parser': 8.55.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3)
       '@typescript-eslint/utils': 8.56.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3)
-      '@unocss/eslint-plugin': 66.6.2(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3)
       '@vitest/eslint-plugin': 1.6.9(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3)(vitest@4.0.18(@types/node@20.11.24)(happy-dom@20.6.1)(jiti@2.6.1)(lightningcss@1.31.1)(tsx@4.21.0)(yaml@2.8.2))
       eslint-config-flat-gitignore: 2.2.1(eslint@9.39.3(jiti@2.6.1))
       eslint-flat-config-utils: 2.1.4
       eslint-merge-processors: 2.0.0(eslint@9.39.3(jiti@2.6.1))
       eslint-plugin-command: 3.5.2(@typescript-eslint/rule-tester@8.56.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/typescript-estree@8.56.1(typescript@5.9.3))(@typescript-eslint/utils@8.56.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.3(jiti@2.6.1))
-      eslint-plugin-format: 0.1.3(eslint@9.39.3(jiti@2.6.1))
       eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.55.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.3(jiti@2.6.1))
       eslint-plugin-import-x: 4.16.1(@typescript-eslint/utils@8.56.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-node@0.3.9)(eslint@9.39.3(jiti@2.6.1))
       eslint-plugin-jsdoc: 50.8.0(eslint@9.39.3(jiti@2.6.1))
@@ -11906,8 +11917,6 @@ snapshots:
       eslint-plugin-no-only-tests: 3.3.0
       eslint-plugin-perfectionist: 4.15.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3)
       eslint-plugin-react: 7.37.5(eslint@9.39.3(jiti@2.6.1))
-      eslint-plugin-react-hooks: 7.0.1(eslint@9.39.3(jiti@2.6.1))
-      eslint-plugin-react-refresh: 0.5.0(eslint@9.39.3(jiti@2.6.1))
       eslint-plugin-regexp: 2.10.0(eslint@9.39.3(jiti@2.6.1))
       eslint-plugin-toml: 0.12.0(eslint@9.39.3(jiti@2.6.1))
       eslint-plugin-unicorn: 58.0.0(eslint@9.39.3(jiti@2.6.1))
@@ -11921,6 +11930,12 @@ snapshots:
       toml-eslint-parser: 0.10.1
       yaml-eslint-parser: 1.3.2
       yargs: 17.7.2
+    optionalDependencies:
+      '@eslint-react/eslint-plugin': 2.13.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3)
+      '@unocss/eslint-plugin': 66.6.2(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3)
+      eslint-plugin-format: 0.1.3(eslint@9.39.3(jiti@2.6.1))
+      eslint-plugin-react-hooks: 7.0.1(eslint@9.39.3(jiti@2.6.1))
+      eslint-plugin-react-refresh: 0.5.0(eslint@9.39.3(jiti@2.6.1))
     transitivePeerDependencies:
       - '@eslint/json'
       - '@types/node'
@@ -11934,14 +11949,13 @@ snapshots:
       - typescript
       - vitest
 
-  '@finografic/eslint-config@9.0.8(@emotion/eslint-plugin@11.12.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(@eslint-react/eslint-plugin@2.13.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(@types/node@22.19.13)(@typescript-eslint/rule-tester@8.56.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/typescript-estree@8.56.1(typescript@5.9.3))(@unocss/eslint-plugin@66.6.2(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-format@0.1.3(eslint@9.39.3(jiti@2.6.1)))(eslint-plugin-react-hooks@7.0.1(eslint@9.39.3(jiti@2.6.1)))(eslint-plugin-react-refresh@0.5.0(eslint@9.39.3(jiti@2.6.1)))(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3)(vitest@4.0.18(@types/node@22.19.13)(happy-dom@20.6.1)(jiti@2.6.1)(lightningcss@1.31.1)(tsx@4.21.0)(yaml@2.8.2))':
+  '@finografic/eslint-config@9.0.8(@emotion/eslint-plugin@11.12.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(@types/node@22.19.13)(@typescript-eslint/rule-tester@8.56.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/typescript-estree@8.56.1(typescript@5.9.3))(@unocss/eslint-plugin@66.6.2(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-format@0.1.3(eslint@9.39.3(jiti@2.6.1)))(eslint-plugin-react-hooks@7.0.1(eslint@9.39.3(jiti@2.6.1)))(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3)(vitest@4.0.18(@types/node@22.19.13)(happy-dom@20.6.1)(jiti@2.6.1)(lightningcss@1.31.1)(tsx@4.21.0)(yaml@2.8.2))':
     dependencies:
       '@antfu/utils': 9.3.0
       '@clack/prompts': 0.10.1
       '@dotenvx/dotenvx': 1.39.0
       '@emotion/eslint-plugin': 11.12.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3)
       '@eslint-community/eslint-plugin-eslint-comments': 4.6.0(eslint@9.39.3(jiti@2.6.1))
-      '@eslint-react/eslint-plugin': 2.13.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3)
       '@eslint/markdown': 6.6.0
       '@inquirer/checkbox': 4.1.4(@types/node@22.19.13)
       '@inquirer/confirm': 5.1.8(@types/node@22.19.13)
@@ -11954,13 +11968,11 @@ snapshots:
       '@typescript-eslint/eslint-plugin': 8.55.0(@typescript-eslint/parser@8.55.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3)
       '@typescript-eslint/parser': 8.55.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3)
       '@typescript-eslint/utils': 8.56.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3)
-      '@unocss/eslint-plugin': 66.6.2(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3)
       '@vitest/eslint-plugin': 1.6.9(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3)(vitest@4.0.18(@types/node@22.19.13)(happy-dom@20.6.1)(jiti@2.6.1)(lightningcss@1.31.1)(tsx@4.21.0)(yaml@2.8.2))
       eslint-config-flat-gitignore: 2.2.1(eslint@9.39.3(jiti@2.6.1))
       eslint-flat-config-utils: 2.1.4
       eslint-merge-processors: 2.0.0(eslint@9.39.3(jiti@2.6.1))
       eslint-plugin-command: 3.5.2(@typescript-eslint/rule-tester@8.56.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/typescript-estree@8.56.1(typescript@5.9.3))(@typescript-eslint/utils@8.56.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.3(jiti@2.6.1))
-      eslint-plugin-format: 0.1.3(eslint@9.39.3(jiti@2.6.1))
       eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.55.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.3(jiti@2.6.1))
       eslint-plugin-import-x: 4.16.1(@typescript-eslint/utils@8.56.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-node@0.3.9)(eslint@9.39.3(jiti@2.6.1))
       eslint-plugin-jsdoc: 50.8.0(eslint@9.39.3(jiti@2.6.1))
@@ -11970,8 +11982,6 @@ snapshots:
       eslint-plugin-no-only-tests: 3.3.0
       eslint-plugin-perfectionist: 4.15.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3)
       eslint-plugin-react: 7.37.5(eslint@9.39.3(jiti@2.6.1))
-      eslint-plugin-react-hooks: 7.0.1(eslint@9.39.3(jiti@2.6.1))
-      eslint-plugin-react-refresh: 0.5.0(eslint@9.39.3(jiti@2.6.1))
       eslint-plugin-regexp: 2.10.0(eslint@9.39.3(jiti@2.6.1))
       eslint-plugin-toml: 0.12.0(eslint@9.39.3(jiti@2.6.1))
       eslint-plugin-unicorn: 58.0.0(eslint@9.39.3(jiti@2.6.1))
@@ -11985,6 +11995,10 @@ snapshots:
       toml-eslint-parser: 0.10.1
       yaml-eslint-parser: 1.3.2
       yargs: 17.7.2
+    optionalDependencies:
+      '@unocss/eslint-plugin': 66.6.2(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3)
+      eslint-plugin-format: 0.1.3(eslint@9.39.3(jiti@2.6.1))
+      eslint-plugin-react-hooks: 7.0.1(eslint@9.39.3(jiti@2.6.1))
     transitivePeerDependencies:
       - '@eslint/json'
       - '@types/node'
@@ -12114,6 +12128,19 @@ snapshots:
       '@babel/traverse': 7.29.0
       '@babel/types': 7.29.0
       prettier: 3.4.2
+      semver: 7.7.4
+    optionalDependencies:
+      '@vue/compiler-sfc': 3.4.19
+    transitivePeerDependencies:
+      - supports-color
+
+  '@ianvs/prettier-plugin-sort-imports@4.7.1(@vue/compiler-sfc@3.4.19)(prettier@3.8.1)':
+    dependencies:
+      '@babel/generator': 7.29.1
+      '@babel/parser': 7.29.0
+      '@babel/traverse': 7.29.0
+      '@babel/types': 7.29.0
+      prettier: 3.8.1
       semver: 7.7.4
     optionalDependencies:
       '@vue/compiler-sfc': 3.4.19
@@ -15314,8 +15341,10 @@ snapshots:
       colorette: 2.0.20
       consola: 3.4.2
       unconfig: 7.5.0
+    optional: true
 
-  '@unocss/core@66.6.2': {}
+  '@unocss/core@66.6.2':
+    optional: true
 
   '@unocss/eslint-plugin@66.6.2(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3)':
     dependencies:
@@ -15329,11 +15358,13 @@ snapshots:
       - eslint
       - supports-color
       - typescript
+    optional: true
 
   '@unocss/rule-utils@66.6.2':
     dependencies:
       '@unocss/core': 66.6.2
       magic-string: 0.30.21
+    optional: true
 
   '@unrs/resolver-binding-android-arm-eabi@1.11.1':
     optional: true
@@ -15460,6 +15491,14 @@ snapshots:
       magic-string: 0.30.21
     optionalDependencies:
       vite: 7.3.1(@types/node@20.11.24)(jiti@2.6.1)(lightningcss@1.31.1)(tsx@4.21.0)(yaml@2.8.2)
+
+  '@vitest/mocker@4.0.18(vite@7.3.1(@types/node@22.19.13)(jiti@2.6.1)(lightningcss@1.31.1)(tsx@4.21.0)(yaml@2.8.2))':
+    dependencies:
+      '@vitest/spy': 4.0.18
+      estree-walker: 3.0.3
+      magic-string: 0.30.21
+    optionalDependencies:
+      vite: 7.3.1(@types/node@22.19.13)(jiti@2.6.1)(lightningcss@1.31.1)(tsx@4.21.0)(yaml@2.8.2)
 
   '@vitest/pretty-format@4.0.18':
     dependencies:
@@ -18841,7 +18880,8 @@ snapshots:
 
   javascript-stringify@2.1.0: {}
 
-  jiti@2.6.1: {}
+  jiti@2.6.1:
+    optional: true
 
   jju@1.4.0: {}
 
@@ -21887,6 +21927,7 @@ snapshots:
       jiti: 2.6.1
       quansync: 1.0.0
       unconfig-core: 7.5.0
+    optional: true
 
   uncrypto@0.1.3: {}
 
@@ -22166,7 +22207,7 @@ snapshots:
   vitest@4.0.18(@types/node@22.19.13)(happy-dom@20.6.1)(jiti@2.6.1)(lightningcss@1.31.1)(tsx@4.21.0)(yaml@2.8.2):
     dependencies:
       '@vitest/expect': 4.0.18
-      '@vitest/mocker': 4.0.18(vite@7.3.1(@types/node@20.11.24)(jiti@2.6.1)(lightningcss@1.31.1)(tsx@4.21.0)(yaml@2.8.2))
+      '@vitest/mocker': 4.0.18(vite@7.3.1(@types/node@22.19.13)(jiti@2.6.1)(lightningcss@1.31.1)(tsx@4.21.0)(yaml@2.8.2))
       '@vitest/pretty-format': 4.0.18
       '@vitest/runner': 4.0.18
       '@vitest/snapshot': 4.0.18

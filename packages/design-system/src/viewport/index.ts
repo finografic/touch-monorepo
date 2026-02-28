@@ -1,21 +1,18 @@
 export {
-  BREAKPOINTS,
   BREAKPOINT_VALUES,
+  BREAKPOINTS,
+  BREAKPOINTS_EM,
   BREAKPOINTS_PX,
   BREAKPOINTS_REM,
-  BREAKPOINTS_EM,
 } from './viewport.breakpoints';
-
-export { QUERIES_MIN, QUERIES_MAX, MEDIA_QUERIES } from './viewport.queries';
-export { sizes, min, max } from './viewport.emotion';
-
+export { max, min, sizes } from './viewport.emotion';
+export { MEDIA_QUERIES, QUERIES_MAX, QUERIES_MIN } from './viewport.queries';
 export type {
-  ScreenClass,
-  BreakpointMap,
   BreakpointDefaults,
+  BreakpointMap,
+  ColumnSizes,
   MediaQueryMap,
   MediaQueryProps,
-  ColumnSizes,
+  ScreenClass,
 } from './viewport.types';
-
 export { convertPxToRem, convertRemToPx } from './viewport.utils';

@@ -5,11 +5,9 @@ const BASE_PX = 16;
 // CONVERSION UTILS
 // ============================================================================
 
-export const convertPxToRem = (px: number): number =>
-  Number(((1 / BASE_PX) * px).toFixed(2));
+export const convertPxToRem = (px: number): number => Number(((1 / BASE_PX) * px).toFixed(2));
 
-export const convertRemToPx = (rem: number): number =>
-  Number(rem / (1 / BASE_PX));
+export const convertRemToPx = (rem: number): number => Number(rem / (1 / BASE_PX));
 
 // ============================================================================
 // VALUE FORMATTERS
