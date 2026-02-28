@@ -26,5 +26,4 @@ export default defineConfig({
   // External env.server so esbuild doesn't try to bundle it
   // We'll handle it via the alias instead
   noExternal: [],
-  onSuccess: 'tsc --emitDeclarationOnly --declaration',
 } satisfies Options);

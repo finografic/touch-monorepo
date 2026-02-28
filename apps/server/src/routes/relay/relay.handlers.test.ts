@@ -1,14 +1,14 @@
 import type { Context } from 'hono';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { USBRelayService } from '../../services/usbrelay.service';
 import {
   disconnectRelay,
   getRelayStates,
   getRelayStatus,
   initializeRelay,
   toggleRelay,
-} from '../relay.handlers';
-import { USBRelayService } from '../../../services/usbrelay.service';
+} from './relay.handlers';
 
 // Mock the USBRelayService
 vi.mock('../../../services/usbrelay.service', () => ({

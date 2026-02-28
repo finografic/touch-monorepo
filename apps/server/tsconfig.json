@@ -4,28 +4,27 @@
     "composite": true, // Enables project references for better incremental builds
     "target": "ES2020", // Explicit target (though probably inherited from base)
     "module": "ESNext", // Explicit module format
-    // "jsx": "react-jsx", // NOTE: if a public page is created
     /* Bundler mode */
     "moduleResolution": "bundler",
     "paths": {
-      // Local package absolute imports (relative to baseUrl: "./src")
-      "config": ["./config"],
-      "config/*": ["./config/*"],
-      "constants/*": ["./constants/*"],
-      "db": ["./db"],
-      "db/*": ["./db/*"],
-      "env.server": ["./env.server.ts"],
-      "lib/*": ["./lib/*"],
-      "middlewares/*": ["./middlewares/*"],
-      "openapi/*": ["./openapi/*"],
-      "routes/*": ["./routes/*"],
-      "schemas": ["./schemas"],
-      "schemas/*": ["./schemas/*"],
-      "types": ["./types"],
-      "types/*": ["./types/*"],
-      "utils/*": ["./utils/*"],
-      // Monorepo root references
-      "drizzle.config": ["../../../drizzle.config"]
+      "config": ["./src/config"],
+      "config/*": ["./src/config/*"],
+      "constants/*": ["./src/constants/*"],
+      "db": ["./src/db"],
+      "db/*": ["./src/db/*"],
+      "env.server": ["./env.server"],
+      "lib/*": ["./src/lib/*"],
+      "middlewares/*": ["./src/middlewares/*"],
+      "openapi/*": ["./src/openapi/*"],
+      "routes/*": ["./src/routes/*"],
+      "schemas": ["./src/schemas"],
+      "schemas/*": ["./src/schemas/*"],
+      "services": ["./src/services"],
+      "services/*": ["./src/services/*"],
+      "types": ["./src/types"],
+      "types/*": ["./src/types/*"],
+      "utils/*": ["./src/utils/*"],
+      "drizzle.config": ["../../drizzle.config"]
     },
     "allowJs": true,
     /* Linting */
@@ -39,9 +38,12 @@
     "noUnusedParameters": false,
     // ------------------------------------------------------------------------ //
     "declaration": true,
-    "baseUrl": "./src",
+    // "baseUrl": "./src",
+    // "outDir": "./dist",
+    // "rootDir": "./src",
+    "baseUrl": ".",
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDir": ".",
     "emitDeclarationOnly": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,

@@ -16,9 +16,9 @@
  * ```
  */
 
-import type { ShadeStop, ShadePalette, PandaToken, SemanticBase } from './palette.types';
+import { clamp, formatOklch, parseOklch } from './oklch.utils';
+import type { PandaToken, SemanticBase, ShadePalette, ShadeStop } from './palette.types';
 import { SHADE_STOPS } from './palette.types';
-import { parseOklch, formatOklch, clamp } from './oklch.utils';
 import { buildLightnessRamp, chromaMultiplier, hueShift } from './shades';
 
 /**
