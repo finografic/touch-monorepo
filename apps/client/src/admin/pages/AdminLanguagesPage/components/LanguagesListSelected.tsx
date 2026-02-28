@@ -1,10 +1,10 @@
 import React from 'react';
 import type { LanguageInfo } from '@workspace/i18n/types';
 
-import { Box, Flex } from 'styled-system/jsx';
-import { Button } from 'components/Button';
-import { callout, card } from 'styled-system/recipes';
 import clsx from 'clsx';
+import { Box, Flex } from 'styled-system/jsx';
+import { callout, card } from 'styled-system/recipes';
+import { Button } from 'components/Button';
 
 import { LanguageItem } from './LanguageItem';
 import { InfoCircledIcon, TrashIcon } from 'styles/icons';
@@ -53,7 +53,10 @@ export const LanguagesListSelected: React.FC<LanguagesListSelectedProps> = ({
       ) : (
         <Flex direction="column" gap="3" className="languages-list">
           {selectedLanguages.map((language) => (
-            <div key={language.id || `${language.code}-${language.countryCode}`} className={`${card()} language-item`}>
+            <div
+              key={language.id || `${language.code}-${language.countryCode}`}
+              className={`${card()} language-item`}
+            >
               <Flex className="language-item-row">
                 <LanguageItem language={language} />
 

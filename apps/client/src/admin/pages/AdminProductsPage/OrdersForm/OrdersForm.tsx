@@ -1,6 +1,8 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+// import { SelectCustom } from 'forms/SelectCustom';
+import { Select } from '@workspace/design-system/forms';
 import { Col, Row } from '@workspace/design-system/grid';
 import { MIN_TEMP_DIFFERENCE, TEMP_CONSUME_DEFAULT, TEMP_FREEZE_DEFAULT } from '@workspace/shared/constants';
 
@@ -17,7 +19,6 @@ import {
   ordersFormFieldConfigs,
   type OrdersFormValues as MiddlewareOrdersFormValues,
 } from 'forms/FormMiddleware/OrdersFormFieldConfigs';
-import { SelectCustom } from 'forms/SelectCustom';
 import { SelectSearchable } from 'forms/SelectSearchable/SelectSearchable';
 import { TemperatureInputField } from 'forms/TemperatureInputField';
 import { useToast } from 'components/Toast';
@@ -38,6 +39,16 @@ import { useAddNewItemHandlers } from './useAddNewItemHandlers';
 import 'primereact/resources/themes/lara-light-cyan/theme.css';
 import 'primereact/resources/primereact.min.css';
 import { styles } from './OrdersForm.styles';
+
+/**
+ *  IMPORTANT:  MIGRATE FORM FIELDS TO NEW DESIGN SYSTEM
+ *
+ * TODO: When you want to tackle it, the approach would be:
+ * 1. Add forms.css import to main.tsx temporarily
+ * 2. Render both components on an isolated test page or Storybook-style route
+ * 3. Tune forms.css until they match your existing selects visually
+ * 4. Then migrate
+ */
 
 // ============================================================================
 // Form Schema & Types
@@ -314,11 +325,8 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                   <Col xs={2} md={2} className="col col-form-fields">
                     {/* Mode */}
                     <FieldWrapper name="mode" label="Mode" required>
-                      <SelectCustom
-                        {...register('modeId')}
-                        className="mode-select"
+                      <Select
                         options={dropdownData.modeOptions}
-                        placeholder="Select mode"
                         value={selectedModeId}
                         onSelect={(value) => {
                           handleSimpleFieldChange('modeId', value);
