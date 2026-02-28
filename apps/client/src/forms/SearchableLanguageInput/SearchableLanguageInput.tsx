@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
-import { TextField } from '@radix-ui/themes';
-import { Box, Flex } from 'styled-system/jsx';
+import { InputField } from '@workspace/design-system/forms';
 import { card } from 'styled-system/recipes';
 import { matchSorter } from 'match-sorter';
 
@@ -218,8 +217,8 @@ export const SearchableLanguageInput: React.FC<SearchableLanguageInputSlidingPro
 
   return (
     <div css={styles} className="searchable-language-input">
-      <Box className="search-container" style={{ position: 'relative' }}>
-        <TextField.Root
+      <div className="search-container" style={{ position: 'relative' }}>
+        <InputField.Root
           ref={inputRef}
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
@@ -228,12 +227,11 @@ export const SearchableLanguageInput: React.FC<SearchableLanguageInputSlidingPro
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
           disabled={disabled}
-          size="3"
         >
-          <TextField.Slot side="left" className="input-slot-left search-icon-slot">
+          <InputField.Slot side="left" className="input-slot-left search-icon-slot">
             <MagnifyingGlassIcon height="24" width="24" style={{ marginLeft: '6px' }} />
-          </TextField.Slot>
-          <TextField.Slot side="right" className="input-slot-right dropdown-chevron-slot">
+          </InputField.Slot>
+          <InputField.Slot side="right" className="input-slot-right dropdown-chevron-slot">
             <ChevronDownIcon
               height="24"
               width="24"
@@ -243,8 +241,8 @@ export const SearchableLanguageInput: React.FC<SearchableLanguageInputSlidingPro
                 marginRight: '8px',
               }}
             />
-          </TextField.Slot>
-        </TextField.Root>
+          </InputField.Slot>
+        </InputField.Root>
 
         {isOpen && (
           <div
@@ -272,7 +270,7 @@ export const SearchableLanguageInput: React.FC<SearchableLanguageInputSlidingPro
                   onClick={() => handleSelectOption(option)}
                   onMouseEnter={() => setFocusedIndex(index)}
                 >
-                  <Flex align="center" gap="3" p="3">
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.75rem' }}>
                     <img
                       src={option.flagUrl}
                       alt={`${option.countryName} flag`}
@@ -280,12 +278,12 @@ export const SearchableLanguageInput: React.FC<SearchableLanguageInputSlidingPro
                       height="18"
                       style={{ borderRadius: '2px' }}
                     />
-                    <Flex direction="column" style={{ flex: 1 }}>
-                      <Flex align="center" gap="2">
+                    <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                         <span>{option.languageName}</span>
                         <span>({option.languageCode})</span>
-                      </Flex>
-                      <Flex align="center" gap="2">
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                         <span>{option.countryName}</span>
                         {option.nativeName && option.nativeName !== option.languageName && (
                           <>
@@ -293,23 +291,23 @@ export const SearchableLanguageInput: React.FC<SearchableLanguageInputSlidingPro
                             <span>{option.nativeName}</span>
                           </>
                         )}
-                      </Flex>
-                    </Flex>
+                      </div>
+                    </div>
                     {option.emoji && <span>{option.emoji}</span>}
-                  </Flex>
+                  </div>
                 </div>
               ))
             ) : (
-              <Box p="4" style={{ textAlign: 'center' }}>
+              <div style={{ padding: '1rem', textAlign: 'center' }}>
                 <span>{searchValue ? `No languages found for "${searchValue}"` : 'No languages available'}</span>
-              </Box>
+              </div>
             )}
 
             {/* Simple Debug Info */}
             {slidingWindow.totalItems > windowSize && (
-              <Box
-                p="2"
+              <div
                 style={{
+                  padding: '0.5rem',
                   textAlign: 'center',
                   borderTop: '1px solid var(--gray-6)',
                   background: 'var(--gray-2)',
@@ -319,11 +317,11 @@ export const SearchableLanguageInput: React.FC<SearchableLanguageInputSlidingPro
                   🎭 Simple Window: Showing {slidingWindow.startIndex + 1}-{slidingWindow.endIndex} of{' '}
                   {slidingWindow.totalItems} • Window Size: {windowSize} • Scroll for more
                 </span>
-              </Box>
+              </div>
             )}
           </div>
         )}
-      </Box>
+      </div>
     </div>
   );
 };

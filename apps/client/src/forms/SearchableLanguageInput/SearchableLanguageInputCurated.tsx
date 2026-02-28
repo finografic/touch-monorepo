@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
-import { TextField } from '@radix-ui/themes';
-import { Box, Flex } from 'styled-system/jsx';
+import { InputField } from '@workspace/design-system/forms';
 import { card } from 'styled-system/recipes';
 import { matchSorter } from 'match-sorter';
 
@@ -170,8 +169,8 @@ export const SearchableLanguageInputCurated: React.FC<SearchableLanguageInputCur
 
   return (
     <div css={styles} className="searchable-language-input">
-      <Box className="search-container" style={{ position: 'relative' }}>
-        <TextField.Root
+      <div className="search-container" style={{ position: 'relative' }}>
+        <InputField.Root
           ref={inputRef}
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
@@ -180,12 +179,11 @@ export const SearchableLanguageInputCurated: React.FC<SearchableLanguageInputCur
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
           disabled={disabled}
-          size="3"
         >
-          <TextField.Slot side="left" className="input-slot-left search-icon-slot">
+          <InputField.Slot side="left" className="input-slot-left search-icon-slot">
             <MagnifyingGlassIcon height="24" width="24" style={{ marginLeft: '6px' }} />
-          </TextField.Slot>
-          <TextField.Slot side="right" className="input-slot-right dropdown-chevron-slot">
+          </InputField.Slot>
+          <InputField.Slot side="right" className="input-slot-right dropdown-chevron-slot">
             <ChevronDownIcon
               height="24"
               width="24"
@@ -195,8 +193,8 @@ export const SearchableLanguageInputCurated: React.FC<SearchableLanguageInputCur
                 marginRight: '8px',
               }}
             />
-          </TextField.Slot>
-        </TextField.Root>
+          </InputField.Slot>
+        </InputField.Root>
 
         {isOpen && (
           <div
@@ -224,7 +222,7 @@ export const SearchableLanguageInputCurated: React.FC<SearchableLanguageInputCur
                   onClick={() => handleSelectOption(option)}
                   onMouseEnter={() => setFocusedIndex(index)}
                 >
-                  <Flex align="center" gap="3" p="3">
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.75rem' }}>
                     <img
                       src={option.flagUrl}
                       alt={`${option.countryName} flag`}
@@ -236,12 +234,12 @@ export const SearchableLanguageInputCurated: React.FC<SearchableLanguageInputCur
                         flexShrink: 0,
                       }}
                     />
-                    <Box style={{ flex: 1, minWidth: 0 }}>
-                      <Flex align="center" gap="2">
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                         <span style={{ color: 'var(--gray-12)' }}>{option.languageName}</span>
                         <span style={{ color: 'var(--gray-9)' }}>({option.languageCode})</span>
-                      </Flex>
-                      <Flex align="center" gap="2">
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                         <span style={{ color: 'var(--gray-11)' }}>{option.countryName}</span>
                         {option.nativeName && option.nativeName !== option.languageName && (
                           <>
@@ -249,29 +247,29 @@ export const SearchableLanguageInputCurated: React.FC<SearchableLanguageInputCur
                             <span style={{ color: 'var(--gray-10)' }}>{option.nativeName}</span>
                           </>
                         )}
-                      </Flex>
-                    </Box>
-                  </Flex>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               ))
             ) : (
-              <Box p="4">
+              <div style={{ padding: '1rem' }}>
                 <span style={{ color: 'var(--gray-9)' }}>No languages found matching "{searchValue}"</span>
-              </Box>
+              </div>
             )}
 
             {/* Sliding window info for debugging */}
             {slidingWindow.totalItems > windowSize && (
-              <Box p="2" style={{ borderTop: '1px solid var(--gray-6)', background: 'var(--gray-2)' }}>
+              <div style={{ padding: '0.5rem', borderTop: '1px solid var(--gray-6)', background: 'var(--gray-2)' }}>
                 <span style={{ color: 'var(--gray-9)' }}>
                   Showing {slidingWindow.startIndex + 1}-{slidingWindow.endIndex} of{' '}
                   {slidingWindow.totalItems} languages
                 </span>
-              </Box>
+              </div>
             )}
           </div>
         )}
-      </Box>
+      </div>
     </div>
   );
 };
