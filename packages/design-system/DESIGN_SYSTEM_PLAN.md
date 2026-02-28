@@ -261,10 +261,10 @@ This is not a lift-and-shift. It's a deliberate replacement pass.
 ✅ Phase 3+   Remaining components: Select, Menu, Tabs, Tooltip, Popover
 ✅ Phase 6a   Client: Panda CSS wired (panda.config.ts, codegen script, styled-system/)
 ✅ Phase 6b   Client: dark mode via [data-theme="dark"], globalCss via preset
-🚧 Phase 6c   Client: replace Radix Themes layout primitives (Flex 28×, Box 22×)
-   Phase 6d   Client: swap Radix component imports → design-system equivalents
-   Phase 6e   Client: migrate Emotion .styles.ts files → Panda utilities (incremental)
-   Phase 6f   Client: remove styles/ folder + Radix Themes + Emotion
+✅ Phase 6c   Client: replace Radix Themes layout primitives (Flex 28×, Box 22×)
+✅ Phase 6d   Client: swap Radix component imports → design-system equivalents
+🤔 Phase 6e   Client: migrate Emotion .styles.ts files → Panda utilities (incremental)
+🚧 Phase 6f   Client: remove styles/ folder + Radix Themes + Emotion
 ```
 
 ---
@@ -276,5 +276,5 @@ This is not a lift-and-shift. It's a deliberate replacement pass.
 - ~~**Dark mode trigger:**~~ Resolved — `[data-theme="dark"]` condition in `panda.config.ts`, matches existing `EmotionThemeProvider`.
 - **Font loading:** Currently system stack in tokens. If client moves to a custom font, update `fontTokens` in typography and add `@font-face` to global CSS.
 - ~~**Icon system:**~~ Resolved — `src/icons/` in design-system, Lucide only. See Phase 5.5.
-- **Spinner:** No design-system recipe yet. Blocking Phase 6d. Options: add recipe, keep Radix Spinner, or inline CSS.
+- ~~**Spinner:**~~ No design-system recipe yet. Blocking Phase 6d. Options: add recipe, keep Radix Spinner, or inline CSS.
 - **Card:** 5 uses in client, no recipe. Probably inline Panda styles or local wrapper.

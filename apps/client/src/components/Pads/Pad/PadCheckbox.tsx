@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import * as Checkbox from '@radix-ui/react-checkbox';
+import { Checkbox } from '@workspace/design-system/forms/primitives';
 import clsx from 'clsx';
 
 import { useLayoutUi } from 'providers/LayoutUiProvider';
@@ -59,7 +59,7 @@ export const PadCheckbox: React.FC<PadProps> = ({
       }}
     >
       {children ?? label}
-      <Checkbox.Indicator />
+      <Checkbox.HiddenInput />
     </Checkbox.Root>
   );
 };

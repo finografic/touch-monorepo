@@ -1,7 +1,5 @@
 import * as React from 'react';
-
-import * as RadioGroup from '@radix-ui/react-radio-group';
-import { CheckboxGroup } from '@radix-ui/themes';
+import { RadioGroup } from '@workspace/design-system/forms/primitives';
 
 import type { PadType, PadUI } from 'types/pads.types';
 import { PAD_TYPE } from 'types/pads.types';
@@ -45,12 +43,12 @@ const PadGroup: React.FC<PadGroupProps> = ({
 
     case PAD_TYPE.CHECKBOX:
       return (
-        <CheckboxGroup.Root className={className} {...domProps}>
+        <div className={className} {...domProps}>
           {pads.map((pad) => (
             <PadCheckbox key={pad.id} {...pad} filterKey={filterKey} onSelect={onSelect} />
           ))}
           {children}
-        </CheckboxGroup.Root>
+        </div>
       );
 
     case PAD_TYPE.BUTTON:

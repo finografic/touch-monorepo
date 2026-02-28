@@ -1,6 +1,6 @@
 import * as React from 'react';
+import { RadioGroup } from '@workspace/design-system/forms/primitives';
 
-import * as RadioGroup from '@radix-ui/react-radio-group';
 import clsx from 'clsx';
 
 import { useLayoutUi } from 'providers/LayoutUiProvider';
@@ -58,7 +58,6 @@ export const PadRadio: React.FC<PadProps> = ({
       }}
     >
       {children ?? label}
-      <RadioGroup.Indicator />
     </RadioGroup.Item>
   );
 };
