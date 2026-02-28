@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
-import { TextField } from '@radix-ui/themes';
+import { InputField } from '@workspace/design-system/forms';
 import { AddNewButton } from 'forms/SelectSearchable/AddNewButton';
 import { matchSorter } from 'match-sorter';
 
@@ -292,7 +292,7 @@ export const SelectSearchable: React.FC<SearchableSelectProps> = ({
           </div>
         )}
 
-        <TextField.Root
+        <InputField.Root
           ref={inputRef}
           value={isOpen ? searchValue : displayValue}
           onChange={(e) => handleInputChange(e.target.value)}
@@ -302,9 +302,8 @@ export const SelectSearchable: React.FC<SearchableSelectProps> = ({
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
           disabled={disabled}
-          size="3"
         >
-          <TextField.Slot side="left" className="input-slot-left action-icon-slot">
+          <InputField.Slot side="left" className="input-slot-left action-icon-slot">
             {React.createElement(iconToShow, {
               height: 14,
               width: 14,
@@ -319,8 +318,8 @@ export const SelectSearchable: React.FC<SearchableSelectProps> = ({
               },
               onClick: shouldShowAddIcon ? handleAddNew : undefined,
             })}
-          </TextField.Slot>
-          <TextField.Slot side="right" className="input-slot-right">
+          </InputField.Slot>
+          <InputField.Slot side="right" className="input-slot-right">
             <ChevronDownIcon
               height="18"
               width="18"
@@ -331,8 +330,8 @@ export const SelectSearchable: React.FC<SearchableSelectProps> = ({
                 marginRight: '4px',
               }}
             />
-          </TextField.Slot>
-        </TextField.Root>
+          </InputField.Slot>
+        </InputField.Root>
       </div>
 
       <DropdownPortal

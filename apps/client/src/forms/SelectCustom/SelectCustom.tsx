@@ -1,6 +1,6 @@
 import React, { forwardRef, useCallback, useRef, useState } from 'react';
 
-import { TextField } from '@radix-ui/themes';
+import { InputField } from '@workspace/design-system/forms';
 import clsx from 'clsx';
 import { DropdownPortal } from 'forms/SelectSearchable/DropdownPortal';
 
@@ -135,7 +135,7 @@ export const SelectCustom = forwardRef<HTMLInputElement, SelectCustomProps>(
     return (
       <div css={styles} className={clsx('searchable-select', className, isOpen && 'open')}>
         <div ref={containerRef} className="search-container" style={{ position: 'relative' }}>
-          <TextField.Root
+          <InputField.Root
             id={id}
             ref={inputRef}
             value={displayText}
@@ -144,17 +144,15 @@ export const SelectCustom = forwardRef<HTMLInputElement, SelectCustomProps>(
             onKeyDown={handleKeyDown}
             placeholder={placeholder}
             disabled={disabled}
-            size="3"
             {...props}
           >
-            <TextField.Slot
+            <InputField.Slot
               side="right"
               className={clsx('input-slot-right', isOpen && 'open')}
               onClick={handleInputClick}
               onKeyDown={handleKeyDown}
               style={{
                 cursor: disabled ? 'not-allowed' : 'pointer',
-                // border: isOpen ? 'none' : 'none',
               }}
             >
               <ChevronDownIcon
@@ -167,8 +165,8 @@ export const SelectCustom = forwardRef<HTMLInputElement, SelectCustomProps>(
                   marginRight: '4px',
                 }}
               />
-            </TextField.Slot>
-          </TextField.Root>
+            </InputField.Slot>
+          </InputField.Root>
         </div>
 
         <DropdownPortal

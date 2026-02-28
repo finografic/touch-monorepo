@@ -1,7 +1,6 @@
 import { css } from '@emotion/react';
 
 import { border, colors, layout } from 'styles';
-import { forms } from 'styles/forms/forms.styles';
 
 // Main component styles (for the input and container)
 export const styles = css`
@@ -10,31 +9,15 @@ export const styles = css`
     width: 100%;
   }
 
-  .input-slot-left,
-  .input-slot-right {
-    border: ${forms.inputs.border.width} solid ${forms.inputs.border.color}!important;
-  }
-
-  .input-slot-left {
-    border-right: none !important;
-  }
-
-  .input-slot-right {
-    border-left: none !important;
-  }
-
-  /* Remove blue glow from root when input is focused */
-  .rt-TextFieldRoot {
+  .ds-input-field {
     &:focus-within {
       box-shadow: none !important;
       outline: none !important;
     }
   }
 
-  .rt-TextFieldInput {
+  .ds-input-field__input {
     &:focus {
-      border: ${forms.inputs.border.width} solid ${forms.inputs.border.color} !important;
-      /* Remove box-shadow glow from input itself */
       box-shadow: none !important;
       outline: none !important;
     }
