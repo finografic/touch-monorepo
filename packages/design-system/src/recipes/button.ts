@@ -18,10 +18,11 @@
  * The only compound variant needed is warning+solid (amber base is too
  * light for white text — needs dark fg instead).
  *
- * Sizes:  xs · sm · md · lg · xl          default: md
+ * Sizes:  xs · sm · md · lg · xl                   default: md
  * Variants: solid · subtle · outline · ghost · link  default: outline
  * Colors: default · primary · secondary · success · warning · danger · info · grey
  *         default: default
+ * Booleans: iconOnly (square, no padding) · (loading / disabled via data attrs)
  *
  * Usage:
  * ```tsx
@@ -64,6 +65,11 @@ export const buttonRecipe = defineRecipe({
     _disabled: {
       opacity: 0.55,
       cursor: 'not-allowed',
+      pointerEvents: 'none',
+    },
+    _loading: {
+      cursor: 'wait',
+      opacity: 0.7,
       pointerEvents: 'none',
     },
     _focusVisible: {
@@ -214,6 +220,16 @@ export const buttonRecipe = defineRecipe({
       danger:    { colorPalette: 'danger' },
       info:      { colorPalette: 'info' },
       grey:      { colorPalette: 'grey' },
+    },
+
+    // ── Icon-only ─────────────────────────────────────────────────────
+    // Removes horizontal padding so the button collapses to a square.
+    // minW already equals h in every size variant, so the result is
+    // exactly h × h with no extra space around the icon.
+    iconOnly: {
+      true: {
+        paddingInline: '0',
+      },
     },
   },
 

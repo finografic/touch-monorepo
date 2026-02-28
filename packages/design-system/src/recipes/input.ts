@@ -7,6 +7,7 @@
  * Usage:
  * ```tsx
  * <input className={inputRecipe({ size: 'md' })} type="text" />
+ * <input className={inputRecipe({ size: 'md', leadingIcon: true })} type="text" />
  * ```
  */
 import { defineRecipe } from '@pandacss/dev';
@@ -64,6 +65,17 @@ export const inputRecipe = defineRecipe({
         fontSize: 'md',
         paddingInline: '5',
       },
+    },
+
+    // ── Icon slot padding ──────────────────────────────────────────────
+    // Use when an icon is absolutely positioned inside the input wrapper.
+    // Shifts the matching side's padding to prevent text/icon overlap.
+    // (Not needed when using the InputField compound — it uses flexbox.)
+    leadingIcon: {
+      true: { paddingInlineStart: '8' },
+    },
+    trailingIcon: {
+      true: { paddingInlineEnd: '8' },
     },
   },
 
