@@ -1,4 +1,5 @@
 export { buttonRecipe } from './button';
+export { cardRecipe } from './card';
 export { badgeRecipe } from './badge';
 export { calloutRecipe } from './callout';
 export { checkboxRecipe } from './checkbox';

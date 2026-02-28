@@ -4,7 +4,6 @@ import type { RegionLocale } from '@workspace/config/i18n.config';
 import { TEMP_CONSUME_DEFAULT, TEMP_FREEZE_DEFAULT } from '@workspace/shared/constants';
 
 import createCuid from '@bugsnag/cuid';
-import { Text } from '@radix-ui/themes';
 import { Flex } from 'styled-system/jsx';
 import type {
   GroupedSubtypes,
@@ -244,18 +243,17 @@ export const TranslationsTableExpandable: React.FC<TranslationsTableExpandablePr
                         align="center"
                         style={{ width: '100%' }}
                       >
-                        <Text size="3" weight="bold" style={{ color: 'inherit' }}>
+                        <span style={{ color: 'inherit' }}>
                           {group.drinkTypeName}
-                        </Text>
-                        <Text
-                          size="2"
+                        </span>
+                        <span
                           style={{
                             color: hasSubtypes ? colors.info : colors.textXLight,
                             opacity: hasSubtypes ? 1 : 0.5,
                           }}
                         >
                           [ {numRows.length} ]
-                        </Text>
+                        </span>
                       </Flex>
                     </td>
                   </tr>

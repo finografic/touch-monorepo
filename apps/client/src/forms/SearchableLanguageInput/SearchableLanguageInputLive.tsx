@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from 'react';
 
-import { Text } from '@radix-ui/themes';
 import { Box, Flex } from 'styled-system/jsx';
 
 import { useGetFilteredCountries } from '../../queries/countries';
@@ -77,7 +76,7 @@ export const SearchableLanguageInputLive: React.FC<SearchableLanguageInputLivePr
   if (isLoading) {
     return (
       <Box p="4">
-        <Text>Loading countries from REST Countries API...</Text>
+        <span>Loading countries from REST Countries API...</span>
       </Box>
     );
   }
@@ -85,7 +84,7 @@ export const SearchableLanguageInputLive: React.FC<SearchableLanguageInputLivePr
   if (error) {
     return (
       <Box p="4">
-        <Text color="red">Error loading countries: {error.message}</Text>
+        <span>Error loading countries: {error.message}</span>
       </Box>
     );
   }
@@ -109,9 +108,7 @@ export const SearchableLanguageInputLive: React.FC<SearchableLanguageInputLivePr
       {searchTerm && (
         <Box mt="2" style={{ maxHeight: '300px', overflowY: 'auto' }}>
           {filteredOptions.length === 0 ? (
-            <Text size="2" color="gray">
-              No languages found
-            </Text>
+            <span>No languages found</span>
           ) : (
             filteredOptions.map((option, index) => (
               <Flex
@@ -137,12 +134,8 @@ export const SearchableLanguageInputLive: React.FC<SearchableLanguageInputLivePr
                   style={{ width: '20px', height: '15px', objectFit: 'cover' }}
                 />
                 <Box>
-                  <Text size="2" weight="medium">
-                    {option.languageName}
-                  </Text>
-                  <Text size="1" color="gray">
-                    {option.countryName} ({option.languageCode})
-                  </Text>
+                  <span>{option.languageName}</span>
+                  <span>{option.countryName} ({option.languageCode})</span>
                 </Box>
               </Flex>
             ))
@@ -150,10 +143,10 @@ export const SearchableLanguageInputLive: React.FC<SearchableLanguageInputLivePr
         </Box>
       )}
 
-      <Text size="1" color="gray" mt="2">
+      <span>
         Showing {filteredOptions.length} of {languageOptions.length} languages
         {countries && ` from ${countries.length} countries`}
-      </Text>
+      </span>
     </Box>
   );
 };

@@ -1,7 +1,6 @@
 import React from 'react';
 import type { LanguageInfo } from '@workspace/i18n/types';
 
-import { Text } from '@radix-ui/themes';
 import { Flex } from 'styled-system/jsx';
 
 interface LanguagesListSelectedProps {
@@ -25,14 +24,14 @@ export const LanguageItem: React.FC<LanguagesListSelectedProps> = ({ language })
 
       {/* Language Info Columns */}
       <Flex direction="column" gap="1" className="col col-names">
-        <Text weight="bold" size="3">
+        <span>
           {language.label} - {language.code}
-        </Text>
+        </span>
 
-        <Text size="2" color="gray">
+        <span>
           {language.countryName || 'Unknown Country'}
           {language.nativeLabel && language.nativeLabel !== language.label && <> • {language.nativeLabel}</>}
-        </Text>
+        </span>
       </Flex>
     </Flex>
   );

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-import { Text } from '@radix-ui/themes';
 import { Flex } from 'styled-system/jsx';
 import { AdminPageLayout, AdminSection } from 'admin/components';
 import { useToast } from 'components/Toast';
@@ -66,9 +65,7 @@ export const AdminModePage: React.FC = () => {
       <AdminSection>
         <Flex direction="column" gap="4" align="start">
           <Flex direction="column" gap="4" className="modes-container">
-            <Text size="3" weight="medium">
-              Select Active Modes
-            </Text>
+            <span>Select Active Modes</span>
             <Flex gap="8" className="modes-flex-container">
               <Flex direction="column" gap="2" className="modes-column">
                 {modes.map((mode) => {
@@ -83,9 +80,7 @@ export const AdminModePage: React.FC = () => {
                         <div className="mode-checkbox-item-icon">
                           {isActive && <div className="mode-checkbox-item-checkmark" />}
                         </div>
-                        <Text size="2" weight={isActive ? 'medium' : 'regular'}>
-                          {mode.name}
-                        </Text>
+                        <span>{mode.name}</span>
                       </Flex>
                     </Flex>
                   );

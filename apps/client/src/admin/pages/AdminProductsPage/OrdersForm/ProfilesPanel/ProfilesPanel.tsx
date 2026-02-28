@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import type { UseFormReturn } from 'react-hook-form';
 
-import { Text } from '@radix-ui/themes';
 import { MIN_TABLE_ROWS } from 'forms/FormMiddleware/FormMiddleware.constants';
 import { Panel } from 'primereact/panel';
 
@@ -64,9 +63,7 @@ export const ProfilesPanel: React.FC<ProfilesPanelProps> = ({
         footer={
           <div className="panel-footer">
             <div className="total-rows-counter">
-              <Text size="3" weight="bold" color="gray">
-                Filas completas: {populatedRowsCount} / {MIN_TABLE_ROWS}
-              </Text>
+              <span>Filas completas: {populatedRowsCount} / {MIN_TABLE_ROWS}</span>
             </div>
             <OrdersFormDevTools
               formValues={formValues}

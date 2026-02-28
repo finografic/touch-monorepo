@@ -1,9 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Spinner, Tabs, Text } from '@radix-ui/themes';
+import { LoaderIcon } from 'lucide-react';
 import { Flex } from 'styled-system/jsx';
 import { useQueryClient } from '@tanstack/react-query';
+import { Tabs } from '@workspace/design-system/components';
 
 import { invalidateReferenceDataQueries } from 'queries/invalidateReferenceData';
 
@@ -71,8 +72,8 @@ export const TranslationsProductPage: React.FC = () => {
         styles={styles}
       >
         <Flex direction="column" gap="4" align="center" justify="center" p="6">
-          <Spinner size="3" />
-          <Text>Loading translations...</Text>
+          <LoaderIcon size={20} style={{ animation: 'spin 1s linear infinite' }} />
+          <span>Loading translations...</span>
         </Flex>
       </AdminPageLayout>
     );
@@ -80,7 +81,7 @@ export const TranslationsProductPage: React.FC = () => {
 
   return (
     <AdminPageLayout title={t('admin.pages.translations_product.title')} styles={styles}>
-      <Tabs.Root value={activeTab} onValueChange={(value) => setActiveTab(value as SectionKey)}>
+      <Tabs.Root value={activeTab} onValueChange={(details) => setActiveTab(details.value as SectionKey)}>
         <Tabs.List>
           {sortedSections.map((section) => (
             <Tabs.Trigger key={section.group} value={section.group}>

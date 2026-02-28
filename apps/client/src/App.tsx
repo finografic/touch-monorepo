@@ -2,7 +2,8 @@ import { Suspense } from 'react';
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 
 import { Global } from '@emotion/react';
-import { Spinner, Theme as RadixTheme } from '@radix-ui/themes';
+import { LoaderIcon } from 'lucide-react';
+import { Theme as RadixTheme } from '@radix-ui/themes';
 import { SnoozeTimer } from 'components/Timers/SnoozeTimer';
 import { Toaster } from 'components/Toast';
 import { ToastProvider } from 'components/Toast/ToastContext';
@@ -34,7 +35,7 @@ const AppBaseLayout = () => (
               <SessionProvider>
                 <TimersProvider>
                   <Toaster />
-                  <Suspense fallback={<Spinner size="3" />}>
+                  <Suspense fallback={<LoaderIcon size={20} style={{ animation: 'spin 1s linear infinite' }} />}>
                     <Outlet />
                   </Suspense>
                   <SnoozeTimer shouldDebounce={false} />
@@ -59,7 +60,7 @@ const App = () => {
       element: <AppBaseLayout />,
       children: isInitialized
         ? [...routesData.routes]
-        : [{ id: 'pending-routes', path: '*', element: <Spinner size="2" /> }],
+        : [{ id: 'pending-routes', path: '*', element: <LoaderIcon size={16} style={{ animation: 'spin 1s linear infinite' }} /> }],
     },
   ]);
 

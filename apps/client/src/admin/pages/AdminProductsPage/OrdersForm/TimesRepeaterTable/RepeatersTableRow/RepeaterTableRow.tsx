@@ -1,7 +1,6 @@
 import React from 'react';
 import type { FieldArrayWithId } from 'react-hook-form';
 
-import { Text } from '@radix-ui/themes';
 import { InputTime } from 'forms/InputTime';
 import { TemperatureInputField } from 'forms/TemperatureInputField';
 import { Button } from 'components/Button';
@@ -63,9 +62,7 @@ export const RepeaterTableRow: React.FC<RepeaterTableRowProps> = ({
     >
       {/* Line number */}
       <div className="line-number-cell">
-        <Text size="2" weight="bold" color="gray">
-          {index + 1}
-        </Text>
+        <span>{index + 1}</span>
       </div>
 
       {/* Temperature input */}

@@ -19,7 +19,7 @@
 import { defineRecipe } from '@pandacss/dev';
 
 export const switchRecipe = defineRecipe({
-  className: 'switch',
+  className: 'ds-switch',
   description: 'Toggle switch control styling',
 
   base: {

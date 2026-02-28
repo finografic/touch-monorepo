@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-import { Text } from '@radix-ui/themes';
 import { Flex } from 'styled-system/jsx';
 import { Slider } from 'primereact/slider';
 import { useDebouncedCallback } from 'use-debounce';
@@ -27,9 +26,7 @@ export const VolumeSlider: React.FC = () => {
         padding: '0 2rem',
       }}
     >
-      <Text size="3" weight="medium" color="gray" mt="7">
-        Volume
-      </Text>
+      <span>Volume</span>
       <Slider
         value={displayVolume}
         onChange={(e) => {
@@ -41,9 +38,7 @@ export const VolumeSlider: React.FC = () => {
         step={1}
         className="volume-slider"
       />
-      <Text size="3" color="gray">
-        {displayVolume}%
-      </Text>
+      <span>{displayVolume}%</span>
     </Flex>
   );
 };

@@ -1,8 +1,9 @@
 import type { FC, ReactNode } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
-import { Button, Callout, Card, Heading, Text } from '@radix-ui/themes';
 import { Box, Flex } from 'styled-system/jsx';
+import { Button } from 'components/Button';
+import { callout, card } from 'styled-system/recipes';
 
 import { ExclamationTriangleIcon, ReloadIcon } from 'styles/icons';
 
@@ -23,30 +24,26 @@ const AdminErrorFallback: FC<ErrorFallbackProps> = ({ error, resetErrorBoundary 
 
   return (
     <Box p="6" style={{ minHeight: '400px' }}>
-      <Card size="3" style={{ maxWidth: '600px', margin: '0 auto' }}>
+      <div className={card({ size: 'lg' })} style={{ maxWidth: '600px', margin: '0 auto' }}>
         <Flex direction="column" gap="4" align="center" p="6">
           <ExclamationTriangleIcon width="48" height="48" color="red" />
 
-          <Heading size="6" align="center" color="red">
-            Something went wrong
-          </Heading>
+          <h2>Something went wrong</h2>
 
-          <Text size="3" align="center" color="gray">
+          <span>
             An error occurred while loading this admin page. This might be due to navigation timing issues or
             component errors.
-          </Text>
+          </span>
 
-          <Callout.Root color="red" style={{ width: '100%' }}>
-            <Callout.Icon>
-              <ExclamationTriangleIcon />
-            </Callout.Icon>
-            <Callout.Text>
+          <div className={callout({ status: 'error' })} role="alert" style={{ width: '100%' }}>
+            <ExclamationTriangleIcon />
+            <span>
               <strong>Error:</strong> {error?.message || 'Unknown error'}
-            </Callout.Text>
-          </Callout.Root>
+            </span>
+          </div>
 
           <Flex gap="3" mt="4">
-            <Button onClick={resetErrorBoundary} variant="soft" color="blue">
+            <Button onClick={resetErrorBoundary} variant="outline" color="info">
               <ReloadIcon width="16" height="16" />
               Try Again
             </Button>
@@ -59,9 +56,7 @@ const AdminErrorFallback: FC<ErrorFallbackProps> = ({ error, resetErrorBoundary 
           {process.env.NODE_ENV === 'development' && (
             <details style={{ marginTop: '1rem', width: '100%' }}>
               <summary style={{ cursor: 'pointer', marginBottom: '0.5rem' }}>
-                <Text size="2" color="gray">
-                  Show Error Details (Dev Mode)
-                </Text>
+                <span>Show Error Details (Dev Mode)</span>
               </summary>
               <Box p="3" style={{ background: '#f5f5f5', borderRadius: '4px', fontSize: '12px' }}>
                 <pre style={{ whiteSpace: 'pre-wrap', overflow: 'auto' }}>{error?.stack}</pre>
@@ -69,7 +64,7 @@ const AdminErrorFallback: FC<ErrorFallbackProps> = ({ error, resetErrorBoundary 
             </details>
           )}
         </Flex>
-      </Card>
+      </div>
     </Box>
   );
 };

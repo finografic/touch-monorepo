@@ -2,7 +2,6 @@ import type { ReactNode } from 'react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Heading, Text } from '@radix-ui/themes';
 import { Flex } from 'styled-system/jsx';
 import { Container } from '@workspace/design-system/grid';
 import { LucideArrowRightSquare } from 'lucide-react';
@@ -79,17 +78,17 @@ export const PageHeader: React.FC = () => {
         <Container>
           <Flex direction="column" align="center" gap="8">
             {isPageTitleVisible && pageTitle && (
-              <Heading size="4" align="center" className="page-title">
+              <h2 className="page-title">
                 {' '}
                 {/* {pageTitle} */}
-              </Heading>
+              </h2>
             )}
             {(route?.id === ROUTE_FILTER_KEYS.drinkSubtype
               ? pageSubtitle
               : isPageSubtitleVisible && pageSubtitle) && (
-              <Text size="3" align="center" className="page-subtitle" color="gray">
+              <span className="page-subtitle">
                 {pageSubtitle}
-              </Text>
+              </span>
             )}
           </Flex>
         </Container>

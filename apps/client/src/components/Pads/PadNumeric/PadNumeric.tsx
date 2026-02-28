@@ -1,8 +1,8 @@
 import type { FC, ReactElement } from 'react';
 import { useCallback } from 'react';
 
-import { Button } from '@radix-ui/themes';
 import clsx from 'clsx';
+import { Button } from 'components/Button';
 
 import { styles } from './PadNumeric.styles';
 
@@ -109,7 +109,8 @@ export const PadNumeric: FC<PadNumericProps> = ({
             onClick={handleIncrement}
             disabled={getIncrementedValue() === null}
             variant="outline"
-            color="gray"
+            color="default"
+            size="sm"
           >
             +
           </Button>
@@ -123,7 +124,8 @@ export const PadNumeric: FC<PadNumericProps> = ({
             onClick={handleDecrement}
             disabled={getDecrementedValue() === null}
             variant="outline"
-            color="gray"
+            color="default"
+            size="sm"
           >
             -
           </Button>

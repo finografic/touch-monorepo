@@ -1,7 +1,7 @@
 import type { FC, ReactNode } from 'react';
 
-import { Button } from '@radix-ui/themes';
 import { Box, Flex } from 'styled-system/jsx';
+import { Button } from 'components/Button';
 import clsx from 'clsx';
 
 import { PanelBottomCloseIcon, PanelBottomOpenIcon } from 'styles/icons';
@@ -37,6 +37,7 @@ export const DrawerBar: FC<DrawerBarProps> = ({
               className={clsx('button', isActionActive && 'active')}
               onClick={onClickAction}
               variant="ghost"
+              size="sm"
             >
               {isActionActive ? <PanelBottomCloseIcon /> : <PanelBottomOpenIcon />}
             </Button>

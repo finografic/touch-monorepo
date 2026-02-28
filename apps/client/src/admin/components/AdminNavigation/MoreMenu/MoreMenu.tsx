@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { DropdownMenu } from '@radix-ui/themes';
+import { Menu } from '@workspace/design-system/components';
 
 import type { NavItem } from 'types/nav.types';
 import { ChevronDownIcon } from 'styles/icons';
@@ -30,8 +30,8 @@ export const MoreMenu: React.FC<MoreButtonProps> = ({
 
   return (
     <div css={styles}>
-      <DropdownMenu.Root open={isOpen} onOpenChange={onOpenChange}>
-        <DropdownMenu.Trigger>
+      <Menu.Root open={isOpen} onOpenChange={({ open }) => onOpenChange(open)}>
+        <Menu.Trigger asChild>
           <button type="button" className={`nav-button more-button ${className}`}>
             {t('ui.buttons.more')}
             <ChevronDownIcon
@@ -40,22 +40,27 @@ export const MoreMenu: React.FC<MoreButtonProps> = ({
               style={{ marginLeft: '0.25rem', transition: 'transform 0.2s' }}
             />
           </button>
-        </DropdownMenu.Trigger>
-        <DropdownMenu.Content className={`more-dropdown ${className}`}>
-          {items.map((item) => (
-            <DropdownMenu.Item
-              key={item.id}
-              onClick={() => onNavigate(item.path)}
-              className={activePath === item.path ? 'active' : ''}
-            >
-              {displayIcons && item.icon && (
-                <item.icon width="16" height="16" style={{ marginRight: '0.5rem' }} />
-              )}
-              {item.label}
-            </DropdownMenu.Item>
-          ))}
-        </DropdownMenu.Content>
-      </DropdownMenu.Root>
+        </Menu.Trigger>
+        <Menu.Positioner>
+          <Menu.Content className={`more-dropdown ${className}`}>
+            {items.map((item) => (
+              <Menu.Item
+                key={item.id}
+                value={item.id}
+                onClick={() => onNavigate(item.path)}
+                className={activePath === item.path ? 'active' : ''}
+              >
+                <Menu.ItemText>
+                  {displayIcons && item.icon && (
+                    <item.icon width="16" height="16" style={{ marginRight: '0.5rem' }} />
+                  )}
+                  {item.label}
+                </Menu.ItemText>
+              </Menu.Item>
+            ))}
+          </Menu.Content>
+        </Menu.Positioner>
+      </Menu.Root>
     </div>
   );
 };

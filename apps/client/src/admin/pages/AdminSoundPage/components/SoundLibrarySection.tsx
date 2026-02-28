@@ -1,7 +1,8 @@
 import React, { useCallback } from 'react';
 
-import { Button, Callout, Text } from '@radix-ui/themes';
 import { Flex } from 'styled-system/jsx';
+import { Button } from 'components/Button';
+import { callout } from 'styled-system/recipes';
 import { useToast } from 'components/Toast';
 
 import { useRemoveSoundFile } from 'queries/sounds';
@@ -83,9 +84,9 @@ export const SoundLibrarySection: React.FC<SoundLibrarySectionProps> = ({
   return (
     <>
       {soundFiles.length === 0 ? (
-        <Callout.Root color="blue">
-          <Callout.Text>No sound files uploaded yet. Upload some files to get started!</Callout.Text>
-        </Callout.Root>
+        <div className={callout({ status: 'info' })} role="alert">
+          <span>No sound files uploaded yet. Upload some files to get started!</span>
+        </div>
       ) : (
         <Flex direction="column" gap="2" className="sound-library-list">
           {soundFiles.map((file) => (
@@ -107,22 +108,22 @@ export const SoundLibrarySection: React.FC<SoundLibrarySectionProps> = ({
 
                 {/* Content Column - Takes remaining space */}
                 <Flex direction="column" gap="1" style={{ flex: 1 }}>
-                  <Text weight="bold">{file.name}</Text>
-                  <Text size="1" color="gray">
+                  <span>{file.name}</span>
+                  <span>
                     {formatFileSize(file.size)} • {file.type} •{' '}
                     {new Date(file.uploadedAt).toLocaleDateString()}
-                  </Text>
+                  </span>
                 </Flex>
 
                 <Flex gap="2">
-                  <Button size="1" variant="soft" onClick={() => testSound(file.id)}>
+                  <Button size="sm" variant="outline" onClick={() => testSound(file.id)}>
                     <SpeakerLoudIcon className="icon-speaker" />
                     Test
                   </Button>
                   <Button
-                    size="1"
-                    variant="soft"
-                    color="red"
+                    size="sm"
+                    variant="outline"
+                    color="danger"
                     onClick={() => removeFile(file.id)}
                     disabled={removeMutation.isPending}
                   >

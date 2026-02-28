@@ -1,7 +1,6 @@
 import React from 'react';
 import type { LanguageInfo } from '@workspace/i18n/types';
 
-import { Text } from '@radix-ui/themes';
 import languagesData from 'components/LanguageSelector/languages/languages.data.min.json';
 
 interface LaungaugeDataStatsProps {
@@ -19,21 +18,21 @@ export const LaungaugeDataStats: React.FC<LaungaugeDataStatsProps> = ({
   ),
 }) => {
   return (
-    <Text size="3" className="laungauge-data-stats">
-      <Text weight="bold" style={{ color: 'var(--gray-12)' }}>
+    <span className="laungauge-data-stats">
+      <span style={{ color: 'var(--gray-12)' }}>
         {totalCountries}
-      </Text>{' '}
-      <Text color="gray">Countries</Text>
-      <Text style={{ margin: '0 2rem', color: 'var(--gray-6)' }}>•</Text>
-      <Text weight="bold" style={{ color: 'var(--gray-12)' }}>
+      </span>{' '}
+      <span>Countries</span>
+      <span style={{ margin: '0 2rem', color: 'var(--gray-6)' }}>•</span>
+      <span style={{ color: 'var(--gray-12)' }}>
         {totalLanguages}
-      </Text>{' '}
-      <Text color="gray">Curated Languages</Text>
-      <Text style={{ margin: '0 2rem', color: 'var(--gray-6)' }}>•</Text>
-      <Text weight="bold" style={{ color: 'var(--gray-12)' }}>
+      </span>{' '}
+      <span>Curated Languages</span>
+      <span style={{ margin: '0 2rem', color: 'var(--gray-6)' }}>•</span>
+      <span style={{ color: 'var(--gray-12)' }}>
         {selectedLanguages.length}
-      </Text>{' '}
-      <Text color="gray">Selected</Text>
-    </Text>
+      </span>{' '}
+      <span>Selected</span>
+    </span>
   );
 };

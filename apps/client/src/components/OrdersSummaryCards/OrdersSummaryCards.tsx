@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { Card, Text } from '@radix-ui/themes';
 import { Flex } from 'styled-system/jsx';
+import { card } from 'styled-system/recipes';
 
 interface OrdersSummaryCardsProps {
   totalOrders: number;
@@ -20,56 +20,36 @@ export const OrdersSummaryCards: React.FC<OrdersSummaryCardsProps> = ({
 }) => {
   return (
     <Flex gap="4" wrap="wrap">
-      <Card>
+      <div className={card()}>
         <Flex direction="column" align="center" p="4">
-          <Text size="6" weight="bold" color="blue">
-            {totalOrders}
-          </Text>
-          <Text size="2" color="gray">
-            Total Orders
-          </Text>
+          <span>{totalOrders}</span>
+          <span>Total Orders</span>
         </Flex>
-      </Card>
-      <Card>
+      </div>
+      <div className={card()}>
         <Flex direction="column" align="center" p="4">
-          <Text size="6" weight="bold" color="green">
-            {filteredResults}
-          </Text>
-          <Text size="2" color="gray">
-            Filtered Results
-          </Text>
+          <span>{filteredResults}</span>
+          <span>Filtered Results</span>
         </Flex>
-      </Card>
-      <Card>
+      </div>
+      <div className={card()}>
         <Flex direction="column" align="center" p="4">
-          <Text size="6" weight="bold" color="orange">
-            {drinkTypes}
-          </Text>
-          <Text size="2" color="gray">
-            Drink Types
-          </Text>
+          <span>{drinkTypes}</span>
+          <span>Drink Types</span>
         </Flex>
-      </Card>
-      <Card>
+      </div>
+      <div className={card()}>
         <Flex direction="column" align="center" p="4">
-          <Text size="6" weight="bold" color="purple">
-            {volumeOptions}
-          </Text>
-          <Text size="2" color="gray">
-            Volume Options
-          </Text>
+          <span>{volumeOptions}</span>
+          <span>Volume Options</span>
         </Flex>
-      </Card>
-      <Card>
+      </div>
+      <div className={card()}>
         <Flex direction="column" align="center" p="4">
-          <Text size="6" weight="bold" color="cyan">
-            {containerTypes}
-          </Text>
-          <Text size="2" color="gray">
-            Container Types
-          </Text>
+          <span>{containerTypes}</span>
+          <span>Container Types</span>
         </Flex>
-      </Card>
+      </div>
     </Flex>
   );
 };

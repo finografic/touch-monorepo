@@ -1,8 +1,10 @@
 import React from 'react';
 import type { LanguageInfo } from '@workspace/i18n/types';
 
-import { Card, IconButton, Switch, Text } from '@radix-ui/themes';
+import { IconButton } from '@radix-ui/themes';
 import { Flex } from 'styled-system/jsx';
+import { Switch } from '@workspace/design-system/components';
+import { card, dsSwitch } from 'styled-system/recipes';
 import clsx from 'clsx';
 
 import { useToggleSupportedLanguageActive } from 'queries/supported-languages';
@@ -38,17 +40,14 @@ export const LanguagesList: React.FC<LanguagesListProps> = ({ languages, onDelet
         const isLoading = toggleActiveMutation.isPending;
 
         return (
-          <Card key={language.id || language.code} className="language-item">
+          <div key={language.id || language.code} className={`${card()} language-item`}>
             <Flex className="language-item-row">
               <LanguageItem language={language} />
 
               <Flex align="stretch" gap="3">
                 {language.isDefault && (
                   <Flex align="center" className="col col-default">
-                    <Text
-                      size="2"
-                      color="green"
-                      weight="bold"
+                    <span
                       style={{
                         backgroundColor: 'var(--green-3)',
                         padding: '2px 16px',
@@ -57,22 +56,25 @@ export const LanguagesList: React.FC<LanguagesListProps> = ({ languages, onDelet
                       }}
                     >
                       DEFAULT
-                    </Text>
+                    </span>
                   </Flex>
                 )}
 
                 <Flex className="col col-active">
-                  <Switch
+                  <Switch.Root
                     checked={language.isActive ?? true}
-                    color="green"
                     disabled={language.isDefault || isLoading}
-                    size="2"
                     onCheckedChange={() => {
                       if (language.id && !language.isDefault) {
                         handleToggleActive(language.id, language.isActive ?? true);
                       }
                     }}
-                  />
+                  >
+                    <Switch.Control className={dsSwitch({ size: 'md' })}>
+                      <Switch.Thumb className="switch-thumb" />
+                    </Switch.Control>
+                    <Switch.HiddenInput />
+                  </Switch.Root>
                 </Flex>
 
                 <Flex align="center" className="col col-delete">
@@ -98,7 +100,7 @@ export const LanguagesList: React.FC<LanguagesListProps> = ({ languages, onDelet
                 </Flex>
               </Flex>
             </Flex>
-          </Card>
+          </div>
         );
       })}
     </Flex>

@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Card } from '@radix-ui/themes';
 import { Box, Flex } from 'styled-system/jsx';
+import { card } from 'styled-system/recipes';
 import { getAdminDashboardCards } from 'admin/config/admin.routes.selectors';
 import { SectionHeader } from 'components/SectionHeader/SectionHeader';
 
@@ -46,15 +46,13 @@ export const AdminDashboardPage: React.FC = () => {
 
   return (
     <AdminPageLayout title={pageTitle} subtitle={pageDescription} align="center">
-      <Box className="admin-dashboard" css={styles}>
+      <div className="admin-dashboard" css={styles}>
         <div className="admin-cards" style={{ ['--cols' as any]: gridColumns }}>
-          {adminCards.map((card, i) => (
-            <Card
-              key={`${card.id}-${i}`}
-              className="admin-card"
-              size="3"
-              variant="surface"
-              onClick={() => handleCardClick(card.path)}
+          {adminCards.map((adminCard, i) => (
+            <div
+              key={`${adminCard.id}-${i}`}
+              className={`${card({ size: 'lg' })} admin-card`}
+              onClick={() => handleCardClick(adminCard.path)}
               style={{
                 cursor: isTransitioning ? 'wait' : 'pointer',
                 opacity: isTransitioning ? 0.7 : 1,
@@ -65,24 +63,24 @@ export const AdminDashboardPage: React.FC = () => {
                 <Flex>
                   <Box
                     className="card-icon-box"
-                    style={{ color: `var(--${card.color}-9)`, backgroundColor: `var(--${card.color}-3)` }}
+                    style={{ color: `var(--${adminCard.color}-9)`, backgroundColor: `var(--${adminCard.color}-3)` }}
                   >
-                    {React.cloneElement(card.icon)}
+                    {React.cloneElement(adminCard.icon)}
                   </Box>
                 </Flex>
                 <Flex direction="column" gap="1" align="stretch" justify="start" pt="2">
                   <SectionHeader
                     className="card-header"
-                    title={card.title}
-                    description={card.description}
+                    title={adminCard.title}
+                    description={adminCard.description}
                     align="left"
                   />
                 </Flex>
               </Flex>
-            </Card>
+            </div>
           ))}
         </div>
-      </Box>
+      </div>
     </AdminPageLayout>
   );
 };

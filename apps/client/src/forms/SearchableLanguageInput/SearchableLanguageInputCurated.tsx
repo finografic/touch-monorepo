@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
-import { Card, Text, TextField } from '@radix-ui/themes';
+import { TextField } from '@radix-ui/themes';
 import { Box, Flex } from 'styled-system/jsx';
+import { card } from 'styled-system/recipes';
 import { matchSorter } from 'match-sorter';
 
 import { ChevronDownIcon, MagnifyingGlassIcon } from 'styles/icons';
@@ -198,9 +199,9 @@ export const SearchableLanguageInputCurated: React.FC<SearchableLanguageInputCur
         </TextField.Root>
 
         {isOpen && (
-          <Card
+          <div
             ref={dropdownRef}
-            className="dropdown"
+            className={`${card()} dropdown`}
             onScroll={handleScroll}
             style={{
               position: 'absolute',
@@ -237,25 +238,15 @@ export const SearchableLanguageInputCurated: React.FC<SearchableLanguageInputCur
                     />
                     <Box style={{ flex: 1, minWidth: 0 }}>
                       <Flex align="center" gap="2">
-                        <Text size="3" weight="medium" style={{ color: 'var(--gray-12)' }}>
-                          {option.languageName}
-                        </Text>
-                        <Text size="2" style={{ color: 'var(--gray-9)' }}>
-                          ({option.languageCode})
-                        </Text>
+                        <span style={{ color: 'var(--gray-12)' }}>{option.languageName}</span>
+                        <span style={{ color: 'var(--gray-9)' }}>({option.languageCode})</span>
                       </Flex>
                       <Flex align="center" gap="2">
-                        <Text size="2" style={{ color: 'var(--gray-11)' }}>
-                          {option.countryName}
-                        </Text>
+                        <span style={{ color: 'var(--gray-11)' }}>{option.countryName}</span>
                         {option.nativeName && option.nativeName !== option.languageName && (
                           <>
-                            <Text size="2" style={{ color: 'var(--gray-8)' }}>
-                              •
-                            </Text>
-                            <Text size="2" style={{ color: 'var(--gray-10)' }}>
-                              {option.nativeName}
-                            </Text>
+                            <span style={{ color: 'var(--gray-8)' }}>•</span>
+                            <span style={{ color: 'var(--gray-10)' }}>{option.nativeName}</span>
                           </>
                         )}
                       </Flex>
@@ -265,22 +256,20 @@ export const SearchableLanguageInputCurated: React.FC<SearchableLanguageInputCur
               ))
             ) : (
               <Box p="4">
-                <Text size="2" style={{ color: 'var(--gray-9)' }}>
-                  No languages found matching "{searchValue}"
-                </Text>
+                <span style={{ color: 'var(--gray-9)' }}>No languages found matching "{searchValue}"</span>
               </Box>
             )}
 
             {/* Sliding window info for debugging */}
             {slidingWindow.totalItems > windowSize && (
               <Box p="2" style={{ borderTop: '1px solid var(--gray-6)', background: 'var(--gray-2)' }}>
-                <Text size="1" style={{ color: 'var(--gray-9)' }}>
+                <span style={{ color: 'var(--gray-9)' }}>
                   Showing {slidingWindow.startIndex + 1}-{slidingWindow.endIndex} of{' '}
                   {slidingWindow.totalItems} languages
-                </Text>
+                </span>
               </Box>
             )}
-          </Card>
+          </div>
         )}
       </Box>
     </div>

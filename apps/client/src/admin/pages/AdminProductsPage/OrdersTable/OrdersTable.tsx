@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-import { Button as RadixButton, Text } from '@radix-ui/themes';
 import { PAGINATOR_PROPS } from 'admin/config/admin.tables.config';
+import { Button } from 'components/Button';
 import { useTableHeaders } from 'admin/hooks/useTableHeaders';
 import { FilterMatchMode } from 'primereact/api';
 import type { ColumnProps } from 'primereact/column';
@@ -94,30 +94,30 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
 
   const indexBodyTemplate = (rowData: OrderReadableWithIndex) => {
     return (
-      <Text size="2" weight="bold" className="td-index">
+      <span className="td-index">
         {rowData.displayIndex}
-      </Text>
+      </span>
     );
   };
 
   const modeBodyTemplate = (rowData: OrderReadableWithIndex) => {
-    return <Text size="2">{getLabel.mode(rowData.mode)}</Text>;
+    return <span>{getLabel.mode(rowData.mode)}</span>;
   };
 
   const drinkTypeBodyTemplate = (rowData: OrderReadableWithIndex) => {
-    return <Text size="2">{getLabel.drinkType(rowData.drinkType)}</Text>;
+    return <span>{getLabel.drinkType(rowData.drinkType)}</span>;
   };
 
   const drinkSubtypeBodyTemplate = (rowData: OrderReadableWithIndex) => {
-    return <Text size="2">{getLabel.drinkSubtype(rowData.drinkSubtype)}</Text>;
+    return <span>{getLabel.drinkSubtype(rowData.drinkSubtype)}</span>;
   };
 
   const volumeBodyTemplate = (rowData: OrderReadableWithIndex) => {
-    return <Text size="2">{getLabel.volume(rowData.volume)}</Text>;
+    return <span>{getLabel.volume(rowData.volume)}</span>;
   };
 
   const containerTypeBodyTemplate = (rowData: OrderReadableWithIndex) => {
-    return <Text size="2">{getLabel.containerType(rowData.containerType)}</Text>;
+    return <span>{getLabel.containerType(rowData.containerType)}</span>;
   };
 
   const temperatureBodyTemplate = (rowData: OrderReadableWithIndex) => {
@@ -127,23 +127,23 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
   const actionsBodyTemplate = (rowData: OrderReadableWithIndex) => {
     return (
       <div className="action-buttons">
-        <RadixButton
+        <Button
           className="button button-edit"
           onClick={() => onClickEdit(rowData.id)}
           variant="ghost"
-          size="4"
+          size="lg"
         >
           <EditIcon className="icon-edit" />
-        </RadixButton>
-        <RadixButton
+        </Button>
+        <Button
           className="button button-delete"
           onClick={() => onClickDelete(rowData.id)}
           variant="ghost"
-          size="4"
-          color="red"
+          size="lg"
+          color="danger"
         >
           <TrashIcon className="icon-delete" />
-        </RadixButton>
+        </Button>
       </div>
     );
   };

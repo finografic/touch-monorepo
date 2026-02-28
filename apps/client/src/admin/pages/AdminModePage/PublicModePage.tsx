@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-import { Text } from '@radix-ui/themes';
 import { Flex } from 'styled-system/jsx';
 import { AdminPageLayout, AdminSection } from 'admin/components';
 import { FieldWrapper } from 'forms/FieldWrapper';

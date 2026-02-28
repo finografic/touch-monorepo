@@ -1,7 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Heading, Text } from '@radix-ui/themes';
 import clsx from 'clsx';
 
 import { useAuth } from 'providers/AuthProvider';
@@ -35,7 +34,6 @@ export const Title: React.FC<TitleProps> = ({
   error,
   className,
   as = 'header',
-  ...headingProps
 }) => {
   const { t } = useTranslation();
   const { user } = useAuth();
@@ -50,13 +48,13 @@ export const Title: React.FC<TitleProps> = ({
   return (
     <div css={styles}>
       <AsWrapperElement className={clsx('title-wrapper', className, { align })}>
-        <Heading size="8" className="title" align={align} {...headingProps}>
+        <h1 className="title">
           {title}
           {subtitle && <span className="title-subtitle"> : {subtitle}</span>}
-        </Heading>
+        </h1>
         {description && (
           <div className="title-description">
-            <Text>{description}</Text>
+            <span>{description}</span>
           </div>
         )}
       </AsWrapperElement>

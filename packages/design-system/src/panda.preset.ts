@@ -37,6 +37,7 @@ import {
 } from './tokens/typography.tokens';
 import { buttonRecipe } from './recipes/button';
 import { badgeRecipe } from './recipes/badge';
+import { cardRecipe } from './recipes/card';
 import { calloutRecipe } from './recipes/callout';
 import { checkboxRecipe } from './recipes/checkbox';
 import { dialogRecipe } from './recipes/dialog';
@@ -100,10 +101,11 @@ export const designSystemPreset = definePreset({
       recipes: {
         button: buttonRecipe,
         badge: badgeRecipe,
+        card: cardRecipe,
         callout: calloutRecipe,
         input: inputRecipe,
         label: labelRecipe,
-        switch: switchRecipe,
+        dsSwitch: switchRecipe,
         text: textRecipe,
       },
 

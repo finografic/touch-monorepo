@@ -1,7 +1,8 @@
 import React from 'react';
 
-import { Badge, Switch, Text } from '@radix-ui/themes';
 import { Flex } from 'styled-system/jsx';
+import { Switch } from '@workspace/design-system/components';
+import { badge, dsSwitch } from 'styled-system/recipes';
 import { Button } from 'components/Button';
 import { Loader } from 'components/Loader/Loader';
 
@@ -48,21 +49,19 @@ export const RelaysConnectionStatus: React.FC = () => {
 
     return (
       <Flex direction="column" gap="4" align="center" py="6">
-        <Text color="red" size="5" weight="bold">
-          {isNetworkError ? '🔴 Server Unavailable' : '⚠️ Connection Error'}
-        </Text>
-        <Text color="gray" size="3" align="center" style={{ maxWidth: '600px' }}>
+        <span>{isNetworkError ? '🔴 Server Unavailable' : '⚠️ Connection Error'}</span>
+        <span style={{ maxWidth: '600px' }}>
           {isNetworkError
             ? 'The development server appears to be stopped. Polling has been disabled to prevent conflicts.'
             : `Error loading relay states: ${statesError.message}`}
-        </Text>
+        </span>
         <Flex gap="3" align="center">
           <Button onClick={() => enableStatesPolling()} variant="solid" color="info">
             🔄 Retry Connection
           </Button>
-          <Badge color={statesPollingEnabled ? 'green' : 'red'} variant="soft" size="3">
+          <span className={badge({ variant: 'soft', colorScheme: statesPollingEnabled ? 'success' : 'danger', size: 'lg' })}>
             Polling: {statesPollingEnabled ? 'Active' : 'Disabled'}
-          </Badge>
+          </span>
         </Flex>
       </Flex>
     );
@@ -76,38 +75,35 @@ export const RelaysConnectionStatus: React.FC = () => {
     <Flex justify="space-between" align="center">
       <Flex direction="column" gap="2">
         <Flex align="center" gap="3" className="status-buttons">
-          <Badge color={relayStatus?.connected ? 'green' : 'red'} variant="soft" size="3">
+          <span className={badge({ variant: 'soft', colorScheme: relayStatus?.connected ? 'success' : 'danger', size: 'lg' })}>
             {relayStatus?.connected ? 'Connected' : 'Disconnected'}
-          </Badge>
-          <Badge color={statesPollingEnabled ? 'green' : 'red'} variant="soft" size="3">
+          </span>
+          <span className={badge({ variant: 'soft', colorScheme: statesPollingEnabled ? 'success' : 'danger', size: 'lg' })}>
             Polling: {statesPollingEnabled ? 'Active' : 'Disabled'}
-          </Badge>
+          </span>
 
           {relayStatus?.port && (
-            <Text size="2" color="gray">
-              Port: {relayStatus.port}
-            </Text>
+            <span>Port: {relayStatus.port}</span>
           )}
           {relayStatus?.error && (
-            <Text size="2" color="red">
-              Error: {relayStatus.error}
-            </Text>
+            <span>Error: {relayStatus.error}</span>
           )}
         </Flex>
       </Flex>
       <Flex align="center" gap="3">
         {/* Global relay functionality toggle */}
         <Flex gap="2" align="center" pr="2">
-          <Text size="2" weight="medium" color="gray">
-            Relay Functionality
-          </Text>
-          <Switch
-            size="2"
+          <span>Relay Functionality</span>
+          <Switch.Root
             checked={isRelayFunctionalityEnabled}
-            color={isRelayFunctionalityEnabled ? 'green' : 'gray'}
-            onCheckedChange={toggleRelayFunctionality}
+            onCheckedChange={() => toggleRelayFunctionality()}
             style={{ outline: 'none' }}
-          />
+          >
+            <Switch.Control className={dsSwitch({ size: 'md' })}>
+              <Switch.Thumb className="switch-thumb" />
+            </Switch.Control>
+            <Switch.HiddenInput />
+          </Switch.Root>
         </Flex>
 
         <Button

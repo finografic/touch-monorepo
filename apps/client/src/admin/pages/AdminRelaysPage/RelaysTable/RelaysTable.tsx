@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Col, Row } from '@workspace/design-system/grid';
 
-import { Text } from '@radix-ui/themes';
 import { Box, Flex } from 'styled-system/jsx';
 import { DEFROST_SLOT_NUMBER, POWER_SLOT_NUMBER } from 'admin/config/admin.slots.config';
 import { getRelaySlotType } from 'admin/utils/relays.utils';
@@ -406,9 +405,7 @@ export const RelaysTable: React.FC<RelaysTableProps> = ({
                             </Button>
                           ) : (
                             <Flex align="center" gap="2" ml="3" className="status-off">
-                              <Text color="gray" size="2">
-                                {/* No relay assigned */}
-                              </Text>
+                              <span>{/* No relay assigned */}</span>
                             </Flex>
                           )}
                         </Flex>

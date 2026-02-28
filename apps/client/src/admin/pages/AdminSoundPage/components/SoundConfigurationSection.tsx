@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 
-import { Button } from '@radix-ui/themes';
 import { Box, Flex } from 'styled-system/jsx';
+import { Button } from 'components/Button';
 import { FieldWrapper } from 'forms/FieldWrapper';
 import { SelectCustom } from 'forms/SelectCustom';
 import { useToast } from 'components/Toast';
@@ -107,17 +107,17 @@ export const SoundConfigurationSection: React.FC<SoundConfigurationSectionProps>
           {soundSettings[soundType] && (
             <Flex pt="5" gap="3">
               <Button
-                size="3"
-                variant="soft"
-                color="green"
+                size="md"
+                variant="outline"
+                color="success"
                 onClick={() => testSound(soundSettings[soundType]!)}
                 className="test-button"
               >
-                <VolumeIcon className="icon-speaker" color="green" />
+                <VolumeIcon className="icon-speaker" />
                 Test
               </Button>
-              <Button size="3" variant="soft" color="orange" onClick={stopAllAudio} className="test-button">
-                <VolumeOffIcon className="icon-speaker" color="orange" />
+              <Button size="md" variant="outline" color="warning" onClick={stopAllAudio} className="test-button">
+                <VolumeOffIcon className="icon-speaker" />
                 Stop
               </Button>
             </Flex>

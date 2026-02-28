@@ -3,8 +3,9 @@ import { Col, Row } from '@workspace/design-system/grid';
 import { useTranslation } from 'react-i18next';
 import type { LanguageInfo } from '@workspace/i18n/types';
 
-import { Button, Callout, Text } from '@radix-ui/themes';
 import { Box, Flex } from 'styled-system/jsx';
+import { Button } from 'components/Button';
+import { callout } from 'styled-system/recipes';
 import { useQueryClient } from '@tanstack/react-query';
 import { convertToLanguageOptions } from 'forms/SearchableLanguageInput/data/curated-languages';
 import { SearchableLanguageInputCurated } from 'forms/SearchableLanguageInput/SearchableLanguageInputCurated';
@@ -268,12 +269,10 @@ export const AdminLanguagesPage: React.FC = () => {
       <AdminSection>
         {/* Message Display */}
         {message && (
-          <Callout.Root color={message.type === 'error' ? 'red' : 'green'} mb="4">
-            <Callout.Icon>
-              <InfoCircledIcon />
-            </Callout.Icon>
-            <Callout.Text>{message.text}</Callout.Text>
-          </Callout.Root>
+          <div className={callout({ status: message.type === 'error' ? 'error' : 'success' })} role="alert">
+            <InfoCircledIcon />
+            <span>{message.text}</span>
+          </div>
         )}
 
         {/* Languages List */}
@@ -324,8 +323,8 @@ export const AdminLanguagesPage: React.FC = () => {
             <Col xs={12} md={4} style={{ textAlign: 'right' }}>
               <Button
                 onClick={handleSaveLanguages}
-                size="4"
-                color="green"
+                size="lg"
+                color="success"
                 variant="solid"
                 loading={createLanguageMutation.isPending}
                 disabled={createLanguageMutation.isPending || selectedLanguages.length === 0}

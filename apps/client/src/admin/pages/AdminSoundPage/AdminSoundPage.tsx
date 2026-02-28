@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
-import { Tabs } from '@radix-ui/themes';
 import { AdminPageLayout, AdminSection } from 'admin/components';
+import { Tabs } from '@workspace/design-system/components';
 import { useToast } from 'components/Toast';
 
 import { useGetSoundFiles, useGetSoundSettings } from 'queries/sounds';
@@ -55,7 +55,7 @@ export const AdminSoundPage: React.FC = () => {
       isLoading={isLoadingFiles || isLoadingSettings || isLoadingActiveTabFiles}
       styles={styles}
     >
-      <Tabs.Root value={activeTab} onValueChange={(value) => setActiveTab(value as SoundType)}>
+      <Tabs.Root value={activeTab} onValueChange={(details) => setActiveTab(details.value as SoundType)}>
         <Tabs.List>
           <Tabs.Trigger value="alarm">Alarm Sounds</Tabs.Trigger>
           <Tabs.Trigger value="finish">Finish Sounds</Tabs.Trigger>

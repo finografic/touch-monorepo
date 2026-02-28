@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import type { FieldError } from 'react-hook-form';
 import { useFormContext } from 'react-hook-form';
 
-import { Text } from '@radix-ui/themes';
 import clsx from 'clsx';
 import { useDebouncedCallback } from 'use-debounce';
 
@@ -39,9 +38,7 @@ export const FieldWrapperBasic: React.FC<FieldWrapperProps> = ({
             {label} {required && '*'}
           </span>
           {hint && (
-            <Text size="2" weight="medium">
-              <span className="label-hint">{hint}</span>
-            </Text>
+            <span className="label-hint">{hint}</span>
           )}
         </label>
       )}

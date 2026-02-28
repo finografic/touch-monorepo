@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Callout } from '@radix-ui/themes';
+import { callout } from 'styled-system/recipes';
 
 import { ExclamationTriangleIcon } from 'styles/icons';
 import { styles } from './NoItems.styles';
@@ -12,14 +12,10 @@ interface NoItemsProps {
 export const NoItems: React.FC<NoItemsProps> = ({ message }) => {
   return (
     <div css={styles} className="no-items">
-      <Callout.Root variant="surface" color="amber" size="2">
-        <Callout.Icon>
-          <ExclamationTriangleIcon style={{ color: 'var(--yellow-10)' }} />
-        </Callout.Icon>
-        <Callout.Text highContrast style={{ color: 'var(--yellow-10)' }}>
-          {message}
-        </Callout.Text>
-      </Callout.Root>
+      <div className={callout({ status: 'warning' })} role="alert" style={{ color: 'var(--yellow-10)' }}>
+        <ExclamationTriangleIcon style={{ color: 'var(--yellow-10)' }} />
+        <span>{message}</span>
+      </div>
     </div>
   );
 };

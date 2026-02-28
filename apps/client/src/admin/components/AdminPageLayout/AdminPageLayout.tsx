@@ -2,13 +2,20 @@ import type { ReactNode } from 'react';
 import React, { memo } from 'react';
 
 import type { SerializedStyles } from '@emotion/react';
-import { Callout } from '@radix-ui/themes';
 import { Flex } from 'styled-system/jsx';
+import { callout } from 'styled-system/recipes';
 import { Loader } from 'components/Loader/Loader';
 import { Title } from 'components/Title';
 
-import { type Align, STATUS_TO_CALLOUT_COLOR, type StatusType } from 'types/ui.types';
+import { type Align, type StatusType } from 'types/ui.types';
 import { styles as stylesLayout } from './AdminPageLayout.styles';
+
+const STATUS_TO_CALLOUT_STATUS: Record<StatusType, 'error' | 'warning' | 'success' | 'info'> = {
+  error: 'error',
+  warning: 'warning',
+  success: 'success',
+  info: 'info',
+};
 
 interface AdminPageLayoutProps {
   title?: string;
@@ -74,18 +81,18 @@ export const AdminPageLayout: React.FC<AdminPageLayoutProps> = memo(
         ) : (
           <>
             {error && (
-              <Callout.Root color="red" style={{ marginBottom: '1.5rem' }}>
-                <Callout.Text>Error: {error}</Callout.Text>
-              </Callout.Root>
+              <div className={callout({ status: 'error' })} role="alert" style={{ marginBottom: '1.5rem' }}>
+                <span>Error: {error}</span>
+              </div>
             )}
             {message && (
-              <Callout.Root
-                color={STATUS_TO_CALLOUT_COLOR[message.type]}
-                className="admin-page-message"
+              <div
+                className={`${callout({ status: STATUS_TO_CALLOUT_STATUS[message.type] })} admin-page-message`}
+                role="alert"
                 style={{ marginBottom: '1.5rem' }}
               >
-                <Callout.Text>{message.content}</Callout.Text>
-              </Callout.Root>
+                <span>{message.content}</span>
+              </div>
             )}
             <Flex direction="column" className="admin-page-content" gap="2">
               {isLoading || error ? null : children}

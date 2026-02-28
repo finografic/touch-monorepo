@@ -2,8 +2,9 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { Badge, Switch, Text } from '@radix-ui/themes';
 import { Flex } from 'styled-system/jsx';
+import { Switch } from '@workspace/design-system/components';
+import { badge, dsSwitch } from 'styled-system/recipes';
 import clsx from 'clsx';
 import { useDebouncedCallback } from 'use-debounce';
 import { Button } from 'components/Button';
@@ -268,18 +269,16 @@ export const AdminSlotsConfigPage: React.FC = () => {
                   showPowerSlot={showPowerSlotInPreview}
                 />
                 <Flex gap="4" align="center" mt="-4" pb="4">
-                  <Badge size="3" variant="soft" color="blue" className="dimesions-badge">
+                  <span className={`${badge({ variant: 'soft', colorScheme: 'info', size: 'lg' })} dimesions-badge`}>
                     {numActiveColumns} columns × {effectiveRows} rows = {gridSlotsCount} grid slots + 1
                     special slot
-                  </Badge>
+                  </span>
                 </Flex>
               </Flex>
               <Flex direction="column" justify="space-between" gap="4">
                 <div className="layout-mode-container">
                   <Flex direction="column" gap="2" pt="2">
-                    <Text size="3" weight="bold" mb="2">
-                      Special slot buttons
-                    </Text>
+                    <span>Special slot buttons</span>
                     {(
                       [
                         {
@@ -309,11 +308,9 @@ export const AdminSlotsConfigPage: React.FC = () => {
                       const isLoading = fullConfig === undefined;
                       return (
                         <Flex key={param} align="center" gap="2" mt="1">
-                          <Switch
-                            size="3"
+                          <Switch.Root
                             checked={isActive}
-                            className={className}
-                            onCheckedChange={async (checked) => {
+                            onCheckedChange={async ({ checked }) => {
                               if (!fullConfig?.id) return;
                               try {
                                 await updateSlotSpecialMutation.mutateAsync({
@@ -327,7 +324,13 @@ export const AdminSlotsConfigPage: React.FC = () => {
                               }
                             }}
                             disabled={updateSlotSpecialMutation.isPending || isLoading}
-                          />
+                            className={className}
+                          >
+                            <Switch.Control className={dsSwitch({ size: 'md' })}>
+                              <Switch.Thumb className="switch-thumb" />
+                            </Switch.Control>
+                            <Switch.HiddenInput />
+                          </Switch.Root>
                           <label htmlFor={param}>{label}</label>
                         </Flex>
                       );
@@ -339,23 +342,23 @@ export const AdminSlotsConfigPage: React.FC = () => {
                     <Flex direction="column" gap="4" pt="2">
                       <Flex align="center" gap="4">
                         <div className="legend-circle legend-type-a">A</div>
-                        <Text size="3">Type A</Text>
+                        <span>Type A</span>
                       </Flex>
                       <Flex align="center" gap="4">
                         <div className="legend-circle legend-type-b">B</div>
-                        <Text size="3">Type B</Text>
+                        <span>Type B</span>
                       </Flex>
                       <Flex align="center" gap="4">
                         <div className="legend-circle legend-type-c">C</div>
-                        <Text size="3">Type C</Text>
+                        <span>Type C</span>
                       </Flex>
                       <Flex align="center" gap="4">
                         <div className="legend-circle legend-type-alt">C</div>
-                        <Text size="3">Type Alt</Text>
+                        <span>Type Alt</span>
                       </Flex>
                       <Flex align="center" gap="4">
                         <div className="legend-circle legend-type-power">C</div>
-                        <Text size="3">Power</Text>
+                        <span>Power</span>
                       </Flex>
                     </Flex>
                   </div>

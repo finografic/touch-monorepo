@@ -1,7 +1,7 @@
 import React, { useCallback, useRef, useState } from 'react';
 
-import { Button, Text } from '@radix-ui/themes';
 import { Flex } from 'styled-system/jsx';
+import { Button } from 'components/Button';
 import { useToast } from 'components/Toast';
 
 import { useUploadSoundFiles } from 'queries/sounds';
@@ -68,8 +68,8 @@ export const FileUploadSection: React.FC<FileUploadSectionProps> = ({ soundType 
         disabled={isUploading || uploadMutation.isPending}
       />
       <Button
-        size="3"
-        variant="soft"
+        size="md"
+        variant="outline"
         disabled={isUploading || uploadMutation.isPending}
         onClick={handleUploadClick}
       >
@@ -77,9 +77,7 @@ export const FileUploadSection: React.FC<FileUploadSectionProps> = ({ soundType 
         {isUploading || uploadMutation.isPending ? 'Uploading...' : 'Choose Sound Files'}
       </Button>
 
-      <Text size="2" color="gray">
-        Supported formats: MP3, WAV, AIFF. Max file size: 10MB per file.
-      </Text>
+      <span>Supported formats: MP3, WAV, AIFF. Max file size: 10MB per file.</span>
     </Flex>
   );
 };

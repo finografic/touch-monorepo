@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
-import { Card, Text, TextField } from '@radix-ui/themes';
+import { TextField } from '@radix-ui/themes';
 import { Box, Flex } from 'styled-system/jsx';
+import { card } from 'styled-system/recipes';
 import { matchSorter } from 'match-sorter';
 
 import type { Country } from '../../components/LanguageSelector/languages/country.types';
@@ -246,9 +247,9 @@ export const SearchableLanguageInput: React.FC<SearchableLanguageInputSlidingPro
         </TextField.Root>
 
         {isOpen && (
-          <Card
+          <div
             ref={dropdownRef}
-            className="dropdown"
+            className={`${card()} dropdown`}
             onScroll={handleScroll}
             style={{
               position: 'absolute',
@@ -281,38 +282,26 @@ export const SearchableLanguageInput: React.FC<SearchableLanguageInputSlidingPro
                     />
                     <Flex direction="column" style={{ flex: 1 }}>
                       <Flex align="center" gap="2">
-                        <Text weight="bold" size="2">
-                          {option.languageName}
-                        </Text>
-                        <Text size="1" color="gray">
-                          ({option.languageCode})
-                        </Text>
+                        <span>{option.languageName}</span>
+                        <span>({option.languageCode})</span>
                       </Flex>
                       <Flex align="center" gap="2">
-                        <Text size="1" color="gray">
-                          {option.countryName}
-                        </Text>
+                        <span>{option.countryName}</span>
                         {option.nativeName && option.nativeName !== option.languageName && (
                           <>
-                            <Text size="1" color="gray">
-                              •
-                            </Text>
-                            <Text size="1" color="gray">
-                              {option.nativeName}
-                            </Text>
+                            <span>•</span>
+                            <span>{option.nativeName}</span>
                           </>
                         )}
                       </Flex>
                     </Flex>
-                    {option.emoji && <Text size="3">{option.emoji}</Text>}
+                    {option.emoji && <span>{option.emoji}</span>}
                   </Flex>
                 </div>
               ))
             ) : (
               <Box p="4" style={{ textAlign: 'center' }}>
-                <Text size="2" color="gray">
-                  {searchValue ? `No languages found for "${searchValue}"` : 'No languages available'}
-                </Text>
+                <span>{searchValue ? `No languages found for "${searchValue}"` : 'No languages available'}</span>
               </Box>
             )}
 
@@ -326,13 +315,13 @@ export const SearchableLanguageInput: React.FC<SearchableLanguageInputSlidingPro
                   background: 'var(--gray-2)',
                 }}
               >
-                <Text size="1" color="blue">
+                <span>
                   🎭 Simple Window: Showing {slidingWindow.startIndex + 1}-{slidingWindow.endIndex} of{' '}
                   {slidingWindow.totalItems} • Window Size: {windowSize} • Scroll for more
-                </Text>
+                </span>
               </Box>
             )}
-          </Card>
+          </div>
         )}
       </Box>
     </div>

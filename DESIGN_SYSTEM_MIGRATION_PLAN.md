@@ -17,7 +17,7 @@
 | 6c-ii | Replace `react-grid-system` (16 files) | ✅ Done |
 | 6c-iii | Replace Radix Themes layout primitives (~86 call sites) | ✅ Done |
 | 6c-iv | Verify — typecheck + dev + visual regression check | ✅ Done |
-| 6d | Swap Radix component imports → design-system | 🚧 Next |
+| 6d | Swap Radix component imports → design-system | 🚧 In Progress (22 files remain) |
 | 6e | Migrate Emotion `.styles.ts` files → Panda | ⬜ Pending |
 | 6f | Remove `styles/` folder + Radix Themes + Emotion | ⬜ Pending |
 | 6g | CSS custom property audit — resolve token overrides | ⬜ Pending |
@@ -104,90 +104,69 @@
 
 ## 🚧 Phase 6d — Replace Radix Component Imports
 
-**Scope:** Swap every Radix Themes component import for the design-system equivalent.
+**Started:** 2026-02-27
 
 ### Component mapping
 
 | Radix Themes | Design-system | Notes |
 |---|---|---|
-| `<Button>` | `<Button>` from `@workspace/design-system` | Recipe: `buttonRecipe` |
-| `<Badge>` | `<Badge>` | Recipe: `badgeRecipe` |
-| `<Dialog.*>` | `<Dialog.*>` | Slot recipe: `dialogRecipe` |
-| `<Checkbox>` | `<Checkbox>` / `<CheckboxField>` | Slot recipe: `checkboxRecipe` |
-| `<Switch>` | `<Switch>` / `<SwitchField>` | Recipe: `switchRecipe` |
-| `<Select.*>` | `<Select.*>` | Slot recipe: `selectRecipe` |
-| `<Tabs.*>` | `<Tabs.*>` | Slot recipe: `tabsRecipe` |
-| `<Tooltip.*>` | `<Tooltip.*>` | Slot recipe: `tooltipRecipe` |
-| `<Popover.*>` | `<Popover.*>` | Slot recipe: `popoverRecipe` |
-| `<DropdownMenu.*>` | `<Menu.*>` | Slot recipe: `menuRecipe` |
-| `<TextField>` | `<input>` + `inputRecipe` | Recipe: `inputRecipe` |
-| `<Callout.*>` | inline `calloutRecipe` | Recipe exists |
-| `<Spinner>` | TBD — **blocker** | No design-system recipe yet |
-| `<Card>` | TBD | 5 uses; add recipe or use inline Panda |
+| `<Button>` | `<Button>` from `components/Button` | ✅ Done |
+| `<Badge>` | `<span className={badge({...})}>` | ✅ Done |
+| `<Switch>` | Ark UI `Switch.*` compound + `dsSwitch` recipe | ✅ Done |
+| `<Tabs.*>` | Design-system `Tabs.*` | ✅ Done |
+| `<DropdownMenu.*>` | Design-system `Menu.*` | ✅ Done |
+| `<Callout.*>` | `<div className={callout({...})}>` | ✅ Done |
+| `<Card>` | `<div className={card({...})}>` | ✅ Done (added `cardRecipe`) |
+| `<Spinner>` | `<LoaderIcon>` + `@keyframes spin` | ✅ Done (spin added to keyframes.css) |
+| `<Text>` | `<span>` | ✅ Done |
+| `<Heading>` | `<h1>/<h2>/<h3>` | ✅ Done |
+| `<Dialog.*>` | Deferred | ⏸ Pending 6d-ii |
+| `<IconButton>` | Deferred | ⏸ Pending 6d-ii |
+| `<TextField>` | Deferred | ⏸ Pending 6d-ii |
+| `<TabNav.*>` | Deferred | ⏸ Pending 6d-ii |
+| `<RadioCards.*>` | Deferred | ⏸ Pending 6d-ii |
+| `<DataList.*>` | Deferred | ⏸ Pending 6d-ii |
+| `<CheckboxGroup.*>` | Deferred | ⏸ Pending 6d-ii |
+| `<AlertDialog.*>` | Deferred | ⏸ Pending 6d-ii |
+| `<Theme>` / `ThemeProps` | Deferred | ⏸ Pending 6f |
 
-### Blockers
+### What was done (2026-02-27)
 
-- **Spinner** — no recipe in design-system. Decision needed before 6d can complete:
-  - A) ✅ Add `spinnerRecipe` to design-system (Ark UI has a spinner primitive)
-  - B) ❌ Keep Radix `<Spinner>` for now; remove after 6e
-  - C) ✅ ()Inline CSS animation (simplest, no dep)
+- Added `@keyframes spin` to design-system `src/styles/keyframes.css`; imported in `main.tsx`
+- Added `cardRecipe` to design-system (`src/recipes/card.ts`); registered in `panda.preset.ts`
+- Renamed Panda recipe key `switch` → `dsSwitch` (avoid reserved keyword in generated `.d.ts`); deleted stale `switch.d.ts` + `switch.mjs` from both `styled-system/` dirs
+- Bulk-replaced 42 client files: Text→span, Heading→h1/h2/h3, Spinner→LoaderIcon, Button→local Button, Tabs→DS Tabs, Badge→span+recipe, Callout→div+recipe, Card→div+recipe, Switch→Ark Switch compound, DropdownMenu→DS Menu
+- Fixed `AdminDashboardPage.tsx` TS2590 (`<Box css={styles}>` → `<div css={styles}>`)
+- Fixed `RelaysConnectionStatus.tsx` — `toggleRelayFunctionality` called with 0 args (not 1)
+- Fixed `NoItems.tsx` (missed by bulk pass) — Callout.Root compound → div+callout recipe
+- Net new TypeScript errors: 0 (65 total, all pre-existing)
 
-  TODO: USING CODE BELOW (mix of A+C ??)
-  TODO: TEMP USER EDIT - FIX AND CLEAN SECTION BELOW
-  NOTE: Ark-UI docs has examples for thier AsyncList, where the code uses:
+### Remaining (22 files) — to be done in Phase 6d-ii
 
-```tsx
-import { LoaderIcon } from 'lucide-react';
-
-const SomeComponent = () => {
-  return (
-    <>
-      {list.loading && <LoaderIcon className={styles.Spinner} /> Loading}
-    </>
-  );
-}
 ```
-
-```css
-/* Loading status */
-.loading {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.375rem;
-  font-size: 0.875rem;
-  color: var(--demo-neutral-emphasized);
-}
-
-.spinner {
-  width: 1rem;
-  height: 1rem;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+apps/client/src/admin/components/AdminNavigation/AdminNavbar.tsx         (TabNav)
+apps/client/src/admin/components/AdminNavigation/HiddenMeasureItems.tsx  (TabNav)
+apps/client/src/admin/pages/AdminLanguagesPage/components/LanguageDeleteDialog.tsx (AlertDialog)
+apps/client/src/admin/pages/AdminLanguagesPage/components/LanguagesList.tsx (IconButton)
+apps/client/src/admin/pages/AdminLanguagesPage/components/LanguagesListSelected.tsx (unknown)
+apps/client/src/App.tsx                                                   (Theme as RadixTheme)
+apps/client/src/components/DataList/CalculationDataList/CalculationDataList.tsx (DataList)
+apps/client/src/components/DataList/ConfigDataList/ConfigDataList.tsx    (DataList)
+apps/client/src/components/DataList/MetadataDataList/MetadataDataList.tsx (DataList)
+apps/client/src/components/DataList/OrderDataList/OrderDataList.tsx      (DataList)
+apps/client/src/components/Dialog/GenericDialog.tsx                      (Dialog, IconButton, VisuallyHidden)
+apps/client/src/components/LanguageSelector/LanguageSelector.tsx         (RadioCards)
+apps/client/src/components/Pads/PadGroup/PadGroup.tsx                    (CheckboxGroup)
+apps/client/src/components/SearchBar/SearchBar.tsx                       (TextField)
+apps/client/src/forms/InputTemperature/InputTemperature.tsx              (IconButton, TextField)
+apps/client/src/forms/InputTime/InputTime.tsx                            (IconButton, TextField)
+apps/client/src/forms/SearchableLanguageInput/SearchableLanguageInput.tsx (TextField)
+apps/client/src/forms/SearchableLanguageInput/SearchableLanguageInputCurated.tsx (TextField)
+apps/client/src/forms/SelectCustom/SelectCustom.tsx                      (TextField)
+apps/client/src/forms/SelectSearchable/SelectSearchable.tsx              (TextField)
+apps/client/src/main.tsx                                                  (@radix-ui/themes/styles.css — keep until 6f)
+apps/client/src/styles/radix-ui/theme.config.ts                          (ThemeProps — keep until 6f)
 ```
-
-- **Card**
-  — ✅ add `cardRecipe` to design-system,
-  - ❌ or use inline Panda `css()` for 5 call sites
-  TODO: recipe, for sure
-
-### Steps
-
-1. Resolve Spinner + Card blockers
-2. Grep all `from '@radix-ui/themes'` imports in `apps/client/src/`
-3. Categorise: layout (done in 6c) vs component
-4. Replace component imports file-by-file; start with leaf components (Button, Badge)
-5. Work inward to compound components (Dialog, Select, Tabs)
-6. Run `pnpm typecheck` + `pnpm dev` after each significant file batch
-7. Confirm `@radix-ui/themes` has zero remaining imports in `apps/client/src/`
 
 ---
 
@@ -299,7 +278,7 @@ injecting CSS vars, the cascades multiply.
 
 ## Open Questions
 
-1. **Spinner** — ✅ [SEE_ABOVE] Add `spinnerRecipe` to design-system, keep Radix `<Spinner>`, or inline CSS? Blocking 6d.
-2. **Card** — ✅ [SEE_ABOVE] Add `cardRecipe` or use inline Panda `css()` for 5 call sites?
-3. **Emotion removal** — 🤔 [TBD -- keep for now, until i am 100% certain] Is full Emotion removal the goal after 6f, or keep Emotion for complex one-off styles?
-4. **Token override scope** — After 6f, if Panda base layer resets are still noisy, scope to container vs `*`? [WHAT IS BEST?? AVOID NOISY AND LAYER SOUNDS GOOD, BUT I AM NO EXPERT WITH CSS LAYERS]
+1. **Spinner** — ✅ Resolved: `LoaderIcon` + `@keyframes spin` in keyframes.css (no new recipe needed).
+2. **Card** — ✅ Resolved: `cardRecipe` added to design-system.
+3. **Emotion removal** — 🤔 [TBD] Is full Emotion removal the goal after 6f, or keep Emotion for complex one-off styles?
+4. **Token override scope** — After 6f, if Panda base layer resets are still noisy, scope to container vs `*`?

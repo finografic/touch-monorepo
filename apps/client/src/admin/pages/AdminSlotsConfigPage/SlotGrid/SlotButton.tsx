@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 
-import { Button, Text } from '@radix-ui/themes';
 import { Flex } from 'styled-system/jsx';
+import { Button } from 'components/Button';
 
 interface SlotButtonProps {
   slotNumber: number;
@@ -19,14 +19,12 @@ export const SlotButton: React.FC<SlotButtonProps> = memo(
         className={`slot-button slot-${color}`}
         onClick={onClick ? () => onClick(slotNumber) : undefined}
         variant="outline"
-        size="3"
+        size="md"
         style={style}
       >
         <Flex direction="column" align="center" gap="1">
-          <Text size="4" weight="bold">
-            {slotNumber}
-          </Text>
-          <Text size="2">{label}</Text>
+          <span>{slotNumber}</span>
+          <span>{label}</span>
         </Flex>
       </Button>
     );

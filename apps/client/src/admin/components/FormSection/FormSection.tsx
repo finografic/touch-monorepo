@@ -1,6 +1,5 @@
 import React, { type ReactNode } from 'react';
 
-import { Heading, Text } from '@radix-ui/themes';
 import { Box, Flex } from 'styled-system/jsx';
 
 interface FormSectionProps {
@@ -18,6 +17,8 @@ export const FormSection: React.FC<FormSectionProps> = ({
   className,
   headingLevel = 2,
 }) => {
+  const HeadingEl = `h${headingLevel}` as React.ElementType;
+
   return (
     <Box
       className={className}
@@ -33,14 +34,10 @@ export const FormSection: React.FC<FormSectionProps> = ({
       {(title || description) && (
         <Box mb="4">
           {title && (
-            <Heading as={`h${headingLevel}` as any} size="4" weight="bold" mb={description ? '2' : undefined}>
-              {title}
-            </Heading>
+            <HeadingEl>{title}</HeadingEl>
           )}
           {description && (
-            <Text size="2" color="gray">
-              {description}
-            </Text>
+            <span>{description}</span>
           )}
         </Box>
       )}

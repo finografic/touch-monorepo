@@ -1,7 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { Text } from '@radix-ui/themes';
 import { Flex } from 'styled-system/jsx';
 import { OrdersTable } from 'admin/pages/AdminProductsPage/OrdersTable';
 import { Button } from 'components/Button';
@@ -132,7 +131,7 @@ export const AdminOrdersListPage: React.FC = () => {
       <AdminSection isLoading={isLoading} variant="none">
         {error ? (
           <Flex direction="column" gap="4" align="center" justify="center" p="6">
-            <Text color="red">Error loading orders: {error.message}</Text>
+            <span>Error loading orders: {error.message}</span>
           </Flex>
         ) : (
           <OrdersTable

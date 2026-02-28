@@ -4,8 +4,9 @@ import { useParams } from 'react-router-dom';
 import { translations } from '@workspace/i18n';
 import type { I18nTranslationsDomain } from '@workspace/i18n/types';
 
-import { Spinner, Tabs, Text } from '@radix-ui/themes';
+import { LoaderIcon } from 'lucide-react';
 import { Flex } from 'styled-system/jsx';
+import { Tabs } from '@workspace/design-system/components';
 import { AdminPageLayout, AdminSection } from 'admin/components';
 import { DEFAULT_SHOW_KEY_COLUMN } from 'admin/pages/Translations/shared/constants/translationsTable.constants';
 
@@ -59,8 +60,8 @@ export const TranslationsPage: React.FC = () => {
         styles={styles}
       >
         <Flex direction="column" gap="4" align="center" justify="center" p="6">
-          <Spinner size="3" />
-          <Text>Loading translations...</Text>
+          <LoaderIcon size={20} style={{ animation: 'spin 1s linear infinite' }} />
+          <span>Loading translations...</span>
         </Flex>
       </AdminPageLayout>
     );
@@ -68,7 +69,7 @@ export const TranslationsPage: React.FC = () => {
 
   return (
     <AdminPageLayout title={t(pageTitleKey)} styles={styles}>
-      <Tabs.Root value={activeTab} onValueChange={(value) => setActiveTab(value as I18nDomainGroupKey)}>
+      <Tabs.Root value={activeTab} onValueChange={(details) => setActiveTab(details.value as I18nDomainGroupKey)}>
         <Tabs.List>
           {sections.map((section) => (
             <Tabs.Trigger key={section.group} value={section.group}>
