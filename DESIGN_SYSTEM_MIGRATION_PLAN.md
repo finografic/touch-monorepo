@@ -17,7 +17,7 @@
 | 6c-ii | Replace `react-grid-system` (16 files) | ✅ Done |
 | 6c-iii | Replace Radix Themes layout primitives (~86 call sites) | ✅ Done |
 | 6c-iv | Verify — typecheck + dev + visual regression check | ✅ Done |
-| 6d | Swap Radix component imports → design-system | 🚧 In Progress (22 files remain) |
+| 6d | Swap Radix component imports → design-system | 🚧 In Progress (12 files remain) |
 | 6e | Migrate Emotion `.styles.ts` files → Panda | ⬜ Pending |
 | 6f | Remove `styles/` folder + Radix Themes + Emotion | ⬜ Pending |
 | 6g | CSS custom property audit — resolve token overrides | ⬜ Pending |
@@ -120,15 +120,25 @@
 | `<Spinner>` | `<LoaderIcon>` + `@keyframes spin` | ✅ Done (spin added to keyframes.css) |
 | `<Text>` | `<span>` | ✅ Done |
 | `<Heading>` | `<h1>/<h2>/<h3>` | ✅ Done |
-| `<Dialog.*>` | Deferred | ⏸ Pending 6d-ii |
-| `<IconButton>` | Deferred | ⏸ Pending 6d-ii |
-| `<TextField>` | Deferred | ⏸ Pending 6d-ii |
-| `<TabNav.*>` | Deferred | ⏸ Pending 6d-ii |
-| `<RadioCards.*>` | Deferred | ⏸ Pending 6d-ii |
-| `<DataList.*>` | Deferred | ⏸ Pending 6d-ii |
-| `<CheckboxGroup.*>` | Deferred | ⏸ Pending 6d-ii |
-| `<AlertDialog.*>` | Deferred | ⏸ Pending 6d-ii |
+| `<DataList.*>` | `<dl>/<div>/<dt>/<dd>` (semantic HTML) | ✅ Done (4 files) |
+| `<IconButton>` | `<Button>` from `components/Button` | ✅ Done (LanguagesList, LanguagesListSelected) |
+| `<TabNav.*>` | `<div>` + `<button aria-current>` | ✅ Done (AdminNavbar, HiddenMeasureItems) |
+| `<Dialog.*>` | Deferred | ⏸ Pending 6d-iii |
+| `<AlertDialog.*>` | Deferred — depends on Dialog | ⏸ Pending 6d-iii |
+| `<TextField>` | Deferred — needs DS TextField component | ⏸ Pending 6d-iii |
+| `<IconButton>` (forms) | Deferred — paired with TextField | ⏸ Pending 6d-iii |
+| `<RadioCards.*>` | Deferred — needs DS RadioGroup | ⏸ Pending 6d-iii |
+| `<CheckboxGroup.*>` | Deferred — needs DS Checkbox | ⏸ Pending 6d-iii |
 | `<Theme>` / `ThemeProps` | Deferred | ⏸ Pending 6f |
+
+### What was done (2026-02-28) — Phase 6d-ii quick wins
+
+- `DataList.*` → semantic HTML `<dl>/<div>/<dt>/<dd>` (4 files, no new component needed)
+- `IconButton` → `<Button>` in `LanguagesList` + `LanguagesListSelected` (color: `red`→`danger`, `orange`→`warning`; size: `2`→`sm`)
+- `TabNav.Root` → `<div>`, `TabNav.Link asChild` → `<button aria-current>` in `AdminNavbar` + `HiddenMeasureItems`
+- Added `colors` palette export to `@workspace/design-system/tokens` — typed camelCase keys mapping to CSS vars; drop-in v1 replacement (import-only change)
+- Removed alpha/transparency token variants — 11-stop shade scale covers in-between needs
+- Added ESLint `no-restricted-syntax` rule enforcing numeric spacing props: `gap={4}` not `gap="4"`
 
 ### What was done (2026-02-27)
 
@@ -141,31 +151,23 @@
 - Fixed `NoItems.tsx` (missed by bulk pass) — Callout.Root compound → div+callout recipe
 - Net new TypeScript errors: 0 (65 total, all pre-existing)
 
-### Remaining (22 files) — to be done in Phase 6d-ii
+### Remaining (12 files) — to be done in Phase 6d-iii
+
+Blocked on new DS components: Dialog, TextField, RadioGroup, Checkbox.
 
 ```
-apps/client/src/admin/components/AdminNavigation/AdminNavbar.tsx         (TabNav)
-apps/client/src/admin/components/AdminNavigation/HiddenMeasureItems.tsx  (TabNav)
-apps/client/src/admin/pages/AdminLanguagesPage/components/LanguageDeleteDialog.tsx (AlertDialog)
-apps/client/src/admin/pages/AdminLanguagesPage/components/LanguagesList.tsx (IconButton)
-apps/client/src/admin/pages/AdminLanguagesPage/components/LanguagesListSelected.tsx (unknown)
-apps/client/src/App.tsx                                                   (Theme as RadixTheme)
-apps/client/src/components/DataList/CalculationDataList/CalculationDataList.tsx (DataList)
-apps/client/src/components/DataList/ConfigDataList/ConfigDataList.tsx    (DataList)
-apps/client/src/components/DataList/MetadataDataList/MetadataDataList.tsx (DataList)
-apps/client/src/components/DataList/OrderDataList/OrderDataList.tsx      (DataList)
+apps/client/src/admin/pages/AdminLanguagesPage/components/LanguageDeleteDialog.tsx (AlertDialog — needs Dialog)
 apps/client/src/components/Dialog/GenericDialog.tsx                      (Dialog, IconButton, VisuallyHidden)
-apps/client/src/components/LanguageSelector/LanguageSelector.tsx         (RadioCards)
-apps/client/src/components/Pads/PadGroup/PadGroup.tsx                    (CheckboxGroup)
+apps/client/src/components/LanguageSelector/LanguageSelector.tsx         (RadioCards — needs DS RadioGroup)
+apps/client/src/components/Pads/PadGroup/PadGroup.tsx                    (CheckboxGroup — needs DS Checkbox)
 apps/client/src/components/SearchBar/SearchBar.tsx                       (TextField)
-apps/client/src/forms/InputTemperature/InputTemperature.tsx              (IconButton, TextField)
-apps/client/src/forms/InputTime/InputTime.tsx                            (IconButton, TextField)
+apps/client/src/forms/InputTemperature/InputTemperature.tsx              (IconButton + TextField)
+apps/client/src/forms/InputTime/InputTime.tsx                            (IconButton + TextField)
 apps/client/src/forms/SearchableLanguageInput/SearchableLanguageInput.tsx (TextField)
 apps/client/src/forms/SearchableLanguageInput/SearchableLanguageInputCurated.tsx (TextField)
 apps/client/src/forms/SelectCustom/SelectCustom.tsx                      (TextField)
 apps/client/src/forms/SelectSearchable/SelectSearchable.tsx              (TextField)
-apps/client/src/main.tsx                                                  (@radix-ui/themes/styles.css — keep until 6f)
-apps/client/src/styles/radix-ui/theme.config.ts                          (ThemeProps — keep until 6f)
+apps/client/src/App.tsx                                                   (Theme as RadixTheme — keep until 6f)
 ```
 
 ---
@@ -273,6 +275,9 @@ injecting CSS vars, the cascades multiply.
 10. Row/Col carry no margin/padding props — spacing is a separate concern handled by `Box` + Panda `css()` (2026-02-27)
 11. `justify` props use CSS values (`"space-between"`) not shorthand aliases (`"between"`) — Panda passes values directly to CSS; no hidden mapping layer (2026-02-27)
 12. CSS custom property override audit deferred to Phase 6g — majority will self-resolve when Radix Themes + Emotion are removed in 6f (2026-02-27)
+13. `colors` palette export added to `@workspace/design-system/tokens` — camelCase keys → CSS vars, drop-in v1 replacement (import-only change, no alpha variants) (2026-02-28)
+14. Alpha/transparency token variants removed — 11-stop shade scale (`xxxlight`→`xxxdark`) covers in-between needs without extra tokens (2026-02-28)
+15. ESLint enforces numeric spacing props on Panda layout components — `gap={4}` not `gap="4"` (2026-02-28)
 
 ---
 
