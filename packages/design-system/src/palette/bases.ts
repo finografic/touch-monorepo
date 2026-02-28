@@ -24,9 +24,7 @@
  * xxxdark         → 950    near-black endpoint
  */
 
-import type { SemanticBase } from './palette.types';
-
-export const SEMANTIC_BASES: Record<string, SemanticBase> = {
+export const SEMANTIC_BASES: Record<string, { value: `oklch(${number}% ${number} ${number})` }> = {
   primary: { value: 'oklch(48.8% 0.243 264.376)' }, // blue-700 range
   secondary: { value: 'oklch(49.6% 0.265 301.924)' }, // purple-700 range
   success: { value: 'oklch(65.4% 0.194 149.214)' }, // green-600 range
