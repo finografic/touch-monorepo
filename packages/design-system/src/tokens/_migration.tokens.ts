@@ -1,6 +1,7 @@
-import { colors } from './colors.palette';
+import { colors } from '../palette/colors.palette';
+import { borderWidthTokens, radiiTokens } from './decorative.tokens';
 import { layoutTokens } from './layout.tokens';
-import { borderWidthTokens, radiiTokens, spacingTokens } from './spacing.tokens';
+import { spacingTokens } from './spacing.tokens';
 import { textStyles } from './typography.tokens';
 
 export const spacing = {
@@ -68,7 +69,5 @@ export const layout = {
     height: layoutTokens.imagePreview.height,
   },
 } as const;
-
-// ======================================================================== //
 
 export { colors };

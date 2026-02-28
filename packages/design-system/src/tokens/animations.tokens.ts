@@ -4,10 +4,6 @@
  * Keyframes and transition durations for the design system.
  */
 
-// ============================================================================
-// KEYFRAMES
-// ============================================================================
-
 export const keyframes = {
   'slide-fade-in': {
     '0%': { opacity: '0', transform: 'translateY(-8px)' },
@@ -47,10 +43,6 @@ export const keyframes = {
   },
 } as const;
 
-// ============================================================================
-// DURATIONS
-// ============================================================================
-
 export const durationTokens = {
   fastest: { value: '50ms' },
   faster: { value: '100ms' },
@@ -60,10 +52,6 @@ export const durationTokens = {
   slower: { value: '400ms' },
   slowest: { value: '500ms' },
 } as const;
-
-// ============================================================================
-// EASINGS
-// ============================================================================
 
 export const easingTokens = {
   'default': { value: 'cubic-bezier(0.4, 0, 0.2, 1)' },
