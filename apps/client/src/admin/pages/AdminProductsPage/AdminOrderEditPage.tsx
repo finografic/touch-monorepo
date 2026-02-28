@@ -94,12 +94,12 @@ export const AdminOrderEditPage: React.FC = () => {
     >
       <AdminSection isLoading={isLoading} variant="none">
         {isLoading && isEditMode ? (
-          <Flex direction="column" gap="4" align="center" justify="center" p="6">
+          <Flex direction="column" gap={4} align="center" justify="center" p={6}>
             <Spinner />
             <span>Loading order data...</span>
           </Flex>
         ) : orderError ? (
-          <Flex direction="column" gap="4" align="center" justify="center" p="6">
+          <Flex direction="column" gap={4} align="center" justify="center" p={6}>
             <span>Error loading order: {orderError.message}</span>
           </Flex>
         ) : (

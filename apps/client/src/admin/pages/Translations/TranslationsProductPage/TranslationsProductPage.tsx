@@ -70,7 +70,7 @@ export const TranslationsProductPage: React.FC = () => {
         description={t('admin.pages.translations_product.description')}
         styles={styles}
       >
-        <Flex direction="column" gap="4" align="center" justify="center" p="6">
+        <Flex direction="column" gap={4} align="center" justify="center" p={6}>
           <Spinner />
           <span>Loading translations...</span>
         </Flex>

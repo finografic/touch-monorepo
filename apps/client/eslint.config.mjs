@@ -52,7 +52,7 @@ export default fino({
     'test/prefer-lowercase-title': OFF,
 
     'no-restricted-syntax': [
-      'warn',
+      WARN,
       {
         // Panda CSS spacing/sizing scale props — prefer numeric: gap={4} not gap="4"
         selector:
