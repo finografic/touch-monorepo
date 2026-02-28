@@ -68,6 +68,7 @@
     "clean.dry": "pnpm --package=@finografic/project-scripts dlx purge-builds --recursive --dry-run",
     "update.project-scripts": "pnpm update @finografic/project-scripts --latest --recursive",
     "·········· UTILS": "·····················································",
+    "panda:studio": "panda studio",
     "panda:codegen": "panda codegen",
     "typecheck": "tsc --noEmit"
   },
@@ -82,6 +83,7 @@
   "devDependencies": {
     "@eslint/js": "^9.39.3",
     "@finografic/project-scripts": "8.12.0",
+    "@pandacss/studio": "1.8.2",
     "@stylistic/eslint-plugin": "^4.4.1",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.5",
@@ -98,7 +100,7 @@
   "peerDependencies": {
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-hook-form": "^7.0.0"
+    "react-hook-form": "7.71.1"
   },
   "peerDependenciesMeta": {
     "react-hook-form": {

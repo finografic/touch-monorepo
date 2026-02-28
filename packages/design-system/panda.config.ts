@@ -13,9 +13,28 @@ import { defineConfig } from '@pandacss/dev';
 import { designSystemPreset } from './src/panda.preset';
 
 export default defineConfig({
-  presets: [designSystemPreset],
+  /**
+   * Disable Panda's built-in preflight — client already has
+   * @workspace/design-system/styles/reset.css imported in theme.css.
+   */
   preflight: true,
+
+  /**
+   * Base Panda utilities + our design-system preset.
+   * Order matters: designSystemPreset overrides base tokens.
+   */
+  presets: [designSystemPreset],
+
+  /**
+   * Scan client source for used class names (tree-shaking).
+   */
   include: ['./src/**/*.{ts,tsx}'],
-  outdir: 'styled-system',
+  exclude: [],
+
+  /**
+   * Generate React JSX components from Panda patterns.
+   * Gives us <Box mx="4" py="2"> etc. with full token + responsive support.
+   * Use Box for spacing/layout wrappers. Use Row/Col for flex grid layout.
+   */
   jsxFramework: 'react',
 });
