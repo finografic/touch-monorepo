@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 
-import { Flex } from 'styled-system/jsx';
 import { ListBox } from 'primereact/listbox';
+import { Flex } from 'styled-system/jsx';
 import { useToast } from 'components/Toast';
 
 import { useUpdateSoundSettings } from 'queries/sounds';
@@ -48,7 +48,7 @@ export const ListBoxSelect: React.FC<ListBoxSelectProps> = ({ soundSettings, sou
   return (
     <Flex
       direction="column"
-      gap="4"
+      gap={4}
       align="center"
       style={{ width: '100%', fontSize: '1.5rem', fontWeight: '600', padding: '2rem' }}
     >

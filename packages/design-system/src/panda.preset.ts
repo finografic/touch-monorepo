@@ -18,27 +18,10 @@
 
 import { definePreset } from '@pandacss/dev';
 
-import { durationTokens, easingTokens, keyframes } from './tokens/animations.tokens';
-import { colorTokens, semanticColorTokens } from './tokens/colors.tokens';
-import {
-  borderWidthTokens,
-  radiiTokens,
-  shadowTokens,
-  spacingTokens,
-  zIndexTokens,
-} from './tokens/spacing.tokens';
-import { BREAKPOINTS_PX } from './viewport/viewport.breakpoints';
-import {
-  fontSizeTokens,
-  fontTokens,
-  fontWeightTokens,
-  lineHeightTokens,
-  textStyles,
-} from './tokens/typography.tokens';
-import { buttonRecipe } from './recipes/button';
 import { badgeRecipe } from './recipes/badge';
-import { cardRecipe } from './recipes/card';
+import { buttonRecipe } from './recipes/button';
 import { calloutRecipe } from './recipes/callout';
+import { cardRecipe } from './recipes/card';
 import { checkboxRecipe } from './recipes/checkbox';
 import { dialogRecipe } from './recipes/dialog';
 import { formFieldRecipe } from './recipes/form-field';
@@ -52,6 +35,23 @@ import { tabsRecipe } from './recipes/tabs';
 import { textRecipe } from './recipes/text';
 import { toastRecipe } from './recipes/toast';
 import { tooltipRecipe } from './recipes/tooltip';
+import { durationTokens, easingTokens, keyframes } from './tokens/animations.tokens';
+import { colorTokens, semanticColorTokens } from './tokens/colors.tokens';
+import {
+  borderWidthTokens,
+  radiiTokens,
+  shadowTokens,
+  spacingTokens,
+  zIndexTokens,
+} from './tokens/spacing.tokens';
+import {
+  fontSizeTokens,
+  fontTokens,
+  fontWeightTokens,
+  lineHeightTokens,
+  textStyles,
+} from './tokens/typography.tokens';
+import { BREAKPOINTS_PX } from './viewport/viewport.breakpoints';
 
 export const designSystemPreset = definePreset({
   name: '@workspace/design-system',
@@ -110,15 +110,15 @@ export const designSystemPreset = definePreset({
       },
 
       slotRecipes: {
-        checkbox:  checkboxRecipe,
-        dialog:    dialogRecipe,
+        checkbox: checkboxRecipe,
+        dialog: dialogRecipe,
         formField: formFieldRecipe,
-        menu:      menuRecipe,
-        popover:   popoverRecipe,
-        select:    selectRecipe,
-        tabs:      tabsRecipe,
-        toast:     toastRecipe,
-        tooltip:   tooltipRecipe,
+        menu: menuRecipe,
+        popover: popoverRecipe,
+        select: selectRecipe,
+        tabs: tabsRecipe,
+        toast: toastRecipe,
+        tooltip: tooltipRecipe,
       },
 
       breakpoints: BREAKPOINTS_PX,

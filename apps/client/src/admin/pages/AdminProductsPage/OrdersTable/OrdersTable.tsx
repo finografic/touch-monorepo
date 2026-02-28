@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 
 import { PAGINATOR_PROPS } from 'admin/config/admin.tables.config';
-import { Button } from 'components/Button';
 import { useTableHeaders } from 'admin/hooks/useTableHeaders';
 import { FilterMatchMode } from 'primereact/api';
 import type { ColumnProps } from 'primereact/column';
 import { Column } from 'primereact/column';
 import type { DataTableFilterMeta } from 'primereact/datatable';
 import { DataTable } from 'primereact/datatable';
+import { Button } from 'components/Button';
 
 import { useAppConfig } from 'providers/AppConfigProvider';
 
@@ -93,11 +93,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
   // ============================================================================
 
   const indexBodyTemplate = (rowData: OrderReadableWithIndex) => {
-    return (
-      <span className="td-index">
-        {rowData.displayIndex}
-      </span>
-    );
+    return <span className="td-index">{rowData.displayIndex}</span>;
   };
 
   const modeBodyTemplate = (rowData: OrderReadableWithIndex) => {
