@@ -5,8 +5,8 @@
  * from a single OKLCH base color anchored at shade 500.
  */
 
-import type { ShadeStop } from './palette.types';
 import { clamp } from './oklch.utils';
+import type { ShadeStop } from './palette.types';
 
 // ---------------------------------------------------------------------------
 // Configuration
@@ -74,7 +74,12 @@ const LIGHT_BLEND_RATIOS: Record<ShadeStop, number> = {
   300: 0.85,
   400: 0.95,
   // Remaining stops unused on light side, but satisfy the type
-  500: 0, 600: 0, 700: 0, 800: 0, 900: 0, 950: 0,
+  500: 0,
+  600: 0,
+  700: 0,
+  800: 0,
+  900: 0,
+  950: 0,
 };
 
 // ---------------------------------------------------------------------------

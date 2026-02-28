@@ -1,15 +1,15 @@
 /**
- * 🎨 Semantic Base Colors — Single Source of Truth
+ * 🎨 Design System Color Tokens
  *
- * Each entry is the "500" shade anchor from which all 11 shade stops are derived.
- * Values are in OKLCH color space for perceptually uniform ramp generation.
+ * Source-of-truth OKLCH color values, mapped from the existing client styles.
+ * These are the base colors from which all semantic tokens are derived.
  *
  * @see https://oklch.com — OKLCH color picker
  * @see https://www.w3.org/TR/css-color-4/#ok-lab — W3C specification
  *
- * Migration cheatsheet (old semantic names → new shade keys):
+ * Shade scale (11 stops) — word names map to the TW/Panda/Ark numeric standard:
  *
- * OLD NAME        → SHADE  NOTES
+ * SHADE SUFFIX    → SHADE  NOTES
  * ──────────────────────────────────────────────
  * xxxlight        → 50     near-white endpoint
  * xxlight         → 100
@@ -17,7 +17,7 @@
  * lighter         → 300    medium-light
  * light           → 400    hover-on-light-bg
  * base            → 500    anchor (DEFAULT)
- * dark            → 600    hover-on-solid-bg, active
+ * dark            → 600    hover-on-solid-bg, active states
  * darker          → 700
  * xdark           → 800
  * xxdark          → 900

@@ -1,40 +1,5 @@
 /**
  * colors — design-system color palette as CSS custom property references.
- *
- * Drop-in replacement for the legacy `colors` import.
- * Migration: change the import only — nothing else in the file needs to change.
- *
- *   // Before:
- *   import { colors } from 'styles';
- *   // or: import { colors } from 'styles/colors/colors-direct';
- *
- *   // After:
- *   import { colors } from '@workspace/design-system/tokens';
- *
- * Key naming matches v1 exactly: camelCase shades (primaryXLight, infoLight, etc.)
- * Transparency variants (primary25, greyXXLight50, etc.) are intentionally omitted —
- * use the expanded shade scale instead (xxxlight / lighter / darker / xxxdark).
- *
- * Shade map (v1 suffix → design-system token suffix):
- *   (base)  → {name}
- *   Light   → {name}-light
- *   XLight  → {name}-xlight
- *   XXLight → {name}-xxlight
- *   Dark    → {name}-dark
- *   XDark   → {name}-xdark
- *   XXDark  → {name}-xxdark
- *
- * New shades with no v1 equivalent (available here, were not in v1):
- *   XXXLight → {name}-xxxlight   (near-white)
- *   Lighter  → {name}-lighter    (between xlight and light)
- *   Darker   → {name}-darker     (between dark and xdark)
- *   XXXDark  → {name}-xxxdark    (near-black)
- *
- * Notes on v1 name differences:
- *   - v1 `default`    → token `neutral`  (same value, renamed in design-system)
- *   - v1 `text`       → semantic `fg`    (no palette; mapped to fg semantic tokens)
- *   - v1 `background` → semantic `bg`    (no palette; mapped to bg semantic tokens)
- *   - v1 `error`      → `danger`         (same token, different alias)
  */
 
 const v = (token: string): string => `var(--colors-${token})`;

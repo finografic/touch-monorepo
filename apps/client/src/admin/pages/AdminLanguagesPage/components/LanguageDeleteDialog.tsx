@@ -1,9 +1,8 @@
 import React from 'react';
-
-import type { LanguageInfo } from '@workspace/i18n/types';
 import { Dialog } from '@workspace/design-system/forms';
-import { Flex } from 'styled-system/jsx';
+import type { LanguageInfo } from '@workspace/i18n/types';
 
+import { Flex } from 'styled-system/jsx';
 import { Button } from 'components/Button';
 
 interface LanguageDeleteDialogProps {
