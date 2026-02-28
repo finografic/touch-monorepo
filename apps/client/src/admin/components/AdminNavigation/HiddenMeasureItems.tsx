@@ -1,7 +1,5 @@
 import { type FC, useEffect, useRef } from 'react';
 
-import { TabNav } from '@radix-ui/themes';
-
 import type { NavItem } from 'types/nav.types';
 
 interface HiddenMeasureItemsProps {
@@ -45,19 +43,18 @@ export const HiddenMeasureItems: FC<HiddenMeasureItemsProps> = ({
   return (
     <div className="measure">
       {navItems.map((navItem, i) => (
-        <TabNav.Link asChild key={`measure-${navItem.id}-${i}`} >
-          <button
-            ref={(el) => {
-              if (el && i < navItemsRef.current.length) {
-                navItemsRef.current[i] = el;
-              }
-            }}
-            type="button"
-            className="nav-button"
-          >
-            {navItem.label}
-          </button>
-        </TabNav.Link>
+        <button
+          key={`measure-${navItem.id}-${i}`}
+          ref={(el) => {
+            if (el && i < navItemsRef.current.length) {
+              navItemsRef.current[i] = el;
+            }
+          }}
+          type="button"
+          className="nav-button"
+        >
+          {navItem.label}
+        </button>
       ))}
     </div>
   );

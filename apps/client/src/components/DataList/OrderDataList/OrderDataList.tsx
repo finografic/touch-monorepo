@@ -1,5 +1,3 @@
-import { DataList } from '@radix-ui/themes';
-
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import { styles } from './OrderDataList.styles';
 
@@ -57,15 +55,14 @@ export const OrderDataList = ({ data }: { data: OrderReadableModel }) => {
 
   return (
     <div css={styles} className="data-list-wrapper">
-      <DataList.Root className="data-list">
-        {/* Display order data fields */}
+      <dl className="data-list">
         {displayFields.map((filterKey) => (
-          <DataList.Item key={filterKey}>
-            <DataList.Label className="label">{formatFieldName(filterKey)}</DataList.Label>
-            <DataList.Value className="value">{getDisplayValue(filterKey, data)}</DataList.Value>
-          </DataList.Item>
+          <div key={filterKey}>
+            <dt className="label">{formatFieldName(filterKey)}</dt>
+            <dd className="value">{getDisplayValue(filterKey, data)}</dd>
+          </div>
         ))}
-      </DataList.Root>
+      </dl>
     </div>
   );
 };

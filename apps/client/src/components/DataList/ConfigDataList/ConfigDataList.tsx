@@ -1,5 +1,3 @@
-import { DataList } from '@radix-ui/themes';
-
 import { styles } from './ConfigDataList.styles';
 
 interface ConfigDataListProps {
@@ -17,13 +15,13 @@ export const ConfigDataList = ({ data }: ConfigDataListProps) => {
   };
 
   return (
-    <DataList.Root css={styles} className="data-list">
+    <dl css={styles} className="data-list">
       {Object.entries(data).map(([key, value]) => (
-        <DataList.Item key={key}>
-          <DataList.Label className="label">{key}</DataList.Label>
-          <DataList.Value className="value">{renderValue(value)}</DataList.Value>
-        </DataList.Item>
+        <div key={key}>
+          <dt className="label">{key}</dt>
+          <dd className="value">{renderValue(value)}</dd>
+        </div>
       ))}
-    </DataList.Root>
+    </dl>
   );
 };

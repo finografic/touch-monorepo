@@ -1,8 +1,8 @@
 import React from 'react';
 import type { LanguageInfo } from '@workspace/i18n/types';
 
-import { IconButton } from '@radix-ui/themes';
 import { Box, Flex } from 'styled-system/jsx';
+import { Button } from 'components/Button';
 import { callout, card } from 'styled-system/recipes';
 import clsx from 'clsx';
 
@@ -60,17 +60,17 @@ export const LanguagesListSelected: React.FC<LanguagesListSelectedProps> = ({
                 <Flex align="stretch" gap="3">
                   {/* Delete Button */}
                   <Flex align="center" className="col col-delete">
-                    <IconButton
+                    <Button
                       className={clsx('button-delete')}
                       variant="soft"
-                      color="orange"
+                      color="warning"
                       onClick={() => onRemoveLanguage(language.code, language.countryCode)}
                       disabled={isLoading}
                       title="Remove from selection"
-                      size="2"
+                      size="sm"
                     >
                       <TrashIcon />
-                    </IconButton>
+                    </Button>
                   </Flex>
                 </Flex>
               </Flex>

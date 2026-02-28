@@ -1,8 +1,8 @@
 import React from 'react';
 import type { LanguageInfo } from '@workspace/i18n/types';
 
-import { IconButton } from '@radix-ui/themes';
 import { Flex } from 'styled-system/jsx';
+import { Button } from 'components/Button';
 import { Switch } from '@workspace/design-system/components';
 import { card, dsSwitch } from 'styled-system/recipes';
 import clsx from 'clsx';
@@ -78,15 +78,15 @@ export const LanguagesList: React.FC<LanguagesListProps> = ({ languages, onDelet
                 </Flex>
 
                 <Flex align="center" className="col col-delete">
-                  <IconButton
+                  <Button
                     className={clsx('button-delete', {
                       'is-disabled': !isDeletable,
                     })}
                     variant="soft"
-                    color="red"
+                    color="danger"
                     onClick={() => onDeleteLanguage(language.code)}
                     disabled={!isDeletable}
-                    size="2"
+                    size="sm"
                     title={
                       !isDeletable
                         ? language.isDefault
@@ -96,7 +96,7 @@ export const LanguagesList: React.FC<LanguagesListProps> = ({ languages, onDelet
                     }
                   >
                     {isDeletable ? <TrashIcon /> : <LockIcon />}
-                  </IconButton>
+                  </Button>
                 </Flex>
               </Flex>
             </Flex>
