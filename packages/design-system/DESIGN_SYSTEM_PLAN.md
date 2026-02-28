@@ -88,8 +88,8 @@ visual variants in the client needs a recipe.
 | `form-field` | `styles/forms/forms.styles.ts` | Field wrapper (label + input + error) |
 | `select` | `styles/forms/forms-select.styles.ts` | Native select styling |
 | `avatar` | — | Circular image/initials |
-| `spinner` | — | Loading indicator |
-| `progress` | — | Progress bar |
+| `spinner`⭐ | — | Loading indicator |
+| `progress`⭐ | — | Progress bar |
 | `tabs` | — | Tab strip + panel |
 | `menu` | — | Dropdown menu items |
 | `tooltip` | — | Tooltip bubble |

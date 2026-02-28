@@ -42,17 +42,19 @@ const v = (token: string): string => `var(--colors-${token})`;
 export const colors = {
 
   // ── Fixed ──────────────────────────────────────────────────────────────────
-  white:       v('white'),
-  black:       v('black'),
-  transparent: 'transparent',
+
+  white:          v('white'),
+  black:          v('black'),
+  transparent:    'transparent',
 
   // ── Primary ────────────────────────────────────────────────────────────────
-  primary:        v('primary'),
-  primaryXXXLight: v('primary-xxxlight'),
+
+  primaryXXXLight:v('primary-xxxlight'),
   primaryXXLight: v('primary-xxlight'),
   primaryXLight:  v('primary-xlight'),
   primaryLighter: v('primary-lighter'),
   primaryLight:   v('primary-light'),
+  primary:        v('primary'),
   primaryDark:    v('primary-dark'),
   primaryDarker:  v('primary-darker'),
   primaryXDark:   v('primary-xdark'),
@@ -60,12 +62,13 @@ export const colors = {
   primaryXXXDark: v('primary-xxxdark'),
 
   // ── Secondary ──────────────────────────────────────────────────────────────
-  secondary:        v('secondary'),
-  secondaryXXXLight: v('secondary-xxxlight'),
+
+  secondaryXXXLight:v('secondary-xxxlight'),
   secondaryXXLight: v('secondary-xxlight'),
   secondaryXLight:  v('secondary-xlight'),
   secondaryLighter: v('secondary-lighter'),
   secondaryLight:   v('secondary-light'),
+  secondary:        v('secondary'),
   secondaryDark:    v('secondary-dark'),
   secondaryDarker:  v('secondary-darker'),
   secondaryXDark:   v('secondary-xdark'),
@@ -73,12 +76,13 @@ export const colors = {
   secondaryXXXDark: v('secondary-xxxdark'),
 
   // ── Success ────────────────────────────────────────────────────────────────
-  success:        v('success'),
+
   successXXXLight: v('success-xxxlight'),
   successXXLight: v('success-xxlight'),
   successXLight:  v('success-xlight'),
   successLighter: v('success-lighter'),
   successLight:   v('success-light'),
+  success:        v('success'),
   successDark:    v('success-dark'),
   successDarker:  v('success-darker'),
   successXDark:   v('success-xdark'),
@@ -99,12 +103,13 @@ export const colors = {
   warningXXXDark: v('warning-xxxdark'),
 
   // ── Danger ─────────────────────────────────────────────────────────────────
-  danger:        v('danger'),
+
   dangerXXXLight: v('danger-xxxlight'),
   dangerXXLight: v('danger-xxlight'),
   dangerXLight:  v('danger-xlight'),
   dangerLighter: v('danger-lighter'),
   dangerLight:   v('danger-light'),
+  danger:        v('danger'),
   dangerDark:    v('danger-dark'),
   dangerDarker:  v('danger-darker'),
   dangerXDark:   v('danger-xdark'),
@@ -114,12 +119,13 @@ export const colors = {
   errorLight:    v('danger-light'), // v1 alias
 
   // ── Info ───────────────────────────────────────────────────────────────────
-  info:        v('info'),
+
   infoXXXLight: v('info-xxxlight'),
   infoXXLight: v('info-xxlight'),
   infoXLight:  v('info-xlight'),
   infoLighter: v('info-lighter'),
   infoLight:   v('info-light'),
+  info:        v('info'),
   infoDark:    v('info-dark'),
   infoDarker:  v('info-darker'),
   infoXDark:   v('info-xdark'),
@@ -127,12 +133,13 @@ export const colors = {
   infoXXXDark: v('info-xxxdark'),
 
   // ── Grey ───────────────────────────────────────────────────────────────────
-  grey:        v('grey'),
+
   greyXXXLight: v('grey-xxxlight'),
   greyXXLight: v('grey-xxlight'),
   greyXLight:  v('grey-xlight'),
   greyLighter: v('grey-lighter'),
   greyLight:   v('grey-light'),
+  grey:        v('grey'),
   greyDark:    v('grey-dark'),
   greyDarker:  v('grey-darker'),
   greyXDark:   v('grey-xdark'),
@@ -140,12 +147,13 @@ export const colors = {
   greyXXXDark: v('grey-xxxdark'),
 
   // ── Default → Neutral (renamed in design-system; same base value) ──────────
-  default:        v('neutral'),
+
   defaultXXXLight: v('neutral-xxxlight'),
   defaultXXLight: v('neutral-xxlight'),
   defaultXLight:  v('neutral-xlight'),
   defaultLighter: v('neutral-lighter'),
   defaultLight:   v('neutral-light'),
+  default:        v('neutral'),
   defaultDark:    v('neutral-dark'),
   defaultDarker:  v('neutral-darker'),
   defaultXDark:   v('neutral-xdark'),
@@ -153,14 +161,16 @@ export const colors = {
   defaultXXXDark: v('neutral-xxxdark'),
 
   // ── Text → fg semantic (approximate; prefer token('colors.fg.*') directly) ─
-  text:      v('fg'),
-  textLight: v('fg-muted'),
-  textXLight: v('fg-subtle'),
-  textXXLight: v('fg-subtle'),
-  textDark:  v('fg'),
-  textXDark: v('fg'),
+
+  textXXLight:    v('fg-subtle'),
+  textXLight:     v('fg-subtle'),
+  textLight:      v('fg-muted'),
+  text:           v('fg'),
+  textDark:       v('fg'),
+  textXDark:      v('fg'),
 
   // ── Background → bg semantic ───────────────────────────────────────────────
+
   background:     v('bg'),
   backgroundDark: v('bg-emphasized'),
 
