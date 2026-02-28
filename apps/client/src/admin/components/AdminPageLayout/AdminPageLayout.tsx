@@ -7,7 +7,7 @@ import { callout } from 'styled-system/recipes';
 import { Loader } from 'components/Loader/Loader';
 import { Title } from 'components/Title';
 
-import { type Align, type StatusType } from 'types/ui.types';
+import type { Align, StatusType } from 'types/ui.types';
 import { styles as stylesLayout } from './AdminPageLayout.styles';
 
 const STATUS_TO_CALLOUT_STATUS: Record<StatusType, 'error' | 'warning' | 'success' | 'info'> = {
@@ -66,7 +66,7 @@ export const AdminPageLayout: React.FC<AdminPageLayoutProps> = memo(
               </Flex>
               {/* Right side: Action Buttons - Flexible but no wrap */}
               {headerActions && (
-                <Flex gap="3" align="center" justify="end" className="admin-page-header-actions" style={{}}>
+                <Flex className="admin-page-header-actions" align="center" justify="end" gap="3" style={{}}>
                   {headerActions}
                 </Flex>
               )}

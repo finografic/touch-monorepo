@@ -241,7 +241,7 @@ Example colors shown below — the same shade structure applies to all 22 palett
 > **Token syntax:** `red.500`, `blue.200`, `slate.950`, etc.
 > ✦ `500` is the conventional "base" shade — used as the default `solid` background in most component color schemes.
 >
-> **No built-in alpha scale.** Your `solid | a25 | a50 | a75` alpha variants would be a custom extension to this palette.
+> **No alpha scale.** The design system uses an expanded 11-stop shade scale (`xxxlight` → `xxxdark`) instead of alpha variants.
 
 ---
 
@@ -407,7 +407,7 @@ These are the **`variant` prop values** accepted by Park UI component recipes.
 
 3. **Breakpoint keys and component size keys share names** (`sm`, `md`, `lg`, `xl`, `2xl`) but serve completely different purposes. The TypeScript types should keep them in separate namespaces.
 
-4. **Panda CSS has no built-in alpha token scale.** Your `solid | a25 | a50 | a75` system is a custom extension — this is an area where your design system adds differentiation.
+4. **No alpha token scale.** The design system covers in-between shades via the 11-stop scale (`xxxlight` through `xxxdark`) — alpha variants are intentionally omitted.
 
 5. **Park UI's `colorPalette` virtual color system** is the bridge between raw palette shades and component variants. Mapping your OKLCH semantic palette to these paths is the key integration point.
 

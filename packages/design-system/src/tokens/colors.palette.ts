@@ -1,5 +1,5 @@
 /**
- * colorsV2 — v1-compatible color palette with Panda CSS custom properties
+ * colors — design-system color palette as CSS custom property references.
  *
  * Drop-in replacement for the legacy `colors` import.
  * Migration: change the import only — nothing else in the file needs to change.
@@ -9,7 +9,7 @@
  *   // or: import { colors } from 'styles/colors/colors-direct';
  *
  *   // After:
- *   import { colorsV2 as colors } from '@workspace/design-system/tokens';
+ *   import { colors } from '@workspace/design-system/tokens';
  *
  * Key naming matches v1 exactly: camelCase shades (primaryXLight, infoLight, etc.)
  * Transparency variants (primary25, greyXXLight50, etc.) are intentionally omitted —
@@ -39,7 +39,7 @@
 
 const v = (token: string): string => `var(--colors-${token})`;
 
-export const colorsV2 = {
+export const colors = {
 
   // ── Fixed ──────────────────────────────────────────────────────────────────
   white:       v('white'),
@@ -166,4 +166,4 @@ export const colorsV2 = {
 
 } as const;
 
-export type ColorsV2Key = keyof typeof colorsV2;
+export type ColorsKey = keyof typeof colors;

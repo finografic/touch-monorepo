@@ -208,6 +208,7 @@
     "MD025": false, // Allow multiple top-level headings (useful for TODO files)
     "MD040": false, // Don't require language for code blocks
     "MD041": false // Don't require first line to be a top-level heading
-  }
+  },
+  "markdown-preview-enhanced.scrollSync": false
   // "markdown.styles": [".vscode/markdown-github-light.css"]
 }

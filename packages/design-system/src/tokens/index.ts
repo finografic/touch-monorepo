@@ -1,6 +1,6 @@
 export { baseColors, colorTokens, semanticColorTokens } from './colors.tokens';
-export { colorsV2 } from './colors-compat';
-export type { ColorsV2Key } from './colors-compat';
+export { colors } from './colors.palette';
+export type { ColorsKey } from './colors.palette';
 export {
   fontTokens,
   fontSizeTokens,

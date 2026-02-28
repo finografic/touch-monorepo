@@ -9,6 +9,7 @@
  *   import { designSystemPreset } from '@workspace/design-system/panda.preset';
  */
 import { defineConfig } from '@pandacss/dev';
+
 import { designSystemPreset } from './src/panda.preset';
 
 export default defineConfig({

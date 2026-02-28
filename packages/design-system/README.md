@@ -241,6 +241,42 @@ const headingStyle = css({
 });
 ```
 
+### Using the `colors` palette (v1 migration helper)
+
+For files that already use a `colors` object (e.g. `colors.primaryLight`, `colors.greyXXLight`), the design system exports a typed `colors` object that maps v1 camelCase keys to the underlying CSS custom properties. Only the import needs to change — nothing else in the file.
+
+```ts
+// Before (v1):
+import { colors } from 'styles';
+// or: import { colors } from 'styles/colors/colors-direct';
+
+// After:
+import { colors } from '@workspace/design-system/tokens';
+
+// Usage is identical — full TypeScript autocomplete:
+borderColor: colors.primaryLight,   // → var(--colors-primary-light)
+color: colors.greyXXXLight,         // → var(--colors-grey-xxxlight)
+background: colors.danger,          // → var(--colors-danger)
+```
+
+**Shade scale** (11 stops per color — no alpha/transparency variants):
+
+| Key suffix | Token suffix |
+|---|---|
+| (base) | `{name}` |
+| `Light` | `{name}-light` |
+| `XLight` | `{name}-xlight` |
+| `XXLight` | `{name}-xxlight` |
+| `XXXLight` | `{name}-xxxlight` |
+| `Lighter` | `{name}-lighter` |
+| `Dark` | `{name}-dark` |
+| `Darker` | `{name}-darker` |
+| `XDark` | `{name}-xdark` |
+| `XXDark` | `{name}-xxdark` |
+| `XXXDark` | `{name}-xxxdark` |
+
+Available color groups: `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `grey`, `default` (→ neutral), plus `white`, `black`, `transparent`, `text*` (→ fg), `background` (→ bg).
+
 ---
 
 ## Component Recipes — Philosophy and Usage
