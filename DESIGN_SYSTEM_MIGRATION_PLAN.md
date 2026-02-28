@@ -171,15 +171,14 @@
 - Fixed `NoItems.tsx` (missed by bulk pass) — Callout.Root compound → div+callout recipe
 - Net new TypeScript errors: 0 (65 total, all pre-existing)
 
-### Remaining client migrations (10 files)
+### Remaining client migrations
 
 All DS components are built. Pending client-side wiring:
 
-```
-01  apps/client/src/admin/pages/AdminSoundPage/VolumeSlider.tsx                          (PrimeReact Slider → DS Slider)
-02  apps/client/src/components/LanguageSelector/LanguageSelector.tsx                    (RadioCards → RadioGroup variant="card")
-03  apps/client/src/components/Pads/PadGroup/PadGroup.tsx                               (CheckboxGroup.Root → <div>)
-04  apps/client/src/components/SearchBar/SearchBar.tsx                                  (TextField → InputField)
+~~01  apps/client/src/admin/pages/AdminSoundPage/VolumeSlider.tsx                       (PrimeReact Slider → DS Slider)~~
+~~02  apps/client/src/components/LanguageSelector/LanguageSelector.tsx                    (RadioCards → RadioGroup variant="card")~~
+~~03  apps/client/src/components/Pads/PadGroup/PadGroup.tsx                               (CheckboxGroup.Root → < div >)~~
+~~04  apps/client/src/components/SearchBar/SearchBar.tsx                                  (TextField → InputField)~~
 05  apps/client/src/forms/InputTemperature/InputTemperature.tsx                          (TextField + IconButton → InputField + Button)
 06  apps/client/src/forms/InputTime/InputTime.tsx                                       (TextField + IconButton → InputField + Button)
 07  apps/client/src/forms/SearchableLanguageInput/SearchableLanguageInput.tsx            (TextField → InputField)
@@ -187,7 +186,6 @@ All DS components are built. Pending client-side wiring:
 09  apps/client/src/forms/SelectCustom/SelectCustom.tsx                                 (TextField → InputField)
 10  apps/client/src/forms/SelectSearchable/SelectSearchable.tsx                        (TextField → InputField)
 11  apps/client/src/App.tsx                                                            (Theme as RadixTheme — keep until 6f)
-```
 
 All files unblocked — DS components for Dialog, Slider, InputField, Checkbox, RadioGroup all built.
 

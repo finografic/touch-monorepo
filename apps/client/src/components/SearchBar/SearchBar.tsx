@@ -1,7 +1,6 @@
 import type { FC } from 'react';
 
-import { TextField } from '@radix-ui/themes';
-import { Flex } from 'styled-system/jsx';
+import { InputField } from '@workspace/design-system/forms';
 import clsx from 'clsx';
 import { useDebouncedCallback } from 'use-debounce';
 
@@ -27,19 +26,15 @@ export const SearchBar: FC<SearchBarProps> = ({
 
   return (
     <div css={styles} role="searchbox" className={clsx('search-bar', status)}>
-      <Flex align="center" gap="3">
-        <TextField.Root
-          className="input-search"
-          placeholder={placeholder}
-          value={searchTerm}
-          onChange={(evt) => debouncedOnSearchChange(evt.target.value)}
-          size="3"
-        >
-          <TextField.Slot>
-            <MagnifyingGlassIcon />
-          </TextField.Slot>
-        </TextField.Root>
-      </Flex>
+      <InputField.Root
+        placeholder={placeholder}
+        value={searchTerm}
+        onChange={(evt) => debouncedOnSearchChange(evt.target.value)}
+      >
+        <InputField.Slot side="left">
+          <MagnifyingGlassIcon />
+        </InputField.Slot>
+      </InputField.Root>
     </div>
   );
 };
