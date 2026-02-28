@@ -2,7 +2,6 @@ import { useEffect, useMemo, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Spinner } from '@workspace/design-system/components';
 
-import { Flex } from 'styled-system/jsx';
 import { PadAction } from 'components/Pads/PadAction/PadAction';
 
 import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';
@@ -174,7 +173,7 @@ export function MainPage() {
   const altSlotNumber = altSpecialConfig?.data?.slot_number ?? 15;
 
   return (
-    <Flex css={styles} direction="column">
+    <div css={styles}>
       <div className="main-page-buttons-container">
         <MainSlotGrid
           slots={activeSlots}
@@ -191,6 +190,6 @@ export function MainPage() {
           ))}
         </div>
       </div>
-    </Flex>
+    </div>
   );
 }
