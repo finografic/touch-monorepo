@@ -14,7 +14,7 @@
       "constants/*": ["./constants/*"],
       "db": ["./db"],
       "db/*": ["./db/*"],
-      "env.server": ["./env.server.d.ts"],
+      "env.server": ["./env.server.ts"],
       "lib/*": ["./lib/*"],
       "middlewares/*": ["./middlewares/*"],
       "openapi/*": ["./openapi/*"],

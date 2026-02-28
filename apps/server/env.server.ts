@@ -67,7 +67,7 @@ const envServerValidated = ServerEnvSchema.parse({
   DATA_COOKIE_SUFFIX: process.env.DATA_COOKIE_SUFFIX,
 
   // Relay
-  RELAY_ENABLED: process.env.RELAY_ENABLED === true,
+  RELAY_ENABLED: String(process.env.RELAY_ENABLED) === 'true',
   RELAY_NUM_RELAYS:
     process.env.RELAY_NUM_RELAYS && String(process.env.RELAY_NUM_RELAYS).trim() !== ''
       ? Number(process.env.RELAY_NUM_RELAYS)
