@@ -2,10 +2,10 @@ import type { ComponentPropsWithoutRef, CSSProperties, ElementRef } from 'react'
 import { forwardRef } from 'react';
 
 interface RowProps extends ComponentPropsWithoutRef<'div'> {
-  align?: 'start' | 'center' | 'end' | 'stretch';
-  justify?: 'start' | 'center' | 'end' | 'between' | 'around';
+  align?: 'flex-start' | 'center' | 'flex-end' | 'stretch';
+  justify?: 'flex-start' | 'center' | 'flex-end' | 'space-between' | 'space-around';
   direction?: 'row' | 'column' | 'row-reverse' | 'column-reverse';
-  wrap?: 'wrap' | 'nowrap' | 'reverse';
+  wrap?: 'wrap' | 'nowrap' | 'wrap-reverse';
   nogutter?: boolean;
   gutterWidth?: number;
 }

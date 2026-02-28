@@ -51,7 +51,7 @@ Flex row container. Pairs with `Col`. Applies negative margin to offset Col gutt
 
 ```tsx
 <Row>...</Row>
-<Row justify="between" align="center">...</Row>
+<Row justify="space-between" align="center">...</Row>
 <Row nogutter>...</Row>
 <Row gutterWidth={32}>...</Row>
 ```
@@ -60,10 +60,10 @@ Flex row container. Pairs with `Col`. Applies negative margin to offset Col gutt
 
 | Prop | Type | Default | Notes |
 |------|------|---------|-------|
-| `align` | `'start' \| 'center' \| 'end' \| 'stretch'` | — | Maps to `align-items` |
-| `justify` | `'start' \| 'center' \| 'end' \| 'between' \| 'around'` | — | Maps to `justify-content` |
+| `align` | `'flex-start' \| 'center' \| 'flex-end' \| 'stretch'` | — | Maps to `align-items` |
+| `justify` | `'flex-start' \| 'center' \| 'flex-end' \| 'space-between' \| 'space-around'` | — | Maps to `justify-content` |
 | `direction` | `'row' \| 'column' \| 'row-reverse' \| 'column-reverse'` | — | Maps to `flex-direction` |
-| `wrap` | `'wrap' \| 'nowrap' \| 'reverse'` | `'wrap'` (CSS default) | Maps to `flex-wrap` |
+| `wrap` | `'wrap' \| 'nowrap' \| 'wrap-reverse'` | `'wrap'` (CSS default) | Maps to `flex-wrap` |
 | `nogutter` | `boolean` | `false` | Removes gutter margin/padding from row and direct Col children |
 | `gutterWidth` | `number` | `16` | Override gutter in px — sets `--ds-grid-gutter` inline |
 | `...rest` | `ComponentPropsWithoutRef<'div'>` | — | All standard div props |
@@ -72,24 +72,22 @@ Flex row container. Pairs with `Col`. Applies negative margin to offset Col gutt
 
 | Value | CSS |
 |-------|-----|
-| `"start"` | `align-items: flex-start` |
+| `"flex-start"` | `align-items: flex-start` |
 | `"center"` | `align-items: center` |
-| `"end"` | `align-items: flex-end` |
+| `"flex-end"` | `align-items: flex-end` |
 | `"stretch"` | `align-items: stretch` |
 
 ### justify values
 
 | Value | CSS |
 |-------|-----|
-| `"start"` | `justify-content: flex-start` |
+| `"flex-start"` | `justify-content: flex-start` |
 | `"center"` | `justify-content: center` |
-| `"end"` | `justify-content: flex-end` |
-| `"between"` | `justify-content: space-between` |
-| `"around"` | `justify-content: space-around` |
+| `"flex-end"` | `justify-content: flex-end` |
+| `"space-between"` | `justify-content: space-between` |
+| `"space-around"` | `justify-content: space-around` |
 
-> **Note:** Row prop values use shorthands (`"between"`, `"start"`) because they map to
-> CSS `data-*` attributes — not passed directly as CSS values. This is the opposite of
-> Panda's `<Flex>` which accepts full CSS values (`"space-between"`, `"flex-start"`).
+> **Note:** `Row` prop values match CSS values exactly, the same as Panda's `<Flex>`.
 
 ### Gutter
 
@@ -193,7 +191,7 @@ Understanding what's emitted is useful for debugging in DevTools.
 ### Row with alignment
 
 ```tsx
-<Row justify="between" align="center">
+<Row justify="space-between" align="center">
   <Col xs="content">Logo</Col>
   <Col xs="content">Nav</Col>
 </Row>

@@ -23,7 +23,7 @@ export const PublicSoundPage: React.FC = () => {
       styles={styles}
     >
       <AdminSection title="Alarm Sound" description="Select which sound file to use for timer alarm events">
-        <Row justify="between" align="center">
+        <Row justify="space-between" align="center">
           <Col xs={12} lg={7}>
             <SoundConfigurationSection
               soundFiles={soundFiles}

@@ -399,7 +399,7 @@ import { Row, Col, Container } from '@workspace/design-system/grid';
 ```tsx
 <Row>                          {/* default: flex-wrap, gutter 16px */}
 <Row align="center">           {/* align-items */}
-<Row justify="between">        {/* justify-content */}
+<Row justify="space-between">   {/* justify-content */}
 <Row nogutter>                 {/* removes gutter (margin + padding) */}
 <Row gutterWidth={24}>         {/* overrides --ds-grid-gutter */}
 <Row direction="column">       {/* flex-direction */}
@@ -578,7 +578,7 @@ export const MyPage = () => (
 
 ```tsx
 // ❌ Before — Radix Themes wrappers
-<Flex justify="between" align="center" gap="4">
+<Flex justify="space-between" align="center" gap="4">
   <Flex className="header-left" style={{ flex: '1 1 auto', minWidth: 0 }}>
     <Title ... />
   </Flex>

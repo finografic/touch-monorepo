@@ -89,7 +89,7 @@ export const Header: React.FC<HeaderProps> = ({
     <div css={styles}>
       <header className={clsx('app-header', { 'admin-app-header': location.pathname.startsWith('/admin') })}>
         <Container className="container" fluid>
-          <Row justify="between" align="center">
+          <Row justify="space-between" align="center">
             <Col {...left} className="col col-header-left">
               <Flex justify="start">{getLeftContent()}</Flex>
             </Col>
