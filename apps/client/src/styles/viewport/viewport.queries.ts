@@ -44,4 +44,3 @@ for (const [key, value] of Object.entries(BREAKPOINTS)) {
   min[key] = `@media (min-width: ${value}px)`;
   max[key] = `@media (max-width: ${value}px)`;
 }
-

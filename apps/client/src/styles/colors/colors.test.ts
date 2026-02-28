@@ -17,18 +17,23 @@ describe('enhanced Color System', () => {
     });
   });
 
-  describe('color System Properties', () => {
-    it('should maintain camelCase property names', () => {
-      // Base colors should be camelCase
+  describe('Base colors color props', () => {
+    it('should be camelCase', () => {
       expect(colors).toHaveProperty('primary');
       expect(colors).toHaveProperty('primaryLight');
       expect(colors).toHaveProperty('primaryXLight');
+    });
+  });
 
-      // Transparency should be numeric suffix
+  describe('Transparency color props', () => {
+    it('should be numeric suffix', () => {
       expect(colors).toHaveProperty('primary33');
       expect(colors).toHaveProperty('primary66');
+    });
+  });
 
-      // Combined should be camelCase + numeric
+  describe('Combined color props', () => {
+    it('should be camelCase + numeric', () => {
       expect(colors).toHaveProperty('primaryLight33');
       expect(colors).toHaveProperty('dangerDark66');
     });
