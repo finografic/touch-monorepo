@@ -22,7 +22,7 @@ export const SlotButton: React.FC<SlotButtonProps> = memo(
         size="md"
         style={style}
       >
-        <Flex direction="column" align="center" gap="1">
+        <Flex direction="column" align="center" gap={1}>
           <span>{slotNumber}</span>
           <span>{label}</span>
         </Flex>

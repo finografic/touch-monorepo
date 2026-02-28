@@ -75,7 +75,7 @@ export const SearchableLanguageInputLive: React.FC<SearchableLanguageInputLivePr
 
   if (isLoading) {
     return (
-      <Box p="4">
+      <Box p={4}>
         <span>Loading countries from REST Countries API...</span>
       </Box>
     );
@@ -83,7 +83,7 @@ export const SearchableLanguageInputLive: React.FC<SearchableLanguageInputLivePr
 
   if (error) {
     return (
-      <Box p="4">
+      <Box p={4}>
         <span>Error loading countries: {error.message}</span>
       </Box>
     );
@@ -106,7 +106,7 @@ export const SearchableLanguageInputLive: React.FC<SearchableLanguageInputLivePr
       />
 
       {searchTerm && (
-        <Box mt="2" style={{ maxHeight: '300px', overflowY: 'auto' }}>
+        <Box mt={2} style={{ maxHeight: '300px', overflowY: 'auto' }}>
           {filteredOptions.length === 0 ? (
             <span>No languages found</span>
           ) : (
@@ -114,8 +114,8 @@ export const SearchableLanguageInputLive: React.FC<SearchableLanguageInputLivePr
               <Flex
                 key={`${option.languageCode}-${option.countryCode}-${index}`}
                 align="center"
-                gap="2"
-                p="2"
+                gap={2}
+                p={2}
                 style={{
                   cursor: 'pointer',
                   borderRadius: '4px',

@@ -76,7 +76,7 @@ export const PageHeader: React.FC = () => {
     <div css={styles}>
       <header className="page-header">
         <Container>
-          <Flex direction="column" align="center" gap="8">
+          <Flex direction="column" align="center" gap={8}>
             {isPageTitleVisible && pageTitle && (
               <h2 className="page-title">
                 {' '}

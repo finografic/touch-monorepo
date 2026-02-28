@@ -116,7 +116,7 @@ export const AdminOrdersListPage: React.FC = () => {
       title={title}
       subtitle={subtitle}
       headerActions={
-        <Flex gap="2" align="center">
+        <Flex gap={2} align="center">
           {selectedOrders.length > 0 && (
             <Button color="danger" onClick={handleDeleteSelected}>
               Delete Selected ({selectedOrders.length})
@@ -130,7 +130,7 @@ export const AdminOrdersListPage: React.FC = () => {
     >
       <AdminSection isLoading={isLoading} variant="none">
         {error ? (
-          <Flex direction="column" gap="4" align="center" justify="center" p="6">
+          <Flex direction="column" gap={4} align="center" justify="center" p={6}>
             <span>Error loading orders: {error.message}</span>
           </Flex>
         ) : (

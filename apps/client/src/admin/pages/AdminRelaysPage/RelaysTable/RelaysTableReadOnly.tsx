@@ -56,8 +56,8 @@ export const RelaysTableReadOnly: React.FC = () => {
 
   return (
     <Box css={styles}>
-      <Flex justify="space-between" gap="4" width="100%">
-        <Flex gap="4" width="100%">
+      <Flex justify="space-between" gap={4} width="100%">
+        <Flex gap={4} width="100%">
           <div className="slot-list">
             {relayConfigurations.map((config) => {
               const configuredSlotType = slotTypeMap.get(config.slotNumber) || config.slotType;
@@ -67,7 +67,7 @@ export const RelaysTableReadOnly: React.FC = () => {
                 <div key={config.slotNumber} className={clsx('slot-grid-item')}>
                   <Row>
                     <Col xs={3} className="col col-square-type">
-                      <Flex gap="4">
+                      <Flex gap={4}>
                         <Flex
                           className="slot-square"
                           style={{
@@ -85,8 +85,8 @@ export const RelaysTableReadOnly: React.FC = () => {
                     <Col xs={9} className="col col-status">
                       <Flex
                         align="center"
-                        gap="2"
-                        ml="3"
+                        gap={2}
+                        ml={3}
                         className={clsx('relay-status', {
                           active: isRelayActive,
                         })}

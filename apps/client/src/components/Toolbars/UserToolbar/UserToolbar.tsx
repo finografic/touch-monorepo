@@ -34,7 +34,7 @@ export const UserToolbar = ({ variant }: { variant?: 'light' | 'dark' }) => {
   return (
     <>
       <div css={styles} className={clsx('toolbar', 'toolbar-user', `theme-${variant || theme}`)}>
-        <Flex gap="0" align="center">
+        <Flex gap={0} align="center">
 
           <div className="button-box">
           <FullscreenToggleButton />

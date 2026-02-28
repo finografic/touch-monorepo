@@ -34,7 +34,7 @@ export const LanguagesList: React.FC<LanguagesListProps> = ({ languages, onDelet
   };
 
   return (
-    <Flex direction="column" gap="3" className="languages-list">
+    <Flex direction="column" gap={3} className="languages-list">
       {languages.map((language) => {
         const isDeletable = canDelete && canDeleteLanguage(language, languages.length);
         const isLoading = toggleActiveMutation.isPending;
@@ -44,7 +44,7 @@ export const LanguagesList: React.FC<LanguagesListProps> = ({ languages, onDelet
             <Flex className="language-item-row">
               <LanguageItem language={language} />
 
-              <Flex align="stretch" gap="3">
+              <Flex align="stretch" gap={3}>
                 {language.isDefault && (
                   <Flex align="center" className="col col-default">
                     <span

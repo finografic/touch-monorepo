@@ -23,7 +23,7 @@ export const AdminToolbar: React.FC = () => {
   return (
     <>
       <div css={styles} className={`theme-${theme}`}>
-        <Flex gap="3" align="center">
+        <Flex gap={3} align="center">
           {hasActiveTimer && (
             <div className="timer-container">
               <RecallTimer />

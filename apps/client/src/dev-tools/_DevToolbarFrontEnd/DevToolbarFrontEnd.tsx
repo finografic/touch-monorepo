@@ -39,7 +39,7 @@ export const DevToolbarFrontEnd = () => {
       {isDevToolsVisible && <DevPanelLeft />}
 
       <div css={styles} className={`theme-${theme}`}>
-        <Flex gap="3" align="center">
+        <Flex gap={3} align="center">
           {timers.some((timer) => timer.status === 'processing') && (
             <div className="button-box">
               <MockTimersMin />

@@ -23,9 +23,9 @@ const AdminErrorFallback: FC<ErrorFallbackProps> = ({ error, resetErrorBoundary 
   };
 
   return (
-    <Box p="6" style={{ minHeight: '400px' }}>
+    <Box p={6} style={{ minHeight: '400px' }}>
       <div className={card({ size: 'lg' })} style={{ maxWidth: '600px', margin: '0 auto' }}>
-        <Flex direction="column" gap="4" align="center" p="6">
+        <Flex direction="column" gap={4} align="center" p={6}>
           <ExclamationTriangleIcon width="48" height="48" color="red" />
 
           <h2>Something went wrong</h2>
@@ -42,7 +42,7 @@ const AdminErrorFallback: FC<ErrorFallbackProps> = ({ error, resetErrorBoundary 
             </span>
           </div>
 
-          <Flex gap="3" mt="4">
+          <Flex gap={3} mt={4}>
             <Button onClick={resetErrorBoundary} variant="outline" color="info">
               <ReloadIcon width="16" height="16" />
               Try Again
@@ -58,7 +58,7 @@ const AdminErrorFallback: FC<ErrorFallbackProps> = ({ error, resetErrorBoundary 
               <summary style={{ cursor: 'pointer', marginBottom: '0.5rem' }}>
                 <span>Show Error Details (Dev Mode)</span>
               </summary>
-              <Box p="3" style={{ background: '#f5f5f5', borderRadius: '4px', fontSize: '12px' }}>
+              <Box p={3} style={{ background: '#f5f5f5', borderRadius: '4px', fontSize: '12px' }}>
                 <pre style={{ whiteSpace: 'pre-wrap', overflow: 'auto' }}>{error?.stack}</pre>
               </Box>
             </details>

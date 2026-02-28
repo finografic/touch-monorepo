@@ -32,7 +32,7 @@ export const PublicSoundPage: React.FC = () => {
             />
           </Col>
           <Col xs={12} lg={5}>
-            <Flex direction="row" pt="2" align="center" className="volume-control">
+            <Flex direction="row" pt={2} align="center" className="volume-control">
               <VolumeSlider />
             </Flex>
           </Col>

@@ -111,7 +111,7 @@ export const AdminRelaysPage: React.FC = () => {
       </AdminSection>
 
       <AdminSection title="Relay Boards" variant="border-solid">
-        <Flex justify="end" align="center" mt="-6" mb="2">
+        <Flex justify="end" align="center" mt="-6" mb={2}>
           <BulkRelayControls handlers={handlers} mutations={mutations} />
         </Flex>
         <Flex>

@@ -52,7 +52,7 @@ export const AdminPageLayout: React.FC<AdminPageLayoutProps> = memo(
       <section css={[stylesLayout, styles]} className="container admin-page-container">
         {showHeader && (
           <header className="admin-page-header">
-            <Flex justify="space-between" align="center" gap="4">
+            <Flex justify="space-between" align="center" gap={4}>
               {/* Left side: Title - Flexible width */}
               <Flex className="admin-page-header-left" style={{ flex: '1 1 auto', minWidth: 0 }}>
                 <Title
@@ -66,7 +66,7 @@ export const AdminPageLayout: React.FC<AdminPageLayoutProps> = memo(
               </Flex>
               {/* Right side: Action Buttons - Flexible but no wrap */}
               {headerActions && (
-                <Flex className="admin-page-header-actions" align="center" justify="end" gap="3" style={{}}>
+                <Flex className="admin-page-header-actions" align="center" justify="end" gap={3} style={{}}>
                   {headerActions}
                 </Flex>
               )}
@@ -75,7 +75,7 @@ export const AdminPageLayout: React.FC<AdminPageLayoutProps> = memo(
         )}
 
         {isLoading ? (
-          <Flex direction="column" className="admin-page-content" gap="2">
+          <Flex direction="column" className="admin-page-content" gap={2}>
             <Loader message="Loading..." />
           </Flex>
         ) : (
@@ -94,7 +94,7 @@ export const AdminPageLayout: React.FC<AdminPageLayoutProps> = memo(
                 <span>{message.content}</span>
               </div>
             )}
-            <Flex direction="column" className="admin-page-content" gap="2">
+            <Flex direction="column" className="admin-page-content" gap={2}>
               {isLoading || error ? null : children}
             </Flex>
           </>

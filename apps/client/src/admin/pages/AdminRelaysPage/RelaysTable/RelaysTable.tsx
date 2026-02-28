@@ -326,8 +326,8 @@ export const RelaysTable: React.FC<RelaysTableProps> = ({
 
   return (
     <Box css={styles}>
-      <Flex justify="space-between" gap="4" width="100%">
-        <Flex gap="4" width="100%">
+      <Flex justify="space-between" gap={4} width="100%">
+        <Flex gap={4} width="100%">
           <div className="slot-list">
             {/* TODO: ORDER BY *SLOT NUMBER* */}
             {relayConfigurations.map((config) => {
@@ -351,7 +351,7 @@ export const RelaysTable: React.FC<RelaysTableProps> = ({
                 <div key={config.slotNumber} className={clsx('slot-grid-item', { 'is-loading': isLoading })}>
                   <Row>
                     <Col xs={2} className="col col-square-type">
-                      <Flex gap="4">
+                      <Flex gap={4}>
                         <Flex
                           className="slot-square"
                           style={{
@@ -372,7 +372,7 @@ export const RelaysTable: React.FC<RelaysTableProps> = ({
                       </Flex>
                     </Col>
                     <Col xs={4} className="col col-select">
-                      <Flex gap="6">
+                      <Flex gap={6}>
                         <Flex width="220px">
                           <SelectCustom
                             className="relay-assign-select"
@@ -404,7 +404,7 @@ export const RelaysTable: React.FC<RelaysTableProps> = ({
                               <RadioIcon /> test
                             </Button>
                           ) : (
-                            <Flex align="center" gap="2" ml="3" className="status-off">
+                            <Flex align="center" gap={2} ml={3} className="status-off">
                               <span>{/* No relay assigned */}</span>
                             </Flex>
                           )}
@@ -414,8 +414,8 @@ export const RelaysTable: React.FC<RelaysTableProps> = ({
                     <Col xs={4} className="col col-status">
                       <Flex
                         align="center"
-                        gap="2"
-                        ml="3"
+                        gap={2}
+                        ml={3}
                         className={clsx(
                           'relay-status',
                           `relay-functionality-${isRelayFunctionalityEnabled ? 'on' : 'off'}`,

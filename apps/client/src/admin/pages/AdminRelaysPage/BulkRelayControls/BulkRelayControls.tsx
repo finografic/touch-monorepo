@@ -24,7 +24,7 @@ export const BulkRelayControls: React.FC<BulkRelayControlsProps> = ({ handlers, 
   const { isRelayFunctionalityEnabled } = useAppConfig();
 
   return (
-    <Flex className="status-buttons-all" align="center" gap="3" ml="8">
+    <Flex className="status-buttons-all" align="center" gap={3} ml={8}>
       <Button
         onClick={handlers.turnAllOn}
         disabled={!isRelayFunctionalityEnabled || mutations.turnAllOn.isPending}

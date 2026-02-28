@@ -19,33 +19,33 @@ export const OrdersSummaryCards: React.FC<OrdersSummaryCardsProps> = ({
   containerTypes,
 }) => {
   return (
-    <Flex gap="4" wrap="wrap">
+    <Flex gap={4} wrap="wrap">
       <div className={card()}>
-        <Flex direction="column" align="center" p="4">
+        <Flex direction="column" align="center" p={4}>
           <span>{totalOrders}</span>
           <span>Total Orders</span>
         </Flex>
       </div>
       <div className={card()}>
-        <Flex direction="column" align="center" p="4">
+        <Flex direction="column" align="center" p={4}>
           <span>{filteredResults}</span>
           <span>Filtered Results</span>
         </Flex>
       </div>
       <div className={card()}>
-        <Flex direction="column" align="center" p="4">
+        <Flex direction="column" align="center" p={4}>
           <span>{drinkTypes}</span>
           <span>Drink Types</span>
         </Flex>
       </div>
       <div className={card()}>
-        <Flex direction="column" align="center" p="4">
+        <Flex direction="column" align="center" p={4}>
           <span>{volumeOptions}</span>
           <span>Volume Options</span>
         </Flex>
       </div>
       <div className={card()}>
-        <Flex direction="column" align="center" p="4">
+        <Flex direction="column" align="center" p={4}>
           <span>{containerTypes}</span>
           <span>Container Types</span>
         </Flex>

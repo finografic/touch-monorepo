@@ -26,10 +26,10 @@ export const TimePage = () => {
   );
 
   return (
-    <Flex className="time-content" gap="3" direction="column">
-      <Flex gap="3" justify="center">
+    <Flex className="time-content" gap={3} direction="column">
+      <Flex gap={3} justify="center">
         <Box>
-          <Flex gap="3" justify="center">
+          <Flex gap={3} justify="center">
             <PadNumeric
               value={Math.floor(timeSeconds / 60)}
               onChange={(minutes) => {

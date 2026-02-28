@@ -18,7 +18,7 @@ export const PublicLanguagesPage: React.FC = () => {
       styles={styles}
     >
       <AdminSection>
-        <Box className="selected-section" mb="6">
+        <Box className="selected-section" mb={6}>
           <LanguageSelector />
         </Box>
       </AdminSection>

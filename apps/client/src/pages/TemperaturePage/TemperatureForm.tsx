@@ -30,7 +30,7 @@ export const TemperatureForm = ({
   labels,
 }: TemperatureFormProps) => {
   return (
-    <Flex gap="3" justify="center" className="temperature-content">
+    <Flex gap={3} justify="center" className="temperature-content">
       <Box>
         <PadTemperature
           name={TemperatureKey.Initial}

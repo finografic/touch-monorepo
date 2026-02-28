@@ -9,7 +9,7 @@ interface LanguagesListSelectedProps {
 
 export const LanguageItem: React.FC<LanguagesListSelectedProps> = ({ language }) => {
   return (
-    <Flex align="stretch" gap="3">
+    <Flex align="stretch" gap={3}>
       <Flex className="col col-flag">
         {/* Flag Column */}
         <img
@@ -23,7 +23,7 @@ export const LanguageItem: React.FC<LanguagesListSelectedProps> = ({ language })
       </Flex>
 
       {/* Language Info Columns */}
-      <Flex direction="column" gap="1" className="col col-names">
+      <Flex direction="column" gap={1} className="col col-names">
         <span>
           {language.label} - {language.code}
         </span>

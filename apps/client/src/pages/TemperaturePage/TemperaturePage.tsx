@@ -67,7 +67,7 @@ export const TemperaturePage = () => {
 
   if (!currentOrder || !temperatureProfiles.length) {
     return (
-      <Flex className="temperature-content" gap="3" direction="column">
+      <Flex className="temperature-content" gap={3} direction="column">
         <Box style={{ background: 'white', padding: '15px' }}>
           <div>Loading temperature settings...</div>
         </Box>
@@ -76,9 +76,9 @@ export const TemperaturePage = () => {
   }
 
   return (
-    <Flex className="temperature-content" gap="3" direction="column">
-      <Flex direction="column" gap="3" justify="center" css={styles}>
-        <Flex gap="3" justify="center" className="page-description">
+    <Flex className="temperature-content" gap={3} direction="column">
+      <Flex direction="column" gap={3} justify="center" css={styles}>
+        <Flex gap={3} justify="center" className="page-description">
           <Box>
             {isVisibleClosestProfile && (
               <ClosestTemperatures temperatures={temperatures} profiles={temperatureProfiles} />
@@ -86,7 +86,7 @@ export const TemperaturePage = () => {
           </Box>
         </Flex>
 
-        <Flex gap="3" justify="center">
+        <Flex gap={3} justify="center">
           <PadNumeric
             label={t('app.pages.temperature.labels.initial')}
             value={temperatures.initial}

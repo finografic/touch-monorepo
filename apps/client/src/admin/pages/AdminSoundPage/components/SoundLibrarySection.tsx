@@ -88,7 +88,7 @@ export const SoundLibrarySection: React.FC<SoundLibrarySectionProps> = ({
           <span>No sound files uploaded yet. Upload some files to get started!</span>
         </div>
       ) : (
-        <Flex direction="column" gap="2" className="sound-library-list">
+        <Flex direction="column" gap={2} className="sound-library-list">
           {soundFiles.map((file) => (
             <div
               className="sound-library-item"
@@ -100,14 +100,14 @@ export const SoundLibrarySection: React.FC<SoundLibrarySectionProps> = ({
                 backgroundColor: 'white',
               }}
             >
-              <Flex justify="space-between" align="center" gap="3">
+              <Flex justify="space-between" align="center" gap={3}>
                 {/* Checkmark Column - Fixed Width */}
                 <div style={{ width: '24px', display: 'flex', justifyContent: 'center' }}>
                   {soundSettings[soundType] === file.id && <BadgeCheckIcon className="icon-check" />}
                 </div>
 
                 {/* Content Column - Takes remaining space */}
-                <Flex direction="column" gap="1" style={{ flex: 1 }}>
+                <Flex direction="column" gap={1} style={{ flex: 1 }}>
                   <span>{file.name}</span>
                   <span>
                     {formatFileSize(file.size)} • {file.type} •{' '}
@@ -115,7 +115,7 @@ export const SoundLibrarySection: React.FC<SoundLibrarySectionProps> = ({
                   </span>
                 </Flex>
 
-                <Flex gap="2">
+                <Flex gap={2}>
                   <Button size="sm" variant="outline" onClick={() => testSound(file.id)}>
                     <SpeakerLoudIcon className="icon-speaker" />
                     Test

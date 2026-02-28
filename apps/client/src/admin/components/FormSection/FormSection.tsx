@@ -32,7 +32,7 @@ export const FormSection: React.FC<FormSectionProps> = ({
       }}
     >
       {(title || description) && (
-        <Box mb="4">
+        <Box mb={4}>
           {title && (
             <HeadingEl>{title}</HeadingEl>
           )}

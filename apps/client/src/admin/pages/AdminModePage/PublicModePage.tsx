@@ -77,8 +77,8 @@ export const PublicModePage: React.FC = () => {
         variant="border-solid"
       >
         <Flex align="start" justify="space-between">
-          <Flex direction="column" gap="4" align="start">
-            <Flex direction="column" gap="2" style={{ minWidth: '260px' }}>
+          <Flex direction="column" gap={4} align="start">
+            <Flex direction="column" gap={2} style={{ minWidth: '260px' }}>
               <FieldWrapper>
                 <SelectCustom
                   className="mode-select"
@@ -91,7 +91,7 @@ export const PublicModePage: React.FC = () => {
               </FieldWrapper>
             </Flex>
           </Flex>
-          <Flex gap="8" align="start" style={{ fontSize: '0.9rem', width: '100%', maxWidth: '400px' }}></Flex>
+          <Flex gap={8} align="start" style={{ fontSize: '0.9rem', width: '100%', maxWidth: '400px' }}></Flex>
         </Flex>
       </AdminSection>
     </AdminPageLayout>

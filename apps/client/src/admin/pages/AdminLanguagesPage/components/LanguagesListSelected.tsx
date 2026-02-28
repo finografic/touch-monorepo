@@ -21,7 +21,7 @@ export const LanguagesListSelected: React.FC<LanguagesListSelectedProps> = ({
   isLoading = false,
 }) => {
   return (
-    <Box pt="2">
+    <Box pt={2}>
       {/* Header */}
       <h2>
         <span style={{ color: selectedLanguages.length > 0 ? 'var(--green-11)' : 'var(--gray-12)' }}>
@@ -51,7 +51,7 @@ export const LanguagesListSelected: React.FC<LanguagesListSelectedProps> = ({
           </div>
         </Box>
       ) : (
-        <Flex direction="column" gap="3" className="languages-list">
+        <Flex direction="column" gap={3} className="languages-list">
           {selectedLanguages.map((language) => (
             <div
               key={language.id || `${language.code}-${language.countryCode}`}
@@ -60,7 +60,7 @@ export const LanguagesListSelected: React.FC<LanguagesListSelectedProps> = ({
               <Flex className="language-item-row">
                 <LanguageItem language={language} />
 
-                <Flex align="stretch" gap="3">
+                <Flex align="stretch" gap={3}>
                   {/* Delete Button */}
                   <Flex align="center" className="col col-delete">
                     <Button

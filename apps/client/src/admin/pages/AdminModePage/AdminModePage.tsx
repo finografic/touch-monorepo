@@ -63,11 +63,11 @@ export const AdminModePage: React.FC = () => {
       styles={styles}
     >
       <AdminSection>
-        <Flex direction="column" gap="4" align="start">
-          <Flex direction="column" gap="4" className="modes-container">
+        <Flex direction="column" gap={4} align="start">
+          <Flex direction="column" gap={4} className="modes-container">
             <span>Select Active Modes</span>
-            <Flex gap="8" className="modes-flex-container">
-              <Flex direction="column" gap="2" className="modes-column">
+            <Flex gap={8} className="modes-flex-container">
+              <Flex direction="column" gap={2} className="modes-column">
                 {modes.map((mode) => {
                   const isActive = activeModeIds.includes(mode.id);
                   return (
@@ -76,7 +76,7 @@ export const AdminModePage: React.FC = () => {
                       className={`mode-checkbox-item ${isActive ? 'selected' : ''}`}
                       onClick={() => handleMultiModeToggle(mode.id)}
                     >
-                      <Flex align="center" gap="3">
+                      <Flex align="center" gap={3}>
                         <div className="mode-checkbox-item-icon">
                           {isActive && <div className="mode-checkbox-item-checkmark" />}
                         </div>
@@ -86,8 +86,8 @@ export const AdminModePage: React.FC = () => {
                   );
                 })}
               </Flex>
-              <Flex direction="column" gap="3" className="modes-right-column">
-                <Flex direction="column" gap="2">
+              <Flex direction="column" gap={3} className="modes-right-column">
+                <Flex direction="column" gap={2}>
                   {/* TODO: TEST NEW COMPONENT HERE */}
                 </Flex>
               </Flex>

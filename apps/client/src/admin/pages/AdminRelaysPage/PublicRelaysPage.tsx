@@ -37,10 +37,10 @@ export const PublicRelaysPage: React.FC = () => {
       </AdminSection>
       <AdminSection title="Desescarche" variant="border-solid">
         <Box className="admin-relay-control">
-          <Flex direction="column" gap="2" style={{ marginTop: '-1rem' }}>
+          <Flex direction="column" gap={2} style={{ marginTop: '-1rem' }}>
             <DefrostTimer slotNumber={DEFROST_SLOT_NUMBER} />
             <Flex justify="space-between" align="center">
-              <Flex gap="2">
+              <Flex gap={2}>
                 <Button
                   onClick={() => startDefrostTimer(DEFROST_SLOT_NUMBER, 600)}
                   variant="solid"

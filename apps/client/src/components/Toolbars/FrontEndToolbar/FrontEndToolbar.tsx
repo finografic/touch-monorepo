@@ -26,7 +26,7 @@ export const FrontEndToolbar: React.FC = () => {
 
   return (
     <div css={styles} className={clsx('toolbar', 'toolbar-front-end', `theme-${theme}`)}>
-      <Flex gap="3" align="center">
+      <Flex gap={3} align="center">
         {hasActiveTimer && isDevToolsVisible && (
           <div className="button-box">
             <MockSessionTimer />

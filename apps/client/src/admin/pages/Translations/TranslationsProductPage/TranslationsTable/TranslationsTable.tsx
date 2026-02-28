@@ -99,7 +99,7 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
   return (
     <section css={styles} className="table-container">
       <FormProvider {...methods} formState={methods.formState}>
-        <Flex justify="end" align="center" mb="4" gap="2">
+        <Flex justify="end" align="center" mb={4} gap={2}>
           <TableFormButtons
             onReset={handleReset}
             onSave={handleSave}

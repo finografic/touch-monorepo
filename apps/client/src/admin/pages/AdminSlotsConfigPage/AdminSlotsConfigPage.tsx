@@ -256,8 +256,8 @@ export const AdminSlotsConfigPage: React.FC = () => {
             isLoading={isLoading}
             variant="border-solid"
           >
-            <Flex gap="4" justify="space-between">
-              <Flex direction="column" gap="6" px="1">
+            <Flex gap={4} justify="space-between">
+              <Flex direction="column" gap={6} px={1}>
                 <SlotGrid
                   configurations={slots}
                   columns={numActiveColumns}
@@ -268,16 +268,16 @@ export const AdminSlotsConfigPage: React.FC = () => {
                   altSlotNumber={altSlotNumber}
                   showPowerSlot={showPowerSlotInPreview}
                 />
-                <Flex gap="4" align="center" mt="-4" pb="4">
+                <Flex gap={4} align="center" mt="-4" pb={4}>
                   <span className={`${badge({ variant: 'soft', colorScheme: 'info', size: 'lg' })} dimesions-badge`}>
                     {numActiveColumns} columns × {effectiveRows} rows = {gridSlotsCount} grid slots + 1
                     special slot
                   </span>
                 </Flex>
               </Flex>
-              <Flex direction="column" justify="space-between" gap="4">
+              <Flex direction="column" justify="space-between" gap={4}>
                 <div className="layout-mode-container">
-                  <Flex direction="column" gap="2" pt="2">
+                  <Flex direction="column" gap={2} pt={2}>
                     <span>Special slot buttons</span>
                     {(
                       [
@@ -307,7 +307,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
                       const isActive = fullConfig?.isActive ?? false;
                       const isLoading = fullConfig === undefined;
                       return (
-                        <Flex key={param} align="center" gap="2" mt="1">
+                        <Flex key={param} align="center" gap={2} mt={1}>
                           <Switch.Root
                             checked={isActive}
                             onCheckedChange={async ({ checked }) => {
@@ -339,24 +339,24 @@ export const AdminSlotsConfigPage: React.FC = () => {
                 </div>
                 <div className="slot-types-container">
                   <div className="slot-legend">
-                    <Flex direction="column" gap="4" pt="2">
-                      <Flex align="center" gap="4">
+                    <Flex direction="column" gap={4} pt={2}>
+                      <Flex align="center" gap={4}>
                         <div className="legend-circle legend-type-a">A</div>
                         <span>Type A</span>
                       </Flex>
-                      <Flex align="center" gap="4">
+                      <Flex align="center" gap={4}>
                         <div className="legend-circle legend-type-b">B</div>
                         <span>Type B</span>
                       </Flex>
-                      <Flex align="center" gap="4">
+                      <Flex align="center" gap={4}>
                         <div className="legend-circle legend-type-c">C</div>
                         <span>Type C</span>
                       </Flex>
-                      <Flex align="center" gap="4">
+                      <Flex align="center" gap={4}>
                         <div className="legend-circle legend-type-alt">C</div>
                         <span>Type Alt</span>
                       </Flex>
-                      <Flex align="center" gap="4">
+                      <Flex align="center" gap={4}>
                         <div className="legend-circle legend-type-power">C</div>
                         <span>Power</span>
                       </Flex>
@@ -366,15 +366,15 @@ export const AdminSlotsConfigPage: React.FC = () => {
               </Flex>
             </Flex>
 
-            <Flex justify="space-between" gap="4" pr="3">
-              <Flex gap="4">
+            <Flex justify="space-between" gap={4} pr={3}>
+              <Flex gap={4}>
                 <Button
                   variant="outline"
                   color="warning"
                   onClick={handleRemoveColumn}
                   disabled={numActiveColumns <= MIN_COLUMNS}
                 >
-                  <Flex justify="start" align="center" width="180px" gap="4" ml="4">
+                  <Flex justify="start" align="center" width="180px" gap={4} ml={4}>
                     <MinusIcon />
                     Remove Column
                   </Flex>
@@ -385,7 +385,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
                   onClick={handleAddColumn}
                   disabled={numActiveColumns >= MAX_COLUMNS}
                 >
-                  <Flex justify="start" align="center" width="180px" gap="4" ml="4">
+                  <Flex justify="start" align="center" width="180px" gap={4} ml={4}>
                     <PlusIcon />
                     Add Column
                   </Flex>

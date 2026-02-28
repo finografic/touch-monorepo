@@ -82,9 +82,9 @@ export const SoundConfigurationSection: React.FC<SoundConfigurationSectionProps>
 
   return (
     <div css={styles} className="sound-configuration-section">
-      <Flex direction="column" gap="3">
-        <Flex gap="4" align="center" className="sound-config-row">
-          <Box className="sound-select-container" pb="5">
+      <Flex direction="column" gap={3}>
+        <Flex gap={4} align="center" className="sound-config-row">
+          <Box className="sound-select-container" pb={5}>
             <FieldWrapper
               name="sound-selector"
               label={soundType === 'alarm' ? 'Alarm Sound' : 'Finish Sound'}
@@ -105,7 +105,7 @@ export const SoundConfigurationSection: React.FC<SoundConfigurationSectionProps>
             </FieldWrapper>
           </Box>
           {soundSettings[soundType] && (
-            <Flex pt="5" gap="3">
+            <Flex pt={5} gap={3}>
               <Button
                 size="md"
                 variant="outline"

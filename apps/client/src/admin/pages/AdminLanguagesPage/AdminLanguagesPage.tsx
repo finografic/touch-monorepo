@@ -276,7 +276,7 @@ export const AdminLanguagesPage: React.FC = () => {
         )}
 
         {/* Languages List */}
-        <Box className="languages-section" mb="6">
+        <Box className="languages-section" mb={6}>
           <Flex justify="space-between" align="center">
             <SectionHeader title={`Configured Languages (${languages.length})`} />
           </Flex>
@@ -288,7 +288,7 @@ export const AdminLanguagesPage: React.FC = () => {
         </Box>
 
         {/* Search Section */}
-        <Box className="search-section" mb="6">
+        <Box className="search-section" mb={6}>
           <SectionHeader
             title="Add New Language"
             description='Search by language name, country, or language code (e.g., "French", "Germany", "es-ES")'
@@ -302,7 +302,7 @@ export const AdminLanguagesPage: React.FC = () => {
         </Box>
 
         {/* Selected Languages Section */}
-        <Box className="selected-section" mb="6">
+        <Box className="selected-section" mb={6}>
           <LanguagesListSelected
             selectedLanguages={selectedLanguages}
             onRemoveLanguage={handleRemoveLanguage}

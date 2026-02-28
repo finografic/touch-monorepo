@@ -56,7 +56,7 @@ export const FileUploadSection: React.FC<FileUploadSectionProps> = ({ soundType 
   }, []);
 
   return (
-    <Flex direction="column" gap="3">
+    <Flex direction="column" gap={3}>
       <input
         ref={fileInputRef}
         type="file"

@@ -48,14 +48,14 @@ export const RelaysConnectionStatus: React.FC = () => {
       statesError.message?.includes('Network Error') || statesError.message?.includes('RPC Request Failed');
 
     return (
-      <Flex direction="column" gap="4" align="center" py="6">
+      <Flex direction="column" gap={4} align="center" py={6}>
         <span>{isNetworkError ? '🔴 Server Unavailable' : '⚠️ Connection Error'}</span>
         <span style={{ maxWidth: '600px' }}>
           {isNetworkError
             ? 'The development server appears to be stopped. Polling has been disabled to prevent conflicts.'
             : `Error loading relay states: ${statesError.message}`}
         </span>
-        <Flex gap="3" align="center">
+        <Flex gap={3} align="center">
           <Button onClick={() => enableStatesPolling()} variant="solid" color="info">
             🔄 Retry Connection
           </Button>
@@ -73,8 +73,8 @@ export const RelaysConnectionStatus: React.FC = () => {
 
   return (
     <Flex justify="space-between" align="center">
-      <Flex direction="column" gap="2">
-        <Flex align="center" gap="3" className="status-buttons">
+      <Flex direction="column" gap={2}>
+        <Flex align="center" gap={3} className="status-buttons">
           <span className={badge({ variant: 'soft', colorScheme: relayStatus?.connected ? 'success' : 'danger', size: 'lg' })}>
             {relayStatus?.connected ? 'Connected' : 'Disconnected'}
           </span>
@@ -90,9 +90,9 @@ export const RelaysConnectionStatus: React.FC = () => {
           )}
         </Flex>
       </Flex>
-      <Flex align="center" gap="3">
+      <Flex align="center" gap={3}>
         {/* Global relay functionality toggle */}
-        <Flex gap="2" align="center" pr="2">
+        <Flex gap={2} align="center" pr={2}>
           <span>Relay Functionality</span>
           <Switch.Root
             checked={isRelayFunctionalityEnabled}

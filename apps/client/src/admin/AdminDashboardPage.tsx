@@ -59,7 +59,7 @@ export const AdminDashboardPage: React.FC = () => {
                 transition: 'opacity 0.2s ease',
               }}
             >
-              <Flex direction="row" gap="1" justify="start" align="stretch" height="100%" py="2">
+              <Flex direction="row" gap={1} justify="start" align="stretch" height="100%" py={2}>
                 <Flex>
                   <Box
                     className="card-icon-box"
@@ -68,7 +68,7 @@ export const AdminDashboardPage: React.FC = () => {
                     {React.cloneElement(adminCard.icon)}
                   </Box>
                 </Flex>
-                <Flex direction="column" gap="1" align="stretch" justify="start" pt="2">
+                <Flex direction="column" gap={1} align="stretch" justify="start" pt={2}>
                   <SectionHeader
                     className="card-header"
                     title={adminCard.title}

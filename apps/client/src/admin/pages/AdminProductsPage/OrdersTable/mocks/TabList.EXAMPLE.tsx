@@ -227,7 +227,7 @@ export const TabListExample: React.FC = () => {
   }
 
   return (
-    <Flex direction="column" width="100%" gap="6">
+    <Flex direction="column" width="100%" gap={6}>
       <OrdersTable
         orders={filteredOrders}
         columns={columns}
