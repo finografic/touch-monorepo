@@ -1,5 +1,5 @@
-export { FieldWrapper } from './FieldWrapper';
-export type { FieldWrapperProps } from './FieldWrapper';
+export { FieldBox } from './FieldBox';
+export type { FieldBoxProps } from './FieldBox';
 
 export { Select } from './Select';
 export type { SelectProps } from './Select';

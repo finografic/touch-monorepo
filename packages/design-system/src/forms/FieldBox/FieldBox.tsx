@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import type { FieldError } from 'react-hook-form';
 import { useFormContext } from 'react-hook-form';
 
-export interface FieldWrapperProps {
+export interface FieldBoxProps {
   name?: string;
   label?: string;
   hint?: string;
@@ -29,7 +29,7 @@ function deriveValidationState(opts: {
   return { showError, showWarning, message: hasError.message ?? '' };
 }
 
-export function FieldWrapper({
+export function FieldBox({
   name,
   label,
   hint,
@@ -37,7 +37,7 @@ export function FieldWrapper({
   children,
   className,
   error: externalError,
-}: FieldWrapperProps) {
+}: FieldBoxProps) {
   const formContext = useFormContext();
   const [showDebouncedWarning, setShowDebouncedWarning] = useState(false);
   const warningTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -76,9 +76,9 @@ export function FieldWrapper({
   };
 
   const rootClasses = [
-    'ds-field',
-    showError && 'ds-field--error',
-    showDebouncedWarning && !showError && 'ds-field--warning',
+    'ds-fieldbox',
+    showError && 'ds-fieldbox--error',
+    showDebouncedWarning && !showError && 'ds-fieldbox--warning',
     className,
   ]
     .filter(Boolean)
@@ -92,23 +92,27 @@ export function FieldWrapper({
       onBlur={handleBlur}
     >
       {label && (
-        <Field.Label className="ds-field__label">
+        <Field.Label className="ds-fieldbox__label">
           {label}
-          {required && (
-            <Field.RequiredIndicator className="ds-field__required" />
-          )}
-          {hint && <span className="ds-field__hint">{hint}</span>}
+          {required && <Field.RequiredIndicator className="ds-fieldbox__required" />}
         </Field.Label>
       )}
 
-      <div className="ds-field__element">{children}</div>
+      {children}
+
+      {/* Hint — shown when no validation message is active */}
+      {hint && !showError && !(showDebouncedWarning && message) && (
+        <Field.HelperText className="ds-fieldbox__helper">{hint}</Field.HelperText>
+      )}
 
       {showDebouncedWarning && !showError && message && (
-        <div className="ds-field__message ds-field__message--warning">{message}</div>
+        <Field.HelperText className="ds-fieldbox__message ds-fieldbox__message--warning">
+          {message}
+        </Field.HelperText>
       )}
 
       {showError && message && (
-        <Field.ErrorText className="ds-field__message ds-field__message--error">
+        <Field.ErrorText className="ds-fieldbox__message ds-fieldbox__message--error">
           {message}
         </Field.ErrorText>
       )}
@@ -116,4 +120,4 @@ export function FieldWrapper({
   );
 }
 
-FieldWrapper.displayName = 'FieldWrapper';
+FieldBox.displayName = 'FieldBox';
