@@ -1,5 +1,5 @@
+import { createListCollection, Select as ArkSelect } from '@ark-ui/react';
 import { useMemo } from 'react';
-import { Select as ArkSelect, createListCollection } from '@ark-ui/react';
 
 import { icons } from '../../icons';
 import type { SelectOption } from '../select-option';
@@ -68,9 +68,7 @@ export function Select({
           <ArkSelect.List className="ds-select__list">
             {items.map((item) => (
               <ArkSelect.Item key={item.value} item={item} className="ds-select__item">
-                <ArkSelect.ItemText className="ds-select__item-text">
-                  {item.label}
-                </ArkSelect.ItemText>
+                <ArkSelect.ItemText className="ds-select__item-text">{item.label}</ArkSelect.ItemText>
                 <ArkSelect.ItemIndicator className="ds-select__item-indicator">
                   <CheckIcon width={14} height={14} />
                 </ArkSelect.ItemIndicator>

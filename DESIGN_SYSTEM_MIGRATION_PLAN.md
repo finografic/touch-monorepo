@@ -125,11 +125,21 @@
 | `<TabNav.*>` | `<div>` + `<button aria-current>` | ✅ Done (AdminNavbar, HiddenMeasureItems) |
 | `<Dialog.*>` | Deferred | ⏸ Pending 6d-iii |
 | `<AlertDialog.*>` | Deferred — depends on Dialog | ⏸ Pending 6d-iii |
-| `<TextField>` | Deferred — needs DS TextField component | ⏸ Pending 6d-iii |
-| `<IconButton>` (forms) | Deferred — paired with TextField | ⏸ Pending 6d-iii |
-| `<RadioCards.*>` | Deferred — needs DS RadioGroup | ⏸ Pending 6d-iii |
-| `<CheckboxGroup.*>` | Deferred — needs DS Checkbox | ⏸ Pending 6d-iii |
+| `<TextField>` | `<InputField.Root>` + `<InputField.Slot>` from `forms/InputField` | ✅ DS built — client migration pending |
+| `<IconButton>` (forms) | `<Button>` from `components/Button` (same as other IconButton migations) | ✅ DS ready — client migration pending |
+| `<RadioCards.*>` | `<RadioGroup.Root variant="card">` + `<RadioGroup.Item>` from `forms/RadioGroup` | ✅ DS built — client migration pending |
+| `<CheckboxGroup.*>` | `<div>` wrapper + `<Checkbox.*>` from `forms/Checkbox` | ✅ DS built — client migration pending |
+| `<Slider>` | Convenience wrapper of existing Ark Slider ?? or recipe ? USED HERE: apps/client/src/admin/pages/AdminSoundPage/VolumeSlider.tsx |
 | `<Theme>` / `ThemeProps` | Deferred | ⏸ Pending 6f |
+
+### What was done (2026-02-28) — Phase 6d-iii DS components built
+
+- Imported `@workspace/design-system/forms/forms.css` in `apps/client/src/main.tsx`
+- Built `forms/InputField` — `InputField.Root` + `InputField.Slot` compound; `forwardRef` to `Field.Input`; replaces `TextField.Root` / `TextField.Slot` from Radix Themes (API-compatible drop-in, minus Radix `size` prop)
+- Built `forms/Checkbox` — `Checkbox.Root/Control/Indicator/Label/HiddenInput` compound; default indicator uses `CheckIcon`/`MinusIcon` (DS icons registry); CSS handles `checked`/`indeterminate` states
+- Built `forms/RadioGroup` — `RadioGroup.Root/Item/ItemControl/Indicator/ItemText/Label` compound; `variant="default"` (traditional radio) or `variant="card"` (full-tile, replaces `RadioCards.*`)
+- Created `forms/primitives.ts` — raw Ark re-exports (`Checkbox`, `Field`, `RadioGroup`); only accessible via `@workspace/design-system/forms/primitives` path (deliberate bypass of DS styling); registered as separate package export entry
+- Architecture decision: client never imports from `@ark-ui/react` directly — DS is the dependency boundary; `forms/primitives` is the escape hatch
 
 ### What was done (2026-02-28) — Phase 6d-ii quick wins
 
@@ -151,24 +161,26 @@
 - Fixed `NoItems.tsx` (missed by bulk pass) — Callout.Root compound → div+callout recipe
 - Net new TypeScript errors: 0 (65 total, all pre-existing)
 
-### Remaining (12 files) — to be done in Phase 6d-iii
+### Remaining client migrations — Phase 6d-iii (DS components now ready)
 
-Blocked on new DS components: Dialog, TextField, RadioGroup, Checkbox.
+DS components for InputField, Checkbox, RadioGroup are built. Pending client-side wiring:
 
 ```
-apps/client/src/admin/pages/AdminLanguagesPage/components/LanguageDeleteDialog.tsx (AlertDialog — needs Dialog)
-apps/client/src/components/Dialog/GenericDialog.tsx                      (Dialog, IconButton, VisuallyHidden)
-apps/client/src/components/LanguageSelector/LanguageSelector.tsx         (RadioCards — needs DS RadioGroup)
-apps/client/src/components/Pads/PadGroup/PadGroup.tsx                    (CheckboxGroup — needs DS Checkbox)
-apps/client/src/components/SearchBar/SearchBar.tsx                       (TextField)
-apps/client/src/forms/InputTemperature/InputTemperature.tsx              (IconButton + TextField)
-apps/client/src/forms/InputTime/InputTime.tsx                            (IconButton + TextField)
-apps/client/src/forms/SearchableLanguageInput/SearchableLanguageInput.tsx (TextField)
-apps/client/src/forms/SearchableLanguageInput/SearchableLanguageInputCurated.tsx (TextField)
-apps/client/src/forms/SelectCustom/SelectCustom.tsx                      (TextField)
-apps/client/src/forms/SelectSearchable/SelectSearchable.tsx              (TextField)
-apps/client/src/App.tsx                                                   (Theme as RadixTheme — keep until 6f)
+apps/client/src/admin/pages/AdminLanguagesPage/components/LanguageDeleteDialog.tsx  (AlertDialog — needs DS Dialog)
+apps/client/src/components/Dialog/GenericDialog.tsx                                  (Dialog — needs DS Dialog)
+apps/client/src/components/LanguageSelector/LanguageSelector.tsx                    (RadioCards → RadioGroup variant="card")
+apps/client/src/components/Pads/PadGroup/PadGroup.tsx                               (CheckboxGroup.Root → <div>)
+apps/client/src/components/SearchBar/SearchBar.tsx                                   (TextField → InputField)
+apps/client/src/forms/InputTemperature/InputTemperature.tsx                          (TextField + IconButton → InputField + Button)
+apps/client/src/forms/InputTime/InputTime.tsx                                        (TextField + IconButton → InputField + Button)
+apps/client/src/forms/SearchableLanguageInput/SearchableLanguageInput.tsx            (TextField → InputField)
+apps/client/src/forms/SearchableLanguageInput/SearchableLanguageInputCurated.tsx     (TextField → InputField)
+apps/client/src/forms/SelectCustom/SelectCustom.tsx                                  (TextField → InputField)
+apps/client/src/forms/SelectSearchable/SelectSearchable.tsx                          (TextField → InputField)
+apps/client/src/App.tsx                                                               (Theme as RadixTheme — keep until 6f)
 ```
+
+Still blocked on DS Dialog (unblocks 2 files). All TextField/CheckboxGroup/RadioCards files are unblocked.
 
 ---
 
@@ -278,6 +290,10 @@ injecting CSS vars, the cascades multiply.
 13. `colors` palette export added to `@workspace/design-system/tokens` — camelCase keys → CSS vars, drop-in v1 replacement (import-only change, no alpha variants) (2026-02-28)
 14. Alpha/transparency token variants removed — 11-stop shade scale (`xxxlight`→`xxxdark`) covers in-between needs without extra tokens (2026-02-28)
 15. ESLint enforces numeric spacing props on Panda layout components — `gap={4}` not `gap="4"` (2026-02-28)
+16. DS is the Ark UI dependency boundary — client never imports from `@ark-ui/react` directly; `forms/primitives` and `components/primitives` are the explicit escape hatch paths (2026-02-28)
+17. `forms/primitives` path convention — raw Ark re-exports only accessible via `/primitives` suffix; `forms/index` has zero primitive re-exports; deliberate import = deliberate bypass (2026-02-28)
+18. `TextField` renamed `InputField` in DS — aligns with client's `Input*` naming convention (InputPassword, InputTime, etc.) and alphabetical grouping (2026-02-28)
+19. `RadioGroup variant="card"` covers `RadioCards` use case — same compound structure, CSS differentiation via `data-variant`; no separate RadioCards component needed (2026-02-28)
 
 ---
 

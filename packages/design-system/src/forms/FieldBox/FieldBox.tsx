@@ -3,6 +3,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import type { FieldError } from 'react-hook-form';
 import { useFormContext } from 'react-hook-form';
 
+import { InputFieldRoot } from '../InputField/InputField';
+
 export interface FieldBoxProps {
   name?: string;
   label?: string;
@@ -14,7 +16,7 @@ export interface FieldBoxProps {
 }
 
 // Native Ark Field inputs — these participate in Field context (label linkage, aria wiring)
-const FIELD_INPUT_TYPES = new Set([Field.Input, Field.Textarea]);
+const FIELD_INPUT_TYPES = new Set([Field.Input, Field.Textarea, InputFieldRoot]);
 
 function hasNativeFieldInput(children: React.ReactNode): boolean {
   return React.Children.toArray(children).some(

@@ -20,6 +20,7 @@ import './styles/radix-ui/overrides.css';
 import './styles/icons/icons.css';
 import '@workspace/design-system/grid/grid.css';
 import '@workspace/design-system/styles/keyframes.css';
+import '@workspace/design-system/forms/forms.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

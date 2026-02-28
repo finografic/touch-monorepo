@@ -22,6 +22,76 @@
 }
 
 /* ============================================================================
+   Checkbox
+   ============================================================================ */
+
+.ds-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.ds-checkbox[data-disabled] {
+  opacity: var(--ds-input-disabled-opacity);
+  cursor: not-allowed;
+}
+
+/* Control — the visible box */
+.ds-checkbox__control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.125rem;   /* 18px */
+  height: 1.125rem;
+  flex-shrink: 0;
+  border: var(--ds-input-border);
+  border-radius: 0.25rem;
+  background: var(--ds-input-bg);
+  transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+  outline: none;
+}
+
+.ds-checkbox__control:focus-visible {
+  box-shadow: var(--ds-input-focus-ring);
+}
+
+.ds-checkbox[data-state="checked"] .ds-checkbox__control,
+.ds-checkbox[data-state="indeterminate"] .ds-checkbox__control {
+  background: var(--colors-accent-default);
+  border-color: var(--colors-accent-default);
+}
+
+/* Indicator — icon wrapper (only rendered by Ark when checked/indeterminate) */
+.ds-checkbox__indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+/* Default icon switching: check ↔ minus */
+.ds-checkbox__minus-icon {
+  display: none;
+}
+
+.ds-checkbox[data-state="indeterminate"] .ds-checkbox__check-icon {
+  display: none;
+}
+
+.ds-checkbox[data-state="indeterminate"] .ds-checkbox__minus-icon {
+  display: block;
+}
+
+/* Label */
+.ds-checkbox__label {
+  font-size: 0.9375rem;
+  color: var(--ds-input-fg);
+  line-height: 1.4;
+}
+
+/* ============================================================================
    FieldBox
    ============================================================================ */
 
@@ -211,6 +281,176 @@
   display: none;
 }
 
+
+/* ============================================================================
+   RadioGroup
+   ============================================================================ */
+
+.ds-radio-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.ds-radio-group[data-orientation="vertical"] {
+  flex-direction: column;
+}
+
+.ds-radio-group[data-orientation="horizontal"] {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+/* ── Default variant — traditional radio button ─────────────────────────── */
+
+.ds-radio-group__item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.ds-radio-group__item[data-disabled] {
+  opacity: var(--ds-input-disabled-opacity);
+  cursor: not-allowed;
+}
+
+/* The circle */
+.ds-radio-group__item-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.125rem;
+  height: 1.125rem;
+  flex-shrink: 0;
+  border: var(--ds-input-border);
+  border-radius: 50%;
+  background: var(--ds-input-bg);
+  transition: border-color 0.15s, box-shadow 0.15s;
+  outline: none;
+}
+
+.ds-radio-group__item-control:focus-visible {
+  box-shadow: var(--ds-input-focus-ring);
+}
+
+.ds-radio-group__item[data-state="checked"] .ds-radio-group__item-control {
+  border-color: var(--colors-accent-default);
+}
+
+/* The dot */
+.ds-radio-group__indicator {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--colors-accent-default);
+}
+
+.ds-radio-group__item-text {
+  font-size: 0.9375rem;
+  color: var(--ds-input-fg);
+  line-height: 1.4;
+}
+
+.ds-radio-group__label {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--colors-fg-muted);
+  margin-bottom: 0.5rem;
+}
+
+/* ── Card variant — full-tile selectable item ───────────────────────────── */
+
+.ds-radio-group[data-variant="card"] .ds-radio-group__item {
+  border: var(--ds-input-border);
+  border-radius: var(--ds-input-radius);
+  padding: 0.75rem 1rem;
+  background: var(--ds-input-bg);
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+  width: 100%;
+}
+
+.ds-radio-group[data-variant="card"] .ds-radio-group__item:hover:not([data-disabled]) {
+  background: var(--ds-item-hover-bg);
+}
+
+.ds-radio-group[data-variant="card"] .ds-radio-group__item[data-state="checked"] {
+  border-color: var(--colors-accent-default);
+  box-shadow: 0 0 0 1px var(--colors-accent-default);
+}
+
+.ds-radio-group[data-variant="card"] .ds-radio-group__item:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-input-focus-ring);
+}
+
+/* ============================================================================
+   InputField
+   ============================================================================ */
+
+.ds-input-field {
+  display: flex;
+  align-items: center;
+  height: var(--ds-input-height);
+  border: var(--ds-input-border);
+  border-radius: var(--ds-input-radius);
+  background: var(--ds-input-bg);
+  color: var(--ds-input-fg);
+  transition: border-color 0.15s, box-shadow 0.15s;
+  overflow: hidden;
+  width: 100%;
+}
+
+.ds-input-field:focus-within {
+  border-color: var(--colors-accent-default);
+  box-shadow: var(--ds-input-focus-ring);
+}
+
+.ds-input-field[data-invalid] {
+  border-color: var(--colors-danger);
+}
+
+.ds-input-field:has(:disabled) {
+  opacity: var(--ds-input-disabled-opacity);
+  cursor: not-allowed;
+}
+
+.ds-input-field__input {
+  flex: 1;
+  height: 100%;
+  padding: 0 var(--ds-input-padding-x);
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--ds-input-fg);
+  font-size: 0.9375rem;
+  min-width: 0;
+}
+
+.ds-input-field__input::placeholder {
+  color: var(--ds-input-placeholder);
+}
+
+.ds-input-field__input:disabled {
+  cursor: not-allowed;
+}
+
+/* Slot — left/right decoration area (icons, buttons, labels) */
+.ds-input-field__slot {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: var(--colors-fg-muted);
+}
+
+.ds-input-field__slot--left {
+  padding-left: 0.5rem;
+}
+
+.ds-input-field__slot--right {
+  padding-right: 0.5rem;
+}
 
 /* ============================================================================
    SelectSearchable (Ark Combobox)

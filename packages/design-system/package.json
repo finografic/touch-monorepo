@@ -34,6 +34,10 @@
       "types": "./dist/forms/index.d.mts",
       "import": "./dist/forms/index.mjs"
     },
+    "./forms/primitives": {
+      "types": "./dist/forms/primitives.d.mts",
+      "import": "./dist/forms/primitives.mjs"
+    },
     "./forms/forms.css": "./src/forms/forms.css",
     "./icons": {
       "types": "./dist/icons/index.d.mts",
