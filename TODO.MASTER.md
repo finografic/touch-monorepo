@@ -31,11 +31,11 @@ This roadmap outlines the strategic modernization of the Touch Monorepo, focusin
 ### ⚠️ Known Issues
 
 - [ ] BetterAuth upgrade blocked by dependency conflicts
-- [ ] Zod v4 not adopted (possibly related to BetterAuth)
+- [X] Zod v4 not adopted (possibly related to BetterAuth)
 - [ ] ~34 manual API hooks in `apps/client/src/queries/*`
-- [ ] 3 files per API resource (routes, handlers, index)
+- [X] 3 files per API resource (routes, handlers, index)
 - [ ] Type safety not enforced across client/server boundary
-- [ ] **API Endpoint Architecture:** Three overlapping endpoint systems (`EndpointHelper`, `FetchEndpointHelper`, `api/endpoints/` folder) causing confusion and duplication
+- [X] **API Endpoint Architecture:** Three overlapping endpoint systems (`EndpointHelper`, `FetchEndpointHelper`, `api/endpoints/` folder) causing confusion and duplication
 
 ---
 
@@ -183,8 +183,6 @@ export const OrderInsertStandardSchema = toStandardSchema(OrderInsertSchema);
 ✅ Future-proof for switching validators (Valibot, ArkType)
 ✅ Consistent validation interface across forms
 ✅ No changes to Zod schemas (just add adapter layer)
-
----
 
 ---
 

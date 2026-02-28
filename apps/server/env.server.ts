@@ -43,9 +43,7 @@ const ServerEnvSchema = z
     ...env,
 
     // Always resolve DB path relative to deployed dist/data
-    DB_PATH:
-      process.env.DB_PATH ??
-      path.resolve(paths.data.dir, env.DB_NAME),
+    DB_PATH: process.env.DB_PATH ?? path.resolve(paths.data.dir, env.DB_NAME),
   }));
 
 /**
@@ -69,16 +67,14 @@ const envServerValidated = ServerEnvSchema.parse({
   DATA_COOKIE_SUFFIX: process.env.DATA_COOKIE_SUFFIX,
 
   // Relay
-  RELAY_ENABLED: process.env.RELAY_ENABLED === 'true',
+  RELAY_ENABLED: process.env.RELAY_ENABLED === true,
   RELAY_NUM_RELAYS:
-    process.env.RELAY_NUM_RELAYS &&
-    process.env.RELAY_NUM_RELAYS.trim() !== ''
+    process.env.RELAY_NUM_RELAYS && String(process.env.RELAY_NUM_RELAYS).trim() !== ''
       ? Number(process.env.RELAY_NUM_RELAYS)
       : undefined,
 
   RELAY_RECONNECT_ATTEMPTS:
-    process.env.RELAY_RECONNECT_ATTEMPTS &&
-    process.env.RELAY_RECONNECT_ATTEMPTS.trim() !== ''
+    process.env.RELAY_RECONNECT_ATTEMPTS && String(process.env.RELAY_RECONNECT_ATTEMPTS).trim() !== ''
       ? Number(process.env.RELAY_RECONNECT_ATTEMPTS)
       : undefined,
 
