@@ -1,3 +1,7 @@
+// ── Primitive components ─────────────────────────────────────────────────────
+export { Spinner } from './spinner';
+export type { SpinnerProps } from './spinner';
+
 // ── Styled wrappers (recipe-ready) ───────────────────────────────────────────
 export { Button } from './button';
 export type { ButtonProps } from './button';

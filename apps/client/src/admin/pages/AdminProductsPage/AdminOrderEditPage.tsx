@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { Spinner } from '@workspace/design-system/components';
 
-import { LoaderIcon } from 'lucide-react';
-import { Flex } from 'styled-system/jsx';
 import { OrdersForm } from 'admin/pages/AdminProductsPage/OrdersForm';
+import { Flex } from 'styled-system/jsx';
 import { Button } from 'components/Button';
 import { useToast } from 'components/Toast';
 
@@ -95,7 +95,7 @@ export const AdminOrderEditPage: React.FC = () => {
       <AdminSection isLoading={isLoading} variant="none">
         {isLoading && isEditMode ? (
           <Flex direction="column" gap="4" align="center" justify="center" p="6">
-            <LoaderIcon size={20} style={{ animation: 'spin 1s linear infinite' }} />
+            <Spinner />
             <span>Loading order data...</span>
           </Flex>
         ) : orderError ? (

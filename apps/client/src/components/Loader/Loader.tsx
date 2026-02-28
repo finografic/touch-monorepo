@@ -1,4 +1,4 @@
-import { ReloadIcon } from 'styles/icons';
+import { Spinner } from '@workspace/design-system/components';
 
 interface LoaderProps {
   message?: string;
@@ -11,9 +11,9 @@ export const Loader = ({ message = 'Loading...', className = '' }: LoaderProps) 
       className={className}
       role="status"
       aria-live="polite"
-      style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#3b82f6' }}
+      style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
     >
-      <ReloadIcon style={{ width: '1.25rem', height: '1.25rem', animation: 'spin 1s linear infinite' }} />
+      <Spinner size={20} />
       <span>{message}</span>
     </div>
   );

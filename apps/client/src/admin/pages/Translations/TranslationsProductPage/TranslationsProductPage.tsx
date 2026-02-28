@@ -1,10 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Spinner, Tabs } from '@workspace/design-system/components';
 
-import { LoaderIcon } from 'lucide-react';
-import { Flex } from 'styled-system/jsx';
 import { useQueryClient } from '@tanstack/react-query';
-import { Tabs } from '@workspace/design-system/components';
+import { Flex } from 'styled-system/jsx';
 
 import { invalidateReferenceDataQueries } from 'queries/invalidateReferenceData';
 
@@ -13,7 +12,7 @@ import { useDeleteProductTranslation } from './hooks/useDeleteProductTranslation
 import { useProductTranslationData } from './hooks/useProductTranslationData';
 import { useSaveProductTranslations } from './hooks/useSaveProductTranslations';
 import type { SectionKey } from './translationsProduct.types';
-import { TranslationsTable, TranslationsTableExpandable  } from './TranslationsTable';
+import { TranslationsTable, TranslationsTableExpandable } from './TranslationsTable';
 import { styles } from '../shared/styles/TranslationsPage.styles';
 
 const TABS_SORT_ORDER: readonly SectionKey[] = [
@@ -72,7 +71,7 @@ export const TranslationsProductPage: React.FC = () => {
         styles={styles}
       >
         <Flex direction="column" gap="4" align="center" justify="center" p="6">
-          <LoaderIcon size={20} style={{ animation: 'spin 1s linear infinite' }} />
+          <Spinner />
           <span>Loading translations...</span>
         </Flex>
       </AdminPageLayout>
@@ -94,7 +93,9 @@ export const TranslationsProductPage: React.FC = () => {
           <Tabs.Content key={section.group} value={section.group}>
             <AdminSection
               title={t('admin.pages.translations_product.currentTab.title', {
-                group: t(`admin.pages.translations_product.tabs.${section.group}`, { defaultValue: section.group }),
+                group: t(`admin.pages.translations_product.tabs.${section.group}`, {
+                  defaultValue: section.group,
+                }),
               })}
               description={' '}
             >

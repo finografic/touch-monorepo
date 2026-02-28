@@ -1,14 +1,13 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
+import { Spinner, Tabs } from '@workspace/design-system/components';
 import { translations } from '@workspace/i18n';
 import type { I18nTranslationsDomain } from '@workspace/i18n/types';
 
-import { LoaderIcon } from 'lucide-react';
-import { Flex } from 'styled-system/jsx';
-import { Tabs } from '@workspace/design-system/components';
 import { AdminPageLayout, AdminSection } from 'admin/components';
 import { DEFAULT_SHOW_KEY_COLUMN } from 'admin/pages/Translations/shared/constants/translationsTable.constants';
+import { Flex } from 'styled-system/jsx';
 
 import { flattenTranslations } from 'utils/flatten-translations';
 import type { I18nDomainGroupKey } from '../shared/types/translations.types';
@@ -60,7 +59,7 @@ export const TranslationsPage: React.FC = () => {
         styles={styles}
       >
         <Flex direction="column" gap="4" align="center" justify="center" p="6">
-          <LoaderIcon size={20} style={{ animation: 'spin 1s linear infinite' }} />
+          <Spinner />
           <span>Loading translations...</span>
         </Flex>
       </AdminPageLayout>
@@ -69,7 +68,10 @@ export const TranslationsPage: React.FC = () => {
 
   return (
     <AdminPageLayout title={t(pageTitleKey)} styles={styles}>
-      <Tabs.Root value={activeTab} onValueChange={(details) => setActiveTab(details.value as I18nDomainGroupKey)}>
+      <Tabs.Root
+        value={activeTab}
+        onValueChange={(details) => setActiveTab(details.value as I18nDomainGroupKey)}
+      >
         <Tabs.List>
           {sections.map((section) => (
             <Tabs.Trigger key={section.group} value={section.group}>

@@ -48,6 +48,7 @@ const ICONS = {
   HomeIcon:                 Lucide.House,
   InfoCircledIcon:          Lucide.Info,
   LanguageIcon:             Lucide.Languages,
+  LoaderIcon:               Lucide.Loader,
   ListChecksIcon:           Lucide.ListChecks,
   ListIcon:                 Lucide.List,
   LockIcon:                 Lucide.Lock,

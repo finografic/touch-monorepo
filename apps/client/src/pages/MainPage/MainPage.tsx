@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
+import { Spinner } from '@workspace/design-system/components';
 
-import { LoaderIcon } from 'lucide-react';
 import { Flex } from 'styled-system/jsx';
 import { PadAction } from 'components/Pads/PadAction/PadAction';
 
@@ -157,7 +157,7 @@ export function MainPage() {
   }, [numSelected, setIsNextDisabled]);
 
   if (isLoading || !slotsConfig) {
-    return <LoaderIcon size={20} style={{ animation: 'spin 1s linear infinite' }} />;
+    return <Spinner />;
   }
 
   // Grid dimensions from active slot count: columns from calculateColumns, rows from getEffectiveRows
