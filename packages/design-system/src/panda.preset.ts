@@ -159,6 +159,33 @@ export const designSystemPreset = definePreset({
       flexShrink: 0,
     },
 
+    // ── Icon normalization (.icon class applied to all DS icon exports) ────────
+    // Base: 2rem default, currentColor, color/border/bg transitions
+    'svg.icon': {
+      width: '2rem',
+      height: '2rem',
+      display: 'inline-block',
+      flexShrink: 0,
+      color: 'currentColor',
+      transition: 'color 200ms ease-in-out, border-color 200ms ease-in-out, background-color 200ms ease-in-out',
+    },
+
+    // Size variants
+    'svg.icon.icon-sm': { width: '0.875rem', height: '0.875rem' },
+    'svg.icon.icon-md': { width: '1rem',     height: '1rem'     },
+    'svg.icon.icon-lg': { width: '1.25rem',  height: '1.25rem'  },
+    'svg.icon.icon-xl': { width: '1.5rem',   height: '1.5rem'   },
+
+    // Contextual — scales with surrounding text size
+    'svg.icon.icon-contextual': { width: '1em', height: '1em' },
+
+    // Loading spin
+    'svg.icon.icon-loading': { animation: 'spin 1s linear infinite' },
+
+    // Button context — hover scale / disabled fade
+    '.button:hover svg.icon':    { transform: 'scale(1.05)' },
+    '.button:disabled svg.icon': { opacity: 0.5, transform: 'none' },
+
     // ── Text selection ────────────────────────────────────────────────────────
     '::selection': {
       bg: 'accent.muted',
