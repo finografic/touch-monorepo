@@ -41,6 +41,8 @@ import {
   borderWidthTokens,
   radiiTokens,
   shadowTokens,
+} from './tokens/decorative.tokens';
+import {
   spacingTokens,
   zIndexTokens,
 } from './tokens/spacing.tokens';

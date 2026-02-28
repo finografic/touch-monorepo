@@ -18,27 +18,10 @@ I also extracted `PandaToken` and `SemanticBase` as proper types in `palette.typ
 
 ---
 
-Great questions. Let me think through these systematically.
-
-## On the shade count question
+## Shade count
 
 **Go 11 to match Panda/TW.** Here's why: you're building a design-system _package_ now, not just internal styles. The moment you or anyone else reaches for a Panda utility like `bg: 'primary.200'` and it doesn't exist because you only have 9 stops, you'll hit friction constantly. The whole point of adopting the ecosystem is to stop fighting convention.
-
-Your current 7-step scale maps cleanly onto the middle of the 11-step range:
-
-| Your Key  | → Panda Shade |
-| --------- | ------------- |
-| `xxlight` | `100`         |
-| `xlight`  | `200`         |
-| `light`   | `300`         |
-| **base**  | **`500`**     |
-| `dark`    | `700`         |
-| `xdark`   | `800`         |
-| `xxdark`  | `900`         |
-
-That leaves `50`, `400`, `600`, and `950` as the new additions. `50` and `950` are the near-white/near-black endpoints you already want. `400` and `600` fill the gaps flanking your base — `400` is the "lighter-than-base-but-not-a-tint" step (great for hover states on light backgrounds), and `600` is the "slightly darker base" (great for hover on solid buttons). You'll use both constantly.
-
-**I wouldn't fight the 50–950 numeric naming.** I know it's not semantic, but here's the thing: your _semantic layer_ is already handled by the `colorPalette` virtual color system in Park UI (`colorPalette.solid.bg`, `colorPalette.subtle.bg`, etc.). The shade numbers are the _raw token layer_ — they're the implementation detail that your semantic tokens reference. Nobody writes `bg: 'primary.300'` in component code; they write `bg: 'colorPalette.subtle.bg'` and the semantic token resolves to the appropriate shade. So the numbers stay hidden behind the abstraction.
+ I know it's not semantic, but here's the thing: your _semantic layer_ is already handled by the `colorPalette` virtual color system in Park UI (`colorPalette.solid.bg`, `colorPalette.subtle.bg`, etc.). The shade numbers are the _raw token layer_ — they're the implementation detail that your semantic tokens reference. Nobody writes `bg: 'primary.300'` in component code; they write `bg: 'colorPalette.subtle.bg'` and the semantic token resolves to the appropriate shade. So the numbers stay hidden behind the abstraction.
 
 ## On the OKLCH palette generator
 

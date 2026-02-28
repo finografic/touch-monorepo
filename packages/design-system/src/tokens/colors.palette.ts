@@ -55,12 +55,13 @@ export const colors = {
   successXXXDark: v('success-xxxdark'),
 
   // ── Warning ────────────────────────────────────────────────────────────────
-  warning:        v('warning'),
+
   warningXXXLight: v('warning-xxxlight'),
   warningXXLight: v('warning-xxlight'),
   warningXLight:  v('warning-xlight'),
   warningLighter: v('warning-lighter'),
   warningLight:   v('warning-light'),
+  warning:        v('warning'),
   warningDark:    v('warning-dark'),
   warningDarker:  v('warning-darker'),
   warningXDark:   v('warning-xdark'),
