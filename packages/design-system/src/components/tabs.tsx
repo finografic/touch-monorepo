@@ -26,4 +26,4 @@ import { Tabs as ArkTabs } from '@ark-ui/react';
 
 // Re-export all Ark Tabs parts
 export const Tabs = ArkTabs;
-export type { TabsValueChangeDetails, TabsFocusChangeDetails } from '@ark-ui/react';
+export type { TabsFocusChangeDetails, TabsValueChangeDetails } from '@ark-ui/react';

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-import { Flex } from 'styled-system/jsx';
 import { Slider } from 'primereact/slider';
+import { Flex } from 'styled-system/jsx';
 import { useDebouncedCallback } from 'use-debounce';
 
 import { useGlobalVolume } from 'hooks/useGlobalVolume';

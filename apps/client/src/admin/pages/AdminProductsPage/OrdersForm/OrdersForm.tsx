@@ -1,8 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-// import { SelectCustom } from 'forms/SelectCustom';
-import { Select } from '@workspace/design-system/forms';
+// import { Select } from '@workspace/design-system/forms';
 import { Col, Row } from '@workspace/design-system/grid';
 import { MIN_TEMP_DIFFERENCE, TEMP_CONSUME_DEFAULT, TEMP_FREEZE_DEFAULT } from '@workspace/shared/constants';
 
@@ -19,6 +18,7 @@ import {
   ordersFormFieldConfigs,
   type OrdersFormValues as MiddlewareOrdersFormValues,
 } from 'forms/FormMiddleware/OrdersFormFieldConfigs';
+import { SelectCustom as Select } from 'forms/SelectCustom';
 import { SelectSearchable } from 'forms/SelectSearchable/SelectSearchable';
 import { TemperatureInputField } from 'forms/TemperatureInputField';
 import { useToast } from 'components/Toast';
@@ -47,7 +47,8 @@ import { styles } from './OrdersForm.styles';
  * 1. Add forms.css import to main.tsx temporarily
  * 2. Render both components on an isolated test page or Storybook-style route
  * 3. Tune forms.css until they match your existing selects visually
- * 4. Then migrate
+ * 4. Then migrate the imports of the form controls and components to the new design system
+ *
  */
 
 // ============================================================================

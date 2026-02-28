@@ -36,8 +36,8 @@
  * ```
  */
 import { Switch as ArkSwitch } from '@ark-ui/react';
-import { forwardRef } from 'react';
 import type { ComponentPropsWithoutRef } from 'react';
+import { forwardRef } from 'react';
 
 // Re-export all Ark Switch parts for composable use
 export const Switch = ArkSwitch;

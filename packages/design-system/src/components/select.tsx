@@ -44,5 +44,5 @@ import { Select as ArkSelect } from '@ark-ui/react';
 
 // Re-export all Ark Select parts + helpers
 export const Select = ArkSelect;
+export type { CollectionItem, ListCollection, SelectValueChangeDetails } from '@ark-ui/react';
 export { createListCollection, useListCollection } from '@ark-ui/react';
-export type { SelectValueChangeDetails, CollectionItem, ListCollection } from '@ark-ui/react';
