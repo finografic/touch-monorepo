@@ -22,6 +22,79 @@
 }
 
 /* ============================================================================
+   FieldWrapper
+   ============================================================================ */
+
+.ds-field {
+  flex: 1;
+  display: block;
+  position: relative;
+  padding: 0.75rem 0 0.25rem;
+  width: 100%;
+}
+
+.ds-field__label {
+  display: block;
+  font-size: 0.8125rem;   /* 13px */
+  font-weight: 600;
+  color: var(--colors-fg-muted, #6b7280);
+  margin-bottom: 0.25rem;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.ds-field__required {
+  color: var(--colors-danger, #ef4444);
+  font-weight: 700;
+  margin-left: 0.2em;
+  line-height: 1;
+}
+
+/* Override Ark's default RequiredIndicator content */
+.ds-field__required::before {
+  content: '*';
+}
+
+.ds-field__hint {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--colors-fg-subtle, #9ca3af);
+  margin-left: 0.4rem;
+}
+
+.ds-field__element {
+  width: 100%;
+}
+
+/* Validation messages — absolute, float below field */
+.ds-field__message {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 10;
+  padding: 0.1rem 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-top: 0.125rem;
+  width: max-content;
+  min-width: 100%;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.25rem;
+  transform: translate(-0.1rem, -0.33rem);
+}
+
+.ds-field__message--error {
+  color: var(--colors-danger-dark, #b91c1c);
+}
+
+.ds-field__message--warning {
+  color: var(--colors-warning-dark, #b45309);
+}
+
+/* ============================================================================
    Select
    ============================================================================ */
 
