@@ -17,7 +17,7 @@
 | 6c-ii | Replace `react-grid-system` (16 files) | ✅ Done |
 | 6c-iii | Replace Radix Themes layout primitives (~86 call sites) | ✅ Done |
 | 6c-iv | Verify — typecheck + dev + visual regression check | ✅ Done |
-| 6d | Swap Radix component imports → design-system | 🚧 In Progress (12 files remain) |
+| 6d | Swap Radix component imports → design-system | 🚧 In Progress (10 files remain) |
 | 6e | Migrate Emotion `.styles.ts` files → Panda | ⬜ Pending |
 | 6f | Remove `styles/` folder + Radix Themes + Emotion | ⬜ Pending |
 | 6g | CSS custom property audit — resolve token overrides | ⬜ Pending |
@@ -123,14 +123,24 @@
 | `<DataList.*>` | `<dl>/<div>/<dt>/<dd>` (semantic HTML) | ✅ Done (4 files) |
 | `<IconButton>` | `<Button>` from `components/Button` | ✅ Done (LanguagesList, LanguagesListSelected) |
 | `<TabNav.*>` | `<div>` + `<button aria-current>` | ✅ Done (AdminNavbar, HiddenMeasureItems) |
-| `<Dialog.*>` | Deferred | ⏸ Pending 6d-iii |
-| `<AlertDialog.*>` | Deferred — depends on Dialog | ⏸ Pending 6d-iii |
+| `<Dialog.*>` | `<Dialog.*>` from `@workspace/design-system/forms` | ✅ Done (`GenericDialog` + `LanguageDeleteDialog` migrated) |
+| `<AlertDialog.*>` | `<Dialog.Content role="alertdialog">` — Ark has no separate AlertDialog | ✅ Done (rolled into LanguageDeleteDialog) |
 | `<TextField>` | `<InputField.Root>` + `<InputField.Slot>` from `forms/InputField` | ✅ DS built — client migration pending |
-| `<IconButton>` (forms) | `<Button>` from `components/Button` (same as other IconButton migations) | ✅ DS ready — client migration pending |
+| `<IconButton>` (forms) | `<Button>` from `components/Button` (same as other IconButton migrations) | ✅ DS ready — client migration pending |
 | `<RadioCards.*>` | `<RadioGroup.Root variant="card">` + `<RadioGroup.Item>` from `forms/RadioGroup` | ✅ DS built — client migration pending |
 | `<CheckboxGroup.*>` | `<div>` wrapper + `<Checkbox.*>` from `forms/Checkbox` | ✅ DS built — client migration pending |
-| `<Slider>` | Convenience wrapper of existing Ark Slider ?? or recipe ? USED HERE: apps/client/src/admin/pages/AdminSoundPage/VolumeSlider.tsx |
+| PrimeReact `<Slider>` | `<Slider.*>` from `@workspace/design-system/forms` | ✅ DS built — `VolumeSlider.tsx` migration pending |
 | `<Theme>` / `ThemeProps` | Deferred | ⏸ Pending 6f |
+
+### What was done (2026-02-28) — Phase 6d-iv Dialog + Slider migration
+
+- Built `forms/Slider` — `Slider.Root/Label/ValueText/Control/Track/Range/Thumb` compound; unwraps Ark's `value: number[]` → single `value: number` / `onValueChange: (value: number) => void`; `Thumb` includes `HiddenInput` internally
+- Built `forms/Dialog` — `Dialog.Root/Backdrop/Positioner/Content/Header/Title/Description/Body/Footer/CloseTrigger` compound; `Root` normalises Ark's `onOpenChange({open})` → `(open: boolean) => void`; `Content` accepts `size?: 'xs'|'sm'|'md'|'lg'|'xl'|'cover'|'full'` via `data-size`; `Description` visually hidden by default (`.ds-dialog__description--visible` opt-in)
+- Exported `DialogSize` type from `forms/index.ts`
+- Added `.sr-only` utility to `forms.css` (replaces Radix `VisuallyHidden`)
+- Added `Slider` + `Dialog` to `forms/primitives.ts`
+- Migrated `apps/client/src/components/Dialog/GenericDialog.tsx` — removed Radix `Dialog`, `IconButton`, `VisuallyHidden`, `Tabs`; uses DS `Dialog.*` + DS `Tabs.*`; `Dialog.CloseTrigger asChild` wraps `<Button variant="ghost">`; `sr-only` on hidden title
+- Migrated `apps/client/src/admin/pages/AdminLanguagesPage/components/LanguageDeleteDialog.tsx` — replaced Radix `AlertDialog.*` with DS `Dialog.*` + `role="alertdialog"` on `Dialog.Content`; uses `.ds-dialog__description--visible` for inline warning text; client `Button` `color` prop (not `colorScheme`)
 
 ### What was done (2026-02-28) — Phase 6d-iii DS components built
 
@@ -161,13 +171,12 @@
 - Fixed `NoItems.tsx` (missed by bulk pass) — Callout.Root compound → div+callout recipe
 - Net new TypeScript errors: 0 (65 total, all pre-existing)
 
-### Remaining client migrations — Phase 6d-iii (DS components now ready)
+### Remaining client migrations (10 files)
 
-DS components for InputField, Checkbox, RadioGroup are built. Pending client-side wiring:
+All DS components are built. Pending client-side wiring:
 
 ```
-apps/client/src/admin/pages/AdminLanguagesPage/components/LanguageDeleteDialog.tsx  (AlertDialog — needs DS Dialog)
-apps/client/src/components/Dialog/GenericDialog.tsx                                  (Dialog — needs DS Dialog)
+apps/client/src/admin/pages/AdminSoundPage/VolumeSlider.tsx                          (PrimeReact Slider → DS Slider)
 apps/client/src/components/LanguageSelector/LanguageSelector.tsx                    (RadioCards → RadioGroup variant="card")
 apps/client/src/components/Pads/PadGroup/PadGroup.tsx                               (CheckboxGroup.Root → <div>)
 apps/client/src/components/SearchBar/SearchBar.tsx                                   (TextField → InputField)
@@ -180,7 +189,7 @@ apps/client/src/forms/SelectSearchable/SelectSearchable.tsx                     
 apps/client/src/App.tsx                                                               (Theme as RadixTheme — keep until 6f)
 ```
 
-Still blocked on DS Dialog (unblocks 2 files). All TextField/CheckboxGroup/RadioCards files are unblocked.
+All files unblocked — DS components for Dialog, Slider, InputField, Checkbox, RadioGroup all built.
 
 ---
 
@@ -294,6 +303,8 @@ injecting CSS vars, the cascades multiply.
 17. `forms/primitives` path convention — raw Ark re-exports only accessible via `/primitives` suffix; `forms/index` has zero primitive re-exports; deliberate import = deliberate bypass (2026-02-28)
 18. `TextField` renamed `InputField` in DS — aligns with client's `Input*` naming convention (InputPassword, InputTime, etc.) and alphabetical grouping (2026-02-28)
 19. `RadioGroup variant="card"` covers `RadioCards` use case — same compound structure, CSS differentiation via `data-variant`; no separate RadioCards component needed (2026-02-28)
+20. Dialog size scale: `xs·sm·md·lg·xl·cover·full` — same scale used across all DS components; `cover` = 95vw/95vh, `full` = 100vw/100vh borderless; aligned with Park UI vocabulary (2026-02-28)
+21. `AlertDialog` mapped to `Dialog.Content role="alertdialog"` — Ark UI has no separate AlertDialog primitive; `role` attribute provides equivalent accessibility semantics (2026-02-28)
 
 ---
 

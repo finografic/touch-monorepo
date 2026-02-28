@@ -45,7 +45,6 @@ export const FileUploadSection: React.FC<FileUploadSectionProps> = ({ soundType 
         });
       } finally {
         setIsUploading(false);
-        // Reset the input
         event.target.value = '';
       }
     },

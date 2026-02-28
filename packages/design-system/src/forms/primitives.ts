@@ -12,4 +12,4 @@
  * import { Checkbox } from '@workspace/design-system/forms/primitives'; // raw Ark
  */
 
-export { Checkbox, Field, RadioGroup } from '@ark-ui/react';
+export { Checkbox, Dialog, Field, RadioGroup, Slider } from '@ark-ui/react';

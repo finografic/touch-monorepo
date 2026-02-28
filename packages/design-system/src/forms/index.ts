@@ -1,7 +1,13 @@
 export { Checkbox } from './Checkbox';
 
+export { Dialog } from './Dialog';
+export type { DialogSize, DialogRootPropsDS, DialogContentPropsDS } from './Dialog';
+
 export { RadioGroup } from './RadioGroup';
 export type { RadioGroupRootPropsDS } from './RadioGroup';
+
+export { Slider } from './Slider';
+export type { SliderRootPropsDS } from './Slider';
 
 export { FieldBox } from './FieldBox';
 export type { FieldBoxProps } from './FieldBox';

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { Tabs } from '@workspace/design-system/components';
 
 import { AdminPageLayout, AdminSection } from 'admin/components';
-import { Tabs } from '@workspace/design-system/components';
 import { useToast } from 'components/Toast';
 
 import { useGetSoundFiles, useGetSoundSettings } from 'queries/sounds';

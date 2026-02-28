@@ -1,8 +1,10 @@
 import React from 'react';
-import type { LanguageInfo } from '@workspace/i18n/types';
 
-import { AlertDialog, Button, Text } from '@radix-ui/themes';
+import type { LanguageInfo } from '@workspace/i18n/types';
+import { Dialog } from '@workspace/design-system/forms';
 import { Flex } from 'styled-system/jsx';
+
+import { Button } from 'components/Button';
 
 interface LanguageDeleteDialogProps {
   language: LanguageInfo | null;
@@ -22,40 +24,52 @@ export const LanguageDeleteDialog: React.FC<LanguageDeleteDialogProps> = ({
   if (!language) return null;
 
   return (
-    <AlertDialog.Root open={isOpen} onOpenChange={onClose}>
-      <AlertDialog.Content maxWidth="450px">
-        <AlertDialog.Title>Delete Language</AlertDialog.Title>
-        <AlertDialog.Description size="2">
-          Are you sure you want to delete <strong>{language.label}</strong> ({language.code})?
-          <br />
-          <br />
-          This will:
-          <br />
-          • Remove the language from the supported languages list
-          <br />
-          • Delete all translation columns for this language from the database
-          <br />
-          • Permanently remove all translations for this language
-          <br />
-          <br />
-          <Text color="red" weight="bold">
-            This action cannot be undone.
-          </Text>
-        </AlertDialog.Description>
+    <Dialog.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>
+      <Dialog.Backdrop />
+      <Dialog.Positioner>
+        <Dialog.Content size="sm" role="alertdialog">
+          <Dialog.Header>
+            <Dialog.Title>Delete Language</Dialog.Title>
+            <Dialog.CloseTrigger asChild>
+              <Button variant="ghost" size="sm" aria-label="Close dialog" disabled={isLoading} />
+            </Dialog.CloseTrigger>
+          </Dialog.Header>
 
-        <Flex gap="3" mt="4" justify="end">
-          <AlertDialog.Cancel>
-            <Button variant="soft" color="gray" disabled={isLoading}>
-              Cancel
-            </Button>
-          </AlertDialog.Cancel>
-          <AlertDialog.Action>
-            <Button variant="solid" color="red" onClick={onConfirm} loading={isLoading} disabled={isLoading}>
-              {isLoading ? 'Deleting...' : 'Delete Language'}
-            </Button>
-          </AlertDialog.Action>
-        </Flex>
-      </AlertDialog.Content>
-    </AlertDialog.Root>
+          <Dialog.Body>
+            <Dialog.Description className="ds-dialog__description--visible">
+              Are you sure you want to delete <strong>{language.label}</strong> ({language.code})?
+              <br /><br />
+              This will:
+              <br />• Remove the language from the supported languages list
+              <br />• Delete all translation columns for this language from the database
+              <br />• Permanently remove all translations for this language
+              <br /><br />
+              <span style={{ color: 'var(--colors-danger-dark)', fontWeight: 700 }}>
+                This action cannot be undone.
+              </span>
+            </Dialog.Description>
+          </Dialog.Body>
+
+          <Dialog.Footer>
+            <Flex gap={3} justify="end" width="100%">
+              <Dialog.CloseTrigger asChild>
+                <Button variant="outline" color="grey" disabled={isLoading}>
+                  Cancel
+                </Button>
+              </Dialog.CloseTrigger>
+              <Button
+                variant="solid"
+                color="danger"
+                onClick={onConfirm}
+                loading={isLoading}
+                disabled={isLoading}
+              >
+                {isLoading ? 'Deleting…' : 'Delete Language'}
+              </Button>
+            </Flex>
+          </Dialog.Footer>
+        </Dialog.Content>
+      </Dialog.Positioner>
+    </Dialog.Root>
   );
 };
