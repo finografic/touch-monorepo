@@ -38,10 +38,13 @@
       "types": "./dist/forms/primitives.d.mts",
       "import": "./dist/forms/primitives.mjs"
     },
-    "./forms/forms.css": "./src/forms/forms.css",
     "./icons": {
       "types": "./dist/icons/index.d.mts",
       "import": "./dist/icons/index.mjs"
+    },
+    "./palette/colors.base": {
+      "types": "./dist/palette/colors.palette.d.mts",
+      "import": "./dist/palette/colors.palette.mjs"
     },
     "./panda.preset": {
       "types": "./dist/panda.preset.d.mts",
@@ -55,8 +58,9 @@
     "src/forms"
   ],
   "scripts": {
-    "build": "tsdown",
-    "dev": "tsdown --watch --no-clean",
+    "prepare": "panda codegen",
+    "build": "panda cssgen && tsdown",
+    "dev": "panda cssgen && tsdown --watch --no-clean",
     "·········· LINTING": "················································",
     "lint": "eslint .",
     "lint.fix": "eslint . --fix",

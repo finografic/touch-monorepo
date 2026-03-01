@@ -44,24 +44,24 @@ export const Header: React.FC<HeaderProps> = ({
   }, [isAuthenticated, user?.role, user]);
 
   const { left, center, right } = useMemo((): HeaderColumnWidths => {
-    // (empty) | (title) | (toolbar)
     if (titleAlign === 'center') {
       return {
+        // empty | title | toolbar
         left: { xs: 2, sm: 2, md: 3, lg: 3, xl: 3, xxl: 3 },
         center: { xs: 8, sm: 8, md: 6, lg: 6, xl: 6, xxl: 6 },
         right: { xs: 2, sm: 2, md: 3, lg: 3, xl: 3, xxl: 3 },
       };
     }
-    // (title) | (empty) | (toolbar)
     if (titleAlign === 'left') {
       return {
+        // title | empty | toolbar
         left: { xs: 6, sm: 6, md: 4, lg: 4, xl: 4, xxl: 4 },
         center: { xs: 0, sm: 0, md: 4, lg: 4, xl: 4, xxl: 4 },
         right: { xs: 6, sm: 6, md: 4, lg: 4, xl: 4, xxl: 4 },
       };
     }
-    // (empty) | (empty) | (title + toolbar)
     return {
+      // empty | empty | title + toolbar
       left: { xs: 2, sm: 2, md: 2, lg: 2, xl: 2, xxl: 2 },
       center: { xs: 2, sm: 2, md: 2, lg: 2, xl: 2, xxl: 2 },
       right: { xs: 8, sm: 8, md: 8, lg: 8, xl: 8, xxl: 8 },

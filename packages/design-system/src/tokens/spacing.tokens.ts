@@ -1,3 +1,13 @@
+/**
+ * Spacing scale for Panda CSS. Keys are referenced as strings in recipes:
+ *   h: '10', px: '4', gap: '2'
+ *
+ * Values are in rem (1rem = 16px at default). Panda resolves at codegen.
+ *
+ * @example
+ * // In button recipe: h: '10' → height: 2.5rem (40px)
+ * // In button recipe: px: '4' → padding-inline: 1rem (16px)
+ */
 export const spacingTokens = {
   '0': { value: '0' },
   'px': { value: '1px' },
@@ -19,6 +29,18 @@ export const spacingTokens = {
   '24': { value: '6rem' }, // 96px
 } as const;
 
+/**
+ * Z-index scale for layered UI elements.
+ * Keys are referenced as strings in recipes and css() calls:
+ *   zIndex: 'modal', zIndex: 'tooltip'
+ *
+ * Values use a spaced numeric scale to allow insertion without
+ * renumbering (e.g. a new layer between overlay and modal).
+ *
+ * @example
+ * // In recipe: zIndex: 'tooltip' → z-index: 1800
+ * // In css():  zIndex: 'overlay' → z-index: 1300
+ */
 export const zIndexTokens = {
   hide: { value: -1 },
   base: { value: 0 },

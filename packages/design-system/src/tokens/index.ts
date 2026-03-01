@@ -1,5 +1,8 @@
 export type { ColorsKey } from '../palette/colors.palette';
-export { colors } from '../palette/colors.palette';
+// export { colors } from '../palette/colors.palette';
+export {
+border,
+colors, layout, spacing } from './_migration.tokens';
 export { durationTokens, easingTokens, keyframes } from './animations.tokens';
 export { colorTokens, semanticColorTokens } from './colors.tokens';
 export { borderWidthTokens, radiiTokens, shadowTokens } from './decorative.tokens';

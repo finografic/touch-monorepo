@@ -1,10 +1,14 @@
-import { css } from '@emotion/react';
+// import { colors, layout } from '@workspace/design-system/';
+// import { colors, layout, min } from 'styles';
+import { colors, layout } from '@workspace/design-system/tokens';
 
-import { colors, layout, min } from 'styles';
+import { css } from '@emotion/react';
 
 export const styles = css`
   /* Header content styling - layout handled by Layout.styles.ts */
   width: 100%;
+
+  background-color: ${colors.danger}!important;
 
   .app-header {
     padding: 0rem;

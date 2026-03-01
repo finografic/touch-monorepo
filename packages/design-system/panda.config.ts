@@ -31,6 +31,11 @@ export default defineConfig({
   include: ['./src/**/*.{ts,tsx}'],
   exclude: [],
 
+    /**
+   * Output directory (gitignored).
+   */
+    outdir: 'styled-system',
+
   /**
    * Generate React JSX components from Panda patterns.
    * Gives us <Box mx="4" py="2"> etc. with full token + responsive support.

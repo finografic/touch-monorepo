@@ -1,5 +1,5 @@
-import { Checkbox as ArkCheckbox } from '@ark-ui/react';
 import type { CheckboxRootProps } from '@ark-ui/react';
+import { Checkbox as ArkCheckbox } from '@ark-ui/react';
 import React from 'react';
 
 import { icons } from '../../icons';

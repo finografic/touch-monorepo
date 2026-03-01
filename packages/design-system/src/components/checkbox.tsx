@@ -35,8 +35,8 @@
  * ```
  */
 import { Checkbox as ArkCheckbox } from '@ark-ui/react';
-import { forwardRef } from 'react';
 import type { ReactNode } from 'react';
+import { forwardRef } from 'react';
 
 // Re-export all Ark Checkbox parts for composable use
 export const Checkbox = ArkCheckbox;

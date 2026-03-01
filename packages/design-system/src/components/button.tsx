@@ -29,8 +29,8 @@
  * ```
  */
 import { ark } from '@ark-ui/react';
-import { forwardRef } from 'react';
 import type { ComponentPropsWithoutRef, ReactNode } from 'react';
+import { forwardRef } from 'react';
 
 export interface ButtonProps extends ComponentPropsWithoutRef<'button'> {
   /** Visual size — xs · sm · md · lg · xl. Default: md */

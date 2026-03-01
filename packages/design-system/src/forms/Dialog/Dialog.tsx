@@ -1,5 +1,5 @@
-import { Dialog as ArkDialog } from '@ark-ui/react';
 import type { DialogRootProps } from '@ark-ui/react';
+import { Dialog as ArkDialog } from '@ark-ui/react';
 import React from 'react';
 
 // ── Size scale ────────────────────────────────────────────────────────────────
