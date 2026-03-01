@@ -1,8 +1,8 @@
 # palette/
 
-This folder is the **color system foundation** — the inputs, algorithm, and reference map
-that the design system's color tokens are built from. Nothing here is a token definition;
-everything here feeds into `tokens/colors.tokens.ts`.
+This folder is the **color system foundation** — the inputs, algorithm, and reference
+map that the design system's color tokens are built from. Nothing here is a token
+definition; everything here feeds into `tokens/colors.tokens.ts`.
 
 ---
 
@@ -54,9 +54,9 @@ in OKLCH space — no conversion to RGB, no muddying at midpoints.
 
 **Anchor:**
 
-| Stop   | value     | ~ TW numeric |
-| ------ | --------- | ------------ |
-| `base` | base as-is | 500         |
+| Stop   | value      | ~ TW numeric |
+| ------ | ---------- | ------------ |
+| `base` | base as-is | 500          |
 
 **Dark side** (mixed toward black):
 
@@ -93,7 +93,7 @@ for backwards compatibility during migration.
 
 ## How these connect to `tokens/colors.tokens.ts`
 
-```
+```text
 colors.base.ts          →  BASE_COLORS (9 OKLCH inputs)
 shades.utils.ts         →  buildShadeScale() (shade generator)
                                ↓
@@ -105,3 +105,63 @@ colors.palette.ts       →  colors             (CSS var reference map, for JS c
 
 `colors.tokens.ts` is purely declarative — it imports `BASE_COLORS` and
 `buildShadeScale`, then assembles the Panda token structures. No logic lives there.
+
+---
+
+## Dark mode & theming
+
+### How `var()` references work at runtime
+
+Every entry in `colors` is a CSS custom property reference — a string like
+`"var(--colors-primary-light)"`. When Emotion (or any CSS-in-JS library) uses
+one of these values, it writes the reference into a class:
+
+```css
+.css-xyz { color: var(--colors-primary-light); }
+```
+
+The class itself never changes. The browser resolves the `var()` reference
+**live**, against whichever CSS custom properties are in scope at render time.
+This means theme switches take effect instantly at the CSS level — no JS
+re-execution, no re-render required.
+
+### Two-tier system: static vs. adaptive
+
+Not all tokens adapt to dark mode. There are two tiers:
+
+**Tier 1 — Raw palette** (`colorTokens` in `colors.tokens.ts`):
+These are fixed color values. `--colors-primary-light` is the same blue
+tint in both light and dark mode. Brand colors don't change with the theme.
+
+**Tier 2 — Semantic tokens** (`semanticColorTokens` in `colors.tokens.ts`):
+These are role-based aliases defined with `_dark` variants. Panda generates
+a separate custom property value for each mode:
+
+```css
+:root              { --colors-bg: white;  --colors-fg: oklch(28% 0 0); }
+[data-theme="dark"] { --colors-bg: black; --colors-fg: oklch(93% 0 0); }
+```
+
+### Which `colors` entries adapt
+
+The `colors` POJO maps to both tiers. Whether a given key adapts to dark
+mode depends on which tier it resolves to:
+
+```ts
+// Static — same in both modes (raw palette)
+colors.primaryLight   // → var(--colors-primary-light)
+colors.successXLight  // → var(--colors-success-xlight)
+
+// Adaptive — changes with theme (semantic)
+colors.text           // → var(--colors-fg)
+colors.background     // → var(--colors-bg)
+```
+
+### Practical guidance for Emotion `.styles.ts` files
+
+- Use **semantic entries** (`text`, `background`, `backgroundDark`) for
+  surfaces, text, and borders that must adapt to theme.
+- Use **raw palette entries** (`primaryLight`, `dangerDark`, etc.) for
+  brand accents and decorative colors that stay constant across themes.
+- Both approaches work correctly — the `var()` reference is what makes
+  theme switching transparent to the CSS-in-JS layer.
