@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
 
-export type IconProps = React.SVGProps<SVGSVGElement> & { [key: `data-${string}`]: string | undefined };
+export type IconProps = React.SVGProps<unknown> & { [key: `data-${string}`]: string | undefined };
 
 /** Convert PascalCase export name to kebab-case icon identifier.
  *  e.g. 'ChevronDownIcon' → 'chevron-down'

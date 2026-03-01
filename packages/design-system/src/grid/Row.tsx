@@ -1,4 +1,4 @@
-import type { ComponentPropsWithoutRef, CSSProperties, ElementRef } from 'react';
+import type { ComponentPropsWithoutRef, CSSProperties } from 'react';
 import { forwardRef } from 'react';
 
 interface RowProps extends ComponentPropsWithoutRef<'div'> {
@@ -10,7 +10,7 @@ interface RowProps extends ComponentPropsWithoutRef<'div'> {
   gutterWidth?: number;
 }
 
-const Row = forwardRef<ElementRef<'div'>, RowProps>(
+const Row = forwardRef<HTMLDivElement, RowProps>(
   ({ align, justify, direction, wrap, nogutter, gutterWidth, className, style, ...props }, ref) => {
     const combinedStyle: CSSProperties =
       gutterWidth != null

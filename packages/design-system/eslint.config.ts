@@ -39,6 +39,7 @@ const config: Linter.Config[] = [
       },
       globals: {
         ...globals.node,
+        ...globals.browser,
       },
     },
     plugins: {

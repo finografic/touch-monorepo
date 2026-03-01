@@ -1,11 +1,11 @@
-import type { ComponentPropsWithoutRef, ElementRef } from 'react';
+import type { ComponentPropsWithoutRef } from 'react';
 import { forwardRef } from 'react';
 
 interface ContainerProps extends ComponentPropsWithoutRef<'div'> {
   fluid?: boolean;
 }
 
-const Container = forwardRef<ElementRef<'div'>, ContainerProps>(
+const Container = forwardRef<HTMLDivElement, ContainerProps>(
   ({ fluid, className, ...props }, ref) => (
     <div
       ref={ref}
