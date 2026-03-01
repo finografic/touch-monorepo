@@ -1,105 +1,21 @@
-/**
- * 🎨 Design System Color Tokens
- *
- * Source-of-truth OKLCH color values, mapped from the existing client styles.
- * These are the base colors from which all semantic tokens are derived.
- *
- * @see https://oklch.com — OKLCH color picker
- * @see https://www.w3.org/TR/css-color-4/#ok-lab — W3C specification
- *
- * Shade scale (11 stops) — word names map to the TW/Panda/Ark numeric standard:
- *
- * SHADE SUFFIX    → SHADE  NOTES
- * ──────────────────────────────────────────────
- * xxxlight        → 50     near-white endpoint
- * xxlight         → 100
- * xlight          → 200
- * lighter         → 300    medium-light
- * light           → 400    hover-on-light-bg
- * base            → 500    anchor (DEFAULT)
- * dark            → 600    hover-on-solid-bg, active states
- * darker          → 700
- * xdark           → 800
- * xxdark          → 900
- * xxxdark         → 950    near-black endpoint
- */
-
-// ============================================================================
-// BASE OKLCH COLORS (source-of-truth)
-// ============================================================================
-
-export const baseColors = {
-  primary: 'oklch(48.8% 0.243 264.376)', // Tailwind blue-700
-  secondary: 'oklch(49.6% 0.265 301.924)', // Tailwind purple-700
-  success: 'oklch(65.4% 0.194 149.214)', // Tailwind green-600
-  warning: 'oklch(76.9% 0.188 70.08)', // Tailwind amber-500
-  danger: 'oklch(57.7% 0.245 27.325)', // Tailwind red-600
-  info: 'oklch(58.8% 0.158 241.966)', // Tailwind cyan-500
-  default: 'oklch(55.3% 0.013 58.071)', // Tailwind stone-500
-  grey: 'oklch(55.2% 0.016 285.938)', // Tailwind zinc-500
-  text: 'oklch(28% 0 0)', // Tailwind neutral-800
-
-  // Fixed colors
-  white: '#ffffff',
-  black: '#000000',
-  transparent: 'transparent',
-} as const;
-
-// ============================================================================
-// PANDA CSS COLOR TOKENS
-// ============================================================================
-
-/**
- * Raw color palette for Panda CSS `tokens.colors`.
- *
- * Each color exposes 11 word-named shades plus a `DEFAULT` alias (= base)
- * so `{colors.primary}` resolves without a suffix.
- *
- * All shade values are computed at runtime via CSS color-mix(in oklch, …) —
- * zero build-time cost, perceptually uniform interpolation.
- *
- * Light-side percentages (% of base, remainder white):
- *   xxxlight → 5% | xxlight → 10% | xlight → 20% | lighter → 38% | light → 58%
- *
- * Dark-side percentages (% of base, remainder black):
- *   dark → 82% | darker → 65% | xdark → 47% | xxdark → 30% | xxxdark → 15%
- */
-function buildShadeScale(base: string) {
-  return {
-    DEFAULT: { value: base },
-    xxxlight: { value: `color-mix(in oklch, ${base} 5%, white)` },
-    xxlight: { value: `color-mix(in oklch, ${base} 10%, white)` },
-    xlight: { value: `color-mix(in oklch, ${base} 20%, white)` },
-    lighter: { value: `color-mix(in oklch, ${base} 38%, white)` },
-    light: { value: `color-mix(in oklch, ${base} 58%, white)` },
-    base: { value: base },
-    dark: { value: `color-mix(in oklch, ${base} 82%, black)` },
-    darker: { value: `color-mix(in oklch, ${base} 65%, black)` },
-    xdark: { value: `color-mix(in oklch, ${base} 47%, black)` },
-    xxdark: { value: `color-mix(in oklch, ${base} 30%, black)` },
-    xxxdark: { value: `color-mix(in oklch, ${base} 15%, black)` },
-  };
-}
+import { BASE_COLORS } from '../palette/colors.base';
+import { buildShadeScale } from '../palette/shades.utils';
 
 export const colorTokens = {
-  primary: buildShadeScale(baseColors.primary),
-  secondary: buildShadeScale(baseColors.secondary),
-  success: buildShadeScale(baseColors.success),
-  warning: buildShadeScale(baseColors.warning),
-  danger: buildShadeScale(baseColors.danger),
-  info: buildShadeScale(baseColors.info),
-  grey: buildShadeScale(baseColors.grey),
-  neutral: buildShadeScale(baseColors.default),
+  primary: buildShadeScale(BASE_COLORS.primary),
+  secondary: buildShadeScale(BASE_COLORS.secondary),
+  success: buildShadeScale(BASE_COLORS.success),
+  warning: buildShadeScale(BASE_COLORS.warning),
+  danger: buildShadeScale(BASE_COLORS.danger),
+  info: buildShadeScale(BASE_COLORS.info),
+  grey: buildShadeScale(BASE_COLORS.grey),
+  neutral: buildShadeScale(BASE_COLORS.default),
 
-  // Fixed
-  white: { value: baseColors.white },
-  black: { value: baseColors.black },
-  transparent: { value: baseColors.transparent },
+  // fixed colors (not shades)
+  white: { value: BASE_COLORS.white },
+  black: { value: BASE_COLORS.black },
+  transparent: { value: BASE_COLORS.transparent },
 } as const;
-
-// ============================================================================
-// SEMANTIC COLOR TOKENS (for Panda CSS semanticTokens)
-// ============================================================================
 
 /**
  * Semantic tokens — role-based color aliases.
@@ -125,7 +41,7 @@ export const semanticColorTokens = {
     info: { value: { base: '{colors.info.xlight}', _dark: 'oklch(20% 0.05 242)' } },
   },
   fg: {
-    DEFAULT: { value: { base: baseColors.text, _dark: 'oklch(93% 0 0)' } },
+    DEFAULT: { value: { base: BASE_COLORS.text, _dark: 'oklch(93% 0 0)' } },
     muted: { value: { base: 'oklch(40% 0.01 285)', _dark: 'oklch(65% 0.01 285)' } },
     subtle: { value: { base: '{colors.grey}', _dark: 'oklch(55% 0.01 285)' } },
     inverted: { value: { base: '{colors.white}', _dark: '{colors.black}' } },
@@ -139,7 +55,7 @@ export const semanticColorTokens = {
     muted: { value: { base: '{colors.grey.xlight}', _dark: 'oklch(25% 0.01 285)' } },
     subtle: { value: { base: '{colors.grey.xlight}', _dark: 'oklch(20% 0.01 285)' } },
     emphasized: { value: { base: '{colors.grey.light}', _dark: 'oklch(40% 0.01 285)' } },
-    inverted: { value: { base: baseColors.text, _dark: 'oklch(90% 0 0)' } },
+    inverted: { value: { base: BASE_COLORS.text, _dark: 'oklch(90% 0 0)' } },
     error: { value: { base: '{colors.danger}', _dark: '{colors.danger.light}' } },
     warning: { value: { base: '{colors.warning}', _dark: '{colors.warning.light}' } },
     success: { value: { base: '{colors.success}', _dark: '{colors.success.light}' } },

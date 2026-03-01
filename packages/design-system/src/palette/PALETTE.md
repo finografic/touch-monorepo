@@ -1,50 +1,107 @@
-# design-system - palette
+# palette/
 
-çLet me look at the current file structure to plan the split properly.Good. The natural groupings I see are: types (shared across everything), oklch utilities (parse/format), shade logic (lightness ramp, chroma, hue — they're coupled), generators (the public API), and the base color config. Let me split it.Now let me verify the structure and clean up the old monolith:Here's how it landed:
-
-```
-palette/
-├── index.ts           — barrel exports (public API surface)
-├── palette.types.ts   — OklchColor, ShadeStop, ShadePalette, PandaToken, SemanticBase
-├── oklch.utils.ts     — parseOklch, formatOklch, clamp
-├── shades.ts          — buildLightnessRamp, chromaMultiplier, hueShift + their config constants
-├── generators.ts      — generatePalette, generateAllPalettes (public API)
-└── bases.ts           — SEMANTIC_BASES + migration cheatsheet
-```
-
-The grouping logic: `shades.ts` keeps all the ramp computation together with its configuration constants (`DARK_FLOOR`, `CHROMA_TAPERS`, `DARK_FACTORS`, etc.) since those constants only make sense in context of the functions they parameterize. I also pulled the inline magic numbers from `buildLightnessRamp` into named constants (`LIGHT_BLEND_RATIOS`, `DARK_FACTORS`) — easier to tune when you're eyeballing generated palettes.
-
-I also extracted `PandaToken` and `SemanticBase` as proper types in `palette.types.ts` so `generators.ts` and `bases.ts` don't repeat the `{ value: string }` shape inline.
+This folder is the **color system foundation** — the inputs, algorithm, and reference map
+that the design system's color tokens are built from. Nothing here is a token definition;
+everything here feeds into `tokens/colors.tokens.ts`.
 
 ---
 
-## Shade count
+## Files
 
-**Go 11 to match Panda/TW.** Here's why: you're building a design-system _package_ now, not just internal styles. The moment you or anyone else reaches for a Panda utility like `bg: 'primary.200'` and it doesn't exist because you only have 9 stops, you'll hit friction constantly. The whole point of adopting the ecosystem is to stop fighting convention.
- I know it's not semantic, but here's the thing: your _semantic layer_ is already handled by the `colorPalette` virtual color system in Park UI (`colorPalette.solid.bg`, `colorPalette.subtle.bg`, etc.). The shade numbers are the _raw token layer_ — they're the implementation detail that your semantic tokens reference. Nobody writes `bg: 'primary.300'` in component code; they write `bg: 'colorPalette.subtle.bg'` and the semantic token resolves to the appropriate shade. So the numbers stay hidden behind the abstraction.
+### `colors.base.ts`
 
-## On the OKLCH palette generator
+The **single source of truth** for the design system's brand colors.
 
-OKLCH is perfect for this because you can generate perceptually uniform shade ramps by interpolating lightness while keeping chroma and hue consistent (with minor hue adjustments at the extremes to avoid washed-out tints). Here's how I'd approach it:To summarize the reasoning:
+Contains `BASE_COLORS` — a flat object of named OKLCH color strings (plus fixed
+`white`, `black`, `transparent`). This is the only file a developer needs to touch
+when changing the palette. Swap a value here and every shade, token, and semantic
+alias updates automatically.
 
-**Go 11 shades, adopt 50–950.** Your semantic names map cleanly onto the numeric scale — you're not losing anything, you're gaining four useful intermediate stops. The mapping at the bottom of the generator file shows exactly how your old names land:
+All values use the OKLCH color space (`oklch(L% C H)`), which provides perceptually
+uniform lightness and avoids the hue shifts and muddying that occur in RGB/HSL.
 
-| Old Name   | → Shade | What's New                                |
-| ---------- | ------- | ----------------------------------------- |
-| `xxxlight` | `50`    | Near-white endpoint you wanted            |
-| `xxlight`  | `100`   |                                           |
-| `xlight`   | `200`   |                                           |
-| `lighter`  | `300`   |                                           |
-| `light`    | `400`   | **New:** hover-on-light-bg, "almost base" |
-| `base`     | `500`   | Your anchor                               |
-| `dark`     | `600`   | **New:** hover-on-solid-bg, active states |
-| `darker`   | `700`   |                                           |
-| `xdark`    | `800`   |                                           |
-| `xxdark`   | `900`   |                                           |
-| `xxxdark`  | `950`   | Near-black endpoint you wanted            |
+```
+primary   → oklch(48.8% 0.243 264.376)   (blue)
+secondary → oklch(49.6% 0.265 301.924)   (purple)
+success   → oklch(65.4% 0.194 149.214)   (green)
+warning   → oklch(76.9% 0.188 70.08)     (amber)
+danger    → oklch(57.7% 0.245 27.325)    (red)
+info      → oklch(58.8% 0.158 241.966)   (cyan)
+default   → oklch(55.3% 0.013 58.071)    (stone/neutral)
+grey      → oklch(55.2% 0.016 285.938)   (zinc)
+text      → oklch(28% 0 0)               (near-black)
+```
 
-The `400` and `600` stops are the ones you'll thank yourself for later — Park UI's recipes use them heavily for hover/active states on buttons and surfaces, and without them you'd be hacking around with opacity or custom overrides.
+---
 
-**On the 50–950 naming:** your semantic layer is the `colorPalette.solid.bg` / `colorPalette.subtle.bg` system from Park UI. The shade numbers are plumbing. You'll rarely type `primary.300` in component code — the recipes abstract it away.
+### `shades.utils.ts`
 
-The generator itself uses three OKLCH tricks: non-linear lightness interpolation (perceptually even steps), chroma tapering at extremes (prevents neon tints and muddy darks), and a subtle ±3° hue shift (warm tints, cool shades — natural pigment behavior). It's a starting point — you'll want to eyeball the output and tune the lightness ramp and chroma curves to taste, especially for `warning` since its base lightness is already quite high (~0.77).
+Exports `buildShadeScale(base: string)` — given a single OKLCH color string,
+returns a Panda CSS token object with 11 named shade stops plus a `DEFAULT` alias.
+
+Shades are generated via CSS `color-mix(in oklch, …)`, which keeps interpolation
+in OKLCH space — no conversion to RGB, no muddying at midpoints.
+
+**Light side** (mixed toward white):
+
+| Stop       | % of base | ~ TW numeric |
+| ---------- | --------- | ------------ |
+| `xxxlight` | 5%        | 50           |
+| `xxlight`  | 10%       | 100          |
+| `xlight`   | 20%       | 200          |
+| `lighter`  | 38%       | 300          |
+| `light`    | 58%       | 400          |
+
+**Anchor:**
+
+| Stop   | value     | ~ TW numeric |
+| ------ | --------- | ------------ |
+| `base` | base as-is | 500         |
+
+**Dark side** (mixed toward black):
+
+| Stop      | % of base | ~ TW numeric |
+| --------- | --------- | ------------ |
+| `dark`    | 82%       | 600          |
+| `darker`  | 65%       | 700          |
+| `xdark`   | 47%       | 800          |
+| `xxdark`  | 30%       | 900          |
+| `xxxdark` | 15%       | 950          |
+
+---
+
+### `colors.palette.ts`
+
+A flat TypeScript object (`colors`) that maps every shade stop to its CSS custom
+property reference (`var(--colors-*)`).
+
+This is the **consumer-facing color map** — imported by client and component code
+when a raw CSS variable reference is needed outside of Panda's utility system.
+
+```ts
+import { colors } from '@workspace/design-system/tokens';
+
+colors.primaryLight       // → var(--colors-primary-light)
+colors.dangerXXXLight     // → var(--colors-danger-xxxlight)
+colors.grey               // → var(--colors-grey)
+```
+
+Also includes legacy `v1` aliases (`error`, `errorLight`, `text*`, `background*`)
+for backwards compatibility during migration.
+
+---
+
+## How these connect to `tokens/colors.tokens.ts`
+
+```
+colors.base.ts          →  BASE_COLORS (9 OKLCH inputs)
+shades.utils.ts         →  buildShadeScale() (shade generator)
+                               ↓
+tokens/colors.tokens.ts →  colorTokens        (Panda CSS token definitions)
+                           semanticColorTokens (role-based aliases)
+                               ↓
+colors.palette.ts       →  colors             (CSS var reference map, for JS consumers)
+```
+
+`colors.tokens.ts` is purely declarative — it imports `BASE_COLORS` and
+`buildShadeScale`, then assembles the Panda token structures. No logic lives there.
