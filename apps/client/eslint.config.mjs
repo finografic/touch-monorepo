@@ -72,6 +72,15 @@ export default fino({
     'perfectionist/sort-objects': OFF,
     'perfectionist/sort-imports': OFF,
 
+    'ts/consistent-type-imports': [
+      ERROR,
+      {
+        prefer: 'type-imports',
+        disallowTypeAnnotations: true,
+        fixStyle: 'separate-type-imports',
+      },
+    ],
+
     // Disable other import-related rules that conflict
     'import/no-duplicates': ERROR,
     'import/order': OFF,
@@ -81,6 +90,8 @@ export default fino({
     // Disable unused import removal rules
     'import/no-unused-modules': OFF,
     'import/no-unresolved': OFF,
+
+
 
     // Import sorting rules
     'simple-import-sort/imports': [

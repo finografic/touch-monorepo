@@ -31,10 +31,10 @@ export default defineConfig({
   include: ['./src/**/*.{ts,tsx}'],
   exclude: [],
 
-    /**
+  /**
    * Output directory (gitignored).
    */
-    outdir: 'styled-system',
+  outdir: 'styled-system',
 
   /**
    * Generate React JSX components from Panda patterns.

@@ -66,6 +66,10 @@ const config: Linter.Config[] = [
         },
       ],
       '@typescript-eslint/no-redeclare': 'warn',
+      '@typescript-eslint/consistent-type-imports': [
+        'error',
+        { fixStyle: 'separate-type-imports' },
+      ],
 
       'stylistic/semi': ['error'],
       'stylistic/quotes': ['error', 'single', { avoidEscape: true }],
