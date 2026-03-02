@@ -1,6 +1,17 @@
 import { BASE_COLORS } from '../palette/colors.base';
 import { buildShadeScale } from '../palette/shades.utils';
 
+/**
+ * Color tokens for Panda CSS. Keys are referenced as strings in recipes:
+ *   bg: 'primary', color: 'danger.dark', borderColor: 'grey.lighter'
+ *
+ * Each color group has 11 shade stops: base + 5 lighter + 5 darker.
+ * Values use OKLCH color space for perceptually uniform gradients.
+ *
+ * @example
+ * // In recipe: bg: 'primary' → background: oklch(48.8% 0.243 264.376)
+ * // In recipe: color: 'danger.dark' → color: <computed dark shade>
+ */
 export const colorTokens = {
   primary: buildShadeScale(BASE_COLORS.primary),
   secondary: buildShadeScale(BASE_COLORS.secondary),

@@ -7,6 +7,8 @@
 
 // ============================================================================
 // FONT FAMILIES
+// Keys: 'sans' | 'serif' | 'mono'
+// Used in recipes as: fontFamily: 'sans'
 // ============================================================================
 
 export const fontTokens = {
@@ -38,6 +40,8 @@ export const fontTokens = {
 
 // ============================================================================
 // FONT SIZES
+// Keys: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl' | '6xl'
+// Used in recipes as: fontSize: 'md', fontSize: '2xl'
 // ============================================================================
 
 export const fontSizeTokens = {
@@ -55,6 +59,8 @@ export const fontSizeTokens = {
 
 // ============================================================================
 // FONT WEIGHTS
+// Keys: 'thin' | 'extralight' | 'light' | 'normal' | 'medium' | 'semibold' | 'bold' | 'extrabold' | 'black'
+// Used in recipes as: fontWeight: 'semibold', fontWeight: 'normal'
 // ============================================================================
 
 export const fontWeightTokens = {
@@ -71,6 +77,8 @@ export const fontWeightTokens = {
 
 // ============================================================================
 // LINE HEIGHTS
+// Keys: 'none' | 'tight' | 'snug' | 'normal' | 'relaxed' | 'loose'
+// Used in recipes as: lineHeight: 'tight', lineHeight: 'normal'
 // ============================================================================
 
 export const lineHeightTokens = {

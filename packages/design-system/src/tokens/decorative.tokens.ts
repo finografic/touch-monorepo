@@ -1,3 +1,12 @@
+/**
+ * Border radius tokens for Panda CSS.
+ * Keys: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full'
+ * Used in recipes as: borderRadius: 'md', rounded: 'full'
+ *
+ * @example
+ * // In recipe: borderRadius: 'md' → border-radius: 0.5rem (8px)
+ * // In recipe: rounded: 'full' → border-radius: 9999px (pill shape)
+ */
 export const radiiTokens = {
   'none': { value: '0' },
   'xs': { value: '0.25rem' },
@@ -9,6 +18,15 @@ export const radiiTokens = {
   'full': { value: '9999px' },
 } as const;
 
+/**
+ * Border width tokens for Panda CSS.
+ * Keys: 'none' | 'light' | 'default' | 'heavy'
+ * Used in recipes as: borderWidth: 'default', borderWidth: 'light'
+ *
+ * @example
+ * // In recipe: borderWidth: 'default' → border-width: 2px
+ * // In recipe: borderWidth: 'light' → border-width: 1px
+ */
 export const borderWidthTokens = {
   none: { value: '0' },
   light: { value: '1px' },
@@ -16,6 +34,17 @@ export const borderWidthTokens = {
   heavy: { value: '4px' },
 } as const;
 
+/**
+ * Box shadow tokens for Panda CSS.
+ * Keys: 'base.sm' | 'base.md' | 'base.lg'
+ * Used in recipes as: boxShadow: 'md', shadow: 'sm'
+ *
+ * Note: Semantic shadow tokens (with light/dark variants) are defined
+ * in panda.preset.ts under semanticTokens.shadows.
+ *
+ * @example
+ * // In recipe: boxShadow: 'md' → box-shadow: <elevation shadow>
+ */
 export const shadowTokens = {
   base: {
     sm: { value: '0 1px 2px 0 rgba(16, 24, 40, 0.05)' },
