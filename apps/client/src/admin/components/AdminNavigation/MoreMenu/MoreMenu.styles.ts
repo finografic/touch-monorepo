@@ -1,4 +1,4 @@
-import { colors, layout, min } from '@workspace/design-system/tokens';
+import { colors, layout } from '@workspace/design-system/tokens';
 
 import { css } from '@emotion/react';
 
