@@ -45,6 +45,7 @@ export const semanticColorTokens = {
     muted: { value: { base: '{colors.grey.lighter}', _dark: 'oklch(20% 0.01 285)' } },
     emphasized: { value: { base: '{colors.grey.light}', _dark: 'oklch(25% 0.01 285)' } },
     inverted: { value: { base: '{colors.black}', _dark: '{colors.white}' } },
+    surface: { value: { base: '{colors.white}', _dark: 'oklch(14% 0.01 285)' } },
     panel: { value: { base: '{colors.white}', _dark: 'oklch(12% 0.01 285)' } },
     error: { value: { base: '{colors.danger.xlight}', _dark: 'oklch(20% 0.08 27)' } },
     warning: { value: { base: '{colors.warning.xlight}', _dark: 'oklch(20% 0.06 70)' } },

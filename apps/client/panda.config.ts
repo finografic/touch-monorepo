@@ -16,9 +16,13 @@ export default defineConfig({
   presets: ['@pandacss/dev/presets', designSystemPreset],
 
   /**
-   * Scan client source for used class names (tree-shaking).
+   * Scan for Panda CSS usage (css(), Box, recipes, etc.)
+   *
+   * Include design-system src so Panda extracts styles used in DS component
+   * files (components/, forms/, etc.). Without it, CSS for those components
+   * won't be generated. With pnpm workspaces, @workspace/design-system
+   * resolves to the local package.
    */
-  // include: ['./src/**/*.{ts,tsx}'],
   include: [
     './src/**/*.{ts,tsx}',
     './node_modules/@workspace/design-system/src/**/*.{ts,tsx}',

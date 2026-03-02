@@ -66,10 +66,10 @@ export const spacing = {
 // When no client file imports `border`, delete this block.
 export const border = {
   width: {
-   none: borderWidthTokens['none'].value,
-   light: borderWidthTokens['light'].value,
-   default: borderWidthTokens['default'].value,
-   heavy: borderWidthTokens['heavy'].value,
+    none: borderWidthTokens['none'].value,
+    light: borderWidthTokens['light'].value,
+    default: borderWidthTokens['default'].value,
+    heavy: borderWidthTokens['heavy'].value,
   },
   radius: {
     none: radiiTokens['none'].value,
@@ -234,7 +234,7 @@ export const typography = {
     black: fontWeightTokens.black.value,
   },
   fontSmoothing: {
-    antialiased: {
+    'antialiased': {
       WebkitFontSmoothing: 'antialiased' as const,
       MozOsxFontSmoothing: 'grayscale' as const,
     },

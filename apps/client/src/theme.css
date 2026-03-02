@@ -1,80 +1,40 @@
 @import '@workspace/design-system/styles/reset.css';
 
 /**
- * MINIMAL THEME FILE
+ * APP-SPECIFIC THEME FILE
  *
- * This file contains only:
- * - Design system reset (preflight)
- * - Essential theme variables for Radix UI compatibility
+ * Contains:
+ * - Responsive font scaling for small screens (Raspberry Pi)
+ * - Touch interaction optimizations
+ * - Legacy color variables (used by Emotion-styled components)
+ * - Radix UI radius variables
  *
- * All color theming is now handled by Emotion ThemeProvider
- * This eliminates ~500+ CSS variables for better performance!
+ * NOTE: Most global styles are now in styled-system/styles.css (Panda CSS)
  */
 
 /* ============================================================================
- * GLOBAL DEFAULTS & RESPONSIVE ZOOM
+ * RESPONSIVE FONT SCALING (Small screens: Raspberry Pi 1024x600)
  * ============================================================================ */
 
-:root {
-  /* Scale factor (easy to adjust) */
-  --scale-factor: 1;
-
-  /* Touch-friendly defaults */
-  -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  user-select: none;
-  touch-action: manipulation;
-
-  /* Smooth scrolling */
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-
-  /* Better font rendering on low-res displays */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-}
-
-/* Compact display zoom for small screens (e.g., Raspberry Pi 1024x600) */
-
+/* Compact display zoom for 800px and below */
 @media (max-width: 800px) {
   :root {
-    /* Scale factor (easy to adjust) */
     --scale-factor: 0.85;
-
-    /* Scale everything based on rem */
-    font-size: 13.6px; /* 16px * 0.85 = 13.6px */
-
-  }
-  body {
-    margin: 0;
-    padding: 0;
+    font-size: 13.6px; /* 16px * 0.85 */
   }
 }
 
-
+/* Medium zoom for 1024px and below */
 @media (max-width: 1024px) {
   :root {
-    /* Scale factor (easy to adjust) */
     --scale-factor: 0.9;
-
-    /* Scale everything based on rem */
-    font-size: 14.4px; /* 16px * 0.85 = 13.6px */
-
-  }
-  body {
-    margin: 0;
-    padding: 0;
+    font-size: 14.4px; /* 16px * 0.9 */
   }
 }
 
-/* Touch interaction optimizations */
-html {
-  /* Prevent iOS text size adjustment on orientation change */
-  -webkit-text-size-adjust: 100%;
-  text-size-adjust: 100%;
-}
+/* ============================================================================
+ * TOUCH INTERACTION OPTIMIZATIONS
+ * ============================================================================ */
 
 /* Prevent accidental text selection on interactive elements */
 button,
@@ -88,25 +48,13 @@ label {
   user-select: none;
 }
 
-/* Ensure smooth scrolling on touch devices */
-* {
-  -webkit-overflow-scrolling: touch;
-}
-
 /* ============================================================================
- * KEYFRAMES
+ * LEGACY COLOR VARIABLES (Emotion Theme Compatibility)
  * ============================================================================ */
 
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
+/* These are used by existing Emotion-styled components.
+   Gradually migrate to Panda CSS semantic tokens (--colors-bg, --colors-fg, etc.) */
 
-/* ============================================================================
- * THEME COLOR VARIABLES
- * ============================================================================ */
-
-/* Essential CSS variables for global styles and Radix UI */
 [data-theme='light'] {
   --color-background: #fefefe;
   --color-text: #000000;
@@ -129,7 +77,10 @@ label {
   --color-grey-light: #e1e2e6;
 }
 
-/* Radius variables for Radix UI compatibility */
+/* ============================================================================
+ * RADIX UI COMPATIBILITY
+ * ============================================================================ */
+
 :root {
   --radius-sm: calc(var(--radius, 0.5rem) - 4px);
   --radius-md: calc(var(--radius, 0.5rem) - 2px);

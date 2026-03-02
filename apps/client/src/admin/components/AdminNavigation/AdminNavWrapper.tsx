@@ -7,7 +7,7 @@ import { getAdminNavItemsByRole } from 'admin/config/admin.routes.selectors';
 
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 
-import { isTranslationKey, translatePageKey } from 'utils/i18n/i18n.helpers-V1';
+import { translatePageKey } from 'utils/i18n/i18n.helpers-V1';
 import { styles } from 'admin/components/AdminNavigation/AdminNavWrapper.styles';
 
 export const AdminNavWrapper: FC = () => {
