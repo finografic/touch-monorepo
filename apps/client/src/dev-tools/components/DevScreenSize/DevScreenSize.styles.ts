@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { layout, min } from 'styles';
+import { layout, min } from '@workspace/design-system/tokens';
 
 export const styles = css`
   padding: 0 10px;

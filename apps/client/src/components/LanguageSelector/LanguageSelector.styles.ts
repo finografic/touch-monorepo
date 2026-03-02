@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { button, colors, layout } from 'styles';
+import { button, colors, layout } from '@workspace/design-system/tokens';
 import { border } from 'styles/layout/base.constants';
 
 export const styles = css`

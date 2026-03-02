@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { colors, layout, spacing, typography } from 'styles';
+import { colors, layout, spacing, typography } from '@workspace/design-system/tokens';
 import type { EmotionTheme } from 'styles/themes/emotion-theme.types';
 import { stylesAppContent800x480 } from 'styles/project/project.app.800x480.styles';
 import { stylesAppContent1024x600 } from 'styles/project/project.app.1024x600.styles';

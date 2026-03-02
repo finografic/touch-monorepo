@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 
 import { forms } from './forms.constants';
-import { colors } from 'styles';
+import { colors } from '@workspace/design-system/tokens';
 
 // ======================================================================== //
 // FORM RESET - Minimal reset that works with Radix UI

@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { button, colors, layout } from 'styles';
+import { button, colors, layout } from '@workspace/design-system/tokens';
 
 export const stylesItemsGrid = css`
   .items-grid {

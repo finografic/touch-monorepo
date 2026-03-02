@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { border, colors } from 'styles';
+import { border, colors } from '@workspace/design-system/tokens';
 
 export const styles = css`
   .time-input-root {

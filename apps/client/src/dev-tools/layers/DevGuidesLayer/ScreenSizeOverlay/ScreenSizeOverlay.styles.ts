@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { colors, layout } from 'styles';
+import { colors, layout } from '@workspace/design-system/tokens';
 
 export const styles = css`
   .screen-overlay {

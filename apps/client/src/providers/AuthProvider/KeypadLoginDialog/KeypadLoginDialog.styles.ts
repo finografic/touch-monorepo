@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { colors } from 'styles';
+import { colors } from '@workspace/design-system/tokens';
 import { forms } from 'styles/forms/forms.styles';
 
 export const styles = css`

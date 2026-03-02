@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { spacing } from 'styles';
+import { spacing } from '@workspace/design-system/tokens';
 
 const MAIN_CONTENT_HEIGHT = 450;
 const SLOT_GRID_WIDTH = 350;

@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { button, colors } from 'styles';
+import { button, colors } from '@workspace/design-system/tokens';
 
 /**
  * Base button styles - common to all variants

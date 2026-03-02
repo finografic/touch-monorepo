@@ -13,13 +13,17 @@
  *
  * ## Export status
  *
- * | Export    | Files | Status    | End state                                      |
- * | --------- | ----- | --------- | ---------------------------------------------- |
- * | `colors`  | 95    | KEEP ✓    | Move re-export to `tokens/index.ts` directly   |
- * | `layout`  | 36    | KEEP ✓    | Move definition to `layout.tokens.ts`          |
- * | `spacing` | 10    | PHASE OUT | Replace with Panda utilities / direct values   |
- * | `button`  | 11    | PHASE OUT | Replace with DS Button recipe                  |
- * | `border`  | 3     | PHASE OUT | Replace with Panda utilities / direct values   |
+ * | Export        | Files | Status    | End state                                      |
+ * | ------------- | ----- | --------- | ---------------------------------------------- |
+ * | `colors`      | 95    | KEEP ✓    | Move re-export to `tokens/index.ts` directly   |
+ * | `layout`      | 36    | KEEP ✓    | Move definition to `layout.tokens.ts`          |
+ * | `spacing`     | 10    | PHASE OUT | Replace with Panda utilities / direct values   |
+ * | `button`      | 11    | PHASE OUT | Replace with DS Button recipe                  |
+ * | `border`      | 3     | PHASE OUT | Replace with Panda utilities / direct values   |
+ * | `fontFamilies`| 1     | PHASE OUT | Replace with fontTokens directly               |
+ * | `fontSizes`   | 1     | PHASE OUT | Replace with fontSizeTokens / Panda utilities  |
+ * | `fontWeights` | 1     | PHASE OUT | Replace with fontWeightTokens / Panda util     |
+ * | `typography`  | 2     | PHASE OUT | Replace with individual DS token exports       |
  *
  * ---
  *
@@ -40,7 +44,7 @@ import { colors } from '../palette/colors.palette';
 import { borderWidthTokens, radiiTokens } from './decorative.tokens';
 import { layoutTokens } from './layout.tokens';
 import { spacingTokens } from './spacing.tokens';
-import { textStyles } from './typography.tokens';
+import { fontSizeTokens, fontTokens, fontWeightTokens, textStyles } from './typography.tokens';
 
 // PHASE OUT — replace usages with Panda spacing utilities or direct CSS values.
 // When no client file imports `spacing`, delete this block.
@@ -165,3 +169,70 @@ export const layout = {
 // KEEP — move this re-export to tokens/index.ts directly (from palette/colors.palette)
 // when migration is complete, then delete this line.
 export { colors };
+
+// PHASE OUT — replace with fontTokens directly.
+export const fontFamilies = {
+  system: fontTokens.sans.value,
+  mono: fontTokens.mono.value,
+} as const;
+
+// PHASE OUT — replace with fontSizeTokens / Panda utilities.
+// Preserves `base` alias (= md = 1rem) used by client styles.
+export const fontSizes = {
+  xs: fontSizeTokens['xs'].value,
+  sm: fontSizeTokens['sm'].value,
+  base: fontSizeTokens['md'].value,
+  md: fontSizeTokens['md'].value,
+  lg: fontSizeTokens['lg'].value,
+  xl: fontSizeTokens['xl'].value,
+  xxl: fontSizeTokens['2xl'].value,
+  xxxl: fontSizeTokens['3xl'].value,
+} as const;
+
+// PHASE OUT — replace with fontWeightTokens / Panda utilities.
+export const fontWeights = {
+  light: Number(fontWeightTokens.light.value),
+  normal: Number(fontWeightTokens.normal.value),
+  medium: Number(fontWeightTokens.medium.value),
+  semibold: Number(fontWeightTokens.semibold.value),
+  bold: Number(fontWeightTokens.bold.value),
+} as const;
+
+// PHASE OUT — replace with individual DS token exports.
+// Shape mirrors client's `constants/typography.constants.ts`.
+export const typography = {
+  fontFamily: {
+    sans: fontTokens.sans.value,
+    serif: fontTokens.serif.value,
+    mono: fontTokens.mono.value,
+  },
+  fontSize: {
+    xs: fontSizeTokens['xs'].value,
+    sm: fontSizeTokens['sm'].value,
+    base: fontSizeTokens['md'].value,
+    lg: fontSizeTokens['lg'].value,
+    xl: fontSizeTokens['xl'].value,
+    h1: fontSizeTokens['6xl'].value,
+  },
+  fontWeight: {
+    thin: fontWeightTokens.thin.value,
+    extralight: fontWeightTokens.extralight.value,
+    light: fontWeightTokens.light.value,
+    normal: fontWeightTokens.normal.value,
+    medium: fontWeightTokens.medium.value,
+    semibold: fontWeightTokens.semibold.value,
+    bold: fontWeightTokens.bold.value,
+    extrabold: fontWeightTokens.extrabold.value,
+    black: fontWeightTokens.black.value,
+  },
+  fontSmoothing: {
+    antialiased: {
+      WebkitFontSmoothing: 'antialiased' as const,
+      MozOsxFontSmoothing: 'grayscale' as const,
+    },
+    'subpixel-antialiased': {
+      WebkitFontSmoothing: 'auto' as const,
+      MozOsxFontSmoothing: 'auto' as const,
+    },
+  },
+} as const;

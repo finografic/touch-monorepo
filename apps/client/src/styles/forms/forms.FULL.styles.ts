@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 
 import { layout } from '../layout/layout.config';
-import { colors } from 'styles';
+import { colors } from '@workspace/design-system/tokens';
 
 // ======================================================================== //
 // NOTE: FORMS RESET

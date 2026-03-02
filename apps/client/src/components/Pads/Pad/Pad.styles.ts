@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import { padProps, stylesPad } from 'components/Pads/Pad/PadBasic.styles';
 
-import { colors } from 'styles';
+import { colors } from '@workspace/design-system/tokens';
 
 export const padStyles = css`
   &.pad {

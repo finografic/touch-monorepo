@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import { styles as stylesButton } from 'components/ButtonControl/ButtonControl.styles';
 
-import { colors } from 'styles';
+import { colors } from '@workspace/design-system/tokens';
 
 export const styles = css`
   position: fixed;

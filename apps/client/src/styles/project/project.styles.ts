@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 
 import { forms } from '../forms/forms.constants';
-import { colors, layout } from 'styles';
+import { colors, layout } from '@workspace/design-system/tokens';
 
 export const stylesAdminContent = css`
   /* ADMIN-PAGE-LAYOUT ======================================================= */

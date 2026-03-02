@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { colors } from 'styles';
+import { colors } from '@workspace/design-system/tokens';
 import { baseToolbarStyles } from '../toolbar.styles';
 
 /**

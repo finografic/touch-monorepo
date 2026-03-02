@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import { padProps } from 'components/Pads/Pad/PadBasic.styles';
 
-import { layout, spacing } from 'styles';
+import { layout, spacing } from '@workspace/design-system/tokens';
 
 const MAIN_CONTENT_HEIGHT = 380;
 const SLOT_GRID_WIDTH = 350;

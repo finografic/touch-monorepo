@@ -1,7 +1,17 @@
 export type { ColorsKey } from '../palette/colors.palette';
+export { BREAKPOINTS } from '../viewport/viewport.breakpoints';
+export { min } from '../viewport/viewport.emotion';
 export {
-border,
-colors, layout, spacing } from './_migration.tokens';
+  border,
+  button,
+  colors,
+  fontFamilies,
+  fontSizes,
+  fontWeights,
+  layout,
+  spacing,
+  typography,
+} from './_migration.tokens';
 export { durationTokens, easingTokens, keyframes } from './animations.tokens';
 export { colorTokens, semanticColorTokens } from './colors.tokens';
 export { borderWidthTokens, radiiTokens, shadowTokens } from './decorative.tokens';

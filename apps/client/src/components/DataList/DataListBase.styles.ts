@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { colors } from 'styles';
+import { colors } from '@workspace/design-system/tokens';
 
 export const baseDataListStyles = css`
   /* Wrapper to constrain list view height */

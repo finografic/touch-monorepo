@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { BREAKPOINTS, colors, layout, min, spacing } from 'styles';
+import { BREAKPOINTS, colors, layout, min, spacing } from '@workspace/design-system/tokens';
 import { padding } from 'styles/layout/base.constants';
 import { cssForms } from 'styles/forms/forms.styles';
 import { stylesAppContent800x480 } from 'styles/project/project.app.800x480.styles';

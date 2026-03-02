@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { colors, spacing } from 'styles';
+import { colors, spacing } from '@workspace/design-system/tokens';
 
 export const styles = css`
   &.table-row {

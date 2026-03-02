@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { BREAKPOINTS, button, colors, layout, min } from 'styles';
+import { BREAKPOINTS, button, colors, layout, min } from '@workspace/design-system/tokens';
 
 export const stylesTypography = css`
   font-size: 0.9rem;

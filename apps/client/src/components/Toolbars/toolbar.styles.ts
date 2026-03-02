@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import { styles as stylesButton } from 'components/ButtonControl/ButtonControl.styles';
 
-import { colors, layout, min } from 'styles';
+import { colors, layout, min } from '@workspace/design-system/tokens';
 
 /**
  * Shared base styles for all admin toolbars

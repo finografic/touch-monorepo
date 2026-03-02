@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { colors, layout, spacing } from 'styles';
+import { colors, layout, spacing } from '@workspace/design-system/tokens';
 import { cssFontMono } from 'styles/fonts/fonts.styles';
 
 export const styles = css`

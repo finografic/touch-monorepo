@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { button, colors } from 'styles';
+import { button, colors } from '@workspace/design-system/tokens';
 import { generateUiColorVariants } from 'styles/utils/generate-ui-color-variants.utils';
 
 // Generate semantic button color variants using the utility

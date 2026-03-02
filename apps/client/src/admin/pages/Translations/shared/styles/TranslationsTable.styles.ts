@@ -11,7 +11,7 @@ import {
   TH_FONT_SIZE,
   TH_FONT_WEIGHT,
 } from '../constants/translations-table.config';
-import { colors, fontFamilies } from 'styles';
+import { colors, fontFamilies } from '@workspace/design-system/tokens';
 import { forms } from 'styles/forms/forms.styles';
 
 export const styles = css`
