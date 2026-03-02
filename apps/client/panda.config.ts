@@ -18,7 +18,11 @@ export default defineConfig({
   /**
    * Scan client source for used class names (tree-shaking).
    */
-  include: ['./src/**/*.{ts,tsx}'],
+  // include: ['./src/**/*.{ts,tsx}'],
+  include: [
+    './src/**/*.{ts,tsx}',
+    './node_modules/@workspace/design-system/src/**/*.{ts,tsx}',
+  ],
   exclude: [],
 
   /**

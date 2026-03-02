@@ -1,5 +1,4 @@
 export type { ColorsKey } from '../palette/colors.palette';
-// export { colors } from '../palette/colors.palette';
 export {
 border,
 colors, layout, spacing } from './_migration.tokens';
