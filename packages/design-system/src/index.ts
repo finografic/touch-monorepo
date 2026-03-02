@@ -11,9 +11,17 @@ export {
   BREAKPOINTS_EM,
   BREAKPOINTS_PX,
   BREAKPOINTS_REM,
+  min,
   max,
   sizes,
 } from './viewport';
 export { MEDIA_QUERIES, QUERIES_MAX, QUERIES_MIN } from './viewport';
-export type { BreakpointDefaults, BreakpointMap, ColumnSizes, MediaQueryMap, MediaQueryProps, ScreenClass } from './viewport';
+export type {
+  BreakpointDefaults,
+  BreakpointMap,
+  ColumnSizes,
+  MediaQueryMap,
+  MediaQueryProps,
+  ScreenClass,
+} from './viewport';
 export { convertPxToRem, convertRemToPx } from './viewport';

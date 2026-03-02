@@ -1,6 +1,7 @@
+import { colors } from '@workspace/design-system/tokens';
+
 import { css } from '@emotion/react';
 
-import { colors } from '@workspace/design-system/tokens';
 import { cssFontDefaults, cssFontMono } from './fonts/fonts.styles';
 import { forms } from 'styles/forms/forms.styles';
 

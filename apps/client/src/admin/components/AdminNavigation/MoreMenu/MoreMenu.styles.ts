@@ -1,6 +1,7 @@
+import { colors, layout, min } from '@workspace/design-system/tokens';
+
 import { css } from '@emotion/react';
 
-import { colors, layout, min } from '@workspace/design-system/tokens';
 import { stylesTypography } from '../AdminNavWrapper.styles';
 
 export const styles = css`

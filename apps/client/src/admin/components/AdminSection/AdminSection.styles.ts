@@ -1,6 +1,8 @@
+import { colors, layout } from '@workspace/design-system/tokens';
+import { min } from '@workspace/design-system/viewport';
+
 import { css } from '@emotion/react';
 
-import { colors, layout, min } from '@workspace/design-system/tokens';
 import { padding } from 'styles/layout/base.constants';
 
 export const styles = css`

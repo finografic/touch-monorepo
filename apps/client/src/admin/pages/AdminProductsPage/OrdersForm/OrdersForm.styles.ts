@@ -1,6 +1,7 @@
-import { css } from '@emotion/react';
+import { colors, layout } from '@workspace/design-system/tokens';
+import { min } from '@workspace/design-system/viewport';
 
-import { colors, layout, min } from '@workspace/design-system/tokens';
+import { css } from '@emotion/react';
 
 export const styles = css`
   &.form-container {

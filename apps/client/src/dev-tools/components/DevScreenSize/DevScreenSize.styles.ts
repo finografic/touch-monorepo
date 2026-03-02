@@ -1,6 +1,7 @@
-import { css } from '@emotion/react';
+import { layout } from '@workspace/design-system/tokens';
+import { min } from '@workspace/design-system/viewport';
 
-import { layout, min } from '@workspace/design-system/tokens';
+import { css } from '@emotion/react';
 
 export const styles = css`
   padding: 0 10px;

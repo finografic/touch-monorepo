@@ -39,6 +39,10 @@
       "types": "./dist/forms/primitives.d.mts",
       "import": "./dist/forms/primitives.mjs"
     },
+    "./viewport": {
+      "types": "./dist/viewport/index.d.mts",
+      "import": "./dist/viewport/index.mjs"
+    },
     "./icons": {
       "types": "./dist/icons/index.d.mts",
       "import": "./dist/icons/index.mjs"
