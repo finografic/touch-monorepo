@@ -14,18 +14,10 @@
     "project-scripts"
   ],
   "exports": {
-    "./db-setup": {
-      "types": "./dist/db-setup/index.d.ts",
-      "import": "./dist/db-setup/index.js"
-    },
     "./script-runner": {
       "types": "./dist/script-runner/index.d.ts",
       "import": "./dist/script-runner/index.js"
     }
-  },
-  "bin": {
-    "db-setup": "bin/db-setup/db-setup.js",
-    "sqlite-rebuild": "bin/sqlite-rebuild/sqlite-rebuild.js"
   },
   "files": [
     "bin",
