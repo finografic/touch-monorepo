@@ -430,8 +430,8 @@ export const cssInputBox = css`
 
 export const cssPlaceholder = css`
   font-weight: ${forms.inputs.fontWeight};
-  color: ${colors.default75};
-  -webkit-text-fill-color: ${colors.default75};
+  color: ${colors.defaultLight};
+  -webkit-text-fill-color: ${colors.default};
   opacity: 0.4;
 `;
 

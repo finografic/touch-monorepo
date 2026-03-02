@@ -109,12 +109,12 @@ export const styles = css`
           user-select: none;
         }
 
-        background-color: ${colors.greyXXLight25};
-        background-color: ${colors.infoXLight25};
+        background-color: ${colors.greyXXXLight};
+        background-color: ${colors.infoXXLight};
         border-top: 1px solid ${colors.transparent};
         border-bottom: 1px solid ${colors.transparent};
-        border-left: 1px solid ${colors.infoXLight25};
-        border-right: 1px solid ${colors.infoXLight25};
+        border-left: 1px solid ${colors.infoXXXLight};
+        border-right: 1px solid ${colors.infoXXLight};
 
         .group-header-content {
           padding-right: 0.2rem;
@@ -137,7 +137,7 @@ export const styles = css`
         }
 
         &.expanded {
-          background-color: ${colors.greyXXLight75};
+          background-color: ${colors.greyXXLight};
           border: ${TABLE_BORDER};
           border-bottom: none;
         }
@@ -196,8 +196,8 @@ export const styles = css`
         :-ms-input-placeholder,
         ::placeholder {
           text-indent: 1rem;
-          color: ${colors.grey75};
-          -webkit-text-fill-color: ${colors.grey75};
+          color: ${colors.greyLight};
+          -webkit-text-fill-color: ${colors.grey};
           opacity: 1;
         }
       }
@@ -236,7 +236,7 @@ export const styles = css`
           opacity: 0.66;
         }
         &:hover {
-          background-color: ${colors.dangerLight25};
+          background-color: ${colors.dangerLighter};
           svg {
             color: ${colors.dangerDark};
             opacity: 1;
@@ -254,17 +254,17 @@ export const styles = css`
           height: auto;
           font-weight: 700;
         }
-        background-color: ${colors.greyXXLight25};
+        background-color: ${colors.greyXXXLight};
         border: ${TABLE_BORDER};
         border-top: none;
         cursor: pointer;
 
         &:hover {
-          background-color: ${colors.greyXXLight50};
+          background-color: ${colors.greyXXXLight};
         }
 
         &.expanded {
-          background-color: ${colors.greyXXLight75};
+          background-color: ${colors.greyXXLight};
           border: ${TABLE_BORDER};
           border-bottom: none;
         }
@@ -285,7 +285,7 @@ export const styles = css`
           opacity: 0.66;
         }
         &:hover {
-          background-color: ${colors.dangerLight25};
+          background-color: ${colors.dangerLighter};
           svg {
             color: ${colors.dangerDark};
             opacity: 1;

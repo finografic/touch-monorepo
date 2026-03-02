@@ -50,12 +50,12 @@ export const stylesDropdown = css`
     }
 
     &:hover {
-      background-color: ${colors.greyXXLight25};
+      background-color: ${colors.greyXXXLight};
     }
 
     &.focused,
     &:active {
-      background-color: ${colors.defaultXLight25};
+      background-color: ${colors.defaultXXLight};
     }
 
     .option-content {

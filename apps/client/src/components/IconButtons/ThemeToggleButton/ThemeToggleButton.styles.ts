@@ -5,7 +5,7 @@ import { colors } from '@workspace/design-system/tokens';
 export const styles = css`
   &.button.theme-toggle {
     svg.icon {
-      color: ${colors.white75};
+      color: ${colors.white};
     }
     &:hover {
       border-color: transparent;

@@ -13,8 +13,8 @@ export const styles = css`
     color: ${colors.white};
 
     &:hover:not(:disabled) {
-      background-color: ${colors.infoDark75};
-      border-color: ${colors.infoDark75};
+      background-color: ${colors.infoDark};
+      border-color: ${colors.infoDark};
       color: ${colors.white};
     }
   }
@@ -23,8 +23,8 @@ export const styles = css`
     font-size: 0.875rem;
     text-align: center;
     padding: 0.5rem;
-    background-color: ${colors.danger25};
+    background-color: ${colors.dangerLight};
     border-radius: 4px;
-    border: 1px solid ${colors.danger25};
+    border: 1px solid ${colors.dangerLighter};
   }
 `;

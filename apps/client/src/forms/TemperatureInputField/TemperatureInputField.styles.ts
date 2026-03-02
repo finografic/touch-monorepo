@@ -57,7 +57,7 @@ export const styles = css`
           width: 16px;
         }
         &:not(:disabled):hover {
-          background-color: ${colors.greyXXLight25} !important;
+          background-color: ${colors.greyXXXLight} !important;
         }
       }
     }
@@ -66,7 +66,7 @@ export const styles = css`
       .p-inputnumber-button-group {
         button.p-inputnumber-button {
           color: ${colors.greyLight};
-          background-color: ${colors.greyXXLight25};
+          background-color: ${colors.greyXXXLight};
         }
       }
     }

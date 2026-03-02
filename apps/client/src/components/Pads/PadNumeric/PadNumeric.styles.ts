@@ -59,22 +59,22 @@ export const styles = css`
     border-style: ${button.border.style};
     border-width: ${button.border.width};
 
-    color: ${colors.infoLight75};
-    border-color: ${colors.infoLight75};
+    color: ${colors.infoLighter};
+    border-color: ${colors.infoLight};
 
     &:disabled {
       cursor: not-allowed;
       opacity: 0.5;
-      color: ${colors.greyLight75};
-      border-color: ${colors.greyLight75};
+      color: ${colors.greyLighter};
+      border-color: ${colors.greyLight};
     }
 
     &:not(:disabled) {
       &:hover {
-        /* background-color: ${colors.infoLight25}; */
+        /* background-color: ${colors.infoLighter}; */
         color: ${colors.info};
         border-color: ${colors.info};
-        background-color: ${colors.infoXLight25};
+        background-color: ${colors.infoXXLight};
       }
 
       &:active {
@@ -90,7 +90,7 @@ export const styles = css`
     min-height: 80px;
     min-width: ${button.md.minWidth};
     padding: 1rem;
-    border: ${button.border.width} solid ${colors.infoLight25};
+    border: ${button.border.width} solid ${colors.infoLighter};
     border-radius: ${button.radius};
     background-color: transparent;
     transition: all 0.2s ease;
@@ -98,7 +98,7 @@ export const styles = css`
 
     &:focus-within {
       border-color: ${colors.infoLight};
-      background-color: ${colors.infoXLight25};
+      background-color: ${colors.infoXXLight};
     }
 
     .prefix,

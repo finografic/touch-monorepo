@@ -31,8 +31,8 @@ export const styles = css`
     color: ${colors.white};
 
     &:hover:not(:disabled) {
-      background-color: ${colors.infoDark75};
-      border-color: ${colors.infoDark75};
+      background-color: ${colors.infoDark};
+      border-color: ${colors.infoDark};
       color: ${colors.white};
     }
   }

@@ -19,7 +19,7 @@ export const styles = css`
       box-shadow: none !important;
 
       &:disabled {
-        background-color: ${colors.greyXXLight75};
+        background-color: ${colors.greyXXLight};
         color: ${colors.greyDark};
         font-weight: 400;
         opacity: 0.6;
@@ -27,7 +27,7 @@ export const styles = css`
     }
 
     &:has(:disabled) .ds-input-field__slot {
-      background-color: ${colors.greyXXLight25};
+      background-color: ${colors.greyXXXLight};
       border-color: ${colors.greyXXLight};
       opacity: 0.7;
 

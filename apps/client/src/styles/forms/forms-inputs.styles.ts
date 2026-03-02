@@ -84,7 +84,7 @@ export const formsInputs = css`
 
       &:focus-within {
         border-color: ${forms.inputs.focus.border.color};
-        box-shadow: 0 0 0 3px ${colors.primaryLight25};
+        box-shadow: 0 0 0 3px ${colors.primaryLighter};
       }
 
       input {
@@ -127,8 +127,8 @@ export const formsInputs = css`
   /* .rt-TextFieldInput:where(:disabled, :read-only), */
   input:read-only {
     opacity: 0.45;
-    border-color: ${colors.grey50};
-    background-color: ${colors.greyXXLight25};
+    border-color: ${colors.greyLight};
+    background-color: ${colors.greyXXXLight};
     color: ${colors.textXDark};
     -webkit-text-fill-color: ${colors.textXDark};
     font-weight: ${forms.inputs.readOnly.text.fontWeight};

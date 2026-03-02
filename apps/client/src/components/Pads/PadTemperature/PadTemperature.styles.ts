@@ -50,13 +50,13 @@ export const styles = css`
     font-size: 2.5rem;
     font-weight: ${button.fontWeight.large};
     color: ${colors.infoLight};
-    border-color: ${colors.infoLight50};
+    border-color: ${colors.infoLighter};
     margin: 1rem 0;
     min-width: 200px;
 
     &:focus-within {
       border-color: ${colors.infoLight};
-      background-color: ${colors.infoXLight25};
+      background-color: ${colors.infoXXLight};
     }
   }
 
@@ -71,12 +71,12 @@ export const styles = css`
 
     &:disabled {
       cursor: not-allowed;
-      color: ${colors.defaultXLight75}!important;
-      border-color: ${colors.defaultXLight75};
+      color: ${colors.defaultXXLight}!important;
+      border-color: ${colors.defaultXLight};
     }
 
     &:hover:not(:disabled) {
-      background-color: ${colors.infoLight25};
+      background-color: ${colors.infoLighter};
     }
 
     &:active:not(:disabled) {

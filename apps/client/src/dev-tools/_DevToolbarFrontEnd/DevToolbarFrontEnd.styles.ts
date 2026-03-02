@@ -21,11 +21,11 @@ export const styles = css`
 
   .button-box button.button {
     svg.icon {
-      color: ${colors.default50};
+      color: ${colors.defaultLight};
     }
     &:hover {
       border-color: transparent;
-      background-color: ${colors.grey25};
+      background-color: ${colors.greyLighter};
       svg.icon {
         color: ${colors.greyLight};
       }

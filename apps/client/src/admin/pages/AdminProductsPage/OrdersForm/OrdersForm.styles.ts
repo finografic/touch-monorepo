@@ -79,18 +79,18 @@ export const styles = css`
    */
   .temperature-profiles-panel {
     margin-top: 1.5rem;
-    border: 2px solid ${colors.greyXXLight75};
+    border: 2px solid ${colors.greyXXXLight};
     border-radius: ${layout.borderRadius};
 
     /* Panel Header */
     .p-panel-header {
-      border-bottom: 2px solid ${colors.greyXXLight75};
+      border-bottom: 2px solid ${colors.greyXXLight};
       padding: 1rem 1.5rem;
       border-radius: ${layout.borderRadius} ${layout.borderRadius} 0 0;
       background-color: ${colors.white};
 
       &:hover {
-        background-color: ${colors.greyXXLight25};
+        background-color: ${colors.greyXXXLight};
         cursor: pointer;
       }
 
@@ -167,7 +167,7 @@ export const styles = css`
     /* Panel Footer */
     .p-panel-footer {
       background-color: ${colors.white};
-      border-top: 2px solid ${colors.greyXXLight75};
+      border-top: 2px solid ${colors.greyXXLight};
       padding: 0.25rem 1.5rem;
       border-radius: 0 0 ${layout.borderRadius} ${layout.borderRadius};
       transition: border-color 0.25s ease-in-out;

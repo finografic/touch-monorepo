@@ -199,8 +199,16 @@ export const fontWeights = {
 } as const;
 
 // PHASE OUT — replace with individual DS token exports.
-// Shape mirrors client's `constants/typography.constants.ts`.
+// Shape mirrors client's `constants/typography.constants.ts` + adds
+// CSS-string shorthands (h1–caption) for Emotion template interpolation.
 export const typography = {
+  // Heading/body shorthands — interpolate directly in Emotion css`` templates.
+  // These mirror the old `fonts/typography.contants.ts` emotion css`` values.
+  h1: 'font-size: 3.75rem; font-weight: 700; line-height: 1.25',
+  h2: 'font-size: 3rem; font-weight: 700; line-height: 1.25',
+  h3: 'font-size: 2.25rem; font-weight: 600; line-height: 1.375',
+  body: 'font-size: 1rem; line-height: 1.5',
+  caption: 'font-size: 0.75rem; line-height: 1.5',
   fontFamily: {
     sans: fontTokens.sans.value,
     serif: fontTokens.serif.value,

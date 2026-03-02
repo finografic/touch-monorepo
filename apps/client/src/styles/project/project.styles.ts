@@ -166,7 +166,7 @@ export const stylesAdminContent = css`
             background-color: ${colors.white};
           }
         }
-        box-shadow: 3px 4px 3px -3px ${colors.greyXXLight50};
+        box-shadow: 3px 4px 3px -3px ${colors.greyXXXLight};
         position: relative;
         z-index: 10;
       }

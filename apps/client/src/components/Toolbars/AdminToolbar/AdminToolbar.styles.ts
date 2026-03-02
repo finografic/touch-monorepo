@@ -22,7 +22,7 @@ export const styles = css`
         cursor: pointer;
         color: ${colors.infoDark};
         border-color: ${colors.infoDark};
-        background-color: ${colors.infoLight25};
+        background-color: ${colors.infoLighter};
       }
     }
   }
@@ -38,7 +38,7 @@ export const styles = css`
         cursor: pointer;
         color: ${colors.infoDark};
         border-color: ${colors.infoDark};
-        background-color: ${colors.infoLight25};
+        background-color: ${colors.infoLighter};
       }
     }
   }

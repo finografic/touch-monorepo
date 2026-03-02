@@ -103,7 +103,7 @@ export const styles = css`
       padding: 0.75rem 1rem;
       cursor: pointer;
       transition: background-color 0.15s ease;
-      border-bottom: 1px solid ${colors.greyXXLight25};
+      border-bottom: 1px solid ${colors.greyXXXLight};
       font-size: 0.875rem;
       font-weight: 600;
       color: ${colors.textLight};
@@ -114,11 +114,11 @@ export const styles = css`
       }
 
       &:hover:not(.p-highlight):not(.p-disabled) {
-        background-color: ${colors.greyXXLight25};
+        background-color: ${colors.greyXXXLight};
       }
 
       &.p-highlight {
-        background-color: ${colors.defaultXLight25};
+        background-color: ${colors.defaultXXLight};
         color: ${colors.textLight};
       }
 
@@ -139,10 +139,10 @@ export const styles = css`
         color: ${colors.primary};
         font-weight: 700;
         border-top: 2px solid ${colors.primaryLight};
-        background-color: ${colors.primaryXLight25};
+        background-color: ${colors.primaryXXLight};
 
         &:hover {
-          background-color: ${colors.primaryLight25};
+          background-color: ${colors.primaryLighter};
         }
 
         &::before {
@@ -156,7 +156,7 @@ export const styles = css`
     /* Filter input styling */
     .p-dropdown-filter-container {
       padding: 0.5rem;
-      border-bottom: 1px solid ${colors.greyXXLight25};
+      border-bottom: 1px solid ${colors.greyXXXLight};
 
       .p-dropdown-filter {
         width: 100%;

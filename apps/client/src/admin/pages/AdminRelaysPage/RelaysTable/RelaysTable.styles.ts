@@ -208,7 +208,7 @@ export const styles = css`
     }
 
     .relay-status-indicator {
-      background: ${colors.greyXLight50};
+      background: ${colors.greyXXLight};
     }
 
     &.status-on,

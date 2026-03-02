@@ -19,8 +19,8 @@ export const styles = css`
         height: 1.5rem;
         color: white;
         color: ${colors.successDark};
-        background-color: ${colors.success25};
-        border: 2px solid ${colors.success25};
+        background-color: ${colors.successLight};
+        border: 2px solid ${colors.successLighter};
         border-radius: 50%;
       }
     }
@@ -67,7 +67,7 @@ export const styles = css`
         }
 
         &:focus {
-          outline: 2px solid ${colors.info25};
+          outline: 2px solid ${colors.infoLight};
           outline-offset: 2px;
         }
       }

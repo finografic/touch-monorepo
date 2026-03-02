@@ -6,7 +6,7 @@ import { css } from '@emotion/react';
 export const stylesTypography = css`
   font-size: 0.9rem;
   font-weight: 700;
-  color: ${colors.text75};
+  color: ${colors.text};
 `;
 
 export const styles = css`
@@ -161,7 +161,7 @@ export const styles = css`
       cursor: pointer;
 
       &.active {
-        background-color: ${colors.primary25};
+        background-color: ${colors.primaryLight};
         color: ${colors.primaryDark};
         font-weight: 700;
       }

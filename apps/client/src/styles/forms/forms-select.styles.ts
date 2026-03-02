@@ -39,7 +39,7 @@ export const formsSelect = css`
       &:focus,
       &[data-state='open'] {
         border-color: ${forms.inputs.focus.border.color};
-        box-shadow: 0 0 0 3px ${colors.primaryLight25};
+        box-shadow: 0 0 0 3px ${colors.primaryLighter};
         &.input-slot-right {
           cursor: pointer !important;
           pointer-events: auto !important;
@@ -54,7 +54,7 @@ export const formsSelect = css`
         font-weight: 600 !important;
       }
       .option.focussed {
-        background-color: ${colors.primaryLight25}!important;
+        background-color: ${colors.primaryLighter}!important;
       }
     }
 

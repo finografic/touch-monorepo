@@ -36,7 +36,7 @@ export const stylesPad = css`
   &[aria-checked='true'] {
     color: ${colors.infoDark};
     border-color: ${colors.infoDark};
-    background-color: ${colors.infoXLight25};
+    background-color: ${colors.infoXXLight};
   }
 
   /* Disabled styles inherited from stylesButtonBase */
@@ -123,14 +123,14 @@ export const stylesPadBasic = {
       transform: scale(${button.transform.padBasicHoverScale});
       border-color: ${colors.info};
       color: ${colors.info};
-      background-color: ${colors.infoXLight50};
+      background-color: ${colors.infoXXLight};
     }
 
     &:disabled {
       cursor: not-allowed;
       background-color: transparent;
-      border-color: ${colors.greyXXLight75};
-      color: ${colors.greyXXLight75};
+      border-color: ${colors.greyXXXLight};
+      color: ${colors.greyXXLight};
     }
   `,
 

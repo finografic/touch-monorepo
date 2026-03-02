@@ -21,8 +21,8 @@ export const styles = css`
     color: ${colors.white};
 
     &:hover:not(:disabled) {
-      background-color: ${colors.infoDark75};
-      border-color: ${colors.infoDark75};
+      background-color: ${colors.infoDark};
+      border-color: ${colors.infoDark};
       color: ${colors.white};
     }
   }
@@ -31,9 +31,9 @@ export const styles = css`
     font-size: 0.875rem;
     text-align: center;
     padding: 0.5rem;
-    background-color: ${colors.danger25};
+    background-color: ${colors.dangerLight};
     border-radius: 4px;
-    border: 1px solid ${colors.danger25};
+    border: 1px solid ${colors.dangerLighter};
   }
 
   .input-group {
@@ -124,7 +124,7 @@ export const styles = css`
         }
 
         &:empty {
-          border: ${forms.inputs.border.width} solid ${colors.greyXXLight75};
+          border: ${forms.inputs.border.width} solid ${colors.greyXXLight};
           background-color: transparent;
         }
 
@@ -219,7 +219,7 @@ export const keypadStyles = css`
         transition: transform 0.1s ease;
         color: ${colors.greyLight};
         border: 2px solid ${colors.greyLight};
-        background-color: ${colors.greyXXLight50};
+        background-color: ${colors.greyXXXLight};
       }
 
       &:active:not(:disabled),
@@ -232,7 +232,7 @@ export const keypadStyles = css`
           background-color 0.1s ease;
         color: ${colors.info};
         border: 2px solid ${colors.info};
-        background-color: ${colors.infoLight50};
+        background-color: ${colors.infoLighter};
       }
 
       &.keypad-button-backspace {

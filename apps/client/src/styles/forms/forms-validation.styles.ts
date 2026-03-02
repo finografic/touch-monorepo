@@ -16,7 +16,7 @@ export const formsValidation = css`
     border-color: ${colors.dangerDark} !important;
 
     &:focus {
-      box-shadow: 0 0 0 3px ${colors.dangerDark25} !important;
+      box-shadow: 0 0 0 3px ${colors.dangerLight} !important;
     }
   }
 
@@ -27,7 +27,7 @@ export const formsValidation = css`
     border-color: ${colors.warningDark} !important;
 
     &:focus {
-      box-shadow: 0 0 0 3px ${colors.warningDark25} !important;
+      box-shadow: 0 0 0 3px ${colors.warningLight} !important;
     }
   }
 
@@ -38,7 +38,7 @@ export const formsValidation = css`
     border-color: ${colors.success} !important;
 
     &:focus {
-      box-shadow: 0 0 0 3px ${colors.success25} !important;
+      box-shadow: 0 0 0 3px ${colors.successLight} !important;
     }
   }
 

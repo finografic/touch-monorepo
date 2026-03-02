@@ -72,14 +72,14 @@ export const formsBase = css`
       border-width: ${forms.inputs.border.width} !important;
       border-color: ${forms.inputs.focus.border.color};
       /* Use box-shadow for focus ring instead of outline to prevent shift */
-      box-shadow: 0 0 0 3px ${colors.primaryLight25};
+      box-shadow: 0 0 0 3px ${colors.primaryLighter};
       outline: none !important;
       outline-offset: 0 !important;
     }
 
     &:disabled {
       background-color: ${forms.inputs.disabled.background}!important;
-      background-color: ${colors.greyXXLight25}!important;
+      background-color: ${colors.greyXXXLight}!important;
       border-color: ${forms.inputs.disabled.border.color};
       color: ${forms.inputs.placeholder.disabled.color};
       font-weight: ${forms.inputs.placeholder.disabled.fontWeight};
@@ -130,7 +130,7 @@ export const formsBase = css`
 
     &:focus {
       border-color: ${forms.inputs.focus.border.color};
-      box-shadow: 0 0 0 3px ${colors.primaryLight25};
+      box-shadow: 0 0 0 3px ${colors.primaryLighter};
     }
   }
 

@@ -39,10 +39,10 @@ export const styles = css`
       &[aria-checked='true'] {
         color: ${colors.defaultDark};
         border-color: ${colors.defaultDark};
-        background-color: ${colors.defaultXLight50};
+        background-color: ${colors.defaultXXLight};
       }
       &:active {
-        background-color: ${colors.defaultXLight75};
+        background-color: ${colors.defaultXLight};
       }
     }
 
@@ -58,10 +58,10 @@ export const styles = css`
       &[aria-checked='true'] {
         color: ${colors.infoXDark};
         border-color: ${colors.infoXDark};
-        background-color: ${colors.infoLight50};
+        background-color: ${colors.infoLighter};
       }
       &:active {
-        background-color: ${colors.infoLight75};
+        background-color: ${colors.infoLight};
       }
     }
 
@@ -77,10 +77,10 @@ export const styles = css`
       &[aria-checked='true'] {
         color: ${colors.dangerXDark};
         border-color: ${colors.dangerXDark};
-        background-color: ${colors.dangerLight50};
+        background-color: ${colors.dangerLighter};
       }
       &:active {
-        background-color: ${colors.dangerLight75};
+        background-color: ${colors.dangerLight};
       }
     }
 
@@ -95,7 +95,7 @@ export const styles = css`
       &[aria-checked='true'] {
         color: ${colors.dangerXDark};
         border-color: ${colors.dangerXDark};
-        background-color: ${colors.dangerLight50};
+        background-color: ${colors.dangerLighter};
       }
     }
     &.pad-special-alt {
@@ -109,7 +109,7 @@ export const styles = css`
       &[aria-checked='true'] {
         color: ${colors.secondaryXDark};
         border-color: ${colors.secondaryXDark};
-        background-color: ${colors.secondaryLight50};
+        background-color: ${colors.secondaryLighter};
       }
     }
 
@@ -141,9 +141,9 @@ export const styles = css`
     &.status-completed {
       pointer-events: none;
       user-select: none;
-      color: ${colors.warningDark75};
-      border-color: ${colors.warningDark75};
-      background-color: ${colors.warningLight25};
+      color: ${colors.warningDark};
+      border-color: ${colors.warningDark};
+      background-color: ${colors.warningLighter};
     }
 
     &.status-error {
@@ -151,7 +151,7 @@ export const styles = css`
       pointer-events: none;
       color: ${colors.danger};
       border: ${layout.borderWidth} solid ${colors.danger};
-      background-color: ${colors.danger25};
+      background-color: ${colors.dangerLight};
     }
   }
 `;

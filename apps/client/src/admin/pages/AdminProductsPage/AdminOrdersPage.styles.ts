@@ -20,7 +20,7 @@ export const styles = css`
 
   [role='tablist'] {
     box-shadow: inset 0 -2px 0 0 transparent;
-    box-shadow: inset 0 -0.2rem 0 0 ${colors.defaultXXLight25};
+    box-shadow: inset 0 -0.2rem 0 0 ${colors.defaultXXXLight};
 
     button[role='tab'] {
       height: 4rem;
@@ -32,14 +32,14 @@ export const styles = css`
         padding: 0.8em 1.25em;
         font-size: 1rem;
         font-weight: 700;
-        color: ${colors.textLight75};
+        color: ${colors.textLight};
       }
 
       svg.icon {
         margin-left: -0.33rem;
         margin-right: 0rem;
         transform: translate(-0.25rem, 0) scale(0.8) !important;
-        color: ${colors.textXLight75};
+        color: ${colors.textXLight};
       }
 
       &:nth-of-type(1) {
@@ -57,7 +57,7 @@ export const styles = css`
       }
       span {
         color: ${colors.infoLight};
-        color: ${colors.info75};
+        color: ${colors.info};
       }
 
       svg.icon {

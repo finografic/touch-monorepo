@@ -78,7 +78,7 @@ export const styles = css`
         &[aria-checked='true'] {
           color: ${colors.successDark};
           border-color: ${colors.successDark};
-          background-color: ${colors.successXXLight50};
+          background-color: ${colors.successXXXLight};
         }
       }
     }

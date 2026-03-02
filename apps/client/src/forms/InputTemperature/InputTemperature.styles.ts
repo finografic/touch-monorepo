@@ -9,7 +9,7 @@ export const styles = css`
       padding-right: 0.5rem;
 
       &:disabled {
-        background-color: ${colors.greyXXLight75};
+        background-color: ${colors.greyXXLight};
         color: ${colors.greyDark};
         font-weight: 400;
         opacity: 0.6;
@@ -17,7 +17,7 @@ export const styles = css`
     }
 
     &:has(:disabled) .ds-input-field__slot {
-      background-color: ${colors.greyXXLight50};
+      background-color: ${colors.greyXXXLight};
       border-color: ${colors.greyXLight};
       opacity: 0.7;
 

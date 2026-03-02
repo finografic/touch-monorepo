@@ -10,7 +10,7 @@ export const styles = css`
     min-width: 3.5rem;
 
     &.status-completed {
-      color: ${colors.warning75};
+      color: ${colors.warning};
       filter: saturate(0.8);
     }
 

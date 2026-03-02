@@ -74,7 +74,7 @@ export const styles = css`
 
     /* Column headers - STICKY */
     .p-datatable-thead > tr > th {
-      background-color: ${colors.greyXXLight25};
+      background-color: ${colors.greyXXXLight};
       color: ${colors.textLight};
       font-weight: 700;
       padding: 0.75rem 1rem;
@@ -83,7 +83,7 @@ export const styles = css`
       position: sticky;
       top: 0;
       z-index: 100;
-      background-color: ${colors.greyXXLight25}; /* Ensure solid background */
+      background-color: ${colors.greyXXXLight}; /* Ensure solid background */
     }
 
     /* Filter inputs in header */
@@ -201,7 +201,7 @@ export const styles = css`
 
   input[type='checkbox']:checked {
     & + .p-checkbox-box {
-      background-color: ${colors.danger50};
+      background-color: ${colors.dangerLight};
       &:hover {
         background-color: ${colors.dangerDark};
       }
@@ -216,7 +216,7 @@ export const styles = css`
 
   input[type='checkbox']:not(:checked) {
     & + .p-checkbox-box {
-      background-color: ${colors.greyXXLight75};
+      background-color: ${colors.greyXXLight};
     }
     &:hover {
       background-color: ${colors.greyXLight};
@@ -247,7 +247,7 @@ export const styles = css`
         transition: all 0.2s ease;
 
         &:hover {
-          background-color: ${colors.infoXLight25};
+          background-color: ${colors.infoXXLight};
           border-color: ${colors.infoLight};
         }
 
@@ -272,7 +272,7 @@ export const styles = css`
       transition: all 0.2s ease;
 
       &:hover:not(:disabled) {
-        background-color: ${colors.infoXLight25};
+        background-color: ${colors.infoXXLight};
         border-color: ${colors.infoLight};
       }
 

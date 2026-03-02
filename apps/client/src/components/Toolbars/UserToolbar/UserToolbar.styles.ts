@@ -29,8 +29,8 @@ export const styles = css`
   &.theme-dark {
     .button-box button.button {
       svg.icon {
-        color: ${colors.white75};
-        border-color: ${colors.white75};
+        color: ${colors.white};
+        border-color: ${colors.white};
       }
       &:hover {
         cursor: pointer;
@@ -43,7 +43,7 @@ export const styles = css`
   &.button.button-auth.logged-out,
   &.button.button-auth.logged-in {
     svg.icon {
-      color: ${colors.white75};
+      color: ${colors.white};
     }
     &:hover {
       border-color: transparent;

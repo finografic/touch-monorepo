@@ -58,13 +58,13 @@ export const styles = css`
     }
 
     &.border-solid {
-      border: ${layout.borderWidth} solid ${colors.greyXXLight50};
+      border: ${layout.borderWidth} solid ${colors.greyXXXLight};
       padding: ${padding.lg};
       border-radius: ${layout.borderRadius};
     }
 
     &.has-error {
-      border: ${layout.borderWidth} solid ${colors.danger50};
+      border: ${layout.borderWidth} solid ${colors.dangerLight};
     }
 
     &:not(.border-solid) {
@@ -84,7 +84,7 @@ export const styles = css`
     .section-header-description {
       font-size: 0.95em;
       font-weight: 500;
-      color: ${colors.textLight75};
+      color: ${colors.textLight};
     }
 
     /***** NOTE: NESTED SECTIONS -- OMIT NEGATIVE MARGIN/PADDING FOR INNER SECTIONS  *****/

@@ -46,7 +46,7 @@ export const styles = css`
     border: ${button.border.width} solid ${colors.warning};
 
     &:hover:not(:disabled):not([data-loading='true']) {
-      background-color: ${colors.warningXXLight50};
+      background-color: ${colors.warningXXXLight};
       border-color: ${colors.warningDark};
       color: ${colors.warningDark};
     }

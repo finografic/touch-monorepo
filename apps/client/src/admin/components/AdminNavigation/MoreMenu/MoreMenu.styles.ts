@@ -73,7 +73,7 @@ export const styles = css`
       cursor: pointer;
 
       &.active {
-        background-color: ${colors.primary25};
+        background-color: ${colors.primaryLight};
         color: ${colors.primaryDark};
         font-weight: 700;
       }

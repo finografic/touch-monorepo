@@ -28,8 +28,8 @@ export const styles = css`
   &.theme-dark {
     .button-box button.button {
       svg.icon {
-        color: ${colors.white75};
-        border-color: ${colors.white75};
+        color: ${colors.white};
+        border-color: ${colors.white};
       }
       &:hover {
         cursor: pointer;

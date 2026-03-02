@@ -24,7 +24,7 @@ export const styles = css`
     margin: 2rem auto;
 
     .admin-card {
-      border: 1px solid ${colors.greyXXLight25};
+      border: 1px solid ${colors.greyXXXLight};
       padding: 0.5rem 0.5rem;
       padding: 0 0.5rem;
       min-height: 80px;

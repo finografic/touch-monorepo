@@ -65,7 +65,7 @@ export const stylesButtonBase = css`
   :hover {
     color: ${colors.infoDark};
     border-color: ${colors.infoDark};
-    background-color: ${colors.infoLight25};
+    background-color: ${colors.infoLighter};
     /* Scale removed for buttons - pads keep scale effect */
   }
 

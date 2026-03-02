@@ -67,7 +67,7 @@ export const baseToolbarStyles = css`
       /* box-shadow: inset 0 0 0 2px rgba(0, 200, 0, 0.2); */
     }
 
-    ${min.xxl} {
+    ${min['2xl']} {
       padding: 0.4rem;
       /* box-shadow: inset 0 0 0 2px rgba(0, 200, 0, 0.2); */
     }
@@ -80,6 +80,6 @@ export const baseToolbarStyles = css`
     padding-right: 20px;
     width: fit-content;
     height: auto;
-    color: ${colors.warningDark75};
+    color: ${colors.warningDark};
   }
 `;

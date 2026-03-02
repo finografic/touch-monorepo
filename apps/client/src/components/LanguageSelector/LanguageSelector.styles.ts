@@ -48,7 +48,7 @@ export const styles = css`
     cursor: pointer;
     padding: 2.1rem 2rem 1.9rem 2rem;
     margin-top: 0.5rem;
-    /* border: ${button.border.width} solid ${colors.defaultXXLight50}; */
+    /* border: ${button.border.width} solid ${colors.defaultXXXLight}; */
     outline: none !important;
 
     border-radius: ${border.radius.sm}!important;
