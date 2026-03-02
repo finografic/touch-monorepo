@@ -7,7 +7,7 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "========== DEV": "=======================================================",
-    "dev": "panda codegen && panda cssgen && vite",
+    "dev": "panda codegen --watch && panda cssgen --watch && vite",
     "start": "vite preview",
     "·········· BUILD": "·····················································",
     "panda:codegen": "panda codegen && panda cssgen",
@@ -89,6 +89,7 @@
     "@uidotdev/usehooks": "2.4.1",
     "@workspace/config": "workspace:*",
     "@workspace/core": "workspace:*",
+    "@workspace/design-system": "workspace:*",
     "@workspace/i18n": "workspace:*",
     "@workspace/server": "workspace:*",
     "@workspace/shared": "workspace:*",
