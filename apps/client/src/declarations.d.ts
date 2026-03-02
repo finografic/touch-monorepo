@@ -97,15 +97,14 @@ declare module 'color' {
 
 declare module 'uuid';
 
-declare module '*.module.css' {
-  const classes: { [key: string]: string };
-  export default classes;
-}
-
+// Raw file imports (Vite ?raw suffix)
 declare module '*?raw' {
   const content: string;
   export default content;
 }
+
+// Note: CSS module declarations are provided by Vite (vite/client.d.ts)
+// No need to redeclare '*.css' or '*.module.css' here
 
 declare namespace JSX {
   interface IntrinsicElements {

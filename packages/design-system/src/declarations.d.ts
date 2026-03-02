@@ -12,8 +12,5 @@ declare module 'eslint-plugin-markdownlint/parser.js' {
   export default parser;
 }
 
-// CSS file imports (styles exported from this package)
-declare module '*.css' {
-  const content: string;
-  export default content;
-}
+// CSS file imports (for library consumers)
+declare module '*.css';
