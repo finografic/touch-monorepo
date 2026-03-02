@@ -18,23 +18,23 @@
 
 import { definePreset } from '@pandacss/dev';
 
-import { badgeRecipe } from './recipes/badge';
-import { buttonRecipe } from './recipes/button';
-import { calloutRecipe } from './recipes/callout';
-import { cardRecipe } from './recipes/card';
-import { checkboxRecipe } from './recipes/checkbox';
-import { dialogRecipe } from './recipes/dialog';
-import { formFieldRecipe } from './recipes/form-field';
-import { inputRecipe } from './recipes/input';
-import { labelRecipe } from './recipes/label';
-import { menuRecipe } from './recipes/menu';
-import { popoverRecipe } from './recipes/popover';
-import { selectRecipe } from './recipes/select';
-import { switchRecipe } from './recipes/switch';
-import { tabsRecipe } from './recipes/tabs';
-import { textRecipe } from './recipes/text';
-import { toastRecipe } from './recipes/toast';
-import { tooltipRecipe } from './recipes/tooltip';
+import { badgeRecipe } from './recipes/badge.recipe';
+import { buttonRecipe } from './recipes/button.recipe';
+import { calloutRecipe } from './recipes/callout.recipe';
+import { cardRecipe } from './recipes/card.recipe';
+import { checkboxRecipe } from './recipes/checkbox.recipe';
+import { dialogRecipe } from './recipes/dialog.recipe';
+import { formFieldRecipe } from './recipes/form-field.recipe';
+import { inputRecipe } from './recipes/input.recipe';
+import { labelRecipe } from './recipes/label.recipe';
+import { menuRecipe } from './recipes/menu.recipe';
+import { popoverRecipe } from './recipes/popover.recipe';
+import { selectRecipe } from './recipes/select.recipe';
+import { switchRecipe } from './recipes/switch.recipe';
+import { tabsRecipe } from './recipes/tabs.recipe';
+import { textRecipe } from './recipes/text.recipe';
+import { toastRecipe } from './recipes/toast.recipe';
+import { tooltipRecipe } from './recipes/tooltip.recipe';
 import { durationTokens, easingTokens, keyframes } from './tokens/animations.tokens';
 import { colorTokens, semanticColorTokens } from './tokens/colors.tokens';
 import {
