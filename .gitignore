@@ -22,6 +22,7 @@ bin/
 
 # design-system / pandaCSS
 apps/client/styled-system/
+packages/design-system/styled-system/
 
 # =============================================================================
 # DEPENDENCIES
