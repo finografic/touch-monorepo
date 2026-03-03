@@ -19,7 +19,7 @@ import { getEffectiveRows, MAX_COLUMNS, MIN_COLUMNS, NUM_RELAYS } from 'config/a
 import { AdminPageLayout } from '../..';
 import { AdminSection } from '../../components/AdminSection/AdminSection';
 import { SlotGrid } from './SlotGrid/SlotGrid';
-import { MinusIcon, PlusIcon } from 'styles/icons';
+import { MinusIcon, PlusIcon } from '@workspace/design-system/icons';
 import { styles } from './AdminSlotsConfigPage.styles';
 
 // Types for form values

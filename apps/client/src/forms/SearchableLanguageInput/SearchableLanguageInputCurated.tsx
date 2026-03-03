@@ -4,7 +4,7 @@ import { InputField } from '@workspace/design-system/forms';
 import { card } from 'styled-system/recipes';
 import { matchSorter } from 'match-sorter';
 
-import { ChevronDownIcon, MagnifyingGlassIcon } from 'styles/icons';
+import { ChevronDownIcon, MagnifyingGlassIcon } from '@workspace/design-system/icons';
 import { styles } from './SearchableLanguageInput.styles';
 
 interface LanguageOption {

@@ -10,7 +10,7 @@ import { useUpdateSoundSettings } from 'queries/sounds';
 
 import { playSoundByPath, stopAllAudio  } from 'utils/soundCache.utils';
 import type { SoundFile, SoundSettings, SoundType } from 'types/sounds.types';
-import { VolumeIcon, VolumeOffIcon } from 'styles/icons';
+import { VolumeIcon, VolumeOffIcon } from '@workspace/design-system/icons';
 import { styles } from './SoundConfigurationSection.styles';
 
 interface SoundConfigurationSectionProps {

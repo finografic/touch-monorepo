@@ -16,7 +16,7 @@ import { PATHS } from 'config/routes';
 import { MOCK_ORDERS_DATA } from './mock-orders.data';
 import { generateSmartMockSlots } from './mock-orders.utils';
 import { useGenerateRealMockData } from './useGenerateRealMockData';
-import { ListChecksIcon } from 'styles/icons';
+import { ListChecksIcon } from '@workspace/design-system/icons';
 
 export const MockOrdersButton = () => {
   const navigate = useNavigate();

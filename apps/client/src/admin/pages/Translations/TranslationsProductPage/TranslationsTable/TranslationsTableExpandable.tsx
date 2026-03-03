@@ -21,7 +21,7 @@ import { ExpandedSubtypeRow } from './components/TranslationsRowExpanded';
 import { useTranslationsTableForm } from './hooks/useTranslationsTableForm';
 import { useTranslationsTableHandlers } from './hooks/useTranslationsTableHandlers';
 import { colors } from 'styles/colors/colors-direct';
-import { ChevronDownIcon, ChevronRightIcon } from 'styles/icons';
+import { ChevronDownIcon, ChevronRightIcon } from '@workspace/design-system/icons';
 import { styles } from '../../shared/styles/TranslationsTable.styles';
 
 interface TranslationsTableExpandableProps {

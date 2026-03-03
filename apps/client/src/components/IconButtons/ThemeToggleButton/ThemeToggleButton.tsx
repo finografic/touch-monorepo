@@ -5,7 +5,7 @@ import { Button } from 'components/Button/Button';
 
 import { useAppConfig } from 'providers/AppConfigProvider';
 
-import { MoonIcon, SunIcon } from 'styles/icons';
+import { MoonIcon, SunIcon } from '@workspace/design-system/icons';
 import { styles } from './ThemeToggleButton.styles';
 
 export const ThemeToggleButton: FC = () => {

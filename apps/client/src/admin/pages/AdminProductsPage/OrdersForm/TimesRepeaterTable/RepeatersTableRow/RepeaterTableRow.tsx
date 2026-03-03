@@ -5,7 +5,7 @@ import { InputTime } from 'forms/InputTime';
 import { TemperatureInputField } from 'forms/TemperatureInputField';
 import { Button } from 'components/Button';
 
-import { DeleteIcon, ShuffleIcon  } from 'styles/icons';
+import { DeleteIcon, ShuffleIcon  } from '@workspace/design-system/icons';
 import { styles } from './RepeaterTableRow.styles';
 
 interface TimeRowData {

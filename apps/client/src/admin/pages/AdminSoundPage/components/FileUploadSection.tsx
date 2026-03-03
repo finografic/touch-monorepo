@@ -7,7 +7,7 @@ import { useToast } from 'components/Toast';
 import { useUploadSoundFiles } from 'queries/sounds';
 
 import type { SoundType } from 'types/sounds.types';
-import { UploadIcon } from 'styles/icons';
+import { UploadIcon } from '@workspace/design-system/icons';
 
 interface FileUploadSectionProps {
   soundType: SoundType;

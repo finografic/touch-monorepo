@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Button } from 'components/Button';
 
-import { TrashIcon } from 'styles/icons';
+import { TrashIcon } from '@workspace/design-system/icons';
 
 interface TranslationsDeleteButtonProps {
   onDelete: () => void;

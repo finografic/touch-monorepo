@@ -9,7 +9,7 @@ import { useRemoveSoundFile } from 'queries/sounds';
 
 import { playSoundByPath } from 'utils/soundCache.utils';
 import type { SoundFile, SoundSettings, SoundType } from 'types/sounds.types';
-import { BadgeCheckIcon, SpeakerLoudIcon } from 'styles/icons';
+import { BadgeCheckIcon, SpeakerLoudIcon } from '@workspace/design-system/icons';
 
 interface SoundLibrarySectionProps {
   soundFiles: SoundFile[];

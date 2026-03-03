@@ -8,7 +8,7 @@ import { slugify } from 'utils/string.utils';
 import type { SelectOption } from 'types/models/select-option.model';
 import { DropdownPortal } from './DropdownPortal';
 import { useColors } from 'styles';
-import { CheckCircleIcon, ChevronDownIcon, Cross2Icon, MagnifyingGlassIcon, PlusIcon } from 'styles/icons';
+import { CheckCircleIcon, ChevronDownIcon, Cross2Icon, MagnifyingGlassIcon, PlusIcon } from '@workspace/design-system/icons';
 import { styles, stylesDropdown } from './SelectSearchable.styles';
 
 interface SearchableSelectProps {

@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 import clsx from 'clsx';
 
 import type { PadActionProps } from 'types/button.types';
-import { DoubleArrowLeftIcon, DoubleArrowRightIcon } from 'styles/icons';
+import { DoubleArrowLeftIcon, DoubleArrowRightIcon } from '@workspace/design-system/icons';
 import { stylesPadAction } from './PadAction.styles';
 
 export const PadAction = forwardRef<HTMLButtonElement, PadActionProps>(

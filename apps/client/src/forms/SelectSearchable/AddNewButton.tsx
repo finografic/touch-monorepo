@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Button } from 'components/Button';
 
-import { AddIcon } from 'styles/icons';
+import { AddIcon } from '@workspace/design-system/icons';
 
 interface SearchableSelectProps {
   handleAddNew: () => void;

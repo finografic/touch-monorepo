@@ -20,7 +20,7 @@ import type { SlotType } from 'types/slots.types';
 import { NUM_RELAYS } from 'config/app/slots.config';
 import { AdminSlotTimer } from './components/AdminSlotTimer';
 import { useColors } from 'styles';
-import { RadioIcon } from 'styles/icons';
+import { RadioIcon } from '@workspace/design-system/icons';
 import { styles } from './RelaysTable.styles';
 
 interface RelaysTableProps {

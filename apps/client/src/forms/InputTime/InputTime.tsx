@@ -7,7 +7,7 @@ import { formatTimeDuration, parseTimeDurationToSeconds } from 'utils/time.utils
 import { STEP_BUTTON_VARIANT } from '../FormMiddleware/FormMiddleware.constants';
 import { Button } from 'components/Button';
 import { useColors } from 'styles';
-import { ChevronDownIcon, ChevronUpIcon, ExclamationTriangleIcon } from 'styles/icons';
+import { ChevronDownIcon, ChevronUpIcon, ExclamationTriangleIcon } from '@workspace/design-system/icons';
 import { styles } from './InputTime.styles';
 
 interface InputTimeProps {

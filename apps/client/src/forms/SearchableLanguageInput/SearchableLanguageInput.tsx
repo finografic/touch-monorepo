@@ -5,7 +5,7 @@ import { card } from 'styled-system/recipes';
 import { matchSorter } from 'match-sorter';
 
 import type { Country } from '../../components/LanguageSelector/languages/country.types';
-import { ChevronDownIcon, MagnifyingGlassIcon } from 'styles/icons';
+import { ChevronDownIcon, MagnifyingGlassIcon } from '@workspace/design-system/icons';
 import { styles } from './SearchableLanguageInput.styles';
 
 interface LanguageOption {

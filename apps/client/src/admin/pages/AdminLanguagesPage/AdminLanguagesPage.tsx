@@ -25,7 +25,7 @@ import { AdminPageLayout, AdminSection } from '../..';
 import { LanguageDeleteDialog } from './components/LanguageDeleteDialog';
 import { LanguagesList, LanguagesListSelected, LaungaugeDataStats } from './components';
 import { convertSearchResultToLanguageInfo } from './languages.utils';
-import { InfoCircledIcon } from 'styles/icons';
+import { InfoCircledIcon } from '@workspace/design-system/icons';
 import { styles } from './AdminLanguagesPage.styles';
 
 // Interface for the search component results (matches LanguageOption from SearchableLanguageInput)

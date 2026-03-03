@@ -14,7 +14,7 @@ import {
 } from '../FormMiddleware/FormMiddleware.constants';
 import { Button } from 'components/Button';
 import { useColors } from 'styles';
-import { ChevronDownIcon, ChevronUpIcon, ExclamationTriangleIcon } from 'styles/icons';
+import { ChevronDownIcon, ChevronUpIcon, ExclamationTriangleIcon } from '@workspace/design-system/icons';
 import { styles } from './InputTemperature.styles';
 
 interface InputTemperatureProps {

@@ -23,24 +23,24 @@
 
 ### Current state
 
-107 `from 'styles/...'` imports remain. Most are in `.styles.ts` (Emotion) files.
+~63 `from 'styles/...'` imports remain (was 107 — 44 icons migrated). Most are in `.styles.ts` (Emotion) files.
 The barrel `from 'styles'` import was already migrated to `from '@workspace/design-system/tokens'`
 in a previous session; compat re-exports live in `_migration.tokens.ts`.
 
 **Breakdown by path:**
 
-| Path | Count | Action |
-|---|---|---|
-| `styles/icons` | 44 | See icons note below |
-| `styles/colors/palette.types` | 8 | Replace type with DS `ColorPalette` |
-| `styles/project/buttons.styles` | 6 | Replace with DS button recipe or Panda utilities |
-| `styles/forms/forms.constants` | 6 | Replace with DS form constants or inline values |
-| `styles/forms/forms.styles` | 5 | Replace with DS `forms.css` classes or Panda `css()` |
-| `styles/colors/colors-direct` | 4 | Replace with `colors` from DS tokens |
-| `styles/viewport/viewport.types` | 4 | Replace with DS breakpoint types |
-| `styles/layout/base.constants` | 3 | Replace with DS layout CSS vars |
-| `styles/themes/emotion-theme.types` | 3 | Replace with DS token types |
-| Other | ~24 | Case-by-case |
+| Done | Path | Count | Action |
+|---|---|---|---|
+| ✅ | `styles/icons` | 44 | Added named exports to DS icons; bulk-replaced import path |
+| ☐ | `styles/colors/palette.types` | 8 | Replace type with DS `ColorPalette` |
+| ☐ | `styles/project/buttons.styles` | 6 | Replace with DS button recipe or Panda utilities |
+| ☐ | `styles/forms/forms.constants` | 6 | Replace with DS form constants or inline values |
+| ☐ | `styles/forms/forms.styles` | 5 | Replace with DS `forms.css` classes or Panda `css()` |
+| ☐ | `styles/colors/colors-direct` | 4 | Replace with `colors` from DS tokens |
+| ☐ | `styles/viewport/viewport.types` | 4 | Replace with DS breakpoint types |
+| ☐ | `styles/layout/base.constants` | 3 | Replace with DS layout CSS vars |
+| ☐ | `styles/themes/emotion-theme.types` | 3 | Replace with DS token types |
+| ☐ | Other (fonts, hooks, utils, radix-ui) | ~24 | Case-by-case |
 
 ### Strategy
 
@@ -85,19 +85,17 @@ now imports from DS tokens via `_migration.tokens.ts`. The Emotion `css` templat
 tags can stay as-is — Emotion is only removed in 6f. The goal here is just to
 ensure every value reference comes from DS tokens, not the old `styles/` directory.
 
-**Batch 5 — Icons (44 files)**
+**~~Batch 5 — Icons (44 files)~~ ✅ Done**
 
-`styles/icons` is a re-export barrel for icon SVGs / Lucide icons.
-Two options:
+Added named exports to `packages/design-system/src/icons/index.ts` (destructured from
+the `icons` object). Import path bulk-replaced across all 46 files:
 
-- **Option A (recommended):** Migrate imports to the DS icons registry:
-  `import { SomeIcon } from '@workspace/design-system/icons'`
-  Check `packages/design-system/src/icons/icons.ts` — if icons are missing,
-  add them there first, then migrate the import sites.
-
-- **Option B:** Keep `styles/icons/` as a local barrel that re-exports from the DS
-  icons registry. This survives 6f and avoids touching 44 files now. Rename or
-  move the file so it no longer lives under `styles/`.
+```ts
+// Before
+import { ChevronDownIcon } from 'styles/icons';
+// After
+import { ChevronDownIcon } from '@workspace/design-system/icons';
+```
 
 ### Done when
 

@@ -4,7 +4,7 @@ import { InputField } from '@workspace/design-system/forms';
 import clsx from 'clsx';
 import { useDebouncedCallback } from 'use-debounce';
 
-import { MagnifyingGlassIcon } from 'styles/icons';
+import { MagnifyingGlassIcon } from '@workspace/design-system/icons';
 import { styles } from './SearchBar.styles';
 
 interface SearchBarProps {

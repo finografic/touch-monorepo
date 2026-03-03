@@ -7,7 +7,7 @@ import clsx from 'clsx';
 
 import { Button } from 'components/Button';
 import type { DialogConfig } from 'components/Dialog/GenericDialog.types';
-import { CloseIcon } from 'styles/icons';
+import { CloseIcon } from '@workspace/design-system/icons';
 import { styles } from './GenericDialog.styles';
 
 interface GenericDialogProps {

@@ -14,7 +14,7 @@ import { useAppConfig } from 'providers/AppConfigProvider';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 
 import { clearAllAuthCookiesServer } from 'utils/auth.utils';
-import { LanguageIcon } from 'styles/icons';
+import { LanguageIcon } from '@workspace/design-system/icons';
 import { styles } from './UserToolbar.styles';
 
 export const UserToolbar = ({ variant }: { variant?: 'light' | 'dark' }) => {

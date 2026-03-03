@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 
 import { useTimers } from 'providers/TimersProvider';
 
-import { FastForwardIcon } from 'styles/icons';
+import { FastForwardIcon } from '@workspace/design-system/icons';
 
 export const MockTimersMin = () => {
   const { timers, updateTimerByOrderId } = useTimers();

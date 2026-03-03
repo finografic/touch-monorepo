@@ -7,7 +7,7 @@ import { formatTimeDuration } from 'utils/time.utils';
 import { SNOOZE_INTERVAL_MS } from 'config/app';
 import { getCycleNumber, parseElapsedTime } from './shared/timer.utils';
 import { useHeartbeatSubscription } from './shared/useHeartbeatSubscription';
-import { TimerResetIcon } from 'styles/icons/icons';
+import { TimerResetIcon } from '@workspace/design-system/icons';
 import { styles } from './SnoozeTimer.styles';
 
 interface SnoozeTimerProps {

@@ -11,7 +11,7 @@ import { useToggleSupportedLanguageActive } from 'queries/supported-languages';
 
 import { canDeleteLanguage } from 'utils/i18n/language.utils';
 import { LanguageItem } from './LanguageItem';
-import { LockIcon, TrashIcon } from 'styles/icons';
+import { LockIcon, TrashIcon } from '@workspace/design-system/icons';
 
 interface LanguagesListProps {
   languages: LanguageInfo[];
