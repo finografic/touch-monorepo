@@ -1,4 +1,3 @@
-import * as NavigationMenu from '@radix-ui/react-navigation-menu';
 import { PadAction } from 'components/Pads/PadAction/PadAction';
 
 import { useNavigationButtonsConfig } from 'hooks/buttons/useNavigationButtonsConfig';
@@ -19,17 +18,15 @@ export const FrontEndNavigation = () => {
   return (
     <nav css={styles}>
       <div className="nav-wrapper">
-        <NavigationMenu.Root className="nav-root">
-          <NavigationMenu.List className="nav-list">
+        <div className="nav-root">
+          <ul className="nav-list">
             {footerButtons.map((buttonProps) => (
-              <NavigationMenu.Item key={buttonProps.id} className="nav-item">
-                <NavigationMenu.Link asChild>
-                  <PadAction {...buttonProps} />
-                </NavigationMenu.Link>
-              </NavigationMenu.Item>
+              <li key={buttonProps.id} className="nav-item">
+                <PadAction {...buttonProps} />
+              </li>
             ))}
-          </NavigationMenu.List>
-        </NavigationMenu.Root>
+          </ul>
+        </div>
       </div>
     </nav>
   );

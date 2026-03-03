@@ -62,19 +62,6 @@ export const getToastRootStyles = (variant: ToastVariant) => {
       animation: hide 150ms ease-in;
     }
 
-    &[data-swipe='move'] {
-      transform: translateX(var(--radix-toast-swipe-move-x));
-    }
-
-    &[data-swipe='cancel'] {
-      transform: translateX(0);
-      transition: transform 200ms ease-out;
-    }
-
-    &[data-swipe='end'] {
-      animation: swipeOut 150ms ease-out;
-    }
-
     @keyframes hide {
       from {
         opacity: 1;
@@ -90,15 +77,6 @@ export const getToastRootStyles = (variant: ToastVariant) => {
       }
       to {
         transform: translateX(0);
-      }
-    }
-
-    @keyframes swipeOut {
-      from {
-        transform: translateX(var(--radix-toast-swipe-end-x));
-      }
-      to {
-        transform: translateX(calc(100% + var(--viewport-padding)));
       }
     }
   `;
