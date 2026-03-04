@@ -2,10 +2,10 @@ import { colors, layout, spacing, typography } from '@workspace/design-system/to
 
 import { css } from '@emotion/react';
 
-import type { EmotionTheme } from 'styles/themes/emotion-theme.types';
-import { stylesAppContent800x480 } from 'styles/project/project.app.800x480.styles';
-import { stylesAppContent1024x600 } from 'styles/project/project.app.1024x600.styles';
-import { stylesAppContent } from 'styles/project/project.app.styles';
+import type { EmotionTheme } from '../styles/themes/emotion-theme.types';
+import { stylesAppContent800x480 } from '../styles/project/project.app.800x480.styles';
+import { stylesAppContent1024x600 } from '../styles/project/project.app.1024x600.styles';
+import { stylesAppContent } from '../styles/project/project.app.styles';
 
 export const styles = (theme: EmotionTheme) => css`
   ${stylesAppContent}

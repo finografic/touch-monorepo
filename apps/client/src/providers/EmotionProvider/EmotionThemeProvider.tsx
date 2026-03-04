@@ -12,7 +12,7 @@ import { ThemeProvider } from '@emotion/react';
 import {
   oklchDarkTheme as darkTheme,
   oklchLightTheme as lightTheme,
-} from 'styles/themes/generate-oklch-themes';
+} from '../../styles/themes/generate-oklch-themes';
 
 interface EmotionThemeProviderProps {
   children: ReactNode;

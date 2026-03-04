@@ -22,7 +22,7 @@ import { getPathnameClassName } from 'routes/utils/routes.utils';
 
 import { DevProvider } from 'dev-tools/providers/DevProvider/DevProvider';
 import { Loader } from '../components/Loader/Loader';
-import type { EmotionTheme } from 'styles/themes/emotion-theme.types';
+import type { EmotionTheme } from '../styles/themes/emotion-theme.types';
 import { styles } from './Layout.styles';
 
 export const Layout: FC = () => {

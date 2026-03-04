@@ -11,7 +11,7 @@
 
 | Work | Scope | Blocker |
 |---|---|---|
-| **6e** — Clear remaining `styles/` imports | ~14 imports in ~6 files | None |
+| ~~**6e** — Clear remaining `styles/` imports~~ | ✅ Complete — 0 alias imports remain | — |
 | **6f** — Flatten + prune `styles/`; remove Radix Themes + Emotion | See checklist below | 6e must be zero |
 | **6g** — CSS custom property audit | DevTools investigation | 6f |
 | **AdminNavigation** — `TabNav` from `@radix-ui/themes` | 1 component rebuild | Must land before 6f |
@@ -23,7 +23,7 @@
 
 ### Current state
 
-~14 `from 'styles/...'` imports remain from non-`styles/` files (was 107 — 93 migrated).
+✅ **Phase 6e complete.** Zero `from 'styles/...'` alias imports remain outside `styles/` (was 107).
 
 **Breakdown by path:**
 
@@ -37,10 +37,10 @@
 | ✅ | `styles/project/buttons.styles` | 6 | Moved `stylesButtonBase`/`stylesSmallButton` → `components/Button/button-base.styles.ts` |
 | ✅ | `styles/forms/forms.constants` | 6 | Moved → `forms/forms.config.ts`; fixed `colors-direct` → DS tokens |
 | ✅ | `styles/forms/forms.styles` | 5 | External consumers redirected; `cssForms` stays via relative import until 6f |
-| ☐ | `styles/themes/emotion-theme.types` | 3 | Replace with inline `EmotionTheme` type or remove with Emotion in 6f |
-| ☐ | `styles/project/*.styles` (appContent, 800x480, 1024x600) | 6 | Convert consumers to relative imports — these files **survive** into the pruned `styles/` |
-| ☐ | `styles/fonts/fonts.styles` | 1 | Convert consumer to relative import — file **survives** |
-| ☐ | `styles/global.styles` + `styles/radix-ui/theme.config` + `generate-oklch-themes` | 4 | Tied to Radix/Emotion removal — handle in 6f |
+| ✅ | `styles/themes/emotion-theme.types` | 3 | Layout.tsx + Layout.styles.ts → relative import |
+| ✅ | `styles/project/*.styles` (appContent, 800x480, 1024x600) | 6 | AdminLayout + Layout consumers → relative imports |
+| ✅ | `styles/fonts/fonts.styles` | 1 | TimesRepeaterTable → relative import |
+| ✅ | `styles/global.styles` + `styles/radix-ui/theme.config` + `generate-oklch-themes` | 4 | App.tsx + EmotionThemeProvider → relative imports |
 
 ### Done when
 

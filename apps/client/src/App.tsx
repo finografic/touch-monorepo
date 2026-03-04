@@ -16,10 +16,10 @@ import { TimersProvider } from 'providers/TimersProvider';
 import { ErrorBoundary } from 'routes/components/ErrorBoundary';
 import { useRouteMetadata } from 'routes/providers/RouteMetadataContext';
 
-import { themeConfig } from 'styles/radix-ui/theme.config';
+import { themeConfig } from './styles/radix-ui/theme.config';
 import 'primereact/resources/themes/lara-light-indigo/theme.css'; // theme
 import 'primereact/resources/primereact.min.css'; // core css
-import { cssGlobal } from 'styles/global.styles';
+import { cssGlobal } from './styles/global.styles';
 
 const AppBaseLayout = () => (
   <ErrorBoundary>
