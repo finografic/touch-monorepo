@@ -1,4 +1,4 @@
-import type { ScreenClass } from 'styles/viewport/viewport.types';
+import type { ScreenClass } from '@workspace/design-system/viewport';
 
 export type SizeUI = Extract<ScreenClass, 'sm' | 'md' | 'lg'>;
 

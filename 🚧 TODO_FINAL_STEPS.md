@@ -23,7 +23,7 @@
 
 ### Current state
 
-~63 `from 'styles/...'` imports remain (was 107 — 44 icons migrated). Most are in `.styles.ts` (Emotion) files.
+~44 `from 'styles/...'` imports remain (was 107 — 44 icons + 19 colors/layout/viewport migrated). Most are in `.styles.ts` (Emotion) files.
 The barrel `from 'styles'` import was already migrated to `from '@workspace/design-system/tokens'`
 in a previous session; compat re-exports live in `_migration.tokens.ts`.
 
@@ -32,13 +32,13 @@ in a previous session; compat re-exports live in `_migration.tokens.ts`.
 | Done | Path | Count | Action |
 |---|---|---|---|
 | ✅ | `styles/icons` | 44 | Added named exports to DS icons; bulk-replaced import path |
-| ☐ | `styles/colors/palette.types` | 8 | Replace type with DS `ColorPalette` |
+| ✅ | `styles/colors/palette.types` | 8 | Replaced `ColorPalette` with DS `ColorsKey` |
+| ✅ | `styles/colors/colors-direct` | 4 | Replaced with `colors` from DS tokens |
+| ✅ | `styles/viewport/viewport.types` | 4 | Replaced with DS `ScreenClass` / `BreakpointMap`; `xxl` → `'2xl'` in Header.tsx |
+| ✅ | `styles/layout/base.constants` | 3 | Replaced with DS `spacing` via `const padding = spacing` alias |
 | ☐ | `styles/project/buttons.styles` | 6 | Replace with DS button recipe or Panda utilities |
 | ☐ | `styles/forms/forms.constants` | 6 | Replace with DS form constants or inline values |
 | ☐ | `styles/forms/forms.styles` | 5 | Replace with DS `forms.css` classes or Panda `css()` |
-| ☐ | `styles/colors/colors-direct` | 4 | Replace with `colors` from DS tokens |
-| ☐ | `styles/viewport/viewport.types` | 4 | Replace with DS breakpoint types |
-| ☐ | `styles/layout/base.constants` | 3 | Replace with DS layout CSS vars |
 | ☐ | `styles/themes/emotion-theme.types` | 3 | Replace with DS token types |
 | ☐ | Other (fonts, hooks, utils, radix-ui) | ~24 | Case-by-case |
 

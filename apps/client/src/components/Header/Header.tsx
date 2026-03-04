@@ -10,7 +10,7 @@ import { HeaderTitle } from 'components/Header/HeaderTitle';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 
 import type { Theme } from 'types/ui.types';
-import type { BreakpointMap } from 'styles/viewport/viewport.types';
+import type { BreakpointMap } from '@workspace/design-system/viewport';
 import { styles } from './Header.styles';
 
 interface HeaderColumnWidths {
@@ -47,24 +47,24 @@ export const Header: React.FC<HeaderProps> = ({
     if (titleAlign === 'center') {
       return {
         // empty | title | toolbar
-        left: { xs: 2, sm: 2, md: 3, lg: 3, xl: 3, xxl: 3 },
-        center: { xs: 8, sm: 8, md: 6, lg: 6, xl: 6, xxl: 6 },
-        right: { xs: 2, sm: 2, md: 3, lg: 3, xl: 3, xxl: 3 },
+        left: { xs: 2, sm: 2, md: 3, lg: 3, xl: 3, '2xl': 3 },
+        center: { xs: 8, sm: 8, md: 6, lg: 6, xl: 6, '2xl': 6 },
+        right: { xs: 2, sm: 2, md: 3, lg: 3, xl: 3, '2xl': 3 },
       };
     }
     if (titleAlign === 'left') {
       return {
         // title | empty | toolbar
-        left: { xs: 6, sm: 6, md: 4, lg: 4, xl: 4, xxl: 4 },
-        center: { xs: 0, sm: 0, md: 4, lg: 4, xl: 4, xxl: 4 },
-        right: { xs: 6, sm: 6, md: 4, lg: 4, xl: 4, xxl: 4 },
+        left: { xs: 6, sm: 6, md: 4, lg: 4, xl: 4, '2xl': 4 },
+        center: { xs: 0, sm: 0, md: 4, lg: 4, xl: 4, '2xl': 4 },
+        right: { xs: 6, sm: 6, md: 4, lg: 4, xl: 4, '2xl': 4 },
       };
     }
     return {
       // empty | empty | title + toolbar
-      left: { xs: 2, sm: 2, md: 2, lg: 2, xl: 2, xxl: 2 },
-      center: { xs: 2, sm: 2, md: 2, lg: 2, xl: 2, xxl: 2 },
-      right: { xs: 8, sm: 8, md: 8, lg: 8, xl: 8, xxl: 8 },
+      left: { xs: 2, sm: 2, md: 2, lg: 2, xl: 2, '2xl': 2 },
+      center: { xs: 2, sm: 2, md: 2, lg: 2, xl: 2, '2xl': 2 },
+      right: { xs: 8, sm: 8, md: 8, lg: 8, xl: 8, '2xl': 8 },
     };
   }, [user]);
 

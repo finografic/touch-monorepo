@@ -1,5 +1,5 @@
 import { SlotSpecial, SlotType } from 'types/slots.types';
-import type { ColorPalette } from 'styles/colors/palette.types';
+import type { ColorsKey } from '@workspace/design-system/tokens';
 
 export interface RelayConfig {
   id: string;
@@ -10,7 +10,7 @@ export interface RelayConfig {
   isOn: boolean;
 }
 
-export const RELAY_SLOT_COLORS: Record<SlotType | SlotSpecial, keyof ColorPalette> = {
+export const RELAY_SLOT_COLORS: Record<SlotType | SlotSpecial, ColorsKey> = {
   [SlotType.A]: 'defaultLight',
   [SlotType.B]: 'infoLight',
   [SlotType.C]: 'dangerLight',

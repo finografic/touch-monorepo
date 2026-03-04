@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { colors } from 'styles/colors/colors-direct';
+import { colors } from '@workspace/design-system/tokens';
 
 export const styles = css`
   .config-timer {

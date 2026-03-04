@@ -20,7 +20,7 @@ import { DEFAULT_SHOW_KEY_COLUMN_PRODUCT } from '../../shared/constants/translat
 import { ExpandedSubtypeRow } from './components/TranslationsRowExpanded';
 import { useTranslationsTableForm } from './hooks/useTranslationsTableForm';
 import { useTranslationsTableHandlers } from './hooks/useTranslationsTableHandlers';
-import { colors } from 'styles/colors/colors-direct';
+import { colors } from '@workspace/design-system/tokens';
 import { ChevronDownIcon, ChevronRightIcon } from '@workspace/design-system/icons';
 import { styles } from '../../shared/styles/TranslationsTable.styles';
 

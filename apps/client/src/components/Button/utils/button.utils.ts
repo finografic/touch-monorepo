@@ -3,8 +3,9 @@ import { css } from '@emotion/react';
 import type { ButtonColor, ButtonVariant } from '../Button.types';
 import { BUTTON_BASE_COLORS } from './button.utils.config';
 import type { ButtonColorVariants } from './button.utils.types';
-import { button, colors } from 'styles';
-import type { ShadeVariant } from 'styles/colors/colors.types';
+import { button, colors } from '@workspace/design-system/tokens';
+
+type ShadeVariant = 'XXLight' | 'XLight' | 'Light' | 'Dark' | 'XDark' | 'XXDark';
 
 // If you need a custom opacity, you could create a helper:
 function withOpacity(color: string, opacity: number): string {

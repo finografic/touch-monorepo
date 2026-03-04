@@ -1,9 +1,9 @@
-import { colors, layout } from '@workspace/design-system/tokens';
+import { colors, layout, spacing } from '@workspace/design-system/tokens';
 import { min } from '@workspace/design-system/viewport';
 
 import { css } from '@emotion/react';
 
-import { padding } from 'styles/layout/base.constants';
+const padding = spacing;
 
 export const styles = css`
   /* ⭐ page-section > tab-content > rote=tabpanel ======================= */

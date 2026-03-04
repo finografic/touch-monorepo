@@ -3,7 +3,7 @@ import { BREAKPOINTS, min } from '@workspace/design-system/viewport';
 
 import { css } from '@emotion/react';
 
-import { padding } from 'styles/layout/base.constants';
+const padding = spacing;
 import { cssForms } from 'styles/forms/forms.styles';
 import { stylesAppContent800x480 } from 'styles/project/project.app.800x480.styles';
 import { stylesAppContent1024x600 } from 'styles/project/project.app.1024x600.styles';
