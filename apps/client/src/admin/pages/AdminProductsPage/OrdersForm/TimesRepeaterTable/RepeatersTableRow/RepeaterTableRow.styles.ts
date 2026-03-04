@@ -1,14 +1,14 @@
 import { css } from '@emotion/react';
 
-import { colors, spacing } from '@workspace/design-system/tokens';
+import { colors } from '@workspace/design-system/tokens';
 
 export const styles = css`
   &.table-row {
     display: grid;
     grid-template-columns: 2.5rem 1fr 1fr 1fr 1fr auto; /* Fixed width for line numbers, temp, time A, time B, time C, actions */
-    gap: ${spacing.default};
+    gap: var(--spacing-4);
     align-items: center;
-    padding: ${spacing.sm} 0; /* Remove horizontal padding to match header */
+    padding: var(--spacing-2) 0; /* Remove horizontal padding to match header */
     border-bottom: 1px solid ${colors.greyXXLight};
     transition: background-color 0.15s ease;
 

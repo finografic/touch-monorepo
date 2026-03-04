@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { button, colors, layout } from '@workspace/design-system/tokens';
+import { colors, layout } from '@workspace/design-system/tokens';
 import { stylesSmallButton } from 'components/Button/button-base.styles';
 
 export const styles = css`
@@ -43,7 +43,7 @@ export const styles = css`
     background-color: transparent;
     color: ${colors.warning};
 
-    border: ${button.border.width} solid ${colors.warning};
+    border: var(--border-widths-default) solid ${colors.warning};
 
     &:hover:not(:disabled):not([data-loading='true']) {
       background-color: ${colors.warningXXXLight};

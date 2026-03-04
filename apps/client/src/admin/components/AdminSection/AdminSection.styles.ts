@@ -1,9 +1,7 @@
-import { colors, layout, spacing } from '@workspace/design-system/tokens';
+import { colors, layout } from '@workspace/design-system/tokens';
 import { min } from '@workspace/design-system/viewport';
 
 import { css } from '@emotion/react';
-
-const padding = spacing;
 
 export const styles = css`
   /* ⭐ page-section > tab-content > rote=tabpanel ======================= */
@@ -49,8 +47,8 @@ export const styles = css`
     flex-direction: column;
     gap: 1;
 
-    padding: ${padding.md} ${padding.xxl}!important;
-    margin: ${padding.xl} -${padding.lg} 0;
+    padding: var(--spacing-3) var(--spacing-7)!important;
+    margin: var(--spacing-6) calc(-1 * var(--spacing-5)) 0;
 
     > .section-header {
       margin-top: 0.5rem;
@@ -59,7 +57,7 @@ export const styles = css`
 
     &.border-solid {
       border: ${layout.borderWidth} solid ${colors.greyXXXLight};
-      padding: ${padding.lg};
+      padding: var(--spacing-5);
       border-radius: ${layout.borderRadius};
     }
 
@@ -92,8 +90,8 @@ export const styles = css`
     > .admin-section {
       margin: 0rem 0;
       .admin-section-content {
-        padding: ${padding.xl} ${padding.xxl}!important;
-        margin: ${padding.xl} -${padding.xl} 0;
+        padding: var(--spacing-6) var(--spacing-7)!important;
+        margin: var(--spacing-6) calc(-1 * var(--spacing-6)) 0;
         /* background: pink; */
         /* margin: 0.5rem 0; */
       }

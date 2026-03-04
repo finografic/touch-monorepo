@@ -1,4 +1,4 @@
-import { colors, fontFamilies } from '@workspace/design-system/tokens';
+import { colors } from '@workspace/design-system/tokens';
 
 import { css } from '@emotion/react';
 import { forms } from 'forms/forms.config';
@@ -208,7 +208,7 @@ export const styles = css`
     td.col-key:hover {
       input[readonly] {
         transform: translateX(-1rem);
-        font-family: ${fontFamilies.mono};
+        font-family: var(--fonts-mono);
         font-weight: 500;
         font-size: 1rem;
         color: ${colors.textXXLight};

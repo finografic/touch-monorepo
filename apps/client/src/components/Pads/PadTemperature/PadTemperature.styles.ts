@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import { stylesPad, stylesPadBasic } from 'components/Pads/Pad/PadBasic.styles';
 
-import { button, colors, layout } from '@workspace/design-system/tokens';
+import { colors, layout } from '@workspace/design-system/tokens';
 import { stylesButtonBase } from 'components/Button/button-base.styles';
 
 /**
@@ -12,7 +12,7 @@ import { stylesButtonBase } from 'components/Button/button-base.styles';
  */
 export const styles = css`
   /* Extend base pad styles */
-  padding: ${button.padding.base};
+  padding: 0.8rem;
   text-align: center;
 
   /* Temperature-specific layout */
@@ -39,7 +39,7 @@ export const styles = css`
       text-align: center;
       color: ${colors.textLight};
       font-size: 1.2rem;
-      font-weight: ${button.fontWeight.large};
+      font-weight: var(--font-weights-semibold);
       letter-spacing: 0.02em;
     }
   }
@@ -48,7 +48,7 @@ export const styles = css`
   .value-container {
     ${stylesPadBasic.valueContainer}
     font-size: 2.5rem;
-    font-weight: ${button.fontWeight.large};
+    font-weight: var(--font-weights-semibold);
     color: ${colors.infoLight};
     border-color: ${colors.infoLighter};
     margin: 1rem 0;
@@ -88,6 +88,6 @@ export const styles = css`
   .unit {
     ${stylesPadBasic.unit}
     color: ${colors.infoLight};
-    font-weight: ${button.fontWeight.large};
+    font-weight: var(--font-weights-semibold);
   }
 `;

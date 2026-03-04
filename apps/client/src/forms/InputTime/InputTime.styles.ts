@@ -1,4 +1,4 @@
-import { border, colors } from '@workspace/design-system/tokens';
+import { colors } from '@workspace/design-system/tokens';
 
 import { css } from '@emotion/react';
 
@@ -71,7 +71,7 @@ export const styles = css`
         min-width: 30px !important;
         height: 12px !important;
         max-height: 14px !important;
-        border-radius: ${border.radius.sm};
+        border-radius: var(--radii-sm);
         display: flex;
         align-items: center;
         justify-content: center;

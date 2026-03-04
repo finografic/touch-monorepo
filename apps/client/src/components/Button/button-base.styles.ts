@@ -1,12 +1,12 @@
 import { css } from '@emotion/react';
 
-import { button, colors } from '@workspace/design-system/tokens';
+import { colors } from '@workspace/design-system/tokens';
 
 // Base styles shared across all interactive buttons
 export const stylesButtonBase = css`
   cursor: pointer;
   background: transparent;
-  transition: ${button.transition};
+  transition: transform 200ms ease, border-color 200ms ease, color 200ms ease;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,8 +15,8 @@ export const stylesButtonBase = css`
 
   color: ${colors.infoDark};
   border-color: ${colors.infoDark};
-  border-width: ${button.border.width};
-  border-style: ${button.border.style};
+  border-width: var(--border-widths-default);
+  border-style: solid;
 
   color: ${colors.infoLight};
   border-color: ${colors.infoLight};
@@ -31,7 +31,7 @@ export const stylesButtonBase = css`
   :disabled,
   &.disabled,
   &[data-disabled='true'] {
-    opacity: ${button.disabled.opacity};
+    opacity: 0.55;
     color: ${colors.defaultLight};
     border-color: ${colors.defaultLight};
     background-color: transparent;
@@ -87,8 +87,8 @@ export const stylesButtonBase = css`
 // Styles specific to navigation / small action buttons
 export const stylesSmallButton = css`
   ${stylesButtonBase}
-  font-size: ${button.fontSize.base};
-  font-weight: ${button.fontWeight.base};
+  font-size: 1.4rem;
+  font-weight: var(--font-weights-semibold);
   min-width: 180px;
   padding: 0.9rem 3rem;
   margin: 0 0.33rem;

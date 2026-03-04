@@ -1,4 +1,4 @@
-import { colors, layout, spacing, typography } from '@workspace/design-system/tokens';
+import { colors, layout } from '@workspace/design-system/tokens';
 
 import { css } from '@emotion/react';
 
@@ -106,13 +106,13 @@ export const styles = (theme: EmotionTheme) => css`
   }
 
   .title {
-    ${typography.fontSize.h1};
+    font-size: var(--font-sizes-6xl);
     color: ${colors.text};
-    margin-bottom: ${spacing.default};
+    margin-bottom: var(--spacing-4);
   }
 
   .subtitle {
-    ${typography.fontSize.lg};
+    font-size: var(--font-sizes-lg);
     color: ${colors.textLight};
   }
 

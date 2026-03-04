@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import { stylesPadBasic } from 'components/Pads/Pad/PadBasic.styles';
 
-import { button, colors } from '@workspace/design-system/tokens';
+import { colors } from '@workspace/design-system/tokens';
 
 export const styles = css`
   .pad-container {
@@ -45,19 +45,19 @@ export const styles = css`
   }
 
   .control-button {
-    min-width: ${button.md.minWidth};
-    min-height: ${button.md.minHeight};
+    min-width: 200px;
+    min-height: 60px;
     width: 100%;
     height: 56px;
     font-size: 2.5rem;
     font-weight: 300;
     padding-bottom: 0.25rem;
-    border-radius: ${button.radius};
+    border-radius: var(--radii-sm);
     /* outline: none; */
     box-shadow: none;
     transition: all 0.2s ease;
-    border-style: ${button.border.style};
-    border-width: ${button.border.width};
+    border-style: solid;
+    border-width: var(--border-widths-default);
 
     color: ${colors.infoLighter};
     border-color: ${colors.infoLight};
@@ -88,10 +88,10 @@ export const styles = css`
     align-items: center;
     justify-content: center;
     min-height: 80px;
-    min-width: ${button.md.minWidth};
+    min-width: 200px;
     padding: 1rem;
-    border: ${button.border.width} solid ${colors.infoLighter};
-    border-radius: ${button.radius};
+    border: var(--border-widths-default) solid ${colors.infoLighter};
+    border-radius: var(--radii-sm);
     background-color: transparent;
     transition: all 0.2s ease;
     gap: 0.5rem;

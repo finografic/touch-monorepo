@@ -1,4 +1,4 @@
-import { border, colors, layout } from '@workspace/design-system/tokens';
+import { colors, layout } from '@workspace/design-system/tokens';
 
 import { css } from '@emotion/react';
 import { getVariantStyles } from 'components/Button/utils/button.utils';
@@ -57,7 +57,7 @@ export const styles = css`
     border-width: ${layout.borderWidth};
     border-style: solid;
     border-color: transparent;
-    border-radius: ${border.radius.sm};
+    border-radius: var(--radii-sm);
     font-weight: 600;
     font-size: 0.9rem;
   }

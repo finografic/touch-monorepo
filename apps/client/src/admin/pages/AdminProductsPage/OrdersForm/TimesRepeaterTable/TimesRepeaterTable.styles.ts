@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { colors, layout, spacing } from '@workspace/design-system/tokens';
+import { colors, layout } from '@workspace/design-system/tokens';
 import { cssFontMono } from '../../../../../styles/fonts/fonts.styles';
 
 export const styles = css`
@@ -85,7 +85,7 @@ export const styles = css`
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    padding-right: ${spacing.sm};
+    padding-right: var(--spacing-2);
 
     span {
       font-weight: 700;

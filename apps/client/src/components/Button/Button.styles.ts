@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { button, colors } from '@workspace/design-system/tokens';
+import { colors } from '@workspace/design-system/tokens';
 
 /**
  * Base button styles - common to all variants
@@ -82,8 +82,8 @@ export const baseButtonStyles = css`
     /* transform: translateY(1px); */
   }
 
-  border-width: ${button.border.width};
-  border-style: ${button.border.style};
+  border-width: var(--border-widths-default);
+  border-style: solid;
 `;
 
 /**

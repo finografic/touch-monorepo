@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { button, colors, layout } from '@workspace/design-system/tokens';
+import { colors, layout } from '@workspace/design-system/tokens';
 import { stylesButtonBase } from 'components/Button/button-base.styles';
 
 // Common dimensions for different button types
@@ -22,9 +22,9 @@ export const padProps = {
 // Styles specific to pads
 export const stylesPad = css`
   ${stylesButtonBase}
-  font-size: ${button.fontSize.base};
-  font-weight: ${button.fontWeight.large};
-  padding: ${button.padding.small};
+  font-size: 1.4rem;
+  font-weight: var(--font-weights-semibold);
+  padding: 0.4rem;
   text-align: center;
 
   &.pad-slot {
@@ -108,7 +108,7 @@ export const stylesPadBasic = {
     font-size: 2.5rem;
     font-weight: 400;
     cursor: pointer;
-    transition: ${button.transition};
+    transition: transform 200ms ease, border-color 200ms ease, color 200ms ease;
     background: transparent;
     padding: 0;
     line-height: 1;
@@ -120,7 +120,7 @@ export const stylesPadBasic = {
     }
 
     &:hover:not(:disabled) {
-      transform: scale(${button.transform.padBasicHoverScale});
+      transform: scale(1.02);
       border-color: ${colors.info};
       color: ${colors.info};
       background-color: ${colors.infoXXLight};

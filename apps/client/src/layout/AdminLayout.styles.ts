@@ -1,4 +1,4 @@
-import { colors, layout, spacing } from '@workspace/design-system/tokens';
+import { colors, layout } from '@workspace/design-system/tokens';
 import { BREAKPOINTS, min } from '@workspace/design-system/viewport';
 
 import { css } from '@emotion/react';
@@ -8,7 +8,7 @@ import { stylesAppContent800x480 } from '../styles/project/project.app.800x480.s
 import { stylesAppContent1024x600 } from '../styles/project/project.app.1024x600.styles';
 import { stylesAdminContent } from '../styles/project/project.styles';
 
-const padding = spacing;
+
 
 export const styles = css`
   ${stylesAdminContent}
@@ -191,7 +191,7 @@ export const styles = css`
           min-height: auto;
           max-height: none;
           padding: 0 0.5rem;
-          padding: 0 ${padding.xs};
+          padding: 0 var(--spacing-1);
           flex-shrink: 0;
           h1 {
             font-size: 1.8rem;
@@ -235,7 +235,7 @@ export const styles = css`
       width: 100%;
       max-width: 1200px;
       margin: 0 auto;
-      padding: 0 ${spacing.xl};
+      padding: 0 var(--spacing-6);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -305,7 +305,7 @@ export const styles = css`
           }
 
           header.admin-page-title {
-            padding: 0 ${padding.xs};
+            padding: 0 var(--spacing-1);
             h1 {
               font-size: 1.5rem; /* Reduced from 1.8rem */
               margin: 0 0 0.25rem 0; /* Reduced margin */

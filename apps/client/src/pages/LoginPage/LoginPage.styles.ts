@@ -1,4 +1,4 @@
-import { colors, fontSizes, fontWeights, spacing, typography } from '@workspace/design-system/tokens';
+import { colors } from '@workspace/design-system/tokens';
 
 import { css } from '@emotion/react';
 
@@ -19,33 +19,35 @@ export const styles = css`
   }
 
   .title {
-    ${typography.h2};
+    font-size: var(--font-sizes-5xl);
+    font-weight: var(--font-weights-bold);
+    line-height: var(--line-heights-tight);
     margin: 0;
   }
 
   .error-message {
     background-color: ${colors.dangerXLight};
     color: ${colors.dangerDark};
-    padding: ${spacing.md};
+    padding: var(--spacing-3);
     border-radius: 4px;
   }
 
   .form-group {
     display: flex;
     flex-direction: column;
-    gap: ${spacing.sm};
+    gap: var(--spacing-2);
 
     label {
-      font-size: ${fontSizes.sm};
-      font-weight: ${fontWeights.medium};
+      font-size: var(--font-sizes-sm);
+      font-weight: var(--font-weights-medium);
     }
 
     input {
       width: 100%;
-      padding: ${spacing.sm};
+      padding: var(--spacing-2);
       border: 1px solid ${colors.greyLight};
       border-radius: 4px;
-      font-size: ${fontSizes.base};
+      font-size: var(--font-sizes-md);
 
       &:focus {
         outline: none;
@@ -57,13 +59,13 @@ export const styles = css`
 
   button {
     width: 100%;
-    padding: ${spacing.md};
+    padding: var(--spacing-3);
     background-color: ${colors.primary[500]};
     color: white;
     border: none;
     border-radius: 4px;
-    font-size: ${fontSizes.base};
-    font-weight: ${fontWeights.medium};
+    font-size: var(--font-sizes-md);
+    font-weight: var(--font-weights-medium);
     cursor: pointer;
     transition: background-color 0.2s;
 

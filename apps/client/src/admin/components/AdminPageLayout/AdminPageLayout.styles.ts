@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { colors, layout, spacing } from '@workspace/design-system/tokens';
+import { colors, layout } from '@workspace/design-system/tokens';
 
 export const styles = css`
   &.admin-page-container {
@@ -59,9 +59,9 @@ export const styles = css`
   }
 
   .admin-page-message {
-    padding: ${spacing.default} ${spacing.xl};
+    padding: var(--spacing-4) var(--spacing-6);
     border-radius: ${layout.borderRadius};
-    margin-bottom: ${spacing.xl};
+    margin-bottom: var(--spacing-6);
     font-weight: 500;
 
     &.success {

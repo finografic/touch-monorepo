@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { border, button, colors, layout } from '@workspace/design-system/tokens';
+import { colors, layout, radiiTokens } from '@workspace/design-system/tokens';
 
 export const styles = css`
   /* Trigger button styling (closed state) */
@@ -43,14 +43,14 @@ export const styles = css`
 
   /* Trigger button styling (open state) */
   button[role='radio'].language-radio {
-    border: ${button.border.width} solid transparent !important;
+    border: var(--border-widths-default) solid transparent !important;
     cursor: pointer;
     padding: 2.1rem 2rem 1.9rem 2rem;
     margin-top: 0.5rem;
-    /* border: ${button.border.width} solid ${colors.defaultXXXLight}; */
+    /* border: var(--border-widths-default) solid ${colors.defaultXXXLight}; */
     outline: none !important;
 
-    border-radius: ${border.radius.sm}!important;
+    border-radius: var(--radii-sm)!important;
 
     box-shadow: inset 0 0 0 0 transparent !important; /* TEST: Add a green box-shadow to the button */
 
@@ -74,10 +74,10 @@ export const styles = css`
     &.checked,
     &[data-state='checked'],
     &[aria-checked='true'] {
-      border: ${button.border.width} solid ${colors.default};
+      border: var(--border-widths-default) solid ${colors.default};
     }
     /* background-color: ${colors.default};
     color: ${colors.white};
-    border: ${button.border.width} solid ${colors.default}; */
+    border: var(--border-widths-default) solid ${colors.default}; */
   }
 `;

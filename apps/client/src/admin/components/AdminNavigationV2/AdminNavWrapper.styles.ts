@@ -1,4 +1,4 @@
-import { button, colors, layout } from '@workspace/design-system/tokens';
+import { colors, layout } from '@workspace/design-system/tokens';
 import { BREAKPOINTS, min } from '@workspace/design-system/viewport';
 
 import { css } from '@emotion/react';
@@ -82,7 +82,7 @@ export const styles = css`
       ${stylesTypography}
       position: relative;
       background-color: transparent;
-      border: ${button.border.width} solid ${colors.transparent} !important;
+      border: var(--border-widths-default) solid ${colors.transparent} !important;
       cursor: pointer;
       padding: 0.5rem 1rem;
       border-radius: ${layout.borderRadius} ${layout.borderRadius} 0 0;

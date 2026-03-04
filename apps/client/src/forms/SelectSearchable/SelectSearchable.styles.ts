@@ -1,4 +1,4 @@
-import { border, colors, layout } from '@workspace/design-system/tokens';
+import { colors, layout } from '@workspace/design-system/tokens';
 
 import { css } from '@emotion/react';
 
@@ -28,7 +28,7 @@ export const styles = css`
 export const stylesDropdown = css`
   background: ${colors.white};
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-  border-radius: ${border.radius.sm};
+  border-radius: var(--radii-sm);
   border: ${layout.borderWidth} solid ${colors.greyXXLight};
   overflow: hidden;
   max-height: 300px;
@@ -141,7 +141,7 @@ export const stylesDropdown = css`
 
   &::-webkit-scrollbar-thumb {
     background: ${colors.greyLight};
-    border-radius: ${border.radius.sm};
+    border-radius: var(--radii-sm);
   }
 
   &::-webkit-scrollbar-thumb:hover {

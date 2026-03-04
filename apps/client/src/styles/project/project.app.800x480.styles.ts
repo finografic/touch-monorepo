@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import { padProps } from 'components/Pads/Pad/PadBasic.styles';
 
-import { layout, spacing } from '@workspace/design-system/tokens';
+import { layout } from '@workspace/design-system/tokens';
 
 const MAIN_CONTENT_HEIGHT = 380;
 const SLOT_GRID_WIDTH = 350;
@@ -95,12 +95,12 @@ export const stylesAppContent800x480 = css`
 
   .title {
     font-size: 1.5rem; /* Reduced from default h1 size */
-    margin-bottom: ${spacing.sm}; /* Reduced from default */
+    margin-bottom: var(--spacing-2); /* Reduced from default */
   }
 
   .subtitle {
     font-size: 1rem; /* Reduced from lg */
-    margin-bottom: ${spacing.xs};
+    margin-bottom: var(--spacing-1);
   }
 
   p {

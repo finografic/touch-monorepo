@@ -1,15 +1,15 @@
 import { css } from '@emotion/react';
 
-import { colors, spacing } from '@workspace/design-system/tokens';
+import { colors } from '@workspace/design-system/tokens';
 
 export const styles = css`
   &.section-header {
-    margin-top: ${spacing.xl};
-    margin-bottom: ${spacing.xl};
+    margin-top: var(--spacing-6);
+    margin-bottom: var(--spacing-6);
 
     .section-header-title {
       color: ${colors.text};
-      margin-bottom: ${spacing.xs};
+      margin-bottom: var(--spacing-1);
     }
 
     .section-header-description {
