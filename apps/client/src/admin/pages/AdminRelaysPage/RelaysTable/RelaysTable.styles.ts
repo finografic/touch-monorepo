@@ -1,7 +1,7 @@
+import { border, colors, layout } from '@workspace/design-system/tokens';
+
 import { css } from '@emotion/react';
 import { getVariantStyles } from 'components/Button/utils/button.utils';
-
-import { border, colors, layout } from '@workspace/design-system/tokens';
 
 export const styles = css`
   width: 100%;

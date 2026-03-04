@@ -7,7 +7,7 @@ Named imports from `'styles'` in `apps/client/**/*.styles.ts` files (excluding c
 | ✅   | colors          | 95    |
 | ✅   | layout          | 36    |
 | [ ]  | button          | 11    |
-| [ ]  | spacing         | 10    |
+| ✅   | spacing         | 10    |
 | ✅   | min             | 8     |
 
 File paths for the lower-count imports:
@@ -16,14 +16,14 @@ File paths for the lower-count imports:
 
 **border** (3 files)
 
-- [ ] `./src/apps/client/src/forms/SelectSearchable/SelectSearchable.styles.ts`
-- [ ]  `./src/apps/client/src/forms/InputTime/InputTime.styles.ts`
-- [ ]  `./src/apps/client/src/admin/pages/AdminRelaysPage/RelaysTable/RelaysTable.styles.ts`
+- [x] `./src/apps/client/src/forms/SelectSearchable/SelectSearchable.styles.ts`
+- [x]  `./src/apps/client/src/forms/InputTime/InputTime.styles.ts`
+- [x]  `./src/apps/client/src/admin/pages/AdminRelaysPage/RelaysTable/RelaysTable.styles.ts`
 
 **typography** (2 files)
 
-- [ ]  `./src/apps/client/src/layout/Layout.styles.ts`
-- [ ]  `./src/apps/client/src/pages/LoginPage/LoginPage.styles.ts`
+- [x]  `./src/apps/client/src/layout/Layout.styles.ts`
+- [x]  `./src/apps/client/src/pages/LoginPage/LoginPage.styles.ts`
 
 **BREAKPOINTS** (2 files)
 
@@ -32,15 +32,15 @@ File paths for the lower-count imports:
 
 **fontWeights** (1 file)
 
-- [ ]  `./src/apps/client/src/pages/LoginPage/LoginPage.styles.ts`
+- [x]  `./src/apps/client/src/pages/LoginPage/LoginPage.styles.ts`
 
 **fontSizes** (1 file)
 
-- [ ]  `./src/apps/client/src/pages/LoginPage/LoginPage.styles.ts`
+- [x]  `./src/apps/client/src/pages/LoginPage/LoginPage.styles.ts`
 
 **fontFamilies** (1 file)
 
-- [ ]  `./src/apps/client/src/admin/pages/Translations/shared/styles/TranslationsTable.styles.ts`
+- [x]  `./src/apps/client/src/admin/pages/Translations/shared/styles/TranslationsTable.styles.ts`
 
 ---
 

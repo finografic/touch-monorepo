@@ -1,6 +1,6 @@
-import { css } from '@emotion/react';
-
 import { border, colors, layout } from '@workspace/design-system/tokens';
+
+import { css } from '@emotion/react';
 
 // Main component styles (for the input and container)
 export const styles = css`

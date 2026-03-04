@@ -1,4 +1,7 @@
+import { colors, fontFamilies } from '@workspace/design-system/tokens';
+
 import { css } from '@emotion/react';
+import { forms } from 'forms/forms.config';
 
 import {
   COL_ACTIONS_WIDTH,
@@ -11,8 +14,6 @@ import {
   TH_FONT_SIZE,
   TH_FONT_WEIGHT,
 } from '../constants/translations-table.config';
-import { colors, fontFamilies } from '@workspace/design-system/tokens';
-import { forms } from 'forms/forms.config';
 
 export const styles = css`
   width: 100%;
