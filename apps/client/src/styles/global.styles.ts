@@ -3,7 +3,7 @@ import { colors } from '@workspace/design-system/tokens';
 import { css } from '@emotion/react';
 
 import { cssFontDefaults, cssFontMono } from './fonts/fonts.styles';
-import { forms } from 'styles/forms/forms.styles';
+import { forms } from '../forms/forms.config';
 
 export const cssGlobal = css`
   /* Use CSS layers to ensure our styles override Radix */

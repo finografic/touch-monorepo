@@ -2,13 +2,13 @@
 
 Named imports from `'styles'` in `apps/client/**/*.styles.ts` files (excluding commented imports).
 
-| Imported Object | Count |
-|-----------------|-------|
-| colors          | 95    |
-| layout          | 36    |
-| button          | 11    |
-| spacing         | 10    |
-| min             | 8     |
+| done | Imported Object | Count |
+|------|-----------------|-------|
+| ✅   | colors          | 95    |
+| ✅   | layout          | 36    |
+| [ ]  | button          | 11    |
+| [ ]  | spacing         | 10    |
+| ✅   | min             | 8     |
 
 File paths for the lower-count imports:
 

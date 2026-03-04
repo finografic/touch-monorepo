@@ -12,7 +12,7 @@ import {
   TH_FONT_WEIGHT,
 } from '../constants/translations-table.config';
 import { colors, fontFamilies } from '@workspace/design-system/tokens';
-import { forms } from 'styles/forms/forms.styles';
+import { forms } from 'forms/forms.config';
 
 export const styles = css`
   width: 100%;

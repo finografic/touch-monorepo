@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { forms } from './forms.constants';
+import { forms } from '../../forms/forms.config';
 import { colors } from '@workspace/design-system/tokens';
 
 // ======================================================================== //

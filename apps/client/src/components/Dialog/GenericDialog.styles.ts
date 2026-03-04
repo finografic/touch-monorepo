@@ -1,7 +1,6 @@
 import { css } from '@emotion/react';
 
 import { button, colors, layout } from '@workspace/design-system/tokens';
-import { stylesSmallButton } from 'styles/project/buttons.styles';
 
 export const styles = css`
   &[role='dialog'] {

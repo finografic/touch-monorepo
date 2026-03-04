@@ -23,7 +23,7 @@
 
 ### Current state
 
-~44 `from 'styles/...'` imports remain (was 107 — 44 icons + 19 colors/layout/viewport migrated). Most are in `.styles.ts` (Emotion) files.
+~14 `from 'styles/...'` imports remain from non-styles files (was 107 — 93 migrated across all batches). Most remaining are in `.styles.ts` (Emotion) files.
 The barrel `from 'styles'` import was already migrated to `from '@workspace/design-system/tokens'`
 in a previous session; compat re-exports live in `_migration.tokens.ts`.
 
@@ -36,11 +36,11 @@ in a previous session; compat re-exports live in `_migration.tokens.ts`.
 | ✅ | `styles/colors/colors-direct` | 4 | Replaced with `colors` from DS tokens |
 | ✅ | `styles/viewport/viewport.types` | 4 | Replaced with DS `ScreenClass` / `BreakpointMap`; `xxl` → `'2xl'` in Header.tsx |
 | ✅ | `styles/layout/base.constants` | 3 | Replaced with DS `spacing` via `const padding = spacing` alias |
-| ☐ | `styles/project/buttons.styles` | 6 | Replace with DS button recipe or Panda utilities |
-| ☐ | `styles/forms/forms.constants` | 6 | Replace with DS form constants or inline values |
-| ☐ | `styles/forms/forms.styles` | 5 | Replace with DS `forms.css` classes or Panda `css()` |
+| ✅ | `styles/project/buttons.styles` | 6 | Moved `stylesButtonBase`/`stylesSmallButton` → `components/Button/button-base.styles.ts` (Emotion, already DS-token-based). Dead `buttonColorVariants` dropped. |
+| ✅ | `styles/forms/forms.constants` | 6 | Moved → `forms/forms.config.ts`; fixed `colors-direct` → DS tokens; internal sub-file imports fixed to relative paths |
+| ✅ | `styles/forms/forms.styles` | 5 | All external consumers redirected to `forms/forms.config` or relative paths; `cssForms` stays in `styles/forms/forms.styles` (Emotion, consumed via relative import until 6f) |
 | ☐ | `styles/themes/emotion-theme.types` | 3 | Replace with DS token types |
-| ☐ | Other (fonts, hooks, utils, radix-ui) | ~24 | Case-by-case |
+| ☐ | Other (fonts, hooks, utils, radix-ui) | ~11 | Case-by-case |
 
 ### Strategy
 

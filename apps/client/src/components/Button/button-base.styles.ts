@@ -1,50 +1,9 @@
 import { css } from '@emotion/react';
 
 import { button, colors } from '@workspace/design-system/tokens';
-import { generateUiColorVariants } from 'styles/utils/generate-ui-color-variants.utils';
-
-// Generate semantic button color variants using the utility
-export const buttonColorVariants = generateUiColorVariants(
-  'button',
-  (colorName, variants, componentType) => css`
-    &.${componentType}-${colorName} {
-      color: ${variants.light};
-      border-color: ${variants.light};
-      background-color: transparent;
-
-      &:hover {
-        color: ${variants.base};
-        border-color: ${variants.base};
-        background-color: ${colors[`${colorName}25` as keyof typeof colors]};
-      }
-
-      &:active {
-        color: ${variants.dark};
-        border-color: ${variants.dark};
-        background-color: ${colors[`${colorName}50` as keyof typeof colors]};
-      }
-
-      &:disabled,
-      &[data-disabled='true'] {
-        cursor: not-allowed;
-        color: ${colors.greyXLight};
-        border-color: ${colors.greyXLight};
-        background-color: transparent;
-
-        &:hover {
-          color: ${colors.greyXLight};
-          border-color: ${colors.greyXLight};
-          background-color: transparent;
-        }
-      }
-    }
-  `,
-);
 
 // Base styles shared across all interactive buttons
 export const stylesButtonBase = css`
-  /* TODO: NEEDED ?? ADD A LOT OF EXCESS CSS !!! */
-  /* ${buttonColorVariants} */
   cursor: pointer;
   background: transparent;
   transition: ${button.transition};
@@ -66,7 +25,6 @@ export const stylesButtonBase = css`
     color: ${colors.infoDark};
     border-color: ${colors.infoDark};
     background-color: ${colors.infoLighter};
-    /* Scale removed for buttons - pads keep scale effect */
   }
 
   /* Override Radix UI disabled styles */
@@ -105,7 +63,7 @@ export const stylesButtonBase = css`
     }
   }
 
-  /* For right-pointing chevrons */
+  /* For left-pointing chevrons */
   &.has-chevron-left {
     padding-left: 3.5rem;
     padding-right: 2.5rem;
@@ -126,7 +84,7 @@ export const stylesButtonBase = css`
   }
 `;
 
-// Styles specific to navigation buttons
+// Styles specific to navigation / small action buttons
 export const stylesSmallButton = css`
   ${stylesButtonBase}
   font-size: ${button.fontSize.base};

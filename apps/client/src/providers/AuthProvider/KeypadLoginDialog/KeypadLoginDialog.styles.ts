@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 
 import { colors } from '@workspace/design-system/tokens';
-import { forms } from 'styles/forms/forms.styles';
+import { forms } from 'forms/forms.config';
 
 export const styles = css`
   display: flex;

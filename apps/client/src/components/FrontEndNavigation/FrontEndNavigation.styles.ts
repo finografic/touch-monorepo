@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 
 import { button, colors, layout } from '@workspace/design-system/tokens';
-import { stylesSmallButton } from 'styles/project/buttons.styles';
+import { stylesSmallButton } from 'components/Button/button-base.styles';
 
 export const styles = css`
   width: 100%;

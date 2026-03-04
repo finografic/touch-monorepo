@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 
 import { colors, layout } from '@workspace/design-system/tokens';
-import { stylesButtonBase } from 'styles/project/buttons.styles';
+import { stylesButtonBase } from 'components/Button/button-base.styles';
 
 export const styles = css`
   ${stylesButtonBase}
