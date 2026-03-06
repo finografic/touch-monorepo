@@ -65,7 +65,7 @@
   "scripts": {
     "prepare": "panda codegen",
     "build": "panda cssgen && tsdown",
-    "dev": "panda cssgen && tsdown --watch --no-clean",
+    "dev": "tsdown --watch --no-clean",
     "·········· LINTING": "················································",
     "lint": "eslint .",
     "lint.fix": "eslint . --fix",

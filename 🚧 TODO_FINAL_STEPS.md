@@ -14,7 +14,7 @@
 | ~~**6e** — Clear remaining `styles/` imports~~ | ✅ Complete — 0 alias imports remain | — |
 | **6f** — Flatten + prune `styles/`; remove Radix Themes + Emotion | See checklist below | 6e must be zero |
 | **6g** — CSS custom property audit | DevTools investigation | 6f |
-| **AdminNavigation** — `TabNav` from `@radix-ui/themes` | 1 component rebuild | Must land before 6f |
+| ~~**AdminNavigation** — `TabNav` from `@radix-ui/themes`~~ | ✅ Complete — V2 renamed to AdminNavigation | — |
 | **PrimeReact** | DataTable, Dropdown, InputNumber, ListBox | Separate concern, no blocker |
 
 ---
