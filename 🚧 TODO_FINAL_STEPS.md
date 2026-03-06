@@ -78,6 +78,7 @@ Everything else in `styles/` is deleted.
 
 `styles/themes/emotion-theme.types` is only used as the Emotion theme shape.
 Two options — choose one before proceeding:
+
 - **a) Inline it** — move the type definition into each consumer directly
 - **b) Delete it** — remove `EmotionThemeProvider` and the typed theme pattern entirely,
   replacing with CSS vars (already the direction Panda + DS is heading)
@@ -88,11 +89,13 @@ Option (b) is cleaner but requires updating `Layout.tsx`, `Layout.styles.ts`, an
 **2. Flatten `styles/project/` → root of `styles/`**
 
 Move and rename:
+
 ```
 styles/project/project.styles.ts        → styles/project.styles.ts
 styles/project/project.app.800x480.styles.ts → styles/project.800x480.styles.ts
 styles/project/project.app.1024x600.styles.ts → styles/project.1024x600.styles.ts
 ```
+
 Update the 2 consumer files (`AdminLayout.styles.ts`, `Layout.styles.ts`) to use
 the new paths. Delete the `styles/project/` subdirectory.
 
@@ -101,15 +104,18 @@ the new paths. Delete the `styles/project/` subdirectory.
 ```
 styles/fonts/fonts.styles.ts → styles/fonts.styles.ts
 ```
+
 Update `TimesRepeaterTable.styles.ts` consumer. Delete `styles/fonts/` subdirectory.
 
 **4. Flatten `styles/forms/` → root of `styles/`**
 
 `cssForms` (consumed by `AdminLayout.styles.ts`) is the only remaining reason
 `styles/forms/` exists. Consolidate the whole `forms/` subtree into a single:
+
 ```
 styles/forms.styles.ts   ← merge formsBase + formsInputs + formsSelect etc.
 ```
+
 Or better: convert to a static CSS file `styles/forms.css` that is imported
 directly in `main.tsx` alongside `forms.css` from the DS. At that point,
 `cssForms` is no longer an Emotion interpolation.
@@ -219,3 +225,5 @@ The following use PrimeReact components with no DS equivalent. Not blocked.
 ```
 
 Total remaining effort: **~4–5 hours** across sessions.
+
+---

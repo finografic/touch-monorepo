@@ -17,7 +17,7 @@ export default defineConfig({
    * Disable Panda's built-in preflight — client already has
    * @workspace/design-system/styles/reset.css imported in theme.css.
    */
-  preflight: true,
+  preflight: false,
 
   /**
    * Base Panda utilities + our design-system preset.

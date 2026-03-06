@@ -12,10 +12,8 @@ export const styles = css`
     min-width: 600px;
     max-width: 1400px;
     margin: 0 auto;
-    /* padding: ${spacing.xxxl}; */
     display: flex;
     flex-direction: column;
-    /* gap: ${spacing.xl}; */
   }
 
   .title {

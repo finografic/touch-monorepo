@@ -2,13 +2,13 @@ import { type FC, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
-import { AdminNavbar } from 'admin/components/AdminNavigation/AdminNavbar';
 import { getAdminNavItemsByRole } from 'admin/config/admin.routes.selectors';
 
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 
 import { translatePageKey } from 'utils/i18n/i18n.helpers-V1';
-import { styles } from 'admin/components/AdminNavigation/AdminNavWrapper.styles';
+import { AdminNavbar } from './AdminNavbar';
+import { styles } from './AdminNavWrapper.styles';
 
 export const AdminNavWrapper: FC = () => {
   const { t, i18n } = useTranslation();

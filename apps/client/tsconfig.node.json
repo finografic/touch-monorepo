@@ -5,18 +5,8 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true,
-    "types": [
-      "node"
-    ]
+    "types": ["node"]
   },
-  "include": [
-    "vite.config.ts",
-    "postcss.config.mjs",
-    "src/utils/**/*.ts",
-    "messages/**/*.json",
-    "src/i18n/utils/**/*.ts",
-  ],
-  "exclude": [
-    "eslint.config.mjs"
-  ]
+  "include": ["vite.config.ts", "src/utils/**/*.ts", "messages/**/*.json", "src/i18n/utils/**/*.ts"],
+  "exclude": ["eslint.config.mjs"]
 }

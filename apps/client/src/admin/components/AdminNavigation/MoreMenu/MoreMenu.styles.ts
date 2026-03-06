@@ -65,12 +65,29 @@ export const styles = css`
     width: 1.4rem;
   }
 
-  /* Dropdown menu styles */
-  .rt-DropdownMenuContent {
+  /* Dropdown menu styles — Ark UI [data-part] selectors */
+  .more-dropdown {
     min-width: 180px;
+    background-color: ${colors.white};
+    border: 1px solid ${colors.defaultXXLight};
+    border-radius: ${layout.borderRadius};
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 0.25rem;
+    z-index: 100;
 
-    .rt-DropdownMenuItem {
+    [data-part='item'] {
       cursor: pointer;
+      padding: 0.5rem 0.75rem;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: ${colors.text};
+      transition: background-color 0.15s ease;
+
+      &[data-highlighted] {
+        background-color: ${colors.defaultXXXLight};
+        outline: none;
+      }
 
       &.active {
         background-color: ${colors.primaryLight};

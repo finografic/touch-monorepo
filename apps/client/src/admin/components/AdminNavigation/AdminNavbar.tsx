@@ -1,8 +1,6 @@
 import { type FC, useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { TabNav } from '@radix-ui/themes';
-
 import { usePageTransition } from 'hooks/usePageTransition';
 
 import type { NavItem } from 'types/nav.types';
@@ -28,9 +26,8 @@ export const AdminNavbar: FC<AdminNavbarProps> = ({ navItems }) => {
 
     const containerWidth = containerRef.current.offsetWidth;
 
-    // Get MORE button width from the ref (MoreButton component)
     const moreButtonElement = moreButtonRef.current?.querySelector('button');
-    const moreWidth = moreButtonElement?.offsetWidth ?? 120; // Fallback to 120px
+    const moreWidth = moreButtonElement?.offsetWidth ?? 120;
 
     let totalWidthUsed = 0;
     let fitCount = navItems.length;
@@ -71,24 +68,25 @@ export const AdminNavbar: FC<AdminNavbarProps> = ({ navItems }) => {
   return (
     <nav className="navbar" ref={containerRef}>
       <div className="nav-items">
-        <TabNav.Root size="2" className="admin-nav" style={{ justifyContent: 'center' }}>
+        <div role="tablist" className="admin-nav" style={{ justifyContent: 'center' }}>
           {visibleNavItems.map((navItem, i) => {
             const isActive = location.pathname === navItem.path;
 
             return (
-              <TabNav.Link asChild active={isActive} key={`nav-item-${navItem.id}-${i}`}>
-                <button
-                  ref={(el) => (navItemsRef.current[i] = el)}
-                  type="button"
-                  className={`nav-button ${isActive ? 'active' : ''} ${
-                    isTransitioning ? 'transitioning' : ''
-                  }`}
-                  onClick={() => handleNavigate(navItem.path)}
-                  disabled={isTransitioning}
-                >
-                  {navItem.label}
-                </button>
-              </TabNav.Link>
+              <button
+                key={`nav-item-${navItem.id}-${i}`}
+                ref={(el) => (navItemsRef.current[i] = el)}
+                type="button"
+                role="tab"
+                aria-selected={isActive}
+                className={`nav-button ${isActive ? 'active' : ''} ${
+                  isTransitioning ? 'transitioning' : ''
+                }`}
+                onClick={() => handleNavigate(navItem.path)}
+                disabled={isTransitioning}
+              >
+                {navItem.label}
+              </button>
             );
           })}
 
@@ -99,7 +97,7 @@ export const AdminNavbar: FC<AdminNavbarProps> = ({ navItems }) => {
             calculateVisibleItemsCount={calculateVisibleItemsCount}
           />
 
-          {/* MORE button - using our MoreButton component */}
+          {/* MORE button */}
           {overflowNavItems.length > 0 && (
             <div ref={moreButtonRef} className="more-wrapper">
               <MoreMenu
@@ -111,7 +109,7 @@ export const AdminNavbar: FC<AdminNavbarProps> = ({ navItems }) => {
               />
             </div>
           )}
-        </TabNav.Root>
+        </div>
       </div>
     </nav>
   );

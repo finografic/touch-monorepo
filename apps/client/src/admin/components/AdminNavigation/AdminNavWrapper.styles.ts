@@ -63,8 +63,8 @@ export const styles = css`
     position: absolute;
   }
 
-  /* Radix TabNav overrides */
-  ul.admin-nav {
+  /* Tab nav row */
+  .admin-nav {
     display: flex;
     gap: 0.5rem;
     ${stylesTypography}
@@ -75,13 +75,17 @@ export const styles = css`
     flex-wrap: nowrap;
     margin: 0 1rem !important;
 
-    button.rt-TabNavLink.nav-button {
+    /* Bottom rule — replaces Radix TabNav's built-in indicator */
+    border-bottom: 2px solid ${colors.defaultXXXLight};
+
+    button.nav-button {
       ${stylesTypography}
+      position: relative;
       background-color: transparent;
-      border: var(--border-widths-default) solid ${colors.transparent}!important;
+      border: var(--border-widths-default) solid ${colors.transparent} !important;
       cursor: pointer;
       padding: 0.5rem 1rem;
-      border-radius: ${layout.borderRadius};
+      border-radius: ${layout.borderRadius} ${layout.borderRadius} 0 0;
       transition: all 0.2s ease;
       opacity: 1;
       white-space: nowrap;
@@ -90,32 +94,36 @@ export const styles = css`
       justify-content: center;
       height: 48px;
 
+      /* Active indicator line */
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background-color: transparent;
+        transition: background-color 0.2s ease;
+      }
+
       :hover {
         color: ${colors.text};
-        &,
-        & span {
-          background-color: transparent !important;
-        }
+        background-color: transparent !important;
       }
 
       &.active {
         color: ${colors.info};
         font-weight: 700;
-        :before {
-          border-bottom: 2px solid ${colors.info};
+
+        &::after {
+          background-color: ${colors.info};
         }
-        & span {
-          font-weight: 700;
-          background-color: transparent !important;
-        }
+
         :hover {
           color: ${colors.infoXDark};
-          :before {
-            border-bottom: 2px solid ${colors.infoXDark};
-          }
-          & span {
-            font-weight: 700;
-            background-color: transparent;
+
+          &::after {
+            background-color: ${colors.infoXDark};
           }
         }
       }
@@ -138,33 +146,6 @@ export const styles = css`
     /* route icon */
     svg.icon {
       width: 1.4rem;
-    }
-  }
-
-  li:first-of-type {
-    padding-left: 0.5rem !important;
-  }
-
-  /* Disable Radix TabNav's built-in responsive hamburger behavior */
-  .admin-nav {
-    /* Force TabNav to always show horizontal layout, never collapse to hamburger */
-    @media (max-width: 768px) {
-      /* Override any Radix responsive behavior */
-    }
-  }
-
-  /* Dropdown menu styles (for MoreButton) */
-  .rt-DropdownMenuContent {
-    min-width: 180px;
-
-    .rt-DropdownMenuItem {
-      cursor: pointer;
-
-      &.active {
-        background-color: ${colors.primaryLight};
-        color: ${colors.primaryDark};
-        font-weight: 700;
-      }
     }
   }
 
