@@ -31,21 +31,15 @@ import { menuRecipe } from './recipes/menu.recipe';
 import { popoverRecipe } from './recipes/popover.recipe';
 import { selectRecipe } from './recipes/select.recipe';
 import { switchRecipe } from './recipes/switch.recipe';
+import { tableRecipe } from './recipes/table.recipe';
 import { tabsRecipe } from './recipes/tabs.recipe';
 import { textRecipe } from './recipes/text.recipe';
 import { toastRecipe } from './recipes/toast.recipe';
 import { tooltipRecipe } from './recipes/tooltip.recipe';
 import { durationTokens, easingTokens, keyframes } from './tokens/animations.tokens';
 import { colorTokens, semanticColorTokens } from './tokens/colors.tokens';
-import {
-  borderWidthTokens,
-  radiiTokens,
-  shadowTokens,
-} from './tokens/decorative.tokens';
-import {
-  spacingTokens,
-  zIndexTokens,
-} from './tokens/spacing.tokens';
+import { borderWidthTokens, radiiTokens, shadowTokens } from './tokens/decorative.tokens';
+import { spacingTokens, zIndexTokens } from './tokens/spacing.tokens';
 import {
   fontSizeTokens,
   fontTokens,
@@ -118,6 +112,7 @@ export const designSystemPreset = definePreset({
         menu: menuRecipe,
         popover: popoverRecipe,
         select: selectRecipe,
+        table: tableRecipe,
         tabs: tabsRecipe,
         toast: toastRecipe,
         tooltip: tooltipRecipe,
@@ -169,14 +164,15 @@ export const designSystemPreset = definePreset({
       display: 'inline-block',
       flexShrink: 0,
       color: 'currentColor',
-      transition: 'color 200ms ease-in-out, border-color 200ms ease-in-out, background-color 200ms ease-in-out',
+      transition:
+        'color 200ms ease-in-out, border-color 200ms ease-in-out, background-color 200ms ease-in-out',
     },
 
     // Size variants
     'svg.icon.icon-sm': { width: '0.875rem', height: '0.875rem' },
-    'svg.icon.icon-md': { width: '1rem',     height: '1rem'     },
-    'svg.icon.icon-lg': { width: '1.25rem',  height: '1.25rem'  },
-    'svg.icon.icon-xl': { width: '1.5rem',   height: '1.5rem'   },
+    'svg.icon.icon-md': { width: '1rem', height: '1rem' },
+    'svg.icon.icon-lg': { width: '1.25rem', height: '1.25rem' },
+    'svg.icon.icon-xl': { width: '1.5rem', height: '1.5rem' },
 
     // Contextual — scales with surrounding text size
     'svg.icon.icon-contextual': { width: '1em', height: '1em' },
@@ -185,7 +181,7 @@ export const designSystemPreset = definePreset({
     'svg.icon.icon-loading': { animation: 'spin 1s linear infinite' },
 
     // Button context — hover scale / disabled fade
-    '.button:hover svg.icon':    { transform: 'scale(1.05)' },
+    '.button:hover svg.icon': { transform: 'scale(1.05)' },
     '.button:disabled svg.icon': { opacity: 0.5, transform: 'none' },
 
     // ── Text selection ────────────────────────────────────────────────────────

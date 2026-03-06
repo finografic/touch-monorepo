@@ -11,6 +11,7 @@ export { menuRecipe } from './menu.recipe';
 export { popoverRecipe } from './popover.recipe';
 export { selectRecipe } from './select.recipe';
 export { switchRecipe } from './switch.recipe';
+export { tableRecipe } from './table.recipe';
 export { tabsRecipe } from './tabs.recipe';
 export { textRecipe } from './text.recipe';
 export { toastRecipe } from './toast.recipe';

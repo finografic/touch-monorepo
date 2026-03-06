@@ -88,11 +88,18 @@ const ICONS = {
   WineIcon:                 Lucide.Wine,
   ZapIcon:                  Lucide.Zap,
 
+  // ── Directional arrows ───────────────────────────────────────────────────────
+  ArrowDownIcon:            Lucide.ArrowDown,
+  ArrowLeftIcon:            Lucide.ArrowLeft,
+  ArrowRightIcon:           Lucide.ArrowRight,
+  ArrowUpIcon:              Lucide.ArrowUp,
+
   // ── Navigation — Chevrons ────────────────────────────────────────────────────
   ChevronDownIcon:          Lucide.ChevronDown,
   ChevronLeftIcon:          Lucide.ChevronLeft,
   ChevronRightIcon:         Lucide.ChevronRight,
   ChevronUpIcon:            Lucide.ChevronUp,
+  ChevronsUpDownIcon:       Lucide.ChevronsUpDown,
   DoubleArrowLeftIcon:      Lucide.ChevronsLeft,
   DoubleArrowRightIcon:     Lucide.ChevronsRight,
 
