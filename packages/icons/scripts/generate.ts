@@ -39,27 +39,33 @@ function toLucideExport(lucideName: string): string {
     .join('');
 }
 
-// ── Load + sort ────────────────────────────────────────────────────────────────
+// ── Generate ───────────────────────────────────────────────────────────────────
 
-const entries: IconEntry[] = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
+/**
+ * Reads icons.json and writes icons.ts + index.ts.
+ * Exported so the Hono server can call it directly on each POST
+ * (avoids ESM module-cache issues with top-level side effects).
+ */
+export function generate(): void {
+  const entries: IconEntry[] = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
 
-// Stable alphabetical order by exportName — diffs are always readable
-entries.sort((a, b) => a.exportName.localeCompare(b.exportName));
+  // Stable alphabetical order by exportName — diffs are always readable
+  entries.sort((a, b) => a.exportName.localeCompare(b.exportName));
 
-// ── Build icons.ts ─────────────────────────────────────────────────────────────
+  // ── Build icons.ts ───────────────────────────────────────────────────────────
 
-const maxKeyLen = Math.max(...entries.map(e => `${e.exportName}Icon`.length));
+  const maxKeyLen = Math.max(...entries.map(e => `${e.exportName}Icon`.length));
 
-const registryLines = entries
-  .map(({ lucideName, exportName }) => {
-    const key    = `${exportName}Icon`;
-    const value  = `Lucide.${toLucideExport(lucideName)}`;
-    const pad    = ' '.repeat(maxKeyLen - key.length + 2);
-    return `  ${key}:${pad}${value},`;
-  })
-  .join('\n');
+  const registryLines = entries
+    .map(({ lucideName, exportName }) => {
+      const key    = `${exportName}Icon`;
+      const value  = `Lucide.${toLucideExport(lucideName)}`;
+      const pad    = ' '.repeat(maxKeyLen - key.length + 2);
+      return `  ${key}:${pad}${value},`;
+    })
+    .join('\n');
 
-const iconsTsContent = `\
+  const iconsTsContent = `\
 /**
  * Icon Registry — @workspace/icons
  *
@@ -102,13 +108,13 @@ export const ICON_NAMES = (Object.keys(ICONS) as IconName[]).sort();
 export type IconComponent = ReturnType<typeof createIconWrapper>;
 `;
 
-// ── Build index.ts ─────────────────────────────────────────────────────────────
+  // ── Build index.ts ───────────────────────────────────────────────────────────
 
-const namedExports = entries
-  .map(({ exportName }) => `  ${exportName}Icon,`)
-  .join('\n');
+  const namedExports = entries
+    .map(({ exportName }) => `  ${exportName}Icon,`)
+    .join('\n');
 
-const indexTsContent = `\
+  const indexTsContent = `\
 /**
  * src/index.ts — @workspace/icons
  *
@@ -129,10 +135,16 @@ export type { IconProps } from './icons.utils';
 export { createIconWrapper } from './icons.utils';
 `;
 
-// ── Write ──────────────────────────────────────────────────────────────────────
+  // ── Write ─────────────────────────────────────────────────────────────────────
 
-fs.writeFileSync(tsPath,    iconsTsContent,  'utf8');
-fs.writeFileSync(indexPath, indexTsContent,  'utf8');
+  fs.writeFileSync(tsPath,    iconsTsContent,  'utf8');
+  fs.writeFileSync(indexPath, indexTsContent,  'utf8');
 
-console.log(`✓ icons.ts   — ${entries.length} icons`);
-console.log(`✓ index.ts   — ${entries.length} named exports`);
+  console.log(`✓ icons.ts   — ${entries.length} icons`);
+  console.log(`✓ index.ts   — ${entries.length} named exports`);
+}
+
+// ── CLI entry point ────────────────────────────────────────────────────────────
+// Called directly via: pnpm icons.generate (tsx scripts/generate.ts)
+
+generate();

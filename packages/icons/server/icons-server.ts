@@ -41,16 +41,13 @@ interface IconEntry {
 // ── Generate (in-process) ─────────────────────────────────────────────────────
 
 /**
- * Runs the generate script in-process rather than spawning a child process.
- * Keeps the feedback loop tight — generate completes before the POST response
- * is returned, so the picker always reflects the actual current state.
+ * Runs codegen in-process. generate() is an exported function (not a
+ * top-level side effect) so ESM module caching is not an issue —
+ * the import is cached once, the function is called fresh each time.
  */
 async function runGenerate(): Promise<void> {
-  const { default: generate } = await import('../scripts/generate.ts');
-  // generate.ts is a side-effectful script (writes files, logs to console).
-  // Re-importing works here because we're in a dev server context with tsx,
-  // which does not cache module evaluation between calls.
-  void generate;
+  const { generate } = await import('../scripts/generate.ts');
+  generate();
 }
 
 // ── App ────────────────────────────────────────────────────────────────────────
