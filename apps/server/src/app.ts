@@ -79,11 +79,15 @@ routes.forEach((route) => {
   app.route(envShared.API_BASE_PATH, route);
 });
 
-// Serve React app
+// Serve React app (production only — in dev, Vite owns the client port)
 app.get('*', async (c) => {
   const path = c.req.path;
 
   if (path.startsWith('/api/')) {
+    return c.notFound();
+  }
+
+  if (process.env['NODE_ENV'] !== 'production') {
     return c.notFound();
   }
 

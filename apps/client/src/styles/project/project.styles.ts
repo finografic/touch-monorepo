@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { forms } from '../forms/forms.constants';
+import { forms } from 'forms/forms.config';
 import { colors, layout } from '@workspace/design-system/tokens';
 
 export const stylesAdminContent = css`

@@ -7,7 +7,7 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "========== DEV": "=======================================================",
-    "dev": "panda codegen --watch && panda cssgen --watch && vite",
+    "dev": "panda codegen && panda cssgen && vite",
     "start": "vite preview",
     "·········· BUILD": "·····················································",
     "panda:codegen": "panda codegen && panda cssgen",
