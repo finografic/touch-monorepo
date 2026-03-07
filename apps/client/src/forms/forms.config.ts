@@ -12,11 +12,11 @@ export const forms = {
     background: colors.white,
 
     border: {
-      color: colors.greyXXLight75,
+      color: colors.greyXXLight,
       width: '2px',
       radius: '6px',
       focus: {
-        color: colors.greyXLight75,
+        color: colors.greyXLight,
       },
     },
 
@@ -38,11 +38,11 @@ export const forms = {
     },
 
     placeholder: {
-      color: colors.default75,
+      color: colors.default,
       opacity: 0.45,
       fontWeight: 500,
       disabled: {
-        color: colors.default75,
+        color: colors.default,
         fontWeight: 500,
       },
     },
@@ -50,7 +50,7 @@ export const forms = {
     hover: {
       border: {
         // color: colors.greyDark,
-        color: colors.greyXXLight75,
+        color: colors.greyXXLight,
         width: '1px',
         radius: '6px',
       },
@@ -90,7 +90,7 @@ export const forms = {
     },
 
     readOnly: {
-      background: colors.greyXXLight25,
+      background: colors.greyXXXLight,
       border: {
         color: colors.greyLight,
         width: '1px',

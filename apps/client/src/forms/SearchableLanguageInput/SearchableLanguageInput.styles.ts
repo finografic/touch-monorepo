@@ -8,10 +8,10 @@ export const styles = css`
   }
 
   .dropdown {
-    border: 1px solid #a3a3a3; /* 20% darker gray to match other inputs */
-    background: var(--color-background);
+    border: 1px solid var(--colors-grey-lighter);
+    background: var(--colors-bg);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-    border-radius: var(--radius-3);
+    border-radius: var(--radii-md);
     overflow: hidden;
     z-index: 9999; /* Very high z-index to appear above everything */
     position: absolute !important; /* Force absolute positioning */
@@ -20,7 +20,7 @@ export const styles = css`
   .option {
     cursor: pointer;
     transition: background-color 0.15s ease;
-    border-bottom: 1px solid var(--gray-3);
+    border-bottom: 1px solid var(--colors-grey-xxlight);
 
     &:last-child {
       border-bottom: none;
@@ -28,11 +28,11 @@ export const styles = css`
 
     &:hover,
     &.focused {
-      background-color: var(--gray-2);
+      background-color: var(--colors-grey-xxxlight);
     }
 
     &:active {
-      background-color: var(--gray-3);
+      background-color: var(--colors-grey-xxlight);
     }
   }
 
@@ -48,15 +48,15 @@ export const styles = css`
   }
 
   .dropdown::-webkit-scrollbar-track {
-    background: var(--gray-2);
+    background: var(--colors-grey-xxxlight);
   }
 
   .dropdown::-webkit-scrollbar-thumb {
-    background: var(--gray-6);
+    background: var(--colors-grey-lighter);
     border-radius: 3px;
   }
 
   .dropdown::-webkit-scrollbar-thumb:hover {
-    background: var(--gray-8);
+    background: var(--colors-grey-light);
   }
 `;

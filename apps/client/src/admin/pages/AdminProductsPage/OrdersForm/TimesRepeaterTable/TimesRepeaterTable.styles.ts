@@ -37,7 +37,7 @@ export const styles = css`
       align-items: center;
       font-weight: 500;
       font-size: 14px;
-      color: var(--gray-11);
+      color: var(--colors-fg-muted);
 
       letter-spacing: 0.025em;
 
@@ -111,7 +111,7 @@ export const styles = css`
     align-items: center;
     font-weight: 500;
     font-size: 14px;
-    color: var(--gray-11);
+    color: var(--colors-fg-muted);
     letter-spacing: 0.025em;
     padding: 0.25rem 0;
   }

@@ -296,7 +296,7 @@ export const InputTemperature = forwardRef<HTMLInputElement, InputTemperaturePro
             ) : (
               <span
                 style={{
-                  color: 'var(--gray-11)',
+                  color: 'var(--colors-fg-muted)',
                   fontSize: '14px',
                   fontWeight: '500',
                   pointerEvents: 'none',

@@ -23,8 +23,8 @@ export const styles = css`
     margin-top: 1.75rem;
     padding: 1.5rem;
     border-radius: 8px;
-    border: 1px solid var(--blue-6);
-    background-color: var(--blue-2);
+    border: 1px solid var(--colors-border-info);
+    background-color: var(--colors-bg-info);
     width: 100%;
     display: flex !important;
     align-items: center;

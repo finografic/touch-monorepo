@@ -32,8 +32,8 @@ export const styles = css`
 export const stylesDropdown = css`
   background: white;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-  border-radius: var(--radius-3);
-  border: 1px solid var(--gray-6);
+  border-radius: var(--radii-md);
+  border: 1px solid var(--colors-grey-lighter);
   overflow: hidden;
   max-height: 360px;
   overflow-y: auto;
@@ -41,7 +41,7 @@ export const stylesDropdown = css`
   .option {
     cursor: pointer;
     transition: background-color 0.15s ease;
-    border-bottom: 1px solid var(--gray-3);
+    border-bottom: 1px solid var(--colors-grey-xxlight);
     padding: 0.75rem 1rem;
     background: white;
 

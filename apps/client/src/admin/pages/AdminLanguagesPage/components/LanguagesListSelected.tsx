@@ -24,7 +24,7 @@ export const LanguagesListSelected: React.FC<LanguagesListSelectedProps> = ({
     <Box pt={2}>
       {/* Header */}
       <h2>
-        <span style={{ color: selectedLanguages.length > 0 ? 'var(--green-11)' : 'var(--gray-12)' }}>
+        <span style={{ color: selectedLanguages.length > 0 ? 'var(--colors-success-dark)' : 'var(--colors-fg)' }}>
           Selected Languages ({selectedLanguages.length})
         </span>
       </h2>
@@ -36,7 +36,7 @@ export const LanguagesListSelected: React.FC<LanguagesListSelectedProps> = ({
             <InfoCircledIcon width="24" height="24" />
             <span
               style={{
-                color: 'var(--blue-11)',
+                color: 'var(--colors-info-dark)',
                 fontWeight: '500',
                 flex: '1 1 auto',
                 lineHeight: '1.5',

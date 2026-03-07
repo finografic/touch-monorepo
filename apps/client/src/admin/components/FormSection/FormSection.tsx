@@ -23,12 +23,12 @@ export const FormSection: React.FC<FormSectionProps> = ({
     <Box
       className={className}
       style={{
-        backgroundColor: 'var(--color-panel-solid)',
-        border: '1px solid var(--gray-6)',
+        backgroundColor: 'var(--colors-bg-panel)',
+        border: '1px solid var(--colors-border)',
         borderRadius: '8px',
-        padding: 'var(--space-4)',
-        marginBottom: 'var(--space-6)',
-        marginTop: 'var(--space-2)',
+        padding: '1rem',
+        marginBottom: '1.5rem',
+        marginTop: '0.5rem',
       }}
     >
       {(title || description) && (

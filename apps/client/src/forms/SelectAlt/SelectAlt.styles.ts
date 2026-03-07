@@ -84,7 +84,7 @@ export const styles = css`
     .p-dropdown-panel {
       background: white;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-      border-radius: var(--radius-3);
+      border-radius: var(--radii-md);
       border: 1px solid ${colors.greyLight};
       overflow: hidden;
       margin-top: 0.25rem;

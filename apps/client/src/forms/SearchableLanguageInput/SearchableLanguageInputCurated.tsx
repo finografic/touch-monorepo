@@ -210,8 +210,8 @@ export const SearchableLanguageInputCurated: React.FC<SearchableLanguageInputCur
               marginTop: '4px',
               maxHeight: '300px',
               overflowY: 'auto',
-              background: 'var(--color-background)',
-              border: '1px solid #a3a3a3',
+              background: 'var(--colors-bg)',
+              border: '1px solid var(--colors-grey-lighter)',
             }}
           >
             {slidingWindow.items.length > 0 ? (
@@ -236,15 +236,15 @@ export const SearchableLanguageInputCurated: React.FC<SearchableLanguageInputCur
                     />
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                        <span style={{ color: 'var(--gray-12)' }}>{option.languageName}</span>
-                        <span style={{ color: 'var(--gray-9)' }}>({option.languageCode})</span>
+                        <span style={{ color: 'var(--colors-fg)' }}>{option.languageName}</span>
+                        <span style={{ color: 'var(--colors-fg-subtle)' }}>({option.languageCode})</span>
                       </div>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                        <span style={{ color: 'var(--gray-11)' }}>{option.countryName}</span>
+                        <span style={{ color: 'var(--colors-fg-muted)' }}>{option.countryName}</span>
                         {option.nativeName && option.nativeName !== option.languageName && (
                           <>
-                            <span style={{ color: 'var(--gray-8)' }}>•</span>
-                            <span style={{ color: 'var(--gray-10)' }}>{option.nativeName}</span>
+                            <span style={{ color: 'var(--colors-grey-light)' }}>•</span>
+                            <span style={{ color: 'var(--colors-grey-dark)' }}>{option.nativeName}</span>
                           </>
                         )}
                       </div>
@@ -254,14 +254,14 @@ export const SearchableLanguageInputCurated: React.FC<SearchableLanguageInputCur
               ))
             ) : (
               <div style={{ padding: '1rem' }}>
-                <span style={{ color: 'var(--gray-9)' }}>No languages found matching "{searchValue}"</span>
+                <span style={{ color: 'var(--colors-fg-subtle)' }}>No languages found matching "{searchValue}"</span>
               </div>
             )}
 
             {/* Sliding window info for debugging */}
             {slidingWindow.totalItems > windowSize && (
-              <div style={{ padding: '0.5rem', borderTop: '1px solid var(--gray-6)', background: 'var(--gray-2)' }}>
-                <span style={{ color: 'var(--gray-9)' }}>
+              <div style={{ padding: '0.5rem', borderTop: '1px solid var(--colors-grey-lighter)', background: 'var(--colors-grey-xxxlight)' }}>
+                <span style={{ color: 'var(--colors-fg-subtle)' }}>
                   Showing {slidingWindow.startIndex + 1}-{slidingWindow.endIndex} of{' '}
                   {slidingWindow.totalItems} languages
                 </span>

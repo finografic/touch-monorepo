@@ -49,10 +49,10 @@ export const LanguagesList: React.FC<LanguagesListProps> = ({ languages, onDelet
                   <Flex align="center" className="col col-default">
                     <span
                       style={{
-                        backgroundColor: 'var(--green-3)',
+                        backgroundColor: 'var(--colors-success-xlight)',
                         padding: '2px 16px',
                         borderRadius: '4px',
-                        border: '1px solid var(--green-6)',
+                        border: '1px solid var(--colors-success-light)',
                       }}
                     >
                       DEFAULT

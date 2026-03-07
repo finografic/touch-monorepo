@@ -19,17 +19,17 @@ export const LaungaugeDataStats: React.FC<LaungaugeDataStatsProps> = ({
 }) => {
   return (
     <span className="laungauge-data-stats">
-      <span style={{ color: 'var(--gray-12)' }}>
+      <span style={{ color: 'var(--colors-fg)' }}>
         {totalCountries}
       </span>{' '}
       <span>Countries</span>
-      <span style={{ margin: '0 2rem', color: 'var(--gray-6)' }}>•</span>
-      <span style={{ color: 'var(--gray-12)' }}>
+      <span style={{ margin: '0 2rem', color: 'var(--colors-grey-lighter)' }}>•</span>
+      <span style={{ color: 'var(--colors-fg)' }}>
         {totalLanguages}
       </span>{' '}
       <span>Curated Languages</span>
-      <span style={{ margin: '0 2rem', color: 'var(--gray-6)' }}>•</span>
-      <span style={{ color: 'var(--gray-12)' }}>
+      <span style={{ margin: '0 2rem', color: 'var(--colors-grey-lighter)' }}>•</span>
+      <span style={{ color: 'var(--colors-fg)' }}>
         {selectedLanguages.length}
       </span>{' '}
       <span>Selected</span>

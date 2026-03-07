@@ -258,8 +258,8 @@ export const SearchableLanguageInput: React.FC<SearchableLanguageInputSlidingPro
               marginTop: '4px',
               maxHeight: '300px',
               overflowY: 'auto',
-              background: 'var(--color-background)',
-              border: '1px solid #a3a3a3',
+              background: 'var(--colors-bg)',
+              border: '1px solid var(--colors-grey-lighter)',
             }}
           >
             {slidingWindow.items.length > 0 ? (
@@ -309,8 +309,8 @@ export const SearchableLanguageInput: React.FC<SearchableLanguageInputSlidingPro
                 style={{
                   padding: '0.5rem',
                   textAlign: 'center',
-                  borderTop: '1px solid var(--gray-6)',
-                  background: 'var(--gray-2)',
+                  borderTop: '1px solid var(--colors-grey-lighter)',
+                  background: 'var(--colors-grey-xxxlight)',
                 }}
               >
                 <span>
