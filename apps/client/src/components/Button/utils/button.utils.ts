@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import type { ButtonColor, ButtonVariant } from '../Button.types';
 import { BUTTON_BASE_COLORS } from './button.utils.config';
 import type { ButtonColorVariants } from './button.utils.types';
-import { button, colors } from '@workspace/design-system/tokens';
+import { colors } from '@workspace/design-system/tokens';
 
 type ShadeVariant = 'XXLight' | 'XLight' | 'Light' | 'Dark' | 'XDark' | 'XXDark';
 
@@ -39,7 +39,7 @@ export function getVariantStyles(variant: ButtonVariant = 'solid', color: Button
     return css`
       background-color: ${lightColor};
       color: ${colors.white};
-      border: ${button.border.width} solid ${lightColor};
+      border: 2px solid ${lightColor};
 
       &:disabled,
       &:disabled svg,
@@ -66,7 +66,7 @@ export function getVariantStyles(variant: ButtonVariant = 'solid', color: Button
       return css`
         background-color: ${defaultColor};
         color: ${color === 'default' || color === 'grey' ? colors.white : colors.white};
-        border: ${button.border.width} solid ${defaultColor};
+        border: 2px solid ${defaultColor};
 
         &:disabled {
           opacity: 0.66 !important;
@@ -91,12 +91,12 @@ export function getVariantStyles(variant: ButtonVariant = 'solid', color: Button
       return css`
         background-color: ${transparentColor20};
         color: ${darkColor};
-        border: ${button.border.width} solid ${defaultColor};
+        border: 2px solid ${defaultColor};
 
         &:hover:not(:disabled):not([data-loading='true']) {
           background-color: ${transparentColor40};
           color: ${darkColor};
-          border: ${button.border.width} solid ${xDarkColor};
+          border: 2px solid ${xDarkColor};
         }
 
         .button-text svg {
@@ -129,7 +129,7 @@ export function getVariantStyles(variant: ButtonVariant = 'solid', color: Button
         color: ${defaultColor};
         /* color: ${lightColor}; */
 
-        border: ${button.border.width} solid ${defaultColor};
+        border: 2px solid ${defaultColor};
         /* border: ${button.border.width} solid ${lightColor}; */
 
         &:disabled {
@@ -156,7 +156,7 @@ export function getVariantStyles(variant: ButtonVariant = 'solid', color: Button
       return css`
         background-color: transparent;
         color: ${defaultColor};
-        border: ${button.border.width} solid transparent;
+        border: 2px solid transparent;
 
         &:hover:not(:disabled):not([data-loading='true']) {
           background-color: ${transparentColor15};
@@ -168,7 +168,7 @@ export function getVariantStyles(variant: ButtonVariant = 'solid', color: Button
       return css`
         background-color: transparent;
         color: ${defaultColor};
-        border: ${button.border.width} solid transparent;
+        border: 2px solid transparent;
         padding: 0;
         height: auto;
         text-decoration: underline;
