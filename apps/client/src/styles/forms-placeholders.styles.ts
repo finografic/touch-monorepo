@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 
 import { colors } from '@workspace/design-system/tokens';
-import { forms } from '../../forms/forms.config';
+import { forms } from 'forms/forms.config';
 
 export const stylesPlaceholder = css`
   font-weight: ${forms.inputs.placeholder.fontWeight};

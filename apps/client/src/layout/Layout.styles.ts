@@ -3,9 +3,9 @@ import { colors, layout } from '@workspace/design-system/tokens';
 import { css } from '@emotion/react';
 
 import type { EmotionTheme } from '../styles/themes/emotion-theme.types';
-import { stylesAppContent800x480 } from '../styles/project/project.app.800x480.styles';
-import { stylesAppContent1024x600 } from '../styles/project/project.app.1024x600.styles';
-import { stylesAppContent } from '../styles/project/project.app.styles';
+import { stylesAppContent800x480 } from '../styles/project.app.800x480.styles';
+import { stylesAppContent1024x600 } from '../styles/project.app.1024x600.styles';
+import { stylesAppContent } from '../styles/project.app.styles';
 
 export const styles = (theme: EmotionTheme) => css`
   ${stylesAppContent}

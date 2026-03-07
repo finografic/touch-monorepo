@@ -6,7 +6,7 @@ import { cssPlaceholder } from './forms-placeholders.styles';
 import { formsSelect } from './forms-select.styles';
 import { formsValidation } from './forms-validation.styles';
 
-export { forms } from '../../forms/forms.config';
+export { forms } from 'forms/forms.config';
 
 export const cssForms = css`
   ${formsReset}

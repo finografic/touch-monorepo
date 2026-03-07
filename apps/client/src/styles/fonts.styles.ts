@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { typography } from '../constants/typography.constants';
+import { typography } from './constants/typography.constants';
 
 export const cssFontDefaults = css`
   font-family: ${typography.fontFamily.sans.join(', ')};

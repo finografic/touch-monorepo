@@ -13,7 +13,7 @@ export { withOpacity } from './colors/utils/colors.utils';
 export { button } from './constants/button.constants';
 // 📝 Typography
 export { typography } from './constants/typography.constants';
-export { fontFamilies, fontSizes, fontWeights, lineHeights } from './fonts/typography.contants';
+export { fontFamilies, fontSizes, fontWeights, lineHeights } from './constants/typography.contants';
 // 🌐 Global styles
 export { cssGlobal } from './global.styles';
 // 🎯 Zero-migration hooks - use these for easiest transition!

@@ -3,10 +3,10 @@ import { BREAKPOINTS, min } from '@workspace/design-system/viewport';
 
 import { css } from '@emotion/react';
 
-import { cssForms } from '../styles/forms/forms.styles';
-import { stylesAppContent800x480 } from '../styles/project/project.app.800x480.styles';
-import { stylesAppContent1024x600 } from '../styles/project/project.app.1024x600.styles';
-import { stylesAdminContent } from '../styles/project/project.styles';
+import { cssForms } from '../styles/forms.styles';
+import { stylesAppContent800x480 } from '../styles/project.app.800x480.styles';
+import { stylesAppContent1024x600 } from '../styles/project.app.1024x600.styles';
+import { stylesAdminContent } from '../styles/project.styles';
 
 
 

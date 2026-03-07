@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 
 import { colors } from '@workspace/design-system/tokens';
-import { stylesPlaceholder } from '../../styles/forms/forms-placeholders.styles';
+import { stylesPlaceholder } from '../../styles/forms-placeholders.styles';
 
 export const styles = css`
   &.searchable-select {

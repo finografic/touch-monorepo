@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 
 import { colors, layout } from '@workspace/design-system/tokens';
-import { cssFontMono } from '../../../../../styles/fonts/fonts.styles';
+import { cssFontMono } from '../../../../../styles/fonts.styles';
 
 export const styles = css`
   width: 100%;

@@ -1,5 +1,5 @@
 import { colors } from '../colors/colors-direct';
-import { fontFamilies, fontSizes, fontWeights, lineHeights, typography } from '../fonts/typography.contants';
+import { fontFamilies, fontSizes, fontWeights, lineHeights, typography } from '../constants/typography.contants';
 import { spacing } from '../layout/base.constants';
 import type { ColorPalette } from 'styles/colors/palette.types';
 import { BREAKPOINTS } from 'styles/viewport/viewport.breakpoints';
