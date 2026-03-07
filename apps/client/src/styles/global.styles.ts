@@ -2,7 +2,7 @@ import { colors } from '@workspace/design-system/tokens';
 
 import { css } from '@emotion/react';
 
-import { cssFontDefaults, cssFontMono } from './fonts/fonts.styles';
+import { cssFontDefaults, cssFontMono } from './fonts.styles';
 import { forms } from '../forms/forms.config';
 
 export const cssGlobal = css`

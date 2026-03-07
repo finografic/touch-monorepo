@@ -1,7 +1,0 @@
-{
-  "tailwind": {
-    "config": "",
-    "css": "src/theme.css",
-    "cssVariables": true
-  }
-}

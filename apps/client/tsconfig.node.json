@@ -7,6 +7,6 @@
     "allowSyntheticDefaultImports": true,
     "types": ["node"]
   },
-  "include": ["vite.config.ts", "src/utils/**/*.ts", "messages/**/*.json", "src/i18n/utils/**/*.ts"],
+  "include": ["vite.config.ts", "src/utils/**/*.ts"],
   "exclude": ["eslint.config.mjs"]
 }

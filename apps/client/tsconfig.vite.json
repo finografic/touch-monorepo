@@ -8,11 +8,6 @@
     "noEmit": false,
     "sourceMap": true
   },
-  "include": [
-    "src/**/*",
-    "messages/**/*.json",
-    "src/i18n/utils/**/*.ts",
-    "vite.config.ts"
-  ],
-  "exclude": ["node_modules", "dist", "src/i18n/**/*.js", "src/i18n/**/*.d.ts", "eslint.config.mjs"]
+  "include": ["src/**/*", "vite.config.ts"],
+  "exclude": ["node_modules", "dist", "eslint.config.mjs"]
 }

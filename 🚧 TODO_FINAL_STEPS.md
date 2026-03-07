@@ -1,9 +1,9 @@
 # Design System Migration — Final Steps
 
-> **Where we are:** Phases 6a–6d complete. The design-system package is fully built.
+> **Where we are:** Phases 6a–6e complete. The design-system package is fully built.
 > All Radix component imports are replaced. 14 unused `@radix-ui` packages removed.
-> Phase 6e is ~85% done — ~14 external `styles/` imports remain.
-> The path forward is now clear (see Phase 6f below).
+> `styles/` subdirectories flattened (project/, fonts/, forms/ → root). Committed 852bdea1.
+> Phase 6f in progress — Radix Themes + Emotion removal is next.
 
 ---
 
@@ -86,39 +86,11 @@ Two options — choose one before proceeding:
 Option (b) is cleaner but requires updating `Layout.tsx`, `Layout.styles.ts`, and
 `EmotionThemeProvider.tsx` to drop the typed theme — do this as part of Emotion removal below.
 
-**2. Flatten `styles/project/` → root of `styles/`**
+~~**2. Flatten `styles/project/` → root of `styles/`**~~ ✅ Done
 
-Move and rename:
+~~**3. Flatten `styles/fonts/` → root of `styles/`**~~ ✅ Done
 
-```
-styles/project/project.styles.ts        → styles/project.styles.ts
-styles/project/project.app.800x480.styles.ts → styles/project.800x480.styles.ts
-styles/project/project.app.1024x600.styles.ts → styles/project.1024x600.styles.ts
-```
-
-Update the 2 consumer files (`AdminLayout.styles.ts`, `Layout.styles.ts`) to use
-the new paths. Delete the `styles/project/` subdirectory.
-
-**3. Flatten `styles/fonts/` → root of `styles/`**
-
-```
-styles/fonts/fonts.styles.ts → styles/fonts.styles.ts
-```
-
-Update `TimesRepeaterTable.styles.ts` consumer. Delete `styles/fonts/` subdirectory.
-
-**4. Flatten `styles/forms/` → root of `styles/`**
-
-`cssForms` (consumed by `AdminLayout.styles.ts`) is the only remaining reason
-`styles/forms/` exists. Consolidate the whole `forms/` subtree into a single:
-
-```
-styles/forms.styles.ts   ← merge formsBase + formsInputs + formsSelect etc.
-```
-
-Or better: convert to a static CSS file `styles/forms.css` that is imported
-directly in `main.tsx` alongside `forms.css` from the DS. At that point,
-`cssForms` is no longer an Emotion interpolation.
+~~**4. Flatten `styles/forms/` → root of `styles/`**~~ ✅ Done (kept as separate files; will delete with Radix removal)
 
 **5. Remove Radix Themes**
 
