@@ -3,7 +3,6 @@ import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 import { Spinner } from '@workspace/design-system/components';
 
 import { Global } from '@emotion/react';
-import { Theme as RadixTheme } from '@radix-ui/themes';
 import { SnoozeTimer } from 'components/Timers/SnoozeTimer';
 import { Toaster } from 'components/Toast';
 import { ToastProvider } from 'components/Toast/ToastContext';
@@ -16,7 +15,6 @@ import { TimersProvider } from 'providers/TimersProvider';
 import { ErrorBoundary } from 'routes/components/ErrorBoundary';
 import { useRouteMetadata } from 'routes/providers/RouteMetadataContext';
 
-import { themeConfig } from './styles/radix-ui/theme.config';
 import 'primereact/resources/themes/lara-light-indigo/theme.css'; // theme
 import 'primereact/resources/primereact.min.css'; // core css
 import { cssGlobal } from './styles/global.styles';
@@ -26,21 +24,19 @@ const AppBaseLayout = () => (
     <Global styles={cssGlobal} />
     <EmotionThemeProvider>
       <AppConfigProvider>
-        <RadixTheme {...themeConfig} appearance="light">
-          <ToastProvider>
-            <AuthProviderWithInitialization>
-              <SessionProvider>
-                <TimersProvider>
-                  <Toaster />
-                  <Suspense fallback={<Spinner />}>
-                    <Outlet />
-                  </Suspense>
-                  <SnoozeTimer shouldDebounce={false} />
-                </TimersProvider>
-              </SessionProvider>
-            </AuthProviderWithInitialization>
-          </ToastProvider>
-        </RadixTheme>
+        <ToastProvider>
+          <AuthProviderWithInitialization>
+            <SessionProvider>
+              <TimersProvider>
+                <Toaster />
+                <Suspense fallback={<Spinner />}>
+                  <Outlet />
+                </Suspense>
+                <SnoozeTimer shouldDebounce={false} />
+              </TimersProvider>
+            </SessionProvider>
+          </AuthProviderWithInitialization>
+        </ToastProvider>
       </AppConfigProvider>
     </EmotionThemeProvider>
   </ErrorBoundary>
