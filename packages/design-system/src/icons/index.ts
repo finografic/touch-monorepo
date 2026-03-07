@@ -1,15 +1,28 @@
-import { icons } from './icons';
+/**
+ * icons/index.ts — @workspace/design-system
+ *
+ * !! GENERATED FILE — do not edit by hand.
+ * !! Edit icons.json via the lucide-manager picker, then run: lucide-manager generate
+ */
 
 export type { IconComponent, IconName } from './icons';
 export { ICON_NAMES, icons } from './icons';
 
-// Named icon exports — drop-in replacement for `import { XIcon } from 'styles/icons'`
+// Named icon exports
 export const {
-  // Core UI
   AddIcon,
+  ArrowDownIcon,
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  ArrowUpIcon,
   BadgeCheckIcon,
-  CheckCircleIcon,
   CheckIcon,
+  CheckCircleIcon,
+  ChevronDownIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ChevronsUpDownIcon,
+  ChevronUpIcon,
   ClipboardIcon,
   CloseIcon,
   CoffeeIcon,
@@ -19,6 +32,8 @@ export const {
   Cross2Icon,
   DeleteIcon,
   DialogIcon,
+  DoubleArrowLeftIcon,
+  DoubleArrowRightIcon,
   DropdownIcon,
   EditIcon,
   ExclamationTriangleIcon,
@@ -30,8 +45,8 @@ export const {
   HomeIcon,
   InfoCircledIcon,
   LanguageIcon,
-  ListChecksIcon,
   ListIcon,
+  ListChecksIcon,
   LoaderIcon,
   LockIcon,
   MagnifyingGlassIcon,
@@ -39,6 +54,10 @@ export const {
   MinimizeIcon,
   MinusIcon,
   MoonIcon,
+  PanelBottomCloseIcon,
+  PanelBottomOpenIcon,
+  PanelLeftCloseIcon,
+  PanelLeftOpenIcon,
   PlusIcon,
   RadioIcon,
   RefreshIcon,
@@ -57,8 +76,8 @@ export const {
   TimerResetIcon,
   TrashIcon,
   UploadIcon,
-  UserCircleIcon,
   UserIcon,
+  UserCircleIcon,
   UserLockIcon,
   UserRoundCheckIcon,
   UserShieldIcon,
@@ -68,18 +87,6 @@ export const {
   WineIcon,
   XIcon,
   ZapIcon,
-  // Navigation — Chevrons
-  ChevronDownIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  ChevronUpIcon,
-  DoubleArrowLeftIcon,
-  DoubleArrowRightIcon,
-  // Panels
-  PanelBottomCloseIcon,
-  PanelBottomOpenIcon,
-  PanelLeftCloseIcon,
-  PanelLeftOpenIcon,
 } = icons;
 
 // Expose wrapper factory for consumers who need to register app-specific icons

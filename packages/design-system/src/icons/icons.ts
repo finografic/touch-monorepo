@@ -1,18 +1,10 @@
 /**
  * Icon Registry — @workspace/design-system
  *
- * Single source of truth for all registered icons.
- * To add a new icon: add ONE entry to the ICONS object below.
- * The icon is automatically wrapped and available via `icons.YourIconName`.
+ * !! GENERATED FILE — do not edit by hand.
+ * !! Edit icons.json via the lucide-manager picker, then run: lucide-manager generate
  *
- * Browse all available Lucide icons: https://lucide.dev/icons/
- *
- * Usage:
- *   import { icons } from '@workspace/design-system/icons';
- *   const { AddIcon, CloseIcon } = icons;
- *
- *   // Types:
- *   import type { IconName, IconComponent } from '@workspace/design-system/icons';
+ * Source of truth: lucide-manager.config.json → iconsJsonPath
  */
 
 import * as Lucide from 'lucide-react';
@@ -20,14 +12,21 @@ import * as Lucide from 'lucide-react';
 import { createIconWrapper } from './icons.utils';
 
 // ── Icon registry ──────────────────────────────────────────────────────────────
-// Add a new icon HERE — that's the only place you need to touch.
-// Aliases (multiple names → same Lucide icon) are fully supported.
 
 const ICONS = {
-  // ── Core UI ─────────────────────────────────────────────────────────────────
   AddIcon:                  Lucide.Plus,
+  ArrowDownIcon:            Lucide.ArrowDown,
+  ArrowLeftIcon:            Lucide.ArrowLeft,
+  ArrowRightIcon:           Lucide.ArrowRight,
+  ArrowUpIcon:              Lucide.ArrowUp,
   BadgeCheckIcon:           Lucide.BadgeCheck,
+  CheckIcon:                Lucide.Check,
   CheckCircleIcon:          Lucide.CheckCircle2,
+  ChevronDownIcon:          Lucide.ChevronDown,
+  ChevronLeftIcon:          Lucide.ChevronLeft,
+  ChevronRightIcon:         Lucide.ChevronRight,
+  ChevronsUpDownIcon:       Lucide.ChevronsUpDown,
+  ChevronUpIcon:            Lucide.ChevronUp,
   ClipboardIcon:            Lucide.Clipboard,
   CloseIcon:                Lucide.X,
   CoffeeIcon:               Lucide.Coffee,
@@ -37,6 +36,8 @@ const ICONS = {
   Cross2Icon:               Lucide.X,
   DeleteIcon:               Lucide.X,
   DialogIcon:               Lucide.AppWindowMac,
+  DoubleArrowLeftIcon:      Lucide.ChevronsLeft,
+  DoubleArrowRightIcon:     Lucide.ChevronsRight,
   DropdownIcon:             Lucide.ChevronDown,
   EditIcon:                 Lucide.PencilLine,
   ExclamationTriangleIcon:  Lucide.TriangleAlert,
@@ -48,18 +49,20 @@ const ICONS = {
   HomeIcon:                 Lucide.House,
   InfoCircledIcon:          Lucide.Info,
   LanguageIcon:             Lucide.Languages,
-  LoaderIcon:               Lucide.Loader,
-  ListChecksIcon:           Lucide.ListChecks,
   ListIcon:                 Lucide.List,
+  ListChecksIcon:           Lucide.ListChecks,
+  LoaderIcon:               Lucide.Loader,
   LockIcon:                 Lucide.Lock,
   MagnifyingGlassIcon:      Lucide.Search,
   MenuIcon:                 Lucide.Menu,
   MinimizeIcon:             Lucide.Minimize,
-  CheckIcon:                Lucide.Check,
   MinusIcon:                Lucide.Minus,
   MoonIcon:                 Lucide.Moon,
+  PanelBottomCloseIcon:     Lucide.PanelBottomClose,
+  PanelBottomOpenIcon:      Lucide.PanelBottomOpen,
+  PanelLeftCloseIcon:       Lucide.PanelLeftClose,
+  PanelLeftOpenIcon:        Lucide.PanelLeftOpen,
   PlusIcon:                 Lucide.Plus,
-  XIcon:                    Lucide.X,
   RadioIcon:                Lucide.Radio,
   RefreshIcon:              Lucide.RefreshCcw,
   ReloadIcon:               Lucide.RotateCw,
@@ -77,8 +80,8 @@ const ICONS = {
   TimerResetIcon:           Lucide.TimerReset,
   TrashIcon:                Lucide.Trash2,
   UploadIcon:               Lucide.Upload,
-  UserCircleIcon:           Lucide.CircleUserRound,
   UserIcon:                 Lucide.User,
+  UserCircleIcon:           Lucide.CircleUserRound,
   UserLockIcon:             Lucide.UserLock,
   UserRoundCheckIcon:       Lucide.UserRoundCheck,
   UserShieldIcon:           Lucide.ShieldUser,
@@ -86,28 +89,8 @@ const ICONS = {
   VolumeOffIcon:            Lucide.VolumeOff,
   WindowIcon:               Lucide.AppWindowMac,
   WineIcon:                 Lucide.Wine,
+  XIcon:                    Lucide.X,
   ZapIcon:                  Lucide.Zap,
-
-  // ── Directional arrows ───────────────────────────────────────────────────────
-  ArrowDownIcon:            Lucide.ArrowDown,
-  ArrowLeftIcon:            Lucide.ArrowLeft,
-  ArrowRightIcon:           Lucide.ArrowRight,
-  ArrowUpIcon:              Lucide.ArrowUp,
-
-  // ── Navigation — Chevrons ────────────────────────────────────────────────────
-  ChevronDownIcon:          Lucide.ChevronDown,
-  ChevronLeftIcon:          Lucide.ChevronLeft,
-  ChevronRightIcon:         Lucide.ChevronRight,
-  ChevronUpIcon:            Lucide.ChevronUp,
-  ChevronsUpDownIcon:       Lucide.ChevronsUpDown,
-  DoubleArrowLeftIcon:      Lucide.ChevronsLeft,
-  DoubleArrowRightIcon:     Lucide.ChevronsRight,
-
-  // ── Panels ───────────────────────────────────────────────────────────────────
-  PanelBottomCloseIcon:     Lucide.PanelBottomClose,
-  PanelBottomOpenIcon:      Lucide.PanelBottomOpen,
-  PanelLeftCloseIcon:       Lucide.PanelLeftClose,
-  PanelLeftOpenIcon:        Lucide.PanelLeftOpen,
 } as const;
 
 // ── Auto-wrap ──────────────────────────────────────────────────────────────────
