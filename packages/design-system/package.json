@@ -66,6 +66,8 @@
     "prepare": "panda codegen",
     "build": "panda cssgen && tsdown",
     "dev": "tsdown --watch --no-clean",
+    "icons": "lucide-manager dev",
+    "icons.generate": "lucide-manager generate",
     "·········· LINTING": "················································",
     "lint": "eslint .",
     "lint.fix": "eslint . --fix",
@@ -91,6 +93,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.3",
+    "@finografic/lucide-manager": "0.2.1",
     "@finografic/project-scripts": "8.12.0",
     "@pandacss/studio": "1.8.2",
     "@stylistic/eslint-plugin": "^4.4.1",
