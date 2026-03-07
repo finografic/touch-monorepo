@@ -66,8 +66,6 @@
     "prepare": "panda codegen",
     "build": "panda cssgen && tsdown",
     "dev": "tsdown --watch --no-clean",
-    "icons": "lucide-manager dev",
-    "icons.generate": "lucide-manager generate",
     "·········· LINTING": "················································",
     "lint": "eslint .",
     "lint.fix": "eslint . --fix",
@@ -87,13 +85,12 @@
     "@ark-ui/react": "^5.11.0",
     "@finografic/dprint-config": "0.12.4",
     "@pandacss/dev": "^0.53.1",
-    "lucide-react": "^0.564.0",
+    "@workspace/icons": "workspace:*",
     "match-sorter": "8.2.0",
     "react-hook-form": "7.71.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.3",
-    "@finografic/lucide-manager": "0.4.0",
     "@finografic/project-scripts": "8.12.0",
     "@pandacss/studio": "1.8.2",
     "@stylistic/eslint-plugin": "^4.4.1",

@@ -1,5 +1,5 @@
 /**
- * Icon Registry — @workspace/design-system
+ * Icon Registry — @workspace/icons
  *
  * !! GENERATED FILE — do not edit by hand.
  * !! Edit icons.json via the lucide-manager picker, then run: lucide-manager generate

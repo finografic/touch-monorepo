@@ -30,8 +30,12 @@
       "dependsOn": ["@workspace/i18n#build"],
       "outputs": ["dist/**", "*.tsbuildinfo"]
     },
+    "@workspace/icons#build": {
+      "outputs": ["dist/**"]
+    },
     "@workspace/design-system#build": {
       "dependsOn": [
+        "@workspace/icons#build",
         "@workspace/core#build",
         "@workspace/shared#build",
         "@workspace/i18n#build",

@@ -103,6 +103,7 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
         '@workspace/shared/constants': resolve(WORKSPACE_ROOT, 'packages/shared/src/constants/index.ts'),
         // IMPORTANT: More specific first: /constants must match before bare @workspace/shared
         '@workspace/shared': resolve(WORKSPACE_ROOT, 'packages/shared/src/index.ts'),
+        '@workspace/icons': resolve(WORKSPACE_ROOT, 'packages/icons/src/index.ts'),
         'i18n/utils': resolve(__dirname, 'src/i18n/utils/index.ts'),
         'messages': resolve(__dirname, '../messages'),
       },
@@ -158,6 +159,7 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
         '@workspace/shared',
         '@workspace/shared/constants',
         '@finografic/zustand-context-creator',
+        '@workspace/icons',
       ],
       esbuildOptions: {
         target: 'es2020',

@@ -726,9 +726,9 @@ importers:
       '@pandacss/dev':
         specifier: ^0.53.1
         version: 0.53.7(typescript@5.9.3)
-      lucide-react:
-        specifier: ^0.564.0
-        version: 0.564.0(react@18.3.1)
+      '@workspace/icons':
+        specifier: workspace:*
+        version: link:../icons
       match-sorter:
         specifier: 8.2.0
         version: 8.2.0
@@ -739,9 +739,6 @@ importers:
       '@eslint/js':
         specifier: ^9.39.3
         version: 9.39.3
-      '@finografic/lucide-manager':
-        specifier: 0.4.0
-        version: 0.4.0(@types/node@22.19.13)(jiti@2.6.1)(lightningcss@1.31.1)(yaml@2.8.2)
       '@finografic/project-scripts':
         specifier: 8.12.0
         version: 8.12.0(@types/node@22.19.13)(jsonc-eslint-parser@2.4.2)(tsx@4.21.0)
@@ -815,6 +812,31 @@ importers:
       tsup:
         specifier: 8.5.1
         version: 8.5.1(@microsoft/api-extractor@7.57.6(@types/node@20.11.24))(@swc/core@1.15.17(@swc/helpers@0.5.19))(jiti@2.6.1)(postcss@8.5.6)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2)
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.3
+
+  packages/icons:
+    dependencies:
+      lucide-react:
+        specifier: ^0.564.0
+        version: 0.564.0(react@18.3.1)
+      react:
+        specifier: ^18.3.1
+        version: 18.3.1
+    devDependencies:
+      '@finografic/lucide-manager':
+        specifier: 0.4.0
+        version: 0.4.0(@types/node@22.19.13)(jiti@2.6.1)(lightningcss@1.31.1)(yaml@2.8.2)
+      '@finografic/project-scripts':
+        specifier: 8.12.0
+        version: 8.12.0(@types/node@22.19.13)(jsonc-eslint-parser@2.4.2)(tsx@4.21.0)
+      '@types/react':
+        specifier: ^18.3.12
+        version: 18.3.28
+      tsdown:
+        specifier: ^0.20.3
+        version: 0.20.3(synckit@0.11.12)(typescript@5.9.3)
       typescript:
         specifier: ^5.9.2
         version: 5.9.3
@@ -13224,14 +13246,14 @@ snapshots:
 
   '@inquirer/confirm@5.1.18(@types/node@20.11.24)':
     dependencies:
-      '@inquirer/core': 10.2.2(@types/node@20.11.24)
+      '@inquirer/core': 10.3.2(@types/node@20.11.24)
       '@inquirer/type': 3.0.10(@types/node@20.11.24)
     optionalDependencies:
       '@types/node': 20.11.24
 
   '@inquirer/confirm@5.1.18(@types/node@22.19.13)':
     dependencies:
-      '@inquirer/core': 10.2.2(@types/node@22.19.13)
+      '@inquirer/core': 10.3.2(@types/node@22.19.13)
       '@inquirer/type': 3.0.10(@types/node@22.19.13)
     optionalDependencies:
       '@types/node': 22.19.13
@@ -13440,14 +13462,14 @@ snapshots:
 
   '@inquirer/input@4.2.4(@types/node@20.11.24)':
     dependencies:
-      '@inquirer/core': 10.2.2(@types/node@20.11.24)
+      '@inquirer/core': 10.3.2(@types/node@20.11.24)
       '@inquirer/type': 3.0.10(@types/node@20.11.24)
     optionalDependencies:
       '@types/node': 20.11.24
 
   '@inquirer/input@4.2.4(@types/node@22.19.13)':
     dependencies:
-      '@inquirer/core': 10.2.2(@types/node@22.19.13)
+      '@inquirer/core': 10.3.2(@types/node@22.19.13)
       '@inquirer/type': 3.0.10(@types/node@22.19.13)
     optionalDependencies:
       '@types/node': 22.19.13
