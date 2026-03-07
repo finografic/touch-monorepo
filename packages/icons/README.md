@@ -116,7 +116,7 @@ An installable npm package (v2.x) that is **UI only**:
 
 - No server code
 - No codegen script
-- No Vite plugin
+- No `iconsJsonPlugin` — Vite runs the SPA only, not the API
 
 It reads `lucide-manager.config.json` on startup to find `serverUrl`, then:
 
