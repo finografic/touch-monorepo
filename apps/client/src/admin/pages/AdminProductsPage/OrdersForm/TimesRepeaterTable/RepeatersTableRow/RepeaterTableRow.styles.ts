@@ -26,8 +26,6 @@ export const styles = css`
       padding: 0 0.5rem;
 
       &:focus-within {
-        /* outline: 2px solid var(--blue-8);
-        background: var(--gray-1); */
       }
     }
 

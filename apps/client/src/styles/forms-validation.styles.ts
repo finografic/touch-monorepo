@@ -10,9 +10,7 @@ import { colors } from '@workspace/design-system/tokens';
 export const formsValidation = css`
   /* Validation states for inputs */
   .field-error input,
-  .field-error .rt-TextFieldInput,
-  .field-error .rt-TextFieldSlot,
-  .field-error .rt-SelectTrigger {
+  .field-error .ds-input-field__input {
     border-color: ${colors.dangerDark} !important;
 
     &:focus {
@@ -21,9 +19,7 @@ export const formsValidation = css`
   }
 
   .field-warning input,
-  .field-warning .rt-TextFieldInput,
-  .field-warning .rt-TextFieldSlot,
-  .field-warning .rt-SelectTrigger {
+  .field-warning .ds-input-field__input {
     border-color: ${colors.warningDark} !important;
 
     &:focus {
@@ -32,9 +28,7 @@ export const formsValidation = css`
   }
 
   .field-success input,
-  .field-success .rt-TextFieldInput,
-  .field-success .rt-TextFieldSlot,
-  .field-success .rt-SelectTrigger {
+  .field-success .ds-input-field__input {
     border-color: ${colors.success} !important;
 
     &:focus {

@@ -124,7 +124,6 @@ export const formsInputs = css`
     }
   }
 
-  /* .rt-TextFieldInput:where(:disabled, :read-only), */
   input:read-only {
     opacity: 0.45;
     border-color: ${colors.greyLight};

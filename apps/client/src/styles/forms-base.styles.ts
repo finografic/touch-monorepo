@@ -4,11 +4,10 @@ import { forms } from 'forms/forms.config';
 import { colors } from '@workspace/design-system/tokens';
 
 // ======================================================================== //
-// FORM RESET - Minimal reset that works with Radix UI
+// FORM RESET
 // ======================================================================== //
 
 export const formsReset = css`
-  /* Remove default styling while preserving Radix functionality */
   input[type='number']::-webkit-inner-spin-button,
   input[type='number']::-webkit-outer-spin-button {
     -webkit-appearance: none;
@@ -20,7 +19,6 @@ export const formsReset = css`
     -webkit-appearance: none;
   }
 
-  /* Consistent focus outline removal - Radix handles focus states */
   input:focus,
   textarea:focus,
   select:focus {
@@ -38,13 +36,10 @@ export const formsReset = css`
 `;
 
 // ======================================================================== //
-// FORM BASE STYLES - Core styling that complements Radix
+// FORM BASE STYLES
 // ======================================================================== //
 
 export const formsBase = css`
-  /* Enhanced TextField styles - work with Radix classes */
-  .rt-TextFieldInput,
-  .rt-TextAreaInput,
   input[type='text'],
   input[type='email'],
   input[type='password'],
@@ -97,25 +92,7 @@ export const formsBase = css`
     }
   }
 
-  /* Radix TextField with slots (icons) */
-  .rt-TextFieldRoot {
-    &:hover:not(:has(:disabled)) .rt-TextFieldSlot {
-      border-color: ${forms.inputs.hover.border.color};
-    }
-
-    &:focus-within .rt-TextFieldSlot {
-      border-color: ${forms.inputs.focus.border.color};
-    }
-  }
-
-  .rt-TextFieldSlot {
-    border: ${forms.inputs.border.width} solid ${forms.inputs.border.color};
-    background-color: ${forms.inputs.background};
-    transition: ${forms.inputs.transition};
-  }
-
   /* Select elements */
-  .rt-SelectTrigger,
   select {
     font-size: ${forms.inputs.text.fontSize};
     font-weight: ${forms.inputs.text.fontWeight};
@@ -134,52 +111,7 @@ export const formsBase = css`
     }
   }
 
-  /* Radix UI Form Input Overrides - Remove default box-shadows */
-  .rt-TextFieldInput:where(.rt-variant-surface),
-  .rt-TextAreaInput:where(.rt-variant-surface),
-  .rt-SelectTrigger:where(.rt-variant-surface),
-  .rt-SelectValue:where(.rt-variant-surface),
-  .rt-CheckboxRoot:where(.rt-variant-surface),
-  .rt-RadioGroupRoot:where(.rt-variant-surface),
-  .rt-SwitchRoot:where(.rt-variant-surface),
-  .rt-SliderRoot:where(.rt-variant-surface) {
-    &,
-    & input {
-      box-shadow: none !important;
-    }
-
-    &:focus {
-      .rt-TextFieldRoot:where(.rt-r-size-3) :where(.rt-TextFieldSlot),
-      .rt-TextFieldSlot:where([data-side='right']),
-      .rt-TextFieldSlot:where(.rt-TextFieldSlot:not([data-side='left'])) {
-        border: none !important;
-      }
-    }
-  }
-
-  /* Switch focus styles - prevent layout shift */
-  .rt-SwitchRoot {
-    /* Remove outline that causes layout shift */
-    outline: none !important;
-    /* Ensure no border changes on focus */
-    border: none !important;
-
-    /* Focus state - use transparent box-shadow to prevent layout shift */
-    &:focus,
-    &:focus-visible {
-      outline: none !important;
-      outline-offset: 0 !important;
-      /* Transparent box-shadow to prevent layout shift without visible ring */
-      box-shadow: 0 0 0 2px transparent !important;
-      /* Ensure no border is added on focus */
-      border: none !important;
-      /* Prevent any transform changes */
-      transform: none !important;
-    }
-  }
-
   /* Buttons - basic enhancement */
-  .rt-Button .field-label,
   button[type='submit'] .field-label,
   button[type='button'] .field-label {
     font-size: ${forms.inputs.label.fontSize};

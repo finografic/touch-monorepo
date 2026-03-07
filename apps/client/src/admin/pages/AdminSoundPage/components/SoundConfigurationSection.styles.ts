@@ -8,30 +8,10 @@ export const styles = css`
     width: 100%;
   }
 
-  /* Make Radix Select components stretch to fill their container */
-  .rt-SelectTrigger {
-    width: 100% !important;
-    min-width: 300px;
-    flex: 1;
-  }
-
-  /* Alternative targeting using role attribute */
   [role='combobox'] {
     width: 100% !important;
     min-width: 300px;
     flex: 1;
-  }
-
-  /* Ensure the Select.Root container also stretches */
-  .rt-SelectRoot {
-    width: 100%;
-    flex: 1;
-  }
-
-  /* Style the dropdown content to match the trigger width */
-  .rt-SelectContent {
-    min-width: 300px;
-    max-width: 600px;
   }
 
   /* Enhance the overall layout */
@@ -55,16 +35,6 @@ export const styles = css`
     flex-shrink: 0;
   }
 
-  /* Hover and focus states for better UX */
-  .rt-SelectTrigger:hover {
-    border-color: ${colors.primaryLight};
-  }
-
-  .rt-SelectTrigger:focus {
-    border-color: ${colors.primary};
-    box-shadow: 0 0 0 2px ${colors.primaryLighter};
-  }
-
   /* Responsive adjustments */
   @media (max-width: 768px) {
     .sound-config-row {
@@ -81,8 +51,5 @@ export const styles = css`
       min-width: auto;
     }
 
-    .rt-SelectTrigger {
-      min-width: auto;
-    }
   }
 `;

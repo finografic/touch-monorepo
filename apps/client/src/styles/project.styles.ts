@@ -92,11 +92,6 @@ export const stylesAdminContent = css`
     opacity: 0.5;
   }
 
-  div.rt-TextFieldRoot {
-    min-height: ${forms.inputs.height};
-    /* box-shadow: inset 0px 0px 0px 2px ${colors.greyXLight}; */
-  }
-
   /* TABS ========================================================== */
 
   [role='tablist'] {

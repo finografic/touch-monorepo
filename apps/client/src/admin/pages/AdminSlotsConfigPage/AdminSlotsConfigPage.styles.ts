@@ -79,11 +79,6 @@ export const styles = css`
     margin-right: 2rem;
     justify-content: space-between;
 
-    .rt-Text.rt-r-size-3 {
-      font-weight: 700;
-      color: ${colors.textLight};
-    }
-
     button[role='switch'] {
       margin-left: 0.9rem;
       & + label {

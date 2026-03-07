@@ -9,15 +9,6 @@ export const styles = css`
     display: inline-flex;
   }
 
-  /* .language-card {
-    border: 1px solid var(--gray-6);
-  } */
-
-  /* .language-flag {
-    object-fit: cover;
-    border: 1px solid var(--gray-4);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  } */
 
   .alert.no-selection {
     margin-top: 1.75rem;

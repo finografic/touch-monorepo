@@ -35,15 +35,6 @@ export const cssGlobal = css`
   html,
   body,
   * {
-    /* Unset Radix UI font classes before applying our defaults */
-    .rt-Heading,
-    .rt-Text,
-    .rt-Card,
-    .rt-Button,
-    .rt-TextField,
-    .rt-Select {
-      font-family: unset;
-    }
     ${cssFontDefaults}
   }
 
