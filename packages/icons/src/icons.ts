@@ -2,9 +2,9 @@
  * Icon Registry — @workspace/icons
  *
  * !! GENERATED FILE — do not edit by hand.
- * !! Edit icons.json via the lucide-manager picker, then run: lucide-manager generate
+ * !! Edit src/icons.json via the picker UI, then run: pnpm icons.generate
  *
- * Source of truth: lucide-manager.config.json → iconsJsonPath
+ * Source of truth: packages/icons/src/icons.json
  */
 
 import * as Lucide from 'lucide-react';

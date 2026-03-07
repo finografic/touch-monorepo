@@ -1,0 +1,132 @@
+/**
+ * server/icons-server.ts
+ *
+ * Minimal Hono HTTP server for the icon picker workflow.
+ *
+ * Routes:
+ *   GET  /api/icons-json  → returns current src/icons.json as JSON array
+ *   POST /api/icons-json  → validates + writes src/icons.json, runs generate in-process
+ *
+ * Started via: pnpm icons  (runs alongside the lucide-manager picker UI)
+ * Port is read from lucide-manager.config.json → serverPort, or defaults to 3001.
+ *
+ * This server is dev-only. It is not part of the package build output.
+ */
+
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { Hono } from 'hono';
+import { serve } from '@hono/node-server';
+import { cors } from 'hono/cors';
+
+// ── Paths ──────────────────────────────────────────────────────────────────────
+
+const root     = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
+const jsonPath = path.join(root, 'src', 'icons.json');
+
+// ── Config ─────────────────────────────────────────────────────────────────────
+// The server no longer reads lucide-manager.config.json — that file exists only
+// for the picker UI (to know the serverUrl). Port is set here directly.
+
+const PORT = 3001;
+
+// ── Types ──────────────────────────────────────────────────────────────────────
+
+interface IconEntry {
+  lucideName:  string;
+  exportName:  string;
+}
+
+// ── Generate (in-process) ─────────────────────────────────────────────────────
+
+/**
+ * Runs the generate script in-process rather than spawning a child process.
+ * Keeps the feedback loop tight — generate completes before the POST response
+ * is returned, so the picker always reflects the actual current state.
+ */
+async function runGenerate(): Promise<void> {
+  const { default: generate } = await import('../scripts/generate.ts');
+  // generate.ts is a side-effectful script (writes files, logs to console).
+  // Re-importing works here because we're in a dev server context with tsx,
+  // which does not cache module evaluation between calls.
+  void generate;
+}
+
+// ── App ────────────────────────────────────────────────────────────────────────
+
+const app = new Hono();
+
+// Allow the picker UI (Vite dev server on a different port) to call this server
+app.use('*', cors({
+  origin:  '*',
+  methods: ['GET', 'POST', 'OPTIONS'],
+}));
+
+// ── GET /api/icons-json ───────────────────────────────────────────────────────
+
+app.get('/api/icons-json', async c => {
+  try {
+    const content = fs.readFileSync(jsonPath, 'utf8');
+    return c.json(JSON.parse(content));
+  } catch (err) {
+    console.error('[icons-server] Failed to read icons.json:', err);
+    return c.json({ error: 'Failed to read icons.json' }, 500);
+  }
+});
+
+// ── POST /api/icons-json ──────────────────────────────────────────────────────
+
+app.post('/api/icons-json', async c => {
+  let body: unknown;
+
+  try {
+    body = await c.req.json();
+  } catch {
+    return c.json({ error: 'Invalid JSON body' }, 400);
+  }
+
+  // Basic shape validation — must be an array of { lucideName, exportName }
+  if (!Array.isArray(body)) {
+    return c.json({ error: 'Body must be a JSON array' }, 400);
+  }
+
+  for (const entry of body) {
+    if (
+      typeof entry !== 'object' || entry === null
+      || typeof (entry as IconEntry).lucideName !== 'string'
+      || typeof (entry as IconEntry).exportName !== 'string'
+    ) {
+      return c.json({ error: 'Each entry must have lucideName and exportName strings' }, 400);
+    }
+  }
+
+  const entries = body as IconEntry[];
+
+  // Write icons.json
+  try {
+    fs.writeFileSync(jsonPath, JSON.stringify(entries, null, 2) + '\n', 'utf8');
+  } catch (err) {
+    console.error('[icons-server] Failed to write icons.json:', err);
+    return c.json({ error: 'Failed to write icons.json' }, 500);
+  }
+
+  // Run generate in-process
+  try {
+    await runGenerate();
+  } catch (err) {
+    // icons.json was saved successfully — generation failure shouldn't block the picker.
+    // Log the error and return a partial-success response so the UI can surface it.
+    console.error('[icons-server] Generate failed:', err);
+    return c.json({ ok: true, count: entries.length, generateError: String(err) }, 200);
+  }
+
+  return c.json({ ok: true, count: entries.length });
+});
+
+// ── Start ─────────────────────────────────────────────────────────────────────
+
+serve({ fetch: app.fetch, port: PORT }, () => {
+  console.log(`\n  Icons server  →  http://localhost:${PORT}`);
+  console.log(`  Picker UI     →  run lucide-manager dev in another terminal\n`);
+});

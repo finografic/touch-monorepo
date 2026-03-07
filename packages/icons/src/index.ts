@@ -1,11 +1,9 @@
 /**
- * index.ts — @workspace/icons
+ * src/index.ts — @workspace/icons
  *
  * !! GENERATED FILE — do not edit by hand.
- * !! Edit icons.json via the lucide-manager picker, then run: lucide-manager generate
+ * !! Edit src/icons.json via the picker UI, then run: pnpm icons.generate
  */
-
-import { icons } from './icons';
 
 export type { IconComponent, IconName } from './icons';
 export { ICON_NAMES, icons } from './icons';
