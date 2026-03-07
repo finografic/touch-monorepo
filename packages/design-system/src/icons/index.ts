@@ -5,6 +5,8 @@
  * !! Edit icons.json via the lucide-manager picker, then run: lucide-manager generate
  */
 
+import { icons } from './icons';
+
 export type { IconComponent, IconName } from './icons';
 export { ICON_NAMES, icons } from './icons';
 
