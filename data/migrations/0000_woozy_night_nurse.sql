@@ -42,8 +42,9 @@ CREATE TABLE `auth_user` (
 	`id` text PRIMARY KEY NOT NULL,
 	`name` text NOT NULL,
 	`email` text NOT NULL,
-	`emailVerified` integer NOT NULL,
+	`emailVerified` integer DEFAULT false NOT NULL,
 	`image` text,
+	`hashedPassword` text,
 	`role` text DEFAULT 'user' NOT NULL,
 	`createdAt` integer NOT NULL,
 	`updatedAt` integer NOT NULL

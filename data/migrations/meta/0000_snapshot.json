@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "c7824478-81b8-471b-aab8-6b523d34d4d8",
+  "id": "21b502fc-8e36-44d0-92cb-6ea98ff3a6bd",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "app_configuration": {
@@ -300,10 +300,18 @@
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
+          "autoincrement": false,
+          "default": false
         },
         "image": {
           "name": "image",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "hashedPassword": {
+          "name": "hashedPassword",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
