@@ -1,6 +1,6 @@
 import createCuid from '@bugsnag/cuid';
-import * as v from 'valibot';
 import { createInsertSchema, createSelectSchema } from 'drizzle-valibot';
+import * as v from 'valibot';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
 import { sqliteBooleanField } from 'lib/valibot.utils';
@@ -30,9 +30,9 @@ export const translations_app = sqliteTable('translations_app', {
 
 const insertTranslationAppSchema = v.omit(
   createInsertSchema(translations_app, {
-    key:          v.pipe(v.string(), v.minLength(1), v.maxLength(255)),
+    key: v.pipe(v.string(), v.minLength(1), v.maxLength(255)),
     translations: v.record(v.string(), v.string()),
-    isActive:     sqliteBooleanField(),
+    isActive: sqliteBooleanField(),
   }),
   ['id', 'createdAt', 'updatedAt'],
 );
@@ -41,7 +41,7 @@ const patchTranslationAppSchema = v.partial(
   v.object({
     ...v.omit(insertTranslationAppSchema, ['translations']).entries,
     translations: v.optional(v.record(v.string(), v.string())),
-    isActive:     v.optional(sqliteBooleanField()),
+    isActive: v.optional(sqliteBooleanField()),
   }),
 );
 
@@ -50,9 +50,9 @@ export const translationAppSchemas = {
     translations: v.optional(v.record(v.string(), v.string())),
   }),
   insert: insertTranslationAppSchema,
-  patch:  patchTranslationAppSchema,
+  patch: patchTranslationAppSchema,
 } as const;
 
-export type TranslationAppModel  = v.InferOutput<typeof translationAppSchemas.select>;
+export type TranslationAppModel = v.InferOutput<typeof translationAppSchemas.select>;
 export type TranslationAppInsert = v.InferOutput<typeof translationAppSchemas.insert>;
-export type TranslationAppPatch  = v.InferOutput<typeof translationAppSchemas.patch>;
+export type TranslationAppPatch = v.InferOutput<typeof translationAppSchemas.patch>;

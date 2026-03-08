@@ -1,6 +1,6 @@
 import createCuid from '@bugsnag/cuid';
-import * as v from 'valibot';
 import { createInsertSchema, createSelectSchema } from 'drizzle-valibot';
+import * as v from 'valibot';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
 import { sqliteBooleanField } from '../../lib/valibot.utils';
@@ -25,13 +25,13 @@ export const supported_languages = sqliteTable('supported_languages', {
 
 const insertSupportedLanguageSchema = v.omit(
   createInsertSchema(supported_languages, {
-    isoCode:     v.pipe(v.string(), v.minLength(2), v.maxLength(5), v.regex(/^[a-z]{2,3}(-[A-Z]{2})?$/)),
-    nativeName:  v.pipe(v.string(), v.minLength(1), v.maxLength(50)),
+    isoCode: v.pipe(v.string(), v.minLength(2), v.maxLength(5), v.regex(/^[a-z]{2,3}(-[A-Z]{2})?$/)),
+    nativeName: v.pipe(v.string(), v.minLength(1), v.maxLength(50)),
     displayName: v.pipe(v.string(), v.minLength(1), v.maxLength(50)),
-    flagCode:    v.pipe(v.string(), v.minLength(2), v.maxLength(5)),
-    sortOrder:   v.pipe(v.number(), v.integer(), v.minValue(0), v.maxValue(999)),
-    isActive:    sqliteBooleanField(),
-    isDefault:   sqliteBooleanField(),
+    flagCode: v.pipe(v.string(), v.minLength(2), v.maxLength(5)),
+    sortOrder: v.pipe(v.number(), v.integer(), v.minValue(0), v.maxValue(999)),
+    isActive: sqliteBooleanField(),
+    isDefault: sqliteBooleanField(),
   }),
   ['id', 'createdAt', 'updatedAt'],
 );
@@ -42,12 +42,12 @@ export const supportedLanguageSchemas = {
   patch: v.partial(
     v.object({
       ...insertSupportedLanguageSchema.entries,
-      isActive:  v.optional(sqliteBooleanField()),
+      isActive: v.optional(sqliteBooleanField()),
       isDefault: v.optional(sqliteBooleanField()),
     }),
   ),
 } as const;
 
-export type SupportedLanguageModel  = v.InferOutput<typeof supportedLanguageSchemas.select>;
+export type SupportedLanguageModel = v.InferOutput<typeof supportedLanguageSchemas.select>;
 export type SupportedLanguageInsert = v.InferOutput<typeof supportedLanguageSchemas.insert>;
-export type SupportedLanguagePatch  = v.InferOutput<typeof supportedLanguageSchemas.patch>;
+export type SupportedLanguagePatch = v.InferOutput<typeof supportedLanguageSchemas.patch>;

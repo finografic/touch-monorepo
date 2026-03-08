@@ -1,9 +1,11 @@
-import * as v from 'valibot';
 import { createInsertSchema, createSelectSchema } from 'drizzle-valibot';
+import * as v from 'valibot';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
 export const user = sqliteTable('auth_user', {
-  id: text('id').primaryKey().$defaultFn(() => crypto.randomUUID()),
+  id: text('id')
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
   name: text('name').notNull(),
   email: text('email').notNull().unique(),
   emailVerified: integer('emailVerified', { mode: 'boolean' }).notNull().default(false),
@@ -12,8 +14,12 @@ export const user = sqliteTable('auth_user', {
   role: text('role', { enum: ['public', 'user', 'admin'] })
     .notNull()
     .default('user'),
-  createdAt: integer('createdAt', { mode: 'timestamp' }).notNull().$defaultFn(() => new Date()),
-  updatedAt: integer('updatedAt', { mode: 'timestamp' }).notNull().$defaultFn(() => new Date()),
+  createdAt: integer('createdAt', { mode: 'timestamp' })
+    .notNull()
+    .$defaultFn(() => new Date()),
+  updatedAt: integer('updatedAt', { mode: 'timestamp' })
+    .notNull()
+    .$defaultFn(() => new Date()),
 });
 
 const insertUserSchema = v.omit(createInsertSchema(user), [
@@ -26,7 +32,7 @@ const insertUserSchema = v.omit(createInsertSchema(user), [
 
 export const userSchemas = {
   select: createSelectSchema(user),
-  patch:  v.partial(insertUserSchema),
+  patch: v.partial(insertUserSchema),
 } as const;
 
 export type UserModel = v.InferOutput<typeof userSchemas.select>;

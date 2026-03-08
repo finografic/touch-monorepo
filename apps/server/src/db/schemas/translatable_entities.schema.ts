@@ -1,6 +1,6 @@
 import createCuid from '@bugsnag/cuid';
-import * as v from 'valibot';
 import { createInsertSchema, createSelectSchema } from 'drizzle-valibot';
+import * as v from 'valibot';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
 import { sqliteBooleanField } from '../../lib/valibot.utils';
@@ -23,11 +23,11 @@ export const translatable_entities = sqliteTable('translatable_entities', {
 
 const insertTranslatableEntitySchema = v.omit(
   createInsertSchema(translatable_entities, {
-    tableName:   v.pipe(v.string(), v.minLength(1), v.maxLength(50), v.regex(/^[a-z_]+$/)),
-    entityName:  v.pipe(v.string(), v.minLength(1), v.maxLength(100)),
+    tableName: v.pipe(v.string(), v.minLength(1), v.maxLength(50), v.regex(/^[a-z_]+$/)),
+    entityName: v.pipe(v.string(), v.minLength(1), v.maxLength(100)),
     description: v.pipe(v.string(), v.maxLength(255)),
-    sortOrder:   v.pipe(v.number(), v.integer(), v.minValue(0), v.maxValue(999)),
-    isActive:    sqliteBooleanField(),
+    sortOrder: v.pipe(v.number(), v.integer(), v.minValue(0), v.maxValue(999)),
+    isActive: sqliteBooleanField(),
   }),
   ['id', 'createdAt', 'updatedAt'],
 );
@@ -43,6 +43,6 @@ export const translatableEntitySchemas = {
   ),
 } as const;
 
-export type TranslatableEntityModel  = v.InferOutput<typeof translatableEntitySchemas.select>;
+export type TranslatableEntityModel = v.InferOutput<typeof translatableEntitySchemas.select>;
 export type TranslatableEntityInsert = v.InferOutput<typeof translatableEntitySchemas.insert>;
-export type TranslatableEntityPatch  = v.InferOutput<typeof translatableEntitySchemas.patch>;
+export type TranslatableEntityPatch = v.InferOutput<typeof translatableEntitySchemas.patch>;

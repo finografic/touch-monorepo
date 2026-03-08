@@ -6,8 +6,8 @@ import {
 } from '@workspace/shared/constants';
 
 import createCuid from '@bugsnag/cuid';
-import * as v from 'valibot';
 import { createInsertSchema, createSelectSchema } from 'drizzle-valibot';
+import * as v from 'valibot';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
 import { sqliteBooleanField } from '../../lib/valibot.utils';
@@ -35,11 +35,21 @@ export const drink_types = sqliteTable('drink_types', {
 
 const insertDrinkTypeSchema = v.omit(
   createInsertSchema(drink_types, {
-    name:               v.pipe(v.string(), v.minLength(1), v.maxLength(50)),
-    defaultTempConsume: v.pipe(v.number(), v.integer(), v.minValue(TEMP_CONSUME_SCHEMA_MIN), v.maxValue(TEMP_CONSUME_SCHEMA_MAX)),
-    defaultTempFreeze:  v.pipe(v.number(), v.integer(), v.minValue(TEMP_FREEZE_SCHEMA_MIN), v.maxValue(TEMP_FREEZE_SCHEMA_MAX)),
-    hasSubtypes:        sqliteBooleanField(),
-    isActive:           sqliteBooleanField(),
+    name: v.pipe(v.string(), v.minLength(1), v.maxLength(50)),
+    defaultTempConsume: v.pipe(
+      v.number(),
+      v.integer(),
+      v.minValue(TEMP_CONSUME_SCHEMA_MIN),
+      v.maxValue(TEMP_CONSUME_SCHEMA_MAX),
+    ),
+    defaultTempFreeze: v.pipe(
+      v.number(),
+      v.integer(),
+      v.minValue(TEMP_FREEZE_SCHEMA_MIN),
+      v.maxValue(TEMP_FREEZE_SCHEMA_MAX),
+    ),
+    hasSubtypes: sqliteBooleanField(),
+    isActive: sqliteBooleanField(),
   }),
   ['id', 'createdAt', 'updatedAt'],
 );
@@ -48,8 +58,8 @@ const patchDrinkTypeSchema = v.partial(
   v.object({
     ...v.omit(insertDrinkTypeSchema, ['translations']).entries,
     translations: v.optional(v.record(v.string(), v.string())),
-    hasSubtypes:  v.optional(sqliteBooleanField()),
-    isActive:     v.optional(sqliteBooleanField()),
+    hasSubtypes: v.optional(sqliteBooleanField()),
+    isActive: v.optional(sqliteBooleanField()),
   }),
 );
 
@@ -58,9 +68,9 @@ export const drinkTypeSchemas = {
     translations: v.optional(v.record(v.string(), v.string())),
   }),
   insert: insertDrinkTypeSchema,
-  patch:  patchDrinkTypeSchema,
+  patch: patchDrinkTypeSchema,
 } as const;
 
-export type DrinkTypeModel  = v.InferOutput<typeof drinkTypeSchemas.select>;
+export type DrinkTypeModel = v.InferOutput<typeof drinkTypeSchemas.select>;
 export type DrinkTypeInsert = v.InferOutput<typeof drinkTypeSchemas.insert>;
-export type DrinkTypePatch  = v.InferOutput<typeof drinkTypeSchemas.patch>;
+export type DrinkTypePatch = v.InferOutput<typeof drinkTypeSchemas.patch>;

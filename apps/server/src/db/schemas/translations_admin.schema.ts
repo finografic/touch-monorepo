@@ -1,6 +1,6 @@
 import createCuid from '@bugsnag/cuid';
-import * as v from 'valibot';
 import { createInsertSchema, createSelectSchema } from 'drizzle-valibot';
+import * as v from 'valibot';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
 import { sqliteBooleanField } from 'lib/valibot.utils';
@@ -30,9 +30,9 @@ export const translations_admin = sqliteTable('translations_admin', {
 
 const insertTranslationAdminSchema = v.omit(
   createInsertSchema(translations_admin, {
-    key:          v.pipe(v.string(), v.minLength(1), v.maxLength(255)),
+    key: v.pipe(v.string(), v.minLength(1), v.maxLength(255)),
     translations: v.record(v.string(), v.string()),
-    isActive:     sqliteBooleanField(),
+    isActive: sqliteBooleanField(),
   }),
   ['id', 'createdAt', 'updatedAt'],
 );
@@ -41,7 +41,7 @@ const patchTranslationAdminSchema = v.partial(
   v.object({
     ...v.omit(insertTranslationAdminSchema, ['translations']).entries,
     translations: v.optional(v.record(v.string(), v.string())),
-    isActive:     v.optional(sqliteBooleanField()),
+    isActive: v.optional(sqliteBooleanField()),
   }),
 );
 
@@ -50,9 +50,9 @@ export const translationAdminSchemas = {
     translations: v.optional(v.record(v.string(), v.string())),
   }),
   insert: insertTranslationAdminSchema,
-  patch:  patchTranslationAdminSchema,
+  patch: patchTranslationAdminSchema,
 } as const;
 
-export type TranslationAdminModel  = v.InferOutput<typeof translationAdminSchemas.select>;
+export type TranslationAdminModel = v.InferOutput<typeof translationAdminSchemas.select>;
 export type TranslationAdminInsert = v.InferOutput<typeof translationAdminSchemas.insert>;
-export type TranslationAdminPatch  = v.InferOutput<typeof translationAdminSchemas.patch>;
+export type TranslationAdminPatch = v.InferOutput<typeof translationAdminSchemas.patch>;
