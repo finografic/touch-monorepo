@@ -13,15 +13,15 @@ import { useToast } from 'components/Toast';
 import { useGetSlotSpecialConfig, useUpdateSlotSpecialConfig } from 'queries/app-configuration';
 import { useBulkUpdateSlotConfigurations, useGetSlotConfigurations } from 'queries/slot-configurations';
 
-import { calculateColumns } from 'utils/slots.utils';
 import type { SlotSpecialParam } from 'types/app-configuration.types';
 import type { SlotType } from 'types/slots.types';
 import {
   ALT_SLOT_NUMBER,
-  getEffectiveRows,
-  MAX_COLUMNS,
-  MIN_COLUMNS,
+  getGridDimensions,
+  getGridLevelFromSlotCount,
+  GRID_LEVEL_NAMES,
   NUM_RELAYS,
+  type GridLevel,
 } from 'config/app/slots.config';
 import { AdminPageLayout } from '../..';
 import { AdminSection } from '../../components/AdminSection/AdminSection';
@@ -51,9 +51,9 @@ export const AdminSlotsConfigPage: React.FC = () => {
   const altSpecialConfig = useGetSlotSpecialConfig('special_alt');
   const updateSlotSpecialMutation = useUpdateSlotSpecialConfig();
 
-  const getColumnsFromConfigs = (configs: SlotConfigFormValue[]): number => {
+  const getGridLevelFromConfigs = (configs: SlotConfigFormValue[]): GridLevel => {
     const activeCount = configs.filter((c) => c.isActive).length;
-    return calculateColumns(activeCount);
+    return getGridLevelFromSlotCount(activeCount);
   };
 
   const methods = useForm<SlotConfigForm>({
@@ -70,7 +70,8 @@ export const AdminSlotsConfigPage: React.FC = () => {
   }, [watchedSlots]);
 
   const activeSlots = slots.filter((s) => s.isActive);
-  const numActiveColumns = activeSlots.length > 0 ? calculateColumns(activeSlots.length) : 3;
+  const gridLevel = activeSlots.length > 0 ? getGridLevelFromSlotCount(activeSlots.length) : 0;
+  const { columns: numActiveColumns, rows: effectiveRows } = getGridDimensions(gridLevel);
 
   const prevSlotConfigs = useRef<SlotConfigFormValue[] | undefined>(undefined);
 
@@ -80,9 +81,9 @@ export const AdminSlotsConfigPage: React.FC = () => {
       const prevConfigsString = JSON.stringify(prevSlotConfigs.current);
 
       if (configsString !== prevConfigsString) {
-        const numActiveColumns = getColumnsFromConfigs(slotConfigs);
+        const level = getGridLevelFromConfigs(slotConfigs);
         reset({
-          columns: numActiveColumns,
+          columns: level,
           slots: slotConfigs,
         });
         prevSlotConfigs.current = slotConfigs;
@@ -109,12 +110,13 @@ export const AdminSlotsConfigPage: React.FC = () => {
     [bulkUpdateMutation, toast],
   );
 
-  /** Sync data.is_visible for BOTH slot_special_grid and slot_special_alt when crossing the 3-column threshold (same rule: >= 3 visible). */
+  /**
+   * Sync data.is_visible for BOTH slot_special_grid and slot_special_alt.
+   * Special slots are visible only at level 2 (Large 3×3).
+   */
   const syncGridAndAltVisibility = useCallback(
-    async (newColumns: number) => {
-      const isVisible = newColumns >= 3;
-      const gridVisible = isVisible;
-      const altVisible = isVisible;
+    async (newLevel: GridLevel) => {
+      const isVisible = newLevel >= 2;
       const gridConfig = gridSpecialConfig?.data;
       const altConfig = altSpecialConfig?.data;
       const updates: Array<{
@@ -122,18 +124,18 @@ export const AdminSlotsConfigPage: React.FC = () => {
         id: string;
         data: { is_visible: boolean; slot_number: number; relay_number: number };
       }> = [];
-      if (gridConfig?.id && gridConfig.data && gridConfig.data.is_visible !== gridVisible) {
+      if (gridConfig?.id && gridConfig.data && gridConfig.data.is_visible !== isVisible) {
         updates.push({
           param: 'special_grid',
           id: gridConfig.id,
-          data: { ...gridConfig.data, is_visible: gridVisible },
+          data: { ...gridConfig.data, is_visible: isVisible },
         });
       }
-      if (altConfig?.id && altConfig.data && altConfig.data.is_visible !== altVisible) {
+      if (altConfig?.id && altConfig.data && altConfig.data.is_visible !== isVisible) {
         updates.push({
           param: 'special_alt',
           id: altConfig.id,
-          data: { ...altConfig.data, is_visible: altVisible },
+          data: { ...altConfig.data, is_visible: isVisible },
         });
       }
       if (updates.length === 0) return;
@@ -147,7 +149,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
         }
         toast({
           variant: 'success',
-          message: `Special slot visibility updated (${newColumns} columns)`,
+          message: `Special slot visibility updated (${GRID_LEVEL_NAMES[newLevel]})`,
         });
       } catch (err) {
         console.error('Failed to update special grid/alt visibility', err);
@@ -164,59 +166,46 @@ export const AdminSlotsConfigPage: React.FC = () => {
   );
 
   const handleAddColumn = async () => {
-    if (numActiveColumns < MAX_COLUMNS) {
-      const prevColumns = numActiveColumns;
-      const newColumns = Math.min(MAX_COLUMNS, prevColumns + 1);
-      const prevRows = getEffectiveRows(prevColumns);
-      const newRows = getEffectiveRows(newColumns);
+    if (gridLevel < 3) {
+      const prevLevel = gridLevel;
+      const newLevel = (prevLevel + 1) as GridLevel;
+      const { columns: prevCols, rows: prevRows } = getGridDimensions(prevLevel);
+      const { columns: newCols, rows: newRows } = getGridDimensions(newLevel);
 
-      const prevLastIndex = prevColumns * prevRows; // last grid slot (1-indexed)
-      const newLastIndex = newColumns * newRows + 1; // grid slots + 1 special
+      const prevLastIndex = prevCols * prevRows; // last grid slot at current level
+      const newLastIndex = newCols * newRows + 1; // last grid slot at new level + special
 
       const updatedSlots = slots.map((slot) => {
         const n = slot.slotNumber;
-        if (n <= prevLastIndex) {
-          return { ...slot };
-        }
-        if (n > prevLastIndex && n < newLastIndex) {
-          return { ...slot, isActive: true, slotType: 'B' as SlotType };
-        }
-        if (n === newLastIndex) {
-          return { ...slot, isActive: true, slotType: 'C' as SlotType };
-        }
+        if (n <= prevLastIndex) return { ...slot };
+        if (n > prevLastIndex && n < newLastIndex) return { ...slot, isActive: true, slotType: 'B' as SlotType };
+        if (n === newLastIndex) return { ...slot, isActive: true, slotType: 'C' as SlotType };
         return { ...slot, isActive: false, slotType: 'B' as SlotType };
       });
 
-      setValue('columns', newColumns, { shouldDirty: true });
       setValue('slots', updatedSlots, { shouldDirty: true });
       await saveConfiguration(updatedSlots);
-      await syncGridAndAltVisibility(newColumns);
+      await syncGridAndAltVisibility(newLevel);
     }
   };
 
   const handleRemoveColumn = async () => {
-    if (numActiveColumns > MIN_COLUMNS) {
-      const prevColumns = numActiveColumns;
-      const newColumns = Math.max(MIN_COLUMNS, prevColumns - 1);
-      const newRows = getEffectiveRows(newColumns);
+    if (gridLevel > 0) {
+      const newLevel = (gridLevel - 1) as GridLevel;
+      const { columns: newCols, rows: newRows } = getGridDimensions(newLevel);
 
-      const newLastIndex = newColumns * newRows + 1; // grid slots + 1 special
+      const newLastIndex = newCols * newRows + 1; // last grid slot at new level + special
 
       const updatedSlots = slots.map((slot) => {
         const n = slot.slotNumber;
-        if (n < newLastIndex) {
-          return { ...slot };
-        }
-        if (n === newLastIndex) {
-          return { ...slot, isActive: true, slotType: 'C' as SlotType };
-        }
+        if (n < newLastIndex) return { ...slot };
+        if (n === newLastIndex) return { ...slot, isActive: true, slotType: 'C' as SlotType };
         return { ...slot, isActive: false, slotType: 'B' as SlotType };
       });
 
-      setValue('columns', newColumns, { shouldDirty: true });
       setValue('slots', updatedSlots, { shouldDirty: true });
       await saveConfiguration(updatedSlots);
-      await syncGridAndAltVisibility(newColumns);
+      await syncGridAndAltVisibility(newLevel);
     }
   };
 
@@ -229,13 +218,12 @@ export const AdminSlotsConfigPage: React.FC = () => {
     debouncedSave(updatedSlots);
   };
 
-  const effectiveRows = getEffectiveRows(numActiveColumns);
   const gridSlotsCount = numActiveColumns * effectiveRows;
 
-  // Match main app: special slot only when columns >= 3 AND Special grid switch ON
-  const showSpecialSlotInPreview = numActiveColumns >= 3 && gridSpecialConfig?.data?.isActive === true;
+  // Match main app: special slots visible at levels 2–3 (≥3 columns) AND switch ON
+  const showSpecialSlotInPreview = gridLevel >= 2 && gridSpecialConfig?.data?.isActive === true;
 
-  const showSpecialAltSlotInPreview = numActiveColumns >= 3 && altSpecialConfig?.data?.isActive === true;
+  const showSpecialAltSlotInPreview = gridLevel >= 2 && altSpecialConfig?.data?.isActive === true;
   const altSlotNumber = altSpecialConfig?.data?.data.slot_number ?? ALT_SLOT_NUMBER;
 
   const showPowerSlotInPreview = powerSpecialConfig?.data?.isActive === true;
@@ -252,12 +240,8 @@ export const AdminSlotsConfigPage: React.FC = () => {
         >
           <AdminSection
             title="Slot Grid Layout Preview"
-            subtitle={`${numActiveColumns} columns × ${effectiveRows} rows`}
-            description={
-              numActiveColumns < 3
-                ? `Small layout: ${gridSlotsCount} grid slots + 1 special (rows auto-set to 2).`
-                : `Click on slots to change their type. Slot ${gridSlotsCount + 1} is positioned separately.`
-            }
+            subtitle={`${GRID_LEVEL_NAMES[gridLevel]} — ${numActiveColumns} columns × ${effectiveRows} rows`}
+            description={`${gridSlotsCount} grid slots + 1 special slot. Click slots to cycle type (A→B→C).`}
             className={clsx('admin-slot-config')}
             isLoading={isLoading}
             variant="border-solid"
@@ -380,7 +364,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
                   variant="outline"
                   color="warning"
                   onClick={handleRemoveColumn}
-                  disabled={numActiveColumns <= MIN_COLUMNS}
+                  disabled={gridLevel === 0}
                 >
                   <Flex justify="start" align="center" width="180px" gap={4} ml={4}>
                     <MinusIcon />
@@ -391,7 +375,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
                   variant="outline"
                   color="success"
                   onClick={handleAddColumn}
-                  disabled={numActiveColumns >= MAX_COLUMNS}
+                  disabled={gridLevel === 3}
                 >
                   <Flex justify="start" align="center" width="180px" gap={4} ml={4}>
                     <PlusIcon />

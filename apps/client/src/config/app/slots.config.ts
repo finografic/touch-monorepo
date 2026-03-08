@@ -11,6 +11,44 @@ export const ALT_SLOT_NUMBER = 16;
 /** When columns < 3 we use 2 rows (1×2 or 2×2); when >= 3 we use NUM_ROWS_DEFAULT. */
 export const getEffectiveRows = (columns: number): number => (columns < 3 ? 2 : NUM_ROWS_DEFAULT);
 
+// ─── Grid Level System ───────────────────────────────────────────────────────
+// Four discrete grid sizes stepped through by Add/Remove Column buttons.
+//   Level 0 → Small   2×2  ( 4 grid slots + 1 special)
+//   Level 1 → Medium  2×3  ( 6 grid slots + 1 special)
+//   Level 2 → Large   3×3  ( 9 grid slots + 1 special)
+//   Level 3 → XLarge  4×3  (12 grid slots + 1 special)
+// Special slots (grid overlay, alt) are only visible at levels 2–3 (≥3 columns).
+// ─────────────────────────────────────────────────────────────────────────────
+
+export type GridLevel = 0 | 1 | 2 | 3;
+
+const GRID_LEVEL_DIMENSIONS: Record<GridLevel, { columns: number; rows: number }> = {
+  0: { columns: 2, rows: 2 },
+  1: { columns: 2, rows: 3 },
+  2: { columns: 3, rows: 3 },
+  3: { columns: 4, rows: 3 },
+};
+
+/** Returns { columns, rows } for the given level. */
+export const getGridDimensions = (level: GridLevel): { columns: number; rows: number } =>
+  GRID_LEVEL_DIMENSIONS[level];
+
+/** Derives the appropriate level from active slot count (the ALT slot is excluded). */
+export const getGridLevelFromSlotCount = (activeSlotCount: number): GridLevel => {
+  const gridSlots = Math.max(0, activeSlotCount - 1); // exclude special/alt slot
+  if (gridSlots <= 4) return 0;
+  if (gridSlots <= 6) return 1;
+  if (gridSlots <= 9) return 2;
+  return 3;
+};
+
+export const GRID_LEVEL_NAMES: Record<GridLevel, string> = {
+  0: 'Small (2×2)',
+  1: 'Medium (2×3)',
+  2: 'Large (3×3)',
+  3: 'XLarge (4×3)',
+};
+
 export const INITIAL_SLOT_ITEM: SelectedSlotItem = {
   id: '',
   slotType: SlotType.A,

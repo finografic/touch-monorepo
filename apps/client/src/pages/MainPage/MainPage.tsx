@@ -14,8 +14,7 @@ import { useTimers } from 'providers/TimersProvider';
 import { useGetSlotSpecialConfig } from 'queries/app-configuration';
 import { useGetDefaultMode } from 'queries/modes/useGetDefaultMode';
 
-import { calculateColumns } from 'utils/slots.utils';
-import { getEffectiveRows } from 'config/app/slots.config';
+import { getGridDimensions, getGridLevelFromSlotCount } from 'config/app/slots.config';
 import { MainSlotGrid } from './MainSlotGrid/MainSlotGrid';
 import type { SlotMeta } from './MainPage.types';
 import { useMainPageConfig } from './useMainPageConfig';
@@ -159,10 +158,9 @@ export function MainPage() {
     return <Spinner />;
   }
 
-  // Grid dimensions from active slot count: columns from calculateColumns, rows from getEffectiveRows
+  // Grid dimensions derived from active slot count via the discrete level system (0=Small, 1=Medium, 2=Large)
   const activeSlots = slotsConfig.filter((slot) => slot.isActive);
-  const columns = calculateColumns(activeSlots.length);
-  const rows = getEffectiveRows(columns);
+  const { columns, rows } = getGridDimensions(getGridLevelFromSlotCount(activeSlots.length));
 
   // Special slot (e.g. Slot 10) only when: columns >= 3 (data.is_visible) AND switch ON (is_active)
   const showSpecialSlot =
