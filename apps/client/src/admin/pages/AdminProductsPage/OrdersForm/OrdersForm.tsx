@@ -6,7 +6,7 @@ import { FieldBox } from '@workspace/design-system/forms';
 import { Col, Row } from '@workspace/design-system/grid';
 import { MIN_TEMP_DIFFERENCE, TEMP_CONSUME_DEFAULT, TEMP_FREEZE_DEFAULT } from '@workspace/shared/constants';
 
-import { zodResolver } from '@hookform/resolvers/zod';
+import { standardSchemaResolver } from '@hookform/resolvers/standard-schema';
 import { useQueryClient } from '@tanstack/react-query';
 import {
   ORDER_FORM_SCHEMA,
@@ -100,7 +100,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
   const methods = useForm<OrdersFormValues>({
     mode: 'onChange',
     reValidateMode: 'onChange',
-    resolver: zodResolver(ORDER_FORM_SCHEMA),
+    resolver: standardSchemaResolver(ORDER_FORM_SCHEMA),
     defaultValues: {
       modeId: orderData?.mode || '',
       drinkType: orderData?.drinkType || '',

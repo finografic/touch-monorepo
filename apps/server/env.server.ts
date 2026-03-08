@@ -2,55 +2,37 @@ import { envShared } from '@workspace/config/env.shared';
 import { paths } from '@workspace/config/paths';
 
 import path from 'node:path';
-import { z } from 'zod';
+import * as v from 'valibot';
 
-/**
- * Server-only environment variables
- * Loaded from consolidated .env.production
- */
-const ServerEnvSchema = z
-  .object({
-    // ─────────────────────────────────────────────
-    // Database
-    // ─────────────────────────────────────────────
-    DB_HOST: z.string(),
-    DB_USER: z.string(),
-    DB_PASS: z.string().optional(),
-    DB_NAME: z.string(),
-    DB_DIALECT: z.enum(['sqlite', 'mysql', 'postgres']),
-    DB_PORT: z.number(),
+const ServerEnvSchema = v.pipe(
+  v.object({
+    DB_HOST: v.string(),
+    DB_USER: v.string(),
+    DB_PASS: v.optional(v.string()),
+    DB_NAME: v.string(),
+    DB_DIALECT: v.picklist(['sqlite', 'mysql', 'postgres']),
+    DB_PORT: v.number(),
 
-    // ─────────────────────────────────────────────
-    // Authentication
-    // ─────────────────────────────────────────────
-    BETTER_AUTH_SECRET: z.string().min(32),
-    BETTER_AUTH_URL: z.string().url(),
+    BETTER_AUTH_SECRET: v.pipe(v.string(), v.minLength(32)),
+    BETTER_AUTH_URL: v.pipe(v.string(), v.url()),
 
-    AUTH_COOKIE_PREFIX: z.string().default('touch-monorepo'),
-    TOKEN_COOKIE_SUFFIX: z.string().default('session_token'),
-    DATA_COOKIE_SUFFIX: z.string().default('session_data'),
+    AUTH_COOKIE_PREFIX: v.optional(v.string(), 'touch-monorepo'),
+    TOKEN_COOKIE_SUFFIX: v.optional(v.string(), 'session_token'),
+    DATA_COOKIE_SUFFIX: v.optional(v.string(), 'session_data'),
 
-    // ─────────────────────────────────────────────
-    // Relay board (USBRelay8)
-    // ─────────────────────────────────────────────
-    RELAY_ENABLED: z.boolean().default(false),
-    RELAY_NUM_RELAYS: z.union([z.literal(8), z.literal(16)]).default(16),
-    RELAY_RECONNECT_ATTEMPTS: z.number().default(5),
-    USBRELAY_VENDOR_ID: z.string().default('0x16c0'),
-    USBRELAY_PRODUCT_ID: z.string().default('0x05df'),
-  })
-  .transform((env) => ({
+    RELAY_ENABLED: v.optional(v.boolean(), false),
+    RELAY_NUM_RELAYS: v.optional(v.union([v.literal(8), v.literal(16)]), 16),
+    RELAY_RECONNECT_ATTEMPTS: v.optional(v.number(), 5),
+    USBRELAY_VENDOR_ID: v.optional(v.string(), '0x16c0'),
+    USBRELAY_PRODUCT_ID: v.optional(v.string(), '0x05df'),
+  }),
+  v.transform((env) => ({
     ...env,
-
-    // Always resolve DB path relative to deployed dist/data
     DB_PATH: process.env.DB_PATH ?? path.resolve(paths.data.dir, env.DB_NAME),
-  }));
+  })),
+);
 
-/**
- * Raw process.env → typed + validated
- */
-const envServerValidated = ServerEnvSchema.parse({
-  // Database
+const envServerValidated = v.parse(ServerEnvSchema, {
   DB_HOST: process.env.DB_HOST ?? 'localhost',
   DB_USER: process.env.DB_USER ?? 'admin',
   DB_PASS: process.env.DB_PASS,
@@ -58,7 +40,6 @@ const envServerValidated = ServerEnvSchema.parse({
   DB_DIALECT: process.env.DB_DIALECT,
   DB_PORT: Number(process.env.DB_PORT ?? 0),
 
-  // Authentication
   BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET,
   BETTER_AUTH_URL: process.env.BETTER_AUTH_URL,
 
@@ -66,7 +47,6 @@ const envServerValidated = ServerEnvSchema.parse({
   TOKEN_COOKIE_SUFFIX: process.env.TOKEN_COOKIE_SUFFIX,
   DATA_COOKIE_SUFFIX: process.env.DATA_COOKIE_SUFFIX,
 
-  // Relay
   RELAY_ENABLED: String(process.env.RELAY_ENABLED) === 'true',
   RELAY_NUM_RELAYS:
     process.env.RELAY_NUM_RELAYS && String(process.env.RELAY_NUM_RELAYS).trim() !== ''
@@ -84,10 +64,6 @@ const envServerValidated = ServerEnvSchema.parse({
 
 type EnvServer = typeof envShared & typeof envServerValidated;
 
-/**
- * Final exported env
- * Safe to import anywhere in server runtime
- */
 export const env: EnvServer = {
   ...envShared,
   ...envServerValidated,

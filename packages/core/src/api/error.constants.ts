@@ -1,6 +1,5 @@
-import * as HttpStatusCodes from 'stoker/http-status-codes';
-import * as HttpStatusPhrases from 'stoker/http-status-phrases';
-import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from '../constants/zod-errors';
+import { StatusCodes as HttpStatusCodes, ReasonPhrases as HttpStatusPhrases } from 'http-status-codes';
+import { VALIDATION_ERROR_CODES, VALIDATION_ERROR_MESSAGES } from '../constants/validation-errors';
 
 export const ERROR_CODES = {
   // HTTP Status based
@@ -23,8 +22,8 @@ export const ERROR_CODES = {
   TIMEOUT_ERROR: 'TIMEOUT_ERROR',
   RATE_LIMIT_ERROR: 'RATE_LIMIT_ERROR',
 
-  // Zod specific
-  ...ZOD_ERROR_CODES,
+  // Validation specific
+  ...VALIDATION_ERROR_CODES,
 } as const;
 
 export const ERROR_MESSAGES = {
@@ -48,8 +47,8 @@ export const ERROR_MESSAGES = {
   [ERROR_CODES.TIMEOUT_ERROR]: 'Request timed out',
   [ERROR_CODES.RATE_LIMIT_ERROR]: 'Too many requests',
 
-  // Zod specific
-  ...ZOD_ERROR_MESSAGES,
+  // Validation specific
+  ...VALIDATION_ERROR_MESSAGES,
 } as const;
 
 export type ErrorCode = keyof typeof ERROR_CODES;

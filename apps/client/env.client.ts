@@ -1,12 +1,12 @@
 import { envShared } from '@workspace/config/env.shared';
 
-import { z } from 'zod';
+import * as v from 'valibot';
 
-const ClientEnvSchema = z.object({
-  VITE_APP_NAME: z.string().default('ServiFresh'),
+const ClientEnvSchema = v.object({
+  VITE_APP_NAME: v.optional(v.string(), 'ServiFresh'),
 });
 
-const envClientValidated = ClientEnvSchema.parse({});
+const envClientValidated = v.parse(ClientEnvSchema, {});
 
 export const envClient = {
   ...envShared,

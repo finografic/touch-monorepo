@@ -1,4 +1,4 @@
-import * as HttpStatusCodes from 'stoker/http-status-codes';
+import { StatusCodes as HttpStatusCodes } from 'http-status-codes';
 import * as v from 'valibot';
 
 import { drinkTypeSchemas } from 'db/schemas/drink_types.schema';

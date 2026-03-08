@@ -1,13 +1,11 @@
 // @ts-nocheck - Bypassing complex type inference issues throughout this file
 import { eq } from 'drizzle-orm';
-import * as HttpStatusCodes from 'stoker/http-status-codes';
-import * as HttpStatusPhrases from 'stoker/http-status-phrases';
+import { StatusCodes as HttpStatusCodes, ReasonPhrases as HttpStatusPhrases } from 'http-status-codes';
 
 import { db } from 'db';
 import { modes } from 'db/schemas';
 import { ERROR_CODES, ERROR_MESSAGES } from 'lib/valibot.errors';
 import type { AppHandler } from 'types/app.types';
-import type { ModeEntity } from 'types/entities';
 
 function formatMode(mode: any) {
   return {

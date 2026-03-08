@@ -1,4 +1,4 @@
-import * as HttpStatusCodes from 'stoker/http-status-codes';
+import { StatusCodes as HttpStatusCodes } from 'http-status-codes';
 import * as v from 'valibot';
 
 import { userSchemas } from 'db/schemas/auth_user.schema';

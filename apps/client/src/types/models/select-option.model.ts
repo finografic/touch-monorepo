@@ -1,3 +1,5 @@
+import type { ContainerTypeModel, DrinkTypeModel, VolumeModel } from '@workspace/server/models';
+
 export interface SelectOption {
   value: string;
   label: string;
@@ -5,32 +7,13 @@ export interface SelectOption {
   category?: string;
 }
 
-export interface DrinkTypeEntity {
-  id: string;
+interface Translatable {
   name: string;
-  translations?: Record<string, string>;
-}
-
-export interface VolumeEntity {
-  id: string;
-  name: string;
-  translations?: Record<string, string>;
-}
-
-export interface ContainerTypeEntity {
-  id: string;
-  name: string;
-  translations?: Record<string, string>;
+  translations?: Record<string, string> | null;
 }
 
 export class SelectOptionDto {
-  /**
-   * Get translated label from entity, falling back to name
-   */
-  private static getTranslatedLabel(
-    entity: DrinkTypeEntity | VolumeEntity | ContainerTypeEntity,
-    language: string = 'es-ES',
-  ): string {
+  private static getTranslatedLabel(entity: Translatable, language: string = 'es-ES'): string {
     const translations = entity.translations;
     if (translations && typeof translations === 'object') {
       return translations[language] || entity.name || '';
@@ -38,10 +21,7 @@ export class SelectOptionDto {
     return entity.name || '';
   }
 
-  /**
-   * Transform DrinkType entities to SelectOptions
-   */
-  static fromDrinkTypes(drinkTypes: DrinkTypeEntity[], language: string = 'es-ES'): SelectOption[] {
+  static fromDrinkTypes(drinkTypes: DrinkTypeModel[], language: string = 'es-ES'): SelectOption[] {
     return drinkTypes
       .map((dt) => ({
         value: dt.name || '',
@@ -52,25 +32,19 @@ export class SelectOptionDto {
       .filter((option) => option.value);
   }
 
-  /**
-   * Transform Volume entities to SelectOptions
-   */
-  static fromVolumes(volumes: VolumeEntity[], language: string = 'es-ES'): SelectOption[] {
+  static fromVolumes(volumes: VolumeModel[], language: string = 'es-ES'): SelectOption[] {
     return volumes
-      .map((v) => ({
-        value: v.name || '',
-        label: this.getTranslatedLabel(v, language),
+      .map((vol) => ({
+        value: vol.name || '',
+        label: this.getTranslatedLabel(vol, language),
         category: 'Database',
-        description: `Volume: ${this.getTranslatedLabel(v, language)}`,
+        description: `Volume: ${this.getTranslatedLabel(vol, language)}`,
       }))
       .filter((option) => option.value);
   }
 
-  /**
-   * Transform ContainerType entities to SelectOptions
-   */
   static fromContainerTypes(
-    containerTypes: ContainerTypeEntity[],
+    containerTypes: ContainerTypeModel[],
     language: string = 'es-ES',
   ): SelectOption[] {
     return containerTypes
@@ -83,9 +57,6 @@ export class SelectOptionDto {
       .filter((option) => option.value);
   }
 
-  /**
-   * Transform custom/temp items to SelectOptions
-   */
   static fromCustomItems(items: string[], category: string = 'Custom'): SelectOption[] {
     return items.map((item) => ({
       value: item,
@@ -95,9 +66,6 @@ export class SelectOptionDto {
     }));
   }
 
-  /**
-   * Transform orders data to SelectOptions for progressive filtering
-   */
   static fromOrdersData(orders: any[], field: string, filters: Record<string, string> = {}): SelectOption[] {
     const filteredOrders = orders.filter((order) => {
       return Object.entries(filters).every(([key, value]) => !value || order[key] === value);
@@ -113,14 +81,10 @@ export class SelectOptionDto {
     }));
   }
 
-  /**
-   * Merge multiple SelectOption arrays and remove duplicates
-   */
   static mergeOptions(...optionArrays: SelectOption[][]): SelectOption[] {
     const allOptions = optionArrays.flat();
     const uniqueOptions = Array.from(new Map(allOptions.map((opt) => [opt.value, opt])).values());
 
-    // Sort by category priority, then alphabetically
     return uniqueOptions.sort((a, b) => {
       const categoryPriority = { 'Database': 0, 'From existing orders': 1, 'Custom': 2 };
       const aPriority = categoryPriority[a.category as keyof typeof categoryPriority] ?? 3;

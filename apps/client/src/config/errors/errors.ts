@@ -1,6 +1,6 @@
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 
-import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from './zod-errors';
+import { VALIDATION_ERROR_CODES, VALIDATION_ERROR_MESSAGES } from './validation-errors';
 
 export const ERROR_CODES = {
   // HTTP Status based
@@ -18,8 +18,8 @@ export const ERROR_CODES = {
   TIMEOUT_ERROR: 'TIMEOUT_ERROR',
   RATE_LIMIT_ERROR: 'RATE_LIMIT_ERROR',
 
-  // Zod specific
-  ...ZOD_ERROR_CODES,
+  // Validation specific
+  ...VALIDATION_ERROR_CODES,
 } as const;
 
 export const ERROR_MESSAGES = {
@@ -38,8 +38,8 @@ export const ERROR_MESSAGES = {
   [ERROR_CODES.TIMEOUT_ERROR]: 'Request timed out',
   [ERROR_CODES.RATE_LIMIT_ERROR]: 'Too many requests',
 
-  // Zod specific
-  ...ZOD_ERROR_MESSAGES,
+  // Validation specific
+  ...VALIDATION_ERROR_MESSAGES,
 } as const;
 
 export type ErrorCode = keyof typeof ERROR_CODES;

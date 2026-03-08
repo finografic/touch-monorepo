@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import * as v from 'valibot';
 import dotenv from 'dotenv';
 import path from 'node:path';
 import fs from 'node:fs';
@@ -33,40 +33,37 @@ for (const envPath of envPaths) {
   }
 }
 
-const SharedEnvSchema = z
-  .object({
-    NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
-    API_PROTOCOL: z.enum(['http', 'https']).default('http'),
-    API_HOST: z.string().default('localhost'),
-    API_PORT: z.number().default(4040),
-    API_BASE_PATH: z.string().default('/api'),
-    CLIENT_PROTOCOL: z.enum(['http', 'https']).default('http'),
-    CLIENT_HOST: z.string().default('localhost'),
-    CLIENT_PORT: z.number().default(3000),
-    //
-    BETTER_AUTH_SECRET: z.string().default(''),
-    BETTER_AUTH_URL: z.string().default(''),
-    AUTH_COOKIE_PREFIX: z.string().default('touch-monorepo'),
-    TOKEN_COOKIE_SUFFIX: z.string().default('session_token'),
-    DATA_COOKIE_SUFFIX: z.string().default('session_data'),
-    // Inlang + ParaglideJS translations
-    INLANG_GOOGLE_TRANSLATE_API_KEY: z.string().optional().default(''),
-    // Relay board configuration
-    RELAY_ENABLED: z.boolean().default(true),
-    RELAY_NUM_RELAYS: z.union([z.literal(8), z.literal(16)]).default(16),
-    RELAY_RECONNECT_ATTEMPTS: z.number().default(5),
-    USBRELAY_VENDOR_ID: z.string().default('0x16c0'),
-    USBRELAY_PRODUCT_ID: z.string().default('0x05df'),
-  })
-  .transform((env) => ({
+const SharedEnvSchema = v.pipe(
+  v.object({
+    NODE_ENV: v.optional(v.picklist(['development', 'production', 'test']), 'development'),
+    API_PROTOCOL: v.optional(v.picklist(['http', 'https']), 'http'),
+    API_HOST: v.optional(v.string(), 'localhost'),
+    API_PORT: v.optional(v.number(), 4040),
+    API_BASE_PATH: v.optional(v.string(), '/api'),
+    CLIENT_PROTOCOL: v.optional(v.picklist(['http', 'https']), 'http'),
+    CLIENT_HOST: v.optional(v.string(), 'localhost'),
+    CLIENT_PORT: v.optional(v.number(), 3000),
+    BETTER_AUTH_SECRET: v.optional(v.string(), ''),
+    BETTER_AUTH_URL: v.optional(v.string(), ''),
+    AUTH_COOKIE_PREFIX: v.optional(v.string(), 'touch-monorepo'),
+    TOKEN_COOKIE_SUFFIX: v.optional(v.string(), 'session_token'),
+    DATA_COOKIE_SUFFIX: v.optional(v.string(), 'session_data'),
+    INLANG_GOOGLE_TRANSLATE_API_KEY: v.optional(v.string(), ''),
+    RELAY_ENABLED: v.optional(v.boolean(), true),
+    RELAY_NUM_RELAYS: v.optional(v.union([v.literal(8), v.literal(16)]), 16),
+    RELAY_RECONNECT_ATTEMPTS: v.optional(v.number(), 5),
+    USBRELAY_VENDOR_ID: v.optional(v.string(), '0x16c0'),
+    USBRELAY_PRODUCT_ID: v.optional(v.string(), '0x05df'),
+  }),
+  v.transform((env) => ({
     ...env,
     API_URL: `${env.API_PROTOCOL}://${env.API_HOST}:${env.API_PORT}${env.API_BASE_PATH || ''}`,
     API_BASE_URL: `${env.API_PROTOCOL}://${env.API_HOST}:${env.API_PORT}`,
     CLIENT_ORIGIN: `${env.CLIENT_PROTOCOL}://${env.CLIENT_HOST}:${env.CLIENT_PORT}`,
     COOKIES: {
-      COOKIE_PREFIX: env.AUTH_COOKIE_PREFIX, // remains if 'session_token' is removed is set
-      TOKEN_COOKIE: `${env.AUTH_COOKIE_PREFIX}.${env.TOKEN_COOKIE_SUFFIX}`, // remains if 'session_token' is removed is set
-      DATA_COOKIE: `${env.AUTH_COOKIE_PREFIX}.${env.DATA_COOKIE_SUFFIX}`, // remains if 'session_token' is removed is set
+      COOKIE_PREFIX: env.AUTH_COOKIE_PREFIX,
+      TOKEN_COOKIE: `${env.AUTH_COOKIE_PREFIX}.${env.TOKEN_COOKIE_SUFFIX}`,
+      DATA_COOKIE: `${env.AUTH_COOKIE_PREFIX}.${env.DATA_COOKIE_SUFFIX}`,
     },
     COOKIE_DELETE_ATTRIBUTES: [
       'Max-Age=0',
@@ -75,9 +72,10 @@ const SharedEnvSchema = z
       'SameSite=Lax',
       ...(env.NODE_ENV === 'production' ? ['Secure'] : []),
     ].join('; '),
-  }));
+  })),
+);
 
-const envSharedValidated = SharedEnvSchema.parse({
+const envSharedValidated = v.parse(SharedEnvSchema, {
   NODE_ENV: process.env.NODE_ENV,
   API_PROTOCOL: process.env.API_PROTOCOL,
   API_HOST: process.env.API_HOST,
@@ -86,13 +84,11 @@ const envSharedValidated = SharedEnvSchema.parse({
   CLIENT_PROTOCOL: process.env.CLIENT_PROTOCOL,
   CLIENT_HOST: process.env.CLIENT_HOST,
   CLIENT_PORT: process.env.CLIENT_PORT ? Number(process.env.CLIENT_PORT) : undefined,
-  //
   BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET,
   BETTER_AUTH_URL: process.env.BETTER_AUTH_URL,
   AUTH_COOKIE_PREFIX: process.env.AUTH_COOKIE_PREFIX,
   TOKEN_COOKIE_SUFFIX: process.env.TOKEN_COOKIE_SUFFIX,
   DATA_COOKIE_SUFFIX: process.env.DATA_COOKIE_SUFFIX,
-  //
   RELAY_ENABLED: process.env.RELAY_ENABLED === 'true',
   RELAY_NUM_RELAYS:
     process.env.RELAY_NUM_RELAYS && process.env.RELAY_NUM_RELAYS.trim() !== ''

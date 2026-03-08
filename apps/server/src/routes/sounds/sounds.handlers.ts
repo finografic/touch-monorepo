@@ -3,7 +3,7 @@ import { Buffer } from 'buffer';
 import { existsSync } from 'fs';
 import { mkdir, readdir, readFile, stat, unlink, writeFile } from 'fs/promises';
 import { join } from 'path';
-import * as HttpStatusCodes from 'stoker/http-status-codes';
+import { StatusCodes as HttpStatusCodes } from 'http-status-codes';
 
 import { slugify } from 'utils/string.utils';
 import type { AppHandler } from 'types/app.types';

@@ -1,5 +1,5 @@
 import * as v from 'valibot';
-import * as HttpStatusCodes from 'stoker/http-status-codes';
+import { StatusCodes as HttpStatusCodes } from 'http-status-codes';
 
 import { json, route } from 'lib/openapi.helpers';
 

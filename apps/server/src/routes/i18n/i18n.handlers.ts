@@ -1,5 +1,5 @@
 // @ts-nocheck - Bypassing complex type inference issues throughout this file
-import * as HttpStatusCodes from 'stoker/http-status-codes';
+import { StatusCodes as HttpStatusCodes } from 'http-status-codes';
 
 import { db } from 'db';
 import type { AppHandler } from 'types/app.types';

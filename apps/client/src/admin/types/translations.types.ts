@@ -1,5 +1,6 @@
+import type * as v from 'valibot';
+
 import type { createUiLabelsSchema } from 'admin/utils/translations-ui.schema';
-import type { z } from 'zod';
 
 export interface SupportedLanguage {
   isoCode: string;
@@ -19,4 +20,4 @@ export interface UiLabelTranslationsSection {
   items: UiLabelItem[];
 }
 
-export type UiLabelsFormData = z.infer<ReturnType<typeof createUiLabelsSchema>>;
+export type UiLabelsFormData = v.InferOutput<ReturnType<typeof createUiLabelsSchema>>;

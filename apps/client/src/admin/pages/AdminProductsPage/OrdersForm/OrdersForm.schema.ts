@@ -1,46 +1,40 @@
 import { MIN_TEMP_DIFFERENCE } from '@workspace/shared/constants';
 
-import { z } from 'zod';
+import * as v from 'valibot';
 
 import { isRowComplete } from './orders-form.utils';
 
-export const TIME_ROW_SCHEMA = z.object({
-  temperature: z.coerce.number().min(-50).max(50).optional(),
-  timeA: z.coerce.number().int().min(0).max(3600).optional(),
-  timeB: z.coerce.number().int().min(0).max(3600).optional(),
-  timeC: z.coerce.number().int().min(0).max(3600).optional(),
+const coerceNumber = v.pipe(v.unknown(), v.transform(Number), v.number());
+
+export const TIME_ROW_SCHEMA = v.object({
+  temperature: v.optional(v.pipe(coerceNumber, v.minValue(-50), v.maxValue(50))),
+  timeA: v.optional(v.pipe(coerceNumber, v.integer(), v.minValue(0), v.maxValue(3600))),
+  timeB: v.optional(v.pipe(coerceNumber, v.integer(), v.minValue(0), v.maxValue(3600))),
+  timeC: v.optional(v.pipe(coerceNumber, v.integer(), v.minValue(0), v.maxValue(3600))),
 });
 
-export const ORDER_FORM_SCHEMA = z
-  .object({
-    modeId: z.string().min(1, 'Mode is required'),
-    drinkType: z.string().min(1, 'Drink type is required'),
-    drinkSubtype: z.string().optional(),
-    volume: z.string().min(1, 'Volume is required'),
-    containerType: z.string().min(1, 'Container type is required'),
-    defaultTempConsume: z.coerce.number().min(-40).max(40),
-    defaultTempFreeze: z.coerce.number().min(-50).max(40),
-    timeRows: z
-      .array(TIME_ROW_SCHEMA)
-      .min(1)
-      .refine((rows) => rows.some(isRowComplete), {
-        message: 'At least one complete row with all values is required',
-        path: ['timeRows'],
-      }),
-  })
-  .refine(
+export const ORDER_FORM_SCHEMA = v.pipe(
+  v.object({
+    modeId: v.pipe(v.string(), v.minLength(1, 'Mode is required')),
+    drinkType: v.pipe(v.string(), v.minLength(1, 'Drink type is required')),
+    drinkSubtype: v.optional(v.string()),
+    volume: v.pipe(v.string(), v.minLength(1, 'Volume is required')),
+    containerType: v.pipe(v.string(), v.minLength(1, 'Container type is required')),
+    defaultTempConsume: v.pipe(coerceNumber, v.minValue(-40), v.maxValue(40)),
+    defaultTempFreeze: v.pipe(coerceNumber, v.minValue(-50), v.maxValue(40)),
+    timeRows: v.pipe(
+      v.array(TIME_ROW_SCHEMA),
+      v.minLength(1),
+      v.check(
+        (rows) => rows.some(isRowComplete),
+        'At least one complete row with all values is required',
+      ),
+    ),
+  }),
+  v.check(
     (data) => data.defaultTempFreeze <= data.defaultTempConsume - MIN_TEMP_DIFFERENCE,
-    (data) => {
-      const maxValue = data.defaultTempConsume - MIN_TEMP_DIFFERENCE;
-      const formattedMax = new Intl.NumberFormat('es-ES', {
-        minimumFractionDigits: 1,
-        maximumFractionDigits: 1,
-      }).format(maxValue);
-      return {
-        message: `Max value is ${formattedMax}`,
-        path: ['defaultTempFreeze'],
-      };
-    },
-  );
+    'Freeze temperature exceeds maximum',
+  ),
+);
 
-export type OrdersFormValues = z.infer<typeof ORDER_FORM_SCHEMA>;
+export type OrdersFormValues = v.InferOutput<typeof ORDER_FORM_SCHEMA>;

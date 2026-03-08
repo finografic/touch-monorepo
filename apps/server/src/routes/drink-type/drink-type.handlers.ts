@@ -1,8 +1,7 @@
 // @ts-nocheck - Bypassing complex type inference issues throughout this file
 import type { InferSelectModel } from 'drizzle-orm';
 import { eq } from 'drizzle-orm';
-import * as HttpStatusCodes from 'stoker/http-status-codes';
-import * as HttpStatusPhrases from 'stoker/http-status-phrases';
+import { StatusCodes as HttpStatusCodes, ReasonPhrases as HttpStatusPhrases } from 'http-status-codes';
 
 import { db } from 'db';
 import { drink_types } from 'db/schemas';

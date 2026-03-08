@@ -4,4 +4,4 @@
  */
 
 export * from './errors';
-export * from './zod-errors';
+export * from './validation-errors';

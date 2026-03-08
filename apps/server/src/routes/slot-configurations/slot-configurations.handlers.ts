@@ -1,8 +1,7 @@
 // @ts-nocheck - Bypassing complex type inference issues throughout this file
 import createCuid from '@bugsnag/cuid';
 import { eq } from 'drizzle-orm';
-import * as HttpStatusCodes from 'stoker/http-status-codes';
-import * as HttpStatusPhrases from 'stoker/http-status-phrases';
+import { StatusCodes as HttpStatusCodes, ReasonPhrases as HttpStatusPhrases } from 'http-status-codes';
 
 import { db } from 'db';
 import { slot_configurations } from 'db/schemas';

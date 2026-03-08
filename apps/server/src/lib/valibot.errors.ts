@@ -1,5 +1,5 @@
 import * as v from 'valibot';
-import * as HttpStatusPhrases from 'stoker/http-status-phrases';
+import { ReasonPhrases as HttpStatusPhrases } from 'http-status-codes';
 
 import { TEMPERATURE_RANGES } from 'config/temperature.config';
 

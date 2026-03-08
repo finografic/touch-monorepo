@@ -1,6 +1,6 @@
 // @ts-nocheck - Bypassing complex type inference issues throughout this file
 import { USBRelayService } from 'services/usbrelay.service';
-import * as HttpStatusCodes from 'stoker/http-status-codes';
+import { StatusCodes as HttpStatusCodes } from 'http-status-codes';
 
 import type { AppHandler } from 'types/app.types';
 import { relayConfig } from 'config/relay.config';

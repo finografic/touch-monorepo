@@ -1,64 +1,63 @@
-import { getLanguageFieldName } from 'admin/utils/translation-helpers';
-import { z } from 'zod';
+import * as v from 'valibot';
 
-// Create dynamic schema based on supported languages
+import { getLanguageFieldName } from 'admin/utils/translation-helpers';
+
 export const createTranslationSchema = (
   t: (key: string) => string,
   supportedLanguages: Array<{ isoCode: string }>,
 ) => {
-  // Create dynamic fields object for language translations
-  const languageFields: Record<string, z.ZodString> = {};
+  const languageFields: Record<string, v.StringSchema<undefined>> = {};
   supportedLanguages.forEach((lang) => {
     const fieldName = getLanguageFieldName(lang.isoCode);
-    languageFields[fieldName] = z.string().min(1, t('ui.forms.validation.required'));
+    languageFields[fieldName] = v.pipe(v.string(), v.minLength(1, t('ui.forms.validation.required')));
   });
 
   const baseFields = {
-    id: z.string(),
-    name: z.string().min(1, t('ui.forms.validation.required')),
+    id: v.string(),
+    name: v.pipe(v.string(), v.minLength(1, t('ui.forms.validation.required'))),
     ...languageFields,
   };
 
-  return z.object({
-    drinkSubtypes: z.array(
-      z.object({
+  return v.object({
+    drinkSubtypes: v.array(
+      v.object({
         ...baseFields,
-        drinkTypeId: z.string(),
-        isActive: z.boolean().optional(),
+        drinkTypeId: v.string(),
+        isActive: v.optional(v.boolean()),
       }),
     ),
-    volumes: z.array(
-      z.object({
+    volumes: v.array(
+      v.object({
         ...baseFields,
-        isActive: z.boolean().optional(),
+        isActive: v.optional(v.boolean()),
       }),
     ),
-    drinkTypes: z.array(
-      z.object({
+    drinkTypes: v.array(
+      v.object({
         ...baseFields,
-        hasSubtypes: z.boolean().optional(),
-        isActive: z.boolean().optional(),
+        hasSubtypes: v.optional(v.boolean()),
+        isActive: v.optional(v.boolean()),
       }),
     ),
-    containerTypes: z.array(
-      z.object({
+    containerTypes: v.array(
+      v.object({
         ...baseFields,
-        thermalConductivity: z.number().optional(),
-        isActive: z.boolean().optional(),
+        thermalConductivity: v.optional(v.number()),
+        isActive: v.optional(v.boolean()),
       }),
     ),
   });
 };
 
 export const createUiLabelsSchema = () => {
-  return z.object({
-    sections: z.array(
-      z.object({
-        key: z.string(),
-        items: z.array(
-          z.object({
-            key: z.string(),
-            values: z.record(z.string()),
+  return v.object({
+    sections: v.array(
+      v.object({
+        key: v.string(),
+        items: v.array(
+          v.object({
+            key: v.string(),
+            values: v.record(v.string(), v.string()),
           }),
         ),
       }),

@@ -3,8 +3,7 @@ import { db } from 'db';
 import { drink_subtypes, drink_types } from 'db/schemas';
 import type { InferSelectModel } from 'drizzle-orm';
 import { and, eq } from 'drizzle-orm';
-import * as HttpStatusCodes from 'stoker/http-status-codes';
-import * as HttpStatusPhrases from 'stoker/http-status-phrases';
+import { StatusCodes as HttpStatusCodes, ReasonPhrases as HttpStatusPhrases } from 'http-status-codes';
 import { ERROR_CODES, ERROR_MESSAGES } from 'lib/valibot.errors';
 import type { AppHandler } from 'types/app.types';
 import {

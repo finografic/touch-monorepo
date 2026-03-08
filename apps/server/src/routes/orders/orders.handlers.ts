@@ -3,8 +3,7 @@ import { db } from 'db';
 import { orders } from 'db/schemas/orders.schema';
 import { temperature_profiles } from 'db/schemas/temperature_profiles.schema';
 import { eq, inArray, or, sql } from 'drizzle-orm';
-import * as HttpStatusCodes from 'stoker/http-status-codes';
-import * as HttpStatusPhrases from 'stoker/http-status-phrases';
+import { StatusCodes as HttpStatusCodes, ReasonPhrases as HttpStatusPhrases } from 'http-status-codes';
 import { ERROR_CODES, ERROR_MESSAGES } from 'lib/valibot.errors';
 import type { AppHandler } from 'types/app.types';
 

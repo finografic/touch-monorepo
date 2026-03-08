@@ -11,7 +11,7 @@ The project uses `simple-import-sort` for consistent import ordering. Imports mu
    ```typescript
    import React from 'react';
    import { ComponentA } from 'react-library';
-   import { zodResolver } from '@hookform/resolvers/zod';
+   import { standardSchemaResolver } from '@hookform/resolvers/standard-schema';
    ```
 
 2. **Internal Absolute Imports** - Components, forms, hooks

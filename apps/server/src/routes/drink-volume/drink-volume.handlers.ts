@@ -1,7 +1,6 @@
 // @ts-nocheck
 import { eq } from 'drizzle-orm';
-import * as HttpStatusCodes from 'stoker/http-status-codes';
-import * as HttpStatusPhrases from 'stoker/http-status-phrases';
+import { StatusCodes as HttpStatusCodes, ReasonPhrases as HttpStatusPhrases } from 'http-status-codes';
 
 import { db } from 'db';
 import { volumes } from 'db/schemas/volumes.schema';
