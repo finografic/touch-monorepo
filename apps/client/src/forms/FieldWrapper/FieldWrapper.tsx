@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import type { FieldError } from 'react-hook-form';
 import { useFormContext } from 'react-hook-form';
+import { Cross2Icon, ExclamationTriangleIcon } from '@workspace/icons';
 
 import clsx from 'clsx';
 import { useDebouncedCallback } from 'use-debounce';
 
 import { getFieldValidationState } from './field-wrapper.utils';
-import { Cross2Icon, ExclamationTriangleIcon } from '@workspace/icons';
 import { styles } from './FieldWrapper.styles';
 
 interface FieldWrapperProps {

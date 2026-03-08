@@ -50,3 +50,36 @@ svg.icon-em  { width: 1em; height: 1em; }
 
 /* Spin — use with Loader or async states */
 svg.icon-spin { animation: spin 1s linear infinite; }
+
+/* ============================================================================
+ * CUSTOM SCROLLBARS
+ * Styled using DS color tokens. Applies to all elements except body/html.
+ * ============================================================================ */
+
+:not(body):not(html)::-webkit-scrollbar {
+  width: 15px;
+  height: 15px;
+}
+
+:not(body):not(html)::-webkit-scrollbar-track {
+  background: var(--colors-grey-xxxlight);
+  border-radius: 6px;
+}
+
+:not(body):not(html)::-webkit-scrollbar-thumb {
+  background: var(--colors-grey-xxlight);
+  border-radius: 6px;
+  border: 4px solid var(--colors-white); /* Creates inset effect */
+
+  &:hover {
+    background: var(--colors-grey-light);
+  }
+
+  &:active {
+    background: var(--colors-grey);
+  }
+}
+
+:not(body):not(html)::-webkit-scrollbar-corner {
+  background: var(--colors-grey-xxlight);
+}

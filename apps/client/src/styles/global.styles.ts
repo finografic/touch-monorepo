@@ -3,27 +3,6 @@ import { colors, fontTokens } from '@workspace/design-system/tokens';
 import { css } from '@emotion/react';
 
 export const cssGlobal = css`
-  /* Use CSS layers to ensure our styles override Radix */
-  @layer theme-override {
-    html[data-theme],
-    body[data-theme],
-    #root[data-theme],
-    html[data-theme='light'],
-    body[data-theme='light'],
-    #root[data-theme='light'],
-    html[data-theme='dark'],
-    body[data-theme='dark'],
-    #root[data-theme='dark'] {
-      background-color: var(--color-background) !important;
-    }
-  }
-
-  *,
-  *::before,
-  *::after {
-    box-sizing: border-box;
-  }
-
   #root {
     box-sizing: border-box;
     min-height: 100vh;
@@ -42,6 +21,7 @@ export const cssGlobal = css`
   body {
     width: 100vw;
     height: 100vh;
+    background-color: ${colors.background};
 
     /** SCROLLBAR HANDLING **/
     scrollbar-gutter: auto;
@@ -49,65 +29,11 @@ export const cssGlobal = css`
     overflow-y: auto;
     /** NEXT LINE ENSURES *NO* JUMP WHEN SCROLLBAR TOGGLES **/
     /* margin-right: calc(-1 * (100vw - 100%)); */
-
-    /* Dynamic background color based on theme */
-    background-color: var(--color-background) !important;
-
-    height: 100vh;
     /* overflow: hidden; */
   }
 
-  /* Ensure html also uses theme background */
   html {
-    background-color: var(--color-background) !important;
-  }
-
-  /* Override any Radix UI background colors with maximum specificity */
-  html,
-  body,
-  #root,
-  html[data-theme],
-  body[data-theme],
-  #root[data-theme],
-  html[data-theme='light'],
-  body[data-theme='light'],
-  #root[data-theme='light'],
-  html[data-theme='dark'],
-  body[data-theme='dark'],
-  #root[data-theme='dark'] {
-    background-color: var(--color-background) !important;
-  }
-
-  /** CUSTOM SCROLLBARS FOR ELEMENTS (NOT BODY) **/
-  /* Target all elements with scrollbars except body and html */
-  :not(body):not(html)::-webkit-scrollbar {
-    width: 15px;
-    height: 15px;
-  }
-
-  :not(body):not(html)::-webkit-scrollbar-track {
-    background: ${colors.greyXXXLight};
-    border-radius: 6px;
-  }
-
-  :not(body):not(html)::-webkit-scrollbar-thumb {
-    background: var(--color-grey-light);
-    background: ${colors.greyXXLight};
-    border-radius: 6px;
-    border: 4px solid ${colors.white}; /* Creates inset effect */
-
-    &:hover {
-      background: ${colors.greyLight};
-    }
-
-    &:active {
-      background: ${colors.grey};
-    }
-  }
-
-  /* Corner styling when both scrollbars are present */
-  :not(body):not(html)::-webkit-scrollbar-corner {
-    background: ${colors.greyXXLight};
+    background-color: ${colors.background};
   }
 
   /* Global button-box styles for consistent icon button layout */
@@ -156,11 +82,6 @@ export const cssGlobal = css`
     }
   }
 
-  div[data-state='open'].rt-BaseDialogOverlay.rt-DialogOverlay {
-    background-color: rgba(255, 255, 255, 0.33) !important;
-    position: fixed;
-  }
-
   /* ========================================================================
    * TINY DISPLAY: 800x480 and smaller
    * ======================================================================== */
@@ -181,10 +102,6 @@ export const cssGlobal = css`
     #root {
       min-height: 100vh;
       min-height: 100dvh;
-    }
-
-    div[role='dialog'].rt-DialogContent[data-state='open'] {
-      transform: scale(0.85) !important;
     }
   }
 `;
