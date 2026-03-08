@@ -1,3 +1,4 @@
+import React from 'react';
 import { type FC, useEffect, useRef } from 'react';
 
 import type { NavItem } from 'types/nav.types';
@@ -18,7 +19,7 @@ export const HiddenMeasureItems: FC<HiddenMeasureItemsProps> = ({
   navItemsRef,
   calculateVisibleItemsCount,
 }) => {
-  const calculationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const calculationTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // NOTE: trigger calculation AFTER items are MEASURED (after render/update)
   useEffect(

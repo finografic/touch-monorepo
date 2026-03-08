@@ -1,9 +1,10 @@
+import { colors } from '@workspace/design-system/tokens';
+
 import { css } from '@emotion/react';
 
 import type { ButtonColor, ButtonVariant } from '../Button.types';
 import { BUTTON_BASE_COLORS } from './button.utils.config';
 import type { ButtonColorVariants } from './button.utils.types';
-import { colors } from '@workspace/design-system/tokens';
 
 type ShadeVariant = 'XXLight' | 'XLight' | 'Light' | 'Dark' | 'XDark' | 'XXDark';
 
@@ -112,14 +113,14 @@ export function getVariantStyles(variant: ButtonVariant = 'solid', color: Button
           opacity: 0.8 !important;
           filter: saturate(0.4);
           background-color: transparent;
-          /* background-color: ${transparentColor40}!important;
+          background-color: ${transparentColor40}!important;
           border-color: ${lightColor} !important;
-          color: ${darkColor} !important; */
-          /* svg {
+          color: ${darkColor} !important;
+          svg {
             opacity: 1 !important;
             color: ${lightColor} !important;
             cursor: not-allowed !important;
-          } */
+          }
         }
       `;
 
@@ -198,9 +199,11 @@ function extractBaseColorName(colorKey: string): string {
   const shadeVariants = [
     'XXDark',
     'XDark',
+    'Darker',
     'Dark',
     //  '',
     'Light',
+    'Lighter',
     'XLight',
     'XXLight',
   ];

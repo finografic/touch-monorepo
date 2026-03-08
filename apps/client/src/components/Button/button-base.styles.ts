@@ -1,12 +1,15 @@
-import { css } from '@emotion/react';
-
 import { colors } from '@workspace/design-system/tokens';
+
+import { css } from '@emotion/react';
 
 // Base styles shared across all interactive buttons
 export const stylesButtonBase = css`
   cursor: pointer;
   background: transparent;
-  transition: transform 200ms ease, border-color 200ms ease, color 200ms ease;
+  transition:
+    transform 200ms ease,
+    border-color 200ms ease,
+    color 200ms ease;
   display: flex;
   align-items: center;
   justify-content: center;

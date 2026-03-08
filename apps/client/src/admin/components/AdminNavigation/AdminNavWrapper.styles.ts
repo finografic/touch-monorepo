@@ -12,7 +12,7 @@ export const stylesTypography = css`
 export const styles = css`
   width: 100%;
   margin: 0 auto;
-
+  /*
   ${min.sm} {
     max-width: 94vw;
   }
@@ -25,19 +25,20 @@ export const styles = css`
   ${min.xl} {
     max-width: ${BREAKPOINTS.xl}px;
     max-width: ${BREAKPOINTS.xl + 200}px;
-  }
+  } */
 
   .navbar {
     padding: 0;
-    overflow: hidden;
-    display: flex;
+    overflow: visible;
+    /* display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center; */
 
     box-sizing: content-box;
-    padding: 0 3.5rem 0 3rem !important;
-    margin-top: 24px;
-    margin-bottom: 0.75rem;
+    /* padding: 0 3.5rem 0 3rem !important; */
+    /* margin-top: 24px;
+    margin-bottom: 0.75rem; */
+    /*
 
     ${min.sm} {
       max-width: 94vw;
@@ -50,7 +51,7 @@ export const styles = css`
     }
     ${min.xl} {
       max-width: ${BREAKPOINTS.xl + 200}px;
-    }
+    } */
   }
 
   .nav-items {
@@ -58,9 +59,11 @@ export const styles = css`
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
-    overflow: hidden;
-    position: absolute;
+    /* position: absolute; */
+
+    div[role='tablist'] {
+      box-shadow: inset 0 -3px 0 0 ${colors.defaultXXLight};
+    }
   }
 
   /* Tab nav row */
@@ -77,6 +80,7 @@ export const styles = css`
 
     /* Bottom rule — replaces Radix TabNav's built-in indicator */
     border-bottom: 2px solid ${colors.defaultXXXLight};
+    /* border-bottom: 0 !important; */
 
     button.nav-button {
       ${stylesTypography}
@@ -98,7 +102,7 @@ export const styles = css`
       &::after {
         content: '';
         position: absolute;
-        bottom: -2px;
+        bottom: -4px;
         left: 0;
         right: 0;
         height: 2px;

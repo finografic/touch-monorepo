@@ -1,25 +1,25 @@
-/* eslint-disable simple-import-sort/imports -- import order fixed manually; run eslint --fix to re-sort */
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-
-import { Flex } from 'styled-system/jsx';
 import { Switch } from '@workspace/design-system/components';
-import { badge, dsSwitch } from 'styled-system/recipes';
+import { MinusIcon, PlusIcon } from '@workspace/icons';
+
 import clsx from 'clsx';
+import { Flex } from 'styled-system/jsx';
+import { badge, dsSwitch } from 'styled-system/recipes';
 import { useDebouncedCallback } from 'use-debounce';
 import { Button } from 'components/Button';
 import { useToast } from 'components/Toast';
+
 import { useGetSlotSpecialConfig, useUpdateSlotSpecialConfig } from 'queries/app-configuration';
 import { useBulkUpdateSlotConfigurations, useGetSlotConfigurations } from 'queries/slot-configurations';
+
+import { calculateColumns } from 'utils/slots.utils';
 import type { SlotSpecialParam } from 'types/app-configuration.types';
 import type { SlotType } from 'types/slots.types';
-import { calculateColumns } from 'utils/slots.utils';
 import { getEffectiveRows, MAX_COLUMNS, MIN_COLUMNS, NUM_RELAYS } from 'config/app/slots.config';
-
 import { AdminPageLayout } from '../..';
 import { AdminSection } from '../../components/AdminSection/AdminSection';
 import { SlotGrid } from './SlotGrid/SlotGrid';
-import { MinusIcon, PlusIcon } from '@workspace/icons';
 import { styles } from './AdminSlotsConfigPage.styles';
 
 // Types for form values

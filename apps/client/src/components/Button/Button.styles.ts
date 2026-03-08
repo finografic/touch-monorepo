@@ -1,7 +1,5 @@
 import { css } from '@emotion/react';
 
-import { colors } from '@workspace/design-system/tokens';
-
 /**
  * Base button styles - common to all variants
  */
@@ -33,9 +31,10 @@ export const baseButtonStyles = css`
 
   .button-text {
     font-weight: 700;
+    display: inline-flex;
+    gap: 0.5em;
     svg {
-      transform: scale(1.25);
-      font-weight: 700;
+      transform: scale(1.1);
     }
   }
 

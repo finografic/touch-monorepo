@@ -1,10 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-
 import { Menu } from '@workspace/design-system/components';
+import { ChevronDownIcon } from '@workspace/icons';
 
 import type { NavItem } from 'types/nav.types';
-import { ChevronDownIcon } from '@workspace/icons';
 import { styles } from './MoreMenu.styles';
 
 interface MoreButtonProps {
