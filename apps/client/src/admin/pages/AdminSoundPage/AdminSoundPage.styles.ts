@@ -1,6 +1,6 @@
-import { css } from '@emotion/react';
-
 import { colors, layout } from '@workspace/design-system/tokens';
+
+import { css } from '@emotion/react';
 
 export const styles = css`
   width: 100%;
@@ -26,17 +26,8 @@ export const styles = css`
     }
   }
 
-  svg.icon.icon-speaker {
-    width: 1.2rem;
-    height: 1.2rem;
-    color: ${colors.infoDark};
-  }
-
   /* Volume slider styling */
   .volume-control {
-    /* padding: 1rem 1.5rem 0 1.5rem; */
-    padding: 0 0 1rem 0;
-
     .volume-slider {
       width: 100%;
       max-width: 400px;
@@ -73,19 +64,4 @@ export const styles = css`
       }
     }
   }
-
-  /* ======================== PRIME REACT STYLES ============================ */
-
-  .p-listbox {
-    background-color: ${colors.white};
-    border-radius: 8px;
-    .p-listbox-item {
-      padding: 0.75rem;
-      border: 1px solid ${colors.greyLight};
-      border-radius: ${layout.borderRadius};
-      margin-bottom: 0.25rem;
-    }
-  }
-
-
 `;
