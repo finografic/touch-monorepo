@@ -102,11 +102,9 @@ export function getVariantStyles(variant: ButtonVariant = 'solid', color: Button
 
         .button-text svg {
           display: block;
-
           color: ${darkColor};
           stroke: ${darkColor};
           display: none;
-          transform: scale(2) !important;
         }
 
         &:disabled {

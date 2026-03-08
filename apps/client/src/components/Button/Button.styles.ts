@@ -33,8 +33,26 @@ export const baseButtonStyles = css`
     font-weight: 700;
     display: inline-flex;
     gap: 0.5em;
-    svg {
-      transform: scale(1.1);
+
+    /* Size variants */
+    .size--sm svg {
+      width: 0.875rem;
+      height: 0.875rem;
+    }
+
+    .size--md svg {
+      width: 1rem;
+      height: 1rem;
+    }
+
+    .size--lg svg {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+
+    .size--xl svg {
+      width: 1.5rem;
+      height: 1.5rem;
     }
   }
 

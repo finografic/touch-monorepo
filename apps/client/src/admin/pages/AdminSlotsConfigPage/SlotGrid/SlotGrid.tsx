@@ -1,7 +1,5 @@
 import React, { memo, useCallback, useMemo } from 'react';
 
-import { Box } from 'styled-system/jsx';
-
 import { mapGridByColumns } from 'utils/grid.utils';
 import { SlotType } from 'types/slots.types';
 import { NUM_RELAYS } from 'config/app/slots.config';
@@ -137,11 +135,19 @@ const SlotGridComponent: React.FC<SlotGridProps> = ({
   const secondarySpecialSlot = useMemo(() => {
     if (!(showSpecialSlot && showSpecialAltSlot)) return null;
 
-    return <SlotButton slotNumber={altSlotNumber} slotType="C" label="(alt)" color="secondary" />;
+    return (
+      <SlotButton
+        // slotNumber={altSlotNumber}
+        slotNumber={16}
+        slotType="C"
+        label="(alt)"
+        color="secondary"
+      />
+    );
   }, [showSpecialSlot, showSpecialAltSlot, altSlotNumber]);
 
   return (
-    <Box css={styles}>
+    <div css={styles}>
       <div className="slot-grid-container">
         <div
           className="slot-grid"
@@ -190,7 +196,7 @@ const SlotGridComponent: React.FC<SlotGridProps> = ({
           )}
         </div>
       </div>
-    </Box>
+    </div>
   );
 };
 

@@ -1,6 +1,6 @@
-import { css } from '@emotion/react';
-
 import { colors, layout } from '@workspace/design-system/tokens';
+
+import { css } from '@emotion/react';
 
 export const styles = css`
   hr {
@@ -68,7 +68,7 @@ export const styles = css`
     aspect-ratio: 1;
     width: 90px;
     height: 90px;
-    box-shadow: 0 0 1px 2px;
+    box-shadow: 0 0 0 1px;
     background-color: transparent;
     cursor: pointer;
   }

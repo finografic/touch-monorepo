@@ -58,7 +58,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     const renderIcon = () => {
       if (!icon) return null;
-      return <span className={`button-icon button-icon-${iconPosition}`}>{icon}</span>;
+      return <span className={`button-icon button-icon-${iconPosition} size--${size}`}>{icon}</span>;
     };
 
     const renderContent = () => {
@@ -80,7 +80,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         );
       }
 
-      return <span className="button-text">{children}</span>;
+      return <span className={'button-text'}>{children}</span>;
     };
 
     return (

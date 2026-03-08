@@ -1,6 +1,7 @@
 import { type FC, useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
+// import { Tabs } from '@workspace/design-system/components';
 import { usePageTransition } from 'hooks/usePageTransition';
 
 import type { NavItem } from 'types/nav.types';
@@ -79,9 +80,7 @@ export const AdminNavbar: FC<AdminNavbarProps> = ({ navItems }) => {
                 type="button"
                 role="tab"
                 aria-selected={isActive}
-                className={`nav-button ${isActive ? 'active' : ''} ${
-                  isTransitioning ? 'transitioning' : ''
-                }`}
+                className={`nav-button ${isActive ? 'active' : ''} ${isTransitioning ? 'transitioning' : ''}`}
                 onClick={() => handleNavigate(navItem.path)}
                 disabled={isTransitioning}
               >

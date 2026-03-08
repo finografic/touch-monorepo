@@ -1,6 +1,6 @@
-import { css } from '@emotion/react';
-
 import { colors } from '@workspace/design-system/tokens';
+
+import { css } from '@emotion/react';
 
 export const styles = css`
   .languages-list {
@@ -8,7 +8,6 @@ export const styles = css`
     margin: 1.5rem 0;
     display: inline-flex;
   }
-
 
   .alert.no-selection {
     margin-top: 1.75rem;
@@ -81,10 +80,6 @@ export const styles = css`
         min-width: auto;
         .button-delete {
           padding: 1.25rem;
-          svg {
-            width: 1.5rem;
-            height: 1.5rem;
-          }
           &:hover:not(:disabled) {
             cursor: pointer;
           }

@@ -1,33 +1,31 @@
 // ── Primitive components ─────────────────────────────────────────────────────
-export { Spinner } from './spinner';
 export type { SpinnerProps } from './spinner';
+export { Spinner } from './spinner';
 
 // ── Styled wrappers (recipe-ready) ───────────────────────────────────────────
-export { Button } from './button';
 export type { ButtonProps } from './button';
-
-export { SwitchField } from './switch';
-export type { SwitchFieldProps, SwitchProps } from './switch';
-
+export { Button } from './button';
+export type { CheckboxFieldClassNames, CheckboxFieldProps } from './checkbox';
 export { CheckboxField } from './checkbox';
-export type { CheckboxFieldProps, CheckboxFieldClassNames } from './checkbox';
+export type { SwitchFieldProps, SwitchProps } from './switch';
+export { SwitchField } from './switch';
 
 // ── Ark UI primitives (re-exported for consistent imports) ───────────────────
 // Use these when you need full composition control.
 // Apply recipe classNames per slot: e.g. checkboxRecipe({ size: 'md' })
 
-export { Switch } from './switch';
 export { Checkbox } from './checkbox';
 export { Dialog } from './dialog';
+export type { MenuOpenChangeDetails, MenuSelectionDetails } from './menu';
 export { Menu } from './menu';
-export type { MenuSelectionDetails, MenuOpenChangeDetails } from './menu';
-export { Popover } from './popover';
 export type { PopoverOpenChangeDetails } from './popover';
+export { Popover } from './popover';
+export type { CollectionItem, ListCollection, SelectValueChangeDetails } from './select';
 export { Select } from './select';
 export { createListCollection, useListCollection } from './select';
-export type { SelectValueChangeDetails, CollectionItem, ListCollection } from './select';
+export { Switch } from './switch';
+export type { TabsFocusChangeDetails, TabsValueChangeDetails } from './tabs';
 export { Tabs } from './tabs';
-export type { TabsValueChangeDetails, TabsFocusChangeDetails } from './tabs';
-export { Toast, Toaster, createToaster } from './toast';
-export { Tooltip } from './tooltip';
+export { createToaster, Toast, Toaster } from './toast';
 export type { TooltipOpenChangeDetails } from './tooltip';
+export { Tooltip } from './tooltip';
