@@ -83,7 +83,7 @@
 
 ---
 
-## Phase 4 — Cleanup
+## Phase 4 — Cleanup (server)
 
 | Task | Status |
 |------|--------|
@@ -94,6 +94,32 @@
 | `convertBooleansToIntegers` moved to `lib/valibot.utils.ts` | ✅ |
 | `openapi/json-content.ts` stubbed (deprecated, remove later) | ✅ |
 | TypeScript `tsc --noEmit` clean pass | ✅ **0 errors** |
+
+---
+
+## Phase 5 — Client + Cross-package Zod removal
+
+| Task | Status | Notes |
+|------|--------|-------|
+| Create `types/models.types.ts` on server | ✅ | Re-exports all Valibot-inferred model types |
+| Add `@workspace/server/models` export | ✅ | `package.json` exports field |
+| Delete `types/entities/` folder | ✅ | 12 files removed (legacy snake_case interfaces) |
+| Client: import models from `@workspace/server/models` | ✅ | All 12 model files updated |
+| Client: remove `ConvertKeysToCamelCase` wrappers | ✅ | Server models already camelCase |
+| Client: convert `OrdersForm.schema.ts` Zod → Valibot | ✅ | `z.coerce.number()` → `v.pipe(v.unknown(), v.transform(Number), v.number())` |
+| Client: `zodResolver` → `standardSchemaResolver` | ✅ | Standard Schema — library-agnostic |
+| Client: convert `translations-ui.schema.ts` Zod → Valibot | ✅ | Dynamic schema generation |
+| Convert `config/env.shared.ts` Zod → Valibot | ✅ | `z.object().transform()` → `v.pipe(v.object(), v.transform())` |
+| Convert `apps/server/env.server.ts` Zod → Valibot | ✅ | |
+| Convert `apps/client/env.client.ts` Zod → Valibot | ✅ | |
+| Convert `packages/core` error schemas → plain interfaces | ✅ | No schema lib needed |
+| Rename `zod-errors` → `validation-errors` (client + core) | ✅ | |
+| Replace `stoker` with `http-status-codes` | ✅ | Removed last Zod transitive dep from server |
+| Inline stoker middlewares in `create-app.ts` | ✅ | `notFound`, `onError`, emoji favicon |
+| Remove `zod` from all `package.json` files | ✅ | |
+| Remove `zod` from `pnpm.overrides` | ✅ | |
+| Remove `stoker` from server + core | ✅ | |
+| `pnpm why zod` → ESLint plugin only (devDep) | ✅ | Zero runtime Zod |
 
 ---
 
