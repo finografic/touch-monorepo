@@ -1,8 +1,9 @@
 import createCuid from '@bugsnag/cuid';
-import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
+import * as v from 'valibot';
+import { createInsertSchema, createSelectSchema } from 'drizzle-valibot';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
-import { sqliteBooleanField } from 'lib/zod.utils';
+import { sqliteBooleanField } from 'lib/valibot.utils';
 
 /**
  * UI Translations Table
@@ -27,28 +28,31 @@ export const translations_ui = sqliteTable('translations_ui', {
     .$onUpdate(() => new Date()),
 });
 
-// Zod schema for validation
-const insertTranslationUiSchema = createInsertSchema(translations_ui, {
-  key: (schema) => schema.key.min(1).max(255),
-  translations: (schema) => schema.translations, // Keep as-is for JSON validation
-  isActive: () => sqliteBooleanField(), // Handle boolean/integer conversion
-})
-  .required({
-    key: true,
-    translations: true,
-  })
-  .omit({ id: true, createdAt: true, updatedAt: true });
+const insertTranslationUiSchema = v.omit(
+  createInsertSchema(translations_ui, {
+    key:          v.pipe(v.string(), v.minLength(1), v.maxLength(255)),
+    translations: v.record(v.string(), v.string()),
+    isActive:     sqliteBooleanField(),
+  }),
+  ['id', 'createdAt', 'updatedAt'],
+);
 
-// Create patch schema that includes translations and handles boolean fields
-const patchTranslationUiSchema = insertTranslationUiSchema.partial().extend({
-  translations: createSelectSchema(translations_ui).shape.translations.optional(),
-  isActive: sqliteBooleanField().optional(), // Handle boolean/integer conversion for PATCH
-});
+const patchTranslationUiSchema = v.partial(
+  v.object({
+    ...v.omit(insertTranslationUiSchema, ['translations']).entries,
+    translations: v.optional(v.record(v.string(), v.string())),
+    isActive:     v.optional(sqliteBooleanField()),
+  }),
+);
 
 export const translationUiSchemas = {
   select: createSelectSchema(translations_ui, {
-    translations: (schema) => schema.translations.optional(), // Simplified schema for translations
+    translations: v.optional(v.record(v.string(), v.string())),
   }),
   insert: insertTranslationUiSchema,
-  patch: patchTranslationUiSchema,
+  patch:  patchTranslationUiSchema,
 } as const;
+
+export type TranslationUiModel  = v.InferOutput<typeof translationUiSchemas.select>;
+export type TranslationUiInsert = v.InferOutput<typeof translationUiSchemas.insert>;
+export type TranslationUiPatch  = v.InferOutput<typeof translationUiSchemas.patch>;

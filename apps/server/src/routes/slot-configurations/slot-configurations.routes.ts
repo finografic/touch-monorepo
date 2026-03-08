@@ -1,147 +1,102 @@
-import { createRoute, z } from '@hono/zod-openapi';
+import { describeRoute } from 'hono-openapi';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
-import { jsonContent, jsonContentRequired } from 'stoker/openapi/helpers';
-import { createErrorSchema, IdParamsSchema } from 'stoker/openapi/schemas';
+import * as v from 'valibot';
 
-import { notFoundSchema } from 'lib/zod.errors';
-import { IdCuidParamsSchema } from 'schemas/id-cuid-params.schema';
+import { json } from 'lib/openapi.helpers';
+import { notFoundSchema, validationErrorSchema } from 'lib/valibot.errors';
 
 const tags = ['SlotConfigurations'];
 
 export const slotConfigSchemas = {
-  select: z.object({
-    id: z.string().cuid(),
-    slotNumber: z.number().int().min(1).max(16),
-    slotType: z.enum(['A', 'B', 'C']),
-    isActive: z.boolean(),
-    relayNumber: z.number().int().min(1).max(16).nullable(),
-    createdAt: z.string().optional(),
-    updatedAt: z.string().optional(),
+  select: v.object({
+    id:          v.string(),
+    slotNumber:  v.pipe(v.number(), v.integer(), v.minValue(1), v.maxValue(16)),
+    slotType:    v.picklist(['A', 'B', 'C']),
+    isActive:    v.boolean(),
+    relayNumber: v.nullable(v.pipe(v.number(), v.integer(), v.minValue(1), v.maxValue(16))),
+    createdAt:   v.optional(v.string()),
+    updatedAt:   v.optional(v.string()),
   }),
-  insert: z.object({
-    slotNumber: z.number().int().min(1).max(16),
-    slotType: z.enum(['A', 'B', 'C']),
-    isActive: z.boolean(),
-    relayNumber: z.union([z.number().int().min(1).max(16), z.null()]).optional(),
+  insert: v.object({
+    slotNumber:  v.pipe(v.number(), v.integer(), v.minValue(1), v.maxValue(16)),
+    slotType:    v.picklist(['A', 'B', 'C']),
+    isActive:    v.boolean(),
+    relayNumber: v.optional(v.nullable(v.pipe(v.number(), v.integer(), v.minValue(1), v.maxValue(16)))),
   }),
-  patch: z.object({
-    slotType: z.enum(['A', 'B', 'C']).optional(),
-    isActive: z.boolean().optional(),
-    relayNumber: z.union([z.number().int().min(1).max(16), z.null()]).optional(),
+  patch: v.object({
+    slotType:    v.optional(v.picklist(['A', 'B', 'C'])),
+    isActive:    v.optional(v.boolean()),
+    relayNumber: v.optional(v.nullable(v.pipe(v.number(), v.integer(), v.minValue(1), v.maxValue(16)))),
   }),
 };
 
-export const list = createRoute({
-  path: '/slot-configurations',
-  method: 'get',
+export const list = describeRoute({
   tags,
+  description: 'List all slot configurations',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(z.array(slotConfigSchemas.select), 'List of slot configurations'),
+    [HttpStatusCodes.OK]: json(v.array(slotConfigSchemas.select), 'List of slot configurations'),
   },
 });
 
-export const getOne = createRoute({
-  path: '/slot-configurations/{id}',
-  method: 'get',
-  request: {
-    params: IdCuidParamsSchema,
-  },
+export const getOne = describeRoute({
   tags,
+  description: 'Get a single slot configuration by ID',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(slotConfigSchemas.select, 'The requested slot configuration'),
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Slot configuration not found'),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(IdParamsSchema),
-      'Invalid id error',
-    ),
+    [HttpStatusCodes.OK]:                   json(slotConfigSchemas.select, 'The requested slot configuration'),
+    [HttpStatusCodes.NOT_FOUND]:            json(notFoundSchema, 'Slot configuration not found'),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: json(validationErrorSchema, 'Invalid id error'),
   },
 });
 
-export const create = createRoute({
-  path: '/slot-configurations',
-  method: 'post',
-  request: {
-    body: jsonContentRequired(slotConfigSchemas.insert, 'The slot configuration to create'),
-  },
+export const create = describeRoute({
   tags,
+  description: 'Create a new slot configuration',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(slotConfigSchemas.select, 'The created slot configuration'),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(slotConfigSchemas.insert),
-      'The validation error(s)',
-    ),
+    [HttpStatusCodes.OK]:                   json(slotConfigSchemas.select, 'The created slot configuration'),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: json(validationErrorSchema, 'The validation error(s)'),
   },
 });
 
-export const patch = createRoute({
-  path: '/slot-configurations/{id}',
-  method: 'patch',
-  request: {
-    params: IdCuidParamsSchema,
-    body: jsonContentRequired(slotConfigSchemas.patch, 'The slot configuration updates'),
-  },
+export const patch = describeRoute({
   tags,
+  description: 'Update a slot configuration',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(slotConfigSchemas.select, 'The updated slot configuration'),
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Slot configuration not found'),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(slotConfigSchemas.patch).or(createErrorSchema(IdParamsSchema)),
-      'The validation error(s)',
-    ),
+    [HttpStatusCodes.OK]:                   json(slotConfigSchemas.select, 'The updated slot configuration'),
+    [HttpStatusCodes.NOT_FOUND]:            json(notFoundSchema, 'Slot configuration not found'),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: json(validationErrorSchema, 'The validation error(s)'),
   },
 });
 
-export const remove = createRoute({
-  path: '/slot-configurations/{id}',
-  method: 'delete',
-  request: {
-    params: IdCuidParamsSchema,
-  },
+export const remove = describeRoute({
   tags,
+  description: 'Delete a slot configuration',
   responses: {
-    [HttpStatusCodes.NO_CONTENT]: {
-      description: 'Slot configuration deleted',
-    },
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Slot configuration not found'),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(IdParamsSchema),
-      'Invalid id error',
-    ),
+    [HttpStatusCodes.NO_CONTENT]:           { description: 'Slot configuration deleted' },
+    [HttpStatusCodes.NOT_FOUND]:            json(notFoundSchema, 'Slot configuration not found'),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: json(validationErrorSchema, 'Invalid id error'),
   },
 });
 
-// Bulk update and reset (not standard REST, but admin tools)
-export const bulkUpdate = createRoute({
-  path: '/slot-configurations/bulk-update',
-  method: 'post',
-  request: {
-    body: jsonContentRequired(
-      z.object({ configurations: z.array(slotConfigSchemas.insert) }),
-      'Bulk slot configuration update',
-    ),
-  },
+export const bulkUpdate = describeRoute({
   tags,
+  description: 'Bulk update slot configurations',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(z.array(slotConfigSchemas.select), 'Bulk updated slot configurations'),
+    [HttpStatusCodes.OK]: json(v.array(slotConfigSchemas.select), 'Bulk updated slot configurations'),
   },
 });
 
-export const reset = createRoute({
-  path: '/slot-configurations/reset',
-  method: 'post',
+export const reset = describeRoute({
   tags,
+  description: 'Reset slot configurations to default',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(
-      z.object({ success: z.boolean(), message: z.string() }),
+    [HttpStatusCodes.OK]: json(
+      v.object({ success: v.boolean(), message: v.string() }),
       'Reset slot configurations to default',
     ),
   },
 });
 
-export type ListRoute = typeof list;
-export type GetOneRoute = typeof getOne;
-export type CreateRoute = typeof create;
-export type PatchRoute = typeof patch;
-export type RemoveRoute = typeof remove;
-export type BulkUpdateRoute = typeof bulkUpdate;
-export type ResetRoute = typeof reset;
+// Body schemas for validators
+export const bulkUpdateBodySchema = v.object({
+  configurations: v.array(slotConfigSchemas.insert),
+});

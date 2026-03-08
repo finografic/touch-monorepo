@@ -1,8 +1,9 @@
 import createCuid from '@bugsnag/cuid';
-import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
+import * as v from 'valibot';
+import { createInsertSchema, createSelectSchema } from 'drizzle-valibot';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
-import { sqliteBooleanField } from '../../lib/zod.utils';
+import { sqliteBooleanField } from '../../lib/valibot.utils';
 
 export const container_types = sqliteTable('container_types', {
   id: text('id')
@@ -23,28 +24,31 @@ export const container_types = sqliteTable('container_types', {
     .$onUpdate(() => new Date()),
 });
 
-// Zod schema for validation
-const insertContainerTypeSchema = createInsertSchema(container_types, {
-  name: (schema) => schema.name.min(1).max(50),
-  thermalConductivity: (schema) => schema.thermalConductivity.min(1).max(100), // Scale of 1-100
-  isActive: () => sqliteBooleanField(), // Handle boolean/integer conversion
-})
-  .required({
-    name: true,
-    thermalConductivity: true,
-  })
-  .omit({ id: true, createdAt: true, updatedAt: true });
+const insertContainerTypeSchema = v.omit(
+  createInsertSchema(container_types, {
+    name:                v.pipe(v.string(), v.minLength(1), v.maxLength(50)),
+    thermalConductivity: v.pipe(v.number(), v.integer(), v.minValue(1), v.maxValue(100)),
+    isActive:            sqliteBooleanField(),
+  }),
+  ['id', 'createdAt', 'updatedAt'],
+);
 
-// Create patch schema that includes translations and handles boolean fields
-const patchContainerTypeSchema = insertContainerTypeSchema.partial().extend({
-  translations: createSelectSchema(container_types).shape.translations.optional(),
-  isActive: sqliteBooleanField().optional(), // Handle boolean/integer conversion for PATCH
-});
+const patchContainerTypeSchema = v.partial(
+  v.object({
+    ...v.omit(insertContainerTypeSchema, ['translations']).entries,
+    translations: v.optional(v.record(v.string(), v.string())),
+    isActive:     v.optional(sqliteBooleanField()),
+  }),
+);
 
 export const containerTypeSchemas = {
   select: createSelectSchema(container_types, {
-    translations: (schema) => schema.translations.optional(), // Simplified schema for translations
+    translations: v.optional(v.record(v.string(), v.string())),
   }),
   insert: insertContainerTypeSchema,
-  patch: patchContainerTypeSchema,
+  patch:  patchContainerTypeSchema,
 } as const;
+
+export type ContainerTypeModel  = v.InferOutput<typeof containerTypeSchemas.select>;
+export type ContainerTypeInsert = v.InferOutput<typeof containerTypeSchemas.insert>;
+export type ContainerTypePatch  = v.InferOutput<typeof containerTypeSchemas.patch>;

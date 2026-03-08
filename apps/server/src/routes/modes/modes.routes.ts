@@ -1,154 +1,91 @@
-import { createRoute, z } from '@hono/zod-openapi';
+import { describeRoute } from 'hono-openapi';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
-import { jsonContent, jsonContentRequired } from 'stoker/openapi/helpers';
-import { createErrorSchema } from 'stoker/openapi/schemas';
+import * as v from 'valibot';
 
 import { modeSchemas } from 'db/schemas/modes.schema';
-import { notFoundSchema } from 'lib/zod.errors';
-import { IdCuidParamsSchema } from 'schemas/id-cuid-params.schema';
-import { IdParamsSchema } from 'schemas/params.schema';
+import { json, jsonRequired } from 'lib/openapi.helpers';
+import { notFoundSchema, validationErrorSchema } from 'lib/valibot.errors';
 
 const tags = ['CoolingProfiles'];
 
-export const list = createRoute({
-  path: '/modes',
-  method: 'get',
+const modeStateSchema = v.object({
+  id: v.string(),
+  name: v.string(),
+  isDefault: v.boolean(),
+  isActive: v.boolean(),
+});
+
+export const list = describeRoute({
   tags,
+  description: 'The list of cooling profiles',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(z.array(modeSchemas.select), 'The list of cooling profiles'),
+    [HttpStatusCodes.OK]: json(v.array(modeSchemas.select), 'The list of cooling profiles'),
   },
 });
 
-export const getOne = createRoute({
-  path: '/modes/{id}',
-  method: 'get',
-  request: {
-    params: IdCuidParamsSchema,
-  },
+export const getOne = describeRoute({
   tags,
+  description: 'Get a cooling profile by ID',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(modeSchemas.select, 'The requested cooling profile'),
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Cooling profile not found'),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(createErrorSchema(IdParamsSchema), 'Invalid id'),
+    [HttpStatusCodes.OK]: json(modeSchemas.select, 'The requested cooling profile'),
+    [HttpStatusCodes.NOT_FOUND]: json(notFoundSchema, 'Cooling profile not found'),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: json(validationErrorSchema, 'Invalid id'),
   },
 });
 
-export const create = createRoute({
-  path: '/modes',
-  method: 'post',
-  request: {
-    body: jsonContentRequired(modeSchemas.insert, 'The cooling profile to create'),
-  },
+export const create = describeRoute({
   tags,
+  description: 'Create a cooling profile',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(modeSchemas.select, 'The created cooling profile'),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(modeSchemas.insert),
-      'The validation error(s)',
-    ),
+    [HttpStatusCodes.OK]: json(modeSchemas.select, 'The created cooling profile'),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: json(validationErrorSchema, 'The validation error(s)'),
   },
 });
 
-export const patch = createRoute({
-  path: '/modes/{id}',
-  method: 'patch',
-  request: {
-    params: IdCuidParamsSchema,
-    body: jsonContentRequired(modeSchemas.patch, 'The cooling profile updates'),
-  },
+export const patch = describeRoute({
   tags,
+  description: 'Update a cooling profile',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(modeSchemas.select, 'The updated cooling profile'),
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Cooling profile not found'),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(modeSchemas.patch).or(createErrorSchema(IdParamsSchema)),
-      'The validation error(s)',
-    ),
+    [HttpStatusCodes.OK]: json(modeSchemas.select, 'The updated cooling profile'),
+    [HttpStatusCodes.NOT_FOUND]: json(notFoundSchema, 'Cooling profile not found'),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: json(validationErrorSchema, 'The validation error(s)'),
   },
 });
 
-export const remove = createRoute({
-  path: '/modes/{id}',
-  method: 'delete',
-  request: {
-    params: IdCuidParamsSchema,
-  },
+export const remove = describeRoute({
   tags,
+  description: 'Delete a cooling profile',
   responses: {
     [HttpStatusCodes.NO_CONTENT]: {
       description: 'Cooling profile deleted',
     },
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Cooling profile not found'),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(createErrorSchema(IdParamsSchema), 'Invalid id'),
+    [HttpStatusCodes.NOT_FOUND]: json(notFoundSchema, 'Cooling profile not found'),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: json(validationErrorSchema, 'Invalid id'),
   },
 });
 
-export const updateActiveStates = createRoute({
-  path: '/modes/active-states',
-  method: 'patch',
-  request: {
-    body: jsonContentRequired(
-      z.object({
-        activeModeIds: z.array(z.string()),
-      }),
-      'The active mode IDs to update',
-    ),
-  },
+export const updateActiveStates = describeRoute({
   tags,
+  description: 'Update active states for cooling profiles',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(
-      z.array(
-        z.object({
-          id: z.string(),
-          name: z.string(),
-          isDefault: z.boolean(),
-          isActive: z.boolean(),
-        }),
-      ),
-      'The updated modes',
-    ),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(z.object({ activeModeIds: z.array(z.string()) })),
-      'The validation error(s)',
-    ),
+    [HttpStatusCodes.OK]: json(v.array(modeStateSchema), 'The updated modes'),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: json(validationErrorSchema, 'The validation error(s)'),
   },
 });
 
-export const updateDefaultMode = createRoute({
-  path: '/modes/default-mode',
-  method: 'patch',
-  request: {
-    body: jsonContentRequired(
-      z.object({
-        defaultModeId: z.string().nullable(),
-      }),
-      'The default mode ID to set',
-    ),
-  },
+export const updateDefaultMode = describeRoute({
   tags,
+  description: 'Set the default cooling profile',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(
-      z.array(
-        z.object({
-          id: z.string(),
-          name: z.string(),
-          isDefault: z.boolean(),
-          isActive: z.boolean(),
-        }),
-      ),
-      'The updated modes',
-    ),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(z.object({ defaultModeId: z.string().nullable() })),
-      'The validation error(s)',
-    ),
+    [HttpStatusCodes.OK]: json(v.array(modeStateSchema), 'The updated modes'),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: json(validationErrorSchema, 'The validation error(s)'),
   },
 });
 
-export type ListRoute = typeof list;
-export type CreateRoute = typeof create;
-export type GetOneRoute = typeof getOne;
-export type PatchRoute = typeof patch;
-export type RemoveRoute = typeof remove;
-export type UpdateActiveStatesRoute = typeof updateActiveStates;
-export type UpdateDefaultModeRoute = typeof updateDefaultMode;
+export const activeStatesBodySchema = v.object({
+  activeModeIds: v.array(v.string()),
+});
+
+export const defaultModeBodySchema = v.object({
+  defaultModeId: v.nullable(v.string()),
+});

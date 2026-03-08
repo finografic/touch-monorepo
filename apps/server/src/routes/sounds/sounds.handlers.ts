@@ -4,23 +4,10 @@ import { existsSync } from 'fs';
 import { mkdir, readdir, readFile, stat, unlink, writeFile } from 'fs/promises';
 import { join } from 'path';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
-import { z } from 'zod';
 
-import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/zod.errors';
 import { slugify } from 'utils/string.utils';
-import type { AppRouteHandler } from 'types/app.types';
+import type { AppHandler } from 'types/app.types';
 import { CONFIG_PATHS, UPLOAD_PATHS } from '../../constants/paths.constants.js';
-import type {
-  GetSettingsRoute,
-  ListByTypeRoute,
-  ListRoute,
-  RemoveByTypeRoute,
-  RemoveRoute,
-  ServeFileRoute,
-  UpdateSettingsRoute,
-  UploadByTypeRoute,
-  UploadRoute,
-} from './sounds.routes';
 
 // In-memory storage for demo purposes
 // In production, this would be replaced with database storage
@@ -226,7 +213,7 @@ async function scanFilesFromDisk() {
 }
 
 // List sound files
-export const list: AppRouteHandler<ListRoute> = async (context) => {
+export const list: AppHandler = async (context) => {
   console.log('📋 List sound files called');
   console.log('📋 Current sound files count:', soundFiles.length);
 
@@ -235,7 +222,7 @@ export const list: AppRouteHandler<ListRoute> = async (context) => {
 };
 
 // List sound files by type
-export const listByType: AppRouteHandler<ListByTypeRoute> = async (context) => {
+export const listByType: AppHandler = async (context) => {
   const { type } = context.req.valid('param');
 
   if (!isValidSoundType(type)) {
@@ -258,7 +245,7 @@ export const listByType: AppRouteHandler<ListByTypeRoute> = async (context) => {
 };
 
 // Upload sound files
-export const upload: AppRouteHandler<UploadRoute> = async (context) => {
+export const upload: AppHandler = async (context) => {
   try {
     // Ensure uploads directory exists
     await ensureUploadsDir();
@@ -359,7 +346,7 @@ export const upload: AppRouteHandler<UploadRoute> = async (context) => {
 };
 
 // Upload sound files by type
-export const uploadByType: AppRouteHandler<UploadByTypeRoute> = async (context) => {
+export const uploadByType: AppHandler = async (context) => {
   try {
     const { type } = context.req.valid('param');
 
@@ -467,7 +454,7 @@ export const uploadByType: AppRouteHandler<UploadByTypeRoute> = async (context) 
 };
 
 // Remove sound file
-export const remove: AppRouteHandler<RemoveRoute> = async (context) => {
+export const remove: AppHandler = async (context) => {
   const { id } = context.req.valid('param');
 
   const file = soundFiles.find((file) => file.id === id);
@@ -508,7 +495,7 @@ export const remove: AppRouteHandler<RemoveRoute> = async (context) => {
 };
 
 // Remove sound file by type
-export const removeByType: AppRouteHandler<RemoveByTypeRoute> = async (context) => {
+export const removeByType: AppHandler = async (context) => {
   const { type, id } = context.req.valid('param');
 
   if (!isValidSoundType(type)) {
@@ -557,13 +544,13 @@ export const removeByType: AppRouteHandler<RemoveByTypeRoute> = async (context) 
 };
 
 // Get sound settings
-export const getSettings: AppRouteHandler<GetSettingsRoute> = async (context) => {
+export const getSettings: AppHandler = async (context) => {
   // Just return the current in-memory settings - already validated on startup
   return context.json(soundSettings);
 };
 
 // Update sound settings
-export const updateSettings: AppRouteHandler<UpdateSettingsRoute> = async (context) => {
+export const updateSettings: AppHandler = async (context) => {
   const body = context.req.valid('json');
 
   // Validate that the selected files exist
@@ -584,7 +571,7 @@ export const updateSettings: AppRouteHandler<UpdateSettingsRoute> = async (conte
 };
 
 // Serve sound file
-export const serveFile: AppRouteHandler<ServeFileRoute> = async (context) => {
+export const serveFile: AppHandler = async (context) => {
   const { filename } = context.req.valid('param');
 
   try {

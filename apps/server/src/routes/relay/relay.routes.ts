@@ -1,201 +1,155 @@
-import { createRoute, z } from '@hono/zod-openapi';
+import * as v from 'valibot';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
-import { jsonContent, jsonContentRequired } from 'stoker/openapi/helpers';
+import { describeRoute } from 'hono-openapi';
 
-import { USBRelayService } from '../../services/usbrelay.service';
+import { json } from 'lib/openapi.helpers';
 
 const tags = ['Relay'];
 
 // Note: USBRelayService initialization moved to server startup (after listening)
 
 // Schemas
-export const relayStateSchema = z.object({
-  slotNumber: z.number().int().min(1).max(8),
-  isOn: z.boolean(),
-  lastUpdated: z.string().datetime(),
+export const relayStateSchema = v.object({
+  slotNumber:  v.pipe(v.number(), v.integer(), v.minValue(1), v.maxValue(8)),
+  isOn:        v.boolean(),
+  lastUpdated: v.string(),
 });
 
-export const relayConnectionStatusSchema = z.object({
-  connected: z.boolean(),
-  port: z.string().optional(),
-  error: z.string().optional(),
+export const relayConnectionStatusSchema = v.object({
+  connected: v.boolean(),
+  port:      v.optional(v.string()),
+  error:     v.optional(v.string()),
 });
 
-export const relayToggleResponseSchema = z.object({
-  success: z.boolean(),
-  slotNumber: z.number().int().min(1).max(8),
-  state: z.boolean(),
-  message: z.string(),
+export const relayToggleResponseSchema = v.object({
+  success:     v.boolean(),
+  slotNumber:  v.pipe(v.number(), v.integer(), v.minValue(1), v.maxValue(8)),
+  state:       v.boolean(),
+  message:     v.string(),
 });
 
-export const relayStatesResponseSchema = z.object({
-  success: z.boolean(),
-  states: z.array(relayStateSchema),
-  count: z.number().int(),
+export const relayStatesResponseSchema = v.object({
+  success: v.boolean(),
+  states:  v.array(relayStateSchema),
+  count:   v.pipe(v.number(), v.integer()),
 });
 
-export const relayStatusResponseSchema = z.object({
-  success: z.boolean(),
-  connected: z.boolean(),
-  port: z.string().optional(),
-  error: z.string().optional(),
+export const relayStatusResponseSchema = v.object({
+  success:   v.boolean(),
+  connected: v.boolean(),
+  port:      v.optional(v.string()),
+  error:     v.optional(v.string()),
 });
 
 // Error schemas
-const errorMessageSchema = z.object({
-  success: z.boolean(),
-  error: z.string(),
+const errorMessageSchema = v.object({
+  success: v.boolean(),
+  error:   v.string(),
 });
 
 // Routes
-export const toggleRelay = createRoute({
-  path: '/relay/toggle/{slotNumber}/{state}',
-  method: 'post',
+export const toggleRelay = describeRoute({
   tags,
-  request: {
-    params: z.object({
-      slotNumber: z.string().transform((val) => Number.parseInt(val)),
-      state: z.string().transform((val) => val === 'true'),
-    }),
-  },
+  description: 'Toggle a relay on or off',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(relayToggleResponseSchema, 'Relay toggled successfully'),
-    [HttpStatusCodes.BAD_REQUEST]: jsonContent(errorMessageSchema, 'Invalid slot number'),
-    [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(errorMessageSchema, 'Server error'),
+    [HttpStatusCodes.OK]:                    json(relayToggleResponseSchema, 'Relay toggled successfully'),
+    [HttpStatusCodes.BAD_REQUEST]:           json(errorMessageSchema, 'Invalid slot number'),
+    [HttpStatusCodes.INTERNAL_SERVER_ERROR]: json(errorMessageSchema, 'Server error'),
   },
 });
 
-export const getRelayStates = createRoute({
-  path: '/relay/states',
-  method: 'get',
+export const getRelayStates = describeRoute({
   tags,
+  description: 'Get all relay states',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(relayStatesResponseSchema, 'All relay states retrieved'),
-    [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(errorMessageSchema, 'Server error'),
+    [HttpStatusCodes.OK]:                    json(relayStatesResponseSchema, 'All relay states retrieved'),
+    [HttpStatusCodes.INTERNAL_SERVER_ERROR]: json(errorMessageSchema, 'Server error'),
   },
 });
 
-export const getRelayState = createRoute({
-  path: '/relay/state/{slotNumber}',
-  method: 'get',
+export const getRelayState = describeRoute({
   tags,
-  request: {
-    params: z.object({
-      slotNumber: z.string().transform((val) => Number.parseInt(val)),
-    }),
-  },
+  description: 'Get a single relay state',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(
-      z.object({
-        success: z.boolean(),
-        slotNumber: z.number().int().min(1).max(8),
-        state: z.boolean(),
-        message: z.string(),
+    [HttpStatusCodes.OK]: json(
+      v.object({
+        success:    v.boolean(),
+        slotNumber: v.pipe(v.number(), v.integer(), v.minValue(1), v.maxValue(8)),
+        state:      v.boolean(),
+        message:    v.string(),
       }),
       'Relay state retrieved',
     ),
-    [HttpStatusCodes.BAD_REQUEST]: jsonContent(errorMessageSchema, 'Invalid slot number'),
-    [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(errorMessageSchema, 'Server error'),
+    [HttpStatusCodes.BAD_REQUEST]:           json(errorMessageSchema, 'Invalid slot number'),
+    [HttpStatusCodes.INTERNAL_SERVER_ERROR]: json(errorMessageSchema, 'Server error'),
   },
 });
 
-export const getRelayStatus = createRoute({
-  path: '/relay/status',
-  method: 'get',
+export const getRelayStatus = describeRoute({
   tags,
+  description: 'Get relay connection status',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(relayStatusResponseSchema, 'Relay connection status'),
-    [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(errorMessageSchema, 'Server error'),
+    [HttpStatusCodes.OK]:                    json(relayStatusResponseSchema, 'Relay connection status'),
+    [HttpStatusCodes.INTERNAL_SERVER_ERROR]: json(errorMessageSchema, 'Server error'),
   },
 });
 
-export const turnAllRelaysOn = createRoute({
-  path: '/relay/all-on',
-  method: 'post',
+export const turnAllRelaysOn = describeRoute({
   tags,
+  description: 'Turn all relays ON',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(
-      z.object({
-        success: z.boolean(),
-        message: z.string(),
-      }),
+    [HttpStatusCodes.OK]: json(
+      v.object({ success: v.boolean(), message: v.string() }),
       'All relays turned ON',
     ),
-    [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(errorMessageSchema, 'Server error'),
+    [HttpStatusCodes.INTERNAL_SERVER_ERROR]: json(errorMessageSchema, 'Server error'),
   },
 });
 
-export const turnAllRelaysOff = createRoute({
-  path: '/relay/all-off',
-  method: 'post',
+export const turnAllRelaysOff = describeRoute({
   tags,
+  description: 'Turn all relays OFF',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(
-      z.object({
-        success: z.boolean(),
-        message: z.string(),
-      }),
+    [HttpStatusCodes.OK]: json(
+      v.object({ success: v.boolean(), message: v.string() }),
       'All relays turned OFF',
     ),
-    [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(errorMessageSchema, 'Server error'),
+    [HttpStatusCodes.INTERNAL_SERVER_ERROR]: json(errorMessageSchema, 'Server error'),
   },
 });
 
-export const reconnectRelay = createRoute({
-  path: '/relay/reconnect',
-  method: 'post',
+export const reconnectRelay = describeRoute({
   tags,
+  description: 'Reconnect to relay board',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(
-      z.object({
-        success: z.boolean(),
-        message: z.string(),
-      }),
+    [HttpStatusCodes.OK]: json(
+      v.object({ success: v.boolean(), message: v.string() }),
       'Successfully reconnected to relay board',
     ),
-    [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(errorMessageSchema, 'Server error'),
+    [HttpStatusCodes.INTERNAL_SERVER_ERROR]: json(errorMessageSchema, 'Server error'),
   },
 });
 
-export const disconnectRelay = createRoute({
-  path: '/relay/disconnect',
-  method: 'post',
+export const disconnectRelay = describeRoute({
   tags,
+  description: 'Disconnect from relay board',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(
-      z.object({
-        success: z.boolean(),
-        message: z.string(),
-      }),
+    [HttpStatusCodes.OK]: json(
+      v.object({ success: v.boolean(), message: v.string() }),
       'Successfully disconnected from relay board',
     ),
-    [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(errorMessageSchema, 'Server error'),
+    [HttpStatusCodes.INTERNAL_SERVER_ERROR]: json(errorMessageSchema, 'Server error'),
   },
 });
 
-export const initializeRelay = createRoute({
-  path: '/relay/init',
-  method: 'post',
+export const initializeRelay = describeRoute({
   tags,
+  description: 'Initialize relay service',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(
-      z.object({
-        success: z.boolean(),
-        message: z.string(),
-        initialized: z.boolean(),
-      }),
+    [HttpStatusCodes.OK]: json(
+      v.object({ success: v.boolean(), message: v.string(), initialized: v.boolean() }),
       'Relay service initialized successfully',
     ),
-    [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(errorMessageSchema, 'Server error'),
+    [HttpStatusCodes.INTERNAL_SERVER_ERROR]: json(errorMessageSchema, 'Server error'),
   },
 });
-
-export type ToggleRelayRoute = typeof toggleRelay;
-export type GetRelayStatesRoute = typeof getRelayStates;
-export type GetRelayStateRoute = typeof getRelayState;
-export type GetRelayStatusRoute = typeof getRelayStatus;
-export type TurnAllRelaysOnRoute = typeof turnAllRelaysOn;
-export type TurnAllRelaysOffRoute = typeof turnAllRelaysOff;
-export type ReconnectRelayRoute = typeof reconnectRelay;
-export type DisconnectRelayRoute = typeof disconnectRelay;
-export type InitializeRelayRoute = typeof initializeRelay;

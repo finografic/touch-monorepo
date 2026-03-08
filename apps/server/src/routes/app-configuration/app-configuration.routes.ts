@@ -1,96 +1,75 @@
-import { createRoute, z } from '@hono/zod-openapi';
+import { describeRoute } from 'hono-openapi';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
-import { jsonContent, jsonContentRequired } from 'stoker/openapi/helpers';
-import { createErrorSchema, IdParamsSchema } from 'stoker/openapi/schemas';
+import * as v from 'valibot';
 
-import { notFoundSchema } from 'lib/zod.errors';
-import { IdCuidParamsSchema } from 'schemas/id-cuid-params.schema';
+import { json } from 'lib/openapi.helpers';
+import { notFoundSchema, validationErrorSchema } from 'lib/valibot.errors';
 
 const tags = ['AppConfiguration'];
 
 /** Data shape for slot_special_* config entries (is_visible, slot_number, relay_number). */
-export const slotSpecialDataSchema = z.object({
-  is_visible: z.boolean(),
-  slot_number: z.number().int().min(1),
-  relay_number: z.number().int().min(1),
+export const slotSpecialDataSchema = v.object({
+  is_visible:   v.boolean(),
+  slot_number:  v.pipe(v.number(), v.integer(), v.minValue(1)),
+  relay_number: v.pipe(v.number(), v.integer(), v.minValue(1)),
 });
-export type SlotSpecialData = z.infer<typeof slotSpecialDataSchema>;
+export type SlotSpecialData = v.InferOutput<typeof slotSpecialDataSchema>;
 
-const appConfigSelectSchema = z.object({
-  id: z.string().cuid(),
-  name: z.string(),
-  isActive: z.boolean(),
-  data: z.record(z.unknown()),
-  createdAt: z.string().optional(),
-  updatedAt: z.string().optional(),
+const appConfigSelectSchema = v.object({
+  id:        v.string(),
+  name:      v.string(),
+  isActive:  v.boolean(),
+  data:      v.record(v.string(), v.unknown()),
+  createdAt: v.optional(v.string()),
+  updatedAt: v.optional(v.string()),
 });
 
 export const appConfigSchemas = {
   select: appConfigSelectSchema,
-  patch: z.object({
-    isActive: z.boolean().optional(),
-    data: z.record(z.unknown()).optional(),
+  patch: v.object({
+    isActive: v.optional(v.boolean()),
+    data:     v.optional(v.record(v.string(), v.unknown())),
   }),
 };
 
-export const list = createRoute({
-  path: '/app-configuration',
-  method: 'get',
+// Param schema for key lookup
+export const nameParamSchema = v.object({
+  name: v.pipe(v.string(), v.minLength(1)),
+});
+
+export const list = describeRoute({
   tags,
+  description: 'List all app configuration entries',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(z.array(appConfigSelectSchema), 'List of app configuration entries'),
+    [HttpStatusCodes.OK]: json(v.array(appConfigSelectSchema), 'List of app configuration entries'),
   },
 });
 
-export const getOne = createRoute({
-  path: '/app-configuration/{id}',
-  method: 'get',
-  request: {
-    params: IdCuidParamsSchema,
-  },
+export const getOne = describeRoute({
   tags,
+  description: 'Get a single app configuration by ID',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(appConfigSelectSchema, 'The requested app configuration'),
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'App configuration not found'),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(IdParamsSchema),
-      'Invalid id error',
-    ),
+    [HttpStatusCodes.OK]:                   json(appConfigSelectSchema, 'The requested app configuration'),
+    [HttpStatusCodes.NOT_FOUND]:            json(notFoundSchema, 'App configuration not found'),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: json(validationErrorSchema, 'Invalid id error'),
   },
 });
 
-export const getByKey = createRoute({
-  path: '/app-configuration/key/{name}',
-  method: 'get',
-  request: {
-    params: z.object({ name: z.string().min(1) }),
-  },
+export const getByKey = describeRoute({
   tags,
+  description: 'Get an app configuration by key name',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(appConfigSelectSchema, 'The app configuration for the given key'),
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'App configuration not found'),
+    [HttpStatusCodes.OK]:        json(appConfigSelectSchema, 'The app configuration for the given key'),
+    [HttpStatusCodes.NOT_FOUND]: json(notFoundSchema, 'App configuration not found'),
   },
 });
 
-export const patch = createRoute({
-  path: '/app-configuration/{id}',
-  method: 'patch',
-  request: {
-    params: IdCuidParamsSchema,
-    body: jsonContentRequired(appConfigSchemas.patch, 'Fields to update'),
-  },
+export const patch = describeRoute({
   tags,
+  description: 'Update an app configuration',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(appConfigSelectSchema, 'The updated app configuration'),
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'App configuration not found'),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(appConfigSchemas.patch).or(createErrorSchema(IdParamsSchema)),
-      'The validation error(s)',
-    ),
+    [HttpStatusCodes.OK]:                   json(appConfigSelectSchema, 'The updated app configuration'),
+    [HttpStatusCodes.NOT_FOUND]:            json(notFoundSchema, 'App configuration not found'),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: json(validationErrorSchema, 'The validation error(s)'),
   },
 });
-
-export type ListRoute = typeof list;
-export type GetOneRoute = typeof getOne;
-export type GetByKeyRoute = typeof getByKey;
-export type PatchRoute = typeof patch;

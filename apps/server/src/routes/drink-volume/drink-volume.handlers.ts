@@ -1,22 +1,21 @@
-// @ts-nocheck - Bypassing complex type inference issues throughout this file
+// @ts-nocheck
 import { eq } from 'drizzle-orm';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import * as HttpStatusPhrases from 'stoker/http-status-phrases';
 
 import { db } from 'db';
 import { volumes } from 'db/schemas/volumes.schema';
-import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/zod.errors';
-import type { AppRouteHandler } from 'types/app.types';
-import type { CreateRoute, GetOneRoute, ListRoute, PatchRoute, RemoveRoute } from './drink-volume.routes';
+import { ERROR_CODES, ERROR_MESSAGES } from 'lib/valibot.errors';
+import type { AppHandler } from 'types/app.types';
 
-export const list: AppRouteHandler<ListRoute> = async (context) => {
+export const list: AppHandler = async (context) => {
   const drinkVolumes = await db.query.volumes.findMany({
     where: (fields, operators) => operators.eq(fields.isActive, true),
   });
   return context.json(drinkVolumes);
 };
 
-export const getOne: AppRouteHandler<GetOneRoute> = async (context) => {
+export const getOne: AppHandler = async (context) => {
   const { id } = context.req.valid('param');
   const drinkVolume = await db.query.volumes.findFirst({
     where(fields, operators) {
@@ -36,7 +35,7 @@ export const getOne: AppRouteHandler<GetOneRoute> = async (context) => {
   return context.json(drinkVolume, HttpStatusCodes.OK);
 };
 
-export const create: AppRouteHandler<CreateRoute> = async (context) => {
+export const create: AppHandler = async (context) => {
   const drinkVolume = context.req.valid('json');
   const [inserted] = await db
     .insert(volumes)
@@ -45,7 +44,7 @@ export const create: AppRouteHandler<CreateRoute> = async (context) => {
   return context.json(inserted, HttpStatusCodes.OK);
 };
 
-export const patch: AppRouteHandler<PatchRoute> = async (context) => {
+export const patch: AppHandler = async (context) => {
   const { id } = context.req.valid('param');
   const updates = context.req.valid('json');
 
@@ -56,12 +55,12 @@ export const patch: AppRouteHandler<PatchRoute> = async (context) => {
         error: {
           issues: [
             {
-              code: ZOD_ERROR_CODES.INVALID_UPDATES,
+              code: ERROR_CODES.INVALID_UPDATES,
               path: [],
-              message: ZOD_ERROR_MESSAGES.NO_UPDATES,
+              message: ERROR_MESSAGES.NO_UPDATES,
             },
           ],
-          name: 'ZodError',
+          name: 'ValidationError',
         },
       },
       HttpStatusCodes.UNPROCESSABLE_ENTITY,
@@ -106,7 +105,7 @@ export const patch: AppRouteHandler<PatchRoute> = async (context) => {
   return context.json(drinkVolume, HttpStatusCodes.OK);
 };
 
-export const remove: AppRouteHandler<RemoveRoute> = async (context) => {
+export const remove: AppHandler = async (context) => {
   const { id } = context.req.valid('param');
   const result = await db.delete(volumes).where(eq(volumes.id, id));
 

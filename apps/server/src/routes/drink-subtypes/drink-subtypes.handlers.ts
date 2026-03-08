@@ -5,14 +5,13 @@ import type { InferSelectModel } from 'drizzle-orm';
 import { and, eq } from 'drizzle-orm';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import * as HttpStatusPhrases from 'stoker/http-status-phrases';
-import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/zod.errors';
-import type { AppRouteHandler } from 'types/app.types';
+import { ERROR_CODES, ERROR_MESSAGES } from 'lib/valibot.errors';
+import type { AppHandler } from 'types/app.types';
 import {
   handleSubtypeCreation,
   handleSubtypeDeletion,
   handleSubtypeUpdate,
 } from 'utils/drink-type.utils';
-import type { CreateRoute, GetOneRoute, ListRoute, PatchRoute, RemoveRoute } from './drink-subtypes.routes';
 
 // Simple subtype formatter using proper typing
 type DrinkSubtype = InferSelectModel<typeof drink_subtypes>;
@@ -24,8 +23,7 @@ function formatSubtype(subtype: DrinkSubtype) {
   };
 }
 
-// @ts-ignore - Avoiding complex type inference issue
-export const list: AppRouteHandler<ListRoute> = async (context) => {
+export const list: AppHandler = async (context) => {
   const { drinkTypeId } = context.req.valid('param');
 
   // First verify the drink type exists and has subtypes
@@ -48,12 +46,12 @@ export const list: AppRouteHandler<ListRoute> = async (context) => {
         error: {
           issues: [
             {
-              code: ZOD_ERROR_CODES.INVALID_UPDATES,
+              code: ERROR_CODES.INVALID_UPDATES,
               path: ['hasSubtypes'],
               message: 'This drink type does not have subtypes',
             },
           ],
-          name: 'ZodError',
+          name: 'ValidationError',
         },
       },
       HttpStatusCodes.UNPROCESSABLE_ENTITY,
@@ -69,8 +67,7 @@ export const list: AppRouteHandler<ListRoute> = async (context) => {
   return context.json(subtypes.map(formatSubtype));
 };
 
-// @ts-ignore - Avoiding complex type inference issue
-export const getOne: AppRouteHandler<GetOneRoute> = async (context) => {
+export const getOne: AppHandler = async (context) => {
   const { drinkTypeId, id } = context.req.valid('param');
 
   const result = await db
@@ -92,8 +89,7 @@ export const getOne: AppRouteHandler<GetOneRoute> = async (context) => {
   return context.json(formatSubtype(result[0]), HttpStatusCodes.OK);
 };
 
-// @ts-ignore - Avoiding complex type inference issue
-export const create: AppRouteHandler<CreateRoute> = async (context) => {
+export const create: AppHandler = async (context) => {
   const { drinkTypeId } = context.req.valid('param');
   const subtypeData = context.req.valid('json');
 
@@ -108,8 +104,6 @@ export const create: AppRouteHandler<CreateRoute> = async (context) => {
     return context.json({ message: 'Drink type not found' }, HttpStatusCodes.NOT_FOUND);
   }
 
-  const drinkType = drinkTypeResult[0];
-
   // Insert the subtype first
   const result = await db
     .insert(drink_subtypes)
@@ -122,8 +116,7 @@ export const create: AppRouteHandler<CreateRoute> = async (context) => {
   return context.json(formatSubtype(result[0]), HttpStatusCodes.OK);
 };
 
-// @ts-ignore - Avoiding complex type inference issue
-export const patch: AppRouteHandler<PatchRoute> = async (context) => {
+export const patch: AppHandler = async (context) => {
   const { drinkTypeId, id } = context.req.valid('param');
   const updates = context.req.valid('json');
 
@@ -134,12 +127,12 @@ export const patch: AppRouteHandler<PatchRoute> = async (context) => {
         error: {
           issues: [
             {
-              code: ZOD_ERROR_CODES.INVALID_UPDATES,
+              code: ERROR_CODES.INVALID_UPDATES,
               path: [],
-              message: ZOD_ERROR_MESSAGES.NO_UPDATES,
+              message: ERROR_MESSAGES.NO_UPDATES,
             },
           ],
-          name: 'ZodError',
+          name: 'ValidationError',
         },
       },
       HttpStatusCodes.UNPROCESSABLE_ENTITY,
@@ -183,8 +176,7 @@ export const patch: AppRouteHandler<PatchRoute> = async (context) => {
   return context.json(formatSubtype(result[0]), HttpStatusCodes.OK);
 };
 
-// @ts-ignore - Avoiding complex type inference issue
-export const remove: AppRouteHandler<RemoveRoute> = async (context) => {
+export const remove: AppHandler = async (context) => {
   const { drinkTypeId, id } = context.req.valid('param');
 
   // Delete the subtype first

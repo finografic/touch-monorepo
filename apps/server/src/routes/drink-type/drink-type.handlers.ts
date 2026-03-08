@@ -6,10 +6,9 @@ import * as HttpStatusPhrases from 'stoker/http-status-phrases';
 
 import { db } from 'db';
 import { drink_types } from 'db/schemas';
-import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/zod.errors';
+import { ERROR_CODES, ERROR_MESSAGES } from 'lib/valibot.errors';
 import { handleDrinkTypeDeletion } from 'utils/drink-type.utils';
-import type { AppRouteHandler } from 'types/app.types';
-import type { CreateRoute, GetOneRoute, ListRoute, PatchRoute, RemoveRoute } from './drink-type.routes';
+import type { AppHandler } from 'types/app.types';
 
 // Simple formatter using any type to avoid complex type inference
 function formatDrinkType(drinkType: any) {
@@ -20,7 +19,7 @@ function formatDrinkType(drinkType: any) {
   };
 }
 
-export const list: AppRouteHandler<ListRoute> = async (context) => {
+export const list: AppHandler = async (context) => {
   const drinkTypes = await db.query.drink_types.findMany({
     where: (fields, operators) => operators.eq(fields.isActive, true),
   });
@@ -28,7 +27,7 @@ export const list: AppRouteHandler<ListRoute> = async (context) => {
   // return context.json(drinkTypes.map(formatDrinkType));
 };
 
-export const getOne: AppRouteHandler<GetOneRoute> = async (context) => {
+export const getOne: AppHandler = async (context) => {
   const { id } = context.req.valid('param');
   const result = await db.select().from(drink_types).where(eq(drink_types.id, id)).limit(1);
 
@@ -39,13 +38,13 @@ export const getOne: AppRouteHandler<GetOneRoute> = async (context) => {
   return context.json(result[0], HttpStatusCodes.OK); // No formatter needed!
 };
 
-export const create: AppRouteHandler<CreateRoute> = async (context) => {
+export const create: AppHandler = async (context) => {
   const drinkType = await context.req.json();
   const result = await db.insert(drink_types).values(drinkType).returning();
   return context.json(formatDrinkType(result[0]), HttpStatusCodes.OK);
 };
 
-export const patch: AppRouteHandler<PatchRoute> = async (context) => {
+export const patch: AppHandler = async (context) => {
   const { id } = context.req.valid('param');
   const updates = context.req.valid('json') as Partial<typeof drink_types.$inferInsert>;
 
@@ -56,12 +55,12 @@ export const patch: AppRouteHandler<PatchRoute> = async (context) => {
         error: {
           issues: [
             {
-              code: ZOD_ERROR_CODES.INVALID_UPDATES,
+              code: ERROR_CODES.INVALID_UPDATES,
               path: [],
-              message: ZOD_ERROR_MESSAGES.NO_UPDATES,
+              message: ERROR_MESSAGES.NO_UPDATES,
             },
           ],
-          name: 'ZodError',
+          name: 'ValidationError',
         },
       },
       HttpStatusCodes.UNPROCESSABLE_ENTITY,
@@ -97,7 +96,7 @@ export const patch: AppRouteHandler<PatchRoute> = async (context) => {
   return context.json(formatDrinkType(result[0]), HttpStatusCodes.OK);
 };
 
-export const remove: AppRouteHandler<RemoveRoute> = async (context) => {
+export const remove: AppHandler = async (context) => {
   const { id } = context.req.valid('param');
 
   // Handle side effects BEFORE deletion (need drinkTypeId for cleanup)

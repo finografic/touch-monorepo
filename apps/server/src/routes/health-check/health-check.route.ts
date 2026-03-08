@@ -1,16 +1,18 @@
-import { createRoute } from '@hono/zod-openapi';
+import { describeRoute } from 'hono-openapi';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
+import * as v from 'valibot';
 
-import { jsonContent } from 'openapi/json-content';
-import { createMessageObjectSchema } from 'schemas/responses/message.schema';
+import { json } from 'lib/openapi.helpers';
 
-export const healthCheck = createRoute({
-  tags: ['Health Check'],
-  method: 'get',
-  path: '/health-check',
-  responses: {
-    [HttpStatusCodes.OK]: jsonContent(createMessageObjectSchema('Hello Hono!'), 'Health Check API'),
-  },
+const messageSchema = v.object({
+  success: v.boolean(),
+  message: v.string(),
 });
 
-export type HealthCheckRoute = typeof healthCheck;
+export const healthCheck = describeRoute({
+  tags: ['Health Check'],
+  description: 'Health Check API',
+  responses: {
+    [HttpStatusCodes.OK]: json(messageSchema, 'Health Check API'),
+  },
+});

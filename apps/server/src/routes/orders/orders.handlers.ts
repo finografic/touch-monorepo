@@ -5,21 +5,10 @@ import { temperature_profiles } from 'db/schemas/temperature_profiles.schema';
 import { eq, inArray, or, sql } from 'drizzle-orm';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import * as HttpStatusPhrases from 'stoker/http-status-phrases';
-import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/zod.errors';
-import type { AppRouteHandler } from 'types/app.types';
-import type {
-  CreateRoute,
-  DeleteTemperatureProfilesRoute,
-  GetOneReadableRoute,
-  GetOneRoute,
-  GetTemperatureProfilesRoute,
-  ListReadableRoute,
-  ListRoute,
-  PatchRoute,
-  RemoveRoute,
-} from './orders.routes';
+import { ERROR_CODES, ERROR_MESSAGES } from 'lib/valibot.errors';
+import type { AppHandler } from 'types/app.types';
 
-export const list: AppRouteHandler<ListRoute> = async (context) => {
+export const list: AppHandler = async (context) => {
   const drinkOrders = await db.query.orders.findMany({
     where: (fields, operators) => operators.eq(fields.isActive, true),
     columns: {
@@ -36,7 +25,7 @@ export const list: AppRouteHandler<ListRoute> = async (context) => {
   return context.json(drinkOrders);
 };
 
-export const listReadable: AppRouteHandler<ListReadableRoute> = async (context) => {
+export const listReadable: AppHandler = async (context) => {
   // Query the orders_readable view directly with raw SQL
   const readableOrders = await db.all(`
     SELECT
@@ -58,7 +47,7 @@ export const listReadable: AppRouteHandler<ListReadableRoute> = async (context) 
   return context.json(readableOrders);
 };
 
-export const getOne: AppRouteHandler<GetOneRoute> = async (context) => {
+export const getOne: AppHandler = async (context) => {
   const { id } = context.req.valid('param');
   const drinkOrder = await db.query.orders.findFirst({
     where(fields, operators) {
@@ -78,7 +67,7 @@ export const getOne: AppRouteHandler<GetOneRoute> = async (context) => {
   return context.json(drinkOrder, HttpStatusCodes.OK);
 };
 
-export const getOneReadable: AppRouteHandler<GetOneReadableRoute> = async (context) => {
+export const getOneReadable: AppHandler = async (context) => {
   const { id } = context.req.valid('param');
 
   // First get the order details
@@ -141,13 +130,13 @@ export const getOneReadable: AppRouteHandler<GetOneReadableRoute> = async (conte
   return context.json(order);
 };
 
-export const create: AppRouteHandler<CreateRoute> = async (context) => {
+export const create: AppHandler = async (context) => {
   const drinkOrder = context.req.valid('json');
   const [inserted] = await db.insert(orders).values(drinkOrder).returning();
   return context.json(inserted, HttpStatusCodes.OK);
 };
 
-export const patch: AppRouteHandler<PatchRoute> = async (context) => {
+export const patch: AppHandler = async (context) => {
   const { id } = context.req.valid('param');
   const updates = context.req.valid('json');
 
@@ -158,12 +147,12 @@ export const patch: AppRouteHandler<PatchRoute> = async (context) => {
         error: {
           issues: [
             {
-              code: ZOD_ERROR_CODES.INVALID_UPDATES,
+              code: ERROR_CODES.INVALID_UPDATES,
               path: [],
-              message: ZOD_ERROR_MESSAGES.NO_UPDATES,
+              message: ERROR_MESSAGES.NO_UPDATES,
             },
           ],
-          name: 'ZodError',
+          name: 'ValidationError',
         },
       },
       HttpStatusCodes.UNPROCESSABLE_ENTITY,
@@ -184,7 +173,7 @@ export const patch: AppRouteHandler<PatchRoute> = async (context) => {
   return context.json(drinkOrder, HttpStatusCodes.OK);
 };
 
-export const remove: AppRouteHandler<RemoveRoute> = async (context) => {
+export const remove: AppHandler = async (context) => {
   const { id } = context.req.valid('param');
 
   // First, delete related temperature profiles
@@ -205,7 +194,7 @@ export const remove: AppRouteHandler<RemoveRoute> = async (context) => {
   return context.body(null, HttpStatusCodes.NO_CONTENT);
 };
 
-export const cleanup: AppRouteHandler<CleanupRoute> = async (context) => {
+export const cleanup: AppHandler = async (context) => {
   const { drinkTypeIds, drinkSubtypeIds, volumeIds, containerTypeIds } = context.req.valid('json');
 
   const conditions = [];
@@ -242,7 +231,7 @@ export const cleanup: AppRouteHandler<CleanupRoute> = async (context) => {
   );
 };
 
-export const getTemperatureProfiles: AppRouteHandler<GetTemperatureProfilesRoute> = async (context) => {
+export const getTemperatureProfiles: AppHandler = async (context) => {
   const { id } = context.req.valid('param');
 
   const profiles = await db.query.temperature_profiles.findMany({
@@ -257,7 +246,7 @@ export const getTemperatureProfiles: AppRouteHandler<GetTemperatureProfilesRoute
   return context.json(profiles, HttpStatusCodes.OK);
 };
 
-export const deleteTemperatureProfiles: AppRouteHandler<DeleteTemperatureProfilesRoute> = async (context) => {
+export const deleteTemperatureProfiles: AppHandler = async (context) => {
   const { id } = context.req.valid('param');
 
   // Verify the order exists

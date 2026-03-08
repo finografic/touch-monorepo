@@ -1,6 +1,5 @@
-import type { ZodSchema } from 'types/app.types';
-
-export function jsonContent<T extends ZodSchema>(schema: T, description: string) {
+// @deprecated — use lib/openapi.helpers.ts json() instead
+export function jsonContent<T>(schema: T, description: string) {
   return {
     content: {
       'application/json': {

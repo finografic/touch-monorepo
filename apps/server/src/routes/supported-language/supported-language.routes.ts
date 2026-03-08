@@ -1,161 +1,96 @@
-import { createRoute, z } from '@hono/zod-openapi';
+import * as v from 'valibot';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
-import { jsonContent, jsonContentRequired } from 'stoker/openapi/helpers';
-import { createErrorSchema, IdParamsSchema } from 'stoker/openapi/schemas';
+import { describeRoute } from 'hono-openapi';
 
 import { supportedLanguageSchemas } from 'db/schemas/supported_languages.schema';
-import { notFoundSchema } from 'lib/zod.errors';
-import { IdCuidParamsSchema } from 'schemas/id-cuid-params.schema';
+import { json, jsonRequired } from 'lib/openapi.helpers';
+import { notFoundSchema, validationErrorSchema } from 'lib/valibot.errors';
 
 const tags = ['SupportedLanguages'];
 
-export const list = createRoute({
-  path: '/supported-languages',
-  method: 'get',
+export const list = describeRoute({
   tags,
+  description: 'List of available supported languages',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(
-      z.array(
-        supportedLanguageSchemas.select.pick({
-          id: true,
-          isoCode: true,
-          nativeName: true,
-          displayName: true,
-          flagCode: true,
-          isActive: true,
-          sortOrder: true,
-        }),
+    [HttpStatusCodes.OK]: json(
+      v.array(
+        v.pick(supportedLanguageSchemas.select, [
+          'id',
+          'isoCode',
+          'nativeName',
+          'displayName',
+          'flagCode',
+          'isActive',
+          'sortOrder',
+        ]),
       ),
       'List of available supported languages',
     ),
   },
 });
 
-export const getOne = createRoute({
-  path: '/supported-languages/{id}',
-  method: 'get',
-  request: {
-    params: IdCuidParamsSchema,
-  },
+export const getOne = describeRoute({
   tags,
+  description: 'Get a single supported language by id',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(supportedLanguageSchemas.select, 'The requested supported language'),
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Supported language not found'),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(IdParamsSchema),
-      'Invalid id error',
-    ),
+    [HttpStatusCodes.OK]:                   json(supportedLanguageSchemas.select, 'The requested supported language'),
+    [HttpStatusCodes.NOT_FOUND]:            json(notFoundSchema, 'Supported language not found'),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: json(validationErrorSchema, 'Invalid id error'),
   },
 });
 
-export const create = createRoute({
-  path: '/supported-languages',
-  method: 'post',
-  request: {
-    body: jsonContentRequired(supportedLanguageSchemas.insert, 'The supported language to create'),
-  },
+export const create = describeRoute({
   tags,
+  description: 'Create a new supported language',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(supportedLanguageSchemas.select, 'The created supported language'),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(supportedLanguageSchemas.insert),
-      'The validation error(s)',
-    ),
+    [HttpStatusCodes.OK]:                   json(supportedLanguageSchemas.select, 'The created supported language'),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: json(validationErrorSchema, 'The validation error(s)'),
   },
 });
 
-export const patch = createRoute({
-  path: '/supported-languages/{id}',
-  method: 'patch',
-  request: {
-    params: IdCuidParamsSchema,
-    body: jsonContentRequired(supportedLanguageSchemas.patch, 'The supported language updates'),
-  },
+export const patch = describeRoute({
   tags,
+  description: 'Update a supported language',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(supportedLanguageSchemas.select, 'The updated supported language'),
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Supported language not found'),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(supportedLanguageSchemas.patch).or(createErrorSchema(IdParamsSchema)),
-      'The validation error(s)',
-    ),
+    [HttpStatusCodes.OK]:                   json(supportedLanguageSchemas.select, 'The updated supported language'),
+    [HttpStatusCodes.NOT_FOUND]:            json(notFoundSchema, 'Supported language not found'),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: json(validationErrorSchema, 'The validation error(s)'),
   },
 });
 
-// export const remove = createRoute({
-//   path: '/supported-languages/{id}',
-//   method: 'delete',
-//   request: {
-//     params: IdCuidParamsSchema,
-//   },
-//   tags,
-//   responses: {
-//     [HttpStatusCodes.NO_CONTENT]: {
-//       description: 'Supported language deleted',
-//     },
-//     [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Supported language not found'),
-//     [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-//       createErrorSchema(IdParamsSchema),
-//       'Invalid id error',
-//     ),
-//   },
-// });
-
-export const remove = createRoute({
-  path: '/supported-languages/{id}',
-  method: 'delete',
-  request: {
-    params: IdCuidParamsSchema,
-  },
+export const remove = describeRoute({
   tags,
+  description: 'Delete a supported language',
   responses: {
-    [HttpStatusCodes.NO_CONTENT]: {
-      description: 'Supported language deleted',
-    },
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Supported language not found'),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(IdParamsSchema),
-      'Invalid id error',
-    ),
+    [HttpStatusCodes.NO_CONTENT]: { description: 'Supported language deleted' },
+    [HttpStatusCodes.NOT_FOUND]:  json(notFoundSchema, 'Supported language not found'),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: json(validationErrorSchema, 'Invalid id error'),
   },
 });
 
-export const getTranslationStatus = createRoute({
-  path: '/supported-languages/{isoCode}/translation-status',
-  method: 'get',
-  request: {
-    params: z.object({
-      isoCode: z.string().describe('ISO language code (e.g., pt-BR)'),
-    }),
-  },
+export const getTranslationStatus = describeRoute({
   tags,
+  description: 'Get translation status for a language',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(
-      z.object({
-        status: z.enum(['pending', 'in-progress', 'completed', 'failed']),
-        startedAt: z.string().datetime(),
-        completedAt: z.string().datetime().optional(),
-        error: z.string().optional(),
-        progress: z
-          .object({
-            currentTable: z.string(),
-            totalTables: z.number(),
-            completedTables: z.number(),
-          })
-          .optional(),
+    [HttpStatusCodes.OK]: json(
+      v.object({
+        status:      v.picklist(['pending', 'in-progress', 'completed', 'failed']),
+        startedAt:   v.string(),
+        completedAt: v.optional(v.string()),
+        error:       v.optional(v.string()),
+        progress:    v.optional(
+          v.object({
+            currentTable:    v.string(),
+            totalTables:     v.number(),
+            completedTables: v.number(),
+          }),
+        ),
       }),
       'Translation status for the language',
     ),
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(
-      z.object({ message: z.string() }),
+    [HttpStatusCodes.NOT_FOUND]: json(
+      v.object({ message: v.string() }),
       'Translation status not found (translation may not have started)',
     ),
   },
 });
-
-export type ListRoute = typeof list;
-export type CreateRoute = typeof create;
-export type GetOneRoute = typeof getOne;
-export type PatchRoute = typeof patch;
-export type RemoveRoute = typeof remove;
-export type GetTranslationStatusRoute = typeof getTranslationStatus;

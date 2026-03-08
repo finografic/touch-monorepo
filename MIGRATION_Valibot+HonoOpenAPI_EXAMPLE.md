@@ -612,6 +612,102 @@ app.get('/docs', openAPIRouteHandler(app, {
 
 ---
 
+## Entity interfaces + client Model types
+
+### What they are today
+
+`apps/server/src/types/entities/` holds manually-maintained snake_case interfaces that
+mirror the raw SQLite column shapes:
+
+```ts
+// apps/server/src/types/entities/volume.entity.ts
+export interface VolumeEntity {
+  id: string;
+  name: string;
+  translations: string;
+  value_in_ml: number;   // raw DB column name
+  sort_order: number;
+  cooling_factor: number;
+  is_active: number;     // stored as 0|1 integer
+  created_at: number;
+  updated_at: number;
+}
+```
+
+**These do not change in this migration.** The DB schema is untouched.
+
+---
+
+### Why the migration makes this better
+
+The entity interfaces represent the **raw SQLite layer** (pre-Drizzle mapping).
+What the API actually returns — and what the client needs — is the **Drizzle-mapped camelCase shape**.
+
+Today you'd have to maintain a separate `VolumeModel` interface by hand (and keep it in sync).
+With `drizzle-orm/valibot`, that model type is derived automatically and can never drift:
+
+```ts
+// apps/server/src/db/schemas/volumes.schema.ts
+
+export const volumeSchemas = {
+  select: createSelectSchema(volumes, { ... }),
+  insert: insertVolumeSchema,
+  patch:  patchVolumeSchema,
+} as const;
+
+// ✅ Exact camelCase shape of what the API returns — derived, never drifts
+export type VolumeModel  = v.InferOutput<typeof volumeSchemas.select>;
+export type VolumeInsert = v.InferOutput<typeof volumeSchemas.insert>;
+export type VolumePatch  = v.InferOutput<typeof volumeSchemas.patch>;
+```
+
+`VolumeModel` will look like:
+
+```ts
+// auto-derived — no manual maintenance
+{
+  id:            string;
+  name:          string;
+  translations:  Record<string, string> | undefined;
+  valueInMl:     number;     // camelCase ✓
+  sortOrder:     number;
+  coolingFactor: number;
+  isActive:      0 | 1;      // after sqliteBooleanField transform
+  createdAt:     Date | null;
+  updatedAt:     Date | null;
+}
+```
+
+---
+
+### Recommended approach
+
+**Per schema file** — export the three model types alongside the schemas:
+
+```ts
+// bottom of volumes.schema.ts
+export type VolumeModel  = v.InferOutput<typeof volumeSchemas.select>;
+export type VolumeInsert = v.InferOutput<typeof volumeSchemas.insert>;
+export type VolumePatch  = v.InferOutput<typeof volumeSchemas.patch>;
+```
+
+**Future step** (not this migration) — move to `packages/shared`:
+
+```ts
+// packages/shared/src/models/volume.model.ts
+// Re-export from server schema OR duplicate the v.InferOutput definition
+export type { VolumeModel, VolumeInsert, VolumePatch } from '@workspace/server/db/schemas/volumes.schema';
+```
+
+Once in `packages/shared`, the client imports the exact same types the server validates against —
+no separate interface maintenance, no drift.
+
+**The existing entity interfaces** (`VolumeEntity`, etc.) can remain as documentation of the raw
+DB layer — useful if you ever write raw SQL that bypasses Drizzle. They don't conflict with
+the new `VolumeModel` types; they just describe a different layer (pre-mapping vs post-mapping).
+
+---
+
 ## Summary: what changes per route entity
 
 | File | Change |

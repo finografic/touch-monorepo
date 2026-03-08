@@ -1,9 +1,10 @@
-import { z } from 'zod';
+import * as v from 'valibot';
 
 import { isCuid } from 'utils/cuid-validation';
 
-export const IdParamsSchema = z.object({
-  id: z.string().refine((val) => isCuid(val), {
-    message: 'Invalid ID format - must be a valid CUID',
-  }),
+export const IdParamsSchema = v.object({
+  id: v.pipe(
+    v.string(),
+    v.check((val) => isCuid(val), 'Invalid ID format - must be a valid CUID'),
+  ),
 });

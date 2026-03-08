@@ -1,262 +1,148 @@
-import { createRoute, z } from '@hono/zod-openapi';
+import { describeRoute } from 'hono-openapi';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
-import { jsonContent, jsonContentRequired } from 'stoker/openapi/helpers';
-import { createErrorSchema, IdParamsSchema } from 'stoker/openapi/schemas';
+import * as v from 'valibot';
 
 import { orderSchemas } from 'db/schemas/orders.schema';
-import type { OrdersReadableView } from 'db/schemas/orders_readable_view.schema';
 import { temperatureProfileSchemas } from 'db/schemas/temperature_profiles.schema';
-import { notFoundSchema } from 'lib/zod.errors';
-import { IdCuidParamsSchema } from 'schemas/id-cuid-params.schema';
-import { IdUuidParamsSchema } from 'schemas/id-uuid-params.schema';
+import { json } from 'lib/openapi.helpers';
+import { notFoundSchema, validationErrorSchema } from 'lib/valibot.errors';
 
 const tags = ['DrinkOrders'];
 
-export const list = createRoute({
-  path: '/orders',
-  method: 'get',
+// Schema for orders_readable view
+const ordersReadableSchema = v.object({
+  id:                 v.string(),
+  mode:               v.number(),
+  drinkType:          v.string(),
+  drinkSubtype:       v.nullable(v.string()),
+  volume:             v.string(),
+  containerType:      v.string(),
+  defaultTempConsume: v.number(),
+  defaultTempFreeze:  v.number(),
+  isActive:           v.boolean(),
+  createdAt:          v.nullable(v.string()),
+  updatedAt:          v.nullable(v.string()),
+});
+
+// Schema for temperature profile in readable response
+const temperatureProfileSchema = v.object({
+  id:          v.string(),
+  orderId:     v.string(),
+  modeId:      v.string(),
+  temperature: v.number(),
+  timeA:       v.number(),
+  timeB:       v.number(),
+  timeC:       v.number(),
+});
+
+// Schema for response with temperature profiles
+const ordersReadableResponseSchema = v.object({
+  ...ordersReadableSchema.entries,
+  temperatureProfiles: v.array(temperatureProfileSchema),
+});
+
+// Schema for cleanup request body
+export const cleanupBodySchema = v.object({
+  drinkTypeIds:     v.optional(v.array(v.string())),
+  drinkSubtypeIds:  v.optional(v.array(v.string())),
+  volumeIds:        v.optional(v.array(v.string())),
+  containerTypeIds: v.optional(v.array(v.string())),
+});
+
+export const list = describeRoute({
   tags,
+  description: 'List of available drink orders',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(
-      z.array(
-        orderSchemas.select.pick({
-          id: true,
-          modeId: true,
-          drinkTypeId: true,
-          drinkSubtypeId: true,
-          volumeId: true,
-          containerTypeId: true,
-          defaultTempConsume: true,
-          defaultTempFreeze: true,
-        }),
-      ),
+    [HttpStatusCodes.OK]: json(
+      v.array(orderSchemas.select),
       'List of available drink orders',
     ),
   },
 });
 
-// Create Zod schema for orders_readable view
-const ordersReadableSchema = z.object({
-  id: z.string(),
-  mode: z.number(),
-  drinkType: z.string(),
-  drinkSubtype: z.string().nullable(),
-  volume: z.string(),
-  containerType: z.string(),
-  defaultTempConsume: z.number(),
-  defaultTempFreeze: z.number(),
-  isActive: z.boolean(),
-  createdAt: z.string().nullable(),
-  updatedAt: z.string().nullable(),
-});
-
-// Create schema for temperature profiles
-const temperatureProfileSchema = z.object({
-  id: z.string(),
-  orderId: z.string(),
-  modeId: z.string(),
-  temperature: z.number(),
-  timeA: z.number(),
-  timeB: z.number(),
-  timeC: z.number(),
-});
-
-// Create schema for response with temperature profiles
-const ordersReadableResponseSchema = ordersReadableSchema.extend({
-  temperatureProfiles: z.array(temperatureProfileSchema),
-});
-
-export const listReadable = createRoute({
-  path: '/orders-readable',
-  method: 'get',
+export const listReadable = describeRoute({
   tags,
+  description: 'List of orders with readable names from view',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(
-      z.array(ordersReadableSchema),
+    [HttpStatusCodes.OK]: json(
+      v.array(ordersReadableSchema),
       'List of orders with readable names from view',
     ),
   },
 });
 
-export const getOne = createRoute({
-  path: '/orders/{id}',
-  method: 'get',
-  request: {
-    params: IdCuidParamsSchema,
-  },
+export const getOne = describeRoute({
   tags,
+  description: 'Get a single drink order by ID',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(orderSchemas.select, 'The requested drink order'),
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Drink order not found'),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(IdParamsSchema),
-      'Invalid id error',
-    ),
+    [HttpStatusCodes.OK]:                   json(orderSchemas.select, 'The requested drink order'),
+    [HttpStatusCodes.NOT_FOUND]:            json(notFoundSchema, 'Drink order not found'),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: json(validationErrorSchema, 'Invalid id error'),
   },
 });
 
-export const getOneReadable = createRoute({
-  path: '/orders-readable/{id}',
-  method: 'get',
-  request: {
-    params: IdCuidParamsSchema,
-  },
+export const getOneReadable = describeRoute({
   tags,
+  description: 'Get a single order with readable names and temperature profiles',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(
-      ordersReadableResponseSchema,
-      'The requested order with readable names and temperature profiles',
-    ),
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Order not found'),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(IdParamsSchema),
-      'Invalid id error',
-    ),
+    [HttpStatusCodes.OK]:                   json(ordersReadableResponseSchema, 'The requested order with readable names and temperature profiles'),
+    [HttpStatusCodes.NOT_FOUND]:            json(notFoundSchema, 'Order not found'),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: json(validationErrorSchema, 'Invalid id error'),
   },
 });
 
-export const create = createRoute({
-  path: '/orders',
-  method: 'post',
-  request: {
-    body: jsonContentRequired(orderSchemas.insert, 'The drink order to create'),
-  },
+export const create = describeRoute({
   tags,
+  description: 'Create a new drink order',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(orderSchemas.select, 'The created drink order'),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(orderSchemas.insert),
-      'The validation error(s)',
-    ),
+    [HttpStatusCodes.OK]:                   json(orderSchemas.select, 'The created drink order'),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: json(validationErrorSchema, 'The validation error(s)'),
   },
 });
 
-export const patch = createRoute({
-  path: '/orders/{id}',
-  method: 'patch',
-  request: {
-    params: IdCuidParamsSchema,
-    body: jsonContentRequired(orderSchemas.patch, 'The drink order updates'),
-  },
+export const patch = describeRoute({
   tags,
+  description: 'Update a drink order',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(orderSchemas.select, 'The updated drink order'),
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Drink order not found'),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(orderSchemas.patch).or(createErrorSchema(IdParamsSchema)),
-      'The validation error(s)',
-    ),
+    [HttpStatusCodes.OK]:                   json(orderSchemas.select, 'The updated drink order'),
+    [HttpStatusCodes.NOT_FOUND]:            json(notFoundSchema, 'Drink order not found'),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: json(validationErrorSchema, 'The validation error(s)'),
   },
 });
 
-export const remove = createRoute({
-  path: '/orders/{id}',
-  method: 'delete',
-  request: {
-    params: IdCuidParamsSchema,
-  },
+export const remove = describeRoute({
   tags,
+  description: 'Delete a drink order',
   responses: {
-    [HttpStatusCodes.NO_CONTENT]: {
-      description: 'Drink order deleted',
-    },
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Drink order not found'),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(IdParamsSchema),
-      'Invalid id error',
-    ),
+    [HttpStatusCodes.NO_CONTENT]:           { description: 'Drink order deleted' },
+    [HttpStatusCodes.NOT_FOUND]:            json(notFoundSchema, 'Drink order not found'),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: json(validationErrorSchema, 'Invalid id error'),
   },
 });
 
-// Bulk cleanup endpoint to delete orders by related type ids
-export const cleanup = createRoute({
-  path: '/orders/cleanup',
-  method: 'post',
+export const cleanup = describeRoute({
   tags,
-  request: {
-    body: jsonContentRequired(
-      z.object({
-        drinkTypeIds: z.array(z.string()).optional(),
-        drinkSubtypeIds: z.array(z.string()).optional(),
-        volumeIds: z.array(z.string()).optional(),
-        containerTypeIds: z.array(z.string()).optional(),
-      }),
-      'Identifiers of related entities whose orders should be deleted',
-    ),
-  },
+  description: 'Bulk delete orders by related type IDs',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(
-      z.object({
-        deleted: z.number(),
-      }),
-      'Number of orders deleted',
-    ),
-    [HttpStatusCodes.BAD_REQUEST]: jsonContent(
-      z.object({
-        message: z.string(),
-      }),
-      'No identifiers provided',
-    ),
+    [HttpStatusCodes.OK]:          json(v.object({ deleted: v.number() }), 'Number of orders deleted'),
+    [HttpStatusCodes.BAD_REQUEST]: json(v.object({ message: v.string() }), 'No identifiers provided'),
   },
 });
 
-export const getTemperatureProfiles = createRoute({
-  method: 'get',
-  path: '/orders/:id/temperature-profiles',
+export const getTemperatureProfiles = describeRoute({
   tags: ['Orders'],
-  request: {
-    params: IdCuidParamsSchema,
-  },
+  description: 'Get temperature profiles for an order',
   responses: {
-    200: {
-      content: {
-        'application/json': {
-          schema: z.array(temperatureProfileSchemas.select),
-        },
-      },
-      description: 'Temperature profiles for the order',
-    },
-    404: {
-      content: {
-        'application/json': {
-          schema: notFoundSchema,
-        },
-      },
-      description: 'Order not found',
-    },
+    [HttpStatusCodes.OK]:        json(v.array(temperatureProfileSchemas.select), 'Temperature profiles for the order'),
+    [HttpStatusCodes.NOT_FOUND]: json(notFoundSchema, 'Order not found'),
   },
 });
 
-export const deleteTemperatureProfiles = createRoute({
-  method: 'delete',
-  path: '/orders/:id/temperature-profiles',
+export const deleteTemperatureProfiles = describeRoute({
   tags: ['Orders'],
-  request: {
-    params: IdCuidParamsSchema,
-  },
+  description: 'Delete all temperature profiles for an order',
   responses: {
-    [HttpStatusCodes.NO_CONTENT]: {
-      description: 'All temperature profiles for the order deleted',
-    },
-    404: {
-      content: {
-        'application/json': {
-          schema: notFoundSchema,
-        },
-      },
-      description: 'Order not found',
-    },
+    [HttpStatusCodes.NO_CONTENT]: { description: 'All temperature profiles for the order deleted' },
+    [HttpStatusCodes.NOT_FOUND]:  json(notFoundSchema, 'Order not found'),
   },
 });
-
-export type ListRoute = typeof list;
-export type ListReadableRoute = typeof listReadable;
-export type GetOneRoute = typeof getOne;
-export type GetOneReadableRoute = typeof getOneReadable;
-export type CreateRoute = typeof create;
-export type PatchRoute = typeof patch;
-export type RemoveRoute = typeof remove;
-export type CleanupRoute = typeof cleanup;
-
-export type GetTemperatureProfilesRoute = typeof getTemperatureProfiles;
-export type DeleteTemperatureProfilesRoute = typeof deleteTemperatureProfiles;

@@ -1,122 +1,74 @@
-import { createRoute, z } from '@hono/zod-openapi';
+import { describeRoute } from 'hono-openapi';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
-import { jsonContent, jsonContentRequired } from 'stoker/openapi/helpers';
-import { createErrorSchema, IdParamsSchema } from 'stoker/openapi/schemas';
+import * as v from 'valibot';
 
 import { translationUiSchemas } from 'db/schemas/translations_ui.schema';
-import { notFoundSchema } from 'lib/zod.errors';
-import { IdCuidParamsSchema } from 'schemas/id-cuid-params.schema';
+import { json } from 'lib/openapi.helpers';
+import { notFoundSchema, validationErrorSchema } from 'lib/valibot.errors';
 
 const tags = ['Translations'];
 
 // Shared schema - all translation tables have the same structure
 const translationSchema = translationUiSchemas;
 
-export const list = createRoute({
-  path: '/translations/{namespace}',
-  method: 'get',
-  request: {
-    params: z.object({
-      namespace: z.enum(['ui', 'app', 'admin']).describe('Translation namespace'),
-    }),
-  },
+// Param schemas for validators
+export const namespaceParamSchema = v.object({
+  namespace: v.picklist(['ui', 'app', 'admin']),
+});
+
+export const namespaceAndIdParamSchema = v.object({
+  namespace: v.picklist(['ui', 'app', 'admin']),
+  id:        v.string(),
+});
+
+export const list = describeRoute({
   tags,
+  description: 'List all translations for a namespace',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(
-      z.array(
-        translationSchema.select.pick({
-          id: true,
-          key: true,
-          translations: true,
-          isActive: true,
-        }),
+    [HttpStatusCodes.OK]: json(
+      v.array(
+        v.pick(translationSchema.select, ['id', 'key', 'translations', 'isActive']),
       ),
       'List of available translations for the namespace',
     ),
   },
 });
 
-export const getOne = createRoute({
-  path: '/translations/{namespace}/{id}',
-  method: 'get',
-  request: {
-    params: IdCuidParamsSchema.extend({
-      namespace: z.enum(['ui', 'app', 'admin']).describe('Translation namespace'),
-    }),
-  },
+export const getOne = describeRoute({
   tags,
+  description: 'Get a single translation by namespace and ID',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(translationSchema.select, 'The requested translation'),
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Translation not found'),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(IdParamsSchema),
-      'Invalid id error',
-    ),
+    [HttpStatusCodes.OK]:                   json(translationSchema.select, 'The requested translation'),
+    [HttpStatusCodes.NOT_FOUND]:            json(notFoundSchema, 'Translation not found'),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: json(validationErrorSchema, 'Invalid id error'),
   },
 });
 
-export const create = createRoute({
-  path: '/translations/{namespace}',
-  method: 'post',
-  request: {
-    params: z.object({
-      namespace: z.enum(['ui', 'app', 'admin']).describe('Translation namespace'),
-    }),
-    body: jsonContentRequired(translationSchema.insert, 'The translation to create'),
-  },
+export const create = describeRoute({
   tags,
+  description: 'Create a new translation',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(translationSchema.select, 'The created translation'),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(translationSchema.insert),
-      'The validation error(s)',
-    ),
+    [HttpStatusCodes.OK]:                   json(translationSchema.select, 'The created translation'),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: json(validationErrorSchema, 'The validation error(s)'),
   },
 });
 
-export const patch = createRoute({
-  path: '/translations/{namespace}/{id}',
-  method: 'patch',
-  request: {
-    params: IdCuidParamsSchema.extend({
-      namespace: z.enum(['ui', 'app', 'admin']).describe('Translation namespace'),
-    }),
-    body: jsonContentRequired(translationSchema.patch, 'The translation updates'),
-  },
+export const patch = describeRoute({
   tags,
+  description: 'Update a translation',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(translationSchema.select, 'The updated translation'),
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Translation not found'),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(translationSchema.patch).or(createErrorSchema(IdParamsSchema)),
-      'The validation error(s)',
-    ),
+    [HttpStatusCodes.OK]:                   json(translationSchema.select, 'The updated translation'),
+    [HttpStatusCodes.NOT_FOUND]:            json(notFoundSchema, 'Translation not found'),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: json(validationErrorSchema, 'The validation error(s)'),
   },
 });
 
-export const remove = createRoute({
-  path: '/translations/{namespace}/{id}',
-  method: 'delete',
-  request: {
-    params: IdCuidParamsSchema.extend({
-      namespace: z.enum(['ui', 'app', 'admin']).describe('Translation namespace'),
-    }),
-  },
+export const remove = describeRoute({
   tags,
+  description: 'Delete a translation',
   responses: {
-    [HttpStatusCodes.NO_CONTENT]: {
-      description: 'Translation deleted',
-    },
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Translation not found'),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(IdParamsSchema),
-      'Invalid id error',
-    ),
+    [HttpStatusCodes.NO_CONTENT]:           { description: 'Translation deleted' },
+    [HttpStatusCodes.NOT_FOUND]:            json(notFoundSchema, 'Translation not found'),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: json(validationErrorSchema, 'Invalid id error'),
   },
 });
-
-export type ListRoute = typeof list;
-export type CreateRoute = typeof create;
-export type GetOneRoute = typeof getOne;
-export type PatchRoute = typeof patch;
-export type RemoveRoute = typeof remove;

@@ -1,8 +1,9 @@
 import createCuid from '@bugsnag/cuid';
-import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
+import * as v from 'valibot';
+import { createInsertSchema, createSelectSchema } from 'drizzle-valibot';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
-import { sqliteBooleanField } from '../../lib/zod.utils';
+import { sqliteBooleanField } from '../../lib/valibot.utils';
 
 // Configuration table for entities that need translation columns
 export const translatable_entities = sqliteTable('translatable_entities', {
@@ -20,28 +21,28 @@ export const translatable_entities = sqliteTable('translatable_entities', {
     .$onUpdate(() => new Date()),
 });
 
-// Zod schemas for validation
-const insertTranslatableEntitySchema = createInsertSchema(translatable_entities, {
-  tableName: (schema) =>
-    schema.tableName
-      .min(1)
-      .max(50)
-      .regex(/^[a-z_]+$/),
-  entityName: (schema) => schema.entityName.min(1).max(100),
-  description: (schema) => schema.description.max(255),
-  sortOrder: (schema) => schema.sortOrder.min(0).max(999),
-  isActive: () => sqliteBooleanField(), // Handle boolean/integer conversion
-})
-  .required({
-    tableName: true,
-    entityName: true,
-  })
-  .omit({ id: true, createdAt: true, updatedAt: true });
+const insertTranslatableEntitySchema = v.omit(
+  createInsertSchema(translatable_entities, {
+    tableName:   v.pipe(v.string(), v.minLength(1), v.maxLength(50), v.regex(/^[a-z_]+$/)),
+    entityName:  v.pipe(v.string(), v.minLength(1), v.maxLength(100)),
+    description: v.pipe(v.string(), v.maxLength(255)),
+    sortOrder:   v.pipe(v.number(), v.integer(), v.minValue(0), v.maxValue(999)),
+    isActive:    sqliteBooleanField(),
+  }),
+  ['id', 'createdAt', 'updatedAt'],
+);
 
 export const translatableEntitySchemas = {
   select: createSelectSchema(translatable_entities),
   insert: insertTranslatableEntitySchema,
-  patch: insertTranslatableEntitySchema.partial().extend({
-    isActive: sqliteBooleanField().optional(), // Handle boolean/integer conversion for PATCH
-  }),
+  patch: v.partial(
+    v.object({
+      ...insertTranslatableEntitySchema.entries,
+      isActive: v.optional(sqliteBooleanField()),
+    }),
+  ),
 } as const;
+
+export type TranslatableEntityModel  = v.InferOutput<typeof translatableEntitySchemas.select>;
+export type TranslatableEntityInsert = v.InferOutput<typeof translatableEntitySchemas.insert>;
+export type TranslatableEntityPatch  = v.InferOutput<typeof translatableEntitySchemas.patch>;

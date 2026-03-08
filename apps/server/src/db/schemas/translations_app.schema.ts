@@ -1,8 +1,9 @@
 import createCuid from '@bugsnag/cuid';
-import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
+import * as v from 'valibot';
+import { createInsertSchema, createSelectSchema } from 'drizzle-valibot';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
-import { sqliteBooleanField } from 'lib/zod.utils';
+import { sqliteBooleanField } from 'lib/valibot.utils';
 
 /**
  * App Translations Table
@@ -27,28 +28,31 @@ export const translations_app = sqliteTable('translations_app', {
     .$onUpdate(() => new Date()),
 });
 
-// Zod schema for validation
-const insertTranslationAppSchema = createInsertSchema(translations_app, {
-  key: (schema) => schema.key.min(1).max(255),
-  translations: (schema) => schema.translations,
-  isActive: () => sqliteBooleanField(),
-})
-  .required({
-    key: true,
-    translations: true,
-  })
-  .omit({ id: true, createdAt: true, updatedAt: true });
+const insertTranslationAppSchema = v.omit(
+  createInsertSchema(translations_app, {
+    key:          v.pipe(v.string(), v.minLength(1), v.maxLength(255)),
+    translations: v.record(v.string(), v.string()),
+    isActive:     sqliteBooleanField(),
+  }),
+  ['id', 'createdAt', 'updatedAt'],
+);
 
-// Create patch schema
-const patchTranslationAppSchema = insertTranslationAppSchema.partial().extend({
-  translations: createSelectSchema(translations_app).shape.translations.optional(),
-  isActive: sqliteBooleanField().optional(),
-});
+const patchTranslationAppSchema = v.partial(
+  v.object({
+    ...v.omit(insertTranslationAppSchema, ['translations']).entries,
+    translations: v.optional(v.record(v.string(), v.string())),
+    isActive:     v.optional(sqliteBooleanField()),
+  }),
+);
 
 export const translationAppSchemas = {
   select: createSelectSchema(translations_app, {
-    translations: (schema) => schema.translations.optional(),
+    translations: v.optional(v.record(v.string(), v.string())),
   }),
   insert: insertTranslationAppSchema,
-  patch: patchTranslationAppSchema,
+  patch:  patchTranslationAppSchema,
 } as const;
+
+export type TranslationAppModel  = v.InferOutput<typeof translationAppSchemas.select>;
+export type TranslationAppInsert = v.InferOutput<typeof translationAppSchemas.insert>;
+export type TranslationAppPatch  = v.InferOutput<typeof translationAppSchemas.patch>;

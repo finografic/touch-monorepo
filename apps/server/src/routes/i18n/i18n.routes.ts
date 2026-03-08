@@ -1,6 +1,8 @@
-import { createRoute, z } from '@hono/zod-openapi';
+import * as v from 'valibot';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
-import { jsonContent } from 'stoker/openapi/helpers';
+import { describeRoute } from 'hono-openapi';
+
+import { json } from 'lib/openapi.helpers';
 
 const tags = ['I18n'];
 
@@ -13,7 +15,7 @@ const tags = ['I18n'];
  * - translations_app: "app.pages.title" -> { app: { pages: { title: "Title" } } }
  * - translations_admin: "admin.pages.dashboard" -> { admin: { pages: { dashboard: "Dashboard" } } }
  */
-function buildDomainGroupedResources(
+export function buildDomainGroupedResources(
   uiRows: Array<{ key: string; translations: Record<string, string> }>,
   appRows: Array<{ key: string; translations: Record<string, string> }>,
   adminRows: Array<{ key: string; translations: Record<string, string> }>,
@@ -61,57 +63,31 @@ function buildDomainGroupedResources(
   return result;
 }
 
-export const getNamespace = createRoute({
-  path: '/i18n/{namespace}',
-  method: 'get',
-  request: {
-    params: z.object({
-      namespace: z.string().describe('Namespace (e.g., "translations")'),
-    }),
-    query: z.object({
-      lng: z.string().describe('Language code (e.g., "es-ES", "en-GB")'),
-    }),
-  },
+export const getNamespace = describeRoute({
   tags,
+  description: 'Bulk load domain-grouped translation resources (ui, app, admin)',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(
-      z.record(z.string(), z.any()),
+    [HttpStatusCodes.OK]: json(
+      v.record(v.string(), v.any()),
       'Domain-grouped translation resources (ui, app, admin)',
     ),
   },
 });
 
-export const getDomain = createRoute({
-  path: '/i18n/translations/{domain}',
-  method: 'get',
-  request: {
-    params: z.object({
-      domain: z.enum(['ui', 'app', 'admin']).describe('Translation domain (ui, app, admin)'),
-    }),
-    query: z.object({
-      lng: z
-        .string()
-        .optional()
-        .describe('Language code (e.g., "es-ES", "en-GB") - optional, not used for array format'),
-    }),
-  },
+export const getDomain = describeRoute({
   tags,
+  description: 'Get domain-specific translations in array format for CMS editing',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(
-      z.array(
-        z.object({
-          id: z.string(),
-          key: z.string(),
-          translations: z.record(z.string(), z.string()),
-          isActive: z.boolean(),
+    [HttpStatusCodes.OK]: json(
+      v.array(
+        v.object({
+          id:           v.string(),
+          key:          v.string(),
+          translations: v.record(v.string(), v.string()),
+          isActive:     v.boolean(),
         }),
       ),
       'Domain-specific translation resources in array format (keys include domain prefix for CMS editing)',
     ),
   },
 });
-
-export type GetNamespaceRoute = typeof getNamespace;
-export type GetDomainRoute = typeof getDomain;
-
-export { buildDomainGroupedResources };

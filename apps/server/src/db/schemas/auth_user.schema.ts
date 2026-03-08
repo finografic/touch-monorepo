@@ -1,4 +1,5 @@
-import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
+import * as v from 'valibot';
+import { createInsertSchema, createSelectSchema } from 'drizzle-valibot';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
 export const user = sqliteTable('auth_user', {
@@ -14,14 +15,17 @@ export const user = sqliteTable('auth_user', {
   updatedAt: integer('updatedAt', { mode: 'timestamp' }).notNull(),
 });
 
-const insertUserSchema = createInsertSchema(user).omit({
-  id: true,
-  emailVerified: true,
-  createdAt: true,
-  updatedAt: true,
-});
+const insertUserSchema = v.omit(createInsertSchema(user), [
+  'id',
+  'emailVerified',
+  'createdAt',
+  'updatedAt',
+]);
 
 export const userSchemas = {
   select: createSelectSchema(user),
-  patch: insertUserSchema.partial(),
+  patch:  v.partial(insertUserSchema),
 } as const;
+
+export type UserModel = v.InferOutput<typeof userSchemas.select>;
+export type UserPatch = v.InferOutput<typeof userSchemas.patch>;

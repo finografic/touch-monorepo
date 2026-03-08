@@ -6,10 +6,11 @@ import {
 } from '@workspace/shared/constants';
 
 import createCuid from '@bugsnag/cuid';
-import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
+import { createInsertSchema, createSelectSchema } from 'drizzle-valibot';
+import * as v from 'valibot';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
-import { sqliteBooleanField } from '../../lib/zod.utils';
+import { sqliteBooleanField } from '../../lib/valibot.utils';
 import { drink_types } from './drink_types.schema';
 
 // Drink subtypes table (for beers: Rubia, Negra, etc.)
@@ -36,33 +37,42 @@ export const drink_subtypes = sqliteTable('drink_subtypes', {
     .$onUpdate(() => new Date()),
 });
 
-// Zod schema for validation
-const insertDrinkSubtypeSchema = createInsertSchema(drink_subtypes, {
-  name: (schema) => schema.name.min(1).max(50),
-  defaultTempConsume: (schema) =>
-    schema.defaultTempConsume.min(TEMP_CONSUME_SCHEMA_MIN).max(TEMP_CONSUME_SCHEMA_MAX),
-  defaultTempFreeze: (schema) =>
-    schema.defaultTempFreeze.min(TEMP_FREEZE_SCHEMA_MIN).max(TEMP_FREEZE_SCHEMA_MAX),
-  isActive: () => sqliteBooleanField(), // Handle boolean/integer conversion
-})
-  .required({
-    drinkTypeId: true,
-    name: true,
-    defaultTempConsume: true,
-    defaultTempFreeze: true,
-  })
-  .omit({ id: true, createdAt: true, updatedAt: true });
+const insertDrinkSubtypeSchema = v.omit(
+  createInsertSchema(drink_subtypes, {
+    name: v.pipe(v.string(), v.minLength(1), v.maxLength(50)),
+    defaultTempConsume: v.pipe(
+      v.number(),
+      v.integer(),
+      v.minValue(TEMP_CONSUME_SCHEMA_MIN),
+      v.maxValue(TEMP_CONSUME_SCHEMA_MAX),
+    ),
+    defaultTempFreeze: v.pipe(
+      v.number(),
+      v.integer(),
+      v.minValue(TEMP_FREEZE_SCHEMA_MIN),
+      v.maxValue(TEMP_FREEZE_SCHEMA_MAX),
+    ),
+    isActive: sqliteBooleanField(),
+  }),
+  ['id', 'createdAt', 'updatedAt'],
+);
 
-// Create patch schema that includes translations and handles boolean fields
-const patchDrinkSubtypeSchema = insertDrinkSubtypeSchema.partial().extend({
-  translations: createSelectSchema(drink_subtypes).shape.translations.optional(),
-  isActive: sqliteBooleanField().optional(), // Handle boolean/integer conversion for PATCH
-});
+const patchDrinkSubtypeSchema = v.partial(
+  v.object({
+    ...v.omit(insertDrinkSubtypeSchema, ['translations']).entries,
+    translations: v.optional(v.record(v.string(), v.string())),
+    isActive: v.optional(sqliteBooleanField()),
+  }),
+);
 
 export const drinkSubtypeSchemas = {
   select: createSelectSchema(drink_subtypes, {
-    translations: (schema) => schema.translations.optional(), // Simplified schema for translations
+    translations: v.optional(v.record(v.string(), v.string())),
   }),
   insert: insertDrinkSubtypeSchema,
   patch: patchDrinkSubtypeSchema,
 } as const;
+
+export type DrinkSubtypeModel = v.InferOutput<typeof drinkSubtypeSchemas.select>;
+export type DrinkSubtypeInsert = v.InferOutput<typeof drinkSubtypeSchemas.insert>;
+export type DrinkSubtypePatch = v.InferOutput<typeof drinkSubtypeSchemas.patch>;

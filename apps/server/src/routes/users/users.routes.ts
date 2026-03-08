@@ -1,78 +1,47 @@
-import { createRoute, z } from '@hono/zod-openapi';
+import { describeRoute } from 'hono-openapi';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
-import { jsonContent, jsonContentRequired } from 'stoker/openapi/helpers';
-import { createErrorSchema, IdParamsSchema } from 'stoker/openapi/schemas';
+import * as v from 'valibot';
 
 import { userSchemas } from 'db/schemas/auth_user.schema';
-import { notFoundSchema } from 'lib/zod.errors';
-import { IdCuidParamsSchema } from 'schemas/id-cuid-params.schema';
+import { json } from 'lib/openapi.helpers';
+import { notFoundSchema, validationErrorSchema } from 'lib/valibot.errors';
 
 const tags = ['Users'];
 
-export const list = createRoute({
-  path: '/users',
-  method: 'get',
+export const list = describeRoute({
   tags,
+  description: 'List all users',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(z.array(userSchemas.select), 'The list of users'),
+    [HttpStatusCodes.OK]: json(v.array(userSchemas.select), 'The list of users'),
   },
 });
 
-export const getOne = createRoute({
-  path: '/users/{id}',
-  method: 'get',
-  request: {
-    params: IdCuidParamsSchema,
-  },
+export const getOne = describeRoute({
   tags,
+  description: 'Get a single user by ID',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(userSchemas.select, 'The requested user'),
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'User not found'),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(IdParamsSchema),
-      'Invalid id error',
-    ),
+    [HttpStatusCodes.OK]:                   json(userSchemas.select, 'The requested user'),
+    [HttpStatusCodes.NOT_FOUND]:            json(notFoundSchema, 'User not found'),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: json(validationErrorSchema, 'Invalid id error'),
   },
 });
 
-export const patch = createRoute({
-  path: '/users/{id}',
-  method: 'patch',
-  request: {
-    params: IdCuidParamsSchema,
-    body: jsonContentRequired(userSchemas.patch, 'The user updates'),
-  },
+export const patch = describeRoute({
   tags,
+  description: 'Update a user',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(userSchemas.select, 'The updated user'),
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'User not found'),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(userSchemas.patch).or(createErrorSchema(IdCuidParamsSchema)),
-      'The validation error(s)',
-    ),
+    [HttpStatusCodes.OK]:                   json(userSchemas.select, 'The updated user'),
+    [HttpStatusCodes.NOT_FOUND]:            json(notFoundSchema, 'User not found'),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: json(validationErrorSchema, 'The validation error(s)'),
   },
 });
 
-export const remove = createRoute({
-  path: '/users/{id}',
-  method: 'delete',
-  request: {
-    params: IdCuidParamsSchema,
-  },
+export const remove = describeRoute({
   tags,
+  description: 'Delete a user',
   responses: {
-    [HttpStatusCodes.NO_CONTENT]: {
-      description: 'User deleted',
-    },
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'User not found'),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(IdParamsSchema),
-      'Invalid id error',
-    ),
+    [HttpStatusCodes.NO_CONTENT]:           { description: 'User deleted' },
+    [HttpStatusCodes.NOT_FOUND]:            json(notFoundSchema, 'User not found'),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: json(validationErrorSchema, 'Invalid id error'),
   },
 });
-
-export type ListRoute = typeof list;
-export type GetOneRoute = typeof getOne;
-export type PatchRoute = typeof patch;
-export type RemoveRoute = typeof remove;

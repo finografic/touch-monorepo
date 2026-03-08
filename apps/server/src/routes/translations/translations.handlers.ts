@@ -7,9 +7,8 @@ import { db } from 'db';
 import { translations_admin } from 'db/schemas/translations_admin.schema';
 import { translations_app } from 'db/schemas/translations_app.schema';
 import { translations_ui } from 'db/schemas/translations_ui.schema';
-import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/zod.errors';
-import type { AppRouteHandler } from 'types/app.types';
-import type { CreateRoute, GetOneRoute, ListRoute, PatchRoute, RemoveRoute } from './translations.routes';
+import { ERROR_CODES, ERROR_MESSAGES } from 'lib/valibot.errors';
+import type { AppHandler } from 'types/app.types';
 
 type TranslationNamespace = 'ui' | 'app' | 'admin';
 
@@ -41,7 +40,7 @@ function getTranslationQuery(namespace: TranslationNamespace) {
   }
 }
 
-export const list: AppRouteHandler<ListRoute> = async (context) => {
+export const list: AppHandler = async (context) => {
   const { namespace } = context.req.valid('param');
   const query = getTranslationQuery(namespace);
 
@@ -52,7 +51,7 @@ export const list: AppRouteHandler<ListRoute> = async (context) => {
   return context.json(translations);
 };
 
-export const getOne: AppRouteHandler<GetOneRoute> = async (context) => {
+export const getOne: AppHandler = async (context) => {
   const { id, namespace } = context.req.valid('param');
   const query = getTranslationQuery(namespace);
 
@@ -74,7 +73,7 @@ export const getOne: AppRouteHandler<GetOneRoute> = async (context) => {
   return context.json(translation, HttpStatusCodes.OK);
 };
 
-export const create: AppRouteHandler<CreateRoute> = async (context) => {
+export const create: AppHandler = async (context) => {
   const { namespace } = context.req.valid('param');
   const translation = context.req.valid('json');
   const table = getTranslationTable(namespace);
@@ -87,7 +86,7 @@ export const create: AppRouteHandler<CreateRoute> = async (context) => {
   return context.json(inserted, HttpStatusCodes.OK);
 };
 
-export const patch: AppRouteHandler<PatchRoute> = async (context) => {
+export const patch: AppHandler = async (context) => {
   const { id, namespace } = context.req.valid('param');
   const updates = context.req.valid('json');
   const table = getTranslationTable(namespace);
@@ -99,12 +98,12 @@ export const patch: AppRouteHandler<PatchRoute> = async (context) => {
         error: {
           issues: [
             {
-              code: ZOD_ERROR_CODES.INVALID_UPDATES,
+              code: ERROR_CODES.INVALID_UPDATES,
               path: [],
-              message: ZOD_ERROR_MESSAGES.NO_UPDATES,
+              message: ERROR_MESSAGES.NO_UPDATES,
             },
           ],
-          name: 'ZodError',
+          name: 'ValidationError',
         },
       },
       HttpStatusCodes.UNPROCESSABLE_ENTITY,
@@ -149,7 +148,7 @@ export const patch: AppRouteHandler<PatchRoute> = async (context) => {
   return context.json(updatedTranslation, HttpStatusCodes.OK);
 };
 
-export const remove: AppRouteHandler<RemoveRoute> = async (context) => {
+export const remove: AppHandler = async (context) => {
   const { id, namespace } = context.req.valid('param');
   const table = getTranslationTable(namespace);
 

@@ -5,18 +5,9 @@ import * as HttpStatusPhrases from 'stoker/http-status-phrases';
 
 import { db } from 'db';
 import { modes } from 'db/schemas';
-import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/zod.errors';
-import type { AppRouteHandler } from 'types/app.types';
+import { ERROR_CODES, ERROR_MESSAGES } from 'lib/valibot.errors';
+import type { AppHandler } from 'types/app.types';
 import type { ModeEntity } from 'types/entities';
-import type {
-  CreateRoute,
-  GetOneRoute,
-  ListRoute,
-  PatchRoute,
-  RemoveRoute,
-  UpdateActiveStatesRoute,
-  UpdateDefaultModeRoute,
-} from './modes.routes';
 
 function formatMode(mode: any) {
   return {
@@ -25,12 +16,12 @@ function formatMode(mode: any) {
   };
 }
 
-export const list: AppRouteHandler<ListRoute> = async (context) => {
+export const list: AppHandler = async (context) => {
   const modesList = await db.query.modes.findMany();
   return context.json(modesList);
 };
 
-export const getOne: AppRouteHandler<GetOneRoute> = async (context) => {
+export const getOne: AppHandler = async (context) => {
   const { id } = context.req.valid('param');
   const result = await db.select().from(modes).where(eq(modes.id, id)).limit(1);
 
@@ -41,13 +32,13 @@ export const getOne: AppRouteHandler<GetOneRoute> = async (context) => {
   return context.json(result[0], HttpStatusCodes.OK);
 };
 
-export const create: AppRouteHandler<CreateRoute> = async (context) => {
+export const create: AppHandler = async (context) => {
   const mode = await context.req.json();
   const result = await db.insert(modes).values(mode).returning();
   return context.json(formatMode(result[0]), HttpStatusCodes.OK);
 };
 
-export const patch: AppRouteHandler<PatchRoute> = async (context) => {
+export const patch: AppHandler = async (context) => {
   const { id } = context.req.valid('param');
   const updates = context.req.valid('json') as Partial<typeof modes.$inferInsert>;
 
@@ -58,12 +49,12 @@ export const patch: AppRouteHandler<PatchRoute> = async (context) => {
         error: {
           issues: [
             {
-              code: ZOD_ERROR_CODES.INVALID_UPDATES,
+              code: ERROR_CODES.INVALID_UPDATES,
               path: [],
-              message: ZOD_ERROR_MESSAGES.NO_UPDATES,
+              message: ERROR_MESSAGES.NO_UPDATES,
             },
           ],
-          name: 'ZodError',
+          name: 'ValidationError',
         },
       },
       HttpStatusCodes.UNPROCESSABLE_ENTITY,
@@ -79,7 +70,7 @@ export const patch: AppRouteHandler<PatchRoute> = async (context) => {
   return context.json(formatMode(result[0]), HttpStatusCodes.OK);
 };
 
-export const remove: AppRouteHandler<RemoveRoute> = async (context) => {
+export const remove: AppHandler = async (context) => {
   const { id } = context.req.valid('param');
   const result = await db.delete(modes).where(eq(modes.id, id));
 
@@ -90,7 +81,7 @@ export const remove: AppRouteHandler<RemoveRoute> = async (context) => {
   return context.body(null, HttpStatusCodes.NO_CONTENT);
 };
 
-export const updateActiveStates: AppRouteHandler<UpdateActiveStatesRoute> = async (context) => {
+export const updateActiveStates: AppHandler = async (context) => {
   const { activeModeIds } = context.req.valid('json');
 
   // First, set all modes to inactive
@@ -109,7 +100,7 @@ export const updateActiveStates: AppRouteHandler<UpdateActiveStatesRoute> = asyn
   return context.json(allModes, HttpStatusCodes.OK);
 };
 
-export const updateDefaultMode: AppRouteHandler<UpdateDefaultModeRoute> = async (context) => {
+export const updateDefaultMode: AppHandler = async (context) => {
   const { defaultModeId } = context.req.valid('json');
 
   // First, set all modes to not default

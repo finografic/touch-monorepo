@@ -1,5 +1,6 @@
 import { randomUUID } from 'crypto';
-import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
+import * as v from 'valibot';
+import { createInsertSchema, createSelectSchema } from 'drizzle-valibot';
 import { relations } from 'drizzle-orm';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
@@ -35,6 +36,10 @@ export const temperatureProfilesRelations = relations(temperature_profiles, ({ o
 
 export const temperatureProfileSchemas = {
   select: createSelectSchema(temperature_profiles),
-  insert: createInsertSchema(temperature_profiles).omit({ id: true }),
-  patch: createInsertSchema(temperature_profiles).partial(),
+  insert: v.omit(createInsertSchema(temperature_profiles), ['id']),
+  patch:  v.partial(createInsertSchema(temperature_profiles)),
 } as const;
+
+export type TemperatureProfileModel  = v.InferOutput<typeof temperatureProfileSchemas.select>;
+export type TemperatureProfileInsert = v.InferOutput<typeof temperatureProfileSchemas.insert>;
+export type TemperatureProfilePatch  = v.InferOutput<typeof temperatureProfileSchemas.patch>;

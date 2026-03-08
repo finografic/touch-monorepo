@@ -1,4 +1,4 @@
-import type { OpenAPIHono, RouteConfig, RouteHandler } from '@hono/zod-openapi';
+import type { Context, Handler, Hono } from 'hono';
 import type { PinoLogger } from 'hono-pino';
 
 export interface AppBindings {
@@ -7,10 +7,10 @@ export interface AppBindings {
   };
 }
 
-export type AppOpenAPI = OpenAPIHono<AppBindings>;
+export type AppOpenAPI = Hono<AppBindings>;
 
-export type AppRouteHandler<R extends RouteConfig> = RouteHandler<R, AppBindings>;
+// Handlers are plain Hono handlers — no route type parameter needed
+export type AppHandler = Handler<AppBindings>;
 
-export type ZodSchema =
-  // @ts-expect-error
-  z.ZodUnion | z.AnyZodObject | z.ZodArray<z.AnyZodObject>;
+// Per-handler context typing
+export type AppContext = Context<AppBindings>;

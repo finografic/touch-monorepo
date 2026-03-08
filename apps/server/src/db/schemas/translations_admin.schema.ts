@@ -1,8 +1,9 @@
 import createCuid from '@bugsnag/cuid';
-import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
+import * as v from 'valibot';
+import { createInsertSchema, createSelectSchema } from 'drizzle-valibot';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
-import { sqliteBooleanField } from 'lib/zod.utils';
+import { sqliteBooleanField } from 'lib/valibot.utils';
 
 /**
  * Admin Translations Table
@@ -27,28 +28,31 @@ export const translations_admin = sqliteTable('translations_admin', {
     .$onUpdate(() => new Date()),
 });
 
-// Zod schema for validation
-const insertTranslationAdminSchema = createInsertSchema(translations_admin, {
-  key: (schema) => schema.key.min(1).max(255),
-  translations: (schema) => schema.translations,
-  isActive: () => sqliteBooleanField(),
-})
-  .required({
-    key: true,
-    translations: true,
-  })
-  .omit({ id: true, createdAt: true, updatedAt: true });
+const insertTranslationAdminSchema = v.omit(
+  createInsertSchema(translations_admin, {
+    key:          v.pipe(v.string(), v.minLength(1), v.maxLength(255)),
+    translations: v.record(v.string(), v.string()),
+    isActive:     sqliteBooleanField(),
+  }),
+  ['id', 'createdAt', 'updatedAt'],
+);
 
-// Create patch schema
-const patchTranslationAdminSchema = insertTranslationAdminSchema.partial().extend({
-  translations: createSelectSchema(translations_admin).shape.translations.optional(),
-  isActive: sqliteBooleanField().optional(),
-});
+const patchTranslationAdminSchema = v.partial(
+  v.object({
+    ...v.omit(insertTranslationAdminSchema, ['translations']).entries,
+    translations: v.optional(v.record(v.string(), v.string())),
+    isActive:     v.optional(sqliteBooleanField()),
+  }),
+);
 
 export const translationAdminSchemas = {
   select: createSelectSchema(translations_admin, {
-    translations: (schema) => schema.translations.optional(),
+    translations: v.optional(v.record(v.string(), v.string())),
   }),
   insert: insertTranslationAdminSchema,
-  patch: patchTranslationAdminSchema,
+  patch:  patchTranslationAdminSchema,
 } as const;
+
+export type TranslationAdminModel  = v.InferOutput<typeof translationAdminSchemas.select>;
+export type TranslationAdminInsert = v.InferOutput<typeof translationAdminSchemas.insert>;
+export type TranslationAdminPatch  = v.InferOutput<typeof translationAdminSchemas.patch>;

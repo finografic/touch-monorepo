@@ -1,15 +1,8 @@
-import { z } from '@hono/zod-openapi';
+import * as v from 'valibot';
 
-export function createMessageObjectSchema(exampleMessage = 'Hello World', exampleSuccess = true) {
-  return z
-    .object({
-      success: z.boolean(),
-      message: z.string(),
-    })
-    .openapi({
-      example: {
-        success: exampleSuccess,
-        message: exampleMessage,
-      },
-    });
+export function createMessageObjectSchema(_exampleMessage = 'Hello World', _exampleSuccess = true) {
+  return v.object({
+    success: v.boolean(),
+    message: v.string(),
+  });
 }

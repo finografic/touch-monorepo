@@ -1,10 +1,11 @@
 import createCuid from '@bugsnag/cuid';
-import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
+import * as v from 'valibot';
+import { createInsertSchema, createSelectSchema } from 'drizzle-valibot';
 import { relations } from 'drizzle-orm';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
-import { ZOD_ERROR_MESSAGES } from 'lib/zod.errors';
-import { sqliteBooleanField } from 'lib/zod.utils';
+import { ERROR_MESSAGES } from 'lib/valibot.errors';
+import { sqliteBooleanField } from 'lib/valibot.utils';
 import { TEMPERATURE_RANGES } from 'config/temperature.config';
 import { container_types } from './container_types.schema';
 import { drink_subtypes } from './drink_subtypes.schema';
@@ -80,37 +81,31 @@ export const ordersRelations = relations(orders, ({ one, many }) => ({
   temperatureProfiles: many(temperature_profiles),
 }));
 
-// Zod schema for validation with ID-based fields
-const insertOrderSchema = createInsertSchema(orders, {
-  modeId: (schema) => schema.modeId.min(1, 'Mode is required'),
-  drinkTypeId: (schema) => schema.drinkTypeId.min(1).max(50),
-  drinkSubtypeId: (schema) => schema.drinkSubtypeId.max(50),
-  volumeId: (schema) => schema.volumeId.min(1).max(50),
-  containerTypeId: (schema) => schema.containerTypeId.min(1).max(50),
-  defaultTempConsume: (schema) =>
-    schema.defaultTempConsume
-      .min(TEMPERATURE_RANGES.CONSUMPTION.MIN, ZOD_ERROR_MESSAGES.TEMPERATURE_CONSUMPTION_RANGE)
-      .max(TEMPERATURE_RANGES.CONSUMPTION.MAX, ZOD_ERROR_MESSAGES.TEMPERATURE_CONSUMPTION_RANGE),
-  defaultTempFreeze: (schema) =>
-    schema.defaultTempFreeze
-      .min(TEMPERATURE_RANGES.FREEZING.MIN, ZOD_ERROR_MESSAGES.TEMPERATURE_FREEZING_RANGE)
-      .max(TEMPERATURE_RANGES.FREEZING.MAX, ZOD_ERROR_MESSAGES.TEMPERATURE_FREEZING_RANGE),
-  isActive: () => sqliteBooleanField(), // Handle boolean/integer conversion
-})
-  .required({
-    modeId: true,
-    drinkTypeId: true,
-    volumeId: true,
-    containerTypeId: true,
-    defaultTempConsume: true,
-    defaultTempFreeze: true,
-  })
-  .omit({ id: true, createdAt: true, updatedAt: true });
+const insertOrderSchema = v.omit(
+  createInsertSchema(orders, {
+    modeId:             v.pipe(v.string(), v.minLength(1, 'Mode is required')),
+    drinkTypeId:        v.pipe(v.string(), v.minLength(1), v.maxLength(50)),
+    drinkSubtypeId:     v.pipe(v.string(), v.maxLength(50)),
+    volumeId:           v.pipe(v.string(), v.minLength(1), v.maxLength(50)),
+    containerTypeId:    v.pipe(v.string(), v.minLength(1), v.maxLength(50)),
+    defaultTempConsume: v.pipe(v.number(), v.integer(), v.minValue(TEMPERATURE_RANGES.CONSUMPTION.MIN, ERROR_MESSAGES.TEMPERATURE_CONSUMPTION_RANGE), v.maxValue(TEMPERATURE_RANGES.CONSUMPTION.MAX, ERROR_MESSAGES.TEMPERATURE_CONSUMPTION_RANGE)),
+    defaultTempFreeze:  v.pipe(v.number(), v.integer(), v.minValue(TEMPERATURE_RANGES.FREEZING.MIN, ERROR_MESSAGES.TEMPERATURE_FREEZING_RANGE), v.maxValue(TEMPERATURE_RANGES.FREEZING.MAX, ERROR_MESSAGES.TEMPERATURE_FREEZING_RANGE)),
+    isActive:           sqliteBooleanField(),
+  }),
+  ['id', 'createdAt', 'updatedAt'],
+);
 
 export const orderSchemas = {
   select: createSelectSchema(orders),
   insert: insertOrderSchema,
-  patch: insertOrderSchema.partial().extend({
-    isActive: sqliteBooleanField().optional(), // Handle boolean/integer conversion for PATCH
-  }),
+  patch: v.partial(
+    v.object({
+      ...insertOrderSchema.entries,
+      isActive: v.optional(sqliteBooleanField()),
+    }),
+  ),
 } as const;
+
+export type OrderModel  = v.InferOutput<typeof orderSchemas.select>;
+export type OrderInsert = v.InferOutput<typeof orderSchemas.insert>;
+export type OrderPatch  = v.InferOutput<typeof orderSchemas.patch>;

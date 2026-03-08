@@ -1,16 +1,22 @@
 import { apiReference } from '@scalar/hono-api-reference';
+import { openAPIRouteHandler } from 'hono-openapi';
 
 import type { AppOpenAPI } from 'types/app.types';
 import packageJSON from '../../../../package.json';
 
 export default function configureOpenAPI(app: AppOpenAPI) {
-  app.doc('/doc', {
-    openapi: '3.0.0',
-    info: {
-      version: (packageJSON as any).version,
-      title: 'IOX API',
-    },
-  });
+  app.get(
+    '/doc',
+    openAPIRouteHandler(app, {
+      documentation: {
+        openapi: '3.0.0',
+        info: {
+          version: (packageJSON as any).version,
+          title: 'IOX API',
+        },
+      },
+    }),
+  );
 
   app.get(
     '/reference',
@@ -21,8 +27,6 @@ export default function configureOpenAPI(app: AppOpenAPI) {
         targetKey: 'js',
         clientKey: 'fetch',
       },
-      // The spec property has been removed in newer versions
-      // The API reference will automatically use the OpenAPI spec from /doc
     }),
   );
 }

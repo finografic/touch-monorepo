@@ -1,8 +1,9 @@
 import createCuid from '@bugsnag/cuid';
-import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
+import * as v from 'valibot';
+import { createInsertSchema, createSelectSchema } from 'drizzle-valibot';
 import { integer, real, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
-import { sqliteBooleanField } from '../../lib/zod.utils';
+import { sqliteBooleanField } from '../../lib/valibot.utils';
 
 export const volumes = sqliteTable('volumes', {
   id: text('id')
@@ -25,31 +26,35 @@ export const volumes = sqliteTable('volumes', {
     .$onUpdate(() => new Date()),
 });
 
-// Zod schema for validation
-const insertVolumeSchema = createInsertSchema(volumes, {
-  name: (schema) => schema.name.min(1).max(20),
-  valueInMl: (schema) => schema.valueInMl.min(1).max(5000), // Up to 5L
-  sortOrder: (schema) => schema.sortOrder.min(0),
-  coolingFactor: (schema) => schema.coolingFactor.min(0.1).max(5), // Reasonable range for multiplier
-  isActive: () => sqliteBooleanField(), // Handle boolean/integer conversion
-})
-  .required({
-    name: true,
-    valueInMl: true,
-    sortOrder: true,
-  })
-  .omit({ id: true, createdAt: true, updatedAt: true });
+// Field overrides: pass Valibot schemas directly (no callback wrapper)
+const insertVolumeSchema = v.omit(
+  createInsertSchema(volumes, {
+    name:          v.pipe(v.string(), v.minLength(1), v.maxLength(20)),
+    valueInMl:     v.pipe(v.number(), v.integer(), v.minValue(1), v.maxValue(5000)),
+    sortOrder:     v.pipe(v.number(), v.integer(), v.minValue(0)),
+    coolingFactor: v.pipe(v.number(), v.minValue(0.1), v.maxValue(5)),
+    isActive:      sqliteBooleanField(),
+  }),
+  ['id', 'createdAt', 'updatedAt'],
+);
 
-// Create patch schema that includes translations and handles boolean fields
-const patchVolumeSchema = insertVolumeSchema.partial().extend({
-  translations: createSelectSchema(volumes).shape.translations.optional(),
-  isActive: sqliteBooleanField().optional(), // Handle boolean/integer conversion for PATCH
-});
+// Valibot equivalent of .partial().extend({ ... })
+const patchVolumeSchema = v.partial(
+  v.object({
+    ...v.omit(insertVolumeSchema, ['translations']).entries,
+    translations: v.optional(v.record(v.string(), v.string())),
+    isActive:     v.optional(sqliteBooleanField()),
+  }),
+);
 
 export const volumeSchemas = {
   select: createSelectSchema(volumes, {
-    translations: (schema) => schema.translations.optional(), // Simplified schema for translations
+    translations: v.optional(v.record(v.string(), v.string())),
   }),
   insert: insertVolumeSchema,
-  patch: patchVolumeSchema,
+  patch:  patchVolumeSchema,
 } as const;
+
+export type VolumeModel  = v.InferOutput<typeof volumeSchemas.select>;
+export type VolumeInsert = v.InferOutput<typeof volumeSchemas.insert>;
+export type VolumePatch  = v.InferOutput<typeof volumeSchemas.patch>;

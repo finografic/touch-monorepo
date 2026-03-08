@@ -1,18 +1,20 @@
-import { createRoute } from '@hono/zod-openapi';
+import * as v from 'valibot';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
-import { jsonContent } from 'stoker/openapi/helpers';
-import { createMessageObjectSchema } from 'stoker/openapi/schemas';
+import { describeRoute } from 'hono-openapi';
 
 import { createRouter } from 'lib/create-app';
+import { json } from 'lib/openapi.helpers';
 
-const router = createRouter().openapi(
-  createRoute({
+const router = createRouter();
+
+router.get(
+  '/',
+  describeRoute({
     tags: ['Index'],
-    method: 'get',
-    path: '/',
+    description: 'Hono + Drizzle API Index',
     responses: {
-      [HttpStatusCodes.OK]: jsonContent(
-        createMessageObjectSchema('Hono + Drizzle API'),
+      [HttpStatusCodes.OK]: json(
+        v.object({ message: v.string() }),
         'Hono + Drizzle API Index',
       ),
     },

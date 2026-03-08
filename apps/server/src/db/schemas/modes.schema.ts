@@ -1,9 +1,10 @@
 import createCuid from '@bugsnag/cuid';
-import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
+import * as v from 'valibot';
+import { createInsertSchema, createSelectSchema } from 'drizzle-valibot';
 import { relations } from 'drizzle-orm';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
-import { sqliteBooleanField } from 'lib/zod.utils';
+import { sqliteBooleanField } from 'lib/valibot.utils';
 import { temperature_profiles } from './temperature_profiles.schema';
 
 export const modes = sqliteTable('modes', {
@@ -22,20 +23,25 @@ export const modeRelations = relations(modes, ({ many }) => ({
 
 export const modeSchemas = {
   select: createSelectSchema(modes, {
-    isDefault: () => sqliteBooleanField(),
-    isActive: () => sqliteBooleanField(),
+    isDefault: sqliteBooleanField(),
+    isActive:  sqliteBooleanField(),
   }),
-  insert: createInsertSchema(modes, {
-    isDefault: () => sqliteBooleanField(),
-    isActive: () => sqliteBooleanField(),
-  }).omit({ id: true }),
-  patch: createInsertSchema(modes, {
-    isDefault: () => sqliteBooleanField().optional(),
-    isActive: () => sqliteBooleanField().optional(),
-  })
-    .partial()
-    .extend({
-      isDefault: sqliteBooleanField().optional(),
-      isActive: sqliteBooleanField().optional(),
+  insert: v.omit(
+    createInsertSchema(modes, {
+      isDefault: sqliteBooleanField(),
+      isActive:  sqliteBooleanField(),
     }),
+    ['id'],
+  ),
+  patch: v.partial(
+    v.object({
+      name:      v.optional(v.string()),
+      isDefault: v.optional(sqliteBooleanField()),
+      isActive:  v.optional(sqliteBooleanField()),
+    }),
+  ),
 } as const;
+
+export type ModeModel  = v.InferOutput<typeof modeSchemas.select>;
+export type ModeInsert = v.InferOutput<typeof modeSchemas.insert>;
+export type ModePatch  = v.InferOutput<typeof modeSchemas.patch>;

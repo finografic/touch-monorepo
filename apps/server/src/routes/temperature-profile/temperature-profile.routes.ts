@@ -1,103 +1,59 @@
-import { createRoute, z } from '@hono/zod-openapi';
+import * as v from 'valibot';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
-import { jsonContent, jsonContentRequired } from 'stoker/openapi/helpers';
-import { createErrorSchema, IdParamsSchema } from 'stoker/openapi/schemas';
+import { describeRoute } from 'hono-openapi';
 
 import { temperatureProfileSchemas } from 'db/schemas/temperature_profiles.schema';
-import { notFoundSchema } from 'lib/zod.errors';
-import { IdUuidParamsSchema } from 'schemas/id-uuid-params.schema';
+import { json, jsonRequired } from 'lib/openapi.helpers';
+import { notFoundSchema, validationErrorSchema } from 'lib/valibot.errors';
 
 const tags = ['TemperatureProfile'];
 
-export const list = createRoute({
-  path: '/temperature-profiles',
-  method: 'get',
+export const list = describeRoute({
   tags,
-  request: {
-    query: z.object({
-      orderId: z.string().optional(),
-    }),
-  },
+  description: 'List of available temperature profiles',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(
-      z.array(temperatureProfileSchemas.select),
+    [HttpStatusCodes.OK]: json(
+      v.array(temperatureProfileSchemas.select),
       'List of available temperature profiles',
     ),
   },
 });
 
-export const getOne = createRoute({
-  path: '/temperature-profiles/{id}',
-  method: 'get',
-  request: {
-    params: IdUuidParamsSchema,
-  },
+export const getOne = describeRoute({
   tags,
+  description: 'Get a single temperature profile by id',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(temperatureProfileSchemas.select, 'The requested temperature profile'),
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Temperature profile not found'),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(IdParamsSchema),
-      'Invalid id error',
-    ),
+    [HttpStatusCodes.OK]:                   json(temperatureProfileSchemas.select, 'The requested temperature profile'),
+    [HttpStatusCodes.NOT_FOUND]:            json(notFoundSchema, 'Temperature profile not found'),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: json(validationErrorSchema, 'Invalid id error'),
   },
 });
 
-export const create = createRoute({
-  path: '/temperature-profiles',
-  method: 'post',
-  request: {
-    body: jsonContentRequired(temperatureProfileSchemas.insert, 'The temperature profile to create'),
-  },
+export const create = describeRoute({
   tags,
+  description: 'Create a new temperature profile',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(temperatureProfileSchemas.select, 'The created temperature profile'),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(temperatureProfileSchemas.insert),
-      'The validation error(s)',
-    ),
+    [HttpStatusCodes.OK]:                   json(temperatureProfileSchemas.select, 'The created temperature profile'),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: json(validationErrorSchema, 'The validation error(s)'),
   },
 });
 
-export const patch = createRoute({
-  path: '/temperature-profiles/{id}',
-  method: 'patch',
-  request: {
-    params: IdUuidParamsSchema,
-    body: jsonContentRequired(temperatureProfileSchemas.patch, 'The temperature profile updates'),
-  },
+export const patch = describeRoute({
   tags,
+  description: 'Update a temperature profile',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(temperatureProfileSchemas.select, 'The updated temperature profile'),
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Temperature profile not found'),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(temperatureProfileSchemas.patch).or(createErrorSchema(IdParamsSchema)),
-      'The validation error(s)',
-    ),
+    [HttpStatusCodes.OK]:                   json(temperatureProfileSchemas.select, 'The updated temperature profile'),
+    [HttpStatusCodes.NOT_FOUND]:            json(notFoundSchema, 'Temperature profile not found'),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: json(validationErrorSchema, 'The validation error(s)'),
   },
 });
 
-export const remove = createRoute({
-  path: '/temperature-profiles/{id}',
-  method: 'delete',
-  request: {
-    params: IdUuidParamsSchema,
-  },
+export const remove = describeRoute({
   tags,
+  description: 'Delete a temperature profile',
   responses: {
-    [HttpStatusCodes.NO_CONTENT]: {
-      description: 'Temperature profile deleted',
-    },
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Temperature profile not found'),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(IdParamsSchema),
-      'Invalid id error',
-    ),
+    [HttpStatusCodes.NO_CONTENT]: { description: 'Temperature profile deleted' },
+    [HttpStatusCodes.NOT_FOUND]:  json(notFoundSchema, 'Temperature profile not found'),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: json(validationErrorSchema, 'Invalid id error'),
   },
 });
-
-export type ListRoute = typeof list;
-export type CreateRoute = typeof create;
-export type GetOneRoute = typeof getOne;
-export type PatchRoute = typeof patch;
-export type RemoveRoute = typeof remove;
