@@ -3,15 +3,11 @@ import type React from 'react';
 
 import '@tanstack/react-query';
 
-declare module 'drizzle-admin';
-
 declare module '@tanstack/react-query' {
   interface Register {
     defaultError: Error;
   }
 }
-
-declare module 'uuid';
 
 // Raw file imports (Vite ?raw suffix)
 declare module '*?raw' {
