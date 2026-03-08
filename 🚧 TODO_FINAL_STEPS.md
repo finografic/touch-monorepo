@@ -2,8 +2,10 @@
 
 > **Where we are:** Phases 6a–6f (partial) complete. Design-system package fully built.
 > All Radix component imports replaced. Icons extracted to `@workspace/icons` (own package).
-> AdminNavigation TabNav migration complete. `styles/` subdirectories flattened.
-> Phase 6f in progress — Radix Themes + Emotion removal is next.
+> AdminNavigation TabNav migration complete. `styles/` fully cleaned — subdirs deleted, forms/fonts inlined.
+> Radix Themes removed. EmotionThemeProvider removed. FieldWrapper replaced with DS FieldBox.
+> global.styles.ts pruned (Radix blocks gone, scrollbars moved to DS global.css).
+> Phase 6f remaining: remove @emotion packages + migrate all `.styles.ts` files off Emotion.
 
 ---
 
@@ -12,7 +14,7 @@
 | Work | Scope | Blocker |
 |---|---|---|
 | ~~**6e** — Clear remaining `styles/` imports~~ | ✅ Complete — 0 alias imports remain | — |
-| **6f** — Prune `styles/`; remove Radix Themes + Emotion | See checklist below | 6e must be zero |
+| **6f** — Remove Emotion (packages + .styles.ts files) | ~113 files still use `@emotion/react` | — |
 | **6g** — CSS custom property audit | DevTools investigation | 6f |
 | ~~**AdminNavigation** — `TabNav` from `@radix-ui/themes`~~ | ✅ Complete — AdminNavigationV2 | — |
 | ~~**Icons** — `@workspace/design-system/icons`~~ | ✅ Moved to `@workspace/icons` package | — |
@@ -52,59 +54,50 @@
 > **Decision:** `styles/` is NOT deleted entirely. Things that are project-specific and
 > will never belong in the DS survive as a small, flat folder.
 
-### What survives in `styles/` (flat, ~5 files)
+### What survives in `styles/` (flat — confirmed)
 
 | File | Why it stays |
 |---|---|
 | `styles/project.styles.ts` | Admin + front-end layout rules; app-specific |
-| `styles/project.800x480.styles.ts` | Pi 800×480 hardware overrides; deeply project-specific |
-| `styles/project.1024x600.styles.ts` | Pi 1024×600 hardware overrides; deeply project-specific |
-| `styles/global.styles.ts` | App-level resets, scrollbar rules, Radix cleanup |
-| `styles/fonts.styles.ts` | Font face declarations; project font choices |
+| `styles/project.app.800x480.styles.ts` | Pi 800×480 hardware overrides; deeply project-specific |
+| `styles/project.app.1024x600.styles.ts` | Pi 1024×600 hardware overrides; deeply project-specific |
+| `styles/project.app.styles.ts` | App content layout |
+| `styles/global.styles.ts` | App-level typography, button-box, media queries |
 
-Everything else in `styles/` is deleted.
+`styles/fonts.styles.ts` — **inlined into `global.styles.ts`** and deleted.
+Everything else in `styles/` is deleted (subdirs, forms*.styles.ts, etc.).
 
 ### Checklist
 
-**1. Migrate `EmotionTheme` type (3 files)**
-
-`styles/themes/emotion-theme.types` is only used as the Emotion theme shape.
-Two options — choose one before proceeding:
-
-- **a) Inline it** — move the type definition into each consumer directly
-- **b) Delete it** — remove `EmotionThemeProvider` and the typed theme pattern entirely,
-  replacing with CSS vars (already the direction Panda + DS is heading)
-
-Option (b) is cleaner but requires updating `Layout.tsx`, `Layout.styles.ts`, and
-`EmotionThemeProvider.tsx` to drop the typed theme — do this as part of Emotion removal below.
+~~**1. Migrate `EmotionTheme` type**~~ ✅ Done — option (b): deleted `EmotionThemeProvider`
+entirely; `Layout.tsx` drives dark mode via `document.documentElement.setAttribute('data-theme', ...)`;
+`Layout.styles.ts` uses DS `colors` token CSS vars directly.
 
 ~~**2. Flatten `styles/project/` → root of `styles/`**~~ ✅ Done
 
-~~**3. Flatten `styles/fonts/` → root of `styles/`**~~ ✅ Done
+~~**3. Flatten `styles/fonts/` → root of `styles/`**~~ ✅ Done (then inlined into global.styles.ts + deleted)
 
-~~**4. Flatten `styles/forms/` → root of `styles/`**~~ ✅ Done (kept as separate files; will delete with Radix removal)
+~~**4. Flatten `styles/forms/` → root of `styles/`**~~ ✅ Done — all `forms*.styles.ts` deleted
 
-**5. Remove Radix Themes**
+~~**5. Remove Radix Themes**~~ ✅ Done
 
-- `App.tsx`: remove `Theme as RadixTheme` import + `<RadixTheme>` wrapper
-- `main.tsx`: remove `import '@radix-ui/themes/styles.css'`
-- Remove `styles/radix-ui/` directory entirely (overrides no longer needed)
-- `apps/client/package.json`: remove `"@radix-ui/themes"`, `"radix-themes-tw"`
-- Audit `theme.css` — remove rules that compensated for Radix globals
+- `App.tsx`: `<RadixTheme>` wrapper removed ✅
+- `main.tsx`: `@radix-ui/themes/styles.css` import removed ✅
+- `styles/radix-ui/` directory deleted ✅
+- `package.json`: `@radix-ui/themes`, `radix-themes-tw` removed ✅
+- `global.styles.ts`: all `rt-*` override blocks removed ✅
+- Scrollbar styles moved to DS `global.css` ✅
 
-**6. Remove Emotion**
+**6. Remove Emotion** ← _next big step_
 
-- `App.tsx` / `providers/`: remove `EmotionThemeProvider`
+- ~~`App.tsx` / `providers/`: remove `EmotionThemeProvider`~~ ✅ Done
+- ~~Delete `styles/themes/` directory (OKLCH generation, hex themes)~~ ✅ Done
+- ~~Delete `styles/colors/`, `styles/hooks/`, `styles/layout/`, `styles/constants/`~~ ✅ Done
 - `apps/client/package.json`: remove `@emotion/react`, `@emotion/styled`, `@emotion/css`
-- Delete remaining `.styles.ts` Emotion files OR convert to `css()` from `@pandacss/dev`
-- Delete `styles/themes/` directory (OKLCH generation, hex themes — replaced by CSS vars)
+- Migrate all remaining `.styles.ts` files off Emotion (113 files — see strategy below)
 - Remove `_migration.tokens.ts` compat shim from the DS package
 
-**7. Confirm dark mode**
-
-`panda.config.ts` uses `conditions.dark = '[data-theme="dark"] &'`. Confirm
-`[data-theme="dark"]` is still set on `<html>` by whatever replaces
-`EmotionThemeProvider` (direct `document.documentElement.setAttribute` or Zustand).
+~~**7. Confirm dark mode**~~ ✅ Done — `Layout.tsx` calls `document.documentElement.setAttribute('data-theme', theme)` which drives Panda CSS vars. No ThemeProvider needed.
 
 **8. Verify**
 
@@ -113,36 +106,61 @@ pnpm typecheck    # target: 0 errors
 pnpm build        # must pass clean
 ```
 
-**End state:** `styles/` contains exactly the ~5 files listed above, flat, no subdirectories.
+**End state:** `styles/` contains exactly the 5 files listed above, flat, no subdirectories.
+
+### Emotion Removal Strategy (step 6)
+
+113 files still use `@emotion/react`. Options (not mutually exclusive):
+
+| Approach | Scope | Effort |
+|---|---|---|
+| **a) Keep Emotion, just drop the ThemeProvider** | Already done | ✅ |
+| **b) Migrate `.styles.ts` → plain CSS modules** | Per component, systematic | High |
+| **c) Migrate `.styles.ts` → Panda `css()` utility** | Requires Panda codegen fix first | Medium |
+| **d) Leave Emotion, remove only if needed** | No effort, but dep stays | Low |
+
+> Current recommendation: do Panda codegen fix first (see below), then decide between (b) and (c).
+> Emotion without a ThemeProvider is a much smaller surface — acceptable to leave for now.
 
 ---
 
 ## Phase 6g — CSS Custom Property Audit
 
-**When:** After 6f.
+**When:** After 6f (or can do now — Radix is already gone).
 
-DevTools currently shows hundreds of `--blur`, `--brightness`, `--translate-x` etc.
-custom property declarations stacking per-element. After 6f, Radix Themes and Emotion
-are gone — re-audit to see how much noise remains.
+**Code-side audit complete.** Findings:
 
-1. Open DevTools and count overrides per element
-2. If Panda noise is still high, consider `utilities: { reset: 'container' }` in
-   `panda.config.ts` to scope resets to a container class instead of `*`
-3. Audit `_migration.tokens.ts` — confirm it is deleted (step 6f.6 above)
-4. Check for duplicate token names between Panda tokens and any remaining CSS vars
+- ~~`_migration.tokens.ts` deleted~~ ✅ Already gone
+- Radix Themes removed — main source of per-element noise is gone ✅
+- Panda utility classes are all class-scoped (`.w_20`, etc.) — no noise there ✅
+- **Remaining noise:** Panda's `@layer base` still emits a `*, ::before, ::after, ::backdrop`
+  block initializing ~20 composable utility vars (`--blur`, `--translate-x`, `--rotate`, etc.)
+  — **but none of these Panda composable transform/filter utilities are actually used**
+  (all transforms in the app are hardcoded `transform: scale(...)` in keyframes/recipes)
+
+**Options for the `*` utility reset noise:**
+
+| Option | What it does | Effort |
+|---|---|---|
+| **Accept it** | Leave as-is — it's one declaration block, not per-rule | None |
+| **Disable unused utility groups** | Remove filter/backdrop/transform from Panda config | Low |
+| **`utilities: { reset: 'container' }` *(not valid option)*| Scope to container class | — |
+
+Simplest fix: disable the filter/transform composable utilities in `panda.config.ts` since they aren't used.
+
+**DevTools check still needed:**
+1. Open DevTools on a production build, select any element
+2. Confirm the only `--` vars inherited are Panda tokens (colors, spacing) not Radix noise
+3. If the `--blur` / `--translate-x` init block is still visible as noise, apply the fix above
 
 ---
 
-## Panda Codegen Fix
+## FieldWrapper → FieldBox ✅ Done
 
-**When:** Can be done independently — not blocked by 6f.
+All consumers of `apps/client/src/forms/FieldWrapper/` migrated to `FieldBox` from
+`@workspace/design-system/forms`. `FieldWrapper/` directory deleted.
 
-Currently the design-system package only emits `styles.css` from its Panda codegen.
-The full `styled-system/` output (utilities, patterns, recipes as JS/TS) is missing.
-
-1. Diff `panda.config.ts` and related configs between commit `53751843` and current `master`
-2. Identify what changed that caused `styled-system/` to stop being emitted
-3. Restore full `styled-system/` output so consumers can use Panda utilities directly
+Files updated: `SoundConfigurationSection.tsx`, `OrdersForm.tsx`, `PublicModePage.tsx`.
 
 ---
 
@@ -173,13 +191,11 @@ The DataTable replacement requires **building the component first**, then swappi
 
 ## Recommended Order of Work
 
-```
 1. ~~Phase 6e — clear ~14 remaining imports~~          ✅ Done
 2. ~~AdminNavigation TabNav migration~~                ✅ Done
-3. Phase 6f — prune styles/ + remove Radix/Emotion     ~2–3 hours
-4. Phase 6g — DevTools audit                           ~30 min
-```
-
-Total remaining effort: **~3 hours** across sessions.
+3. ~~Phase 6f (partial) — prune styles/, remove Radix Themes, EmotionThemeProvider~~ ✅ Done
+4. ~~Phase 6f (remaining) — remove @emotion packages + .styles.ts files~~
+5. Phase 6g — DevTools audit (can do now — Radix is already gone)
+6. PrimeReact replacement (incremental, separate concern)
 
 ---
