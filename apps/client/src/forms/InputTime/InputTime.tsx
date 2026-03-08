@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
-
 import { InputField } from '@workspace/design-system/forms';
+import { colors } from '@workspace/design-system/tokens';
+import { ChevronDownIcon, ChevronUpIcon, ExclamationTriangleIcon } from '@workspace/icons';
+
 import { useOptionalFormMiddleware } from 'forms/FormMiddleware';
+import { Button } from 'components/Button';
 
 import { formatTimeDuration, parseTimeDurationToSeconds } from 'utils/time.utils';
 import { STEP_BUTTON_VARIANT } from '../FormMiddleware/FormMiddleware.constants';
-import { Button } from 'components/Button';
-import { useColors } from 'styles';
-import { ChevronDownIcon, ChevronUpIcon, ExclamationTriangleIcon } from '@workspace/icons';
 import { styles } from './InputTime.styles';
 
 interface InputTimeProps {
@@ -34,8 +34,6 @@ export const InputTime: React.FC<InputTimeProps> = ({
   disabled = false,
   onTimeChange,
 }) => {
-  const { colors } = useColors();
-
   const middleware = useOptionalFormMiddleware();
   const isMiddlewareMode = Boolean(middleware && name);
 

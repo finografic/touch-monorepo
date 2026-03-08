@@ -3,7 +3,6 @@ import { Suspense, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Outlet, useLocation } from 'react-router-dom';
 
-import { useTheme } from '@emotion/react';
 import { Footer } from 'components/Footer';
 import { FrontEndNavigation } from 'components/FrontEndNavigation/FrontEndNavigation';
 import { Header } from 'components/Header/Header';
@@ -22,7 +21,6 @@ import { getPathnameClassName } from 'routes/utils/routes.utils';
 
 import { DevProvider } from 'dev-tools/providers/DevProvider/DevProvider';
 import { Loader } from '../components/Loader/Loader';
-import type { EmotionTheme } from '../styles/themes/emotion-theme.types';
 import { styles } from './Layout.styles';
 
 export const Layout: FC = () => {
@@ -32,7 +30,6 @@ export const Layout: FC = () => {
   const dataPathname = useMemo(() => getPathnameClassName(location), [location.pathname]);
 
   const { theme } = useAppConfig();
-  const emotionTheme = useTheme() as EmotionTheme;
 
   useEffect(function initializeLayoutTheme() {
     document.documentElement.setAttribute('data-theme', theme);
@@ -55,7 +52,7 @@ export const Layout: FC = () => {
                     id="layout"
                     data-pathname={dataPathname}
                     data-touch={isTouch}
-                    css={styles(emotionTheme)}
+                    css={styles}
                   >
                     <Header titleAlign="center" toolbarAlign="right" toolbar={<UserToolbar />} />
                     <main>

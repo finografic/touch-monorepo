@@ -2,12 +2,11 @@ import { colors, layout } from '@workspace/design-system/tokens';
 
 import { css } from '@emotion/react';
 
-import type { EmotionTheme } from '../styles/themes/emotion-theme.types';
 import { stylesAppContent800x480 } from '../styles/project.app.800x480.styles';
 import { stylesAppContent1024x600 } from '../styles/project.app.1024x600.styles';
 import { stylesAppContent } from '../styles/project.app.styles';
 
-export const styles = (theme: EmotionTheme) => css`
+export const styles = css`
   ${stylesAppContent}
 
   /* transform: translate(-2%, -10%) scale(0.8); */
@@ -16,8 +15,8 @@ export const styles = (theme: EmotionTheme) => css`
   flex-direction: column;
   width: 100vw;
   height: 100vh;
-  background-color: ${theme.colors.background};
-  color: ${theme.colors.text};
+  background-color: ${colors.background};
+  color: ${colors.text};
   overflow: hidden;
 
   > header {

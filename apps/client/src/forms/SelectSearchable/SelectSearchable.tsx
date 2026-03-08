@@ -1,13 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-
 import { InputField } from '@workspace/design-system/forms';
-import { AddNewButton } from 'forms/SelectSearchable/AddNewButton';
-import { matchSorter } from 'match-sorter';
-
-import { slugify } from 'utils/string.utils';
-import type { SelectOption } from 'types/models/select-option.model';
-import { DropdownPortal } from './DropdownPortal';
-import { useColors } from 'styles';
+import { colors } from '@workspace/design-system/tokens';
 import {
   CheckCircleIcon,
   ChevronDownIcon,
@@ -15,6 +8,13 @@ import {
   MagnifyingGlassIcon,
   PlusIcon,
 } from '@workspace/icons';
+
+import { AddNewButton } from 'forms/SelectSearchable/AddNewButton';
+import { matchSorter } from 'match-sorter';
+
+import { slugify } from 'utils/string.utils';
+import type { SelectOption } from 'types/models/select-option.model';
+import { DropdownPortal } from './DropdownPortal';
 import { styles, stylesDropdown } from './SelectSearchable.styles';
 
 interface SearchableSelectProps {
@@ -40,7 +40,6 @@ export const SelectSearchable: React.FC<SearchableSelectProps> = ({
   allowAddNew = true,
   value = '',
 }) => {
-  const { colors } = useColors();
   const canAddNew = allowAddNew && typeof onAddNew === 'function';
   const [displayValue, setDisplayValue] = useState(value);
   const [searchValue, setSearchValue] = useState('');
@@ -369,7 +368,7 @@ export const SelectSearchable: React.FC<SearchableSelectProps> = ({
                 className="option"
                 style={{ textAlign: 'center', fontStyle: 'italic', pointerEvents: 'none' }}
               >
-                <span className="option-label" style={{ color: colors.textXXLight75 }}>
+                <span className="option-label" style={{ color: colors.textXXLight }}>
                   {/* {options.length} */}
                   {searchValue ? `No options found for "${searchValue}"` : 'No options available'}
                 </span>

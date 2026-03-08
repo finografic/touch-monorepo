@@ -9,7 +9,6 @@ import { ToastProvider } from 'components/Toast/ToastContext';
 
 import { AppConfigProvider } from 'providers/AppConfigProvider';
 import { AuthProviderWithInitialization } from 'providers/AuthProvider';
-import { EmotionThemeProvider } from 'providers/EmotionProvider';
 import { SessionProvider } from 'providers/SessionProvider/SessionProvider';
 import { TimersProvider } from 'providers/TimersProvider';
 import { ErrorBoundary } from 'routes/components/ErrorBoundary';
@@ -22,7 +21,6 @@ import { cssGlobal } from './styles/global.styles';
 const AppBaseLayout = () => (
   <ErrorBoundary>
     <Global styles={cssGlobal} />
-    <EmotionThemeProvider>
       <AppConfigProvider>
         <ToastProvider>
           <AuthProviderWithInitialization>
@@ -38,7 +36,6 @@ const AppBaseLayout = () => (
           </AuthProviderWithInitialization>
         </ToastProvider>
       </AppConfigProvider>
-    </EmotionThemeProvider>
   </ErrorBoundary>
 );
 

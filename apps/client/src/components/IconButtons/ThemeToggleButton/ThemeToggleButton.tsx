@@ -1,11 +1,11 @@
 import type { FC } from 'react';
+import { MoonIcon, SunIcon } from '@workspace/icons';
 
 import clsx from 'clsx';
 import { Button } from 'components/Button/Button';
 
 import { useAppConfig } from 'providers/AppConfigProvider';
 
-import { MoonIcon, SunIcon } from '@workspace/icons';
 import { styles } from './ThemeToggleButton.styles';
 
 export const ThemeToggleButton: FC = () => {

@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Col, Row } from '@workspace/design-system/grid';
+import { RadioIcon } from '@workspace/icons';
 
-import { Box, Flex } from 'styled-system/jsx';
 import { DEFROST_SLOT_NUMBER, POWER_SLOT_NUMBER } from 'admin/config/admin.slots.config';
 import { getRelaySlotType } from 'admin/utils/relays.utils';
 import clsx from 'clsx';
 import { SelectCustom } from 'forms/SelectCustom';
+import { Box, Flex } from 'styled-system/jsx';
 import { Button } from 'components/Button';
 
 import { useAppConfig } from 'providers/AppConfigProvider';
@@ -19,8 +20,6 @@ import type { RelayConfig } from 'types/relays.types';
 import type { SlotType } from 'types/slots.types';
 import { NUM_RELAYS } from 'config/app/slots.config';
 import { AdminSlotTimer } from './components/AdminSlotTimer';
-import { useColors } from 'styles';
-import { RadioIcon } from '@workspace/icons';
 import { styles } from './RelaysTable.styles';
 
 interface RelaysTableProps {
@@ -190,8 +189,6 @@ export const RelaysTable: React.FC<RelaysTableProps> = ({
     },
     [relayConfigurations, updateAllConfigurations],
   );
-
-  const { colors } = useColors();
 
   const handleSlotClick = useCallback(
     (slotNumber: number) => {
