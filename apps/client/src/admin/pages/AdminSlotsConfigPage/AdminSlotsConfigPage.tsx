@@ -16,7 +16,13 @@ import { useBulkUpdateSlotConfigurations, useGetSlotConfigurations } from 'queri
 import { calculateColumns } from 'utils/slots.utils';
 import type { SlotSpecialParam } from 'types/app-configuration.types';
 import type { SlotType } from 'types/slots.types';
-import { getEffectiveRows, MAX_COLUMNS, MIN_COLUMNS, NUM_RELAYS } from 'config/app/slots.config';
+import {
+  ALT_SLOT_NUMBER,
+  getEffectiveRows,
+  MAX_COLUMNS,
+  MIN_COLUMNS,
+  NUM_RELAYS,
+} from 'config/app/slots.config';
 import { AdminPageLayout } from '../..';
 import { AdminSection } from '../../components/AdminSection/AdminSection';
 import { SlotGrid } from './SlotGrid/SlotGrid';
@@ -230,8 +236,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
   const showSpecialSlotInPreview = numActiveColumns >= 3 && gridSpecialConfig?.data?.isActive === true;
 
   const showSpecialAltSlotInPreview = numActiveColumns >= 3 && altSpecialConfig?.data?.isActive === true;
-  // const altSlotNumber = altSpecialConfig?.data?.data.slot_number ?? 16;
-  const altSlotNumber = altSpecialConfig?.data?.data.slot_number ?? 16;
+  const altSlotNumber = altSpecialConfig?.data?.data.slot_number ?? ALT_SLOT_NUMBER;
 
   const showPowerSlotInPreview = powerSpecialConfig?.data?.isActive === true;
 
@@ -280,7 +285,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
               </Flex>
               <Flex direction="column" justify="space-between" gap={4}>
                 <div className="layout-mode-container">
-                  <Flex direction="column" gap={2} pt={2}>
+                  <Flex direction="column" align="start" gap={3} pt={3}>
                     <span>Special slot buttons</span>
                     {(
                       [
@@ -310,7 +315,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
                       const isActive = fullConfig?.isActive ?? false;
                       const isLoading = fullConfig === undefined;
                       return (
-                        <Flex key={param} align="center" gap={2} mt={1}>
+                        <Flex key={param} align="center" gap={2} mt={2}>
                           <Switch.Root
                             checked={isActive}
                             onCheckedChange={async ({ checked }) => {

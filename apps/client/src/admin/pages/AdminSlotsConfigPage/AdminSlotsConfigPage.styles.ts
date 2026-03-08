@@ -1,6 +1,6 @@
-import { css } from '@emotion/react';
-
 import { colors, layout } from '@workspace/design-system/tokens';
+
+import { css } from '@emotion/react';
 
 export const styles = css`
   .admin-slot-config {
@@ -83,6 +83,15 @@ export const styles = css`
       margin-left: 0.9rem;
       & + label {
         margin-left: 0.55rem;
+        font-weight: 400;
+        color: ${colors.textXLight};
+      }
+    }
+
+    label[data-scope='switch'] {
+      margin-left: 0.9rem;
+      & + label {
+        margin-left: 0.25rem;
         font-weight: 400;
         color: ${colors.textXLight};
       }
