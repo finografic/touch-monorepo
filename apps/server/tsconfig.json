@@ -55,6 +55,6 @@
     { "path": "../../packages/i18n" },
     { "path": "../../config" }
   ],
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.json"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.json", "env.server.ts"],
   "exclude": ["node_modules", "dist", "**/__tests__/**", "**/*.test.ts", "**/*.spec.ts"]
 }

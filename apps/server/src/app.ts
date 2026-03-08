@@ -1,5 +1,6 @@
 import { envShared } from '@workspace/config/env.shared';
 
+import { initAuthConfig } from '@hono/auth-js';
 import pc from 'picocolors';
 import { cors } from 'hono/cors';
 
@@ -19,6 +20,7 @@ import supportedLanguage from 'routes/supported-language';
 import translations from 'routes/translations';
 import users from 'routes/users';
 import configureOpenAPI from 'lib/configure-open-api';
+import { getAuthConfig } from 'lib/auth';
 import createApp from 'lib/create-app';
 import { CLI } from 'utils/cli.utils';
 import { getMimeType } from 'utils/mime.utils';
@@ -32,13 +34,13 @@ const app = createApp();
 app.use(
   '/*',
   cors({
-    // Accept any origin so the app works from any IP on the local network.
-    // The client port may differ from the API port, making requests cross-origin.
     origin: (origin) => origin,
     allowMethods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     credentials: true,
   }),
 );
+
+app.use('*', initAuthConfig(getAuthConfig));
 
 app.use('*', async (context, next) => {
   const method = context.req.method as RequestMethod;

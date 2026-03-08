@@ -1,3 +1,8 @@
-import type { TranslationUiModel } from '@workspace/server/models';
-
-export type TranslationsModel = TranslationUiModel;
+export interface TranslationsModel {
+  id: string;
+  key: string;
+  translations: Record<string, string>;
+  isActive: boolean;
+  createdAt: Date | null;
+  updatedAt: Date | null;
+}

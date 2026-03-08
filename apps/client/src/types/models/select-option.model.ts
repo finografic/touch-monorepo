@@ -1,4 +1,6 @@
-import type { ContainerTypeModel, DrinkTypeModel, VolumeModel } from '@workspace/server/models';
+import type { ContainerType } from './container.model';
+import type { DrinkType } from './drink-type.model';
+import type { DrinkVolume } from './volume.model';
 
 export interface SelectOption {
   value: string;
@@ -21,7 +23,7 @@ export class SelectOptionDto {
     return entity.name || '';
   }
 
-  static fromDrinkTypes(drinkTypes: DrinkTypeModel[], language: string = 'es-ES'): SelectOption[] {
+  static fromDrinkTypes(drinkTypes: DrinkType[], language: string = 'es-ES'): SelectOption[] {
     return drinkTypes
       .map((dt) => ({
         value: dt.name || '',
@@ -32,7 +34,7 @@ export class SelectOptionDto {
       .filter((option) => option.value);
   }
 
-  static fromVolumes(volumes: VolumeModel[], language: string = 'es-ES'): SelectOption[] {
+  static fromVolumes(volumes: DrinkVolume[], language: string = 'es-ES'): SelectOption[] {
     return volumes
       .map((vol) => ({
         value: vol.name || '',
@@ -44,7 +46,7 @@ export class SelectOptionDto {
   }
 
   static fromContainerTypes(
-    containerTypes: ContainerTypeModel[],
+    containerTypes: ContainerType[],
     language: string = 'es-ES',
   ): SelectOption[] {
     return containerTypes

@@ -29,13 +29,11 @@ const IGNORE_PACKAGES: string[] = [
   'better-sqlite3', // Native SQLite bindings (requires node-gyp)
   '@types/better-sqlite3',
 
-  // TODO: SEVER - ADDED MANUALLY- CHECK THESE !!
+  // TODO: SERVER - CHECK THESE !!
   '@hono/zod-openapi',
   '@hono/zod-validator',
   '@scalar/hono-api-reference',
-  'better-auth',
   'drizzle-zod',
-  'stoker',
 
   // TODO: REACT - LOCK
   'react',

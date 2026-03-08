@@ -1,73 +1,93 @@
-import { betterAuth } from 'better-auth';
-import type { BetterAuthOptions, BetterAuthPlugin } from 'better-auth';
-import { drizzleAdapter } from 'better-auth/adapters/drizzle';
-import { admin } from 'better-auth/plugins';
+import type { AuthConfig } from '@hono/auth-js';
+import Credentials from '@auth/core/providers/credentials';
+import { eq } from 'drizzle-orm';
 import { env } from 'env.server';
 
 import { db } from 'db';
-import { account, session, user, verification } from '../db/schemas';
+import { user } from '../db/schemas';
+import { verifyPassword } from 'utils/password.utils';
 
-const plugins = [
-  admin({
-    defaultRole: 'user',
-    adminRoles: ['admin'],
-  }) as BetterAuthPlugin,
-];
+export function getAuthConfig(): AuthConfig {
+  return {
+    secret: env.AUTH_SECRET,
+    providers: [
+      Credentials({
+        name: 'credentials',
+        credentials: {
+          email: { label: 'Email', type: 'email' },
+          password: { label: 'Password', type: 'password' },
+        },
+        authorize: async (credentials) => {
+          const email = credentials?.email as string | undefined;
+          const password = credentials?.password as string | undefined;
+          if (!email || !password) return null;
 
-const betterAuthConfig = {
-  database: drizzleAdapter(db, {
-    provider: 'sqlite',
-    schema: { user, account, session, verification },
-  }),
+          const [foundUser] = await db
+            .select()
+            .from(user)
+            .where(eq(user.email, email))
+            .limit(1);
 
-  basePath: '/api/auth',
+          if (!foundUser?.hashedPassword) return null;
 
-  // Trust any origin so the app works from any IP on the local network.
-  trustedOrigins: ['*'],
+          const valid = await verifyPassword(password, foundUser.hashedPassword);
+          if (!valid) return null;
 
-  emailAndPassword: {
-    enabled: true,
-    minPasswordLength: 4,
-    maxPasswordLength: 32,
-    sendResetPassword: async ({ user, url, token }) => {
-      console.log('Reset password requested for:', user.email);
-      console.log('Reset URL:', url, token);
+          return {
+            id: foundUser.id,
+            name: foundUser.name,
+            email: foundUser.email,
+            image: foundUser.image,
+            role: foundUser.role,
+          };
+        },
+      }),
+    ],
+    session: {
+      strategy: 'jwt',
+      maxAge: 30 * 24 * 60 * 60, // 30 days
     },
-  },
-
-  session: {
-    expiresIn: 30 * 24 * 60 * 60,
-    updateAge: 24 * 60 * 60,
-    cookieCache: {
-      enabled: true,
-      maxAge: 5 * 60,
+    pages: {
+      signIn: '/login',
     },
-  },
-
-  advanced: {
-    cookiePrefix: env.COOKIES.COOKIE_PREFIX,
-
-    useSecureCookies: false, // REQUIRED for HTTP on LAN
-
-    database: {
-      generateId: () => crypto.randomUUID(),
+    callbacks: {
+      jwt({ token, user: authUser }) {
+        if (authUser) {
+          token.id = authUser.id;
+          token.role = (authUser as any).role;
+        }
+        return token;
+      },
+      session({ session, token }) {
+        if (token) {
+          session.user.id = token.id as string;
+          (session.user as any).role = token.role;
+        }
+        return session;
+      },
     },
-
     cookies: {
       sessionToken: {
         name: env.COOKIES.TOKEN_COOKIE,
-        attributes: {
+        options: {
           httpOnly: true,
-          sameSite: 'lax',
-          secure: false, // MUST be false without HTTPS
+          sameSite: 'lax' as const,
           path: '/',
+          secure: false, // Required for HTTP on LAN
         },
       },
     },
-  },
+    trustHost: true,
+  };
+}
 
-  plugins,
-} satisfies BetterAuthOptions;
-
-export const auth = betterAuth(betterAuthConfig);
-export type Session = typeof auth.$Infer.Session;
+export type Session = {
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    image?: string | null;
+    role: 'public' | 'user' | 'admin';
+  };
+  expires: string;
+};

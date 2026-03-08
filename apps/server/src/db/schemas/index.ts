@@ -1,5 +1,4 @@
-// NOTE: AUTH SCHEMAS
-// https://www.better-auth.com/docs/concepts/database#core-schema
+// NOTE: AUTH SCHEMAS (Auth.js + Drizzle)
 export * from './auth_account.schema';
 export * from './auth_session.schema';
 export * from './auth_user.schema';

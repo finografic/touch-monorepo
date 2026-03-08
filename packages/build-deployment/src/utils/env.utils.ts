@@ -44,8 +44,8 @@ export async function consolidateEnvironmentFiles({ config }: { config: BuildCon
       console.log('⚠️  Source .env.production not found, using defaults');
     }
 
-    const BETTER_AUTH_SECRET =
-      sourceEnv.BETTER_AUTH_SECRET || 'your-super-secret-auth-key-minimum-32-characters-long';
+    const AUTH_SECRET =
+      sourceEnv.AUTH_SECRET || sourceEnv.BETTER_AUTH_SECRET || 'your-super-secret-auth-key-minimum-32-characters-long';
     const AUTH_COOKIE_PREFIX = sourceEnv.AUTH_COOKIE_PREFIX || 'touch-monorepo';
     const TOKEN_COOKIE_SUFFIX = sourceEnv.TOKEN_COOKIE_SUFFIX || 'session_token';
     const DATA_COOKIE_SUFFIX = sourceEnv.DATA_COOKIE_SUFFIX || 'session_data';
@@ -80,8 +80,8 @@ export async function consolidateEnvironmentFiles({ config }: { config: BuildCon
       'DATABASE_URL=./dist/data/db/production.sqlite.db',
       '',
       '# Authentication',
-      `BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET}`,
-      `BETTER_AUTH_URL=http://${HOST}:4040`,
+      `AUTH_SECRET=${AUTH_SECRET}`,
+      `AUTH_URL=http://${HOST}:4040`,
       `AUTH_COOKIE_PREFIX=${AUTH_COOKIE_PREFIX}`,
       `TOKEN_COOKIE_SUFFIX=${TOKEN_COOKIE_SUFFIX}`,
       `DATA_COOKIE_SUFFIX=${DATA_COOKIE_SUFFIX}`,

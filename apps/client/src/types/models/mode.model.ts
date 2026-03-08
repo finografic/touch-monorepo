@@ -1,3 +1,6 @@
-import type { ModeModel as ServerModeModel } from '@workspace/server/models';
-
-export type ModeModel = ServerModeModel;
+export interface ModeModel {
+  id: string;
+  name: string;
+  isDefault: boolean;
+  isActive: boolean;
+}

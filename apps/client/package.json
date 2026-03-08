@@ -64,7 +64,6 @@
     "@workspace/icons": "workspace:*",
     "@workspace/server": "workspace:*",
     "@workspace/shared": "workspace:*",
-    "better-auth": "1.3.6",
     "clsx": "2.1.1",
     "google-translate-api-x": "10.7.2",
     "hashids": "^2.3.0",

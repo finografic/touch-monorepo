@@ -1,9 +1,9 @@
 /**
- * Force-delete Better Auth cookies from the client side (LAST RESORT ONLY)
+ * Force-delete auth cookies from the client side (LAST RESORT ONLY)
  *
- * ⚠️ IMPORTANT LIMITATIONS:
+ * IMPORTANT LIMITATIONS:
  * - HttpOnly cookies CANNOT be deleted from JavaScript (browser security)
- * - Better Auth cookies are HttpOnly, so this will likely NOT work for them
+ * - Auth session cookies are HttpOnly, so this will likely NOT work for them
  * - This only works for non-HttpOnly cookies or client-side storage
  *
  * This utility is provided as a last resort fallback to attempt deletion of:

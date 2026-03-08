@@ -38,8 +38,7 @@ const IGNORE_PACKAGES_SERVER: string[] = [
   'better-sqlite3',
   '@types/better-sqlite3',
 
-  // TODO: PROBLEMATIC PACKAGES - ⚠️ CAUTION REQUIRED
-  'better-auth',
+  // TODO: PROBLEMATIC PACKAGES - CAUTION REQUIRED
   'better-sqlite3',
   '@types/better-sqlite3',
   '@hono/zod-openapi',
@@ -47,8 +46,6 @@ const IGNORE_PACKAGES_SERVER: string[] = [
   'drizzle-kit',
   'drizzle-orm',
   'drizzle-zod',
-  'stoker',
-  'zod',
 
   // TODO: LEAVE MY PACKAGES - ⚠️ THEY IN DEVELOPMENT
   // "@finografic/eslint-config": "9.0.8", (latest: v9.18.4)
@@ -94,11 +91,8 @@ const IGNORE_PACKAGES_CLIENT: string[] = [
   '@types/better-sqlite3',
 
   // TODO: PROBLEMATIC PACKAGES - CAUTION REQUIRED
-  'better-auth',
   'better-sqlite3',
   '@types/better-sqlite3',
-  'stoker',
-  'zod',
 
   // TODO: LOCK MY PACKAGES - THEY ARE IN DEVELOPMENT
   '@finografic/project-scripts',

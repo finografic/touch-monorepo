@@ -3,21 +3,23 @@ import { createInsertSchema, createSelectSchema } from 'drizzle-valibot';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
 export const user = sqliteTable('auth_user', {
-  id: text('id').primaryKey(),
+  id: text('id').primaryKey().$defaultFn(() => crypto.randomUUID()),
   name: text('name').notNull(),
   email: text('email').notNull().unique(),
-  emailVerified: integer('emailVerified', { mode: 'boolean' }).notNull(),
+  emailVerified: integer('emailVerified', { mode: 'boolean' }).notNull().default(false),
   image: text('image'),
+  hashedPassword: text('hashedPassword'),
   role: text('role', { enum: ['public', 'user', 'admin'] })
     .notNull()
     .default('user'),
-  createdAt: integer('createdAt', { mode: 'timestamp' }).notNull(),
-  updatedAt: integer('updatedAt', { mode: 'timestamp' }).notNull(),
+  createdAt: integer('createdAt', { mode: 'timestamp' }).notNull().$defaultFn(() => new Date()),
+  updatedAt: integer('updatedAt', { mode: 'timestamp' }).notNull().$defaultFn(() => new Date()),
 });
 
 const insertUserSchema = v.omit(createInsertSchema(user), [
   'id',
   'emailVerified',
+  'hashedPassword',
   'createdAt',
   'updatedAt',
 ]);

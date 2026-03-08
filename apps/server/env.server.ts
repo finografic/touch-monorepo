@@ -13,8 +13,8 @@ const ServerEnvSchema = v.pipe(
     DB_DIALECT: v.picklist(['sqlite', 'mysql', 'postgres']),
     DB_PORT: v.number(),
 
-    BETTER_AUTH_SECRET: v.pipe(v.string(), v.minLength(32)),
-    BETTER_AUTH_URL: v.pipe(v.string(), v.url()),
+    AUTH_SECRET: v.pipe(v.string(), v.minLength(32)),
+    AUTH_URL: v.optional(v.pipe(v.string(), v.url())),
 
     AUTH_COOKIE_PREFIX: v.optional(v.string(), 'touch-monorepo'),
     TOKEN_COOKIE_SUFFIX: v.optional(v.string(), 'session_token'),
@@ -40,8 +40,8 @@ const envServerValidated = v.parse(ServerEnvSchema, {
   DB_DIALECT: process.env.DB_DIALECT,
   DB_PORT: Number(process.env.DB_PORT ?? 0),
 
-  BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET,
-  BETTER_AUTH_URL: process.env.BETTER_AUTH_URL,
+  AUTH_SECRET: process.env.AUTH_SECRET ?? process.env.BETTER_AUTH_SECRET,
+  AUTH_URL: process.env.AUTH_URL ?? process.env.BETTER_AUTH_URL,
 
   AUTH_COOKIE_PREFIX: process.env.AUTH_COOKIE_PREFIX,
   TOKEN_COOKIE_SUFFIX: process.env.TOKEN_COOKIE_SUFFIX,

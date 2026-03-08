@@ -1,157 +1,99 @@
+import { authHandler } from '@hono/auth-js';
+import { eq } from 'drizzle-orm';
+import { StatusCodes as HttpStatusCodes } from 'http-status-codes';
 import { env } from 'env.server';
 
-import { auth } from 'lib/auth';
+import { db } from 'db';
+import { user } from '../../db/schemas';
 import { createRouter } from 'lib/create-app';
+import { hashPassword } from 'utils/password.utils';
 
 const { COOKIES, COOKIE_DELETE_ATTRIBUTES } = env;
 
 const router = createRouter();
 
 // ======================================================
-// Explicit Auth Routes (Required for Hono routing)
+// Custom: Sign Up (Auth.js doesn't handle registration)
 // ======================================================
 
-/**
- * Get current session
- * Uses BetterAuth API instead of handler for better control
- */
-router.get('/auth/session', async (context) => {
+router.post('/auth/sign-up', async (c) => {
   try {
-    const session = await auth.api.getSession({
-      headers: context.req.raw.headers,
-    });
+    const { email, password, name } = await c.req.json<{
+      email: string;
+      password: string;
+      name: string;
+    }>();
 
-    if (process.env.NODE_ENV === 'development') {
-      console.log('🔐 Session check:', {
-        hasUser: !!session?.user,
-        userId: (session?.user as any)?.id,
-        sessionId: (session?.session as any)?.id,
-      });
+    if (!email || !password || !name) {
+      return c.json({ error: 'Email, password, and name are required' }, HttpStatusCodes.BAD_REQUEST);
     }
 
-    return context.json({
-      user: session?.user || null,
-      session: session?.session || null,
-    });
+    if (password.length < 4 || password.length > 32) {
+      return c.json({ error: 'Password must be 4–32 characters' }, HttpStatusCodes.BAD_REQUEST);
+    }
+
+    const [existing] = await db
+      .select({ id: user.id })
+      .from(user)
+      .where(eq(user.email, email))
+      .limit(1);
+
+    if (existing) {
+      return c.json({ error: 'Email already registered' }, HttpStatusCodes.CONFLICT);
+    }
+
+    const hashedPassword = await hashPassword(password);
+    const now = new Date();
+
+    const [created] = await db
+      .insert(user)
+      .values({
+        name,
+        email,
+        hashedPassword,
+        emailVerified: false,
+        role: 'user',
+        createdAt: now,
+        updatedAt: now,
+      })
+      .returning();
+
+    return c.json({
+      user: {
+        id: created.id,
+        name: created.name,
+        email: created.email,
+        role: created.role,
+      },
+    }, HttpStatusCodes.CREATED);
   } catch (error) {
-    console.error('❌ Session error:', error);
-    return context.json({ user: null, session: null });
+    console.error('Sign-up error:', error);
+    return c.json({ error: 'Registration failed' }, HttpStatusCodes.INTERNAL_SERVER_ERROR);
   }
 });
 
-/**
- * NOTE: The Two Cookies
- *
- * touch-monorepo.session_token
- * - The actual authentication JWT token
- * - Long-lived (30 days in your config)
- * - Used for authentication
- * - HttpOnly, Secure (in production)
- *
- * touch-monorepo.session_data
- * - Cached session data (user info, roles, etc.)
- * - Short-lived (5 minutes in your config)
- * - Reduces database lookups for better performance
- * - Automatically refreshed when expired
- */
+// ======================================================
+// Custom: Nuclear cookie clear (debugging/dev tool)
+// ======================================================
 
-/**
- * Sign out current user
- * Uses BetterAuth API for session invalidation + explicit cookie deletion
- */
-router.post('/auth/sign-out', async (context) => {
-  try {
-    const result = await auth.api.signOut({
-      headers: context.req.raw.headers,
-    });
+router.post('/auth/clear-all-cookies', async (c) => {
+  const response = c.json({ success: true, message: 'All cookies cleared' });
 
-    if (process.env.NODE_ENV === 'development') {
-      console.log('🔐 Sign out successful:', result);
-    }
-
-    // Create response with explicit cookie deletion
-    const response = context.json(result);
-
-    // Delete ALL Better Auth cookie variations (including __Secure- and __Host- prefixes)
-    const cookieNamesToDelete = [
-      COOKIES.TOKEN_COOKIE,
-      COOKIES.DATA_COOKIE,
-      `__Secure-${COOKIES.TOKEN_COOKIE}`,
-      `__Secure-${COOKIES.DATA_COOKIE}`,
-      `__Host-${COOKIES.TOKEN_COOKIE}`,
-      `__Host-${COOKIES.DATA_COOKIE}`,
-    ];
-
-    // Delete each cookie variation
-    cookieNamesToDelete.forEach((cookieName) => {
-      response.headers.append('Set-Cookie', `${cookieName}=; ${COOKIE_DELETE_ATTRIBUTES}`);
-    });
-
-    if (process.env.NODE_ENV === 'development') {
-      console.log('🍪 Deleted cookies:', cookieNamesToDelete);
-    }
-
-    return response;
-  } catch (error) {
-    console.error('❌ Sign out error:', {
-      message: error instanceof Error ? error.message : 'Unknown error',
-      error,
-    });
-
-    // Even on error, try to clear all cookie variations
-    const response = context.json({ error: 'Sign out failed' }, 500);
-
-    const cookieNamesToDelete = [
-      COOKIES.TOKEN_COOKIE,
-      COOKIES.DATA_COOKIE,
-      `__Secure-${COOKIES.TOKEN_COOKIE}`,
-      `__Secure-${COOKIES.DATA_COOKIE}`,
-      `__Host-${COOKIES.TOKEN_COOKIE}`,
-      `__Host-${COOKIES.DATA_COOKIE}`,
-    ];
-
-    cookieNamesToDelete.forEach((cookieName) => {
-      response.headers.append('Set-Cookie', `${cookieName}=; ${COOKIE_DELETE_ATTRIBUTES}`);
-    });
-
-    return response;
-  }
-});
-
-/**
- * Nuclear option: Delete ALL cookies
- * Use this endpoint when sign-out fails or cookies persist
- * This is a safety net for development/debugging
- */
-router.post('/auth/clear-all-cookies', async (context) => {
-  console.log('🧨 [NUCLEAR] Clearing all authentication cookies...');
-
-  const response = context.json({ success: true, message: 'All cookies cleared' });
-
-  // Every possible cookie name variation
   const allPossibleCookieNames = [
-    // Standard names
     COOKIES.TOKEN_COOKIE,
     COOKIES.DATA_COOKIE,
-    // With __Secure- prefix
     `__Secure-${COOKIES.TOKEN_COOKIE}`,
     `__Secure-${COOKIES.DATA_COOKIE}`,
-    // With __Host- prefix
     `__Host-${COOKIES.TOKEN_COOKIE}`,
     `__Host-${COOKIES.DATA_COOKIE}`,
-    // Legacy/alternative names
     `${COOKIES.COOKIE_PREFIX}.auth_token`,
     `${COOKIES.COOKIE_PREFIX}.session`,
-    `__Secure-${COOKIES.COOKIE_PREFIX}.auth_token`,
-    `__Secure-${COOKIES.COOKIE_PREFIX}.session`,
   ];
 
-  // Delete with all possible attribute combinations
   const deletionAttributes = [
     COOKIE_DELETE_ATTRIBUTES,
     'Max-Age=0; Path=/; HttpOnly; SameSite=Lax',
     'Max-Age=0; Path=/; HttpOnly; SameSite=None; Secure',
-    'Max-Age=0; Path=/; HttpOnly; SameSite=Strict; Secure',
   ];
 
   allPossibleCookieNames.forEach((cookieName) => {
@@ -160,50 +102,20 @@ router.post('/auth/clear-all-cookies', async (context) => {
     });
   });
 
-  console.log(
-    `🧨 [NUCLEAR] Attempted to delete ${allPossibleCookieNames.length * deletionAttributes.length} cookie variations`,
-  );
-
   return response;
 });
 
-// ============================================
-// BetterAuth Handler for other routes
-// ============================================
+// ======================================================
+// Auth.js handler — catches all standard auth routes:
+//   GET  /auth/session
+//   GET  /auth/csrf
+//   GET  /auth/providers
+//   GET  /auth/signin
+//   POST /auth/signin/:provider
+//   POST /auth/callback/:provider
+//   POST /auth/signout
+// ======================================================
 
-/**
- * Catch-all for remaining BetterAuth endpoints:
- * - POST /auth/sign-in/email (mounted at /api/auth/sign-in/email)
- * - POST /auth/sign-up/email (mounted at /api/auth/sign-up/email)
- * - POST /auth/reset-password (mounted at /api/auth/reset-password)
- * - POST /auth/verify-email (mounted at /api/auth/verify-email)
- * - etc.
- */
-router.all('/auth/*', async (context) => {
-  if (process.env.NODE_ENV === 'development') {
-    console.log('🔐 BetterAuth handler:', context.req.method, context.req.path);
-  }
-
-  try {
-    const response = await auth.handler(context.req.raw);
-
-    if (process.env.NODE_ENV === 'development') {
-      console.log('✅ BetterAuth response:', {
-        status: response.status,
-        statusText: response.statusText,
-      });
-    }
-
-    return response;
-  } catch (error) {
-    console.error('❌ BetterAuth handler error:', {
-      path: context.req.path,
-      method: context.req.method,
-      message: error instanceof Error ? error.message : 'Unknown error',
-      error,
-    });
-    return context.json({ error: 'Authentication error' }, 500);
-  }
-});
+router.use('/auth/*', authHandler());
 
 export default router;

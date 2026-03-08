@@ -6,7 +6,7 @@ export const createTranslationSchema = (
   t: (key: string) => string,
   supportedLanguages: Array<{ isoCode: string }>,
 ) => {
-  const languageFields: Record<string, v.StringSchema<undefined>> = {};
+  const languageFields: Record<string, v.BaseSchema<unknown, string, v.BaseIssue<unknown>>> = {};
   supportedLanguages.forEach((lang) => {
     const fieldName = getLanguageFieldName(lang.isoCode);
     languageFields[fieldName] = v.pipe(v.string(), v.minLength(1, t('ui.forms.validation.required')));

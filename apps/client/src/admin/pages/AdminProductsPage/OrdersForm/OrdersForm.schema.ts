@@ -4,13 +4,11 @@ import * as v from 'valibot';
 
 import { isRowComplete } from './orders-form.utils';
 
-const coerceNumber = v.pipe(v.unknown(), v.transform(Number), v.number());
-
 export const TIME_ROW_SCHEMA = v.object({
-  temperature: v.optional(v.pipe(coerceNumber, v.minValue(-50), v.maxValue(50))),
-  timeA: v.optional(v.pipe(coerceNumber, v.integer(), v.minValue(0), v.maxValue(3600))),
-  timeB: v.optional(v.pipe(coerceNumber, v.integer(), v.minValue(0), v.maxValue(3600))),
-  timeC: v.optional(v.pipe(coerceNumber, v.integer(), v.minValue(0), v.maxValue(3600))),
+  temperature: v.optional(v.pipe(v.number(), v.minValue(-50), v.maxValue(50))),
+  timeA: v.optional(v.pipe(v.number(), v.integer(), v.minValue(0), v.maxValue(3600))),
+  timeB: v.optional(v.pipe(v.number(), v.integer(), v.minValue(0), v.maxValue(3600))),
+  timeC: v.optional(v.pipe(v.number(), v.integer(), v.minValue(0), v.maxValue(3600))),
 });
 
 export const ORDER_FORM_SCHEMA = v.pipe(
@@ -20,8 +18,8 @@ export const ORDER_FORM_SCHEMA = v.pipe(
     drinkSubtype: v.optional(v.string()),
     volume: v.pipe(v.string(), v.minLength(1, 'Volume is required')),
     containerType: v.pipe(v.string(), v.minLength(1, 'Container type is required')),
-    defaultTempConsume: v.pipe(coerceNumber, v.minValue(-40), v.maxValue(40)),
-    defaultTempFreeze: v.pipe(coerceNumber, v.minValue(-50), v.maxValue(40)),
+    defaultTempConsume: v.pipe(v.number(), v.minValue(-40), v.maxValue(40)),
+    defaultTempFreeze: v.pipe(v.number(), v.minValue(-50), v.maxValue(40)),
     timeRows: v.pipe(
       v.array(TIME_ROW_SCHEMA),
       v.minLength(1),

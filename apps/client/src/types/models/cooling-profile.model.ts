@@ -1,3 +1,3 @@
-import type { ModeModel } from '@workspace/server/models';
+import type { ModeModel } from './mode.model';
 
 export type Mode = ModeModel;

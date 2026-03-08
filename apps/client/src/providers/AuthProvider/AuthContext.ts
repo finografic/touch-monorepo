@@ -1,17 +1,3 @@
-/**
- * AuthContext - Zustand-based authentication store
- *
- * This file contains the core Zustand store implementation for authentication.
- * It provides Better Auth + JWT integration with the following features:
- *
- * - User session management
- * - Sign in/up/out functionality
- * - Session refresh capabilities
- * - Loading states
- * - Type-safe state management
- *
- */
-
 import { createSetters, createZustandContext } from '@finografic/zustand-context-creator';
 import { sleep } from '@workspace/core/utils';
 
@@ -25,7 +11,6 @@ import type {
   AuthSignInParams,
   AuthSignUpParams,
   AuthUser,
-  AuthUserResult,
 } from './auth.types';
 import type { AuthStore, AuthValues } from './AuthContext.types';
 
@@ -68,20 +53,27 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
             });
 
             if (data?.user) {
-              const userRole = (data.user as any).role || 'user';
-              set({
-                session: data as any, // Better Auth session structure
-                user: { ...data.user, role: userRole } as any,
-                isAuthenticated: true,
-                role: userRole as 'admin' | 'user',
-                isLoading: false,
-              });
+              // After sign-up, sign in automatically
+              const signInResult = await authClient.signIn.email({ email, password });
 
-              return { success: true, message: 'Account created successfully' };
-            } else {
+              if (signInResult.data?.user) {
+                const user = signInResult.data.user as AuthUser;
+                set({
+                  session: { user, redirect: false, token: '' },
+                  user,
+                  isAuthenticated: true,
+                  role: user.role || 'user',
+                  isLoading: false,
+                });
+                return { success: true, message: 'Account created successfully' };
+              }
+
               set({ isLoading: false });
-              return { success: false, error: error?.message || 'Sign up failed' };
+              return { success: true, message: 'Account created. Please sign in.' };
             }
+
+            set({ isLoading: false });
+            return { success: false, error: error?.message || 'Sign up failed' };
           },
           signIn: async ({ email, password }: AuthSignInParams) => {
             const result = await authClient.signIn.email({ email, password });
@@ -90,15 +82,7 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
             set({ isLoading: false });
 
             if (result.data?.user) {
-              const dataUser = result.data.user as AuthUserResult;
-              const userRole = dataUser.role || 'user';
-
-              const user: AuthUser = {
-                ...dataUser,
-                role: dataUser.role || 'user',
-                createdAt: dataUser.createdAt.getTime(),
-                updatedAt: dataUser.updatedAt.getTime(),
-              } as AuthUser;
+              const user = result.data.user as AuthUser;
 
               const session: AuthSessionData = {
                 redirect: result.data.redirect,
@@ -107,10 +91,10 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
               };
 
               set({
-                session, // Better Auth session structure
+                session,
                 user,
                 isAuthenticated: true,
-                role: userRole,
+                role: user.role || 'user',
                 isLoading: false,
               });
 
@@ -127,9 +111,8 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
             await sleep(100);
             set({ isLoading: false });
 
-            if (result && result.data.success) {
+            if (result.data?.success) {
               set({ ...defaultValue });
-
               return { success: true, message: 'Signed out successfully' };
             }
 
@@ -141,17 +124,15 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
           refreshSession: async () => {
             set({ isLoading: true });
 
-            const { data } = await authClient.getSession();
+            const session = await authClient.getSession();
 
-            if (data?.user) {
-              // Better Auth returns user without role by default, we need to cast/transform
-              const userRole = (data.user as any).role || 'user';
-
+            if (session?.user) {
+              const user = session.user as AuthUser;
               set({
-                session: data as any,
-                user: { ...data.user, role: userRole } as any,
+                session: { user, redirect: false, token: '' },
+                user,
                 isAuthenticated: true,
-                role: userRole as 'user' | 'admin',
+                role: user.role || 'user',
                 isLoading: false,
               });
             } else {

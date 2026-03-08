@@ -1,3 +1,10 @@
-import type { UserModel } from '@workspace/server/models';
-
-export type User = UserModel;
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  emailVerified: boolean;
+  image: string | null;
+  role: 'public' | 'user' | 'admin';
+  createdAt: Date;
+  updatedAt: Date;
+}

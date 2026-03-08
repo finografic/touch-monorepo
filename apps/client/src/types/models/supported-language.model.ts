@@ -1,17 +1,23 @@
-import type { SupportedLanguageModel } from '@workspace/server/models';
-
 export type SupportedLanguage = SupportedLanguageModel;
 
-/**
- * Simplified language info type for UI components
- * Picks only the fields needed for translation forms and language selection
- * Makes flagCode optional since it's not always needed in UI
- */
-export type LanguageInfo = Pick<SupportedLanguage, 'isoCode' | 'displayName' | 'nativeName'> & {
-  flagCode?: string | null;
-};
+export interface SupportedLanguageModel {
+  id: string;
+  isoCode: string;
+  nativeName: string;
+  displayName: string;
+  flagCode: string | null;
+  isActive: boolean;
+  isDefault: boolean;
+  sortOrder: number;
+  createdAt: Date | null;
+  updatedAt: Date | null;
+}
 
-/**
- * Common language code type - replaces hardcoded unions
- */
+export interface LanguageInfo {
+  isoCode: string;
+  displayName: string;
+  nativeName: string;
+  flagCode?: string | null;
+}
+
 export type LanguageCode = 'es' | 'en' | 'ca' | string;
