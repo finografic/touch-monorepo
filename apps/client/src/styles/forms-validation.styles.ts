@@ -1,7 +1,7 @@
-import { css } from '@emotion/react';
-
-import { forms } from 'forms/forms.config';
 import { colors } from '@workspace/design-system/tokens';
+
+import { css } from '@emotion/react';
+import { forms } from 'forms/forms.config';
 
 // ======================================================================== //
 // FORM VALIDATION STYLES

@@ -9,10 +9,10 @@ import { formsValidation } from './forms-validation.styles';
 export { forms } from 'forms/forms.config';
 
 export const cssForms = css`
-  ${formsReset}
+  /* ${formsReset}
   ${formsBase}
   ${formsValidation}
   ${formsSelect}
   ${formsInputs}
-  ${cssPlaceholder}
+  ${cssPlaceholder} */
 `;

@@ -1,5 +1,6 @@
-import { css } from '@emotion/react';
 import { fontTokens } from '@workspace/design-system/tokens';
+
+import { css } from '@emotion/react';
 
 export const cssFontDefaults = css`
   font-family: ${fontTokens.sans.value};

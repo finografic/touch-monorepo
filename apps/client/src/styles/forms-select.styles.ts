@@ -1,6 +1,6 @@
-import { css } from '@emotion/react';
-
 import { colors } from '@workspace/design-system/tokens';
+
+import { css } from '@emotion/react';
 import { forms } from 'forms/forms.config';
 
 // NOTE: SELECT STYLES + RADIX OVERRIDES
@@ -65,7 +65,6 @@ export const formsSelect = css`
     [data-radix-popper-content-wrapper] {
       z-index: 9999 !important;
     }
-
   }
 
   [data-radix-select-content],

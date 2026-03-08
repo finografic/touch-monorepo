@@ -3,12 +3,9 @@ import { BREAKPOINTS, min } from '@workspace/design-system/viewport';
 
 import { css } from '@emotion/react';
 
-import { cssForms } from '../styles/forms.styles';
 import { stylesAppContent800x480 } from '../styles/project.app.800x480.styles';
 import { stylesAppContent1024x600 } from '../styles/project.app.1024x600.styles';
 import { stylesAdminContent } from '../styles/project.styles';
-
-
 
 export const styles = css`
   ${stylesAdminContent}
@@ -117,8 +114,6 @@ export const styles = css`
     outline: 0;
     border: ${layout.borderWidth} solid transparent;
   }
-
-  ${cssForms}
 
   display: flex;
   flex-direction: column;

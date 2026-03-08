@@ -3,7 +3,6 @@ import { colors } from '@workspace/design-system/tokens';
 import { css } from '@emotion/react';
 
 import { cssFontDefaults, cssFontMono } from './fonts.styles';
-import { forms } from '../forms/forms.config';
 
 export const cssGlobal = css`
   /* Use CSS layers to ensure our styles override Radix */
@@ -163,8 +162,6 @@ export const cssGlobal = css`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-size: ${forms.inputs.label.fontSize};
-    font-weight: ${forms.inputs.label.fontWeight}!important;
     letter-spacing: 0;
     color: ${colors.textDark};
     margin: 0.5rem 0.25rem 0.5rem 0.1rem;
@@ -173,7 +170,6 @@ export const cssGlobal = css`
     span.hint,
     span.label-hint {
       color: ${colors.text};
-      font-weight: ${forms.inputs.label.fontWeight};
       opacity: 0.5;
     }
 

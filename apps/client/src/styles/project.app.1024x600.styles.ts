@@ -1,6 +1,5 @@
 import { css } from '@emotion/react';
 
-
 const MAIN_CONTENT_HEIGHT = 450;
 const SLOT_GRID_WIDTH = 350;
 const SLOT_GRID_HEIGHT = 336;

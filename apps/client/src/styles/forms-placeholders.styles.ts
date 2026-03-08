@@ -1,6 +1,6 @@
-import { css } from '@emotion/react';
-
 import { colors } from '@workspace/design-system/tokens';
+
+import { css } from '@emotion/react';
 import { forms } from 'forms/forms.config';
 
 export const stylesPlaceholder = css`
