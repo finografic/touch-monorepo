@@ -3,75 +3,75 @@
   "type": "module",
   "version": "0.0.1",
   "private": true,
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs"
     },
     "./api": {
-      "types": "./dist/api/index.d.ts",
-      "import": "./dist/api/index.js"
+      "types": "./dist/api/index.d.mts",
+      "import": "./dist/api/index.mjs"
     },
     "./api/*": {
-      "types": "./dist/api/*.d.ts",
-      "import": "./dist/api/*.js"
+      "types": "./dist/api/*.d.mts",
+      "import": "./dist/api/*.mjs"
     },
     "./constants": {
-      "types": "./dist/constants/index.d.ts",
-      "import": "./dist/constants/index.js"
+      "types": "./dist/constants/index.d.mts",
+      "import": "./dist/constants/index.mjs"
     },
     "./constants/*": {
-      "types": "./dist/constants/*.d.ts",
-      "import": "./dist/constants/*.js"
+      "types": "./dist/constants/*.d.mts",
+      "import": "./dist/constants/*.mjs"
     },
     "./hooks": {
-      "types": "./dist/hooks/index.d.ts",
-      "import": "./dist/hooks/index.js"
+      "types": "./dist/hooks/index.d.mts",
+      "import": "./dist/hooks/index.mjs"
     },
     "./hooks/*": {
-      "types": "./dist/hooks/*.d.ts",
-      "import": "./dist/hooks/*.js"
+      "types": "./dist/hooks/*.d.mts",
+      "import": "./dist/hooks/*.mjs"
     },
     "./types": {
-      "types": "./dist/types/index.d.ts",
-      "import": "./dist/types/index.js"
+      "types": "./dist/types/index.d.mts",
+      "import": "./dist/types/index.mjs"
     },
     "./types/*": {
-      "types": "./dist/types/*.d.ts",
-      "import": "./dist/types/*.js"
+      "types": "./dist/types/*.d.mts",
+      "import": "./dist/types/*.mjs"
     },
     "./types/utils": {
-      "types": "./dist/types/utils/index.d.ts",
-      "import": "./dist/types/utils/index.js"
+      "types": "./dist/types/utils/index.d.mts",
+      "import": "./dist/types/utils/index.mjs"
     },
     "./types/utils/*": {
-      "types": "./dist/types/utils/*.d.ts",
-      "import": "./dist/types/utils/*.js"
+      "types": "./dist/types/utils/*.d.mts",
+      "import": "./dist/types/utils/*.mjs"
     },
     "./utils": {
-      "types": "./dist/utils/index.d.ts",
-      "import": "./dist/utils/index.js"
+      "types": "./dist/utils/index.d.mts",
+      "import": "./dist/utils/index.mjs"
     },
     "./utils/*": {
-      "types": "./dist/utils/*.d.ts",
-      "import": "./dist/utils/*.js"
+      "types": "./dist/utils/*.d.mts",
+      "import": "./dist/utils/*.mjs"
     },
     "./globals": {
-      "types": "./dist/globals/index.d.ts",
-      "import": "./dist/globals/index.js"
+      "types": "./dist/globals/index.d.mts",
+      "import": "./dist/globals/index.mjs"
     },
     "./globals/*": {
-      "types": "./dist/globals/*.d.ts",
-      "import": "./dist/globals/*.js"
+      "types": "./dist/globals/*.d.mts",
+      "import": "./dist/globals/*.mjs"
     }
   },
   "scripts": {
     "========== DEV": "=======================================================",
-    "dev": "tsup --watch",
+    "dev": "tsdown --watch --no-clean",
     "·········· BUILD": "·····················································",
-    "build": "tsup",
+    "build": "tsdown",
     "·········· CLEAN": "·····················································",
     "clean": "pnpm --package=@finografic/project-scripts dlx purge-builds --recursive --detach",
     "clean.dry": "pnpm --package=@finografic/project-scripts dlx purge-builds --recursive --dry-run",
@@ -89,7 +89,8 @@
     "@workspace/i18n": "workspace:*",
     "http-status-codes": "2.3.0",
     "lodash": "4.17.23",
-    "react": "^18.3.1"
+    "react": "^18.3.1",
+    "valibot": "1.2.0"
   },
   "devDependencies": {
     "@finografic/project-scripts": "8.12.0",
@@ -105,7 +106,7 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.0.1",
     "shx": "0.4.0",
-    "tsup": "8.5.1",
+    "tsdown": "^0.20.3",
     "tsx": "4.21.0",
     "typescript": "^5.9.2",
     "typescript-eslint": "^8.55.0"

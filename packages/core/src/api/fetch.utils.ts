@@ -7,11 +7,11 @@
  * - Response normalization utilities
  */
 
-import type { ApplicationError, ErrorResponse } from './error.types';
+import type { ApplicationError } from './error.types';
 import type { FetchResponse } from './fetch.types';
+import type { ErrorResponse } from './error.schema';
 import { FetchError } from './fetch.types';
 import { ERROR_CODES, ERROR_MESSAGES } from './error.constants';
-import { errorResponseSchema } from './error.schema';
 
 // ============================================================================
 // URL UTILITIES
@@ -113,7 +113,6 @@ interface FetchCompatibleError extends Error {
   isRetryable?: boolean;
 }
 
-
 /**
  * Determines if an error is retryable based on status code
  * Consolidated from multiple implementations
@@ -136,6 +135,15 @@ export const isRetryableError = (error: unknown): boolean => {
   return false;
 };
 
+function isErrorResponse(data: unknown): data is ErrorResponse {
+  if (typeof data !== 'object' || data === null) return false;
+  const obj = data as Record<string, unknown>;
+  if (obj.success !== false) return false;
+  if (typeof obj.error !== 'object' || obj.error === null) return false;
+  const err = obj.error as Record<string, unknown>;
+  return typeof err.code === 'string' && typeof err.message === 'string';
+}
+
 /**
  * Transforms fetch errors to ApplicationError format
  * Compatible with FetchError, standard Error objects, and any error with status/data
@@ -147,19 +155,14 @@ export const transformFetchError = (error: unknown): ApplicationError => {
     const status = fetchError.status;
     const data = fetchError.data;
 
-    // Try to parse as ZodErrorResponse
-    if (data) {
-      try {
-        const validatedError = errorResponseSchema.parse(data);
-        if (validatedError.error?.issues) {
-          return {
-            code: 'VALIDATION_ERROR',
-            message: validatedError.error.message || 'Validation error',
-            issues: validatedError.error.issues,
-          };
-        }
-      } catch {
-        // If not a valid ZodErrorResponse, continue with standard error handling
+    if (data && isErrorResponse(data)) {
+      const { error: apiError } = data;
+      if (apiError.issues?.length) {
+        return {
+          code: 'VALIDATION_ERROR',
+          message: apiError.message || 'Validation error',
+          issues: apiError.issues,
+        };
       }
     }
 
@@ -186,7 +189,10 @@ export const transformFetchError = (error: unknown): ApplicationError => {
     // Handle HTTP errors with specific status codes
     if (status >= 400 && status < 600) {
       // Type-safe access: check if status exists in ERROR_MESSAGES, otherwise use fallback
-      const errorMessage = (status in ERROR_MESSAGES ? ERROR_MESSAGES[status as keyof typeof ERROR_MESSAGES] : null) || fetchError.message || 'HTTP error';
+      const errorMessage =
+        (status in ERROR_MESSAGES ? ERROR_MESSAGES[status as keyof typeof ERROR_MESSAGES] : null) ||
+        fetchError.message ||
+        'HTTP error';
       return {
         code: 'HTTP_ERROR',
         message: errorMessage,
@@ -196,7 +202,10 @@ export const transformFetchError = (error: unknown): ApplicationError => {
     }
 
     // Handle network errors (status 0)
-    const networkErrorMessage = (status in ERROR_MESSAGES ? ERROR_MESSAGES[status as keyof typeof ERROR_MESSAGES] : null) || fetchError.message || 'Network error';
+    const networkErrorMessage =
+      (status in ERROR_MESSAGES ? ERROR_MESSAGES[status as keyof typeof ERROR_MESSAGES] : null) ||
+      fetchError.message ||
+      'Network error';
     return {
       code: 'NETWORK_ERROR',
       message: networkErrorMessage,
@@ -245,4 +254,3 @@ export const transformFetchError = (error: unknown): ApplicationError => {
  * @deprecated Use transformFetchError instead
  */
 export const transformAxiosError = transformFetchError;
-

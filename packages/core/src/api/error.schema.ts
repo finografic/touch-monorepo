@@ -13,6 +13,3 @@ export interface ErrorResponse {
     issues?: ErrorIssue[];
   };
 }
-
-/** @deprecated Use ErrorResponse instead */
-export type ZodErrorResponse = ErrorResponse;
