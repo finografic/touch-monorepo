@@ -1,7 +1,5 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 
-import type { ColorBaseName } from 'styles';
-
 /**
  * Button variants - clean and minimal set
  */
@@ -15,10 +13,7 @@ export type ButtonSize = 'sm' | 'md' | 'lg';
 /**
  * Available button colors from the design system
  */
-export type ButtonColor = Extract<
-  ColorBaseName,
-  'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info' | 'grey'
->;
+export type ButtonColor = 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info' | 'grey';
 
 /**
  * Icon position for buttons with both icon and text

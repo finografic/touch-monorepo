@@ -1,8 +1,6 @@
-import { colors } from '@workspace/design-system/tokens';
+import { colors, fontTokens } from '@workspace/design-system/tokens';
 
 import { css } from '@emotion/react';
-
-import { cssFontDefaults, cssFontMono } from './fonts.styles';
 
 export const cssGlobal = css`
   /* Use CSS layers to ensure our styles override Radix */
@@ -34,7 +32,11 @@ export const cssGlobal = css`
   html,
   body,
   * {
-    ${cssFontDefaults}
+    font-family: ${fontTokens.sans.value};
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'kern' 1;
+    font-kerning: normal;
   }
 
   body {
@@ -154,7 +156,9 @@ export const cssGlobal = css`
   }
 
   pre {
-    ${cssFontMono}
+    font-family: ${fontTokens.mono.value} !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   label,

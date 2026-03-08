@@ -1,7 +1,6 @@
 import { css } from '@emotion/react';
 
-import { colors, layout } from '@workspace/design-system/tokens';
-import { cssFontMono } from '../../../../../styles/fonts.styles';
+import { colors, fontTokens, layout } from '@workspace/design-system/tokens';
 
 export const styles = css`
   width: 100%;
@@ -47,7 +46,9 @@ export const styles = css`
         opacity: 0.66;
       }
       code {
-        ${cssFontMono}
+        font-family: ${fontTokens.mono.value} !important;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
       }
 
       &.header-number {

@@ -1,6 +1,6 @@
 import { RELAY_SLOT_COLORS, type RelayConfig } from 'types/relays.types';
 import { SlotSpecial, SlotType } from 'types/slots.types';
-import { colors } from 'styles';
+import { colors } from '@workspace/design-system/tokens';
 
 export const getRelaySlotType = (config: RelayConfig, configurations: RelayConfig[]) => {
   const numConfigs = configurations.length;
@@ -54,7 +54,7 @@ const getSlotColor = (config: RelayConfig) => {
     return colors[RELAY_SLOT_COLORS[SlotSpecial.MTO]];
   }
   if (config.slotNumber === 16) {
-    return colors.greyXLight75;
+    return colors.greyXLight;
   }
 
   switch (config.slotType) {

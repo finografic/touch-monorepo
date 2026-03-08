@@ -1,7 +1,6 @@
 import { css } from '@emotion/react';
 
 import { colors } from '@workspace/design-system/tokens';
-import { stylesPlaceholder } from '../../styles/forms-placeholders.styles';
 
 export const styles = css`
   &.searchable-select {
@@ -78,7 +77,11 @@ export const stylesDropdown = css`
     }
 
     &.empty-option {
-      ${stylesPlaceholder}
+      font-weight: 300;
+      text-indent: 0;
+      font-style: italic;
+      color: ${colors.grey};
+      -webkit-text-fill-color: ${colors.grey};
       opacity: 0.66;
       font-weight: 600;
     }

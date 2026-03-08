@@ -1,7 +1,7 @@
 import { RELAY_SLOT_COLORS, type RelayConfig } from 'types/relays.types';
 import { SlotSpecial, SlotType } from 'types/slots.types';
 import { MAX_COLUMNS, MIN_COLUMNS, NUM_ROWS_DEFAULT } from 'config/app/slots.config';
-import { colors } from 'styles';
+import { colors } from '@workspace/design-system/tokens';
 
 /**
  * Computes how many columns are needed to fit all slots (except special slot),
@@ -22,7 +22,7 @@ export const getSlotColor = (config: RelayConfig) => {
     return colors[RELAY_SLOT_COLORS[SlotSpecial.MTO]];
   }
   if (config.slotNumber === 16) {
-    return colors.greyXLight75;
+    return colors.greyXLight;
   }
 
   switch (config.slotType) {
