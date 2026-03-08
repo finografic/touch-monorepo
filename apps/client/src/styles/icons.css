@@ -5,8 +5,8 @@
 svg[width][height].icon {
   /* NORMALIZED sizing - forces all icon libraries to same visual size */
   /* 20px - sweet spot between 15px and 24px */
-  width: 2rem;
-  height: 2rem;
+  width: 1.5rem;
+  height: 1.5rem;
   display: inline-block;
   flex-shrink: 0;
   color: currentColor;
@@ -16,26 +16,14 @@ svg[width][height].icon {
     background-color 200ms ease-in-out;
 }
 
-/* Fallback: Generic icon class targeting */
-svg.icon {
-  width: 2rem;
-  height: 2rem;
-  display: inline-block;
-  flex-shrink: 0;
-  color: currentColor;
-  transition:
-    color 200ms ease-in-out,
-    border-color 200ms ease-in-out,
-    background-color 200ms ease-in-out;
-  &:hover {
-    transform: none;
-  }
+svg.icon:hover {
+  transform: none;
 }
 
 /* Contextual sizing - scales with text when needed */
 svg[width][height].icon.icon-contextual,
 svg.icon.icon-contextual {
-  width: 1em;
+   width: 1em;
   height: 1em;
 }
 
@@ -45,14 +33,6 @@ svg.icon.icon-contextual {
 .button .icon,
 .icon-button .icon {
   cursor: pointer;
-}
-
-.button:hover svg[width][height].icon,
-.icon-button:hover svg[width][height].icon,
-.button:hover .icon,
-.icon-button:hover .icon {
-  /* Subtle hover effect */
-  transform: scale(1.05);
 }
 
 .button:disabled svg[width][height].icon,

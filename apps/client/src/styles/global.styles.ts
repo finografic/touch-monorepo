@@ -110,33 +110,6 @@ export const cssGlobal = css`
     background: ${colors.greyXXLight};
   }
 
-  svg.icon {
-    color: ${colors.infoXLight};
-  }
-
-  svg[width][height].icon {
-    color: ${colors.infoXLight};
-  }
-
-  svg[width][height].icon {
-    /* NORMALIZED sizing - forces all icon libraries to same visual size */
-    /* 20px - sweet spot between 15px and 24px */
-    width: 2rem;
-    height: 2rem;
-    display: inline-block;
-    flex-shrink: 0;
-    transition:
-      color 200ms ease-in-out,
-      border-color 200ms ease-in-out,
-      background-color 200ms ease-in-out;
-    color: currentColor;
-
-    transform: none !important;
-    &:hover {
-      transform: none !important;
-    }
-  }
-
   /* Global button-box styles for consistent icon button layout */
   .button-box {
     width: auto;
