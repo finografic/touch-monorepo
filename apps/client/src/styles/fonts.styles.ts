@@ -1,9 +1,8 @@
 import { css } from '@emotion/react';
-
-import { typography } from './constants/typography.constants';
+import { fontTokens } from '@workspace/design-system/tokens';
 
 export const cssFontDefaults = css`
-  font-family: ${typography.fontFamily.sans.join(', ')};
+  font-family: ${fontTokens.sans.value};
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-feature-settings: 'kern' 1;
@@ -11,6 +10,7 @@ export const cssFontDefaults = css`
 `;
 
 export const cssFontMono = css`
-  font-family: ${typography.fontFamily.mono.join(', ')} !important;
-  ${css(typography.fontSmoothing.antialiased)}
+  font-family: ${fontTokens.mono.value} !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 `;

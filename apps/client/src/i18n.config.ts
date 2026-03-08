@@ -1,4 +1,5 @@
 import { initReactI18next } from 'react-i18next';
+import type { RegionLocale } from '@workspace/i18n';
 import type { SupportedLanguage } from '@workspace/i18n/types';
 
 import i18n from 'i18next';
@@ -13,7 +14,6 @@ import {
   I18N_NAMESPACE,
   SUPPORTED_LANGUAGES_STORAGE_KEY,
 } from 'config/app/i18n.config';
-import type { RegionLocale } from '@workspace/i18n';
 
 const stored = localStorage.getItem(SUPPORTED_LANGUAGES_STORAGE_KEY);
 
@@ -23,8 +23,7 @@ export const SUPPORTED_LANGUAGES: RegionLocale[] = stored
 
 const storedCurrent = localStorage.getItem(CURRENT_LANGUAGE_STORAGE_KEY);
 const initialLng: RegionLocale =
-  storedCurrent &&
-  SUPPORTED_LANGUAGES.includes(storedCurrent as RegionLocale)
+  storedCurrent && SUPPORTED_LANGUAGES.includes(storedCurrent as RegionLocale)
     ? (storedCurrent as RegionLocale)
     : DEFAULT_LANGUAGE;
 
