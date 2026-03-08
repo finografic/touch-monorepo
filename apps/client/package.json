@@ -42,7 +42,6 @@
     "·········· UTILS": "······················································",
     "tsc.debug": "pnpm exec tsc --pretty --project tsconfig.json",
     "typecheck": "pnpm exec tsc --project tsconfig.json --noEmit",
-    "·········· HOOKS": "·····················································",
     "prepack": "pnpm build"
   },
   "dependencies": {

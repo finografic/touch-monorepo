@@ -15,7 +15,7 @@ import App from './App';
 import i18n from './i18n.config.ts';
 import './theme.css';
 import 'styled-system/styles.css'; // NOTE: Panda CSS — design-system tokens + recipes + keyframes
-import './styles/icons/icons.css';
+import './styles/icons.css';
 import '@workspace/design-system/grid/grid.css';
 import '@workspace/design-system/forms/forms.css';
 
