@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { FieldBox } from '@workspace/design-system/forms';
 // import { Select } from '@workspace/design-system/forms';
 import { Col, Row } from '@workspace/design-system/grid';
 import { MIN_TEMP_DIFFERENCE, TEMP_CONSUME_DEFAULT, TEMP_FREEZE_DEFAULT } from '@workspace/shared/constants';
@@ -11,7 +12,6 @@ import {
   ORDER_FORM_SCHEMA,
   type OrdersFormValues,
 } from 'admin/pages/AdminProductsPage/OrdersForm/OrdersForm.schema';
-import { FieldWrapper } from 'forms/FieldWrapper';
 import { FormMiddlewareProvider } from 'forms/FormMiddleware';
 import { MIN_TABLE_ROWS } from 'forms/FormMiddleware/FormMiddleware.constants';
 import {
@@ -325,7 +325,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                 <Row className="row">
                   <Col xs={2} md={2} className="col col-form-fields">
                     {/* Mode */}
-                    <FieldWrapper name="mode" label="Mode" required>
+                    <FieldBox name="mode" label="Mode" required>
                       <Select
                         options={dropdownData.modeOptions}
                         value={selectedModeId}
@@ -333,12 +333,12 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                           handleSimpleFieldChange('modeId', value);
                         }}
                       />
-                    </FieldWrapper>
+                    </FieldBox>
                   </Col>
 
                   <Col xs={5} md={5} className="col col-form-fields">
                     {/* Drink Type */}
-                    <FieldWrapper
+                    <FieldBox
                       name="drinkType"
                       label="Drink Type"
                       hint={`${dropdownData.drinkTypeOptions.length} disponibles`}
@@ -358,12 +358,12 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                         placeholder="e.g., Coffee, Tea, Juice"
                         windowSize={15}
                       />
-                    </FieldWrapper>
+                    </FieldBox>
                   </Col>
 
                   <Col xs={5} md={5} className="col col-form-fields">
                     {/* Drink Subtype */}
-                    <FieldWrapper
+                    <FieldBox
                       name="drinkSubtype"
                       label="Drink Subtype"
                       hint={
@@ -389,7 +389,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                         windowSize={15}
                         disabled={!formValues.drinkType || !dropdownData.selectedDrinkType?.hasSubtypes}
                       />
-                    </FieldWrapper>
+                    </FieldBox>
                   </Col>
                 </Row>
 
@@ -398,7 +398,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                 <Row className="row">
                   <Col xs={4} md={4} className="col col-form-fields">
                     {/* Volume */}
-                    <FieldWrapper
+                    <FieldBox
                       name="volume"
                       label="Volume"
                       hint={`${dropdownData.volumeOptions.length} disponibles`}
@@ -412,12 +412,12 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                         placeholder="e.g., 250ml, 500ml, 1L"
                         windowSize={15}
                       />
-                    </FieldWrapper>
+                    </FieldBox>
                   </Col>
 
                   <Col xs={4} md={4} className="col col-form-fields" style={{ paddingRight: '1.25rem' }}>
                     {/* Container Type */}
-                    <FieldWrapper
+                    <FieldBox
                       name="containerType"
                       label="Container"
                       hint={`${dropdownData.containerTypeOptions.length} disponibles`}
@@ -431,12 +431,12 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                         placeholder="e.g., Cup, Bottle, Can"
                         windowSize={15}
                       />
-                    </FieldWrapper>
+                    </FieldBox>
                   </Col>
 
                   <Col xs={2} md={2} className="col col-form-fields col-temperature-inputs">
                     {/* Temperatura consumo */}
-                    <FieldWrapper name="defaultTempConsume" label="Temperatura consumo" required>
+                    <FieldBox name="defaultTempConsume" label="Temperatura consumo" required>
                       <TemperatureInputField
                         name="defaultTempConsume"
                         locale={currentLanguage}
@@ -449,12 +449,12 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                           );
                         }}
                       />
-                    </FieldWrapper>
+                    </FieldBox>
                   </Col>
 
                   <Col xs={2} md={2} className="col col-form-fields col-temperature-inputs">
                     {/* Temperatura congelación */}
-                    <FieldWrapper name="defaultTempFreeze" label="Temperatura congelación" required>
+                    <FieldBox name="defaultTempFreeze" label="Temperatura congelación" required>
                       <TemperatureInputField
                         name="defaultTempFreeze"
                         locale={currentLanguage}
@@ -464,7 +464,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                             : undefined
                         }
                       />
-                    </FieldWrapper>
+                    </FieldBox>
                   </Col>
                 </Row>
 

@@ -135,28 +135,6 @@ export const cssGlobal = css`
     -moz-osx-font-smoothing: grayscale;
   }
 
-  label,
-  label.field-label {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    letter-spacing: 0;
-    color: ${colors.textDark};
-    margin: 0.5rem 0.25rem 0.5rem 0.1rem;
-    cursor: default;
-
-    span.hint,
-    span.label-hint {
-      color: ${colors.text};
-      opacity: 0.5;
-    }
-
-    span {
-      padding: 0;
-      margin: 0;
-    }
-  }
-
   /* ========================================================================
    * TINY DISPLAY: 800x480 and smaller
    * ======================================================================== */

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { AdminPageLayout, AdminSection } from 'admin/components';
-import { FieldWrapper } from 'forms/FieldWrapper';
+import { FieldBox } from '@workspace/design-system/forms';
 import { SelectCustom } from 'forms/SelectCustom';
 import { Flex } from 'styled-system/jsx';
 import { useToast } from 'components/Toast';
@@ -79,7 +79,7 @@ export const PublicModePage: React.FC = () => {
         <Flex align="start" justify="space-between">
           <Flex direction="column" gap={4} align="start">
             <Flex direction="column" gap={2} style={{ minWidth: '260px' }}>
-              <FieldWrapper>
+              <FieldBox>
                 <SelectCustom
                   className="mode-select"
                   options={modeOptions}
@@ -88,7 +88,7 @@ export const PublicModePage: React.FC = () => {
                   onSelect={handleModeSelect}
                   allowEmpty={true}
                 />
-              </FieldWrapper>
+              </FieldBox>
             </Flex>
           </Flex>
           <Flex gap={8} align="start" style={{ fontSize: '0.9rem', width: '100%', maxWidth: '400px' }}></Flex>

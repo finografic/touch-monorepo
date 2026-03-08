@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 
 import { Box, Flex } from 'styled-system/jsx';
 import { Button } from 'components/Button';
-import { FieldWrapper } from 'forms/FieldWrapper';
+import { FieldBox } from '@workspace/design-system/forms';
 import { SelectCustom } from 'forms/SelectCustom';
 import { useToast } from 'components/Toast';
 
@@ -85,7 +85,7 @@ export const SoundConfigurationSection: React.FC<SoundConfigurationSectionProps>
       <Flex direction="column" gap={3}>
         <Flex gap={4} align="center" className="sound-config-row">
           <Box className="sound-select-container" pb={5}>
-            <FieldWrapper
+            <FieldBox
               name="sound-selector"
               label={soundType === 'alarm' ? 'Alarm Sound' : 'Finish Sound'}
             >
@@ -102,7 +102,7 @@ export const SoundConfigurationSection: React.FC<SoundConfigurationSectionProps>
                   })),
                 ]}
               />
-            </FieldWrapper>
+            </FieldBox>
           </Box>
           {soundSettings[soundType] && (
             <Flex pt={5} gap={3}>
