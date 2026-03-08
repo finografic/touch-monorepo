@@ -1,8 +1,8 @@
 # Design System Migration — Final Steps
 
-> **Where we are:** Phases 6a–6e complete. The design-system package is fully built.
-> All Radix component imports are replaced. 14 unused `@radix-ui` packages removed.
-> `styles/` subdirectories flattened (project/, fonts/, forms/ → root). Committed 852bdea1.
+> **Where we are:** Phases 6a–6f (partial) complete. Design-system package fully built.
+> All Radix component imports replaced. Icons extracted to `@workspace/icons` (own package).
+> AdminNavigation TabNav migration complete. `styles/` subdirectories flattened.
 > Phase 6f in progress — Radix Themes + Emotion removal is next.
 
 ---
@@ -12,9 +12,10 @@
 | Work | Scope | Blocker |
 |---|---|---|
 | ~~**6e** — Clear remaining `styles/` imports~~ | ✅ Complete — 0 alias imports remain | — |
-| **6f** — Flatten + prune `styles/`; remove Radix Themes + Emotion | See checklist below | 6e must be zero |
+| **6f** — Prune `styles/`; remove Radix Themes + Emotion | See checklist below | 6e must be zero |
 | **6g** — CSS custom property audit | DevTools investigation | 6f |
-| ~~**AdminNavigation** — `TabNav` from `@radix-ui/themes`~~ | ✅ Complete — V2 renamed to AdminNavigation | — |
+| ~~**AdminNavigation** — `TabNav` from `@radix-ui/themes`~~ | ✅ Complete — AdminNavigationV2 | — |
+| ~~**Icons** — `@workspace/design-system/icons`~~ | ✅ Moved to `@workspace/icons` package | — |
 | **PrimeReact** | DataTable, Dropdown, InputNumber, ListBox | Separate concern, no blocker |
 
 ---
@@ -29,7 +30,7 @@
 
 | Done | Path | Count | Action |
 |---|---|---|---|
-| ✅ | `styles/icons` | 44 | Added named exports to DS icons; bulk-replaced import path |
+| ✅ | `styles/icons` | 44 | Icons moved to `@workspace/icons`; all imports updated |
 | ✅ | `styles/colors/palette.types` | 8 | Replaced `ColorPalette` with DS `ColorsKey` |
 | ✅ | `styles/colors/colors-direct` | 4 | Replaced with `colors` from DS tokens |
 | ✅ | `styles/viewport/viewport.types` | 4 | Replaced with DS `ScreenClass` / `BreakpointMap`; `xxl` → `'2xl'` in Header.tsx |
@@ -42,23 +43,14 @@
 | ✅ | `styles/fonts/fonts.styles` | 1 | TimesRepeaterTable → relative import |
 | ✅ | `styles/global.styles` + `styles/radix-ui/theme.config` + `generate-oklch-themes` | 4 | App.tsx + EmotionThemeProvider → relative imports |
 
-### Done when
-
-```bash
-grep -r "from 'styles/" apps/client/src/ --include="*.ts" --include="*.tsx"
-# → 0 results (from non-styles/ files only)
-```
-
 ---
 
 ## Phase 6f — Flatten + Prune `styles/` · Remove Radix Themes + Emotion
 
-**Requires:** Phase 6e complete + AdminNavigation migrated.
+**Requires:** Phase 6e complete + AdminNavigation migrated. ✅ Both done.
 
-> **Decision:** `styles/` is NOT deleted entirely. The DS is (and will become an
-> installable npm package) — things that are universally applicable live there.
-> `styles/` survives as a small, flat folder of **project-specific** app-level
-> styles that will never belong in the DS.
+> **Decision:** `styles/` is NOT deleted entirely. Things that are project-specific and
+> will never belong in the DS survive as a small, flat folder.
 
 ### What survives in `styles/` (flat, ~5 files)
 
@@ -141,41 +133,22 @@ are gone — re-audit to see how much noise remains.
 
 ---
 
-## AdminNavigation — `TabNav` Hold
+## Panda Codegen Fix
 
-**Must land before Phase 6f** (removing `@radix-ui/themes` breaks the build).
+**When:** Can be done independently — not blocked by 6f.
 
-`apps/client/src/admin/components/AdminNavigation/AdminNavbar.tsx` uses `TabNav`
-from `@radix-ui/themes`. Replace with plain buttons + active-state className:
+Currently the design-system package only emits `styles.css` from its Panda codegen.
+The full `styled-system/` output (utilities, patterns, recipes as JS/TS) is missing.
 
-```tsx
-// Before
-<TabNav.Root size="2" className="admin-nav" style={{ justifyContent: 'center' }}>
-  <TabNav.Link asChild active={isActive}>
-    <button ...>{navItem.label}</button>
-  </TabNav.Link>
-</TabNav.Root>
-
-// After
-<div className="admin-nav" role="tablist" style={{ justifyContent: 'center' }}>
-  <button
-    role="tab"
-    aria-selected={isActive}
-    className={`nav-button ${isActive ? 'active' : ''}`}
-    ...
-  >
-    {navItem.label}
-  </button>
-</div>
-```
-
-Style the active tab directly in the component's `.styles.ts` (or Panda recipe).
+1. Diff `panda.config.ts` and related configs between commit `53751843` and current `master`
+2. Identify what changed that caused `styled-system/` to stop being emitted
+3. Restore full `styled-system/` output so consumers can use Panda utilities directly
 
 ---
 
-## PrimeReact — Not Part of This Migration
+## PrimeReact — Incremental Replacement
 
-The following use PrimeReact components with no DS equivalent. Not blocked.
+The following use PrimeReact components with no DS equivalent yet. Not blocked.
 
 | File | Component | Complexity |
 |---|---|---|
@@ -185,17 +158,28 @@ The following use PrimeReact components with no DS equivalent. Not blocked.
 | `ListBoxSelect.tsx` | `ListBox` (visible list) | Low |
 | `OrdersTable.tsx` | `DataTable` (sortable/filterable table) | High |
 
+### OrdersTable → TanStack Table
+
+The DataTable replacement requires **building the component first**, then swapping it in:
+
+1. Build a reusable `DataTable` component using `@tanstack/react-table`
+   - Sorting, column filtering, row selection (checkbox)
+   - Style with DS token CSS vars (see docs: `table-tanstack-01.md`, `table-tanstack-02.md`)
+2. Replace `OrdersTable.tsx` (PrimeReact `DataTable`) with the new component
+3. Remove PrimeReact theme CSS imports and the PrimeReact wrapper
+4. Once all PrimeReact usages are gone: remove `primeReact` dependency from `package.json`
+
 ---
 
 ## Recommended Order of Work
 
 ```
-1. Phase 6e — clear ~14 remaining imports          ~30 min
-2. AdminNavigation TabNav migration                 ~1 hour
-3. Phase 6f — flatten styles/ + remove Radix/Emotion  ~2–3 hours
-4. Phase 6g — DevTools audit                        ~30 min
+1. ~~Phase 6e — clear ~14 remaining imports~~          ✅ Done
+2. ~~AdminNavigation TabNav migration~~                ✅ Done
+3. Phase 6f — prune styles/ + remove Radix/Emotion     ~2–3 hours
+4. Phase 6g — DevTools audit                           ~30 min
 ```
 
-Total remaining effort: **~4–5 hours** across sessions.
+Total remaining effort: **~3 hours** across sessions.
 
 ---
