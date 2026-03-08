@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
+import { LanguageIcon } from '@workspace/icons';
 
-import { Flex } from 'styled-system/jsx';
 import clsx from 'clsx';
+import { Flex } from 'styled-system/jsx';
 import { Button } from 'components/Button';
 import { LanguageDialog } from 'components/Dialog/dialogs/LanguageDialog';
 import { AdminToggleButton } from 'components/IconButtons/AdminToggleButton/AdminToggleButton';
@@ -14,7 +15,6 @@ import { useAppConfig } from 'providers/AppConfigProvider';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 
 import { clearAllAuthCookiesServer } from 'utils/auth.utils';
-import { LanguageIcon } from '@workspace/icons';
 import { styles } from './UserToolbar.styles';
 
 export const UserToolbar = ({ variant }: { variant?: 'light' | 'dark' }) => {

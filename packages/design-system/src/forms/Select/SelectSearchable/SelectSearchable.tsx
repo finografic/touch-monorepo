@@ -1,11 +1,10 @@
+import { CheckIcon, ChevronDownIcon, MagnifyingGlassIcon, PlusIcon, XIcon } from '@workspace/icons';
+
 import { Combobox as ArkCombobox, createListCollection } from '@ark-ui/react';
 import { matchSorter } from 'match-sorter';
 import { useMemo, useState } from 'react';
 
-import { icons } from '../../../icons';
 import type { SelectOption } from '../select.types';
-
-const { CheckIcon, ChevronDownIcon, MagnifyingGlassIcon, PlusIcon, XIcon } = icons;
 
 export interface SelectSearchableProps {
   options: SelectOption[];

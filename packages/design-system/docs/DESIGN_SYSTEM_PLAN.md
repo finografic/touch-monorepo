@@ -184,9 +184,9 @@ src/icons/
 ### Public API
 
 ```ts
-import { icons, ICON_NAMES }        from '@workspace/design-system/icons';
-import type { IconName, IconComponent, IconProps } from '@workspace/design-system/icons';
-import { createIconWrapper }         from '@workspace/design-system/icons'; // extend app-side
+import { icons, ICON_NAMES }        from '@workspace/icons';
+import type { IconName, IconComponent, IconProps } from '@workspace/icons';
+import { createIconWrapper }         from '@workspace/icons'; // extend app-side
 
 const { CloseIcon, TrashIcon } = icons;
 ```

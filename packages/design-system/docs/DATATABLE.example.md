@@ -85,14 +85,14 @@ The recipe reads this directly — no transformation needed:
 ## Icons
 
 Three icons are used for sort state. All are registered in the DS icon
-registry and available from `@workspace/design-system/icons`:
+registry and available from `@workspace/icons`:
 
 ```ts
 import {
   ArrowUpIcon,       // sorted ascending
   ArrowDownIcon,     // sorted descending
   ChevronsUpDownIcon // unsorted / neutral
-} from '@workspace/design-system/icons';
+} from '@workspace/icons';
 ```
 
 > **Note:** `ArrowUpIcon`, `ArrowDownIcon`, and `ChevronsUpDownIcon` were
@@ -272,7 +272,7 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   DoubleArrowRightIcon,
-} from '@workspace/design-system/icons';
+} from '@workspace/icons';
 
 import { orderColumns, type Order } from './OrdersTable.columns';
 
@@ -616,5 +616,5 @@ const table = useReactTable({
 | Action buttons | `buttonRecipe({ size: 'xs' })` | `@workspace/design-system/recipes` |
 | Pagination buttons | `buttonRecipe({ size: 'xs', variant: 'ghost' })` | `@workspace/design-system/recipes` |
 | Loading state | `Spinner` | `@workspace/design-system/components` |
-| Sort icons | `ArrowUpIcon · ArrowDownIcon · ChevronsUpDownIcon` | `@workspace/design-system/icons` |
-| Pagination icons | `ChevronLeftIcon · ChevronRightIcon · DoubleArrowLeftIcon · DoubleArrowRightIcon` | `@workspace/design-system/icons` |
+| Sort icons | `ArrowUpIcon · ArrowDownIcon · ChevronsUpDownIcon` | `@workspace/icons` |
+| Pagination icons | `ChevronLeftIcon · ChevronRightIcon · DoubleArrowLeftIcon · DoubleArrowRightIcon` | `@workspace/icons` |

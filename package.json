@@ -15,7 +15,7 @@
   "scripts": {
     "========== DEV": "=======================================================",
     "dev": "run-p dev.turbo dev.icons db.studio",
-    "dev.icons": "pnpm --filter @workspace/icons icons",
+    "dev.icons": "pnpm --filter @workspace/icons icons.server",
     "dev.reset": "run-s reset",
     "dev.db.reset": "run-s db.reset",
     "dev.deploy.pi": "./scripts/deploy-to-pi.sh",
@@ -95,7 +95,7 @@
     "syncpack.fix": "syncpack fix-mismatches"
   },
   "dependencies": {
-    "@finografic/lucide-manager": "0.6.0",
+    "@finografic/lucide-manager": "0.6.1",
     "@hono/zod-openapi": "^0.18.4",
     "@inquirer/prompts": "7.1.0",
     "@workspace/core": "workspace:*",
@@ -162,7 +162,7 @@
       "@tanstack/react-query": "^5.90.21",
       "drizzle-orm": "^0.45.1",
       "zod": "^3.25.76",
-      "@finografic/lucide-manager": "0.6.0"
+      "@finografic/lucide-manager": "0.6.1"
     },
     "onlyBuiltDependencies": [
       "@swc/core",

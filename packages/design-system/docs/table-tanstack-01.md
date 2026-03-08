@@ -33,7 +33,7 @@ import {
 } from '@tanstack/react-table';
 import { tableRecipe } from '@workspace/design-system/recipes';
 import { inputRecipe } from '@workspace/design-system/recipes';
-import { ChevronsUpDown, ArrowUp, ArrowDown } from '@workspace/design-system/icons';
+import { ChevronsUpDownIcon, ArrowUpIcon, ArrowDownIcon } from '@workspace/icons';
 
 const cls = tableRecipe({ size: 'sm', stickyHeader: true });
 const filterInput = inputRecipe({ size: 'sm' });

@@ -1,318 +1,318 @@
 [
   {
-    "lucideName": "plus",
-    "exportName": "Add"
+    "exportName": "Add",
+    "lucideName": "plus"
   },
   {
-    "lucideName": "badge-check",
-    "exportName": "BadgeCheck"
+    "exportName": "BadgeCheck",
+    "lucideName": "badge-check"
   },
   {
-    "lucideName": "check-circle-2",
-    "exportName": "CheckCircle"
+    "exportName": "CheckCircle",
+    "lucideName": "check-circle-2"
   },
   {
-    "lucideName": "clipboard",
-    "exportName": "Clipboard"
+    "exportName": "Clipboard",
+    "lucideName": "clipboard"
   },
   {
-    "lucideName": "x",
-    "exportName": "Close"
+    "exportName": "Close",
+    "lucideName": "x"
   },
   {
-    "lucideName": "coffee",
-    "exportName": "Coffee"
+    "exportName": "Coffee",
+    "lucideName": "coffee"
   },
   {
-    "lucideName": "columns-3",
-    "exportName": "Columns3"
+    "exportName": "Columns3",
+    "lucideName": "columns-3"
   },
   {
-    "lucideName": "columns-4",
-    "exportName": "Columns4"
+    "exportName": "Columns4",
+    "lucideName": "columns-4"
   },
   {
-    "lucideName": "hourglass",
-    "exportName": "CountdownTimer"
+    "exportName": "CountdownTimer",
+    "lucideName": "hourglass"
   },
   {
-    "lucideName": "x",
-    "exportName": "Cross2"
+    "exportName": "Cross2",
+    "lucideName": "x"
   },
   {
-    "lucideName": "x",
-    "exportName": "Delete"
+    "exportName": "Delete",
+    "lucideName": "x"
   },
   {
-    "lucideName": "app-window-mac",
-    "exportName": "Dialog"
+    "exportName": "Dialog",
+    "lucideName": "app-window-mac"
   },
   {
-    "lucideName": "chevron-down",
-    "exportName": "Dropdown"
+    "exportName": "Dropdown",
+    "lucideName": "chevron-down"
   },
   {
-    "lucideName": "pencil-line",
-    "exportName": "Edit"
+    "exportName": "Edit",
+    "lucideName": "pencil-line"
   },
   {
-    "lucideName": "triangle-alert",
-    "exportName": "ExclamationTriangle"
+    "exportName": "ExclamationTriangle",
+    "lucideName": "triangle-alert"
   },
   {
-    "lucideName": "eye-off",
-    "exportName": "EyeOff"
+    "exportName": "EyeOff",
+    "lucideName": "eye-off"
   },
   {
-    "lucideName": "eye",
-    "exportName": "EyeOn"
+    "exportName": "EyeOn",
+    "lucideName": "eye"
   },
   {
-    "lucideName": "fast-forward",
-    "exportName": "FastForward"
+    "exportName": "FastForward",
+    "lucideName": "fast-forward"
   },
   {
-    "lucideName": "fullscreen",
-    "exportName": "Fullscreen"
+    "exportName": "Fullscreen",
+    "lucideName": "fullscreen"
   },
   {
-    "lucideName": "grid-3x3",
-    "exportName": "Grid"
+    "exportName": "Grid",
+    "lucideName": "grid-3x3"
   },
   {
-    "lucideName": "house",
-    "exportName": "Home"
+    "exportName": "Home",
+    "lucideName": "house"
   },
   {
-    "lucideName": "info",
-    "exportName": "InfoCircled"
+    "exportName": "InfoCircled",
+    "lucideName": "info"
   },
   {
-    "lucideName": "languages",
-    "exportName": "Language"
+    "exportName": "Language",
+    "lucideName": "languages"
   },
   {
-    "lucideName": "loader",
-    "exportName": "Loader"
+    "exportName": "Loader",
+    "lucideName": "loader"
   },
   {
-    "lucideName": "list-checks",
-    "exportName": "ListChecks"
+    "exportName": "ListChecks",
+    "lucideName": "list-checks"
   },
   {
-    "lucideName": "list",
-    "exportName": "List"
+    "exportName": "List",
+    "lucideName": "list"
   },
   {
-    "lucideName": "lock",
-    "exportName": "Lock"
+    "exportName": "Lock",
+    "lucideName": "lock"
   },
   {
-    "lucideName": "search",
-    "exportName": "MagnifyingGlass"
+    "exportName": "MagnifyingGlass",
+    "lucideName": "search"
   },
   {
-    "lucideName": "menu",
-    "exportName": "Menu"
+    "exportName": "Menu",
+    "lucideName": "menu"
   },
   {
-    "lucideName": "minimize",
-    "exportName": "Minimize"
+    "exportName": "Minimize",
+    "lucideName": "minimize"
   },
   {
-    "lucideName": "check",
-    "exportName": "Check"
+    "exportName": "Check",
+    "lucideName": "check"
   },
   {
-    "lucideName": "minus",
-    "exportName": "Minus"
+    "exportName": "Minus",
+    "lucideName": "minus"
   },
   {
-    "lucideName": "moon",
-    "exportName": "Moon"
+    "exportName": "Moon",
+    "lucideName": "moon"
   },
   {
-    "lucideName": "plus",
-    "exportName": "Plus"
+    "exportName": "Plus",
+    "lucideName": "plus"
   },
   {
-    "lucideName": "x",
-    "exportName": "X"
+    "exportName": "X",
+    "lucideName": "x"
   },
   {
-    "lucideName": "radio",
-    "exportName": "Radio"
+    "exportName": "Radio",
+    "lucideName": "radio"
   },
   {
-    "lucideName": "refresh-ccw",
-    "exportName": "Refresh"
+    "exportName": "Refresh",
+    "lucideName": "refresh-ccw"
   },
   {
-    "lucideName": "rotate-cw",
-    "exportName": "Reload"
+    "exportName": "Reload",
+    "lucideName": "rotate-cw"
   },
   {
-    "lucideName": "cog",
-    "exportName": "Settings"
+    "exportName": "Settings",
+    "lucideName": "cog"
   },
   {
-    "lucideName": "shield-check",
-    "exportName": "ShieldCheck"
+    "exportName": "ShieldCheck",
+    "lucideName": "shield-check"
   },
   {
-    "lucideName": "shuffle",
-    "exportName": "Shuffle"
+    "exportName": "Shuffle",
+    "lucideName": "shuffle"
   },
   {
-    "lucideName": "volume-2",
-    "exportName": "SpeakerLoud"
+    "exportName": "SpeakerLoud",
+    "lucideName": "volume-2"
   },
   {
-    "lucideName": "star",
-    "exportName": "Star"
+    "exportName": "Star",
+    "lucideName": "star"
   },
   {
-    "lucideName": "circle-stop",
-    "exportName": "Stop"
+    "exportName": "Stop",
+    "lucideName": "circle-stop"
   },
   {
-    "lucideName": "sun",
-    "exportName": "Sun"
+    "exportName": "Sun",
+    "lucideName": "sun"
   },
   {
-    "lucideName": "thermometer",
-    "exportName": "Temp"
+    "exportName": "Temp",
+    "lucideName": "thermometer"
   },
   {
-    "lucideName": "align-left",
-    "exportName": "TextAlignLeft"
+    "exportName": "TextAlignLeft",
+    "lucideName": "align-left"
   },
   {
-    "lucideName": "align-start-vertical",
-    "exportName": "TextAlignTop"
+    "exportName": "TextAlignTop",
+    "lucideName": "align-start-vertical"
   },
   {
-    "lucideName": "timer",
-    "exportName": "Timer"
+    "exportName": "Timer",
+    "lucideName": "timer"
   },
   {
-    "lucideName": "timer-reset",
-    "exportName": "TimerReset"
+    "exportName": "TimerReset",
+    "lucideName": "timer-reset"
   },
   {
-    "lucideName": "trash-2",
-    "exportName": "Trash"
+    "exportName": "Trash",
+    "lucideName": "trash-2"
   },
   {
-    "lucideName": "upload",
-    "exportName": "Upload"
+    "exportName": "Upload",
+    "lucideName": "upload"
   },
   {
-    "lucideName": "circle-user-round",
-    "exportName": "UserCircle"
+    "exportName": "UserCircle",
+    "lucideName": "circle-user-round"
   },
   {
-    "lucideName": "user",
-    "exportName": "User"
+    "exportName": "User",
+    "lucideName": "user"
   },
   {
-    "lucideName": "user-lock",
-    "exportName": "UserLock"
+    "exportName": "UserLock",
+    "lucideName": "user-lock"
   },
   {
-    "lucideName": "user-round-check",
-    "exportName": "UserRoundCheck"
+    "exportName": "UserRoundCheck",
+    "lucideName": "user-round-check"
   },
   {
-    "lucideName": "shield-user",
-    "exportName": "UserShield"
+    "exportName": "UserShield",
+    "lucideName": "shield-user"
   },
   {
-    "lucideName": "volume-2",
-    "exportName": "Volume"
+    "exportName": "Volume",
+    "lucideName": "volume-2"
   },
   {
-    "lucideName": "volume-off",
-    "exportName": "VolumeOff"
+    "exportName": "VolumeOff",
+    "lucideName": "volume-off"
   },
   {
-    "lucideName": "app-window-mac",
-    "exportName": "Window"
+    "exportName": "Window",
+    "lucideName": "app-window-mac"
   },
   {
-    "lucideName": "wine",
-    "exportName": "Wine"
+    "exportName": "Wine",
+    "lucideName": "wine"
   },
   {
-    "lucideName": "arrow-down",
-    "exportName": "ArrowDown"
+    "exportName": "ArrowDown",
+    "lucideName": "arrow-down"
   },
   {
-    "lucideName": "arrow-left",
-    "exportName": "ArrowLeft"
+    "exportName": "ArrowLeft",
+    "lucideName": "arrow-left"
   },
   {
-    "lucideName": "arrow-right",
-    "exportName": "ArrowRight"
+    "exportName": "ArrowRight",
+    "lucideName": "arrow-right"
   },
   {
-    "lucideName": "arrow-up",
-    "exportName": "ArrowUp"
+    "exportName": "ArrowUp",
+    "lucideName": "arrow-up"
   },
   {
-    "lucideName": "chevron-down",
-    "exportName": "ChevronDown"
+    "exportName": "ChevronDown",
+    "lucideName": "chevron-down"
   },
   {
-    "lucideName": "chevron-left",
-    "exportName": "ChevronLeft"
+    "exportName": "ChevronLeft",
+    "lucideName": "chevron-left"
   },
   {
-    "lucideName": "chevron-right",
-    "exportName": "ChevronRight"
+    "exportName": "ChevronRight",
+    "lucideName": "chevron-right"
   },
   {
-    "lucideName": "chevron-up",
-    "exportName": "ChevronUp"
+    "exportName": "ChevronUp",
+    "lucideName": "chevron-up"
   },
   {
-    "lucideName": "chevrons-up-down",
-    "exportName": "ChevronsUpDown"
+    "exportName": "ChevronsUpDown",
+    "lucideName": "chevrons-up-down"
   },
   {
-    "lucideName": "chevrons-left",
-    "exportName": "DoubleArrowLeft"
+    "exportName": "DoubleArrowLeft",
+    "lucideName": "chevrons-left"
   },
   {
-    "lucideName": "chevrons-right",
-    "exportName": "DoubleArrowRight"
+    "exportName": "DoubleArrowRight",
+    "lucideName": "chevrons-right"
   },
   {
-    "lucideName": "panel-bottom-close",
-    "exportName": "PanelBottomClose"
+    "exportName": "PanelBottomClose",
+    "lucideName": "panel-bottom-close"
   },
   {
-    "lucideName": "panel-bottom-open",
-    "exportName": "PanelBottomOpen"
+    "exportName": "PanelBottomOpen",
+    "lucideName": "panel-bottom-open"
   },
   {
-    "lucideName": "panel-left-close",
-    "exportName": "PanelLeftClose"
+    "exportName": "PanelLeftClose",
+    "lucideName": "panel-left-close"
   },
   {
-    "lucideName": "panel-left-open",
-    "exportName": "PanelLeftOpen"
+    "exportName": "PanelLeftOpen",
+    "lucideName": "panel-left-open"
   },
   {
-    "lucideName": "zap",
-    "exportName": "Zap"
+    "exportName": "Zap",
+    "lucideName": "zap"
   },
   {
-    "lucideName": "aperture",
-    "exportName": "Aperture"
+    "exportName": "Aperture",
+    "lucideName": "aperture"
   },
   {
-    "lucideName": "apple",
-    "exportName": "Apple"
+    "exportName": "Apple",
+    "lucideName": "apple"
   }
 ]

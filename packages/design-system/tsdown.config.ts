@@ -10,7 +10,6 @@ export default defineConfig({
     'forms/index': 'src/forms/index.ts',
     'forms/primitives': 'src/forms/primitives.ts',
     'viewport/index': 'src/viewport/index.ts',
-    'icons/index': 'src/icons/index.ts',
     'panda.preset': 'src/panda.preset.ts',
   },
   format: ['esm'],

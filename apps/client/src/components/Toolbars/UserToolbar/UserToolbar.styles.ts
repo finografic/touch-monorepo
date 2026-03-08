@@ -1,6 +1,7 @@
+import { colors } from '@workspace/design-system/tokens';
+
 import { css } from '@emotion/react';
 
-import { colors } from '@workspace/design-system/tokens';
 import { baseToolbarStyles } from '../toolbar.styles';
 
 /**
@@ -14,14 +15,16 @@ export const styles = css`
   &.theme-light {
     .button-box button.button {
       svg.icon {
-        color: ${colors.greyXLight};
-        border-color: ${colors.greyXLight};
-        stroke: ${colors.greyXLight};
+        color: ${colors.greyLight};
+        stroke: ${colors.greyLight};
       }
       &:hover {
         cursor: pointer;
-        border-color: transparent;
         background-color: transparent;
+        svg.icon {
+          color: ${colors.info};
+          stroke: ${colors.info};
+        }
       }
     }
   }

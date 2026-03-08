@@ -70,7 +70,7 @@
     "dev": {
       "cache": false,
       "persistent": true,
-      "dependsOn": ["@workspace/core#build", "@workspace/design-system#build", "@workspace/icons#build"],
+      "dependsOn": ["@workspace/core#build", "@workspace/icons#build", "@workspace/design-system#build"],
       "env": ["NODE_ENV", "PORT"]
     },
     "lint": {

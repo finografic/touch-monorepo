@@ -7,13 +7,19 @@
  *   GET  /api/icons-json  → returns current src/icons.json as JSON array
  *   POST /api/icons-json  → validates + writes src/icons.json, runs generate in-process
  *
- * Started via: pnpm icons  (runs alongside the lucide-manager picker UI)
- * Port is read from lucide-manager.config.json → serverPort, or defaults to 3001.
+ * Started via:
+ *   pnpm icons.server  — server only (called by root `pnpm dev`)
+ *   pnpm icons.config  — server + picker UI together (concurrently)
+ *
+ * Port: starts at 3001, auto-increments if busy.
+ * The actual port is written to lucide-manager.config.json so the picker
+ * always connects to the right URL.
  *
  * This server is dev-only. It is not part of the package build output.
  */
 
 import fs from 'node:fs';
+import net from 'node:net';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { serve } from '@hono/node-server';
@@ -25,12 +31,20 @@ import pc from 'picocolors';
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const jsonPath = path.join(root, 'src', 'icons.json');
+const configPath = path.join(root, 'lucide-manager.config.json');
 
-// ── Config ─────────────────────────────────────────────────────────────────────
-// The server no longer reads lucide-manager.config.json — that file exists only
-// for the picker UI (to know the serverUrl). Port is set here directly.
+// ── Port discovery ─────────────────────────────────────────────────────────────
 
-const PORT = 3001;
+function findAvailablePort(startPort: number): Promise<number> {
+  return new Promise((resolve) => {
+    const server = net.createServer();
+    server.listen(startPort, () => {
+      const { port } = server.address() as net.AddressInfo;
+      server.close(() => resolve(port));
+    });
+    server.on('error', () => resolve(findAvailablePort(startPort + 1)));
+  });
+}
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 
@@ -105,9 +119,10 @@ app.post('/api/icons-json', async (c) => {
 
   const entries = body as IconEntry[];
 
-  // Write icons.json
+  // Write icons.json — exportName first so the file reads alphabetically
+  const ordered = entries.map(({ exportName, lucideName }) => ({ exportName, lucideName }));
   try {
-    fs.writeFileSync(jsonPath, JSON.stringify(entries, null, 2) + '\n', 'utf8');
+    fs.writeFileSync(jsonPath, JSON.stringify(ordered, null, 2) + '\n', 'utf8');
   } catch (err) {
     console.error('[icons-server] Failed to write icons.json:', err);
     return c.json({ error: 'Failed to write icons.json' }, 500);
@@ -128,9 +143,15 @@ app.post('/api/icons-json', async (c) => {
 
 // ── Start ─────────────────────────────────────────────────────────────────────
 
-serve({ fetch: app.fetch, port: PORT }, () => {
+const port = await findAvailablePort(5001);
+const serverUrl = `http://localhost:${port}`;
+
+// Write the actual port to lucide-manager.config.json so the picker connects
+// to the right URL regardless of which port we landed on.
+fs.writeFileSync(configPath, JSON.stringify({ serverUrl }, null, 2) + '\n', 'utf8');
+
+serve({ fetch: app.fetch, port }, () => {
   console.log('');
-  console.log(`  ${pc.greenBright('●')}  Picker UI:     ${pc.greenBright('pnpm icons.dev')}`);
-  console.log(`  ${pc.cyan('●')}  Icons Server:  ${pc.cyan(`http://localhost:${PORT}`)}`);
+  console.log(`  ${pc.cyan('●')}  Icons Server:  ${pc.cyan(serverUrl)}`);
   console.log('');
 });
