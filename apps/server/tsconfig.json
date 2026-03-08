@@ -50,12 +50,10 @@
     "skipDefaultLibCheck": true
   },
   "references": [
-    {
-      "path": "../../packages/core"
-    },
-    {
-      "path": "../../config"
-    }
+    { "path": "../../packages/core" },
+    { "path": "../../packages/shared" },
+    { "path": "../../packages/i18n" },
+    { "path": "../../config" }
   ],
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.json"],
   "exclude": ["node_modules", "dist", "**/__tests__/**", "**/*.test.ts", "**/*.spec.ts"]

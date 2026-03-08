@@ -122,6 +122,8 @@ export type IconComponent = ReturnType<typeof createIconWrapper>;
  * !! Edit src/icons.json via the picker UI, then run: pnpm icons.generate
  */
 
+import { icons } from './icons';
+
 export type { IconComponent, IconName } from './icons';
 export { ICON_NAMES, icons } from './icons';
 

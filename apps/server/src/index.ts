@@ -1,7 +1,7 @@
 import { serve } from '@hono/node-server';
-import pc from 'picocolors';
 import { env } from 'env.server';
 import { networkInterfaces } from 'os';
+import pc from 'picocolors';
 
 import '@workspace/core';
 
@@ -20,16 +20,10 @@ function getLanIp(): string | null {
 
 const lanIp = getLanIp();
 
-console.log(
-  `  ${pc.green('●')}  App Ready:      ${pc.green(`http://localhost:${env.CLIENT_PORT}`)}`,
-);
-console.log(
-  `  ${pc.cyan('●')}  API Listening:  ${pc.cyan(`http://localhost:${env.API_PORT}`)}`,
-);
+console.log(`  ${pc.cyan('●')} App Ready:      ${pc.cyan(`http://localhost:${env.CLIENT_PORT}`)}`);
+console.log(`  ${pc.green('●')} API Listening:  ${pc.green(`http://localhost:${env.API_PORT}`)}`);
 if (lanIp) {
-  console.log(
-    `  ${pc.cyan('🌐')} Remote Access:  ${pc.cyan(`http://${lanIp}:${env.CLIENT_PORT}`)}`,
-  );
+  console.log(`  ${pc.green('●')} Remote Access:  ${pc.green(`http://${lanIp}:${env.CLIENT_PORT}`)}`);
 }
 
 console.log('');
