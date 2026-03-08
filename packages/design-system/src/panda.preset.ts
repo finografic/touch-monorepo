@@ -39,6 +39,7 @@ import { tooltipRecipe } from './recipes/tooltip.recipe';
 import { durationTokens, easingTokens, keyframes } from './tokens/animations.tokens';
 import { colorTokens, semanticColorTokens } from './tokens/colors.tokens';
 import { borderWidthTokens, radiiTokens, shadowTokens } from './tokens/decorative.tokens';
+import { sizingTokens } from './tokens/sizes.tokens';
 import { spacingTokens, zIndexTokens } from './tokens/spacing.tokens';
 import {
   fontSizeTokens,
@@ -60,6 +61,7 @@ export const designSystemPreset = definePreset({
       fontWeights: fontWeightTokens,
       lineHeights: lineHeightTokens,
       spacing: spacingTokens,
+      sizes: sizingTokens,
       radii: radiiTokens,
       borderWidths: borderWidthTokens,
       shadows: shadowTokens,

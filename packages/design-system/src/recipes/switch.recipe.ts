@@ -56,7 +56,7 @@ export const switchRecipe = defineRecipe({
         '& .switch-thumb': {
           width: '3',
           height: '3',
-          _checked: { transform: 'translateX(12px)' },
+          _checked: { transform: 'translateX(0.75rem)' },
         },
       },
       md: {
@@ -65,7 +65,7 @@ export const switchRecipe = defineRecipe({
         '& .switch-thumb': {
           width: '4',
           height: '4',
-          _checked: { transform: 'translateX(16px)' },
+          _checked: { transform: 'translateX(1rem)' },
         },
       },
       lg: {
@@ -74,7 +74,7 @@ export const switchRecipe = defineRecipe({
         '& .switch-thumb': {
           width: '5',
           height: '5',
-          _checked: { transform: 'translateX(20px)' },
+          _checked: { transform: 'translateX(1.25rem)' },
         },
       },
     },

@@ -4,6 +4,7 @@
  * Mapped from the existing client styles typography system.
  * Font stacks, sizes, weights, and line heights.
  */
+import { defineTextStyles, defineTokens } from '@pandacss/dev';
 
 // ============================================================================
 // FONT FAMILIES
@@ -11,7 +12,7 @@
 // Used in recipes as: fontFamily: 'sans'
 // ============================================================================
 
-export const fontTokens = {
+export const fontTokens = defineTokens.fonts({
   sans: {
     value: [
       '-apple-system',
@@ -36,7 +37,7 @@ export const fontTokens = {
     value:
       'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
   },
-} as const;
+});
 
 // ============================================================================
 // FONT SIZES
@@ -44,18 +45,18 @@ export const fontTokens = {
 // Used in recipes as: fontSize: 'md', fontSize: '2xl'
 // ============================================================================
 
-export const fontSizeTokens = {
-  'xs': { value: '0.75rem' },
-  'sm': { value: '0.875rem' },
-  'md': { value: '1rem' },
-  'lg': { value: '1.125rem' },
-  'xl': { value: '1.25rem' },
+export const fontSizeTokens = defineTokens.fontSizes({
+  'xs':  { value: '0.75rem' },
+  'sm':  { value: '0.875rem' },
+  'md':  { value: '1rem' },
+  'lg':  { value: '1.125rem' },
+  'xl':  { value: '1.25rem' },
   '2xl': { value: '1.5rem' },
   '3xl': { value: '1.875rem' },
   '4xl': { value: '2.25rem' },
   '5xl': { value: '3rem' },
   '6xl': { value: '3.75rem' },
-} as const;
+});
 
 // ============================================================================
 // FONT WEIGHTS
@@ -63,17 +64,17 @@ export const fontSizeTokens = {
 // Used in recipes as: fontWeight: 'semibold', fontWeight: 'normal'
 // ============================================================================
 
-export const fontWeightTokens = {
-  thin: { value: '100' },
+export const fontWeightTokens = defineTokens.fontWeights({
+  thin:       { value: '100' },
   extralight: { value: '200' },
-  light: { value: '300' },
-  normal: { value: '400' },
-  medium: { value: '500' },
-  semibold: { value: '600' },
-  bold: { value: '700' },
-  extrabold: { value: '800' },
-  black: { value: '900' },
-} as const;
+  light:      { value: '300' },
+  normal:     { value: '400' },
+  medium:     { value: '500' },
+  semibold:   { value: '600' },
+  bold:       { value: '700' },
+  extrabold:  { value: '800' },
+  black:      { value: '900' },
+});
 
 // ============================================================================
 // LINE HEIGHTS
@@ -81,20 +82,20 @@ export const fontWeightTokens = {
 // Used in recipes as: lineHeight: 'tight', lineHeight: 'normal'
 // ============================================================================
 
-export const lineHeightTokens = {
-  none: { value: '1' },
-  tight: { value: '1.25' },
-  snug: { value: '1.375' },
-  normal: { value: '1.5' },
+export const lineHeightTokens = defineTokens.lineHeights({
+  none:    { value: '1' },
+  tight:   { value: '1.25' },
+  snug:    { value: '1.375' },
+  normal:  { value: '1.5' },
   relaxed: { value: '1.625' },
-  loose: { value: '2' },
-} as const;
+  loose:   { value: '2' },
+});
 
 // ============================================================================
 // TEXT STYLES (composite token — Panda CSS textStyles)
 // ============================================================================
 
-export const textStyles = {
+export const textStyles = defineTextStyles({
   h1: {
     value: {
       fontSize: '3.75rem',
@@ -160,4 +161,4 @@ export const textStyles = {
       lineHeight: '1.5',
     },
   },
-} as const;
+});

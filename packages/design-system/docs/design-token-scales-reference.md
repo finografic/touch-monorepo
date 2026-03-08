@@ -9,7 +9,7 @@
 ## Table of Contents
 
 1. [Spacing Scale (Panda CSS)](#1-spacing-scale-panda-css)
-2. [Sizing Scale (Panda CSS)](#2-sizing-scale-panda-css)
+2. [Sizing Scale (DS custom)](#2-sizing-scale-ds-custom--sizestokensts)
 3. [Font Sizes (Panda CSS)](#3-font-sizes-panda-css)
 4. [Font Weights (Panda CSS)](#4-font-weights-panda-css)
 5. [Border Radius (Panda CSS)](#5-border-radius-panda-css)
@@ -73,27 +73,53 @@ No single "default" — context-dependent. ✦ marks commonly used base values.
 
 ---
 
-## 2. Sizing Scale (Panda CSS)
+## 2. Sizing Scale (DS custom — `sizes.tokens.ts`)
 
-Named size tokens used for `width`, `maxWidth`, `height`, etc. These are **in addition to** all spacing tokens above (which are also valid size values). No framework-level default.
+> **This DS replaces the Panda default sizes scale** with a custom `defineTokens.sizes`.
+> Covers a numeric rem scale (mirrors spacing) plus named layout dimensions.
+> Used by `width`, `height`, `minWidth`, `maxWidth`, `minHeight`, `maxHeight`.
 
-| Key     | rem / value | px     | My Map |
-| ------- | ----------- | ------ | ------ |
-| `md`    | 28rem       | 448px  |        |
-| `lg`    | 32rem       | 512px  |        |
-| `xl`    | 36rem       | 576px  |        |
-| `2xl`   | 42rem       | 672px  |        |
-| `3xl`   | 48rem       | 768px  |        |
-| `4xl`   | 56rem       | 896px  |        |
-| `5xl`   | 64rem       | 1024px |        |
-| `6xl`   | 72rem       | 1152px |        |
-| `7xl`   | 80rem       | 1280px |        |
-| `8xl`   | 90rem       | 1440px |        |
-| `prose` | 65ch        | ~65ch  |        |
-| `full`  | 100%        | 100%   |        |
-| `min`   | min-content | —      |        |
-| `max`   | max-content | —      |        |
-| `fit`   | fit-content | —      |        |
+### Numeric scale
+
+| Key    | rem       | px    |
+| ------ | --------- | ----- |
+| `0`    | 0         | 0px   |
+| `px`   | 1px       | 1px   |
+| `0.5`  | 0.125rem  | 2px   |
+| `1`    | 0.25rem   | 4px   |
+| `1.5`  | 0.375rem  | 6px   |
+| `2`    | 0.5rem    | 8px   |
+| `3`    | 0.75rem   | 12px  |
+| `4`    | 1rem      | 16px  |
+| `5`    | 1.25rem   | 20px  |
+| `6`    | 1.5rem    | 24px  |
+| `7`    | 1.75rem   | 28px  |
+| `8`    | 2rem      | 32px  |
+| `9`    | 2.25rem   | 36px  |
+| `10`   | 2.5rem    | 40px  |
+| `12`   | 3rem      | 48px  |
+| `16`   | 4rem      | 64px  |
+| `20`   | 5rem      | 80px  |
+| `24`   | 6rem      | 96px  |
+
+### Named layout sizes
+
+Override at the app level via CSS vars (see `layout.tokens.ts` / `LAYOUT_VARS`).
+
+| Key       | Default value | CSS var generated          |
+| --------- | ------------- | -------------------------- |
+| `navbar`  | 41px          | `var(--sizes-navbar)`      |
+| `header`  | 70px          | `var(--sizes-header)`      |
+| `footer`  | 70px          | `var(--sizes-footer)`      |
+| `sidebar` | 300px         | `var(--sizes-sidebar)`     |
+| `content` | 1200px        | `var(--sizes-content)`     |
+
+```ts
+// In a recipe or css():
+maxWidth: 'content'  // → var(--sizes-content) → 1200px
+height: 'navbar'     // → var(--sizes-navbar)  → 41px
+width: '9'           // → var(--sizes-9)       → 2.25rem (36px)
+```
 
 ---
 

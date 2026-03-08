@@ -3,12 +3,13 @@
  *
  * Keyframes and transition durations for the design system.
  */
+import { defineKeyframes, defineTokens } from '@pandacss/dev';
 
 // ============================================================================
 // KEYFRAMES
 // ============================================================================
 
-export const keyframes = {
+export const keyframes = defineKeyframes({
   'slide-fade-in': {
     '0%': { opacity: '0', transform: 'translateY(-8px)' },
     '100%': { opacity: '1', transform: 'translateY(0)' },
@@ -45,29 +46,29 @@ export const keyframes = {
     '0%': { transform: 'rotate(0deg)' },
     '100%': { transform: 'rotate(360deg)' },
   },
-} as const;
+});
 
 // ============================================================================
 // DURATIONS
 // ============================================================================
 
-export const durationTokens = {
+export const durationTokens = defineTokens.durations({
   fastest: { value: '50ms' },
-  faster: { value: '100ms' },
-  fast: { value: '150ms' },
-  normal: { value: '200ms' },
-  slow: { value: '300ms' },
-  slower: { value: '400ms' },
+  faster:  { value: '100ms' },
+  fast:    { value: '150ms' },
+  normal:  { value: '200ms' },
+  slow:    { value: '300ms' },
+  slower:  { value: '400ms' },
   slowest: { value: '500ms' },
-} as const;
+});
 
 // ============================================================================
 // EASINGS
 // ============================================================================
 
-export const easingTokens = {
+export const easingTokens = defineTokens.easings({
   'default': { value: 'cubic-bezier(0.4, 0, 0.2, 1)' },
-  'in': { value: 'cubic-bezier(0.4, 0, 1, 1)' },
-  'out': { value: 'cubic-bezier(0, 0, 0.2, 1)' },
-  'in-out': { value: 'cubic-bezier(0.4, 0, 0.2, 1)' },
-} as const;
+  'in':      { value: 'cubic-bezier(0.4, 0, 1, 1)' },
+  'out':     { value: 'cubic-bezier(0, 0, 0.2, 1)' },
+  'in-out':  { value: 'cubic-bezier(0.4, 0, 0.2, 1)' },
+});
