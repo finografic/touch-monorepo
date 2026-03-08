@@ -306,5 +306,13 @@
   {
     "lucideName": "zap",
     "exportName": "Zap"
+  },
+  {
+    "lucideName": "aperture",
+    "exportName": "Aperture"
+  },
+  {
+    "lucideName": "apple",
+    "exportName": "Apple"
   }
 ]

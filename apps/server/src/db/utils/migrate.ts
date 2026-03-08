@@ -1,7 +1,7 @@
 /* eslint-disable style/quotes */
 import { confirm } from '@inquirer/prompts';
 import Database from 'better-sqlite3';
-import chalk from 'chalk';
+import pc from 'picocolors';
 import { env } from 'env.server';
 import path from 'node:path';
 import { drizzle } from 'drizzle-orm/better-sqlite3';
@@ -33,7 +33,7 @@ async function main() {
 
   if (tables.length > 0 || views.length > 0) {
     const shouldDrop = await confirm({
-      message: chalk.yellow('⚠️  Warning: This will drop existing tables and views. Are you sure?'),
+      message: pc.yellow('⚠️  Warning: This will drop existing tables and views. Are you sure?'),
       default: false,
     });
 

@@ -16,9 +16,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { Hono } from 'hono';
 import { serve } from '@hono/node-server';
+import { Hono } from 'hono';
 import { cors } from 'hono/cors';
+import pc from 'picocolors';
 
 // ── Paths ──────────────────────────────────────────────────────────────────────
 
@@ -124,6 +125,8 @@ app.post('/api/icons-json', async c => {
 // ── Start ─────────────────────────────────────────────────────────────────────
 
 serve({ fetch: app.fetch, port: PORT }, () => {
-  console.log(`\n  Icons server  →  http://localhost:${PORT}`);
-  console.log(`  Picker UI     →  run lucide-manager dev in another terminal\n`);
+  console.log('');
+  console.log(`  ${pc.green('●')}  Icons Server:  ${pc.green(`http://localhost:${PORT}`)}`);
+  console.log(`  ${pc.cyan('●')}  Picker UI:     ${pc.cyan('pnpm icons.dev')}`);
+  console.log('');
 });

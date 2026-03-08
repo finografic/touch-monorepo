@@ -11,6 +11,8 @@ export { ICON_NAMES, icons } from './icons';
 // Named icon exports
 export const {
   AddIcon,
+  ApertureIcon,
+  AppleIcon,
   ArrowDownIcon,
   ArrowLeftIcon,
   ArrowRightIcon,

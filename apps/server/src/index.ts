@@ -1,5 +1,5 @@
 import { serve } from '@hono/node-server';
-import chalk from 'chalk';
+import pc from 'picocolors';
 import { env } from 'env.server';
 import { networkInterfaces } from 'os';
 
@@ -21,14 +21,14 @@ function getLanIp(): string | null {
 const lanIp = getLanIp();
 
 console.log(
-  `${chalk.greenBright('●')}  App Ready: ${chalk.greenBright(`http://localhost:${env.CLIENT_PORT}`)}`,
+  `  ${pc.green('●')}  App Ready:      ${pc.green(`http://localhost:${env.CLIENT_PORT}`)}`,
 );
 console.log(
-  `${chalk.cyanBright('●')}  API Listening: ${chalk.cyanBright(`http://localhost:${env.API_PORT}`)}`,
+  `  ${pc.cyan('●')}  API Listening:  ${pc.cyan(`http://localhost:${env.API_PORT}`)}`,
 );
 if (lanIp) {
   console.log(
-    `${chalk.cyanBright('🌐')} Remote Access: ${chalk.cyanBright(`http://${lanIp}:${env.CLIENT_PORT}`)}`,
+    `  ${pc.cyan('🌐')} Remote Access:  ${pc.cyan(`http://${lanIp}:${env.CLIENT_PORT}`)}`,
   );
 }
 

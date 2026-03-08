@@ -1,5 +1,5 @@
 // import type { RequestMethod } from 'types/request.types';
-import chalk from 'chalk';
+import pc from 'picocolors';
 // import { REQUEST_COLOR } from 'types/cli.types';
 
 const LINE_CHAR = '=';
@@ -10,10 +10,10 @@ const LINE_LENGTH = 80;
 const BR = '\n';
 const HR = LINE_CHAR.repeat(LINE_LENGTH);
 const HR_THIN = LINE_CHAR_THIN.repeat(LINE_LENGTH);
-const SEPARATOR = chalk.grey.bold(' / ');
+const SEPARATOR = pc.bold(pc.gray(' / '));
 
 // function _colorizeMethod({ method }: { method: RequestMethod }) {
-//   return chalk[REQUEST_COLOR[method]](`[${method}]`);
+//   return pc[REQUEST_COLOR[method]](`[${method}]`);
 // }
 
 // EXPORT THE FULL CLI SUITE
@@ -25,14 +25,14 @@ export const cli = {
 
 export const CLI = {
   BR,
-  HR_1: chalk.grey(LINE_CHAR_THIN.repeat(LINE_LENGTH)),
-  HR_2: chalk.grey(LINE_CHAR.repeat(LINE_LENGTH)),
-  VR: chalk.grey(SEPARATOR),
+  HR_1: pc.gray(LINE_CHAR_THIN.repeat(LINE_LENGTH)),
+  HR_2: pc.gray(LINE_CHAR.repeat(LINE_LENGTH)),
+  VR: pc.gray(SEPARATOR),
   METHOD: {
-    GET: chalk.green('[GET]'),
-    POST: chalk.blue('[POST]'),
-    PUT: chalk.yellow('[PUT]'),
-    DELETE: chalk.red('[DELETE]'),
-    OPTIONS: chalk.magenta('[OPTIONS]'),
+    GET: pc.green('[GET]'),
+    POST: pc.blue('[POST]'),
+    PUT: pc.yellow('[PUT]'),
+    DELETE: pc.red('[DELETE]'),
+    OPTIONS: pc.magenta('[OPTIONS]'),
   },
 };

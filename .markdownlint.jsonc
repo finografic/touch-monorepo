@@ -121,22 +121,23 @@
   },
 
   // MD025/single-title/single-h1 : Multiple top-level headings in the same document : https://github.com/DavidAnson/markdownlint/blob/v0.40.0/doc/md025.md
-  /*
+
   // NOTE: DEFAULT
   "MD025": {
     // RegExp for matching title in front matter
     "front_matter_title": "^\\s*title\\s*[:=]",
     // Heading level
-    "level": 1
+    "level": 1,
+    // NEW: OVERRIDE
+    "enabled": false,
   },
-  */
-  // NEW: OVERRIDE
-  "MD025": false,
 
   // MD026/no-trailing-punctuation : Trailing punctuation in heading : https://github.com/DavidAnson/markdownlint/blob/v0.40.0/doc/md026.md
   "MD026": {
     // Punctuation characters
     "punctuation": ".,;:!。，；：！",
+    // NEW: OVERRIDE / IGNORE (allow trailing punctuation in headings)
+    "enabled": false,
   },
 
   // MD027/no-multiple-space-blockquote : Multiple spaces after blockquote symbol : https://github.com/DavidAnson/markdownlint/blob/v0.40.0/doc/md027.md
@@ -216,8 +217,6 @@
   },
 
   // MD041/first-line-heading/first-line-h1 : First line in a file should be a top-level heading : https://github.com/DavidAnson/markdownlint/blob/v0.40.0/doc/md041.md
-  // Don't require first line to be a top-level heading
-  /*
   // NOTE: DEFAULT
   "MD041": {
     // Allow content before first heading
@@ -225,27 +224,24 @@
     // RegExp for matching title in front matter
     "front_matter_title": "^\\s*title\\s*[:=]",
     // Heading level
-    "level": 1
+    "level": 1,
+    // NEW: OVERRIDE
+    "enabled": false,
   },
-  */
-  // NEW: OVERRIDE
-  "MD041": false,
 
   // MD042/no-empty-links : No empty links : https://github.com/DavidAnson/markdownlint/blob/v0.40.0/doc/md042.md
   "MD042": true,
 
-  /*
-  // NOTE: DISABLE DEFAULT
   // MD043/required-headings : Required heading structure : https://github.com/DavidAnson/markdownlint/blob/v0.40.0/doc/md043.md
+  // NOTE: DEFAULT
   "MD043": {
     // List of headings
     "headings": [],
     // Match case of headings
     "match_case": false,
+    // NEW: OVERRIDE
+    "enabled": false,
   },
-  */
-  // NEW: OVERRIDE
-  "MD043": false,
 
   // MD044/proper-names : Proper names should have the correct capitalization : https://github.com/DavidAnson/markdownlint/blob/v0.40.0/doc/md044.md
   "MD044": {

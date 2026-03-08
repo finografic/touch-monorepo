@@ -1,6 +1,6 @@
 import { envShared } from '@workspace/config/env.shared';
 
-import chalk from 'chalk';
+import pc from 'picocolors';
 import { cors } from 'hono/cors';
 
 import appConfiguration from 'routes/app-configuration';
@@ -44,7 +44,7 @@ app.use('*', async (context, next) => {
   const method = context.req.method as RequestMethod;
   const path = context.req.path;
   console.log(CLI.BR, CLI.HR_1);
-  console.log(CLI.METHOD[method], chalk.cyan(path), CLI.BR);
+  console.log(CLI.METHOD[method], pc.cyan(path), CLI.BR);
   await next();
 });
 

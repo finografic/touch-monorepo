@@ -1,11 +1,10 @@
-import type { ChalkInstance, ForegroundColorName } from 'chalk';
-import chalk from 'chalk';
+import pc from 'picocolors';
 
 type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'OPTIONS';
 
-type ChalkColor = ChalkInstance[ForegroundColorName];
+type ColorFn = (str: string) => string;
 
-export const REQUEST_COLOR: Record<RequestMethod, ForegroundColorName> = {
+export const REQUEST_COLOR: Record<RequestMethod, string> = {
   GET: 'green',
   POST: 'blue',
   PUT: 'yellow',
@@ -13,10 +12,10 @@ export const REQUEST_COLOR: Record<RequestMethod, ForegroundColorName> = {
   OPTIONS: 'magenta',
 } as const;
 
-export const REQUEST_COLOR_V2: Record<RequestMethod, ChalkColor> = {
-  GET: chalk.green,
-  POST: chalk.blue,
-  PUT: chalk.yellow,
-  DELETE: chalk.red,
-  OPTIONS: chalk.magenta,
+export const REQUEST_COLOR_V2: Record<RequestMethod, ColorFn> = {
+  GET: pc.green,
+  POST: pc.blue,
+  PUT: pc.yellow,
+  DELETE: pc.red,
+  OPTIONS: pc.magenta,
 } as const;

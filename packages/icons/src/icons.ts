@@ -15,6 +15,8 @@ import { createIconWrapper } from './icons.utils';
 
 const ICONS = {
   AddIcon:                  Lucide.Plus,
+  ApertureIcon:             Lucide.Aperture,
+  AppleIcon:                Lucide.Apple,
   ArrowDownIcon:            Lucide.ArrowDown,
   ArrowLeftIcon:            Lucide.ArrowLeft,
   ArrowRightIcon:           Lucide.ArrowRight,
