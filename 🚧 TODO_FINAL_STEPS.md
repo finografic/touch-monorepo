@@ -94,8 +94,8 @@ entirely; `Layout.tsx` drives dark mode via `document.documentElement.setAttribu
 - ~~Delete `styles/themes/` directory (OKLCH generation, hex themes)~~ ✅ Done
 - ~~Delete `styles/colors/`, `styles/hooks/`, `styles/layout/`, `styles/constants/`~~ ✅ Done
 - `apps/client/package.json`: remove `@emotion/react`, `@emotion/styled`, `@emotion/css`
-- Migrate all remaining `.styles.ts` files off Emotion (113 files — see strategy below)
-- Remove `_migration.tokens.ts` compat shim from the DS package
+- ~~Migrate all remaining `.styles.ts` files off Emotion (113 files — see strategy below)~~ ⚠️ TBD
+- ~~Remove `_migration.tokens.ts` compat shim from the DS package~~✅ Done
 
 ~~**7. Confirm dark mode**~~ ✅ Done — `Layout.tsx` calls `document.documentElement.setAttribute('data-theme', theme)` which drives Panda CSS vars. No ThemeProvider needed.
 
@@ -108,7 +108,7 @@ pnpm build        # must pass clean
 
 **End state:** `styles/` contains exactly the 5 files listed above, flat, no subdirectories.
 
-### Emotion Removal Strategy (step 6)
+### (OPTIONAL) Emotion Removal Strategy (step 6)
 
 113 files still use `@emotion/react`. Options (not mutually exclusive):
 
@@ -144,11 +144,12 @@ pnpm build        # must pass clean
 |---|---|---|
 | **Accept it** | Leave as-is — it's one declaration block, not per-rule | None |
 | **Disable unused utility groups** | Remove filter/backdrop/transform from Panda config | Low |
-| **`utilities: { reset: 'container' }` *(not valid option)*| Scope to container class | — |
+| **`utilities: { reset: 'container' }` _(not valid option)_| Scope to container class | — |
 
 Simplest fix: disable the filter/transform composable utilities in `panda.config.ts` since they aren't used.
 
 **DevTools check still needed:**
+
 1. Open DevTools on a production build, select any element
 2. Confirm the only `--` vars inherited are Panda tokens (colors, spacing) not Radix noise
 3. If the `--blur` / `--translate-x` init block is still visible as noise, apply the fix above
