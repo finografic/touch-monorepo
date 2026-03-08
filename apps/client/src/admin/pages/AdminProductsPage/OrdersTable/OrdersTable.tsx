@@ -14,7 +14,7 @@ import { useAppConfig } from 'providers/AppConfigProvider';
 import type { OrderReadableWithIndex } from '../hooks/useOrdersFilter';
 import { ORDERS_TABLE_COLUMNS, type OrdersTableColumnBodyType } from './OrdersTable.config';
 import { useTableLabelMappings } from './useTableLabelMappings';
-import { EditIcon, TrashIcon } from '@workspace/design-system/icons';
+import { EditIcon, TrashIcon } from '@workspace/icons';
 import 'primereact/resources/themes/lara-light-cyan/theme.css';
 import 'primereact/resources/primereact.min.css';
 import { styles } from './OrdersTable.styles';

@@ -5,7 +5,7 @@ import { Button } from 'components/Button';
 
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 
-import { UserCircleIcon, UserLockIcon } from '@workspace/design-system/icons';
+import { UserCircleIcon, UserLockIcon } from '@workspace/icons';
 import { styles } from './UserAuthButton.styles';
 
 export const UserAuthButton: React.FC = () => {

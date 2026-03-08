@@ -5,7 +5,7 @@ import { card } from 'styled-system/recipes';
 import { matchSorter } from 'match-sorter';
 
 import type { Country } from '../../components/LanguageSelector/languages/country.types';
-import { ChevronDownIcon, MagnifyingGlassIcon } from '@workspace/design-system/icons';
+import { ChevronDownIcon, MagnifyingGlassIcon } from '@workspace/icons';
 import { styles } from './SearchableLanguageInput.styles';
 
 interface LanguageOption {
@@ -299,7 +299,9 @@ export const SearchableLanguageInput: React.FC<SearchableLanguageInputSlidingPro
               ))
             ) : (
               <div style={{ padding: '1rem', textAlign: 'center' }}>
-                <span>{searchValue ? `No languages found for "${searchValue}"` : 'No languages available'}</span>
+                <span>
+                  {searchValue ? `No languages found for "${searchValue}"` : 'No languages available'}
+                </span>
               </div>
             )}
 

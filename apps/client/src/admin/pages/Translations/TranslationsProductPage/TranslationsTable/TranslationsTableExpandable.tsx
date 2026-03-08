@@ -21,7 +21,7 @@ import { ExpandedSubtypeRow } from './components/TranslationsRowExpanded';
 import { useTranslationsTableForm } from './hooks/useTranslationsTableForm';
 import { useTranslationsTableHandlers } from './hooks/useTranslationsTableHandlers';
 import { colors } from '@workspace/design-system/tokens';
-import { ChevronDownIcon, ChevronRightIcon } from '@workspace/design-system/icons';
+import { ChevronDownIcon, ChevronRightIcon } from '@workspace/icons';
 import { styles } from '../../shared/styles/TranslationsTable.styles';
 
 interface TranslationsTableExpandableProps {
@@ -243,9 +243,7 @@ export const TranslationsTableExpandable: React.FC<TranslationsTableExpandablePr
                         align="center"
                         style={{ width: '100%' }}
                       >
-                        <span style={{ color: 'inherit' }}>
-                          {group.drinkTypeName}
-                        </span>
+                        <span style={{ color: 'inherit' }}>{group.drinkTypeName}</span>
                         <span
                           style={{
                             color: hasSubtypes ? colors.info : colors.textXLight,

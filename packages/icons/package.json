@@ -15,33 +15,34 @@
     "dist"
   ],
   "scripts": {
+    "·········· ICONS": "·····················································",
+    "icons.config": "concurrently -n \"server,config\" -c \"cyan,green\" \"tsx server/icons-server.ts\" \"lucide-manager dev\"",
+    "icons.server": "tsx server/icons-server.ts",
+    "icons.generate": "tsx scripts/generate.ts",
+    "·········· BUILD": "·····················································",
     "build": "tsdown",
     "dev": "tsdown --watch --no-clean",
     "typecheck": "tsc --noEmit",
-
-    "·· ICONS ···················································": "",
-    "icons":          "tsx server/icons-server.ts",
-    "icons.dev":      "concurrently -n \"server,picker\" -c \"cyan,green\" \"tsx server/icons-server.ts\" \"lucide-manager dev\"",
-    "icons.generate": "tsx scripts/generate.ts",
-
     "·········· CLEAN": "·····················································",
-    "clean":     "pnpm --package=@finografic/project-scripts dlx purge-builds --detach",
+    "clean": "pnpm --package=@finografic/project-scripts dlx purge-builds --detach",
     "clean.dry": "pnpm --package=@finografic/project-scripts dlx purge-builds --dry-run"
   },
   "dependencies": {
     "lucide-react": "^0.564.0"
   },
   "devDependencies": {
-    "@finografic/lucide-manager": "0.5.0",
+    "@finografic/lucide-manager": "0.6.0",
     "@finografic/project-scripts": "8.12.0",
     "@hono/node-server": "1.19.9",
     "@types/react": "^18.3.12",
     "concurrently": "9.2.0",
-    "picocolors": "^1.1.1",
     "hono": "^4.11.9",
+    "picocolors": "^1.1.1",
+    "react-dom": "^18.3.1",
     "tsdown": "^0.20.3",
     "tsx": "4.21.0",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.2",
+    "vite": "^7.3.1"
   },
   "peerDependencies": {
     "react": "^18.3.1"

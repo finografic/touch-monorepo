@@ -8,9 +8,9 @@ import { useToast } from 'components/Toast';
 
 import { useUpdateSoundSettings } from 'queries/sounds';
 
-import { playSoundByPath, stopAllAudio  } from 'utils/soundCache.utils';
+import { playSoundByPath, stopAllAudio } from 'utils/soundCache.utils';
 import type { SoundFile, SoundSettings, SoundType } from 'types/sounds.types';
-import { VolumeIcon, VolumeOffIcon } from '@workspace/design-system/icons';
+import { VolumeIcon, VolumeOffIcon } from '@workspace/icons';
 import { styles } from './SoundConfigurationSection.styles';
 
 interface SoundConfigurationSectionProps {
@@ -116,7 +116,13 @@ export const SoundConfigurationSection: React.FC<SoundConfigurationSectionProps>
                 <VolumeIcon className="icon-speaker" />
                 Test
               </Button>
-              <Button size="md" variant="outline" color="warning" onClick={stopAllAudio} className="test-button">
+              <Button
+                size="md"
+                variant="outline"
+                color="warning"
+                onClick={stopAllAudio}
+                className="test-button"
+              >
                 <VolumeOffIcon className="icon-speaker" />
                 Stop
               </Button>

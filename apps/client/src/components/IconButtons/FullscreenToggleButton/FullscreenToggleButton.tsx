@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState, type FC } from 'react';
 import clsx from 'clsx';
 import { Button } from 'components/Button/Button';
 
-import { FullscreenIcon, MinimizeIcon } from '@workspace/design-system/icons';
+import { FullscreenIcon, MinimizeIcon } from '@workspace/icons';
 import { styles } from './FullscreenToggleButton.styles';
 
 export const FullscreenToggleButton: FC = () => {

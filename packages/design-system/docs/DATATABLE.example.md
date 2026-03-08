@@ -149,7 +149,7 @@ file makes both easier to read.
 import type { ColumnDef } from '@tanstack/react-table';
 import { buttonRecipe, checkboxRecipe, inputRecipe } from '@workspace/design-system/recipes';  // generated
 import { CheckboxField } from '@workspace/design-system/components';
-import { TrashIcon, EditIcon } from '@workspace/design-system/icons';
+import { TrashIcon, EditIcon } from '@workspace/icons';
 
 export type Order = {
   id: string;

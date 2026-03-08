@@ -11,7 +11,15 @@ import { AdminSoundPage, PublicSoundPage } from 'admin/pages/AdminSoundPage';
 import { TranslationsPage } from 'admin/pages/Translations/TranslationsPage';
 import { TranslationsProductPage } from 'admin/pages/Translations/TranslationsProductPage';
 
-import { CoffeeIcon, EditIcon, GridIcon, LanguageIcon, ListIcon, VolumeIcon, ZapIcon } from '@workspace/design-system/icons';
+import {
+  CoffeeIcon,
+  EditIcon,
+  GridIcon,
+  LanguageIcon,
+  ListIcon,
+  VolumeIcon,
+  ZapIcon,
+} from '@workspace/icons';
 
 export type AuthRoles = 'public' | 'admin';
 

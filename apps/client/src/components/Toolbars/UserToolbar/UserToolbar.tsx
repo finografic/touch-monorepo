@@ -14,7 +14,7 @@ import { useAppConfig } from 'providers/AppConfigProvider';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 
 import { clearAllAuthCookiesServer } from 'utils/auth.utils';
-import { LanguageIcon } from '@workspace/design-system/icons';
+import { LanguageIcon } from '@workspace/icons';
 import { styles } from './UserToolbar.styles';
 
 export const UserToolbar = ({ variant }: { variant?: 'light' | 'dark' }) => {
@@ -35,9 +35,8 @@ export const UserToolbar = ({ variant }: { variant?: 'light' | 'dark' }) => {
     <>
       <div css={styles} className={clsx('toolbar', 'toolbar-user', `theme-${variant || theme}`)}>
         <Flex gap={0} align="center">
-
           <div className="button-box">
-          <FullscreenToggleButton />
+            <FullscreenToggleButton />
           </div>
 
           <div className="button-box">

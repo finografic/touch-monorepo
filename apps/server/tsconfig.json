@@ -6,6 +6,9 @@
     "module": "ESNext", // Explicit module format
     /* Bundler mode */
     "moduleResolution": "bundler",
+    "rootDir": ".",
+    "baseUrl": ".",
+    "outDir": "./dist",
     "paths": {
       "config": ["./src/config"],
       "config/*": ["./src/config/*"],
@@ -38,12 +41,6 @@
     "noUnusedParameters": false,
     // ------------------------------------------------------------------------ //
     "declaration": true,
-    // "baseUrl": "./src",
-    // "outDir": "./dist",
-    // "rootDir": "./src",
-    "baseUrl": ".",
-    "outDir": "./dist",
-    "rootDir": ".",
     "emitDeclarationOnly": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,

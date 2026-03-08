@@ -7,7 +7,7 @@ import { callout, card } from 'styled-system/recipes';
 import { Button } from 'components/Button';
 
 import { LanguageItem } from './LanguageItem';
-import { InfoCircledIcon, TrashIcon } from '@workspace/design-system/icons';
+import { InfoCircledIcon, TrashIcon } from '@workspace/icons';
 
 interface LanguagesListSelectedProps {
   selectedLanguages: LanguageInfo[];
@@ -24,7 +24,9 @@ export const LanguagesListSelected: React.FC<LanguagesListSelectedProps> = ({
     <Box pt={2}>
       {/* Header */}
       <h2>
-        <span style={{ color: selectedLanguages.length > 0 ? 'var(--colors-success-dark)' : 'var(--colors-fg)' }}>
+        <span
+          style={{ color: selectedLanguages.length > 0 ? 'var(--colors-success-dark)' : 'var(--colors-fg)' }}
+        >
           Selected Languages ({selectedLanguages.length})
         </span>
       </h2>

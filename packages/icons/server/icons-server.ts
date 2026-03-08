@@ -23,7 +23,7 @@ import pc from 'picocolors';
 
 // ── Paths ──────────────────────────────────────────────────────────────────────
 
-const root     = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
+const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const jsonPath = path.join(root, 'src', 'icons.json');
 
 // ── Config ─────────────────────────────────────────────────────────────────────
@@ -35,8 +35,8 @@ const PORT = 3001;
 // ── Types ──────────────────────────────────────────────────────────────────────
 
 interface IconEntry {
-  lucideName:  string;
-  exportName:  string;
+  lucideName: string;
+  exportName: string;
 }
 
 // ── Generate (in-process) ─────────────────────────────────────────────────────
@@ -56,14 +56,17 @@ async function runGenerate(): Promise<void> {
 const app = new Hono();
 
 // Allow the picker UI (Vite dev server on a different port) to call this server
-app.use('*', cors({
-  origin:  '*',
-  methods: ['GET', 'POST', 'OPTIONS'],
-}));
+app.use(
+  '*',
+  cors({
+    origin: '*',
+    allowMethods: ['GET', 'POST', 'OPTIONS'],
+  }),
+);
 
 // ── GET /api/icons-json ───────────────────────────────────────────────────────
 
-app.get('/api/icons-json', async c => {
+app.get('/api/icons-json', async (c) => {
   try {
     const content = fs.readFileSync(jsonPath, 'utf8');
     return c.json(JSON.parse(content));
@@ -75,7 +78,7 @@ app.get('/api/icons-json', async c => {
 
 // ── POST /api/icons-json ──────────────────────────────────────────────────────
 
-app.post('/api/icons-json', async c => {
+app.post('/api/icons-json', async (c) => {
   let body: unknown;
 
   try {
@@ -91,9 +94,10 @@ app.post('/api/icons-json', async c => {
 
   for (const entry of body) {
     if (
-      typeof entry !== 'object' || entry === null
-      || typeof (entry as IconEntry).lucideName !== 'string'
-      || typeof (entry as IconEntry).exportName !== 'string'
+      typeof entry !== 'object' ||
+      entry === null ||
+      typeof (entry as IconEntry).lucideName !== 'string' ||
+      typeof (entry as IconEntry).exportName !== 'string'
     ) {
       return c.json({ error: 'Each entry must have lucideName and exportName strings' }, 400);
     }
@@ -126,7 +130,7 @@ app.post('/api/icons-json', async c => {
 
 serve({ fetch: app.fetch, port: PORT }, () => {
   console.log('');
-  console.log(`  ${pc.green('●')}  Icons Server:  ${pc.green(`http://localhost:${PORT}`)}`);
-  console.log(`  ${pc.cyan('●')}  Picker UI:     ${pc.cyan('pnpm icons.dev')}`);
+  console.log(`  ${pc.greenBright('●')}  Picker UI:     ${pc.greenBright('pnpm icons.dev')}`);
+  console.log(`  ${pc.cyan('●')}  Icons Server:  ${pc.cyan(`http://localhost:${PORT}`)}`);
   console.log('');
 });

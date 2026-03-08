@@ -19,7 +19,7 @@ import { getEffectiveRows, MAX_COLUMNS, MIN_COLUMNS, NUM_RELAYS } from 'config/a
 import { AdminPageLayout } from '../..';
 import { AdminSection } from '../../components/AdminSection/AdminSection';
 import { SlotGrid } from './SlotGrid/SlotGrid';
-import { MinusIcon, PlusIcon } from '@workspace/design-system/icons';
+import { MinusIcon, PlusIcon } from '@workspace/icons';
 import { styles } from './AdminSlotsConfigPage.styles';
 
 // Types for form values
@@ -269,7 +269,9 @@ export const AdminSlotsConfigPage: React.FC = () => {
                   showPowerSlot={showPowerSlotInPreview}
                 />
                 <Flex gap={4} align="center" mt="-4" pb={4}>
-                  <span className={`${badge({ variant: 'soft', colorScheme: 'info', size: 'lg' })} dimesions-badge`}>
+                  <span
+                    className={`${badge({ variant: 'soft', colorScheme: 'info', size: 'lg' })} dimesions-badge`}
+                  >
                     {numActiveColumns} columns × {effectiveRows} rows = {gridSlotsCount} grid slots + 1
                     special slot
                   </span>

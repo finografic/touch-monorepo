@@ -4,7 +4,7 @@ import { InputField } from '@workspace/design-system/forms';
 import { card } from 'styled-system/recipes';
 import { matchSorter } from 'match-sorter';
 
-import { ChevronDownIcon, MagnifyingGlassIcon } from '@workspace/design-system/icons';
+import { ChevronDownIcon, MagnifyingGlassIcon } from '@workspace/icons';
 import { styles } from './SearchableLanguageInput.styles';
 
 interface LanguageOption {
@@ -254,13 +254,21 @@ export const SearchableLanguageInputCurated: React.FC<SearchableLanguageInputCur
               ))
             ) : (
               <div style={{ padding: '1rem' }}>
-                <span style={{ color: 'var(--colors-fg-subtle)' }}>No languages found matching "{searchValue}"</span>
+                <span style={{ color: 'var(--colors-fg-subtle)' }}>
+                  No languages found matching "{searchValue}"
+                </span>
               </div>
             )}
 
             {/* Sliding window info for debugging */}
             {slidingWindow.totalItems > windowSize && (
-              <div style={{ padding: '0.5rem', borderTop: '1px solid var(--colors-grey-lighter)', background: 'var(--colors-grey-xxxlight)' }}>
+              <div
+                style={{
+                  padding: '0.5rem',
+                  borderTop: '1px solid var(--colors-grey-lighter)',
+                  background: 'var(--colors-grey-xxxlight)',
+                }}
+              >
                 <span style={{ color: 'var(--colors-fg-subtle)' }}>
                   Showing {slidingWindow.startIndex + 1}-{slidingWindow.endIndex} of{' '}
                   {slidingWindow.totalItems} languages

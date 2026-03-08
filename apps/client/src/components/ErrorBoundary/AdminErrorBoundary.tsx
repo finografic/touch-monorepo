@@ -5,7 +5,7 @@ import { Box, Flex } from 'styled-system/jsx';
 import { Button } from 'components/Button';
 import { callout, card } from 'styled-system/recipes';
 
-import { ExclamationTriangleIcon, ReloadIcon } from '@workspace/design-system/icons';
+import { ExclamationTriangleIcon, ReloadIcon } from '@workspace/icons';
 
 interface Props {
   children: ReactNode;

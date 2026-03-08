@@ -4,7 +4,7 @@ import clsx from 'clsx';
 
 import { useAdmin } from 'providers/AdminProvider';
 
-import { LanguageIcon } from '@workspace/design-system/icons';
+import { LanguageIcon } from '@workspace/icons';
 import { styles } from './LanguageButton.styles';
 
 export const LanguageButton: React.FC = () => {

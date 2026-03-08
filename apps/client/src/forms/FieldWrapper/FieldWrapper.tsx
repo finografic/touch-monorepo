@@ -6,7 +6,7 @@ import clsx from 'clsx';
 import { useDebouncedCallback } from 'use-debounce';
 
 import { getFieldValidationState } from './field-wrapper.utils';
-import { Cross2Icon, ExclamationTriangleIcon } from '@workspace/design-system/icons';
+import { Cross2Icon, ExclamationTriangleIcon } from '@workspace/icons';
 import { styles } from './FieldWrapper.styles';
 
 interface FieldWrapperProps {

@@ -8,7 +8,7 @@ import { OrdersFormDevTools } from '../OrderFormDevTools/OrdersFormDevTools';
 import { PROFILE_ITEM_VALUES_EMPTY } from '../orders-form.utils';
 import type { OrdersFormValues } from '../OrdersForm.schema';
 import { TimesRepeaterTable } from '../TimesRepeaterTable';
-import { ChevronDownIcon, ChevronLeftIcon } from '@workspace/design-system/icons';
+import { ChevronDownIcon, ChevronLeftIcon } from '@workspace/icons';
 import { styles } from './ProfilesPanel.styles';
 
 interface ProfilesPanelProps {
@@ -54,7 +54,10 @@ export const ProfilesPanel: React.FC<ProfilesPanelProps> = ({
           <button
             className="p-panel-header-icon"
             type="button"
-            onClick={(e) => { e.stopPropagation(); setIsPanelCollapsed((v) => !v); }}
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsPanelCollapsed((v) => !v);
+            }}
             aria-expanded={!isPanelCollapsed}
             aria-label="Toggle panel"
           >
@@ -85,7 +88,9 @@ export const ProfilesPanel: React.FC<ProfilesPanelProps> = ({
 
         <div className="panel-footer">
           <div className="total-rows-counter">
-            <span>Filas completas: {populatedRowsCount} / {MIN_TABLE_ROWS}</span>
+            <span>
+              Filas completas: {populatedRowsCount} / {MIN_TABLE_ROWS}
+            </span>
           </div>
           <OrdersFormDevTools
             formValues={formValues}

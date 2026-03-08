@@ -9,7 +9,7 @@ import { useToast } from 'components/Toast/ToastContext';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 
 import { AuthLoginTabContent } from './AuthTabContent';
-import { UserLockIcon } from '@workspace/design-system/icons';
+import { UserLockIcon } from '@workspace/icons';
 
 const DEFAULT_USER_EMAIL = 'user@example.com';
 const DEFAULT_ADMIN_EMAIL = 'admin@example.com';

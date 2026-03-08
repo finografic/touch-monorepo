@@ -7,7 +7,7 @@ import { formatTimeDuration, parseTimeDurationToSeconds } from 'utils/time.utils
 import { STEP_BUTTON_VARIANT } from '../FormMiddleware/FormMiddleware.constants';
 import { Button } from 'components/Button';
 import { useColors } from 'styles';
-import { ChevronDownIcon, ChevronUpIcon, ExclamationTriangleIcon } from '@workspace/design-system/icons';
+import { ChevronDownIcon, ChevronUpIcon, ExclamationTriangleIcon } from '@workspace/icons';
 import { styles } from './InputTime.styles';
 
 interface InputTimeProps {
@@ -203,7 +203,16 @@ export const InputTime: React.FC<InputTimeProps> = ({
         setIsInvalid(true);
       }
     },
-    [currentValue, formatTimeDuration, parseTimeDurationToSeconds, constraints.min, constraints.max, min, max, notifyChange],
+    [
+      currentValue,
+      formatTimeDuration,
+      parseTimeDurationToSeconds,
+      constraints.min,
+      constraints.max,
+      min,
+      max,
+      notifyChange,
+    ],
   );
 
   return (

@@ -7,7 +7,7 @@ import clsx from 'clsx';
 
 import { Button } from 'components/Button';
 import type { DialogConfig } from 'components/Dialog/GenericDialog.types';
-import { CloseIcon } from '@workspace/design-system/icons';
+import { CloseIcon } from '@workspace/icons';
 import { styles } from './GenericDialog.styles';
 
 interface GenericDialogProps {
@@ -66,12 +66,7 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({
               {config.subtitle && <span className="subtitle"> {config.subtitle}</span>}
             </Dialog.Title>
             <Dialog.CloseTrigger asChild>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="close-button"
-                aria-label="Close dialog"
-              >
+              <Button variant="ghost" size="sm" className="close-button" aria-label="Close dialog">
                 <CloseIcon />
               </Button>
             </Dialog.CloseTrigger>
