@@ -1,9 +1,8 @@
 /* eslint-disable style/quotes */
-import { confirm } from '@inquirer/prompts';
+import { cancel, confirm, isCancel } from '@clack/prompts';
 import Database from 'better-sqlite3';
-import pc from 'picocolors';
 import { env } from 'env.server';
-import path from 'node:path';
+import pc from 'picocolors';
 import { drizzle } from 'drizzle-orm/better-sqlite3';
 import { migrate } from 'drizzle-orm/better-sqlite3/migrator';
 
@@ -34,11 +33,11 @@ async function main() {
   if (tables.length > 0 || views.length > 0) {
     const shouldDrop = await confirm({
       message: pc.yellow('⚠️  Warning: This will drop existing tables and views. Are you sure?'),
-      default: false,
+      initialValue: false,
     });
 
-    if (!shouldDrop) {
-      console.log('Operation cancelled');
+    if (isCancel(shouldDrop) || !shouldDrop) {
+      cancel('Operation cancelled');
       process.exit(0);
     }
 
