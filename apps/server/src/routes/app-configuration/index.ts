@@ -6,11 +6,8 @@ import * as handlers from './app-configuration.handlers';
 import * as routes from './app-configuration.routes';
 import { appConfigSchemas, nameParamSchema } from './app-configuration.routes';
 
-const router = createRouter();
-
-router.get('/app-configuration', routes.list, handlers.list);
-router.get('/app-configuration/key/:name', routes.getByKey, validator('param', nameParamSchema), handlers.getByKey);
-router.get('/app-configuration/:id', routes.getOne, validator('param', IdCuidParamsSchema), handlers.getOne);
-router.patch('/app-configuration/:id', routes.patch, validator('param', IdCuidParamsSchema), validator('json', appConfigSchemas.patch), handlers.patch);
-
-export default router;
+export default createRouter()
+  .get(routes.list.path,    routes.list,   handlers.list)
+  .get(routes.getByKey.path,    routes.getByKey,   validator('param', nameParamSchema), handlers.getByKey)
+  .get(routes.getOne.path,    routes.getOne,   validator('param', IdCuidParamsSchema), handlers.getOne)
+  .patch(routes.patch.path,    routes.patch,   validator('param', IdCuidParamsSchema), validator('json', appConfigSchemas.patch), handlers.patch);

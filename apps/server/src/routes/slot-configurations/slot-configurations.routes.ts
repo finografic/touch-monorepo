@@ -1,8 +1,7 @@
-import { describeRoute } from 'hono-openapi';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import * as v from 'valibot';
 
-import { json } from 'lib/openapi.helpers';
+import { json, route } from 'lib/openapi.helpers';
 import { notFoundSchema, validationErrorSchema } from 'lib/valibot.errors';
 
 const tags = ['SlotConfigurations'];
@@ -30,7 +29,7 @@ export const slotConfigSchemas = {
   }),
 };
 
-export const list = describeRoute({
+export const list = route('/slot-configurations', {
   tags,
   description: 'List all slot configurations',
   responses: {
@@ -38,7 +37,7 @@ export const list = describeRoute({
   },
 });
 
-export const getOne = describeRoute({
+export const getOne = route('/slot-configurations/:id', {
   tags,
   description: 'Get a single slot configuration by ID',
   responses: {
@@ -48,7 +47,7 @@ export const getOne = describeRoute({
   },
 });
 
-export const create = describeRoute({
+export const create = route('/slot-configurations', {
   tags,
   description: 'Create a new slot configuration',
   responses: {
@@ -57,7 +56,7 @@ export const create = describeRoute({
   },
 });
 
-export const patch = describeRoute({
+export const patch = route('/slot-configurations/:id', {
   tags,
   description: 'Update a slot configuration',
   responses: {
@@ -67,7 +66,7 @@ export const patch = describeRoute({
   },
 });
 
-export const remove = describeRoute({
+export const remove = route('/slot-configurations/:id', {
   tags,
   description: 'Delete a slot configuration',
   responses: {
@@ -77,7 +76,7 @@ export const remove = describeRoute({
   },
 });
 
-export const bulkUpdate = describeRoute({
+export const bulkUpdate = route('/slot-configurations/bulk-update', {
   tags,
   description: 'Bulk update slot configurations',
   responses: {
@@ -85,7 +84,7 @@ export const bulkUpdate = describeRoute({
   },
 });
 
-export const reset = describeRoute({
+export const reset = route('/slot-configurations/reset', {
   tags,
   description: 'Reset slot configurations to default',
   responses: {

@@ -1,14 +1,13 @@
-import { describeRoute } from 'hono-openapi';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import * as v from 'valibot';
 
 import { containerTypeSchemas } from 'db/schemas/container_types.schema';
-import { json, jsonRequired } from 'lib/openapi.helpers';
+import { json, jsonRequired, route } from 'lib/openapi.helpers';
 import { notFoundSchema, validationErrorSchema } from 'lib/valibot.errors';
 
 const tags = ['ContainerTypes'];
 
-export const list = describeRoute({
+export const list = route('/container-types', {
   tags,
   description: 'List of available container types',
   responses: {
@@ -21,7 +20,7 @@ export const list = describeRoute({
   },
 });
 
-export const getOne = describeRoute({
+export const getOne = route('/container-types/:id', {
   tags,
   description: 'Get a container type by ID',
   responses: {
@@ -31,7 +30,7 @@ export const getOne = describeRoute({
   },
 });
 
-export const create = describeRoute({
+export const create = route('/container-types', {
   tags,
   description: 'Create a container type',
   responses: {
@@ -40,7 +39,7 @@ export const create = describeRoute({
   },
 });
 
-export const patch = describeRoute({
+export const patch = route('/container-types/:id', {
   tags,
   description: 'Update a container type',
   responses: {
@@ -50,7 +49,7 @@ export const patch = describeRoute({
   },
 });
 
-export const remove = describeRoute({
+export const remove = route('/container-types/:id', {
   tags,
   description: 'Delete a container type',
   responses: {

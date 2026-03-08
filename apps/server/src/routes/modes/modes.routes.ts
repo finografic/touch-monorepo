@@ -1,9 +1,8 @@
-import { describeRoute } from 'hono-openapi';
-import * as HttpStatusCodes from 'stoker/http-status-codes';
 import * as v from 'valibot';
+import * as HttpStatusCodes from 'stoker/http-status-codes';
 
 import { modeSchemas } from 'db/schemas/modes.schema';
-import { json, jsonRequired } from 'lib/openapi.helpers';
+import { json, jsonRequired, route } from 'lib/openapi.helpers';
 import { notFoundSchema, validationErrorSchema } from 'lib/valibot.errors';
 
 const tags = ['CoolingProfiles'];
@@ -15,7 +14,7 @@ const modeStateSchema = v.object({
   isActive: v.boolean(),
 });
 
-export const list = describeRoute({
+export const list = route('/modes', {
   tags,
   description: 'The list of cooling profiles',
   responses: {
@@ -23,7 +22,7 @@ export const list = describeRoute({
   },
 });
 
-export const getOne = describeRoute({
+export const getOne = route('/modes/:id', {
   tags,
   description: 'Get a cooling profile by ID',
   responses: {
@@ -33,7 +32,7 @@ export const getOne = describeRoute({
   },
 });
 
-export const create = describeRoute({
+export const create = route('/modes', {
   tags,
   description: 'Create a cooling profile',
   responses: {
@@ -42,7 +41,7 @@ export const create = describeRoute({
   },
 });
 
-export const patch = describeRoute({
+export const patch = route('/modes/:id', {
   tags,
   description: 'Update a cooling profile',
   responses: {
@@ -52,7 +51,7 @@ export const patch = describeRoute({
   },
 });
 
-export const remove = describeRoute({
+export const remove = route('/modes/:id', {
   tags,
   description: 'Delete a cooling profile',
   responses: {
@@ -64,7 +63,7 @@ export const remove = describeRoute({
   },
 });
 
-export const updateActiveStates = describeRoute({
+export const updateActiveStates = route('/modes/active-states', {
   tags,
   description: 'Update active states for cooling profiles',
   responses: {
@@ -73,7 +72,7 @@ export const updateActiveStates = describeRoute({
   },
 });
 
-export const updateDefaultMode = describeRoute({
+export const updateDefaultMode = route('/modes/default-mode', {
   tags,
   description: 'Set the default cooling profile',
   responses: {
@@ -83,9 +82,12 @@ export const updateDefaultMode = describeRoute({
 });
 
 export const activeStatesBodySchema = v.object({
-  activeModeIds: v.array(v.string()),
+  modes: v.array(v.object({
+    id: v.string(),
+    isActive: v.boolean(),
+  })),
 });
 
 export const defaultModeBodySchema = v.object({
-  defaultModeId: v.nullable(v.string()),
+  modeId: v.nullable(v.string()),
 });

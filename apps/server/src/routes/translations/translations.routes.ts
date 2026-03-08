@@ -1,9 +1,8 @@
-import { describeRoute } from 'hono-openapi';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import * as v from 'valibot';
 
 import { translationUiSchemas } from 'db/schemas/translations_ui.schema';
-import { json } from 'lib/openapi.helpers';
+import { json, route } from 'lib/openapi.helpers';
 import { notFoundSchema, validationErrorSchema } from 'lib/valibot.errors';
 
 const tags = ['Translations'];
@@ -21,7 +20,7 @@ export const namespaceAndIdParamSchema = v.object({
   id:        v.string(),
 });
 
-export const list = describeRoute({
+export const list = route('/translations/:namespace', {
   tags,
   description: 'List all translations for a namespace',
   responses: {
@@ -34,7 +33,7 @@ export const list = describeRoute({
   },
 });
 
-export const getOne = describeRoute({
+export const getOne = route('/translations/:namespace/:id', {
   tags,
   description: 'Get a single translation by namespace and ID',
   responses: {
@@ -44,7 +43,7 @@ export const getOne = describeRoute({
   },
 });
 
-export const create = describeRoute({
+export const create = route('/translations/:namespace', {
   tags,
   description: 'Create a new translation',
   responses: {
@@ -53,7 +52,7 @@ export const create = describeRoute({
   },
 });
 
-export const patch = describeRoute({
+export const patch = route('/translations/:namespace/:id', {
   tags,
   description: 'Update a translation',
   responses: {
@@ -63,7 +62,7 @@ export const patch = describeRoute({
   },
 });
 
-export const remove = describeRoute({
+export const remove = route('/translations/:namespace/:id', {
   tags,
   description: 'Delete a translation',
   responses: {

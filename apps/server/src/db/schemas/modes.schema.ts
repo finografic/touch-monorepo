@@ -1,6 +1,6 @@
 import createCuid from '@bugsnag/cuid';
-import * as v from 'valibot';
 import { createInsertSchema, createSelectSchema } from 'drizzle-valibot';
+import * as v from 'valibot';
 import { relations } from 'drizzle-orm';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
@@ -24,24 +24,24 @@ export const modeRelations = relations(modes, ({ many }) => ({
 export const modeSchemas = {
   select: createSelectSchema(modes, {
     isDefault: sqliteBooleanField(),
-    isActive:  sqliteBooleanField(),
+    isActive: sqliteBooleanField(),
   }),
   insert: v.omit(
     createInsertSchema(modes, {
       isDefault: sqliteBooleanField(),
-      isActive:  sqliteBooleanField(),
+      isActive: sqliteBooleanField(),
     }),
     ['id'],
   ),
   patch: v.partial(
     v.object({
-      name:      v.optional(v.string()),
+      name: v.optional(v.string()),
       isDefault: v.optional(sqliteBooleanField()),
-      isActive:  v.optional(sqliteBooleanField()),
+      isActive: v.optional(sqliteBooleanField()),
     }),
   ),
 } as const;
 
-export type ModeModel  = v.InferOutput<typeof modeSchemas.select>;
+export type ModeModel = v.InferOutput<typeof modeSchemas.select>;
 export type ModeInsert = v.InferOutput<typeof modeSchemas.insert>;
-export type ModePatch  = v.InferOutput<typeof modeSchemas.patch>;
+export type ModePatch = v.InferOutput<typeof modeSchemas.patch>;

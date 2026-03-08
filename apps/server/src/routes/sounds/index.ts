@@ -27,58 +27,14 @@ const filenameParamSchema = v.object({
   filename: v.string(),
 });
 
-const router = createRouter();
-
-// Static paths first to avoid conflicts with dynamic /:type param
-router.get('/sounds',
-  routes.list,
-  handlers.list,
-);
-
-router.get('/sounds/settings',
-  routes.getSettings,
-  handlers.getSettings,
-);
-
-router.put('/sounds/settings',
-  routes.updateSettings,
-  validator('json', soundSettingsSchema),
-  handlers.updateSettings,
-);
-
-router.get('/sounds/files/:filename',
-  routes.serveFile,
-  validator('param', filenameParamSchema),
-  handlers.serveFile,
-);
-
-router.post('/sounds/upload',
-  routes.upload,
-  handlers.upload,
-);
-
-router.get('/sounds/:type',
-  routes.listByType,
-  validator('param', typeParamSchema),
-  handlers.listByType,
-);
-
-router.post('/sounds/:type/upload',
-  routes.uploadByType,
-  validator('param', typeParamSchema),
-  handlers.uploadByType,
-);
-
-router.delete('/sounds/:id',
-  routes.remove,
-  validator('param', idParamSchema),
-  handlers.remove,
-);
-
-router.delete('/sounds/:type/:id',
-  routes.removeByType,
-  validator('param', typeAndIdParamSchema),
-  handlers.removeByType,
-);
-
-export default router;
+export default createRouter()
+  // Static paths first to avoid conflicts with dynamic /:type param
+  .get(routes.list.path,    routes.list,   handlers.list)
+  .get(routes.getSettings.path,    routes.getSettings,   handlers.getSettings)
+  .put(routes.updateSettings.path,    routes.updateSettings,   validator('json', soundSettingsSchema), handlers.updateSettings)
+  .get(routes.serveFile.path,    routes.serveFile,   validator('param', filenameParamSchema), handlers.serveFile)
+  .post(routes.upload.path,    routes.upload,   handlers.upload)
+  .get(routes.listByType.path,    routes.listByType,   validator('param', typeParamSchema), handlers.listByType)
+  .post(routes.uploadByType.path,    routes.uploadByType,   validator('param', typeParamSchema), handlers.uploadByType)
+  .delete(routes.remove.path,    routes.remove,   validator('param', idParamSchema), handlers.remove)
+  .delete(routes.removeByType.path,    routes.removeByType,   validator('param', typeAndIdParamSchema), handlers.removeByType);

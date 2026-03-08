@@ -82,36 +82,25 @@ export const remove: AppHandler = async (context) => {
 };
 
 export const updateActiveStates: AppHandler = async (context) => {
-  const { activeModeIds } = context.req.valid('json');
+  const { modes: modeUpdates } = context.req.valid('json');
 
-  // First, set all modes to inactive
-  await db.update(modes).set({ isActive: false });
-
-  // Then, set the specified modes to active
-  if (activeModeIds.length > 0) {
-    await db.update(modes).set({ isActive: true }).where(eq(modes.id, activeModeIds[0]));
-    for (let i = 1; i < activeModeIds.length; i++) {
-      await db.update(modes).set({ isActive: true }).where(eq(modes.id, activeModeIds[i]));
-    }
+  for (const { id, isActive } of modeUpdates) {
+    await db.update(modes).set({ isActive }).where(eq(modes.id, id));
   }
 
-  // Return all modes
   const allModes = await db.query.modes.findMany();
   return context.json(allModes, HttpStatusCodes.OK);
 };
 
 export const updateDefaultMode: AppHandler = async (context) => {
-  const { defaultModeId } = context.req.valid('json');
+  const { modeId } = context.req.valid('json');
 
-  // First, set all modes to not default
   await db.update(modes).set({ isDefault: false });
 
-  // Then, set the specified mode to default (if provided)
-  if (defaultModeId) {
-    await db.update(modes).set({ isDefault: true }).where(eq(modes.id, defaultModeId));
+  if (modeId) {
+    await db.update(modes).set({ isDefault: true }).where(eq(modes.id, modeId));
   }
 
-  // Return all modes
   const allModes = await db.query.modes.findMany();
   return context.json(allModes, HttpStatusCodes.OK);
 };

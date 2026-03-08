@@ -1,14 +1,13 @@
 import * as v from 'valibot';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
-import { describeRoute } from 'hono-openapi';
 
 import { temperatureProfileSchemas } from 'db/schemas/temperature_profiles.schema';
-import { json, jsonRequired } from 'lib/openapi.helpers';
+import { json, jsonRequired, route } from 'lib/openapi.helpers';
 import { notFoundSchema, validationErrorSchema } from 'lib/valibot.errors';
 
 const tags = ['TemperatureProfile'];
 
-export const list = describeRoute({
+export const list = route('/temperature-profiles', {
   tags,
   description: 'List of available temperature profiles',
   responses: {
@@ -19,7 +18,7 @@ export const list = describeRoute({
   },
 });
 
-export const getOne = describeRoute({
+export const getOne = route('/temperature-profiles/:id', {
   tags,
   description: 'Get a single temperature profile by id',
   responses: {
@@ -29,7 +28,7 @@ export const getOne = describeRoute({
   },
 });
 
-export const create = describeRoute({
+export const create = route('/temperature-profiles', {
   tags,
   description: 'Create a new temperature profile',
   responses: {
@@ -38,7 +37,7 @@ export const create = describeRoute({
   },
 });
 
-export const patch = describeRoute({
+export const patch = route('/temperature-profiles/:id', {
   tags,
   description: 'Update a temperature profile',
   responses: {
@@ -48,7 +47,7 @@ export const patch = describeRoute({
   },
 });
 
-export const remove = describeRoute({
+export const remove = route('/temperature-profiles/:id', {
   tags,
   description: 'Delete a temperature profile',
   responses: {

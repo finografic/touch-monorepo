@@ -1,10 +1,9 @@
-import { describeRoute } from 'hono-openapi';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import * as v from 'valibot';
 
 import { orderSchemas } from 'db/schemas/orders.schema';
 import { temperatureProfileSchemas } from 'db/schemas/temperature_profiles.schema';
-import { json } from 'lib/openapi.helpers';
+import { json, route } from 'lib/openapi.helpers';
 import { notFoundSchema, validationErrorSchema } from 'lib/valibot.errors';
 
 const tags = ['DrinkOrders'];
@@ -49,7 +48,7 @@ export const cleanupBodySchema = v.object({
   containerTypeIds: v.optional(v.array(v.string())),
 });
 
-export const list = describeRoute({
+export const list = route('/orders', {
   tags,
   description: 'List of available drink orders',
   responses: {
@@ -60,7 +59,7 @@ export const list = describeRoute({
   },
 });
 
-export const listReadable = describeRoute({
+export const listReadable = route('/orders-readable', {
   tags,
   description: 'List of orders with readable names from view',
   responses: {
@@ -71,7 +70,7 @@ export const listReadable = describeRoute({
   },
 });
 
-export const getOne = describeRoute({
+export const getOne = route('/orders/:id', {
   tags,
   description: 'Get a single drink order by ID',
   responses: {
@@ -81,7 +80,7 @@ export const getOne = describeRoute({
   },
 });
 
-export const getOneReadable = describeRoute({
+export const getOneReadable = route('/orders-readable/:id', {
   tags,
   description: 'Get a single order with readable names and temperature profiles',
   responses: {
@@ -91,7 +90,7 @@ export const getOneReadable = describeRoute({
   },
 });
 
-export const create = describeRoute({
+export const create = route('/orders', {
   tags,
   description: 'Create a new drink order',
   responses: {
@@ -100,7 +99,7 @@ export const create = describeRoute({
   },
 });
 
-export const patch = describeRoute({
+export const patch = route('/orders/:id', {
   tags,
   description: 'Update a drink order',
   responses: {
@@ -110,7 +109,7 @@ export const patch = describeRoute({
   },
 });
 
-export const remove = describeRoute({
+export const remove = route('/orders/:id', {
   tags,
   description: 'Delete a drink order',
   responses: {
@@ -120,7 +119,7 @@ export const remove = describeRoute({
   },
 });
 
-export const cleanup = describeRoute({
+export const cleanup = route('/orders/cleanup', {
   tags,
   description: 'Bulk delete orders by related type IDs',
   responses: {
@@ -129,7 +128,7 @@ export const cleanup = describeRoute({
   },
 });
 
-export const getTemperatureProfiles = describeRoute({
+export const getTemperatureProfiles = route('/orders/:id/temperature-profiles', {
   tags: ['Orders'],
   description: 'Get temperature profiles for an order',
   responses: {
@@ -138,7 +137,7 @@ export const getTemperatureProfiles = describeRoute({
   },
 });
 
-export const deleteTemperatureProfiles = describeRoute({
+export const deleteTemperatureProfiles = route('/orders/:id/temperature-profiles', {
   tags: ['Orders'],
   description: 'Delete all temperature profiles for an order',
   responses: {

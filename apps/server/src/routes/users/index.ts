@@ -6,11 +6,8 @@ import { IdCuidParamsSchema } from 'schemas/id-cuid-params.schema';
 import * as handlers from './users.handlers';
 import * as routes from './users.routes';
 
-const router = createRouter();
-
-router.get('/users', routes.list, handlers.list);
-router.get('/users/:id', routes.getOne, validator('param', IdCuidParamsSchema), handlers.getOne);
-router.patch('/users/:id', routes.patch, validator('param', IdCuidParamsSchema), validator('json', userSchemas.patch), handlers.patch);
-router.delete('/users/:id', routes.remove, validator('param', IdCuidParamsSchema), handlers.remove);
-
-export default router;
+export default createRouter()
+  .get(routes.list.path,    routes.list,   handlers.list)
+  .get(routes.getOne.path,    routes.getOne,   validator('param', IdCuidParamsSchema), handlers.getOne)
+  .patch(routes.patch.path,    routes.patch,   validator('param', IdCuidParamsSchema), validator('json', userSchemas.patch), handlers.patch)
+  .delete(routes.remove.path,    routes.remove,   validator('param', IdCuidParamsSchema), handlers.remove);

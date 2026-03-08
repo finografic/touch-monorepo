@@ -1,8 +1,7 @@
-import { describeRoute } from 'hono-openapi';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import * as v from 'valibot';
 
-import { json } from 'lib/openapi.helpers';
+import { json, route } from 'lib/openapi.helpers';
 import { notFoundSchema, validationErrorSchema } from 'lib/valibot.errors';
 
 const tags = ['AppConfiguration'];
@@ -37,7 +36,7 @@ export const nameParamSchema = v.object({
   name: v.pipe(v.string(), v.minLength(1)),
 });
 
-export const list = describeRoute({
+export const list = route('/app-configuration', {
   tags,
   description: 'List all app configuration entries',
   responses: {
@@ -45,7 +44,7 @@ export const list = describeRoute({
   },
 });
 
-export const getOne = describeRoute({
+export const getOne = route('/app-configuration/:id', {
   tags,
   description: 'Get a single app configuration by ID',
   responses: {
@@ -55,7 +54,7 @@ export const getOne = describeRoute({
   },
 });
 
-export const getByKey = describeRoute({
+export const getByKey = route('/app-configuration/key/:name', {
   tags,
   description: 'Get an app configuration by key name',
   responses: {
@@ -64,7 +63,7 @@ export const getByKey = describeRoute({
   },
 });
 
-export const patch = describeRoute({
+export const patch = route('/app-configuration/:id', {
   tags,
   description: 'Update an app configuration',
   responses: {

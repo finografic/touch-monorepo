@@ -1,14 +1,13 @@
-import { describeRoute } from 'hono-openapi';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import * as v from 'valibot';
 
 import { userSchemas } from 'db/schemas/auth_user.schema';
-import { json } from 'lib/openapi.helpers';
+import { json, route } from 'lib/openapi.helpers';
 import { notFoundSchema, validationErrorSchema } from 'lib/valibot.errors';
 
 const tags = ['Users'];
 
-export const list = describeRoute({
+export const list = route('/users', {
   tags,
   description: 'List all users',
   responses: {
@@ -16,7 +15,7 @@ export const list = describeRoute({
   },
 });
 
-export const getOne = describeRoute({
+export const getOne = route('/users/:id', {
   tags,
   description: 'Get a single user by ID',
   responses: {
@@ -26,7 +25,7 @@ export const getOne = describeRoute({
   },
 });
 
-export const patch = describeRoute({
+export const patch = route('/users/:id', {
   tags,
   description: 'Update a user',
   responses: {
@@ -36,7 +35,7 @@ export const patch = describeRoute({
   },
 });
 
-export const remove = describeRoute({
+export const remove = route('/users/:id', {
   tags,
   description: 'Delete a user',
   responses: {

@@ -1,6 +1,6 @@
 import createCuid from '@bugsnag/cuid';
-import * as v from 'valibot';
 import { createInsertSchema, createSelectSchema } from 'drizzle-valibot';
+import * as v from 'valibot';
 import { relations } from 'drizzle-orm';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
@@ -83,14 +83,24 @@ export const ordersRelations = relations(orders, ({ one, many }) => ({
 
 const insertOrderSchema = v.omit(
   createInsertSchema(orders, {
-    modeId:             v.pipe(v.string(), v.minLength(1, 'Mode is required')),
-    drinkTypeId:        v.pipe(v.string(), v.minLength(1), v.maxLength(50)),
-    drinkSubtypeId:     v.pipe(v.string(), v.maxLength(50)),
-    volumeId:           v.pipe(v.string(), v.minLength(1), v.maxLength(50)),
-    containerTypeId:    v.pipe(v.string(), v.minLength(1), v.maxLength(50)),
-    defaultTempConsume: v.pipe(v.number(), v.integer(), v.minValue(TEMPERATURE_RANGES.CONSUMPTION.MIN, ERROR_MESSAGES.TEMPERATURE_CONSUMPTION_RANGE), v.maxValue(TEMPERATURE_RANGES.CONSUMPTION.MAX, ERROR_MESSAGES.TEMPERATURE_CONSUMPTION_RANGE)),
-    defaultTempFreeze:  v.pipe(v.number(), v.integer(), v.minValue(TEMPERATURE_RANGES.FREEZING.MIN, ERROR_MESSAGES.TEMPERATURE_FREEZING_RANGE), v.maxValue(TEMPERATURE_RANGES.FREEZING.MAX, ERROR_MESSAGES.TEMPERATURE_FREEZING_RANGE)),
-    isActive:           sqliteBooleanField(),
+    modeId: v.pipe(v.string(), v.minLength(1, 'Mode is required')),
+    drinkTypeId: v.pipe(v.string(), v.minLength(1), v.maxLength(50)),
+    drinkSubtypeId: v.optional(v.nullable(v.pipe(v.string(), v.maxLength(50)))),
+    volumeId: v.pipe(v.string(), v.minLength(1), v.maxLength(50)),
+    containerTypeId: v.pipe(v.string(), v.minLength(1), v.maxLength(50)),
+    defaultTempConsume: v.pipe(
+      v.number(),
+      v.integer(),
+      v.minValue(TEMPERATURE_RANGES.CONSUMPTION.MIN, ERROR_MESSAGES.TEMPERATURE_CONSUMPTION_RANGE),
+      v.maxValue(TEMPERATURE_RANGES.CONSUMPTION.MAX, ERROR_MESSAGES.TEMPERATURE_CONSUMPTION_RANGE),
+    ),
+    defaultTempFreeze: v.pipe(
+      v.number(),
+      v.integer(),
+      v.minValue(TEMPERATURE_RANGES.FREEZING.MIN, ERROR_MESSAGES.TEMPERATURE_FREEZING_RANGE),
+      v.maxValue(TEMPERATURE_RANGES.FREEZING.MAX, ERROR_MESSAGES.TEMPERATURE_FREEZING_RANGE),
+    ),
+    isActive: sqliteBooleanField(true),
   }),
   ['id', 'createdAt', 'updatedAt'],
 );
@@ -106,6 +116,6 @@ export const orderSchemas = {
   ),
 } as const;
 
-export type OrderModel  = v.InferOutput<typeof orderSchemas.select>;
+export type OrderModel = v.InferOutput<typeof orderSchemas.select>;
 export type OrderInsert = v.InferOutput<typeof orderSchemas.insert>;
-export type OrderPatch  = v.InferOutput<typeof orderSchemas.patch>;
+export type OrderPatch = v.InferOutput<typeof orderSchemas.patch>;

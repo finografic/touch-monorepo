@@ -1,14 +1,13 @@
 import * as v from 'valibot';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
-import { describeRoute } from 'hono-openapi';
 
 import { volumeSchemas } from 'db/schemas/volumes.schema';
-import { json } from 'lib/openapi.helpers';
+import { json, route } from 'lib/openapi.helpers';
 import { notFoundSchema, validationErrorSchema } from 'lib/valibot.errors';
 
 const tags = ['DrinkVolumes'];
 
-export const list = describeRoute({
+export const list = route('/drink-volumes', {
   tags,
   description: 'List of available drink volumes',
   responses: {
@@ -19,7 +18,7 @@ export const list = describeRoute({
   },
 });
 
-export const getOne = describeRoute({
+export const getOne = route('/drink-volumes/:id', {
   tags,
   description: 'Get a single drink volume by id',
   responses: {
@@ -29,7 +28,7 @@ export const getOne = describeRoute({
   },
 });
 
-export const create = describeRoute({
+export const create = route('/drink-volumes', {
   tags,
   description: 'Create a new drink volume',
   responses: {
@@ -38,7 +37,7 @@ export const create = describeRoute({
   },
 });
 
-export const patch = describeRoute({
+export const patch = route('/drink-volumes/:id', {
   tags,
   description: 'Update a drink volume',
   responses: {
@@ -48,7 +47,7 @@ export const patch = describeRoute({
   },
 });
 
-export const remove = describeRoute({
+export const remove = route('/drink-volumes/:id', {
   tags,
   description: 'Delete a drink volume',
   responses: {

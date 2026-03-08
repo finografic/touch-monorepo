@@ -11,37 +11,9 @@ const querySchema = v.object({
   orderId: v.optional(v.string()),
 });
 
-const router = createRouter();
-
-router.get('/temperature-profiles',
-  routes.list,
-  validator('query', querySchema),
-  handlers.list,
-);
-
-router.get('/temperature-profiles/:id',
-  routes.getOne,
-  validator('param', IdUuidParamsSchema),
-  handlers.getOne,
-);
-
-router.post('/temperature-profiles',
-  routes.create,
-  validator('json', temperatureProfileSchemas.insert),
-  handlers.create,
-);
-
-router.patch('/temperature-profiles/:id',
-  routes.patch,
-  validator('param', IdUuidParamsSchema),
-  validator('json', temperatureProfileSchemas.patch),
-  handlers.patch,
-);
-
-router.delete('/temperature-profiles/:id',
-  routes.remove,
-  validator('param', IdUuidParamsSchema),
-  handlers.remove,
-);
-
-export default router;
+export default createRouter()
+  .get(routes.list.path,    routes.list,   validator('query', querySchema), handlers.list)
+  .get(routes.getOne.path,    routes.getOne,   validator('param', IdUuidParamsSchema), handlers.getOne)
+  .post(routes.create.path,    routes.create,   validator('json', temperatureProfileSchemas.insert), handlers.create)
+  .patch(routes.patch.path,    routes.patch,   validator('param', IdUuidParamsSchema), validator('json', temperatureProfileSchemas.patch), handlers.patch)
+  .delete(routes.remove.path,    routes.remove,   validator('param', IdUuidParamsSchema), handlers.remove);

@@ -21,21 +21,7 @@ const domainQuerySchema = v.object({
   lng: v.optional(v.string()),
 });
 
-const router = createRouter();
-
-// More specific route registered before /:namespace to avoid param capture conflicts
-router.get('/i18n/translations/:domain',
-  routes.getDomain,
-  validator('param', domainParamSchema),
-  validator('query', domainQuerySchema),
-  handlers.getDomain,
-);
-
-router.get('/i18n/:namespace',
-  routes.getNamespace,
-  validator('param', namespaceParamSchema),
-  validator('query', namespaceQuerySchema),
-  handlers.getNamespace,
-);
-
-export default router;
+export default createRouter()
+  // More specific route registered before /:namespace to avoid param capture conflicts
+  .get(routes.getDomain.path,    routes.getDomain,   validator('param', domainParamSchema), validator('query', domainQuerySchema), handlers.getDomain)
+  .get(routes.getNamespace.path,    routes.getNamespace,   validator('param', namespaceParamSchema), validator('query', namespaceQuerySchema), handlers.getNamespace);

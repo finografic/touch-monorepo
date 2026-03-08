@@ -1,8 +1,7 @@
 import * as v from 'valibot';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
-import { describeRoute } from 'hono-openapi';
 
-import { json } from 'lib/openapi.helpers';
+import { json, route } from 'lib/openapi.helpers';
 
 const tags = ['I18n'];
 
@@ -63,7 +62,7 @@ export function buildDomainGroupedResources(
   return result;
 }
 
-export const getNamespace = describeRoute({
+export const getNamespace = route('/i18n/:namespace', {
   tags,
   description: 'Bulk load domain-grouped translation resources (ui, app, admin)',
   responses: {
@@ -74,7 +73,7 @@ export const getNamespace = describeRoute({
   },
 });
 
-export const getDomain = describeRoute({
+export const getDomain = route('/i18n/translations/:domain', {
   tags,
   description: 'Get domain-specific translations in array format for CMS editing',
   responses: {

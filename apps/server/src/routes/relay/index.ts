@@ -23,53 +23,13 @@ const toggleParamSchema = v.object({
   ),
 });
 
-const router = createRouter();
-
-router.post('/relay/toggle/:slotNumber/:state',
-  routes.toggleRelay,
-  validator('param', toggleParamSchema),
-  handlers.toggleRelay,
-);
-
-router.get('/relay/states',
-  routes.getRelayStates,
-  handlers.getRelayStates,
-);
-
-router.get('/relay/state/:slotNumber',
-  routes.getRelayState,
-  validator('param', slotNumberParamSchema),
-  handlers.getRelayState,
-);
-
-router.get('/relay/status',
-  routes.getRelayStatus,
-  handlers.getRelayStatus,
-);
-
-router.post('/relay/all-on',
-  routes.turnAllRelaysOn,
-  handlers.turnAllRelaysOn,
-);
-
-router.post('/relay/all-off',
-  routes.turnAllRelaysOff,
-  handlers.turnAllRelaysOff,
-);
-
-router.post('/relay/reconnect',
-  routes.reconnectRelay,
-  handlers.reconnectRelay,
-);
-
-router.post('/relay/disconnect',
-  routes.disconnectRelay,
-  handlers.disconnectRelay,
-);
-
-router.post('/relay/init',
-  routes.initializeRelay,
-  handlers.initializeRelay,
-);
-
-export default router;
+export default createRouter()
+  .post(routes.toggleRelay.path,    routes.toggleRelay,   validator('param', toggleParamSchema), handlers.toggleRelay)
+  .get(routes.getRelayStates.path,    routes.getRelayStates,   handlers.getRelayStates)
+  .get(routes.getRelayState.path,    routes.getRelayState,   validator('param', slotNumberParamSchema), handlers.getRelayState)
+  .get(routes.getRelayStatus.path,    routes.getRelayStatus,   handlers.getRelayStatus)
+  .post(routes.turnAllRelaysOn.path,    routes.turnAllRelaysOn,   handlers.turnAllRelaysOn)
+  .post(routes.turnAllRelaysOff.path,    routes.turnAllRelaysOff,   handlers.turnAllRelaysOff)
+  .post(routes.reconnectRelay.path,    routes.reconnectRelay,   handlers.reconnectRelay)
+  .post(routes.disconnectRelay.path,    routes.disconnectRelay,   handlers.disconnectRelay)
+  .post(routes.initializeRelay.path,    routes.initializeRelay,   handlers.initializeRelay);

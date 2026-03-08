@@ -1,14 +1,13 @@
 import * as v from 'valibot';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
-import { describeRoute } from 'hono-openapi';
 
 import { supportedLanguageSchemas } from 'db/schemas/supported_languages.schema';
-import { json, jsonRequired } from 'lib/openapi.helpers';
+import { json, jsonRequired, route } from 'lib/openapi.helpers';
 import { notFoundSchema, validationErrorSchema } from 'lib/valibot.errors';
 
 const tags = ['SupportedLanguages'];
 
-export const list = describeRoute({
+export const list = route('/supported-languages', {
   tags,
   description: 'List of available supported languages',
   responses: {
@@ -29,7 +28,7 @@ export const list = describeRoute({
   },
 });
 
-export const getOne = describeRoute({
+export const getOne = route('/supported-languages/:id', {
   tags,
   description: 'Get a single supported language by id',
   responses: {
@@ -39,7 +38,7 @@ export const getOne = describeRoute({
   },
 });
 
-export const create = describeRoute({
+export const create = route('/supported-languages', {
   tags,
   description: 'Create a new supported language',
   responses: {
@@ -48,7 +47,7 @@ export const create = describeRoute({
   },
 });
 
-export const patch = describeRoute({
+export const patch = route('/supported-languages/:id', {
   tags,
   description: 'Update a supported language',
   responses: {
@@ -58,7 +57,7 @@ export const patch = describeRoute({
   },
 });
 
-export const remove = describeRoute({
+export const remove = route('/supported-languages/:id', {
   tags,
   description: 'Delete a supported language',
   responses: {
@@ -68,7 +67,7 @@ export const remove = describeRoute({
   },
 });
 
-export const getTranslationStatus = describeRoute({
+export const getTranslationStatus = route('/supported-languages/:isoCode/translation-status', {
   tags,
   description: 'Get translation status for a language',
   responses: {

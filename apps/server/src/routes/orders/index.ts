@@ -7,17 +7,14 @@ import * as handlers from './orders.handlers';
 import * as routes from './orders.routes';
 import { cleanupBodySchema } from './orders.routes';
 
-const router = createRouter();
-
-router.get('/orders', routes.list, handlers.list);
-router.get('/orders-readable', routes.listReadable, handlers.listReadable);
-router.get('/orders/:id', routes.getOne, validator('param', IdCuidParamsSchema), handlers.getOne);
-router.get('/orders-readable/:id', routes.getOneReadable, validator('param', IdCuidParamsSchema), handlers.getOneReadable);
-router.post('/orders', routes.create, validator('json', orderSchemas.insert), handlers.create);
-router.patch('/orders/:id', routes.patch, validator('param', IdCuidParamsSchema), validator('json', orderSchemas.patch), handlers.patch);
-router.post('/orders/cleanup', routes.cleanup, validator('json', cleanupBodySchema), handlers.cleanup);
-router.delete('/orders/:id', routes.remove, validator('param', IdCuidParamsSchema), handlers.remove);
-router.get('/orders/:id/temperature-profiles', routes.getTemperatureProfiles, validator('param', IdCuidParamsSchema), handlers.getTemperatureProfiles);
-router.delete('/orders/:id/temperature-profiles', routes.deleteTemperatureProfiles, validator('param', IdCuidParamsSchema), handlers.deleteTemperatureProfiles);
-
-export default router;
+export default createRouter()
+  .get(routes.list.path,    routes.list,   handlers.list)
+  .get(routes.listReadable.path,    routes.listReadable,   handlers.listReadable)
+  .get(routes.getOne.path,    routes.getOne,   validator('param', IdCuidParamsSchema), handlers.getOne)
+  .get(routes.getOneReadable.path,    routes.getOneReadable,   validator('param', IdCuidParamsSchema), handlers.getOneReadable)
+  .post(routes.create.path,    routes.create,   validator('json', orderSchemas.insert), handlers.create)
+  .patch(routes.patch.path,    routes.patch,   validator('param', IdCuidParamsSchema), validator('json', orderSchemas.patch), handlers.patch)
+  .post(routes.cleanup.path,    routes.cleanup,   validator('json', cleanupBodySchema), handlers.cleanup)
+  .delete(routes.remove.path,    routes.remove,   validator('param', IdCuidParamsSchema), handlers.remove)
+  .get(routes.getTemperatureProfiles.path,    routes.getTemperatureProfiles,   validator('param', IdCuidParamsSchema), handlers.getTemperatureProfiles)
+  .delete(routes.deleteTemperatureProfiles.path,    routes.deleteTemperatureProfiles,   validator('param', IdCuidParamsSchema), handlers.deleteTemperatureProfiles);

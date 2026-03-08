@@ -17,11 +17,9 @@ const DrinkTypeSubtypeParamsSchema = v.object({
 
 const insertWithoutDrinkTypeId = v.omit(drinkSubtypeSchemas.insert, ['drinkTypeId']);
 
-const router = createRouter();
-router.get('/drink-types/:drinkTypeId/subtypes', routes.list, validator('param', DrinkTypeParamsSchema), handlers.list);
-router.get('/drink-types/:drinkTypeId/subtypes/:id', routes.getOne, validator('param', DrinkTypeSubtypeParamsSchema), handlers.getOne);
-router.post('/drink-types/:drinkTypeId/subtypes', routes.create, validator('param', DrinkTypeParamsSchema), validator('json', insertWithoutDrinkTypeId), handlers.create);
-router.patch('/drink-types/:drinkTypeId/subtypes/:id', routes.patch, validator('param', DrinkTypeSubtypeParamsSchema), validator('json', drinkSubtypeSchemas.patch), handlers.patch);
-router.delete('/drink-types/:drinkTypeId/subtypes/:id', routes.remove, validator('param', DrinkTypeSubtypeParamsSchema), handlers.remove);
-
-export default router;
+export default createRouter()
+  .get(routes.list.path,    routes.list,   validator('param', DrinkTypeParamsSchema), handlers.list)
+  .get(routes.getOne.path,    routes.getOne,   validator('param', DrinkTypeSubtypeParamsSchema), handlers.getOne)
+  .post(routes.create.path,    routes.create,   validator('param', DrinkTypeParamsSchema), validator('json', insertWithoutDrinkTypeId), handlers.create)
+  .patch(routes.patch.path,    routes.patch,   validator('param', DrinkTypeSubtypeParamsSchema), validator('json', drinkSubtypeSchemas.patch), handlers.patch)
+  .delete(routes.remove.path,    routes.remove,   validator('param', DrinkTypeSubtypeParamsSchema), handlers.remove);

@@ -1,6 +1,6 @@
 import createCuid from '@bugsnag/cuid';
-import * as v from 'valibot';
 import { createInsertSchema, createSelectSchema } from 'drizzle-valibot';
+import * as v from 'valibot';
 import { integer, real, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
 import { sqliteBooleanField } from '../../lib/valibot.utils';
@@ -29,11 +29,11 @@ export const volumes = sqliteTable('volumes', {
 // Field overrides: pass Valibot schemas directly (no callback wrapper)
 const insertVolumeSchema = v.omit(
   createInsertSchema(volumes, {
-    name:          v.pipe(v.string(), v.minLength(1), v.maxLength(20)),
-    valueInMl:     v.pipe(v.number(), v.integer(), v.minValue(1), v.maxValue(5000)),
-    sortOrder:     v.pipe(v.number(), v.integer(), v.minValue(0)),
+    name: v.pipe(v.string(), v.minLength(1), v.maxLength(20)),
+    valueInMl: v.pipe(v.number(), v.integer(), v.minValue(1), v.maxValue(5000)),
+    sortOrder: v.pipe(v.number(), v.integer(), v.minValue(0)),
     coolingFactor: v.pipe(v.number(), v.minValue(0.1), v.maxValue(5)),
-    isActive:      sqliteBooleanField(),
+    isActive: sqliteBooleanField(),
   }),
   ['id', 'createdAt', 'updatedAt'],
 );
@@ -43,7 +43,7 @@ const patchVolumeSchema = v.partial(
   v.object({
     ...v.omit(insertVolumeSchema, ['translations']).entries,
     translations: v.optional(v.record(v.string(), v.string())),
-    isActive:     v.optional(sqliteBooleanField()),
+    isActive: v.optional(sqliteBooleanField()),
   }),
 );
 
@@ -52,9 +52,9 @@ export const volumeSchemas = {
     translations: v.optional(v.record(v.string(), v.string())),
   }),
   insert: insertVolumeSchema,
-  patch:  patchVolumeSchema,
+  patch: patchVolumeSchema,
 } as const;
 
-export type VolumeModel  = v.InferOutput<typeof volumeSchemas.select>;
+export type VolumeModel = v.InferOutput<typeof volumeSchemas.select>;
 export type VolumeInsert = v.InferOutput<typeof volumeSchemas.insert>;
-export type VolumePatch  = v.InferOutput<typeof volumeSchemas.patch>;
+export type VolumePatch = v.InferOutput<typeof volumeSchemas.patch>;

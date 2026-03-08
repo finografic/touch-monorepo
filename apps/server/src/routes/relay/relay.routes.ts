@@ -1,8 +1,7 @@
 import * as v from 'valibot';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
-import { describeRoute } from 'hono-openapi';
 
-import { json } from 'lib/openapi.helpers';
+import { json, route } from 'lib/openapi.helpers';
 
 const tags = ['Relay'];
 
@@ -48,7 +47,7 @@ const errorMessageSchema = v.object({
 });
 
 // Routes
-export const toggleRelay = describeRoute({
+export const toggleRelay = route('/relay/toggle/:slotNumber/:state', {
   tags,
   description: 'Toggle a relay on or off',
   responses: {
@@ -58,7 +57,7 @@ export const toggleRelay = describeRoute({
   },
 });
 
-export const getRelayStates = describeRoute({
+export const getRelayStates = route('/relay/states', {
   tags,
   description: 'Get all relay states',
   responses: {
@@ -67,7 +66,7 @@ export const getRelayStates = describeRoute({
   },
 });
 
-export const getRelayState = describeRoute({
+export const getRelayState = route('/relay/state/:slotNumber', {
   tags,
   description: 'Get a single relay state',
   responses: {
@@ -85,7 +84,7 @@ export const getRelayState = describeRoute({
   },
 });
 
-export const getRelayStatus = describeRoute({
+export const getRelayStatus = route('/relay/status', {
   tags,
   description: 'Get relay connection status',
   responses: {
@@ -94,7 +93,7 @@ export const getRelayStatus = describeRoute({
   },
 });
 
-export const turnAllRelaysOn = describeRoute({
+export const turnAllRelaysOn = route('/relay/all-on', {
   tags,
   description: 'Turn all relays ON',
   responses: {
@@ -106,7 +105,7 @@ export const turnAllRelaysOn = describeRoute({
   },
 });
 
-export const turnAllRelaysOff = describeRoute({
+export const turnAllRelaysOff = route('/relay/all-off', {
   tags,
   description: 'Turn all relays OFF',
   responses: {
@@ -118,7 +117,7 @@ export const turnAllRelaysOff = describeRoute({
   },
 });
 
-export const reconnectRelay = describeRoute({
+export const reconnectRelay = route('/relay/reconnect', {
   tags,
   description: 'Reconnect to relay board',
   responses: {
@@ -130,7 +129,7 @@ export const reconnectRelay = describeRoute({
   },
 });
 
-export const disconnectRelay = describeRoute({
+export const disconnectRelay = route('/relay/disconnect', {
   tags,
   description: 'Disconnect from relay board',
   responses: {
@@ -142,7 +141,7 @@ export const disconnectRelay = describeRoute({
   },
 });
 
-export const initializeRelay = describeRoute({
+export const initializeRelay = route('/relay/init', {
   tags,
   description: 'Initialize relay service',
   responses: {

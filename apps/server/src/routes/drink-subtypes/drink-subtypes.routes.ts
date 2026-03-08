@@ -1,14 +1,13 @@
-import { describeRoute } from 'hono-openapi';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import * as v from 'valibot';
 
 import { drinkSubtypeSchemas } from 'db/schemas/drink_subtypes.schema';
-import { json, jsonRequired } from 'lib/openapi.helpers';
+import { json, jsonRequired, route } from 'lib/openapi.helpers';
 import { notFoundSchema, validationErrorSchema } from 'lib/valibot.errors';
 
 const tags = ['DrinkSubtypes'];
 
-export const list = describeRoute({
+export const list = route('/drink-types/:drinkTypeId/subtypes', {
   tags,
   description: 'List of drink subtypes for the specified drink type',
   responses: {
@@ -24,7 +23,7 @@ export const list = describeRoute({
   },
 });
 
-export const getOne = describeRoute({
+export const getOne = route('/drink-types/:drinkTypeId/subtypes/:id', {
   tags,
   description: 'Get a drink subtype by ID',
   responses: {
@@ -34,7 +33,7 @@ export const getOne = describeRoute({
   },
 });
 
-export const create = describeRoute({
+export const create = route('/drink-types/:drinkTypeId/subtypes', {
   tags,
   description: 'Create a drink subtype',
   responses: {
@@ -44,7 +43,7 @@ export const create = describeRoute({
   },
 });
 
-export const patch = describeRoute({
+export const patch = route('/drink-types/:drinkTypeId/subtypes/:id', {
   tags,
   description: 'Update a drink subtype',
   responses: {
@@ -54,7 +53,7 @@ export const patch = describeRoute({
   },
 });
 
-export const remove = describeRoute({
+export const remove = route('/drink-types/:drinkTypeId/subtypes/:id', {
   tags,
   description: 'Delete a drink subtype',
   responses: {
