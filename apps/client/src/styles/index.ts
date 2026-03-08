@@ -6,7 +6,3 @@ export { colors } from './colors/colors-direct';
 
 // Type used by Button.types.ts — migrate to DS types when available.
 export type { ColorBaseName } from './colors/colors.types';
-
-// Emotion theme hook — used by InputTime, InputTemperature, SelectSearchable, RelaysTable.
-// Remove once those components migrate away from Emotion.
-export { useColors, useColorTheme } from './hooks/useColors';

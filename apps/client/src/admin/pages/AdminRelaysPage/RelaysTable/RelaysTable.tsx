@@ -54,7 +54,7 @@ export const RelaysTable: React.FC<RelaysTableProps> = ({
   // Track which relays are currently in test mode (turned ON by test button)
   const [testingRelays, setTestingRelays] = useState<Set<number>>(new Set());
   // Track timeout refs to clean up on unmount
-  const testTimeoutsRef = useRef<Map<number, NodeJS.Timeout>>(new Map());
+  const testTimeoutsRef = useRef<Map<number, ReturnType<typeof setTimeout>>>(new Map());
 
   const relayConfigurations = useMemo(() => {
     return configurations
