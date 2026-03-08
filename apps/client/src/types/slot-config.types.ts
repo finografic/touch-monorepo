@@ -1,7 +1,7 @@
-import type { SlotType } from './slots.types';
+import type { SlotSpecial, SlotType } from './slots.types';
 
 export interface SlotItem {
-  slotType: SlotType;
+  slotType: SlotType | SlotSpecial;
   slotNumber: number;
   isActive?: boolean;
 }

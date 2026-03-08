@@ -230,7 +230,8 @@ export const AdminSlotsConfigPage: React.FC = () => {
   const showSpecialSlotInPreview = numActiveColumns >= 3 && gridSpecialConfig?.data?.isActive === true;
 
   const showSpecialAltSlotInPreview = numActiveColumns >= 3 && altSpecialConfig?.data?.isActive === true;
-  const altSlotNumber = altSpecialConfig?.data?.data.slot_number ?? 15;
+  // const altSlotNumber = altSpecialConfig?.data?.data.slot_number ?? 16;
+  const altSlotNumber = altSpecialConfig?.data?.data.slot_number ?? 16;
 
   const showPowerSlotInPreview = powerSpecialConfig?.data?.isActive === true;
 

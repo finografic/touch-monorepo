@@ -31,6 +31,8 @@ export enum SlotType {
 export enum SlotSpecial {
   ENF = 'Enfr',
   MTO = 'Mto',
+  ALT = 'Alt',
+  POWER = 'Power',
 }
 
 // Base properties that every order has

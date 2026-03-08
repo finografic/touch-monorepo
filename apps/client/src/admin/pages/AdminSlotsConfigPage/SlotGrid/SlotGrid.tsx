@@ -2,7 +2,7 @@ import React, { memo, useCallback, useMemo } from 'react';
 
 import { mapGridByColumns } from 'utils/grid.utils';
 import { SlotType } from 'types/slots.types';
-import { NUM_RELAYS } from 'config/app/slots.config';
+import { ALT_SLOT_NUMBER, NUM_RELAYS } from 'config/app/slots.config';
 import { SlotButton } from './SlotButton';
 import { styles } from './SlotGrid.styles';
 
@@ -34,7 +34,7 @@ const SlotGridComponent: React.FC<SlotGridProps> = ({
   onConfigurationChange,
   showSpecialSlot = false,
   showSpecialAltSlot = false,
-  altSlotNumber = 15,
+  altSlotNumber = ALT_SLOT_NUMBER,
   showPowerSlot = false,
 }) => {
   const activeSlots = useMemo(() => configurations.filter((s) => s.isActive), [configurations]);
@@ -118,7 +118,7 @@ const SlotGridComponent: React.FC<SlotGridProps> = ({
     }
 
     if (!showSpecialSlot && showSpecialAltSlot) {
-      return <SlotButton slotNumber={altSlotNumber} slotType="C" label="(alt)" color="secondary" />;
+      return <SlotButton slotNumber={ALT_SLOT_NUMBER} slotType="C" label="(alt)" color="secondary" />;
     }
 
     return null;
@@ -135,15 +135,7 @@ const SlotGridComponent: React.FC<SlotGridProps> = ({
   const secondarySpecialSlot = useMemo(() => {
     if (!(showSpecialSlot && showSpecialAltSlot)) return null;
 
-    return (
-      <SlotButton
-        // slotNumber={altSlotNumber}
-        slotNumber={16}
-        slotType="C"
-        label="(alt)"
-        color="secondary"
-      />
-    );
+    return <SlotButton slotNumber={ALT_SLOT_NUMBER} slotType="C" label="(alt)" color="secondary" />;
   }, [showSpecialSlot, showSpecialAltSlot, altSlotNumber]);
 
   return (
