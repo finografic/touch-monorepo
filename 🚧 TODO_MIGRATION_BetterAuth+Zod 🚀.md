@@ -39,95 +39,6 @@ BetterAuth is stuck in a two-way Zod compatibility trap that has persisted for o
 
 ---
 
-## Phase 1: Zod → Valibot
-
-**Estimated effort:** 1 weekend
-**Branch:** `migrate/zod-to-valibot`
-
-### 1.1 Syntax Reference
-
-The concepts map 1:1. Main differences are pipe-based composition instead of method chaining, and function imports instead of namespace methods:
-
-```ts
-// Zod
-import { z } from 'zod';
-z.string().min(3).email()
-z.object({ name: z.string(), age: z.number().optional() })
-z.enum(['a', 'b', 'c'])
-z.string().transform((s) => s.toUpperCase())
-type User = z.infer<typeof userSchema>
-
-// Valibot
-import * as v from 'valibot';
-v.pipe(v.string(), v.minLength(3), v.email())
-v.object({ name: v.string(), age: v.optional(v.number()) })
-v.picklist(['a', 'b', 'c'])
-v.pipe(v.string(), v.transform((s) => s.toUpperCase()))
-type User = v.InferOutput<typeof userSchema>
-```
-
-Key differences to watch for:
-- `z.infer<T>` → `v.InferOutput<T>` (or `v.InferInput<T>` for input types)
-- `.optional()` wraps the schema: `v.optional(v.string())` not `v.string().optional()`
-- `.nullable()` → `v.nullable(v.string())`
-- `.default(val)` → `v.optional(v.string(), 'default_value')`
-- `.refine()` → `v.check()` inside a `v.pipe()`
-- `.enum()` → `v.picklist()` for string literals
-- `z.coerce.number()` → `v.pipe(v.unknown(), v.transform(Number), v.number())`
-
-### 1.2 Migration Steps — Ordered
-
-- [ ] **Install Valibot:** `pnpm add valibot @hono/valibot-validator`
-- [ ] **Migrate .env validation schemas**
-  - Location: likely `apps/server/src/env.ts` or similar
-  - These are isolated — good first target to validate the migration pattern
-  - Watch for `z.coerce` patterns (common in env parsing)
-- [ ] **Migrate Drizzle schema generation**
-  - Replace `import { createInsertSchema, createSelectSchema } from 'drizzle-zod'`
-  - With `import { createInsertSchema, createSelectSchema } from 'drizzle-orm/valibot'`
-  - API is the same, just different import path
-  - Test against SQLite / better-sqlite3 driver
-- [ ] **Migrate Hono route validators**
-  - Replace `import { zValidator } from '@hono/zod-validator'`
-  - With `import { vValidator } from '@hono/valibot-validator'`
-  - Usage pattern identical: `vValidator('json', mySchema)`
-- [ ] **Migrate shared schemas** (`@workspace/shared`, `@workspace/core`)
-  - These likely export Zod schemas consumed by both server and client
-  - Update exports to Valibot equivalents
-  - Keep type exports stable — `v.InferOutput` should produce identical types
-- [ ] **Migrate React Hook Form resolvers** (client)
-  - Replace `import { zodResolver } from '@hookform/resolvers/zod'`
-  - With `import { valibotResolver } from '@hookform/resolvers/valibot'`
-  - OR use the Standard Schema resolver: `import { standardSchemaResolver } from '@hookform/resolvers/standard-schema'`
-  - The Standard Schema resolver is the more future-proof option — works with any compliant library
-- [ ] **Evaluate @hono/zod-openapi replacement**
-  - This is the one integration that may not have a clean 1:1 Valibot replacement
-  - Investigate: `hono-openapi` with Valibot support, or `@scalar/hono-api-reference` compatibility
-  - If no clean path, this can stay on Zod temporarily (Zod itself isn't the problem — BetterAuth's Zod usage is)
-- [ ] **Remove Zod:** `pnpm remove zod drizzle-zod @hono/zod-validator @hono/zod-openapi`
-- [ ] **Verify clean dependency tree:** `pnpm why zod` — should return nothing (or only transitive if OpenAPI stays)
-- [ ] **Run full test suite**
-
-### 1.3 Standard Schema — Portfolio Opportunity
-
-All three major schema libraries (Zod, Valibot, ArkType) co-authored the Standard Schema spec. It's a ~60 line TypeScript interface that lets tools accept any compliant schema without library-specific adapters.
-
-Using `standardSchemaResolver` in RHF instead of `valibotResolver` demonstrates understanding of the spec at the interop level. Consider also writing `.env` validation in ArkType as an isolated experiment:
-
-```ts
-import { type } from 'arktype';
-
-const EnvSchema = type({
-  DATABASE_URL: 'string',
-  PORT: 'string.numeric.parse',
-  NODE_ENV: "'development' | 'production' | 'test'",
-});
-```
-
-This gives you hands-on experience with both libraries while keeping critical paths (forms, DB schemas) on battle-tested Valibot.
-
----
-
 ## Phase 2: BetterAuth → Auth.js
 
 **Estimated effort:** 1–2 weekends
@@ -168,6 +79,7 @@ This gives you hands-on experience with both libraries while keeping critical pa
   - Map account/OAuth records
   - Handle password hashes — verify hash algorithm compatibility (BA uses Argon2/bcrypt, Auth.js `CredentialsProvider` lets you bring your own)
 - [ ] **Configure Auth.js server**
+
   ```ts
   // Approximate shape — adapt to your actual Hono app structure
   import { initAuthConfig, authHandler, verifyAuth } from '@hono/auth-js';
@@ -183,6 +95,7 @@ This gives you hands-on experience with both libraries while keeping critical pa
   app.use('/api/auth/*', authHandler());
   app.use('/api/*', verifyAuth());
   ```
+
 - [ ] **Update session middleware**
   - BetterAuth: `auth.api.getSession({ headers: c.req.raw.headers })`
   - Auth.js: `c.get('authUser')` after `verifyAuth()` middleware
@@ -190,9 +103,11 @@ This gives you hands-on experience with both libraries while keeping critical pa
 - [ ] **Update React client**
   - Remove BetterAuth client: `createAuthClient()` and related hooks
   - Add Auth.js React provider:
+
     ```tsx
     import { SessionProvider, useSession } from '@hono/auth-js/react';
     ```
+
   - Replace all session-consuming components
 - [ ] **Update login/signup forms**
   - Auth.js handles OAuth redirects via `/api/auth/signin`
@@ -215,11 +130,13 @@ This gives you hands-on experience with both libraries while keeping critical pa
 **After both migrations are complete:**
 
 - [ ] **Audit dependencies:**
+
   ```bash
   pnpm why zod          # Should be gone (or only transitive from OpenAPI)
   pnpm why better-auth  # Should be gone entirely
   pnpm ls --depth=0     # Review top-level deps
   ```
+
 - [ ] **Update lockfile:** `pnpm install` — verify clean resolution
 - [ ] **Upgrade previously-blocked packages:**
   - [ ] `drizzle-orm` → latest
@@ -238,9 +155,6 @@ This gives you hands-on experience with both libraries while keeping critical pa
 ```bash
 # Phase 1 — Valibot
 pnpm add valibot @hono/valibot-validator
-
-# Phase 1 — Optional: ArkType for .env experiment
-pnpm add arktype
 
 # Phase 2 — Auth.js
 pnpm add @hono/auth-js @auth/core @auth/drizzle-adapter
@@ -272,7 +186,20 @@ pnpm remove better-auth better-call
 ## Portfolio Value
 
 This migration demonstrates:
+
 - **Dependency triage skills** — identifying when a library's upstream issues justify switching, not just working around
 - **Standard Schema understanding** — using the interop spec, not just swapping one library for another
 - **Auth architecture knowledge** — migrating between auth systems while preserving user data and session continuity
 - **Monorepo dependency management** — resolving cascading version conflicts across workspace packages
+
+---
+
+**In Summary**
+
+- Set up `@hono/auth-js` + `@auth/drizzle-adapter`
+- Create new Drizzle schema for Auth.js tables
+- Write data migration script (users, sessions, accounts) + back up SQLite DB
+- Verify password hash compatibility
+- Swap client hooks (`createAuthClient()` → `SessionProvider` + `useSession`)
+- Update login/signup forms
+- Remove BetterAuth
