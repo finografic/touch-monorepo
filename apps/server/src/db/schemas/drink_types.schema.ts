@@ -7,8 +7,8 @@ import {
 
 import createCuid from '@bugsnag/cuid';
 import { createInsertSchema, createSelectSchema } from 'drizzle-valibot';
-import * as v from 'valibot';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import * as v from 'valibot';
 
 import { sqliteBooleanField } from '../../lib/valibot.utils';
 
