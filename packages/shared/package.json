@@ -8,23 +8,27 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.mts",
-      "import": "./dist/index.mjs"
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.mjs"
     },
     "./constants": {
       "types": "./dist/constants/index.d.mts",
-      "import": "./dist/constants/index.mjs"
+      "import": "./dist/constants/index.mjs",
+      "require": "./dist/constants/index.mjs"
     },
     "./constants/*": {
       "types": "./dist/constants/*.d.mts",
-      "import": "./dist/constants/*.mjs"
+      "import": "./dist/constants/*.mjs",
+      "require": "./dist/constants/*.mjs"
     },
     "./models": {
       "types": "./dist/models/index.d.mts",
-      "import": "./dist/models/index.mjs"
+      "import": "./dist/models/index.mjs",
+      "require": "./dist/models/index.mjs"
     }
   },
   "scripts": {
-    "dev": "tsdown --no-clean",
+    "dev": "tsdown --watch",
     "build": "tsdown",
     "clean": "rm -rf dist",
     "typecheck": "pnpm exec tsc --project tsconfig.json --noEmit"

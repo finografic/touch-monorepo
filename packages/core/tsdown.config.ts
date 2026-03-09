@@ -13,5 +13,7 @@ export default defineConfig({
   },
   format: ['esm'],
   dts: true,
-  external: [],
+  deps: {
+    neverBundle: [],
+  },
 });

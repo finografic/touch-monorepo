@@ -14,5 +14,7 @@ export default defineConfig({
   },
   format: ['esm'],
   dts: true,
-  external: ['react', 'react-dom', '@ark-ui/react', '@workspace/icons'],
+  deps: {
+    neverBundle: ['react', 'react-dom', '@ark-ui/react', '@workspace/icons'],
+  },
 });

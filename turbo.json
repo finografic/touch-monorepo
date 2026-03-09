@@ -63,15 +63,10 @@
       ],
       "outputs": ["dist/**"]
     },
-    "@workspace/core#dev": {
-      "dependsOn": [],
-      "cache": false,
-      "persistent": true
-    },
     "dev": {
       "cache": false,
       "persistent": true,
-      "dependsOn": ["@workspace/core#build", "@workspace/shared#build", "@workspace/design-system#build"],
+      "dependsOn": ["^build"],
       "env": ["NODE_ENV", "PORT"]
     },
     "lint": {

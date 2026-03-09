@@ -1,1 +1,1 @@
-export * from './temperature.config';
+export * from './temperature.config.js';
