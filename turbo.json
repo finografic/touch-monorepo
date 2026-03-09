@@ -61,7 +61,7 @@
         "@workspace/icons#build",
         "@workspace/design-system#build"
       ],
-      "outputs": ["dist/**", "*.tsbuildinfo"]
+      "outputs": ["dist/**"]
     },
     "@workspace/core#dev": {
       "dependsOn": [],
@@ -71,7 +71,7 @@
     "dev": {
       "cache": false,
       "persistent": true,
-      "dependsOn": ["@workspace/core#build", "@workspace/icons#build", "@workspace/design-system#build"],
+      "dependsOn": ["@workspace/core#build", "@workspace/shared#build", "@workspace/design-system#build"],
       "env": ["NODE_ENV", "PORT"]
     },
     "lint": {

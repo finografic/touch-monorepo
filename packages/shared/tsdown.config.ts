@@ -2,15 +2,15 @@ import { defineConfig } from 'tsdown';
 
 export default defineConfig({
   entry: {
-    'index': 'src/index.ts',
+    'main': 'src/index.ts',
     'constants/index': 'src/constants/index.ts',
-    // 'constants/temperature.config': 'src/constants/temperature.config.ts',
-    'models/index': 'src/models/index.ts',
+    'constants/temperature.config': 'src/constants/temperature.config.ts',
   },
   format: ['esm'],
   dts: true,
-  clean: true,
+  // clean: process.env.NODE_ENV !== 'development',
+  clean: false,
   treeshake: false,
   outDir: './dist',
-  bundle: false,
+  unbundle: true,
 });

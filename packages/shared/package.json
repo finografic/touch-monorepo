@@ -24,7 +24,7 @@
     }
   },
   "scripts": {
-    "dev": "tsdown --watch",
+    "dev": "tsdown --no-clean",
     "build": "tsdown",
     "clean": "rm -rf dist",
     "typecheck": "pnpm exec tsc --project tsconfig.json --noEmit"
