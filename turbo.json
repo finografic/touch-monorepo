@@ -19,10 +19,11 @@
       "outputs": ["dist/**", "*.tsbuildinfo"]
     },
     "@workspace/shared#build": {
+      "dependsOn": ["@workspace/core#build"],
       "outputs": ["dist/**", "*.tsbuildinfo"]
     },
     "@workspace/i18n#build": {
-      "dependsOn": ["@workspace/core#build"],
+      "dependsOn": ["@workspace/core#build", "@workspace/shared#build"],
       "outputs": ["dist/**", "*.tsbuildinfo"]
     },
     "@workspace/config#build": {
