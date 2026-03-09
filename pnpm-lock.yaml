@@ -295,7 +295,7 @@ importers:
         version: 8.12.0(@types/node@20.11.24)(jsonc-eslint-parser@2.4.2)(tsx@4.21.0)
       '@ianvs/prettier-plugin-sort-imports':
         specifier: 4.7.1
-        version: 4.7.1(@vue/compiler-sfc@3.5.25)(prettier@3.4.2)
+        version: 4.7.1(@vue/compiler-sfc@3.5.25)(prettier@3.8.1)
       '@pandacss/dev':
         specifier: ^0.53.1
         version: 0.53.7(typescript@5.9.3)
@@ -390,8 +390,8 @@ importers:
         specifier: 1.1.0
         version: 1.1.0
       '@hono/auth-js':
-        specifier: 1.1.1
-        version: 1.1.1(@auth/core@0.34.3)(hono@4.12.5)(react@18.3.1)
+        specifier: 1.0.17
+        version: 1.0.17(@auth/core@0.34.3)(hono@4.12.5)(react@18.3.1)
       '@hono/node-server':
         specifier: 1.19.9
         version: 1.19.9(hono@4.12.5)
@@ -2007,6 +2007,17 @@ packages:
       eslint-plugin-format: '>=0.1.0'
       eslint-plugin-react-hooks: ^5.0.0
       eslint-plugin-react-refresh: ^0.4.4
+    peerDependenciesMeta:
+      '@eslint-react/eslint-plugin':
+        optional: true
+      '@unocss/eslint-plugin':
+        optional: true
+      eslint-plugin-format:
+        optional: true
+      eslint-plugin-react-hooks:
+        optional: true
+      eslint-plugin-react-refresh:
+        optional: true
 
   '@finografic/lucide-manager@0.6.2':
     resolution: {integrity: sha512-1eWFv2b1P1g3tC7g6NdK1MZs7qHj5PGTTQBxzJFDo745T5sIQa1bxscu+Urb70LDK4isXax0b7o/5WWAQLKRHg==, tarball: https://npm.pkg.github.com/download/@finografic/lucide-manager/0.6.2/931f585a1c396cc77b3778aa4b9737f6f847f194}
@@ -2059,12 +2070,12 @@ packages:
   '@hapi/topo@6.0.2':
     resolution: {integrity: sha512-KR3rD5inZbGMrHmgPxsJ9dbi6zEK+C3ZwUwTa+eMwWLz7oijWUTWD2pMSNNYJAU6Qq+65NkxXjqHr/7LM2Xkqg==}
 
-  '@hono/auth-js@1.1.1':
-    resolution: {integrity: sha512-FM1B9OpRLtehz0uwfH+fVOa9B/b4814jYNMvyXpeibJONRDiPVNflrvolNIgeakB1AmTKxBI+XcY0NnspvSCaw==}
+  '@hono/auth-js@1.0.17':
+    resolution: {integrity: sha512-757xmVz62egu1ULAd+X5Ysho2TPcsYq5HnEzdsHctel5B6GeFe2pzMoSHVs3Y/ZBd017GYHtehfym2PGt9zRvw==}
     engines: {node: '>=18.4.0'}
     peerDependencies:
-      '@auth/core': '>=0.35.0'
-      hono: '>=3.0.0'
+      '@auth/core': 0.*
+      hono: '>=3.*'
       react: ^18.3.1
 
   '@hono/node-server@1.19.9':
@@ -11127,7 +11138,6 @@ snapshots:
       '@dotenvx/dotenvx': 1.39.0
       '@emotion/eslint-plugin': 11.12.0(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3)
       '@eslint-community/eslint-plugin-eslint-comments': 4.7.1(eslint@9.39.4(jiti@2.6.1))
-      '@eslint-react/eslint-plugin': 2.13.0(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3)
       '@eslint/markdown': 6.6.0
       '@inquirer/checkbox': 4.1.4(@types/node@20.11.24)
       '@inquirer/confirm': 5.1.8(@types/node@20.11.24)
@@ -11140,13 +11150,11 @@ snapshots:
       '@typescript-eslint/eslint-plugin': 8.55.0(@typescript-eslint/parser@8.55.0(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3)
       '@typescript-eslint/parser': 8.55.0(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3)
       '@typescript-eslint/utils': 8.56.1(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3)
-      '@unocss/eslint-plugin': 66.6.6(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3)
       '@vitest/eslint-plugin': 1.6.9(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3)(vitest@4.0.18(@types/node@20.11.24)(happy-dom@20.6.1)(jiti@2.6.1)(lightningcss@1.31.1)(tsx@4.21.0)(yaml@2.8.2))
       eslint-config-flat-gitignore: 2.2.1(eslint@9.39.4(jiti@2.6.1))
       eslint-flat-config-utils: 2.1.4
       eslint-merge-processors: 2.0.0(eslint@9.39.4(jiti@2.6.1))
       eslint-plugin-command: 3.5.2(@typescript-eslint/rule-tester@8.56.1(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/typescript-estree@8.56.1(typescript@5.9.3))(@typescript-eslint/utils@8.56.1(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.4(jiti@2.6.1))
-      eslint-plugin-format: 0.1.3(eslint@9.39.4(jiti@2.6.1))
       eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.55.0(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.4(jiti@2.6.1))
       eslint-plugin-import-x: 4.16.1(@typescript-eslint/utils@8.56.1(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-node@0.3.9)(eslint@9.39.4(jiti@2.6.1))
       eslint-plugin-jsdoc: 50.8.0(eslint@9.39.4(jiti@2.6.1))
@@ -11156,8 +11164,6 @@ snapshots:
       eslint-plugin-no-only-tests: 3.3.0
       eslint-plugin-perfectionist: 4.15.1(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3)
       eslint-plugin-react: 7.37.5(eslint@9.39.4(jiti@2.6.1))
-      eslint-plugin-react-hooks: 7.0.1(eslint@9.39.4(jiti@2.6.1))
-      eslint-plugin-react-refresh: 0.5.0(eslint@9.39.4(jiti@2.6.1))
       eslint-plugin-regexp: 2.10.0(eslint@9.39.4(jiti@2.6.1))
       eslint-plugin-toml: 0.12.0(eslint@9.39.4(jiti@2.6.1))
       eslint-plugin-unicorn: 58.0.0(eslint@9.39.4(jiti@2.6.1))
@@ -11171,6 +11177,12 @@ snapshots:
       toml-eslint-parser: 0.10.1
       yaml-eslint-parser: 1.3.2
       yargs: 17.7.2
+    optionalDependencies:
+      '@eslint-react/eslint-plugin': 2.13.0(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3)
+      '@unocss/eslint-plugin': 66.6.6(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3)
+      eslint-plugin-format: 0.1.3(eslint@9.39.4(jiti@2.6.1))
+      eslint-plugin-react-hooks: 7.0.1(eslint@9.39.4(jiti@2.6.1))
+      eslint-plugin-react-refresh: 0.5.0(eslint@9.39.4(jiti@2.6.1))
     transitivePeerDependencies:
       - '@eslint/json'
       - '@types/node'
@@ -11266,7 +11278,7 @@ snapshots:
     dependencies:
       '@hapi/hoek': 11.0.7
 
-  '@hono/auth-js@1.1.1(@auth/core@0.34.3)(hono@4.12.5)(react@18.3.1)':
+  '@hono/auth-js@1.0.17(@auth/core@0.34.3)(hono@4.12.5)(react@18.3.1)':
     dependencies:
       '@auth/core': 0.34.3
       hono: 4.12.5
@@ -11304,6 +11316,19 @@ snapshots:
       '@babel/traverse': 7.29.0
       '@babel/types': 7.29.0
       prettier: 3.4.2
+      semver: 7.7.4
+    optionalDependencies:
+      '@vue/compiler-sfc': 3.5.25
+    transitivePeerDependencies:
+      - supports-color
+
+  '@ianvs/prettier-plugin-sort-imports@4.7.1(@vue/compiler-sfc@3.5.25)(prettier@3.8.1)':
+    dependencies:
+      '@babel/generator': 7.29.1
+      '@babel/parser': 7.29.0
+      '@babel/traverse': 7.29.0
+      '@babel/types': 7.29.0
+      prettier: 3.8.1
       semver: 7.7.4
     optionalDependencies:
       '@vue/compiler-sfc': 3.5.25
@@ -13394,8 +13419,10 @@ snapshots:
       colorette: 2.0.20
       consola: 3.4.2
       unconfig: 7.5.0
+    optional: true
 
-  '@unocss/core@66.6.6': {}
+  '@unocss/core@66.6.6':
+    optional: true
 
   '@unocss/eslint-plugin@66.6.6(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3)':
     dependencies:
@@ -13409,11 +13436,13 @@ snapshots:
       - eslint
       - supports-color
       - typescript
+    optional: true
 
   '@unocss/rule-utils@66.6.6':
     dependencies:
       '@unocss/core': 66.6.6
       magic-string: 0.30.21
+    optional: true
 
   '@unrs/resolver-binding-android-arm-eabi@1.11.1':
     optional: true
@@ -14813,7 +14842,8 @@ snapshots:
       color-convert: 2.0.1
       color-string: 1.9.1
 
-  colorette@2.0.20: {}
+  colorette@2.0.20:
+    optional: true
 
   combined-stream@1.0.8:
     dependencies:
@@ -17193,7 +17223,8 @@ snapshots:
 
   javascript-stringify@2.1.0: {}
 
-  jiti@2.6.1: {}
+  jiti@2.6.1:
+    optional: true
 
   jju@1.4.0: {}
 
@@ -20169,6 +20200,7 @@ snapshots:
       jiti: 2.6.1
       quansync: 1.0.0
       unconfig-core: 7.5.0
+    optional: true
 
   uncrypto@0.1.3: {}
 

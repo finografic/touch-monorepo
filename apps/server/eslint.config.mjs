@@ -70,7 +70,7 @@ export default fino({
       {
         groups: [
           ['^@finografic', '^@workspace'],
-          ['^@?\\w', '^(drizzle|drizzle-orm|stoker|zod)(/.*|$)'],
+          ['^@?\\w', '^(drizzle|drizzle-orm|stoker|valibot)(/.*|$)'],
           ['^@?\\w', '^(pages|components)(/.*|$)'],
           ['^\\u0000'],
           [

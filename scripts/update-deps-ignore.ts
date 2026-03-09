@@ -28,12 +28,10 @@ const IGNORE_PACKAGES: string[] = [
   'node-gyp', // Build tool for native modules (tied to Node.js version)
   'better-sqlite3', // Native SQLite bindings (requires node-gyp)
   '@types/better-sqlite3',
+  'valibot',
 
   // TODO: SERVER - CHECK THESE !!
-  '@hono/zod-openapi',
-  '@hono/zod-validator',
   '@scalar/hono-api-reference',
-  'drizzle-zod',
 
   // TODO: REACT - LOCK
   'react',
@@ -44,7 +42,6 @@ const IGNORE_PACKAGES: string[] = [
   // TODO: PROBLEMATIC PACKAGES - ⚠️ CAUTION REQUIRED
   'better-sqlite3',
   '@types/better-sqlite3',
-  'zod',
 
   // TODO: LEAVE MY PACKAGES - ⚠️ THEY IN DEVELOPMENT
   '@finografic/project-scripts',

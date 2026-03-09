@@ -97,7 +97,7 @@
     "@auth/drizzle-adapter": "1.11.1",
     "@bugsnag/cuid": "3.2.1",
     "@clack/prompts": "1.1.0",
-    "@hono/auth-js": "1.1.1",
+    "@hono/auth-js": "1.0.17",
     "@hono/node-server": "1.19.9",
     "@hono/standard-validator": "0.2.2",
     "@scalar/hono-api-reference": "0.9.25",
