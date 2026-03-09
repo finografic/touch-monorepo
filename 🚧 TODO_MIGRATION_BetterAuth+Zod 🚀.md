@@ -20,31 +20,6 @@ BetterAuth is stuck in a two-way Zod compatibility trap that has persisted for o
 
 **Result:** We're pinned at `better-auth@1.3.6` + `zod@^3.25.76`. Can't upgrade either. This blocks the entire dependency upgrade chain: BetterAuth → Zod → drizzle-zod → @hono/zod-openapi → @hono/zod-validator.
 
-### What We're Moving To
-
-| Current | Replacement | Why |
-|---------|-------------|-----|
-| `better-auth@1.3.6` | `@hono/auth-js` + `@auth/core` | Official Hono adapter, massive ecosystem (~25k GH stars), Drizzle + SQLite support, no Zod dependency |
-| `zod@^3.25.76` | `valibot` | Smallest bundle (tree-shakeable), fastest after ArkType, Standard Schema compliant, similar API to Zod, first-class Drizzle support |
-| `@hono/zod-validator` | `@hono/valibot-validator` | Same pattern, drop-in concept replacement |
-| `@hono/zod-openapi` | TBD — evaluate `hono-openapi` | May need separate investigation for OpenAPI doc generation |
-| `drizzle-zod@^0.5.1` | `drizzle-orm/valibot` (built-in) | Drizzle now has first-class Valibot support — no separate package needed |
-| `@hookform/resolvers/zod` | `@hookform/resolvers/valibot` or `standardSchemaResolver` | Both available; Standard Schema resolver works with any compliant library |
-
----
-
-## Migration Order
-
-**Valibot first, Auth.js second.** Valibot is the more mechanical migration (find/replace patterns, same concepts). Once Zod is gone from our own code, the dependency graph is cleaner and we can tackle Auth.js against a stable codebase.
-
----
-
-## Phase 2: BetterAuth → Auth.js
-
-**Estimated effort:** 1–2 weekends
-**Branch:** `migrate/betterauth-to-authjs`
-**Depends on:** Phase 1 complete (clean dependency tree)
-
 ### 2.1 What Auth.js Provides
 
 - Official Hono adapter: `@hono/auth-js`
@@ -122,54 +97,6 @@ BetterAuth is stuck in a two-way Zod compatibility trap that has persisted for o
   - [ ] Logout
   - [ ] Any OAuth providers you use
 - [ ] **Verify no BetterAuth remnants:** `grep -r "better-auth" --include="*.ts" --include="*.tsx"`
-
----
-
-## Phase 3: Cleanup & Verification
-
-**After both migrations are complete:**
-
-- [ ] **Audit dependencies:**
-
-  ```bash
-  pnpm why zod          # Should be gone (or only transitive from OpenAPI)
-  pnpm why better-auth  # Should be gone entirely
-  pnpm ls --depth=0     # Review top-level deps
-  ```
-
-- [ ] **Update lockfile:** `pnpm install` — verify clean resolution
-- [ ] **Upgrade previously-blocked packages:**
-  - [ ] `drizzle-orm` → latest
-  - [ ] `drizzle-kit` → latest
-  - [ ] `hono` → latest
-  - [ ] Any other packages that were pinned due to Zod version conflicts
-- [ ] **Update `@workspace/shared` and `@workspace/core`** — ensure no Zod re-exports remain
-- [ ] **Update the BETTER_AUTH.md roadmap** — mark Phase 1 as resolved
-- [ ] **Run full test suite across all workspace packages**
-- [ ] **Update CI/CD** — remove any Zod-related overrides or version pinning
-
----
-
-## Packages to Install
-
-```bash
-# Phase 1 — Valibot
-pnpm add valibot @hono/valibot-validator
-
-# Phase 2 — Auth.js
-pnpm add @hono/auth-js @auth/core @auth/drizzle-adapter
-```
-
-## Packages to Remove
-
-```bash
-# Phase 1 — After Valibot migration verified
-pnpm remove zod drizzle-zod @hono/zod-validator
-# Keep @hono/zod-openapi temporarily if no clean replacement
-
-# Phase 2 — After Auth.js migration verified
-pnpm remove better-auth better-call
-```
 
 ---
 

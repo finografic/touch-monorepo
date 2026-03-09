@@ -9,6 +9,8 @@
 
 <https://authjs.dev/getting-started/adapters/drizzle>
 
+<https://authjs.dev/getting-started/migrate-to-better-auth>
+
 ```ts
 import { integer, sqliteTable, text, primaryKey } from "drizzle-orm/sqlite-core"
 import { createClient } from "@libsql/client"
