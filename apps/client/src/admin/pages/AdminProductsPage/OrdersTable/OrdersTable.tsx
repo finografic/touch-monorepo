@@ -1,5 +1,4 @@
-import React, { useMemo, useState } from 'react';
-import { Spinner } from '@workspace/design-system/components';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   ArrowDownIcon,
   ArrowUpIcon,
@@ -30,6 +29,32 @@ import { useAppConfig } from 'providers/AppConfigProvider';
 import type { OrderReadableWithIndex } from '../hooks/useOrdersFilter';
 import { createOrdersColumns } from './OrdersTable.columns';
 import { useTableLabelMappings } from './useTableLabelMappings';
+
+// ── Debounced filter input ────────────────────────────────────────────────────
+
+function DebouncedInput({
+  value: initialValue,
+  onChange,
+  debounce = 300,
+  ...props
+}: {
+  value: string;
+  onChange: (value: string) => void;
+  debounce?: number;
+} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'>) {
+  const [value, setValue] = useState(initialValue);
+
+  useEffect(() => {
+    setValue(initialValue);
+  }, [initialValue]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => onChange(value), debounce);
+    return () => clearTimeout(timeout);
+  }, [value, debounce, onChange]);
+
+  return <input {...props} value={value} onChange={(e) => setValue(e.target.value)} />;
+}
 
 // ── Recipe instances — stable strings, computed once ──────────────────────────
 
@@ -169,12 +194,13 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
                       </div>
 
                       {canFilter && (
-                        <input
+                        <DebouncedInput
                           className={filterClasses}
                           value={(header.column.getFilterValue() as string) ?? ''}
-                          onChange={(e) => header.column.setFilterValue(e.target.value)}
+                          onChange={(value) => header.column.setFilterValue(value)}
                           placeholder="Filter…"
                           onClick={(e) => e.stopPropagation()}
+                          onKeyDown={(e) => e.stopPropagation()}
                           style={{ marginTop: 'var(--spacing-1)', width: '100%' }}
                         />
                       )}
