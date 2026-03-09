@@ -86,7 +86,6 @@ export default defineConfig({
     'hono',
     '@hono/*',
     'drizzle-orm',
-    'zod',
     // Note: dotenv is kept external because it uses require('fs') which doesn't work in ESM bundles
     '@scalar/*', // Bundle scalar modules
     '@workspace/core',

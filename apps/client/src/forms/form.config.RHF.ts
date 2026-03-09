@@ -23,7 +23,7 @@ const customOptionsRHF: Partial<UseFormProps> = {
   mode: 'onChange', // DEFAULT: 'onChange'
   reValidateMode: 'onChange', // DEFAULT: 'onChange'
   criteriaMode: 'all',
-  // resolver: joiResolver(schemaJoi), // TODO: USE ZOD !!
+  // resolver: joiResolver(schemaJoi), // TODO: USE VALIBOT !!
 };
 
 // CUSTOM OVERRIDES
