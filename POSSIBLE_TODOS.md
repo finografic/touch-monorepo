@@ -118,6 +118,44 @@ With JWT sessions and Credentials-only provider, these three tables are never re
 
 `core/package.json` still lists `valibot` as a dependency, but after removing the schemas from `error.schema.ts`, nothing in core imports Valibot. It can be removed from core's `dependencies`.
 
-### `tsup` still in devDependencies
+---
 
-Both `core` and `shared` still have `tsup` in their `devDependencies` alongside `tsdown`. Once the migration to tsdown is confirmed stable, `tsup` and `_tsup.config.ts` can be removed.
+## 4. Model interfaces: ownership and architecture
+
+### Hand-authored interfaces > schema derivation
+
+API response types should be hand-authored plain interfaces, not derived from Drizzle schemas via `Omit`/`Pick`. The reasons:
+
+- **Opt-in vs opt-out** — hand-authored interfaces only expose what's explicitly listed. Schema derivation exposes everything unless you remember to `Omit` it (e.g., `hashedPassword` leaking because nobody added it to the `Omit` list).
+- **Decoupled from DB** — DB column renames, new internal columns, or type changes don't silently change the API contract.
+- **Readable** — the interface is a self-documenting spec of exactly what the client receives, without needing to mentally resolve `Omit<Pick<Partial<...>>>` chains.
+
+### Ownership: `@workspace/shared` (neutral territory)
+
+The interfaces should live in `@workspace/shared/models`, not in server or client:
+
+```
+@workspace/shared/models    ← the contract (defines it)
+        ↑              ↑
+    server              client
+  (implements)        (consumes)
+```
+
+- **Shared** defines the contract — pure types, no runtime deps on Drizzle/Valibot/React/Hono.
+- **Server** imports from shared and validates its Drizzle-inferred types satisfy the contract.
+- **Client** imports from shared to type fetch responses and UI props.
+- Neither app depends on the other's build output — no `.d.ts` generation issues.
+
+This is the same pattern as a `.proto` file in gRPC or an OpenAPI spec — the schema lives in neutral territory.
+
+### Compile-time drift detection
+
+The server can add a type-level check to catch schema drift without runtime cost:
+
+```typescript
+import type { DrinkType } from '@workspace/shared/models';
+import type { DrinkTypeModel } from './db/schemas/drink_types.schema';
+
+// Fails at compile time if Drizzle schema no longer satisfies the API contract
+type _check = DrinkTypeModel extends DrinkType ? true : never;
+```
