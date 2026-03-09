@@ -9,6 +9,7 @@ import { verifyPassword } from 'utils/password.utils';
 
 export function getAuthConfig(): AuthConfig {
   return {
+    basePath: '/api/auth',
     secret: env.AUTH_SECRET,
     providers: [
       Credentials({

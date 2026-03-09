@@ -50,34 +50,38 @@ export const authClient = {
             email,
             password,
             csrfToken,
-            redirect: 'false',
           }),
           credentials: 'include',
+          redirect: 'manual',
         });
 
-        if (!res.ok) {
+        // Auth.js returns a redirect (302) on both success and failure.
+        // With redirect: 'manual', we get an opaque redirect (type: 'opaqueredirect', status: 0).
+        // The JWT cookie is set via Set-Cookie on the redirect response.
+        // We check the session to determine success.
+        if (res.type === 'opaqueredirect' || res.status === 302 || res.status === 0) {
+          const session = await authClient.getSession();
+          if (session?.user) {
+            return {
+              data: { user: session.user, redirect: false, token: '' },
+              error: null,
+            };
+          }
           return { data: null, error: { message: 'Invalid credentials' } };
         }
 
-        const responseData = await res.json();
-
-        if (responseData.url?.includes('error=')) {
-          return { data: null, error: { message: 'Invalid credentials' } };
+        // Non-redirect response (unusual) — try JSON
+        if (res.ok) {
+          const session = await authClient.getSession();
+          if (session?.user) {
+            return {
+              data: { user: session.user, redirect: false, token: '' },
+              error: null,
+            };
+          }
         }
 
-        const session = await authClient.getSession();
-        if (!session?.user) {
-          return { data: null, error: { message: 'Sign in failed' } };
-        }
-
-        return {
-          data: {
-            user: session.user,
-            redirect: false,
-            token: '',
-          },
-          error: null,
-        };
+        return { data: null, error: { message: 'Invalid credentials' } };
       } catch (err) {
         return {
           data: null,
@@ -117,14 +121,15 @@ export const authClient = {
     try {
       const csrfToken = await getCsrfToken();
 
-      const res = await fetch(`${authUrl()}/signout`, {
+      await fetch(`${authUrl()}/signout`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({ csrfToken }),
         credentials: 'include',
+        redirect: 'manual',
       });
 
-      return { data: { success: res.ok }, error: null };
+      return { data: { success: true }, error: null };
     } catch (err) {
       return {
         data: { success: false },
