@@ -1,28 +1,57 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
-import { PAGINATOR_PROPS } from 'admin/config/admin.tables.config';
+import {
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+  type ColumnFiltersState,
+  type RowSelectionState,
+  type SortingState,
+  type Updater,
+} from '@tanstack/react-table';
+import { Spinner } from '@workspace/design-system/components';
+import { buttonRecipe, inputRecipe, tableRecipe } from '@workspace/design-system/recipes';
+import {
+  ArrowDownIcon,
+  ArrowUpIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ChevronsUpDownIcon,
+  DoubleArrowLeftIcon,
+  DoubleArrowRightIcon,
+} from '@workspace/icons';
+
 import { useTableHeaders } from 'admin/hooks/useTableHeaders';
-import { FilterMatchMode } from 'primereact/api';
-import type { ColumnProps } from 'primereact/column';
-import { Column } from 'primereact/column';
-import type { DataTableFilterMeta } from 'primereact/datatable';
-import { DataTable } from 'primereact/datatable';
-import { Button } from 'components/Button';
-
 import { useAppConfig } from 'providers/AppConfigProvider';
 
 import type { OrderReadableWithIndex } from '../hooks/useOrdersFilter';
-import { ORDERS_TABLE_COLUMNS, type OrdersTableColumnBodyType } from './OrdersTable.config';
+import { createOrdersColumns } from './OrdersTable.columns';
 import { useTableLabelMappings } from './useTableLabelMappings';
-import { EditIcon, TrashIcon } from '@workspace/icons';
-import 'primereact/resources/themes/lara-light-cyan/theme.css';
-import 'primereact/resources/primereact.min.css';
-import { styles } from './OrdersTable.styles';
 
-// ============================================================================
-// Column definition types
-// ============================================================================
+// ── Recipe instances — stable strings, computed once ──────────────────────────
 
+const tableClasses      = tableRecipe({ size: 'sm', striped: true, stickyHeader: true });
+const filterClasses     = inputRecipe({ size: 'sm' });
+const paginationClasses = buttonRecipe({ size: 'xs', variant: 'ghost' });
+
+// ── Sort icon helper ──────────────────────────────────────────────────────────
+
+function SortIcon({ sorted }: { sorted: 'asc' | 'desc' | false }) {
+  return (
+    <span className={tableClasses.sortIcon} data-sort={String(sorted)}>
+      {sorted === 'asc'  && <ArrowUpIcon        className="icon icon-sm" />}
+      {sorted === 'desc' && <ArrowDownIcon       className="icon icon-sm" />}
+      {!sorted           && <ChevronsUpDownIcon  className="icon icon-sm" />}
+    </span>
+  );
+}
+
+// ── Types ─────────────────────────────────────────────────────────────────────
+
+/** Keys of all filterable/sortable columns — consumed by useOrdersFilter. */
 export type ColumnKey =
   | 'displayIndex'
   | 'id'
@@ -34,18 +63,9 @@ export type ColumnKey =
   | 'defaultTempConsume'
   | 'actions';
 
-export interface ColumnDef {
-  field: string;
-  header: string;
-  sortable?: boolean;
-  filter?: boolean;
-  filterPlaceholder?: string;
-  style?: React.CSSProperties;
-  body?: (rowData: OrderReadableWithIndex) => React.ReactNode;
-}
-
+/** Per-column filter state map — consumed by useOrdersFilter. */
 export interface ColumnSearchState {
-  [key: string]: string; // Maps column key to search term
+  [key: string]: string;
 }
 
 export interface OrdersTableProps {
@@ -57,6 +77,8 @@ export interface OrdersTableProps {
   selectedOrders?: OrderReadableWithIndex[];
 }
 
+// ── Component ─────────────────────────────────────────────────────────────────
+
 export const OrdersTable: React.FC<OrdersTableProps> = ({
   orders,
   emptyMessage = 'No orders found',
@@ -66,126 +88,192 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
   selectedOrders: externalSelectedOrders,
 }) => {
   const { currentLanguage } = useAppConfig();
-  const { getLabel } = useTableLabelMappings(currentLanguage);
+  const { getLabel }  = useTableLabelMappings(currentLanguage);
   const { getHeader } = useTableHeaders();
 
-  // Internal state for selection if not controlled externally
-  // Use external selection if provided, otherwise use internal state
-  const [internalSelectedOrders, setInternalSelectedOrders] = useState<OrderReadableWithIndex[]>([]);
-  const selectedOrders = externalSelectedOrders ?? internalSelectedOrders;
-  const setSelectedOrders = onSelectionChange
-    ? (orders: OrderReadableWithIndex[]) => onSelectionChange(orders)
-    : setInternalSelectedOrders;
+  const [sorting,       setSorting]       = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [internalRowSelection, setInternalRowSelection] = useState<RowSelectionState>({});
 
-  // Initialize filters for PrimeReact DataTable
-  const [filters, setFilters] = useState<DataTableFilterMeta>({
-    displayIndex: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    mode: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    drinkType: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    drinkSubtype: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    volume: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    containerType: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    defaultTempConsume: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  // Controlled mode: convert external OrderReadableWithIndex[] → RowSelectionState
+  const controlledRowSelection = useMemo<RowSelectionState>(() => {
+    if (!externalSelectedOrders) return {};
+    return Object.fromEntries(externalSelectedOrders.map((o) => [o.id, true]));
+  }, [externalSelectedOrders]);
+
+  const effectiveRowSelection = onSelectionChange ? controlledRowSelection : internalRowSelection;
+
+  const handleRowSelectionChange = (updater: Updater<RowSelectionState>) => {
+    const next = typeof updater === 'function' ? updater(effectiveRowSelection) : updater;
+    if (onSelectionChange) {
+      onSelectionChange(orders.filter((o) => next[o.id]));
+    } else {
+      setInternalRowSelection(next);
+    }
+  };
+
+  const columns = useMemo(
+    () => createOrdersColumns(getLabel, getHeader, { onClickEdit, onClickDelete }),
+    [getLabel, getHeader, onClickEdit, onClickDelete],
+  );
+
+  const table = useReactTable({
+    data:                  orders,
+    columns,
+    state:                 { sorting, columnFilters, rowSelection: effectiveRowSelection },
+    getRowId:              (row) => row.id,
+    onSortingChange:       setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    onRowSelectionChange:  handleRowSelectionChange,
+    getCoreRowModel:       getCoreRowModel(),
+    getSortedRowModel:     getSortedRowModel(),
+    getFilteredRowModel:   getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    initialState:          { pagination: { pageSize: 50 } },
   });
 
-  // ============================================================================
-  // Body Templates (Custom Cell Renderers)
-  // ============================================================================
-
-  const indexBodyTemplate = (rowData: OrderReadableWithIndex) => {
-    return <span className="td-index">{rowData.displayIndex}</span>;
-  };
-
-  const modeBodyTemplate = (rowData: OrderReadableWithIndex) => {
-    return <span>{getLabel.mode(rowData.mode)}</span>;
-  };
-
-  const drinkTypeBodyTemplate = (rowData: OrderReadableWithIndex) => {
-    return <span>{getLabel.drinkType(rowData.drinkType)}</span>;
-  };
-
-  const drinkSubtypeBodyTemplate = (rowData: OrderReadableWithIndex) => {
-    return <span>{getLabel.drinkSubtype(rowData.drinkSubtype)}</span>;
-  };
-
-  const volumeBodyTemplate = (rowData: OrderReadableWithIndex) => {
-    return <span>{getLabel.volume(rowData.volume)}</span>;
-  };
-
-  const containerTypeBodyTemplate = (rowData: OrderReadableWithIndex) => {
-    return <span>{getLabel.containerType(rowData.containerType)}</span>;
-  };
-
-  const temperatureBodyTemplate = (rowData: OrderReadableWithIndex) => {
-    return rowData.defaultTempConsume ? `${rowData.defaultTempConsume}°C` : '-';
-  };
-
-  const actionsBodyTemplate = (rowData: OrderReadableWithIndex) => {
-    return (
-      <div className="action-buttons">
-        <Button
-          className="button button-edit"
-          onClick={() => onClickEdit(rowData.id)}
-          variant="ghost"
-          size="lg"
-        >
-          <EditIcon className="icon-edit" />
-        </Button>
-        <Button
-          className="button button-delete"
-          onClick={() => onClickDelete(rowData.id)}
-          variant="ghost"
-          size="lg"
-          color="danger"
-        >
-          <TrashIcon className="icon-delete" />
-        </Button>
-      </div>
-    );
-  };
-
-  const bodyRenderers: Record<OrdersTableColumnBodyType, ColumnProps['body']> = {
-    index: indexBodyTemplate,
-    mode: modeBodyTemplate,
-    drinkType: drinkTypeBodyTemplate,
-    drinkSubtype: drinkSubtypeBodyTemplate,
-    volume: volumeBodyTemplate,
-    containerType: containerTypeBodyTemplate,
-    temperature: temperatureBodyTemplate,
-    actions: actionsBodyTemplate,
-  };
-
   return (
-    <section css={styles} className="table-container">
-      <DataTable
-        value={orders}
-        dataKey="id"
-        selectionMode="multiple"
-        selection={selectedOrders}
-        onSelectionChange={(e) => setSelectedOrders(e.value as OrderReadableWithIndex[])}
-        filters={filters}
-        filterDisplay="row"
-        emptyMessage={emptyMessage}
-        className="orders-datatable"
-        stripedRows
-        removableSort
-        {...PAGINATOR_PROPS}
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-3)' }}>
+
+      {/* ── Table ────────────────────────────────────────────────────────────── */}
+      <div className={tableClasses.root}>
+        <table className={tableClasses.table}>
+          <caption className={tableClasses.caption}>Orders</caption>
+
+          {/* ── Header ───────────────────────────────────────────────────── */}
+          <thead className={tableClasses.thead}>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <tr key={headerGroup.id} className={tableClasses.headerRow}>
+                {headerGroup.headers.map((header) => {
+                  const canSort   = header.column.getCanSort();
+                  const canFilter = header.column.getCanFilter();
+                  return (
+                    <th
+                      key={header.id}
+                      className={tableClasses.th}
+                      data-sortable={canSort ? 'true' : undefined}
+                      style={{ width: header.getSize() !== 150 ? header.getSize() : undefined }}
+                    >
+                      <div
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 'var(--spacing-1)',
+                          cursor: canSort ? 'pointer' : 'default',
+                        }}
+                        onClick={canSort ? header.column.getToggleSortingHandler() : undefined}
+                      >
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(header.column.columnDef.header, header.getContext())}
+                        {canSort && <SortIcon sorted={header.column.getIsSorted()} />}
+                      </div>
+
+                      {canFilter && (
+                        <input
+                          className={filterClasses}
+                          value={(header.column.getFilterValue() as string) ?? ''}
+                          onChange={(e) => header.column.setFilterValue(e.target.value)}
+                          placeholder="Filter…"
+                          onClick={(e) => e.stopPropagation()}
+                          style={{ marginTop: 'var(--spacing-1)', width: '100%' }}
+                        />
+                      )}
+                    </th>
+                  );
+                })}
+              </tr>
+            ))}
+          </thead>
+
+          {/* ── Body ─────────────────────────────────────────────────────── */}
+          <tbody className={tableClasses.tbody}>
+            {table.getRowModel().rows.length === 0 ? (
+              <tr className={tableClasses.tr}>
+                <td
+                  colSpan={table.getAllColumns().length}
+                  className={tableClasses.emptyState}
+                >
+                  {emptyMessage}
+                </td>
+              </tr>
+            ) : (
+              table.getRowModel().rows.map((row) => (
+                <tr
+                  key={row.id}
+                  className={tableClasses.tr}
+                  data-selected={row.getIsSelected() ? 'true' : undefined}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <td key={cell.id} className={tableClasses.td}>
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </td>
+                  ))}
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      {/* ── Pagination ───────────────────────────────────────────────────────── */}
+      <div
+        style={{
+          display:        'flex',
+          alignItems:     'center',
+          justifyContent: 'space-between',
+          gap:            'var(--spacing-2)',
+          fontSize:       'var(--font-sizes-sm)',
+          color:          'var(--colors-fg-muted)',
+        }}
       >
-        <Column selectionMode="multiple" headerStyle={{ width: '3rem' }} />
-        {ORDERS_TABLE_COLUMNS.map((column) => (
-          <Column
-            key={column.field}
-            field={column.field === 'actions' ? undefined : column.field}
-            header={getHeader(column.field)}
-            sortable={column.sortable !== undefined ? column.sortable : true}
-            filter={column.filter !== undefined ? column.filter : true}
-            filterPlaceholder={column.filterPlaceholder ?? 'Search'}
-            style={column.style ?? { minWidth: '100px', maxWidth: '120px' }}
-            headerStyle={column.headerStyle}
-            body={bodyRenderers[column.bodyType]}
-          />
-        ))}
-      </DataTable>
-    </section>
+        <span>
+          {table.getFilteredSelectedRowModel().rows.length > 0 &&
+            `${table.getFilteredSelectedRowModel().rows.length} of `}
+          {table.getFilteredRowModel().rows.length} row(s)
+        </span>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-1)' }}>
+          <button
+            className={paginationClasses}
+            onClick={() => table.setPageIndex(0)}
+            disabled={!table.getCanPreviousPage()}
+            aria-label="First page"
+          >
+            <DoubleArrowLeftIcon className="icon icon-sm" />
+          </button>
+          <button
+            className={paginationClasses}
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+            aria-label="Previous page"
+          >
+            <ChevronLeftIcon className="icon icon-sm" />
+          </button>
+
+          <span style={{ paddingInline: 'var(--spacing-2)' }}>
+            Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+          </span>
+
+          <button
+            className={paginationClasses}
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+            aria-label="Next page"
+          >
+            <ChevronRightIcon className="icon icon-sm" />
+          </button>
+          <button
+            className={paginationClasses}
+            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+            disabled={!table.getCanNextPage()}
+            aria-label="Last page"
+          >
+            <DoubleArrowRightIcon className="icon icon-sm" />
+          </button>
+        </div>
+      </div>
+
+    </div>
   );
 };

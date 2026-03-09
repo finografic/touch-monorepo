@@ -53,15 +53,13 @@ The following use PrimeReact components with no DS equivalent yet. Not blocked.
 | `ListBoxSelect.tsx` | `ListBox` (visible list) | Low |
 | `OrdersTable.tsx` | `DataTable` (sortable/filterable table) | High |
 
-### OrdersTable → TanStack Table
+### OrdersTable → TanStack Table ✅ Done
 
-The DataTable replacement requires **building the component first**, then swapping it in:
-
-1. Build a reusable `DataTable` component using `@tanstack/react-table`
-   - Sorting, column filtering, row selection (checkbox)
-   - Style with DS token CSS vars (see docs: `table-tanstack-01.md`, `table-tanstack-02.md`)
-2. Replace `OrdersTable.tsx` (PrimeReact `DataTable`) with the new component
-3. Remove PrimeReact theme CSS imports and the PrimeReact wrapper
+1. ~~Build a reusable `DataTable` component using `@tanstack/react-table`~~
+   - ~~Sorting, column filtering, row selection (checkbox)~~
+   - ~~Style with DS token CSS vars (see docs: `table-tanstack-01.md`, `table-tanstack-02.md`)~~
+2. ~~Replace `OrdersTable.tsx` (PrimeReact `DataTable`) with the new component~~ (`OrdersTable.columns.tsx` added)
+3. ~~Remove PrimeReact theme CSS imports and the PrimeReact wrapper~~ (`OrdersTable.styles.ts` deleted)
 4. Once all PrimeReact usages are gone: remove `primeReact` dependency from `package.json`
 
 ---

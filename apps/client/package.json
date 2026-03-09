@@ -56,6 +56,7 @@
     "@tanstack/react-query": "^5.90.21",
     "@tanstack/react-query-devtools": "5.91.3",
     "@tanstack/react-query-persist-client": "5.90.22",
+    "@tanstack/react-table": "8.21.3",
     "@types/better-sqlite3": "^7.6.13",
     "@workspace/config": "workspace:*",
     "@workspace/core": "workspace:*",
