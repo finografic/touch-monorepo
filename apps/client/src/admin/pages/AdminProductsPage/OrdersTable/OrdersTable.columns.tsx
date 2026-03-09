@@ -1,38 +1,38 @@
-import type { ColumnDef } from '@tanstack/react-table';
-
 import { CheckboxField } from '@workspace/design-system/components';
-import { buttonRecipe, checkboxRecipe } from '@workspace/design-system/recipes';
 import { EditIcon, TrashIcon } from '@workspace/icons';
+
+import type { ColumnDef } from '@tanstack/react-table';
+import { button, checkbox } from 'styled-system/recipes';
 
 import type { OrderReadableWithIndex } from '../hooks/useOrdersFilter';
 
 // ── Recipe instances — stable strings, computed once ──────────────────────────
 
-const checkClasses   = checkboxRecipe({ size: 'sm' });
-const editClasses    = buttonRecipe({ size: 'xs', variant: 'ghost' });
-const deleteClasses  = buttonRecipe({ size: 'xs', variant: 'ghost', colorScheme: 'danger' });
+const checkClasses = checkbox({ size: 'sm' });
+const editClasses = button({ size: 'xs', variant: 'ghost' });
+const deleteClasses = button({ size: 'xs', variant: 'ghost', colorScheme: 'danger' });
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
 interface GetLabel {
-  mode:          (v: string | null | undefined) => string;
-  drinkType:     (v: string | null | undefined) => string;
-  drinkSubtype:  (v: string | null | undefined) => string;
-  volume:        (v: string | null | undefined) => string;
+  mode: (v: string | null | undefined) => string;
+  drinkType: (v: string | null | undefined) => string;
+  drinkSubtype: (v: string | null | undefined) => string;
+  volume: (v: string | null | undefined) => string;
   containerType: (v: string | null | undefined) => string;
 }
 
 interface ColumnActions {
-  onClickEdit:   (id: string) => void;
+  onClickEdit: (id: string) => void;
   onClickDelete: (id: string) => void;
 }
 
 // ── Column factory ────────────────────────────────────────────────────────────
 
 export function createOrdersColumns(
-  getLabel:  GetLabel,
+  getLabel: GetLabel,
   getHeader: (field: string) => string,
-  actions:   ColumnActions,
+  actions: ColumnActions,
 ): ColumnDef<OrderReadableWithIndex>[] {
   return [
     // ── Row selection ──────────────────────────────────────────────────────
@@ -44,8 +44,8 @@ export function createOrdersColumns(
             table.getIsAllPageRowsSelected()
               ? true
               : table.getIsSomePageRowsSelected()
-              ? 'indeterminate'
-              : false
+                ? 'indeterminate'
+                : false
           }
           onCheckedChange={({ checked }) => table.toggleAllPageRowsSelected(!!checked)}
           classNames={checkClasses}
@@ -58,7 +58,7 @@ export function createOrdersColumns(
           classNames={checkClasses}
         />
       ),
-      enableSorting:      false,
+      enableSorting: false,
       enableColumnFilter: false,
       size: 40,
     },
@@ -66,37 +66,37 @@ export function createOrdersColumns(
     // ── Data columns ───────────────────────────────────────────────────────
     {
       accessorKey: 'displayIndex',
-      header:      () => getHeader('displayIndex'),
+      header: () => getHeader('displayIndex'),
     },
     {
       accessorKey: 'mode',
-      header:      () => getHeader('mode'),
-      cell:        ({ getValue }) => getLabel.mode(getValue() as string | null | undefined),
+      header: () => getHeader('mode'),
+      cell: ({ getValue }) => getLabel.mode(getValue() as string | null | undefined),
     },
     {
       accessorKey: 'drinkType',
-      header:      () => getHeader('drinkType'),
-      cell:        ({ getValue }) => getLabel.drinkType(getValue() as string | null | undefined),
+      header: () => getHeader('drinkType'),
+      cell: ({ getValue }) => getLabel.drinkType(getValue() as string | null | undefined),
     },
     {
       accessorKey: 'drinkSubtype',
-      header:      () => getHeader('drinkSubtype'),
-      cell:        ({ getValue }) => getLabel.drinkSubtype(getValue() as string | null | undefined),
+      header: () => getHeader('drinkSubtype'),
+      cell: ({ getValue }) => getLabel.drinkSubtype(getValue() as string | null | undefined),
     },
     {
       accessorKey: 'volume',
-      header:      () => getHeader('volume'),
-      cell:        ({ getValue }) => getLabel.volume(getValue() as string | null | undefined),
+      header: () => getHeader('volume'),
+      cell: ({ getValue }) => getLabel.volume(getValue() as string | null | undefined),
     },
     {
       accessorKey: 'containerType',
-      header:      () => getHeader('containerType'),
-      cell:        ({ getValue }) => getLabel.containerType(getValue() as string | null | undefined),
+      header: () => getHeader('containerType'),
+      cell: ({ getValue }) => getLabel.containerType(getValue() as string | null | undefined),
     },
     {
-      accessorKey:        'defaultTempConsume',
-      header:             () => getHeader('defaultTempConsume'),
-      cell:               ({ getValue }) => {
+      accessorKey: 'defaultTempConsume',
+      header: () => getHeader('defaultTempConsume'),
+      cell: ({ getValue }) => {
         const v = getValue() as number | null | undefined;
         return v != null ? `${v}°C` : '-';
       },
@@ -105,9 +105,9 @@ export function createOrdersColumns(
 
     // ── Actions column ─────────────────────────────────────────────────────
     {
-      id:     'actions',
+      id: 'actions',
       header: () => getHeader('actions'),
-      cell:   ({ row }) => (
+      cell: ({ row }) => (
         <div style={{ display: 'flex', gap: 'var(--spacing-1)' }}>
           <button
             className={editClasses}
@@ -125,7 +125,7 @@ export function createOrdersColumns(
           </button>
         </div>
       ),
-      enableSorting:      false,
+      enableSorting: false,
       enableColumnFilter: false,
       size: 80,
     },

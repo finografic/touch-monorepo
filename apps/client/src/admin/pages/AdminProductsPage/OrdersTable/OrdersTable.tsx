@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from 'react';
 import { Spinner } from '@workspace/design-system/components';
-import { buttonRecipe, inputRecipe, tableRecipe } from '@workspace/design-system/recipes';
 import {
   ArrowDownIcon,
   ArrowUpIcon,
@@ -24,6 +23,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { useTableHeaders } from 'admin/hooks/useTableHeaders';
+import { button, input, table as tableRecipe } from 'styled-system/recipes';
 
 import { useAppConfig } from 'providers/AppConfigProvider';
 
@@ -34,8 +34,8 @@ import { useTableLabelMappings } from './useTableLabelMappings';
 // ── Recipe instances — stable strings, computed once ──────────────────────────
 
 const tableClasses = tableRecipe({ size: 'sm', striped: true, stickyHeader: true });
-const filterClasses = inputRecipe({ size: 'sm' });
-const paginationClasses = buttonRecipe({ size: 'xs', variant: 'ghost' });
+const filterClasses = input({ size: 'sm' });
+const paginationClasses = button({ size: 'xs', variant: 'ghost' });
 
 // ── Sort icon helper ──────────────────────────────────────────────────────────
 

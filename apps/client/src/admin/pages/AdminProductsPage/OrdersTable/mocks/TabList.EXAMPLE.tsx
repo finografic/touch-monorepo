@@ -12,13 +12,13 @@
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { Flex } from 'styled-system/jsx';
 import {
   type ColumnDef,
   type ColumnKey,
   type ColumnSearchState,
   OrdersTable,
 } from 'admin/pages/AdminProductsPage/OrdersTable';
+import { Flex } from 'styled-system/jsx';
 
 import { useDeleteOrder, useGetOrdersReadable } from 'queries/orders';
 
