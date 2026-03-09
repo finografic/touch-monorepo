@@ -39,7 +39,7 @@
     "hono": "^4.11.9",
     "picocolors": "^1.1.1",
     "react-dom": "^18.3.1",
-    "tsdown": "^0.20.3",
+    "tsdown": "*",
     "tsx": "4.21.0",
     "typescript": "^5.9.2",
     "vite": "^7.3.1"

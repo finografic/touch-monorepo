@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "@types/node": "20.11.24",
-    "tsdown": "^0.20.3",
+    "tsdown": "*",
     "typescript": "^5.9.2"
   }
 }

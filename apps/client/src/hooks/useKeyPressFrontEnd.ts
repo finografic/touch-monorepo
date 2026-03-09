@@ -16,6 +16,15 @@ export const useKeyPressFrontEnd = () => {
   const { isAdminToolsVisible, setIsAdminToolsVisible } = useAdmin();
 
   const handleKeyDown = (event: KeyboardEvent) => {
+    // Ignore events from editable elements — let inputs handle their own keys
+    const target = event.target as HTMLElement;
+    if (
+      target.tagName === 'INPUT' ||
+      target.tagName === 'TEXTAREA' ||
+      target.tagName === 'SELECT' ||
+      target.isContentEditable
+    ) return;
+
     // Debug logging
     if (event.key === '?' || event.key === 'Control') {
       console.debug('Key Event:', {

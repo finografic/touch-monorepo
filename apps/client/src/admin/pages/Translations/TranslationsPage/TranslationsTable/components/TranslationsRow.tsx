@@ -1,3 +1,4 @@
+import React from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 import type { RegionLocale } from '@workspace/config/i18n.config';
 import type { I18nTranslationsDomain } from '@workspace/i18n/types';
@@ -108,9 +109,7 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
       <td className="col-actions">
         {canAddNew ? (
           <TranslationsDeleteButton onDelete={() => onDelete(translationKey)} isDeleting={isDeleting} />
-        ) : (
-          <></>
-        )}
+        ) : null}
       </td>
     </tr>
   );

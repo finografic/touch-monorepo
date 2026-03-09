@@ -66,8 +66,8 @@ export const styles = css`
       }
 
       input.input-dirty {
-        color: ${colors.warningXDark};
-        -webkit-text-fill-color: ${colors.warningXDark};
+        color: ${colors.warningDark};
+        -webkit-text-fill-color: ${colors.warningDark};
       }
 
       input:focus {

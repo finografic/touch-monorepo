@@ -6,80 +6,80 @@
   "exports": {
     ".": {
       "browser": {
-        "types": "./dist/index.d.ts",
-        "import": "./dist/index.js"
+        "types": "./dist/index.d.mts",
+        "import": "./dist/index.mjs"
       },
       "node": {
-        "types": "./dist/index.node.d.ts",
-        "import": "./dist/index.node.js"
+        "types": "./dist/index.node.d.mts",
+        "import": "./dist/index.node.mjs"
       },
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs"
     },
     "./config": {
-      "types": "./dist/config/types.d.ts",
-      "import": "./dist/config/index.js"
+      "types": "./dist/config/types.d.mts",
+      "import": "./dist/config/index.mjs"
     },
     "./config/types": {
-      "types": "./dist/config/types.d.ts",
-      "import": "./dist/config/types.js"
+      "types": "./dist/config/types.d.mts",
+      "import": "./dist/config/types.mjs"
     },
     "./config/defaults": {
-      "types": "./dist/config/defaults.d.ts",
-      "import": "./dist/config/defaults.js"
+      "types": "./dist/config/defaults.d.mts",
+      "import": "./dist/config/defaults.mjs"
     },
     "./config/loader": {
-      "types": "./dist/config/loader.d.ts",
-      "import": "./dist/config/loader.js"
+      "types": "./dist/config/loader.d.mts",
+      "import": "./dist/config/loader.mjs"
     },
     "./generators": {
-      "types": "./dist/generators/index.d.ts",
-      "import": "./dist/generators/index.js"
+      "types": "./dist/generators/index.d.mts",
+      "import": "./dist/generators/index.mjs"
     },
     "./generators/generate-constants": {
-      "types": "./dist/generators/generate-constants.d.ts",
-      "import": "./dist/generators/generate-constants.js"
+      "types": "./dist/generators/generate-constants.d.mts",
+      "import": "./dist/generators/generate-constants.mjs"
     },
     "./generators/generate-types": {
-      "types": "./dist/generators/generate-types.d.ts",
-      "import": "./dist/generators/generate-types.js"
+      "types": "./dist/generators/generate-types.d.mts",
+      "import": "./dist/generators/generate-types.mjs"
     },
     "./generators/cli": {
-      "types": "./dist/generators/cli.d.ts",
-      "import": "./dist/generators/cli.js"
+      "types": "./dist/generators/cli.d.mts",
+      "import": "./dist/generators/cli.mjs"
     },
     "./translations": {
-      "import": "./dist/translations/index.js",
-      "types": "./dist/translations/index.d.ts"
+      "types": "./dist/translations/index.d.mts",
+      "import": "./dist/translations/index.mjs"
     },
     "./utils": {
-      "import": "./dist/utils/index.js",
-      "types": "./dist/utils/index.d.ts"
+      "types": "./dist/utils/index.d.mts",
+      "import": "./dist/utils/index.mjs"
     },
     "./constants": {
-      "types": "./dist/constants/index.d.ts",
-      "import": "./dist/constants/index.js"
+      "types": "./dist/constants/index.d.mts",
+      "import": "./dist/constants/index.mjs"
     },
     "./lib": {
-      "types": "./dist/lib/locale.d.ts",
-      "import": "./dist/lib/locale.js"
+      "types": "./dist/lib/locale.d.mts",
+      "import": "./dist/lib/locale.mjs"
     },
     "./types": {
-      "types": "./dist/types/index.d.ts",
-      "import": "./dist/types/index.d.ts"
+      "types": "./dist/types/index.d.mts",
+      "import": "./dist/types/index.mjs"
     },
     "./iso-codes": {
-      "types": "./dist/iso-codes/index.d.ts",
-      "import": "./dist/iso-codes/index.js"
+      "types": "./dist/iso-codes/index.d.mts",
+      "import": "./dist/iso-codes/index.mjs"
     }
   },
   "scripts": {
     "========== DEV": "=======================================================",
     "generate.types": "tsx src/generators/cli.ts",
-    "dev": "tsup --watch",
+    "dev": "tsdown --watch --no-clean",
     "·········· BUILD": "·····················································",
     "prebuild": "pnpm --package=@finografic/project-scripts dlx purge-builds --recursive --detach && pnpm install",
-    "build": "tsup",
+    "build": "tsdown",
     "postbuild": "tsx src/generators/cli.ts",
     "·········· UPDATE": "····················································",
     "update": "run-s build refresh",
@@ -113,7 +113,7 @@
     "@microsoft/api-extractor": "^7.52.11",
     "@types/node": "20.11.24",
     "shx": "0.4.0",
-    "tsup": "8.5.1",
+    "tsdown": "latest",
     "typescript": "^5.9.2"
   },
   "peerDependencies": {

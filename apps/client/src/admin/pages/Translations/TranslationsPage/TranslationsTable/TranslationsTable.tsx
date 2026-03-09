@@ -4,8 +4,8 @@ import type { RegionLocale } from '@workspace/config/i18n.config';
 import type { I18nTranslationsDomain } from '@workspace/i18n/types';
 
 import createCuid from '@bugsnag/cuid';
-import { Flex } from 'styled-system/jsx';
 import clsx from 'clsx';
+import { Flex } from 'styled-system/jsx';
 import { useDebouncedCallback } from 'use-debounce';
 
 import { TableFormButtons } from '../../shared/components/TableFormButtons';

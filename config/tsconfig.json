@@ -18,7 +18,7 @@
     "baseUrl": ".",
     "paths": {
       "@workspace/config/*": ["./*"],
-      "@workspace/i18n/config/types": ["../packages/i18n/dist/config/types.d.ts"]
+      "@workspace/i18n/config/types": ["../packages/i18n/dist/config/types.d.mts"]
     }
   },
   "include": ["**/*.ts"],
