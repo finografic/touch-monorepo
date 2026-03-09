@@ -7,14 +7,17 @@ import { user as userSchema } from 'db/schemas';
 import { ERROR_CODES, ERROR_MESSAGES } from 'lib/valibot.errors';
 import type { AppHandler } from 'types/app.types';
 
+const safeColumns = { hashedPassword: false } as const;
+
 export const list: AppHandler = async (context) => {
-  const users = await db.query.user.findMany();
+  const users = await db.query.user.findMany({ columns: safeColumns });
   return context.json(users);
 };
 
 export const getOne: AppHandler = async (context) => {
   const { id } = context.req.valid('param');
   const foundUser = await db.query.user.findFirst({
+    columns: safeColumns,
     where(fields, operators) {
       return operators.eq(fields.id, id);
     },
@@ -55,9 +58,9 @@ export const patch: AppHandler = async (context) => {
     );
   }
 
-  const [updated] = await db.update(userSchema).set(updates).where(eq(userSchema.id, id)).returning();
+  const result = await db.update(userSchema).set(updates).where(eq(userSchema.id, id));
 
-  if (!updated) {
+  if (result.changes === 0) {
     return context.json(
       {
         message: HttpStatusPhrases.NOT_FOUND,
@@ -65,6 +68,13 @@ export const patch: AppHandler = async (context) => {
       HttpStatusCodes.NOT_FOUND,
     );
   }
+
+  const updated = await db.query.user.findFirst({
+    columns: safeColumns,
+    where(fields, operators) {
+      return operators.eq(fields.id, id);
+    },
+  });
 
   return context.json(updated, HttpStatusCodes.OK);
 };

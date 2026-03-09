@@ -17,6 +17,12 @@ const AuthInitializer = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     refreshSession();
+
+    const onVisibilityChange = () => {
+      if (document.visibilityState === 'visible') refreshSession();
+    };
+    document.addEventListener('visibilitychange', onVisibilityChange);
+    return () => document.removeEventListener('visibilitychange', onVisibilityChange);
   }, [refreshSession]);
 
   return <>{children}</>;

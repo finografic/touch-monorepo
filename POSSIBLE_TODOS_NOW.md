@@ -4,85 +4,68 @@ Observations and recommendations from the BetterAuth → Auth.js + Zod → Valib
 
 ---
 
+## Legend
+
+- ✅ Done
+- 🔴 Do it — clear bug or security issue
+- 🟡 Do it — worthwhile cleanup, low effort
+- 🔵 Do it later — good idea, higher effort / separate concern
+- ⚪ Skip — marginal benefit, or style preference
+
+---
+
 ## 1. Improve `auth-client.ts`
 
-The current auth client works but has several rough edges worth cleaning up:
+### ⚪ Use the shared `api` fetch client instead of raw `fetch`
 
-### Use the shared `api` fetch client instead of raw `fetch`
+`auth-client.ts` uses raw `fetch()` with manual `credentials: 'include'` everywhere. The `signIn` flow **must** stay on raw `fetch` — it uses `x-www-form-urlencoded` + `redirect: 'manual'` which the `api` client doesn't support. `getSession` and `signUp` are plain JSON and could use `api`, but the surface area is small enough that the consistency of "auth-client always uses raw fetch" is worth more than the refactor. Skip.
 
-`auth-client.ts` uses raw `fetch()` with manual `credentials: 'include'` everywhere, while `fetch.client.ts` already provides an `api` object that handles credentials, timeouts, error normalization, and base URL resolution. The sign-up call could use `api.post()` directly. The Auth.js CSRF + callback flow requires `x-www-form-urlencoded` which the `api` client doesn't handle out of the box, but `getSession` and `signUp` are plain JSON and should use it.
+### ✅ Cache the CSRF token
 
-### Cache the CSRF token
+- [x] Module-level cache with 30s TTL added to `auth-client.ts`. Cache is invalidated on `signOut`. One fewer round-trip per auth action.
 
-Every `signIn` and `signOut` makes a separate `GET /auth/csrf` call before the actual action. The CSRF token could be fetched once and cached (with a short TTL or per-session), reducing one round-trip per auth action.
+### ✅ Remove dead `AuthSessionData` fields (`redirect`, `token`)
 
-### Remove dead `AuthSessionData` fields
+- [x] `AuthContext.ts` constructs `{ user, redirect: false, token: '' }` in three places (lines 62, 88–91, 131). These are BetterAuth artifacts — Auth.js JWT sessions don't have these fields. They're hardcoded dead values.
+- [x] `AuthSessionData` in `auth.types.ts` still declares `redirect: boolean` and `token: string`. Drop them.
+- [x] The session shape should just be `{ user: AuthUser | null }`.
 
-`AuthContext.ts` still creates `{ redirect: false, token: '' }` on session objects — those are BetterAuth artifacts. Auth.js JWT sessions don't produce these fields. The `AuthSessionData` type and all consumers should drop `redirect` and `token`. The session shape is just `{ user, expires }`.
+### ⚪ Type the `signIn` return instead of casting
 
-### Type the response instead of casting
+Blocked by `AuthRoles = 'public' | 'admin'` missing `'user'`. The cast `as AuthUser` exists to bridge this mismatch — the DB schema allows `'user'` but `AuthRoles` doesn't. Fixing the cast properly requires fixing `AuthRoles` first (a route-guard change). Skip for now.
 
-`signIn.email` casts `result.data.user as AuthUser` — the `AuthSession` interface in `auth-client.ts` already has the correct shape. A generic return type on `signIn` would eliminate the cast.
+### ✅ Auto-refresh session on mount
 
-### Auto-refresh on mount
+- [x] `AuthInitializer` already calls `refreshSession()` on mount via `useEffect`.
+- [x] Added `visibilitychange` listener — refreshes session when tab becomes visible again.
 
-`refreshSession` in `AuthContext` calls `getSession` but there's no automatic trigger on app mount or tab re-focus. Consider adding a `useEffect` in the provider that calls `refreshSession` on mount and on `visibilitychange`, so stale sessions are caught early.
+### ⚪ Consider a thin wrapper class
 
-### Consider a thin wrapper class
-
-Instead of the object-literal pattern with nested `.signIn.email()`, a class with `signIn(email, password)`, `signUp(email, password, name)`, `signOut()`, `getSession()` would be simpler to type, test, and mock.
+Object-literal pattern with nested `.signIn.email()` etc. is fine and already consistent. No benefit to refactoring to a class.
 
 ---
 
 ## 2. `@workspace/shared` vs `@workspace/core` — what goes where
 
-### The dividing line
+> This is architectural housekeeping, not auth cleanup. Worth doing but as a separate session.
 
-| | `@workspace/core` | `@workspace/shared` |
-|---|---|---|
-| **Scope** | Framework-agnostic, reusable across any project | Specific to this project's domain |
-| **Dependencies** | Generic (lodash, http-status-codes) | Can depend on `@workspace/core` |
-| **Changes when** | HTTP standards change, utility patterns evolve | Business requirements change |
-| **Examples** | Error codes, fetch utils, type utils, hooks | Temperature config, auth roles, model interfaces |
+### 🔵 Move model interfaces to `@workspace/shared/models`
 
-### What should move to `@workspace/shared`
+The client's `types/models/*.model.ts` files (DrinkType, Volume, Order, Mode, etc.) define the API contract shape. Server infers them from Drizzle. Neither owns the contract. `@workspace/shared/models` is the right neutral home — both sides import from there, server optionally validates drift at compile time.
 
-**Model interfaces** — The client's `types/models/*.model.ts` files define project-specific domain types (DrinkType, Volume, ContainerType, Order, etc.). These are consumed by both client and server (the server already has them as Drizzle inferences). Moving them to `@workspace/shared/models` would:
-
-- Give both apps a single source of truth for the *API contract* shape
-- Allow the server to validate that its Drizzle-inferred types satisfy the shared interface
-- Eliminate the need for `@workspace/server/models` exports (which required build tooling workarounds)
-
-**Auth types** — `AuthUser`, `AuthSession`, `AuthRoles`, `AuthSignInParams`, `AuthSignUpParams` are domain-specific. They define the contract between client and server. `@workspace/shared/auth` is a natural home.
-
-**Temperature constants** — Already in shared. Correct placement.
-
-**Domain constants** — Things like role enums (`'public' | 'user' | 'admin'`), cookie name prefixes, supported language codes — anything that both apps reference and is specific to *this* product.
-
-### What should stay in `@workspace/core`
-
-**Error codes / messages** — `ERROR_CODES`, `ERROR_MESSAGES`, `VALIDATION_ERROR_CODES` are generic HTTP and validation concepts. They belong in core. They'd be the same in any project using this stack.
-
-**Fetch utilities** — `buildUrl`, `normalizeResponse`, `FetchError`, `transformFetchError` are framework-agnostic. Core.
-
-**Type utilities** — `OverridePropTypes`, casing utils, enum utils — generic TypeScript helpers. Core.
-
-**React hooks** — `useBoundingRect`, `useKeyPress` — generic UI hooks. Core.
-
-### Suggested `@workspace/shared` structure
-
+Suggested structure (unchanged from original):
 ```
 packages/shared/src/
 ├── constants/
 │   └── temperature.config.ts    (already exists)
 ├── models/
-│   ├── index.ts                 (barrel)
+│   ├── index.ts
 │   ├── auth.model.ts            (AuthUser, AuthSession, AuthRoles)
-│   ├── drink-type.model.ts      (DrinkType, DrinkSubtype)
-│   ├── volume.model.ts          (DrinkVolume)
-│   ├── container.model.ts       (ContainerType)
-│   ├── order.model.ts           (OrderModel, OrdersReadableView)
-│   ├── mode.model.ts            (ModeModel)
+│   ├── drink-type.model.ts
+│   ├── volume.model.ts
+│   ├── container.model.ts
+│   ├── order.model.ts
+│   ├── mode.model.ts
 │   └── ...
 ├── auth/
 │   ├── index.ts
@@ -90,68 +73,57 @@ packages/shared/src/
 └── index.ts
 ```
 
+Compile-time drift detection pattern (add to server after migration):
+```typescript
+type _check = DrinkTypeModel extends DrinkType ? true : never;
+```
+
+### 🔵 Move auth types to `@workspace/shared/auth`
+
+`AuthUser`, `AuthSession`, `AuthRoles`, `AuthSignInParams`, `AuthSignUpParams` are domain-specific and consumed by both client and server. Currently they live in `apps/client/src/providers/AuthProvider/auth.types.ts` — wrong layer. Move to shared after the model migration above.
+
 ---
 
 ## 3. Other things noticed during refactoring
 
-### `hashedPassword` leaks in the users API
+### ✅ `hashedPassword` leaks in the users API
 
-`GET /api/users` returns `hashedPassword` in the response (visible in the browser screenshot). The users route should select specific columns or strip `hashedPassword` before returning. This is a security issue.
+- [x] `GET /api/users` (and `GET /api/users/:id`, `PATCH /api/users/:id`) returns the full Drizzle row including `hashedPassword`. Fixed with `columns: { hashedPassword: false }` on all three handlers. `patch` now does a post-update fetch instead of `.returning()` to avoid the leak.
 
-### Deprecated aliases still in core
+### ✅ Remove deprecated aliases from `@workspace/core`
 
-`validation-errors.ts` still exports `ZOD_ERROR_CODES` and `ZOD_ERROR_MESSAGES` as deprecated aliases. Since Zod is fully removed, these can be deleted. Same for `transformAxiosError` in `api.utils.ts` (deprecated alias for `transformFetchError`).
+- [x] Deleted `ZOD_ERROR_CODES` and `ZOD_ERROR_MESSAGES` from `validation-errors.ts`.
+- [x] Deleted `transformAxiosError` from `fetch.utils.ts`, `api.utils.ts`, and its re-export from `api/index.ts`.
 
-### `error.types.ts` has a duplicate `ErrorResponse`
+### ✅ Fix duplicate `ErrorResponse` export name
 
-Both `error.types.ts` and `error.schema.ts` export an `ErrorResponse` interface with different shapes. The `error.types.ts` version (`{ message, code, status, details }`) is a simpler flat shape, while `error.schema.ts` has the structured API response shape (`{ success: false, error: { ... } }`). One should be renamed (e.g., `SimpleErrorResponse` or `ApiErrorResponse`) to avoid confusion and potential import conflicts.
+- [x] `ErrorResponse` in `error.types.ts` was unused (not re-exported via `index.ts`, not imported anywhere in apps). Deleted it. `ErrorResponse` from `error.schema.ts` remains the canonical export.
 
-### `auth_session` / `auth_account` / `auth_verification` tables are dormant
+### ✅ Remove `valibot` from `@workspace/core` dependencies
 
-With JWT sessions and Credentials-only provider, these three tables are never read or written. They could be dropped from the schema (and the DB) unless you plan to add OAuth providers or database sessions later. Keeping them isn't harmful, but it's dead schema.
+- [x] Removed `"valibot": "1.2.0"` from `packages/core/package.json`. Nothing in core imports it.
 
-### `valibot` dependency in `@workspace/core`
+### 🔵 Consider dropping dormant auth tables
 
-`core/package.json` still lists `valibot` as a dependency, but after removing the schemas from `error.schema.ts`, nothing in core imports Valibot. It can be removed from core's `dependencies`.
+`auth_session`, `auth_account`, and `auth_verification` tables are never read or written (JWT sessions + Credentials-only provider). Not harmful to keep, but dead schema. Hold off until the auth approach is confirmed stable — if OAuth providers are added later, these become useful again. Revisit in a dedicated DB cleanup session.
 
 ---
 
 ## 4. Model interfaces: ownership and architecture
 
+> Covered under §2 above. Detailed rationale preserved here for reference.
+
 ### Hand-authored interfaces > schema derivation
 
-API response types should be hand-authored plain interfaces, not derived from Drizzle schemas via `Omit`/`Pick`. The reasons:
-
-- **Opt-in vs opt-out** — hand-authored interfaces only expose what's explicitly listed. Schema derivation exposes everything unless you remember to `Omit` it (e.g., `hashedPassword` leaking because nobody added it to the `Omit` list).
-- **Decoupled from DB** — DB column renames, new internal columns, or type changes don't silently change the API contract.
-- **Readable** — the interface is a self-documenting spec of exactly what the client receives, without needing to mentally resolve `Omit<Pick<Partial<...>>>` chains.
+API response types should be hand-authored plain interfaces, not derived via `Omit`/`Pick` from Drizzle schemas. Opt-in is safer than opt-out (`hashedPassword` leak is a direct consequence of opt-out derivation). Interfaces also decouple the API contract from internal DB column changes.
 
 ### Ownership: `@workspace/shared` (neutral territory)
 
-The interfaces should live in `@workspace/shared/models`, not in server or client:
-
 ```
-@workspace/shared/models    ← the contract (defines it)
+@workspace/shared/models    ← defines the contract
         ↑              ↑
     server              client
   (implements)        (consumes)
 ```
 
-- **Shared** defines the contract — pure types, no runtime deps on Drizzle/Valibot/React/Hono.
-- **Server** imports from shared and validates its Drizzle-inferred types satisfy the contract.
-- **Client** imports from shared to type fetch responses and UI props.
-- Neither app depends on the other's build output — no `.d.ts` generation issues.
-
-This is the same pattern as a `.proto` file in gRPC or an OpenAPI spec — the schema lives in neutral territory.
-
-### Compile-time drift detection
-
-The server can add a type-level check to catch schema drift without runtime cost:
-
-```typescript
-import type { DrinkType } from '@workspace/shared/models';
-import type { DrinkTypeModel } from './db/schemas/drink_types.schema';
-
-// Fails at compile time if Drizzle schema no longer satisfies the API contract
-type _check = DrinkTypeModel extends DrinkType ? true : never;
-```
+Neither app depends on the other's build output. Pure types, no runtime deps on Drizzle/Valibot/React/Hono.

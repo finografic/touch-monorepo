@@ -1,6 +1,1 @@
-export interface ModeModel {
-  id: string;
-  name: string;
-  isDefault: boolean;
-  isActive: boolean;
-}
+export type { ModeModel } from '@workspace/shared/models';

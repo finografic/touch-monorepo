@@ -1,16 +1,3 @@
-export interface ErrorResponse {
-  message: string;
-  code?: string | number;
-  status?: number;
-  details?: unknown;
-}
-
-export interface ErrorResponse_DEV {
-  message: string;
-  code?: string;
-  details?: unknown;
-}
-
 export interface ValidationError {
   code: 'VALIDATION_ERROR';
   message: string;

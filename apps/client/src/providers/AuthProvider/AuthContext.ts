@@ -59,7 +59,7 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
               if (signInResult.data?.user) {
                 const user = signInResult.data.user as AuthUser;
                 set({
-                  session: { user, redirect: false, token: '' },
+                  session: { user },
                   user,
                   isAuthenticated: true,
                   role: user.role || 'user',
@@ -84,11 +84,7 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
             if (result.data?.user) {
               const user = result.data.user as AuthUser;
 
-              const session: AuthSessionData = {
-                redirect: result.data.redirect,
-                token: result.data.token,
-                user,
-              };
+              const session: AuthSessionData = { user };
 
               set({
                 session,
@@ -129,7 +125,7 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
             if (session?.user) {
               const user = session.user as AuthUser;
               set({
-                session: { user, redirect: false, token: '' },
+                session: { user },
                 user,
                 isAuthenticated: true,
                 role: user.role || 'user',

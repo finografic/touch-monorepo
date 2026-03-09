@@ -24,7 +24,5 @@ export interface AuthUser {
 }
 
 export interface AuthSessionData {
-  redirect: boolean;
-  token: string;
   user: AuthUser | null;
 }

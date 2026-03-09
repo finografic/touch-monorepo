@@ -51,5 +51,8 @@ export const ERROR_MESSAGES = {
   ...VALIDATION_ERROR_MESSAGES,
 } as const;
 
+/** Alphabetical constant name (e.g. BAD_REQUEST, UNAUTHORIZED), not numeric HTTP status */
 export type ErrorCode = keyof typeof ERROR_CODES;
+
+/** Code value used as key into ERROR_MESSAGES (numeric or string) */
 export type ErrorMessage = keyof typeof ERROR_MESSAGES;

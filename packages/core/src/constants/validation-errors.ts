@@ -25,8 +25,3 @@ export const VALIDATION_ERROR_MESSAGES = {
   [VALIDATION_ERROR_CODES.INVALID_DATE]: 'Invalid date',
   [VALIDATION_ERROR_CODES.CUSTOM]: 'Invalid value',
 } as const;
-
-/** @deprecated Use VALIDATION_ERROR_CODES instead */
-export const ZOD_ERROR_CODES = VALIDATION_ERROR_CODES;
-/** @deprecated Use VALIDATION_ERROR_MESSAGES instead */
-export const ZOD_ERROR_MESSAGES = VALIDATION_ERROR_MESSAGES;

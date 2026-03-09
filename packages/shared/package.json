@@ -3,34 +3,35 @@
   "type": "module",
   "version": "0.0.1",
   "private": true,
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.js"
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs"
     },
     "./constants": {
-      "types": "./dist/constants/index.d.ts",
-      "import": "./dist/constants/index.js",
-      "require": "./dist/constants/index.js"
+      "types": "./dist/constants/index.d.mts",
+      "import": "./dist/constants/index.mjs"
     },
     "./constants/*": {
-      "types": "./dist/constants/*.d.ts",
-      "import": "./dist/constants/*.js",
-      "require": "./dist/constants/*.js"
+      "types": "./dist/constants/*.d.mts",
+      "import": "./dist/constants/*.mjs"
+    },
+    "./models": {
+      "types": "./dist/models/index.d.mts",
+      "import": "./dist/models/index.mjs"
     }
   },
   "scripts": {
-    "dev": "tsup --watch",
-    "build": "tsup",
+    "dev": "tsdown --watch",
+    "build": "tsdown",
     "clean": "rm -rf dist",
     "typecheck": "pnpm exec tsc --project tsconfig.json --noEmit"
   },
   "devDependencies": {
     "@types/node": "20.11.24",
-    "tsup": "8.5.1",
+    "tsdown": "^0.20.3",
     "typescript": "^5.9.2"
   }
 }

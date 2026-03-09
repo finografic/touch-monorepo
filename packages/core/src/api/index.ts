@@ -8,9 +8,8 @@ export type {
   RateLimitError,
   HttpError,
   TimeoutError,
-  ErrorResponse_DEV,
 } from './error.types';
-export { isRetryableError, transformFetchError, transformAxiosError } from './api.utils';
+export { isRetryableError, transformFetchError } from './error.utils';
 export type { FetchRequestConfig, FetchResponse } from './fetch.types';
 export { FetchError } from './fetch.types';
 export { buildUrl, normalizeResponse } from './fetch.utils';

@@ -4,18 +4,14 @@ declare global {
   function log(message: string, color?: LogColor, ...args: any[]): void;
 }
 
-const _global = (typeof window !== 'undefined' ? window : global) as any;
+const _global = ((globalThis as Record<string, unknown>)['window'] ?? globalThis) as {
+  log: (message: string, color?: LogColor, ...args: unknown[]) => void;
+};
 
-_global.log = function (message: string, color: LogColor = 'grey', ...args: any[]): void {
+_global.log = function (message: string, color: LogColor = 'grey', ...args: unknown[]): void {
   const error = new Error();
   if ('captureStackTrace' in Error) {
     Error.captureStackTrace(error, _global.log);
   }
-
-  color = color || 'grey';
-  if (args.length > 0) {
-    console.log(`%c${message}`, `color:${color}`, ...args);
-  } else {
-    console.log(`%c${message}`, `color:${color}`);
-  }
+  console.log(`%c${message}`, `color:${color}`, ...args);
 };

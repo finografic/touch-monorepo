@@ -1,13 +1,25 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022"],
     "composite": true,
-    "outDir": "./dist",
-    "rootDir": "./src",
     "declaration": true,
     "declarationMap": true,
     "resolveJsonModule": true,
-    "types": ["node"]
+    "types": ["node"],
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "baseUrl": ".",
+    "paths": {
+      "constants": ["./src/constants"],
+      "guards": ["./src/guards"],
+      "guards/*": ["./src/guards/*"],
+      "hooks": ["./src/hooks"],
+      "types": ["./src/types"],
+      "utils": ["./src/utils"],
+      "utils/*": ["./src/utils/*"]
+    }
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.json"],
   "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.spec.ts"]

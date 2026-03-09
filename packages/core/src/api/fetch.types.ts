@@ -6,51 +6,51 @@
  */
 
 /**
- * Request configuration interface
- * Extends native RequestInit with additional features
+ * Request configuration. Extends native RequestInit with additional features.
+ *
+ * @property timeout - Request timeout in milliseconds
+ * @property params - URL query parameters
+ * @property baseURL - Override base URL for specific requests
  */
 export interface FetchRequestConfig extends RequestInit {
-  /** Request timeout in milliseconds */
   timeout?: number;
-  /** URL query parameters */
   params?: Record<string, string | number | boolean | null | undefined>;
-  /** Override base URL for specific requests */
   baseURL?: string;
 }
 
 /**
- * Normalized response interface
- * Provides consistent structure for all HTTP responses
+ * Normalized response. Provides consistent structure for all HTTP responses.
+ *
+ * @property data - Response payload
+ * @property status - HTTP status code
+ * @property statusText - HTTP status text
+ * @property headers - Response headers
+ * @property ok - True when status is 2xx
  */
 export interface FetchResponse<T = any> {
-  /** Response data */
   data: T;
-  /** HTTP status code */
   status: number;
-  /** HTTP status text */
   statusText: string;
-  /** Response headers */
   headers: Headers;
-  /** Whether response was successful (2xx status) */
   ok: boolean;
 }
 
 /**
- * Custom error class for fetch-based API errors
- * Contains additional context about failed requests
+ * Fetch-based API error with request context.
+ *
+ * @param message - Error message
+ * @param status - HTTP status code (0 for network errors)
+ * @param data - Response body if available
+ * @param isRetryable - Whether the request can be retried
  */
 export class FetchError extends Error {
   constructor(
     message: string,
-    /** HTTP status code (0 for network errors) */
     public status: number,
-    /** Response data if available */
     public data?: any,
-    /** Whether error is retryable */
     public isRetryable: boolean = false,
   ) {
     super(message);
     this.name = 'FetchError';
   }
 }
-

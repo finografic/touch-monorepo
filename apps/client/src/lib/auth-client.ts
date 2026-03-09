@@ -2,9 +2,16 @@ import { getApiUrl } from '../api/fetch.client';
 
 const authUrl = () => `${getApiUrl()}/auth`;
 
+let csrfCache: { token: string; expiresAt: number } | null = null;
+const CSRF_TTL_MS = 30_000;
+
 async function getCsrfToken(): Promise<string> {
+  const now = Date.now();
+  if (csrfCache && now < csrfCache.expiresAt) return csrfCache.token;
+
   const res = await fetch(`${authUrl()}/csrf`, { credentials: 'include' });
   const data = await res.json();
+  csrfCache = { token: data.csrfToken, expiresAt: now + CSRF_TTL_MS };
   return data.csrfToken;
 }
 
@@ -63,7 +70,7 @@ export const authClient = {
           const session = await authClient.getSession();
           if (session?.user) {
             return {
-              data: { user: session.user, redirect: false, token: '' },
+              data: { user: session.user },
               error: null,
             };
           }
@@ -75,7 +82,7 @@ export const authClient = {
           const session = await authClient.getSession();
           if (session?.user) {
             return {
-              data: { user: session.user, redirect: false, token: '' },
+              data: { user: session.user },
               error: null,
             };
           }
@@ -120,6 +127,7 @@ export const authClient = {
   signOut: async () => {
     try {
       const csrfToken = await getCsrfToken();
+      csrfCache = null; // invalidate after use
 
       await fetch(`${authUrl()}/signout`, {
         method: 'POST',
