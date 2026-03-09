@@ -11,6 +11,10 @@
 
 <https://authjs.dev/getting-started/migrate-to-better-auth>
 
+<https://authjs.dev/reference/drizzle-adapter/lib/utils>
+<https://authjs.dev/reference/core>
+<https://authjs.dev/getting-started/typescript#module-augmentation>
+
 ```ts
 import { integer, sqliteTable, text, primaryKey } from "drizzle-orm/sqlite-core"
 import { createClient } from "@libsql/client"

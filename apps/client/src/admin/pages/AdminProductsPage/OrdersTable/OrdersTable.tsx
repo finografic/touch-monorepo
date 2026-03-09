@@ -1,17 +1,4 @@
 import React, { useMemo, useState } from 'react';
-
-import {
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-  type ColumnFiltersState,
-  type RowSelectionState,
-  type SortingState,
-  type Updater,
-} from '@tanstack/react-table';
 import { Spinner } from '@workspace/design-system/components';
 import { buttonRecipe, inputRecipe, tableRecipe } from '@workspace/design-system/recipes';
 import {
@@ -24,7 +11,20 @@ import {
   DoubleArrowRightIcon,
 } from '@workspace/icons';
 
+import {
+  type ColumnFiltersState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  type RowSelectionState,
+  type SortingState,
+  type Updater,
+  useReactTable,
+} from '@tanstack/react-table';
 import { useTableHeaders } from 'admin/hooks/useTableHeaders';
+
 import { useAppConfig } from 'providers/AppConfigProvider';
 
 import type { OrderReadableWithIndex } from '../hooks/useOrdersFilter';
@@ -33,8 +33,8 @@ import { useTableLabelMappings } from './useTableLabelMappings';
 
 // ── Recipe instances — stable strings, computed once ──────────────────────────
 
-const tableClasses      = tableRecipe({ size: 'sm', striped: true, stickyHeader: true });
-const filterClasses     = inputRecipe({ size: 'sm' });
+const tableClasses = tableRecipe({ size: 'sm', striped: true, stickyHeader: true });
+const filterClasses = inputRecipe({ size: 'sm' });
 const paginationClasses = buttonRecipe({ size: 'xs', variant: 'ghost' });
 
 // ── Sort icon helper ──────────────────────────────────────────────────────────
@@ -42,9 +42,9 @@ const paginationClasses = buttonRecipe({ size: 'xs', variant: 'ghost' });
 function SortIcon({ sorted }: { sorted: 'asc' | 'desc' | false }) {
   return (
     <span className={tableClasses.sortIcon} data-sort={String(sorted)}>
-      {sorted === 'asc'  && <ArrowUpIcon        className="icon icon-sm" />}
-      {sorted === 'desc' && <ArrowDownIcon       className="icon icon-sm" />}
-      {!sorted           && <ChevronsUpDownIcon  className="icon icon-sm" />}
+      {sorted === 'asc' && <ArrowUpIcon className="icon icon-sm" />}
+      {sorted === 'desc' && <ArrowDownIcon className="icon icon-sm" />}
+      {!sorted && <ChevronsUpDownIcon className="icon icon-sm" />}
     </span>
   );
 }
@@ -88,10 +88,10 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
   selectedOrders: externalSelectedOrders,
 }) => {
   const { currentLanguage } = useAppConfig();
-  const { getLabel }  = useTableLabelMappings(currentLanguage);
+  const { getLabel } = useTableLabelMappings(currentLanguage);
   const { getHeader } = useTableHeaders();
 
-  const [sorting,       setSorting]       = useState<SortingState>([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [internalRowSelection, setInternalRowSelection] = useState<RowSelectionState>({});
 
@@ -118,26 +118,25 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
   );
 
   const table = useReactTable({
-    data:                  orders,
+    data: orders,
     columns,
-    state:                 { sorting, columnFilters, rowSelection: effectiveRowSelection },
-    getRowId:              (row) => row.id,
-    onSortingChange:       setSorting,
+    state: { sorting, columnFilters, rowSelection: effectiveRowSelection },
+    getRowId: (row) => row.id,
+    onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
-    onRowSelectionChange:  handleRowSelectionChange,
-    getCoreRowModel:       getCoreRowModel(),
-    getSortedRowModel:     getSortedRowModel(),
-    getFilteredRowModel:   getFilteredRowModel(),
+    onRowSelectionChange: handleRowSelectionChange,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    initialState:          { pagination: { pageSize: 50 } },
+    initialState: { pagination: { pageSize: 50 } },
   });
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-3)' }}>
-
       {/* ── Table ────────────────────────────────────────────────────────────── */}
       <div className={tableClasses.root}>
-        <table className={tableClasses.table}>
+        <table className={tableClasses.table} id="_____TABLE_____">
           <caption className={tableClasses.caption}>Orders</caption>
 
           {/* ── Header ───────────────────────────────────────────────────── */}
@@ -145,7 +144,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id} className={tableClasses.headerRow}>
                 {headerGroup.headers.map((header) => {
-                  const canSort   = header.column.getCanSort();
+                  const canSort = header.column.getCanSort();
                   const canFilter = header.column.getCanFilter();
                   return (
                     <th
@@ -190,10 +189,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
           <tbody className={tableClasses.tbody}>
             {table.getRowModel().rows.length === 0 ? (
               <tr className={tableClasses.tr}>
-                <td
-                  colSpan={table.getAllColumns().length}
-                  className={tableClasses.emptyState}
-                >
+                <td colSpan={table.getAllColumns().length} className={tableClasses.emptyState}>
                   {emptyMessage}
                 </td>
               </tr>
@@ -219,12 +215,12 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
       {/* ── Pagination ───────────────────────────────────────────────────────── */}
       <div
         style={{
-          display:        'flex',
-          alignItems:     'center',
+          display: 'flex',
+          alignItems: 'center',
           justifyContent: 'space-between',
-          gap:            'var(--spacing-2)',
-          fontSize:       'var(--font-sizes-sm)',
-          color:          'var(--colors-fg-muted)',
+          gap: 'var(--spacing-2)',
+          fontSize: 'var(--font-sizes-sm)',
+          color: 'var(--colors-fg-muted)',
         }}
       >
         <span>
@@ -273,7 +269,6 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
           </button>
         </div>
       </div>
-
     </div>
   );
 };

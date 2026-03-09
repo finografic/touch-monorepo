@@ -1,8 +1,8 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { Flex } from 'styled-system/jsx';
 import { OrdersTable } from 'admin/pages/AdminProductsPage/OrdersTable';
+import { Flex } from 'styled-system/jsx';
 import { Button } from 'components/Button';
 import { useToast } from 'components/Toast';
 
