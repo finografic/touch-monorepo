@@ -1,13 +1,13 @@
 import React, { useCallback, useState } from 'react';
-
-import { Dialog } from '@workspace/design-system/forms';
 import { Tabs } from '@workspace/design-system/components';
-import { Flex } from 'styled-system/jsx';
-import clsx from 'clsx';
+import { Dialog } from '@workspace/design-system/forms';
+import { CloseIcon } from '@workspace/icons';
 
+import clsx from 'clsx';
+import { Flex } from 'styled-system/jsx';
 import { Button } from 'components/Button';
 import type { DialogConfig } from 'components/Dialog/GenericDialog.types';
-import { CloseIcon } from '@workspace/icons';
+
 import { styles } from './GenericDialog.styles';
 
 interface GenericDialogProps {

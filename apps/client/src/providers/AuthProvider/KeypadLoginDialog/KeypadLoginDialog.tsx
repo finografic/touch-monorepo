@@ -86,16 +86,12 @@ export const KeypadLoginDialog: FC<KeypadLoginDialogProps> = () => {
 
   const config: DialogConfig = {
     title: '',
-    size: '2',
+    size: 'sm',
     minWidth: '220px',
     maxWidth: '270px',
     minHeight: '500px',
     maxHeight: '540px',
-    theme: {
-      accentColor: 'blue',
-      grayColor: 'sand',
-      scaling: '100%',
-    },
+
     tabs: [
       {
         id: 'admin',
@@ -107,6 +103,7 @@ export const KeypadLoginDialog: FC<KeypadLoginDialogProps> = () => {
             onSubmit={handleSubmit}
             isLoading={isLoading}
             error={error}
+            isDialogOpen={isLoginDialogOpen}
           />
         ),
       },

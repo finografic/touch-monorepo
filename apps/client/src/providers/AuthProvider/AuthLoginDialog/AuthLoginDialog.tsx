@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import React, { useCallback, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { sleep } from '@workspace/core';
+import { UserLockIcon } from '@workspace/icons';
 
 import { type DialogConfig, GenericDialog } from 'components/Dialog';
 import { useToast } from 'components/Toast/ToastContext';
@@ -9,7 +10,6 @@ import { useToast } from 'components/Toast/ToastContext';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 
 import { AuthLoginTabContent } from './AuthTabContent';
-import { UserLockIcon } from '@workspace/icons';
 
 const DEFAULT_USER_EMAIL = 'user@example.com';
 const DEFAULT_ADMIN_EMAIL = 'admin@example.com';

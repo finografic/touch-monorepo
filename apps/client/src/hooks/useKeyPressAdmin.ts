@@ -20,7 +20,8 @@ export const useKeyPressAdmin = () => {
       target.tagName === 'TEXTAREA' ||
       target.tagName === 'SELECT' ||
       target.isContentEditable
-    ) return;
+    )
+      return;
 
     // Debug logging
     if (event.key === '?' || event.key === 'Control') {

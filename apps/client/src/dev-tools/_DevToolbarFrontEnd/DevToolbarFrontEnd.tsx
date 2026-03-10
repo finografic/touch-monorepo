@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { LockIcon, RefreshIcon, TextAlignTopIcon } from '@workspace/icons';
 
 import { Flex } from 'styled-system/jsx';
 
@@ -12,7 +13,6 @@ import { useDev } from 'dev-tools/providers/DevProvider/DevContext';
 import { QueryDevtoolsPanel } from '../layers/QueryDevtoolsPanel/QueryDevtoolsPanel';
 import { MockOrdersButton } from '../mocks/MockOrdersButton/MockOrdersButton';
 import { MockTimersMin } from '../mocks/MockTimersMin/MockTimersMin';
-import { LockIcon, RefreshIcon, TextAlignTopIcon } from '@workspace/icons';
 import { styles } from './DevToolbarFrontEnd.styles';
 
 export const DevToolbarFrontEnd = () => {

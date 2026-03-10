@@ -14,6 +14,8 @@ interface KeypadLoginTabContentProps {
   onSubmit: (e: React.FormEvent) => void;
   isLoading: boolean;
   error: string;
+  /** When false, keypress listeners are disabled so other inputs can receive keystrokes */
+  isDialogOpen: boolean;
 }
 
 const MAX_PASSWORD_LENGTH = 12;
@@ -28,6 +30,7 @@ export const KeypadLoginTabContent: React.FC<KeypadLoginTabContentProps> = ({
   onSubmit,
   isLoading,
   error,
+  isDialogOpen,
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -38,6 +41,7 @@ export const KeypadLoginTabContent: React.FC<KeypadLoginTabContentProps> = ({
   const handleDigitPress = useCallback(
     (digit: string) => {
       console.log(digit);
+      console.log('%c KEY', 'color:red', digit);
       if (password.length >= MAX_PASSWORD_LENGTH) {
         // Show warning when trying to add digit at max length
         setShowMaxLengthWarning(true);
@@ -119,7 +123,7 @@ export const KeypadLoginTabContent: React.FC<KeypadLoginTabContentProps> = ({
       [KEY_PRESS.BACKSPACE, handleBackspace],
       [KEY_PRESS.ENTER, handleEnter],
     ],
-    isActive: true,
+    isActive: isDialogOpen,
     onKeyPress: handleKeyPressFeedback,
   });
 
