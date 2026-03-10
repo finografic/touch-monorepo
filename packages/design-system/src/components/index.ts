@@ -10,6 +10,15 @@ export { CheckboxField } from './checkbox';
 export type { SwitchFieldProps, SwitchProps } from './switch';
 export { SwitchField } from './switch';
 
+// Data table — TanStack Table + tableRecipe
+export type {
+  DataTableClassNames,
+  DataTableColumn,
+  DataTableProps,
+  DataTableTableClassNames,
+} from './DataTable';
+export { DataTable } from './DataTable';
+
 // ── Ark UI primitives (re-exported for consistent imports) ───────────────────
 // Use these when you need full composition control.
 // Apply recipe classNames per slot: e.g. checkboxRecipe({ size: 'md' })
@@ -29,3 +38,4 @@ export { Tabs } from './tabs';
 export { createToaster, Toast, Toaster } from './toast';
 export type { TooltipOpenChangeDetails } from './tooltip';
 export { Tooltip } from './tooltip';
+
