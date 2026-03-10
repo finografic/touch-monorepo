@@ -2,6 +2,7 @@ import {
   type ColumnFiltersState,
   type RowSelectionState,
   type SortingState,
+  type Updater,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -66,22 +67,60 @@ export function DataTable<TData>({
   pageSize = 20,
   emptyMessage = 'No results found.',
   getRowId,
+  selectedRows,
+  onSelectionChange,
 }: DataTableProps<TData>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+  const [internalRowSelection, setInternalRowSelection] = useState<RowSelectionState>({});
+
+  const isSelectionControlled = Boolean(selectedRows && onSelectionChange);
+
+  const controlledRowSelection: RowSelectionState = selectedRows
+    ? Object.fromEntries(
+        selectedRows.map((row, index) => {
+          const id =
+            getRowId?.(row, index) ??
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            ((row as any).id as string | undefined) ??
+            String(index);
+          return [id, true];
+        }),
+      )
+    : {};
+
+  const effectiveRowSelection = isSelectionControlled ? controlledRowSelection : internalRowSelection;
+
+  const handleRowSelectionChange = (updater: Updater<RowSelectionState>) => {
+    const next =
+      typeof updater === 'function' ? updater(effectiveRowSelection) : updater;
+
+    if (isSelectionControlled && onSelectionChange) {
+      const nextSelected = data.filter((row, index) => {
+        const id =
+          getRowId?.(row, index) ??
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          ((row as any).id as string | undefined) ??
+          String(index);
+        return Boolean(next[id]);
+      });
+      onSelectionChange(nextSelected);
+    } else {
+      setInternalRowSelection(next);
+    }
+  };
 
   const table = useReactTable<TData>({
     data,
-    columns: columns as DataTableColumn<TData>[],
+    columns,
     state: {
       sorting,
       columnFilters,
-      rowSelection,
+      rowSelection: effectiveRowSelection,
     },
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
-    onRowSelectionChange: setRowSelection,
+    onRowSelectionChange: handleRowSelectionChange,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),

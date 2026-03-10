@@ -1,7 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { OrdersTable } from 'admin/pages/AdminProductsPage/OrdersTable';
 import { Flex } from 'styled-system/jsx';
 import { Button } from 'components/Button';
 import { useToast } from 'components/Toast';
@@ -11,6 +10,7 @@ import { useDeleteOrder, useGetOrdersReadable } from 'queries/orders';
 import { AdminPageLayout, AdminSection } from '../..';
 import type { OrderReadableWithIndex } from './hooks/useOrdersFilter';
 import { useOrdersFilter } from './hooks/useOrdersFilter';
+import { OrdersTableV2 } from './OrdersTableV2/OrdersTableV2';
 
 export const AdminOrdersListPage: React.FC = () => {
   const navigate = useNavigate();
@@ -134,7 +134,7 @@ export const AdminOrdersListPage: React.FC = () => {
             <span>Error loading orders: {error.message}</span>
           </Flex>
         ) : (
-          <OrdersTable
+          <OrdersTableV2
             orders={filteredOrders}
             emptyMessage="No orders found. Try adjusting your filters."
             onClickEdit={handleEditOrder}

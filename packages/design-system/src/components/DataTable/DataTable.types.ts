@@ -1,4 +1,5 @@
 import type { CheckboxFieldClassNames } from '../checkbox';
+import type { DataTableColumn } from './DataTable.column';
 
 export interface DataTableTableClassNames {
   root?: string;
@@ -36,12 +37,22 @@ export interface DataTableClassNames {
 
 export interface DataTableProps<TData> {
   data: TData[];
-  columns: unknown[];
+  columns: DataTableColumn<TData>[];
   classNames: DataTableClassNames;
   caption?: string;
   loading?: boolean;
   pageSize?: number;
   emptyMessage?: string;
   getRowId?: (originalRow: TData, index: number, parent?: unknown) => string;
+  /**
+   * Controlled selection: when provided together with onSelectionChange,
+   * DataTable will treat row selection as controlled by the parent.
+   */
+  selectedRows?: TData[];
+  /**
+   * Called whenever the selected rows change. When used together with
+   * selectedRows, this enables fully controlled selection from the parent.
+   */
+  onSelectionChange?: (rows: TData[]) => void;
 }
 
