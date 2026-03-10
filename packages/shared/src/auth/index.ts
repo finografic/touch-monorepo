@@ -1,8 +1,8 @@
 export type {
-  AuthReturnParams,
   AuthRoles,
+  AuthReturnParams,
   AuthSessionData,
   AuthSignInParams,
   AuthSignUpParams,
   AuthUser,
-} from '@workspace/shared/auth';
+} from './auth.types.js';

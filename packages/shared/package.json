@@ -11,6 +11,11 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.mjs"
     },
+    "./auth": {
+      "types": "./dist/auth/index.d.mts",
+      "import": "./dist/auth/index.mjs",
+      "require": "./dist/auth/index.mjs"
+    },
     "./constants": {
       "types": "./dist/constants/index.d.mts",
       "import": "./dist/constants/index.mjs",

@@ -21,7 +21,9 @@ import {
   ZapIcon,
 } from '@workspace/icons';
 
-export type AuthRoles = 'public' | 'admin';
+import type { AuthRoles } from '@workspace/shared/auth';
+
+export type { AuthRoles };
 
 /** Base properties shared by all admin route entries */
 interface AdminRouteBase {

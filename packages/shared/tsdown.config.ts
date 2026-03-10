@@ -3,6 +3,7 @@ import { defineConfig } from 'tsdown';
 export default defineConfig({
   entry: {
     'main': 'src/index.ts',
+    'auth/index': 'src/auth/index.ts',
     'constants/index': 'src/constants/index.ts',
     'constants/temperature.config': 'src/constants/temperature.config.ts',
   },
