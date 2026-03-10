@@ -23,10 +23,7 @@ export default defineConfig({
    * won't be generated. With pnpm workspaces, @workspace/design-system
    * resolves to the local package.
    */
-  include: [
-    './src/**/*.{ts,tsx}',
-    './node_modules/@workspace/design-system/src/**/*.{ts,tsx}',
-  ],
+  include: ['./src/**/*.{ts,tsx}', './node_modules/@workspace/design-system/src/**/*.{ts,tsx}'],
   exclude: [],
 
   /**
@@ -54,4 +51,12 @@ export default defineConfig({
       dark: '[data-theme="dark"] &',
     },
   },
+
+  // ======================================================================== //
+  // NEW: https://panda-css.com/docs/references/config
+
+  watch: true,
+  syntax: 'object-literal',
+  // syntax: 'template-literal',
+  shorthands: true,
 });

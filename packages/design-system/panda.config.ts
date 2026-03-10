@@ -42,4 +42,12 @@ export default defineConfig({
    * Use Box for spacing/layout wrappers. Use Row/Col for flex grid layout.
    */
   jsxFramework: 'react',
+
+  // ======================================================================== //
+  // NEW: https://panda-css.com/docs/references/config
+
+  watch: true,
+  syntax: 'object-literal',
+  // syntax: 'template-literal',
+  shorthands: true,
 });

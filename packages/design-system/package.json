@@ -43,7 +43,7 @@
       "types": "./dist/viewport/index.d.mts",
       "import": "./dist/viewport/index.mjs"
     },
-    "./palette/colors.base": {
+    "./palette/colors": {
       "types": "./dist/palette/colors.palette.d.mts",
       "import": "./dist/palette/colors.palette.mjs"
     },
@@ -60,9 +60,11 @@
   ],
   "scripts": {
     "_prepare": "panda codegen",
-    "build": "tsdown",
+    "build": "panda codegen && tsdown",
+    "build.V2": "tsdown",
     "build.V1": "panda cssgen && tsdown",
-    "dev": "tsdown --watch --no-clean",
+    "dev": "panda cssgen --watch",
+    "dev.V2": "tsdown --watch --no-clean",
     "·········· LINTING": "················································",
     "lint": "eslint .",
     "lint.fix": "eslint . --fix",
@@ -74,6 +76,7 @@
     "clean.dry": "pnpm --package=@finografic/project-scripts dlx purge-builds --recursive --dry-run",
     "update.project-scripts": "pnpm update @finografic/project-scripts --latest --recursive",
     "·········· UTILS": "·····················································",
+    "panda:spec": "panda spec",
     "panda:studio": "panda studio",
     "panda:codegen": "panda codegen",
     "typecheck": "tsc --noEmit"
