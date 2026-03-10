@@ -50,6 +50,7 @@ export const PadSlot: React.FC<PadMenuProps> = ({
   );
 
   const handleSelect = React.useCallback(() => {
+    console.log('%c PadSlot handleSelect', 'color:red', slotNumber, slotType, isChecked, status);
     toggleMainPageSlot({ slotType, slotNumber, isChecked, status });
   }, [slotNumber, toggleMainPageSlot]);
 

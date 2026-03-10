@@ -14,7 +14,7 @@ import { useTimers } from 'providers/TimersProvider';
 import { useGetSlotSpecialConfig } from 'queries/app-configuration';
 import { useGetDefaultMode } from 'queries/modes/useGetDefaultMode';
 
-import { getGridDimensions, getGridLevelFromSlotCount } from 'config/app/slots.config';
+import { ALT_SLOT_NUMBER, getGridDimensions, getGridLevelFromSlotCount } from 'config/app/slots.config';
 import { MainSlotGrid } from './MainSlotGrid/MainSlotGrid';
 import type { SlotMeta } from './MainPage.types';
 import { useMainPageConfig } from './useMainPageConfig';
@@ -168,7 +168,7 @@ export function MainPage() {
 
   const showSpecialAltSlot =
     altSpecialConfig?.data?.is_visible === true && altSpecialConfig?.isActive === true;
-  const altSlotNumber = altSpecialConfig?.data?.slot_number ?? 15;
+  // const altSlotNumber = altSpecialConfig?.data?.slot_number ?? ALT_SLOT_NUMBER;
 
   return (
     <div css={styles}>
@@ -179,7 +179,7 @@ export function MainPage() {
           rows={rows}
           showSpecialSlot={showSpecialSlot}
           showSpecialAltSlot={showSpecialAltSlot}
-          altSlotNumber={altSlotNumber}
+          altSlotNumber={ALT_SLOT_NUMBER}
         />
 
         <div className="content-buttons">
