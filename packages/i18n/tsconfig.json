@@ -6,7 +6,7 @@
     "rootDir": ".",
     "types": ["node"],
     "declaration": true,
-    "declarationMap": true,
+    "declarationMap": false,
     "emitDeclarationOnly": true,
     "resolveJsonModule": true,
     "baseUrl": ".",

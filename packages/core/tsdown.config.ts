@@ -13,6 +13,7 @@ export default defineConfig({
   },
   format: ['esm'],
   dts: true,
+  sourcemap: false,
   deps: {
     neverBundle: [],
   },

@@ -26,6 +26,7 @@ export default defineConfig({
   clean: true,
   dts: true,
   format: ['esm'],
+  sourcemap: false,
   hooks: {
     'build:done': async () => {
       // Copy JSON files from root translations/ folder into dist/translations/

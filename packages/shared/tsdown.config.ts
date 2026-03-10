@@ -7,11 +7,9 @@ export default defineConfig({
     'constants/temperature.config': 'src/constants/temperature.config.ts',
   },
   format: ['esm'],
-  target: 'esnext',
+  sourcemap: false,
   dts: true,
-  // clean: process.env.NODE_ENV !== 'development',
   clean: false,
   treeshake: false,
-  outDir: './dist',
   unbundle: true,
 });
