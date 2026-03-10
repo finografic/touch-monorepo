@@ -8,8 +8,8 @@ export default defineConfig({
   },
   format: ['esm'],
   sourcemap: false,
+  unbundle: true,
   dts: true,
   clean: false,
   treeshake: false,
-  unbundle: true,
 });

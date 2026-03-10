@@ -14,6 +14,8 @@ export default defineConfig({
   format: ['esm'],
   dts: true,
   sourcemap: false,
+  unbundle: true,
+  logLevel: 'silent',
   deps: {
     neverBundle: [],
   },
