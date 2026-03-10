@@ -20,8 +20,8 @@ import {
   getGridDimensions,
   getGridLevelFromSlotCount,
   GRID_LEVEL_NAMES,
-  NUM_RELAYS,
   type GridLevel,
+  NUM_RELAYS,
 } from 'config/app/slots.config';
 import { AdminPageLayout } from '../..';
 import { AdminSection } from '../../components/AdminSection/AdminSection';
@@ -178,7 +178,8 @@ export const AdminSlotsConfigPage: React.FC = () => {
       const updatedSlots = slots.map((slot) => {
         const n = slot.slotNumber;
         if (n <= prevLastIndex) return { ...slot };
-        if (n > prevLastIndex && n < newLastIndex) return { ...slot, isActive: true, slotType: 'B' as SlotType };
+        if (n > prevLastIndex && n < newLastIndex)
+          return { ...slot, isActive: true, slotType: 'B' as SlotType };
         if (n === newLastIndex) return { ...slot, isActive: true, slotType: 'C' as SlotType };
         return { ...slot, isActive: false, slotType: 'B' as SlotType };
       });
@@ -241,7 +242,6 @@ export const AdminSlotsConfigPage: React.FC = () => {
           <AdminSection
             title="Slot Grid Layout Preview"
             subtitle={`${GRID_LEVEL_NAMES[gridLevel]} — ${numActiveColumns} columns × ${effectiveRows} rows`}
-            description={`${gridSlotsCount} grid slots + 1 special slot. Click slots to cycle type (A→B→C).`}
             className={clsx('admin-slot-config')}
             isLoading={isLoading}
             variant="border-solid"
