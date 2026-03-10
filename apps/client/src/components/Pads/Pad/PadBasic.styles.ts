@@ -1,6 +1,6 @@
-import { css } from '@emotion/react';
-
 import { colors, layout } from '@workspace/design-system/tokens';
+
+import { css } from '@emotion/react';
 import { stylesButtonBase } from 'components/Button/button-base.styles';
 
 // Common dimensions for different button types
@@ -108,7 +108,10 @@ export const stylesPadBasic = {
     font-size: 2.5rem;
     font-weight: 400;
     cursor: pointer;
-    transition: transform 200ms ease, border-color 200ms ease, color 200ms ease;
+    transition:
+      transform 200ms ease,
+      border-color 200ms ease,
+      color 200ms ease;
     background: transparent;
     padding: 0;
     line-height: 1;

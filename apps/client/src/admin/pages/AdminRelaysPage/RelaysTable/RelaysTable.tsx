@@ -1,25 +1,18 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Col, Row } from '@workspace/design-system/grid';
-import { RadioIcon } from '@workspace/icons';
 
 import { DEFROST_SLOT_NUMBER, POWER_SLOT_NUMBER } from 'admin/config/admin.slots.config';
-import { getRelaySlotType } from 'admin/utils/relays.utils';
-import clsx from 'clsx';
-import { SelectCustom } from 'forms/SelectCustom';
-import { Box, Flex } from 'styled-system/jsx';
-import { Button } from 'components/Button';
+import { Flex } from 'styled-system/jsx';
 
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { useTimers } from 'providers/TimersProvider';
 import { useGetRelayStatus, useToggleRelay } from 'queries/relays';
 import { useBulkUpdateSlotConfigurations } from 'queries/slot-configurations';
 
-import { getSlotColor } from 'utils/slots.utils';
 import type { SelectOption } from 'types/models/select-option.model';
 import type { RelayConfig } from 'types/relays.types';
 import type { SlotType } from 'types/slots.types';
 import { NUM_RELAYS } from 'config/app/slots.config';
-import { AdminSlotTimer } from './components/AdminSlotTimer';
+import { RelaySlotRow } from './components/RelaySlotRow';
 import { styles } from './RelaysTable.styles';
 
 interface RelaysTableProps {
@@ -321,128 +314,42 @@ export const RelaysTable: React.FC<RelaysTableProps> = ({
     [testingRelays, toggleRelayMutation, isRelayControlledByTimer],
   );
 
-  return (
-    <Box css={styles}>
-      <Flex justify="space-between" gap={4} width="100%">
-        <Flex gap={4} width="100%">
-          <div className="slot-list">
-            {/* TODO: ORDER BY *SLOT NUMBER* */}
-            {relayConfigurations.map((config) => {
-              const configuredSlotType = slotTypeMap.get(config.slotNumber) || config.slotType;
+  const rows = relayConfigurations.map((config) => {
+    const isRelayActive =
+      config.isOn ||
+      testingRelays.has(config.relayNumber ?? 0) ||
+      isRelayControlledByTimer(config.relayNumber, config.slotNumber) ||
+      isSlotControlledByPower(config.slotNumber) ||
+      isSlotControlledByDefrost(config.relayNumber, config.slotNumber);
 
-              // Consolidated boolean:
-              // - Relay is active (ON) if:
-              //   - hardware state reports ON (config.isOn), OR
-              //   - it's currently in test mode, OR
-              //   - the slot has an active timer (processing), OR
-              //   - slot 14 is controlled by power button (isPowerEnabled), OR
-              //   - slot 15 is controlled by defrost timer
-              const isRelayActive =
-                config.isOn ||
-                testingRelays.has(config.relayNumber ?? 0) ||
-                isRelayControlledByTimer(config.relayNumber, config.slotNumber) ||
-                isSlotControlledByPower(config.slotNumber) ||
-                isSlotControlledByDefrost(config.relayNumber, config.slotNumber);
+    return (
+      <RelaySlotRow
+        key={config.slotNumber}
+        config={config}
+        relayConfigurations={relayConfigurations}
+        slotTypeMap={slotTypeMap}
+        assignments={assignments}
+        baseOptions={baseOptions}
+        isRelayActive={isRelayActive}
+        isRelayFunctionalityEnabled={isRelayFunctionalityEnabled}
+        canTest={canTest}
+        testingRelays={testingRelays}
+        isLoading={isLoading}
+        isBulkUpdatePending={bulkUpdateMutation.isPending}
+        onSelectChange={handleSelectChange}
+        onRelayTest={handleClickTest}
+        isRelayControlledByTimer={isRelayControlledByTimer}
+      />
+    );
+  });
 
-              return (
-                <div key={config.slotNumber} className={clsx('slot-grid-item', { 'is-loading': isLoading })}>
-                  <Row>
-                    <Col xs={2} className="col col-square-type">
-                      <Flex gap={4}>
-                        <Flex
-                          className="slot-square"
-                          style={{
-                            borderColor: getSlotColor(config),
-                            color: getSlotColor(config),
-                          }}
-                        >
-                          {config.slotNumber}
-                        </Flex>
-                        <Flex className="col col-type" style={{ color: getSlotColor(config) }}>
-                          {getRelaySlotType(config, relayConfigurations)}
-                        </Flex>
-                      </Flex>
-                    </Col>
-                    <Col xs={2} className="col col-timer">
-                      <Flex>
-                        <AdminSlotTimer slotNumber={config.slotNumber} />
-                      </Flex>
-                    </Col>
-                    <Col xs={4} className="col col-select">
-                      <Flex gap={6}>
-                        <Flex width="220px">
-                          <SelectCustom
-                            className="relay-assign-select"
-                            options={baseOptions}
-                            placeholder="Please select..."
-                            value={assignments[config.slotNumber]?.toString() || undefined}
-                            onSelect={(value) => handleSelectChange(config.slotNumber, value)}
-                            disabled={isLoading || bulkUpdateMutation.isPending}
-                            allowEmpty={true}
-                          />
-                        </Flex>
-                        <Flex>
-                          {assignments[config.slotNumber] ? (
-                            <Button
-                              className={clsx('button-relay-test', {
-                                active:
-                                  //  isRelayActive
-                                  // hasActiveTimer(config.slotNumber),
-                                  testingRelays.has(config.relayNumber ?? 0),
-                              })}
-                              onClick={() => handleClickTest(config.relayNumber, config.slotNumber)}
-                              variant="solid"
-                              color="success"
-                              size="sm"
-                              disabled={
-                                !canTest || isRelayControlledByTimer(config.relayNumber, config.slotNumber)
-                              }
-                            >
-                              <RadioIcon /> test
-                            </Button>
-                          ) : (
-                            <Flex align="center" gap={2} ml={3} className="status-off">
-                              <span>{/* No relay assigned */}</span>
-                            </Flex>
-                          )}
-                        </Flex>
-                      </Flex>
-                    </Col>
-                    <Col xs={4} className="col col-status">
-                      <Flex
-                        align="center"
-                        gap={2}
-                        ml={3}
-                        className={clsx(
-                          'relay-status',
-                          `relay-functionality-${isRelayFunctionalityEnabled ? 'on' : 'off'}`,
-                          { active: isRelayActive },
-                        )}
-                      >
-                        {assignments[config.slotNumber] ? (
-                          <>
-                            <Flex className="relay-status-indicator">{assignments[config.slotNumber]}</Flex>
-                            <Flex justify="end">Relay</Flex>
-                            <Flex justify="center">{assignments[config.slotNumber]}:</Flex>
-                            <Flex>{isRelayActive ? 'ON' : 'OFF'}</Flex>
-                          </>
-                        ) : (
-                          <>
-                            <Flex className="relay-status-indicator status-off" />
-                            <Flex />
-                            <Flex />
-                            <Flex />
-                          </>
-                        )}
-                      </Flex>
-                    </Col>
-                  </Row>
-                </div>
-              );
-            })}
-          </div>
-        </Flex>
+  const content = (
+    <Flex justify="space-between" gap={4} width="100%">
+      <Flex gap={4} width="100%">
+        <div className="slot-list">{rows}</div>
       </Flex>
-    </Box>
+    </Flex>
   );
+
+  return <div css={styles}>{content}</div>;
 };

@@ -1,7 +1,7 @@
+import { colors } from '@workspace/design-system/tokens';
+
 import { css } from '@emotion/react';
 import { padProps } from 'components/Pads/Pad/PadBasic.styles';
-
-import { colors } from '@workspace/design-system/tokens';
 
 export const styles = css`
   &.main-page-slot-grid {
