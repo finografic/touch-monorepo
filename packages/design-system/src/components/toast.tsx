@@ -54,8 +54,4 @@
  * />
  * ```
  */
-export {
-  Toast,
-  Toaster,
-  createToaster,
-} from '@ark-ui/react';
+export { createToaster, Toast, Toaster } from '@ark-ui/react';
