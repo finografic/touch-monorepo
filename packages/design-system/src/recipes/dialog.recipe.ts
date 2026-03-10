@@ -53,7 +53,17 @@ export const dialogRecipe = defineSlotRecipe({
   className: 'dialog',
   description: 'Modal dialog — accessible overlay with focus trap',
 
-  slots: ['backdrop', 'positioner', 'content', 'header', 'title', 'description', 'body', 'footer', 'closeTrigger'],
+  slots: [
+    'backdrop',
+    'positioner',
+    'content',
+    'header',
+    'title',
+    'description',
+    'body',
+    'footer',
+    'closeTrigger',
+  ],
 
   base: {
     backdrop: {
@@ -62,7 +72,7 @@ export const dialogRecipe = defineSlotRecipe({
       bg: 'rgba(0, 0, 0, 0.5)',
       backdropFilter: 'blur(2px)',
       zIndex: 'overlay',
-      _open:   { animation: 'fade-in 150ms ease' },
+      _open: { animation: 'fade-in 150ms ease' },
       _closed: { animation: 'fade-out 150ms ease' },
     },
     positioner: {
@@ -84,7 +94,7 @@ export const dialogRecipe = defineSlotRecipe({
       width: 'full',
       maxH: '90vh',
       overflow: 'hidden',
-      _open:   { animation: 'scale-in 150ms ease' },
+      _open: { animation: 'scale-in 150ms ease' },
       _closed: { animation: 'scale-out 150ms ease' },
     },
     header: {
@@ -142,10 +152,10 @@ export const dialogRecipe = defineSlotRecipe({
 
   variants: {
     size: {
-      sm:   { content: { maxW: '24rem' } },
-      md:   { content: { maxW: '32rem' } },
-      lg:   { content: { maxW: '48rem' } },
-      xl:   { content: { maxW: '64rem' } },
+      sm: { content: { maxW: '24rem' } },
+      md: { content: { maxW: '32rem' } },
+      lg: { content: { maxW: '48rem' } },
+      xl: { content: { maxW: '64rem' } },
       full: {
         positioner: { padding: '0' },
         content: { maxW: 'full', maxH: 'full', borderRadius: 'none' },
