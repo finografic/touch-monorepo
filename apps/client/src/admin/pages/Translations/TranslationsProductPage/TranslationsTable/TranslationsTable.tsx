@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FormProvider } from 'react-hook-form';
 import type { RegionLocale } from '@workspace/config/i18n.config';
 
