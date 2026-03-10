@@ -35,7 +35,7 @@ import { useTableLabelMappings } from './useTableLabelMappings';
 function DebouncedInput({
   value: initialValue,
   onChange,
-  debounce = 300,
+  debounce = 100,
   ...props
 }: {
   value: string;

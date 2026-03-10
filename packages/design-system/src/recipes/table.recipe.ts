@@ -134,16 +134,16 @@ export const tableRecipe = defineSlotRecipe({
     },
 
     tr: {
-      borderBottomWidth: 'light',
-      borderBottomStyle: 'solid',
-      borderBottomColor: 'border.subtle',
-      transition: 'background 120ms ease',
+      'borderBottomWidth': 'light',
+      'borderBottomStyle': 'solid',
+      'borderBottomColor': 'border.subtle',
+      'transition': 'background 120ms ease',
 
-      _last: {
+      '_last': {
         borderBottomWidth: '0',
       },
 
-      _hover: {
+      '_hover': {
         bg: 'bg.hover',
       },
 
@@ -157,15 +157,15 @@ export const tableRecipe = defineSlotRecipe({
     },
 
     th: {
-      position: 'relative',
-      textAlign: 'left',
-      fontWeight: 'semibold',
-      color: 'fg.muted',
-      fontSize: 'xs',
-      letterSpacing: '0.06em',
-      textTransform: 'uppercase',
-      whiteSpace: 'nowrap',
-      userSelect: 'none',
+      'position': 'relative',
+      'textAlign': 'left',
+      'fontWeight': 'semibold',
+      'color': 'fg.muted',
+      'fontSize': 'xs',
+      'letterSpacing': '0.06em',
+      'textTransform': 'uppercase',
+      'whiteSpace': 'nowrap',
+      'userSelect': 'none',
 
       // sortable — add onClick from TanStack when column.getCanSort()
       '&[data-sortable="true"]': {
@@ -182,11 +182,11 @@ export const tableRecipe = defineSlotRecipe({
     },
 
     sortIcon: {
-      display: 'inline-flex',
-      alignItems: 'center',
-      marginInlineStart: '1',
-      color: 'fg.subtle',
-      flexShrink: 0,
+      'display': 'inline-flex',
+      'alignItems': 'center',
+      'marginInlineStart': '1',
+      'color': 'fg.subtle',
+      'flexShrink': 0,
 
       // dim when unsorted, full opacity when active
       '&[data-sort="false"]': {
@@ -214,7 +214,7 @@ export const tableRecipe = defineSlotRecipe({
         th: { px: '3', py: '2', fontSize: 'xs' },
         td: { px: '3', py: '1.5', fontSize: 'sm' },
         emptyState: { px: '3', py: '6', fontSize: 'sm' },
-        tfoot: { },
+        tfoot: {},
       },
       md: {
         th: { px: '4', py: '3', fontSize: 'xs' },
