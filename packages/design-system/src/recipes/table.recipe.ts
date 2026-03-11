@@ -130,7 +130,7 @@ export const tableRecipe = defineSlotRecipe({
     },
 
     headerRow: {
-      bg: 'bg.subtle',
+      bg: 'bg.muted',
     },
 
     tr: {
@@ -212,7 +212,7 @@ export const tableRecipe = defineSlotRecipe({
     size: {
       sm: {
         th: { px: '3', py: '2', fontSize: 'xs' },
-        td: { px: '3', py: '1.5', fontSize: 'sm' },
+        td: { px: '3', py: '2', fontSize: 'xs' },
         emptyState: { px: '3', py: '6', fontSize: 'sm' },
         tfoot: {},
       },
@@ -234,7 +234,7 @@ export const tableRecipe = defineSlotRecipe({
       true: {
         tr: {
           '&:nth-child(even)': {
-            bg: 'bg.subtle',
+            bg: 'bg',
             _hover: {
               bg: 'bg.hover',
             },

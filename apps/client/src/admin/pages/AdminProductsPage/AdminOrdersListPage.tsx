@@ -10,7 +10,7 @@ import { useDeleteOrder, useGetOrdersReadable } from 'queries/orders';
 import { AdminPageLayout, AdminSection } from '../..';
 import type { OrderReadableWithIndex } from './hooks/useOrdersFilter';
 import { useOrdersFilter } from './hooks/useOrdersFilter';
-import { OrdersTableV2 } from './OrdersTableV2/OrdersTableV2';
+import { OrdersTable } from './OrdersTable';
 
 export const AdminOrdersListPage: React.FC = () => {
   const navigate = useNavigate();
@@ -134,7 +134,7 @@ export const AdminOrdersListPage: React.FC = () => {
             <span>Error loading orders: {error.message}</span>
           </Flex>
         ) : (
-          <OrdersTableV2
+          <OrdersTable
             orders={filteredOrders}
             emptyMessage="No orders found. Try adjusting your filters."
             onClickEdit={handleEditOrder}

@@ -15,6 +15,8 @@ import {
   TH_FONT_WEIGHT,
 } from '../constants/translations-table.config';
 
+// TODO: CONVERT THIS TO RECIPE !!??
+
 export const styles = css`
   width: 100%;
 

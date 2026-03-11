@@ -53,7 +53,7 @@ export const inputRecipe = defineRecipe({
       sm: {
         height: '9',
         fontSize: 'sm',
-        paddingInline: '3',
+        paddingInline: '1',
       },
       md: {
         height: '10',

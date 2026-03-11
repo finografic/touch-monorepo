@@ -65,4 +65,34 @@ export const styles = css`
       }
     }
   }
+
+  /* ORDERS DATATABLE TWEAKS ============================================== */
+
+  /* Slightly smaller header text and consistent padding */
+  .table__th {
+    font-size: 0.7rem;
+    padding-block: 0.5rem;
+    padding-inline: 0.75rem;
+  }
+
+  /* When a filter input is present in the header, keep same padding but remove extra top spacing */
+  .table__th .input {
+    margin-top: 0;
+  }
+
+  /* Body cells: tighter type with consistent padding */
+  .table__td {
+    font-size: 0.8rem;
+    padding-block: 0.5rem;
+    padding-inline: 0.75rem;
+  }
+
+  /* Actions column — larger icons with small vertical padding on the button */
+  .table__td:last-child button {
+    padding-block: 0.25rem;
+  }
+
+  .table__td:last-child button .icon {
+    transform: scale(1.5);
+  }
 `;
