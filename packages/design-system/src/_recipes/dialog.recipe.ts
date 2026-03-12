@@ -47,9 +47,12 @@
  * </Dialog.Root>
  * ```
  */
-import { sva } from '../../styled-system/css';
+import { defineSlotRecipe } from '@pandacss/dev';
 
-export const dialogRecipe = sva({
+export const dialogRecipe = defineSlotRecipe({
+  className: 'dialog',
+  description: 'Modal dialog — accessible overlay with focus trap',
+
   slots: [
     'backdrop',
     'positioner',
@@ -72,7 +75,6 @@ export const dialogRecipe = sva({
       _open: { animation: 'fade-in 150ms ease' },
       _closed: { animation: 'fade-out 150ms ease' },
     },
-
     positioner: {
       position: 'fixed',
       inset: '0',
@@ -82,7 +84,6 @@ export const dialogRecipe = sva({
       padding: '4',
       zIndex: 'modal',
     },
-
     content: {
       position: 'relative',
       display: 'flex',
@@ -96,7 +97,6 @@ export const dialogRecipe = sva({
       _open: { animation: 'scale-in 150ms ease' },
       _closed: { animation: 'scale-out 150ms ease' },
     },
-
     header: {
       display: 'flex',
       alignItems: 'center',
@@ -109,26 +109,22 @@ export const dialogRecipe = sva({
       borderBottomColor: 'border.subtle',
       flexShrink: 0,
     },
-
     title: {
       fontSize: 'xl',
       fontWeight: 'semibold',
       color: 'fg',
       lineHeight: 'tight',
     },
-
     description: {
       fontSize: 'sm',
       color: 'fg.muted',
       lineHeight: 'normal',
     },
-
     body: {
       flex: '1',
       overflowY: 'auto',
       padding: '6',
     },
-
     footer: {
       display: 'flex',
       alignItems: 'center',
@@ -141,7 +137,6 @@ export const dialogRecipe = sva({
       borderTopColor: 'border.subtle',
       flexShrink: 0,
     },
-
     closeTrigger: {
       cursor: 'pointer',
       color: 'fg.muted',
@@ -161,14 +156,9 @@ export const dialogRecipe = sva({
       md: { content: { maxW: '32rem' } },
       lg: { content: { maxW: '48rem' } },
       xl: { content: { maxW: '64rem' } },
-
       full: {
         positioner: { padding: '0' },
-        content: {
-          maxW: 'full',
-          maxH: 'full',
-          borderRadius: 'none',
-        },
+        content: { maxW: 'full', maxH: 'full', borderRadius: 'none' },
       },
     },
   },

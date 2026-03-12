@@ -29,9 +29,12 @@
  * });
  * ```
  */
-import { sva } from '../../styled-system/css';
+import { defineSlotRecipe } from '@pandacss/dev';
 
-export const toastRecipe = sva({
+export const toastRecipe = defineSlotRecipe({
+  className: 'toast',
+  description: 'Toast notification',
+
   slots: ['root', 'title', 'description', 'closeTrigger', 'actionTrigger'],
 
   base: {
@@ -49,91 +52,61 @@ export const toastRecipe = sva({
       maxW: '24rem',
       bg: 'bg.panel',
       borderColor: 'border',
-      _open: { animation: 'slide-fade-in 200ms ease' },
+      _open:   { animation: 'slide-fade-in 200ms ease' },
       _closed: { animation: 'slide-fade-out 150ms ease' },
     },
-
     title: {
       fontWeight: 'semibold',
       fontSize: 'sm',
       color: 'fg',
       lineHeight: 'tight',
     },
-
     description: {
       fontSize: 'sm',
       color: 'fg.muted',
       lineHeight: 'normal',
       marginTop: '0.5',
     },
-
     closeTrigger: {
       marginLeft: 'auto',
       flexShrink: 0,
       cursor: 'pointer',
       color: 'fg.subtle',
       borderRadius: 'xs',
-      _hover: {
-        color: 'fg',
-      },
+      _hover: { color: 'fg' },
       _focusVisible: {
         outline: '2px solid',
         outlineColor: 'accent.focusRing',
         outlineOffset: '2px',
       },
     },
-
     actionTrigger: {
       fontSize: 'sm',
       fontWeight: 'semibold',
       color: 'accent',
       cursor: 'pointer',
-      _hover: {
-        color: 'accent.fg',
-      },
+      _hover: { color: 'accent.fg' },
     },
   },
 
   variants: {
+    // Status tints the left border for quick visual recognition
     status: {
       info: {
-        root: {
-          borderLeftWidth: '4px',
-          borderLeftColor: 'border.info',
-        },
-        title: {
-          color: 'fg.info',
-        },
+        root: { borderLeftWidth: '4px', borderLeftColor: 'border.info' },
+        title: { color: 'fg.info' },
       },
-
       success: {
-        root: {
-          borderLeftWidth: '4px',
-          borderLeftColor: 'border.success',
-        },
-        title: {
-          color: 'fg.success',
-        },
+        root: { borderLeftWidth: '4px', borderLeftColor: 'border.success' },
+        title: { color: 'fg.success' },
       },
-
       warning: {
-        root: {
-          borderLeftWidth: '4px',
-          borderLeftColor: 'border.warning',
-        },
-        title: {
-          color: 'fg.warning',
-        },
+        root: { borderLeftWidth: '4px', borderLeftColor: 'border.warning' },
+        title: { color: 'fg.warning' },
       },
-
       error: {
-        root: {
-          borderLeftWidth: '4px',
-          borderLeftColor: 'border.error',
-        },
-        title: {
-          color: 'fg.error',
-        },
+        root: { borderLeftWidth: '4px', borderLeftColor: 'border.error' },
+        title: { color: 'fg.error' },
       },
     },
   },

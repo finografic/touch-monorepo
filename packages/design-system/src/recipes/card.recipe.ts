@@ -12,12 +12,9 @@
  * <div className={card({ size: 'lg', variant: 'elevated' })}>...</div>
  * ```
  */
-import { defineRecipe } from '@pandacss/dev';
+import { cva } from '../../styled-system/css';
 
-export const cardRecipe = defineRecipe({
-  className: 'card',
-  description: 'Bordered content container',
-
+export const cardRecipe = cva({
   base: {
     bg: 'bg.surface',
     borderWidth: 'light',
@@ -33,6 +30,7 @@ export const cardRecipe = defineRecipe({
       md: { padding: '4' },
       lg: { padding: '6' },
     },
+
     variant: {
       elevated: { boxShadow: 'sm' },
       outlined: {},

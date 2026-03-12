@@ -1,0 +1,4090 @@
+<div
+  class="table__root table__root--size_md table__root--striped_true table__root--bordered_false table__root--stickyHeader_true"
+>
+  <table
+    class="table__table table__table--size_md table__table--striped_true table__table--bordered_false table__table--stickyHeader_true"
+  >
+    <caption
+      class="table__caption table__caption--size_md table__caption--striped_true table__caption--bordered_false table__caption--stickyHeader_true"
+    >
+      Orders
+    </caption>
+    <thead
+      class="table__thead table__thead--size_md table__thead--striped_true table__thead--bordered_false table__thead--stickyHeader_true"
+    >
+      <tr
+        class="table__headerRow table__headerRow--size_md table__headerRow--striped_true table__headerRow--bordered_false table__headerRow--stickyHeader_true"
+      >
+        <th
+          class="table__th table__th--size_md table__th--striped_true table__th--bordered_false table__th--stickyHeader_true"
+          style="width: 40px"
+        >
+          <div style="display: flex; align-items: center; gap: var(--spacing-1)">
+            <label
+              data-scope="checkbox"
+              data-part="root"
+              data-state="unchecked"
+              dir="ltr"
+              id="checkbox::r109:"
+              for="checkbox::r109::input"
+              data-size="md"
+              class="checkbox__root checkbox__root--size_sm"
+              ><div
+                data-scope="checkbox"
+                data-part="control"
+                data-state="unchecked"
+                dir="ltr"
+                id="checkbox::r109::control"
+                aria-hidden="true"
+                class="checkbox__control checkbox__control--size_sm"
+              >
+                <div
+                  data-scope="checkbox"
+                  data-part="indicator"
+                  data-state="unchecked"
+                  dir="ltr"
+                  hidden=""
+                  class="checkbox__indicator checkbox__indicator--size_sm"
+                >
+                  <svg
+                    viewBox="0 0 12 12"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                    style="width: 100%; height: 100%"
+                  >
+                    <polyline points="2,6 5,9 10,3"></polyline>
+                  </svg>
+                </div>
+              </div>
+              <input
+                id="checkbox::r109::input"
+                type="checkbox"
+                aria-labelledby="checkbox::r109::label"
+                aria-invalid="false"
+                value="on"
+                style="
+                  border: 0px;
+                  clip: rect(0px, 0px, 0px, 0px);
+                  height: 1px;
+                  margin: -1px;
+                  overflow: hidden;
+                  padding: 0px;
+                  position: absolute;
+                  width: 1px;
+                  white-space: nowrap;
+                  overflow-wrap: normal;
+                "
+            /></label>
+          </div>
+        </th>
+        <th
+          class="table__th table__th--size_md table__th--striped_true table__th--bordered_false table__th--stickyHeader_true"
+          data-sortable="true"
+        >
+          <div style="display: flex; align-items: center; gap: var(--spacing-1)">
+            displayIndex<span
+              class="table__sortIcon table__sortIcon--size_md table__sortIcon--striped_true table__sortIcon--bordered_false table__sortIcon--stickyHeader_true"
+              data-sort="false"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-chevrons-up-down icon icon-name--chevrons-up-down icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="chevrons-up-down"
+              >
+                <path d="m7 15 5 5 5-5"></path>
+                <path d="m7 9 5-5 5 5"></path></svg
+            ></span>
+          </div>
+          <input
+            class="input input--size_sm"
+            placeholder="Filter…"
+            value=""
+            style="margin-top: var(--spacing-1); width: 100%"
+          />
+        </th>
+        <th
+          class="table__th table__th--size_md table__th--striped_true table__th--bordered_false table__th--stickyHeader_true"
+          data-sortable="true"
+        >
+          <div style="display: flex; align-items: center; gap: var(--spacing-1)">
+            mode<span
+              class="table__sortIcon table__sortIcon--size_md table__sortIcon--striped_true table__sortIcon--bordered_false table__sortIcon--stickyHeader_true"
+              data-sort="false"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-chevrons-up-down icon icon-name--chevrons-up-down icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="chevrons-up-down"
+              >
+                <path d="m7 15 5 5 5-5"></path>
+                <path d="m7 9 5-5 5 5"></path></svg
+            ></span>
+          </div>
+          <input
+            class="input input--size_sm"
+            placeholder="Filter…"
+            value=""
+            style="margin-top: var(--spacing-1); width: 100%"
+          />
+        </th>
+        <th
+          class="table__th table__th--size_md table__th--striped_true table__th--bordered_false table__th--stickyHeader_true"
+          data-sortable="true"
+        >
+          <div style="display: flex; align-items: center; gap: var(--spacing-1)">
+            drinkType<span
+              class="table__sortIcon table__sortIcon--size_md table__sortIcon--striped_true table__sortIcon--bordered_false table__sortIcon--stickyHeader_true"
+              data-sort="false"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-chevrons-up-down icon icon-name--chevrons-up-down icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="chevrons-up-down"
+              >
+                <path d="m7 15 5 5 5-5"></path>
+                <path d="m7 9 5-5 5 5"></path></svg
+            ></span>
+          </div>
+          <input
+            class="input input--size_sm"
+            placeholder="Filter…"
+            value="ag"
+            style="margin-top: var(--spacing-1); width: 100%"
+          />
+        </th>
+        <th
+          class="table__th table__th--size_md table__th--striped_true table__th--bordered_false table__th--stickyHeader_true"
+          data-sortable="true"
+        >
+          <div style="display: flex; align-items: center; gap: var(--spacing-1)">
+            drinkSubtype<span
+              class="table__sortIcon table__sortIcon--size_md table__sortIcon--striped_true table__sortIcon--bordered_false table__sortIcon--stickyHeader_true"
+              data-sort="false"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-chevrons-up-down icon icon-name--chevrons-up-down icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="chevrons-up-down"
+              >
+                <path d="m7 15 5 5 5-5"></path>
+                <path d="m7 9 5-5 5 5"></path></svg
+            ></span>
+          </div>
+          <input
+            class="input input--size_sm"
+            placeholder="Filter…"
+            value=""
+            style="margin-top: var(--spacing-1); width: 100%"
+          />
+        </th>
+        <th
+          class="table__th table__th--size_md table__th--striped_true table__th--bordered_false table__th--stickyHeader_true"
+          data-sortable="true"
+        >
+          <div style="display: flex; align-items: center; gap: var(--spacing-1)">
+            volume<span
+              class="table__sortIcon table__sortIcon--size_md table__sortIcon--striped_true table__sortIcon--bordered_false table__sortIcon--stickyHeader_true"
+              data-sort="false"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-chevrons-up-down icon icon-name--chevrons-up-down icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="chevrons-up-down"
+              >
+                <path d="m7 15 5 5 5-5"></path>
+                <path d="m7 9 5-5 5 5"></path></svg
+            ></span>
+          </div>
+          <input
+            class="input input--size_sm"
+            placeholder="Filter…"
+            value=""
+            style="margin-top: var(--spacing-1); width: 100%"
+          />
+        </th>
+        <th
+          class="table__th table__th--size_md table__th--striped_true table__th--bordered_false table__th--stickyHeader_true"
+          data-sortable="true"
+        >
+          <div style="display: flex; align-items: center; gap: var(--spacing-1)">
+            containerType<span
+              class="table__sortIcon table__sortIcon--size_md table__sortIcon--striped_true table__sortIcon--bordered_false table__sortIcon--stickyHeader_true"
+              data-sort="false"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-chevrons-up-down icon icon-name--chevrons-up-down icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="chevrons-up-down"
+              >
+                <path d="m7 15 5 5 5-5"></path>
+                <path d="m7 9 5-5 5 5"></path></svg
+            ></span>
+          </div>
+          <input
+            class="input input--size_sm"
+            placeholder="Filter…"
+            value=""
+            style="margin-top: var(--spacing-1); width: 100%"
+          />
+        </th>
+        <th
+          class="table__th table__th--size_md table__th--striped_true table__th--bordered_false table__th--stickyHeader_true"
+          data-sortable="true"
+        >
+          <div style="display: flex; align-items: center; gap: var(--spacing-1)">
+            defaultTempConsume<span
+              class="table__sortIcon table__sortIcon--size_md table__sortIcon--striped_true table__sortIcon--bordered_false table__sortIcon--stickyHeader_true"
+              data-sort="false"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-chevrons-up-down icon icon-name--chevrons-up-down icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="chevrons-up-down"
+              >
+                <path d="m7 15 5 5 5-5"></path>
+                <path d="m7 9 5-5 5 5"></path></svg
+            ></span>
+          </div>
+        </th>
+        <th
+          class="table__th table__th--size_md table__th--striped_true table__th--bordered_false table__th--stickyHeader_true"
+          style="width: 80px"
+        >
+          <div style="display: flex; align-items: center; gap: var(--spacing-1)">actions</div>
+        </th>
+      </tr>
+    </thead>
+    <tbody
+      class="table__tbody table__tbody--size_md table__tbody--striped_true table__tbody--bordered_false table__tbody--stickyHeader_true"
+    >
+      <tr
+        class="table__tr table__tr--size_md table__tr--striped_true table__tr--bordered_false table__tr--stickyHeader_true"
+      >
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <label
+            data-scope="checkbox"
+            data-part="root"
+            data-state="unchecked"
+            dir="ltr"
+            id="checkbox::r1ih:"
+            for="checkbox::r1ih::input"
+            data-size="md"
+            class="checkbox__root checkbox__root--size_sm"
+            ><div
+              data-scope="checkbox"
+              data-part="control"
+              data-state="unchecked"
+              dir="ltr"
+              id="checkbox::r1ih::control"
+              aria-hidden="true"
+              class="checkbox__control checkbox__control--size_sm"
+            >
+              <div
+                data-scope="checkbox"
+                data-part="indicator"
+                data-state="unchecked"
+                dir="ltr"
+                hidden=""
+                class="checkbox__indicator checkbox__indicator--size_sm"
+              >
+                <svg
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  style="width: 100%; height: 100%"
+                >
+                  <polyline points="2,6 5,9 10,3"></polyline>
+                </svg>
+              </div>
+            </div>
+            <input
+              id="checkbox::r1ih::input"
+              type="checkbox"
+              aria-labelledby="checkbox::r1ih::label"
+              aria-invalid="false"
+              value="on"
+              style="
+                border: 0px;
+                clip: rect(0px, 0px, 0px, 0px);
+                height: 1px;
+                margin: -1px;
+                overflow: hidden;
+                padding: 0px;
+                position: absolute;
+                width: 1px;
+                white-space: nowrap;
+                overflow-wrap: normal;
+              "
+          /></label>
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          325
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          1
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Agua
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          -
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          33cl
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Metal
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          6°C
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <div style="display: flex; gap: var(--spacing-1)">
+            <button
+              class="button button--size_xs button--variant_ghost button--colorScheme_default"
+              aria-label="Edit order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-pencil-line icon icon-name--edit icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="edit"
+              >
+                <path d="M13 21h8"></path>
+                <path d="m15 5 4 4"></path>
+                <path
+                  d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+                ></path>
+              </svg></button
+            ><button
+              class="button button--size_xs button--variant_ghost button--colorScheme_danger"
+              aria-label="Delete order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-trash2 lucide-trash-2 icon icon-name--trash icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="trash"
+              >
+                <path d="M10 11v6"></path>
+                <path d="M14 11v6"></path>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                <path d="M3 6h18"></path>
+                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+      <tr
+        class="table__tr table__tr--size_md table__tr--striped_true table__tr--bordered_false table__tr--stickyHeader_true"
+      >
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <label
+            data-scope="checkbox"
+            data-part="root"
+            data-state="unchecked"
+            dir="ltr"
+            id="checkbox::r1ij:"
+            for="checkbox::r1ij::input"
+            data-size="md"
+            class="checkbox__root checkbox__root--size_sm"
+            ><div
+              data-scope="checkbox"
+              data-part="control"
+              data-state="unchecked"
+              dir="ltr"
+              id="checkbox::r1ij::control"
+              aria-hidden="true"
+              class="checkbox__control checkbox__control--size_sm"
+            >
+              <div
+                data-scope="checkbox"
+                data-part="indicator"
+                data-state="unchecked"
+                dir="ltr"
+                hidden=""
+                class="checkbox__indicator checkbox__indicator--size_sm"
+              >
+                <svg
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  style="width: 100%; height: 100%"
+                >
+                  <polyline points="2,6 5,9 10,3"></polyline>
+                </svg>
+              </div>
+            </div>
+            <input
+              id="checkbox::r1ij::input"
+              type="checkbox"
+              aria-labelledby="checkbox::r1ij::label"
+              aria-invalid="false"
+              value="on"
+              style="
+                border: 0px;
+                clip: rect(0px, 0px, 0px, 0px);
+                height: 1px;
+                margin: -1px;
+                overflow: hidden;
+                padding: 0px;
+                position: absolute;
+                width: 1px;
+                white-space: nowrap;
+                overflow-wrap: normal;
+              "
+          /></label>
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          326
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          3
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Agua
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          -
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          33cl
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Plástico
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          3°C
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <div style="display: flex; gap: var(--spacing-1)">
+            <button
+              class="button button--size_xs button--variant_ghost button--colorScheme_default"
+              aria-label="Edit order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-pencil-line icon icon-name--edit icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="edit"
+              >
+                <path d="M13 21h8"></path>
+                <path d="m15 5 4 4"></path>
+                <path
+                  d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+                ></path>
+              </svg></button
+            ><button
+              class="button button--size_xs button--variant_ghost button--colorScheme_danger"
+              aria-label="Delete order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-trash2 lucide-trash-2 icon icon-name--trash icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="trash"
+              >
+                <path d="M10 11v6"></path>
+                <path d="M14 11v6"></path>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                <path d="M3 6h18"></path>
+                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+      <tr
+        class="table__tr table__tr--size_md table__tr--striped_true table__tr--bordered_false table__tr--stickyHeader_true"
+      >
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <label
+            data-scope="checkbox"
+            data-part="root"
+            data-state="unchecked"
+            dir="ltr"
+            id="checkbox::r1il:"
+            for="checkbox::r1il::input"
+            data-size="md"
+            class="checkbox__root checkbox__root--size_sm"
+            ><div
+              data-scope="checkbox"
+              data-part="control"
+              data-state="unchecked"
+              dir="ltr"
+              id="checkbox::r1il::control"
+              aria-hidden="true"
+              class="checkbox__control checkbox__control--size_sm"
+            >
+              <div
+                data-scope="checkbox"
+                data-part="indicator"
+                data-state="unchecked"
+                dir="ltr"
+                hidden=""
+                class="checkbox__indicator checkbox__indicator--size_sm"
+              >
+                <svg
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  style="width: 100%; height: 100%"
+                >
+                  <polyline points="2,6 5,9 10,3"></polyline>
+                </svg>
+              </div>
+            </div>
+            <input
+              id="checkbox::r1il::input"
+              type="checkbox"
+              aria-labelledby="checkbox::r1il::label"
+              aria-invalid="false"
+              value="on"
+              style="
+                border: 0px;
+                clip: rect(0px, 0px, 0px, 0px);
+                height: 1px;
+                margin: -1px;
+                overflow: hidden;
+                padding: 0px;
+                position: absolute;
+                width: 1px;
+                white-space: nowrap;
+                overflow-wrap: normal;
+              "
+          /></label>
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          327
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          3
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Agua
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          -
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          25cl
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Metal
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          5°C
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <div style="display: flex; gap: var(--spacing-1)">
+            <button
+              class="button button--size_xs button--variant_ghost button--colorScheme_default"
+              aria-label="Edit order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-pencil-line icon icon-name--edit icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="edit"
+              >
+                <path d="M13 21h8"></path>
+                <path d="m15 5 4 4"></path>
+                <path
+                  d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+                ></path>
+              </svg></button
+            ><button
+              class="button button--size_xs button--variant_ghost button--colorScheme_danger"
+              aria-label="Delete order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-trash2 lucide-trash-2 icon icon-name--trash icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="trash"
+              >
+                <path d="M10 11v6"></path>
+                <path d="M14 11v6"></path>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                <path d="M3 6h18"></path>
+                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+      <tr
+        class="table__tr table__tr--size_md table__tr--striped_true table__tr--bordered_false table__tr--stickyHeader_true"
+      >
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <label
+            data-scope="checkbox"
+            data-part="root"
+            data-state="unchecked"
+            dir="ltr"
+            id="checkbox::r1in:"
+            for="checkbox::r1in::input"
+            data-size="md"
+            class="checkbox__root checkbox__root--size_sm"
+            ><div
+              data-scope="checkbox"
+              data-part="control"
+              data-state="unchecked"
+              dir="ltr"
+              id="checkbox::r1in::control"
+              aria-hidden="true"
+              class="checkbox__control checkbox__control--size_sm"
+            >
+              <div
+                data-scope="checkbox"
+                data-part="indicator"
+                data-state="unchecked"
+                dir="ltr"
+                hidden=""
+                class="checkbox__indicator checkbox__indicator--size_sm"
+              >
+                <svg
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  style="width: 100%; height: 100%"
+                >
+                  <polyline points="2,6 5,9 10,3"></polyline>
+                </svg>
+              </div>
+            </div>
+            <input
+              id="checkbox::r1in::input"
+              type="checkbox"
+              aria-labelledby="checkbox::r1in::label"
+              aria-invalid="false"
+              value="on"
+              style="
+                border: 0px;
+                clip: rect(0px, 0px, 0px, 0px);
+                height: 1px;
+                margin: -1px;
+                overflow: hidden;
+                padding: 0px;
+                position: absolute;
+                width: 1px;
+                white-space: nowrap;
+                overflow-wrap: normal;
+              "
+          /></label>
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          328
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          4
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Agua
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          -
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          25cl
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Plástico
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          4°C
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <div style="display: flex; gap: var(--spacing-1)">
+            <button
+              class="button button--size_xs button--variant_ghost button--colorScheme_default"
+              aria-label="Edit order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-pencil-line icon icon-name--edit icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="edit"
+              >
+                <path d="M13 21h8"></path>
+                <path d="m15 5 4 4"></path>
+                <path
+                  d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+                ></path>
+              </svg></button
+            ><button
+              class="button button--size_xs button--variant_ghost button--colorScheme_danger"
+              aria-label="Delete order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-trash2 lucide-trash-2 icon icon-name--trash icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="trash"
+              >
+                <path d="M10 11v6"></path>
+                <path d="M14 11v6"></path>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                <path d="M3 6h18"></path>
+                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+      <tr
+        class="table__tr table__tr--size_md table__tr--striped_true table__tr--bordered_false table__tr--stickyHeader_true"
+      >
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <label
+            data-scope="checkbox"
+            data-part="root"
+            data-state="unchecked"
+            dir="ltr"
+            id="checkbox::r1ip:"
+            for="checkbox::r1ip::input"
+            data-size="md"
+            class="checkbox__root checkbox__root--size_sm"
+            ><div
+              data-scope="checkbox"
+              data-part="control"
+              data-state="unchecked"
+              dir="ltr"
+              id="checkbox::r1ip::control"
+              aria-hidden="true"
+              class="checkbox__control checkbox__control--size_sm"
+            >
+              <div
+                data-scope="checkbox"
+                data-part="indicator"
+                data-state="unchecked"
+                dir="ltr"
+                hidden=""
+                class="checkbox__indicator checkbox__indicator--size_sm"
+              >
+                <svg
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  style="width: 100%; height: 100%"
+                >
+                  <polyline points="2,6 5,9 10,3"></polyline>
+                </svg>
+              </div>
+            </div>
+            <input
+              id="checkbox::r1ip::input"
+              type="checkbox"
+              aria-labelledby="checkbox::r1ip::label"
+              aria-invalid="false"
+              value="on"
+              style="
+                border: 0px;
+                clip: rect(0px, 0px, 0px, 0px);
+                height: 1px;
+                margin: -1px;
+                overflow: hidden;
+                padding: 0px;
+                position: absolute;
+                width: 1px;
+                white-space: nowrap;
+                overflow-wrap: normal;
+              "
+          /></label>
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          329
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          3
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Agua
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          -
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          75cl
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Metal
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          7°C
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <div style="display: flex; gap: var(--spacing-1)">
+            <button
+              class="button button--size_xs button--variant_ghost button--colorScheme_default"
+              aria-label="Edit order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-pencil-line icon icon-name--edit icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="edit"
+              >
+                <path d="M13 21h8"></path>
+                <path d="m15 5 4 4"></path>
+                <path
+                  d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+                ></path>
+              </svg></button
+            ><button
+              class="button button--size_xs button--variant_ghost button--colorScheme_danger"
+              aria-label="Delete order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-trash2 lucide-trash-2 icon icon-name--trash icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="trash"
+              >
+                <path d="M10 11v6"></path>
+                <path d="M14 11v6"></path>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                <path d="M3 6h18"></path>
+                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+      <tr
+        class="table__tr table__tr--size_md table__tr--striped_true table__tr--bordered_false table__tr--stickyHeader_true"
+      >
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <label
+            data-scope="checkbox"
+            data-part="root"
+            data-state="unchecked"
+            dir="ltr"
+            id="checkbox::r1ir:"
+            for="checkbox::r1ir::input"
+            data-size="md"
+            class="checkbox__root checkbox__root--size_sm"
+            ><div
+              data-scope="checkbox"
+              data-part="control"
+              data-state="unchecked"
+              dir="ltr"
+              id="checkbox::r1ir::control"
+              aria-hidden="true"
+              class="checkbox__control checkbox__control--size_sm"
+            >
+              <div
+                data-scope="checkbox"
+                data-part="indicator"
+                data-state="unchecked"
+                dir="ltr"
+                hidden=""
+                class="checkbox__indicator checkbox__indicator--size_sm"
+              >
+                <svg
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  style="width: 100%; height: 100%"
+                >
+                  <polyline points="2,6 5,9 10,3"></polyline>
+                </svg>
+              </div>
+            </div>
+            <input
+              id="checkbox::r1ir::input"
+              type="checkbox"
+              aria-labelledby="checkbox::r1ir::label"
+              aria-invalid="false"
+              value="on"
+              style="
+                border: 0px;
+                clip: rect(0px, 0px, 0px, 0px);
+                height: 1px;
+                margin: -1px;
+                overflow: hidden;
+                padding: 0px;
+                position: absolute;
+                width: 1px;
+                white-space: nowrap;
+                overflow-wrap: normal;
+              "
+          /></label>
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          330
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          3
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Agua
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          -
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          75cl
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Plástico
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          6°C
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <div style="display: flex; gap: var(--spacing-1)">
+            <button
+              class="button button--size_xs button--variant_ghost button--colorScheme_default"
+              aria-label="Edit order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-pencil-line icon icon-name--edit icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="edit"
+              >
+                <path d="M13 21h8"></path>
+                <path d="m15 5 4 4"></path>
+                <path
+                  d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+                ></path>
+              </svg></button
+            ><button
+              class="button button--size_xs button--variant_ghost button--colorScheme_danger"
+              aria-label="Delete order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-trash2 lucide-trash-2 icon icon-name--trash icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="trash"
+              >
+                <path d="M10 11v6"></path>
+                <path d="M14 11v6"></path>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                <path d="M3 6h18"></path>
+                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+      <tr
+        class="table__tr table__tr--size_md table__tr--striped_true table__tr--bordered_false table__tr--stickyHeader_true"
+      >
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <label
+            data-scope="checkbox"
+            data-part="root"
+            data-state="unchecked"
+            dir="ltr"
+            id="checkbox::r1it:"
+            for="checkbox::r1it::input"
+            data-size="md"
+            class="checkbox__root checkbox__root--size_sm"
+            ><div
+              data-scope="checkbox"
+              data-part="control"
+              data-state="unchecked"
+              dir="ltr"
+              id="checkbox::r1it::control"
+              aria-hidden="true"
+              class="checkbox__control checkbox__control--size_sm"
+            >
+              <div
+                data-scope="checkbox"
+                data-part="indicator"
+                data-state="unchecked"
+                dir="ltr"
+                hidden=""
+                class="checkbox__indicator checkbox__indicator--size_sm"
+              >
+                <svg
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  style="width: 100%; height: 100%"
+                >
+                  <polyline points="2,6 5,9 10,3"></polyline>
+                </svg>
+              </div>
+            </div>
+            <input
+              id="checkbox::r1it::input"
+              type="checkbox"
+              aria-labelledby="checkbox::r1it::label"
+              aria-invalid="false"
+              value="on"
+              style="
+                border: 0px;
+                clip: rect(0px, 0px, 0px, 0px);
+                height: 1px;
+                margin: -1px;
+                overflow: hidden;
+                padding: 0px;
+                position: absolute;
+                width: 1px;
+                white-space: nowrap;
+                overflow-wrap: normal;
+              "
+          /></label>
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          331
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          2
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Agua
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          -
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          1.25 Litros
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Metal
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          5°C
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <div style="display: flex; gap: var(--spacing-1)">
+            <button
+              class="button button--size_xs button--variant_ghost button--colorScheme_default"
+              aria-label="Edit order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-pencil-line icon icon-name--edit icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="edit"
+              >
+                <path d="M13 21h8"></path>
+                <path d="m15 5 4 4"></path>
+                <path
+                  d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+                ></path>
+              </svg></button
+            ><button
+              class="button button--size_xs button--variant_ghost button--colorScheme_danger"
+              aria-label="Delete order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-trash2 lucide-trash-2 icon icon-name--trash icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="trash"
+              >
+                <path d="M10 11v6"></path>
+                <path d="M14 11v6"></path>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                <path d="M3 6h18"></path>
+                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+      <tr
+        class="table__tr table__tr--size_md table__tr--striped_true table__tr--bordered_false table__tr--stickyHeader_true"
+      >
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <label
+            data-scope="checkbox"
+            data-part="root"
+            data-state="unchecked"
+            dir="ltr"
+            id="checkbox::r1iv:"
+            for="checkbox::r1iv::input"
+            data-size="md"
+            class="checkbox__root checkbox__root--size_sm"
+            ><div
+              data-scope="checkbox"
+              data-part="control"
+              data-state="unchecked"
+              dir="ltr"
+              id="checkbox::r1iv::control"
+              aria-hidden="true"
+              class="checkbox__control checkbox__control--size_sm"
+            >
+              <div
+                data-scope="checkbox"
+                data-part="indicator"
+                data-state="unchecked"
+                dir="ltr"
+                hidden=""
+                class="checkbox__indicator checkbox__indicator--size_sm"
+              >
+                <svg
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  style="width: 100%; height: 100%"
+                >
+                  <polyline points="2,6 5,9 10,3"></polyline>
+                </svg>
+              </div>
+            </div>
+            <input
+              id="checkbox::r1iv::input"
+              type="checkbox"
+              aria-labelledby="checkbox::r1iv::label"
+              aria-invalid="false"
+              value="on"
+              style="
+                border: 0px;
+                clip: rect(0px, 0px, 0px, 0px);
+                height: 1px;
+                margin: -1px;
+                overflow: hidden;
+                padding: 0px;
+                position: absolute;
+                width: 1px;
+                white-space: nowrap;
+                overflow-wrap: normal;
+              "
+          /></label>
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          332
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          5
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Agua
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          -
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          1.25 Litros
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Vidrio
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          3°C
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <div style="display: flex; gap: var(--spacing-1)">
+            <button
+              class="button button--size_xs button--variant_ghost button--colorScheme_default"
+              aria-label="Edit order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-pencil-line icon icon-name--edit icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="edit"
+              >
+                <path d="M13 21h8"></path>
+                <path d="m15 5 4 4"></path>
+                <path
+                  d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+                ></path>
+              </svg></button
+            ><button
+              class="button button--size_xs button--variant_ghost button--colorScheme_danger"
+              aria-label="Delete order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-trash2 lucide-trash-2 icon icon-name--trash icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="trash"
+              >
+                <path d="M10 11v6"></path>
+                <path d="M14 11v6"></path>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                <path d="M3 6h18"></path>
+                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+      <tr
+        class="table__tr table__tr--size_md table__tr--striped_true table__tr--bordered_false table__tr--stickyHeader_true"
+      >
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <label
+            data-scope="checkbox"
+            data-part="root"
+            data-state="unchecked"
+            dir="ltr"
+            id="checkbox::r1j1:"
+            for="checkbox::r1j1::input"
+            data-size="md"
+            class="checkbox__root checkbox__root--size_sm"
+            ><div
+              data-scope="checkbox"
+              data-part="control"
+              data-state="unchecked"
+              dir="ltr"
+              id="checkbox::r1j1::control"
+              aria-hidden="true"
+              class="checkbox__control checkbox__control--size_sm"
+            >
+              <div
+                data-scope="checkbox"
+                data-part="indicator"
+                data-state="unchecked"
+                dir="ltr"
+                hidden=""
+                class="checkbox__indicator checkbox__indicator--size_sm"
+              >
+                <svg
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  style="width: 100%; height: 100%"
+                >
+                  <polyline points="2,6 5,9 10,3"></polyline>
+                </svg>
+              </div>
+            </div>
+            <input
+              id="checkbox::r1j1::input"
+              type="checkbox"
+              aria-labelledby="checkbox::r1j1::label"
+              aria-invalid="false"
+              value="on"
+              style="
+                border: 0px;
+                clip: rect(0px, 0px, 0px, 0px);
+                height: 1px;
+                margin: -1px;
+                overflow: hidden;
+                padding: 0px;
+                position: absolute;
+                width: 1px;
+                white-space: nowrap;
+                overflow-wrap: normal;
+              "
+          /></label>
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          333
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          1
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Agua
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          -
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          2 Litros
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Metal
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          5°C
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <div style="display: flex; gap: var(--spacing-1)">
+            <button
+              class="button button--size_xs button--variant_ghost button--colorScheme_default"
+              aria-label="Edit order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-pencil-line icon icon-name--edit icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="edit"
+              >
+                <path d="M13 21h8"></path>
+                <path d="m15 5 4 4"></path>
+                <path
+                  d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+                ></path>
+              </svg></button
+            ><button
+              class="button button--size_xs button--variant_ghost button--colorScheme_danger"
+              aria-label="Delete order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-trash2 lucide-trash-2 icon icon-name--trash icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="trash"
+              >
+                <path d="M10 11v6"></path>
+                <path d="M14 11v6"></path>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                <path d="M3 6h18"></path>
+                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+      <tr
+        class="table__tr table__tr--size_md table__tr--striped_true table__tr--bordered_false table__tr--stickyHeader_true"
+      >
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <label
+            data-scope="checkbox"
+            data-part="root"
+            data-state="unchecked"
+            dir="ltr"
+            id="checkbox::r1j3:"
+            for="checkbox::r1j3::input"
+            data-size="md"
+            class="checkbox__root checkbox__root--size_sm"
+            ><div
+              data-scope="checkbox"
+              data-part="control"
+              data-state="unchecked"
+              dir="ltr"
+              id="checkbox::r1j3::control"
+              aria-hidden="true"
+              class="checkbox__control checkbox__control--size_sm"
+            >
+              <div
+                data-scope="checkbox"
+                data-part="indicator"
+                data-state="unchecked"
+                dir="ltr"
+                hidden=""
+                class="checkbox__indicator checkbox__indicator--size_sm"
+              >
+                <svg
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  style="width: 100%; height: 100%"
+                >
+                  <polyline points="2,6 5,9 10,3"></polyline>
+                </svg>
+              </div>
+            </div>
+            <input
+              id="checkbox::r1j3::input"
+              type="checkbox"
+              aria-labelledby="checkbox::r1j3::label"
+              aria-invalid="false"
+              value="on"
+              style="
+                border: 0px;
+                clip: rect(0px, 0px, 0px, 0px);
+                height: 1px;
+                margin: -1px;
+                overflow: hidden;
+                padding: 0px;
+                position: absolute;
+                width: 1px;
+                white-space: nowrap;
+                overflow-wrap: normal;
+              "
+          /></label>
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          334
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          2
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Agua
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          -
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          2 Litros
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Vidrio
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          4°C
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <div style="display: flex; gap: var(--spacing-1)">
+            <button
+              class="button button--size_xs button--variant_ghost button--colorScheme_default"
+              aria-label="Edit order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-pencil-line icon icon-name--edit icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="edit"
+              >
+                <path d="M13 21h8"></path>
+                <path d="m15 5 4 4"></path>
+                <path
+                  d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+                ></path>
+              </svg></button
+            ><button
+              class="button button--size_xs button--variant_ghost button--colorScheme_danger"
+              aria-label="Delete order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-trash2 lucide-trash-2 icon icon-name--trash icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="trash"
+              >
+                <path d="M10 11v6"></path>
+                <path d="M14 11v6"></path>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                <path d="M3 6h18"></path>
+                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+      <tr
+        class="table__tr table__tr--size_md table__tr--striped_true table__tr--bordered_false table__tr--stickyHeader_true"
+      >
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <label
+            data-scope="checkbox"
+            data-part="root"
+            data-state="unchecked"
+            dir="ltr"
+            id="checkbox::r1j5:"
+            for="checkbox::r1j5::input"
+            data-size="md"
+            class="checkbox__root checkbox__root--size_sm"
+            ><div
+              data-scope="checkbox"
+              data-part="control"
+              data-state="unchecked"
+              dir="ltr"
+              id="checkbox::r1j5::control"
+              aria-hidden="true"
+              class="checkbox__control checkbox__control--size_sm"
+            >
+              <div
+                data-scope="checkbox"
+                data-part="indicator"
+                data-state="unchecked"
+                dir="ltr"
+                hidden=""
+                class="checkbox__indicator checkbox__indicator--size_sm"
+              >
+                <svg
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  style="width: 100%; height: 100%"
+                >
+                  <polyline points="2,6 5,9 10,3"></polyline>
+                </svg>
+              </div>
+            </div>
+            <input
+              id="checkbox::r1j5::input"
+              type="checkbox"
+              aria-labelledby="checkbox::r1j5::label"
+              aria-invalid="false"
+              value="on"
+              style="
+                border: 0px;
+                clip: rect(0px, 0px, 0px, 0px);
+                height: 1px;
+                margin: -1px;
+                overflow: hidden;
+                padding: 0px;
+                position: absolute;
+                width: 1px;
+                white-space: nowrap;
+                overflow-wrap: normal;
+              "
+          /></label>
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          335
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          5
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Agua
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          -
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          50cl
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Metal
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          3°C
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <div style="display: flex; gap: var(--spacing-1)">
+            <button
+              class="button button--size_xs button--variant_ghost button--colorScheme_default"
+              aria-label="Edit order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-pencil-line icon icon-name--edit icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="edit"
+              >
+                <path d="M13 21h8"></path>
+                <path d="m15 5 4 4"></path>
+                <path
+                  d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+                ></path>
+              </svg></button
+            ><button
+              class="button button--size_xs button--variant_ghost button--colorScheme_danger"
+              aria-label="Delete order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-trash2 lucide-trash-2 icon icon-name--trash icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="trash"
+              >
+                <path d="M10 11v6"></path>
+                <path d="M14 11v6"></path>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                <path d="M3 6h18"></path>
+                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+      <tr
+        class="table__tr table__tr--size_md table__tr--striped_true table__tr--bordered_false table__tr--stickyHeader_true"
+      >
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <label
+            data-scope="checkbox"
+            data-part="root"
+            data-state="unchecked"
+            dir="ltr"
+            id="checkbox::r1j7:"
+            for="checkbox::r1j7::input"
+            data-size="md"
+            class="checkbox__root checkbox__root--size_sm"
+            ><div
+              data-scope="checkbox"
+              data-part="control"
+              data-state="unchecked"
+              dir="ltr"
+              id="checkbox::r1j7::control"
+              aria-hidden="true"
+              class="checkbox__control checkbox__control--size_sm"
+            >
+              <div
+                data-scope="checkbox"
+                data-part="indicator"
+                data-state="unchecked"
+                dir="ltr"
+                hidden=""
+                class="checkbox__indicator checkbox__indicator--size_sm"
+              >
+                <svg
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  style="width: 100%; height: 100%"
+                >
+                  <polyline points="2,6 5,9 10,3"></polyline>
+                </svg>
+              </div>
+            </div>
+            <input
+              id="checkbox::r1j7::input"
+              type="checkbox"
+              aria-labelledby="checkbox::r1j7::label"
+              aria-invalid="false"
+              value="on"
+              style="
+                border: 0px;
+                clip: rect(0px, 0px, 0px, 0px);
+                height: 1px;
+                margin: -1px;
+                overflow: hidden;
+                padding: 0px;
+                position: absolute;
+                width: 1px;
+                white-space: nowrap;
+                overflow-wrap: normal;
+              "
+          /></label>
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          336
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          4
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Agua
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          -
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          50cl
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Vidrio
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          8°C
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <div style="display: flex; gap: var(--spacing-1)">
+            <button
+              class="button button--size_xs button--variant_ghost button--colorScheme_default"
+              aria-label="Edit order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-pencil-line icon icon-name--edit icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="edit"
+              >
+                <path d="M13 21h8"></path>
+                <path d="m15 5 4 4"></path>
+                <path
+                  d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+                ></path>
+              </svg></button
+            ><button
+              class="button button--size_xs button--variant_ghost button--colorScheme_danger"
+              aria-label="Delete order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-trash2 lucide-trash-2 icon icon-name--trash icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="trash"
+              >
+                <path d="M10 11v6"></path>
+                <path d="M14 11v6"></path>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                <path d="M3 6h18"></path>
+                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+      <tr
+        class="table__tr table__tr--size_md table__tr--striped_true table__tr--bordered_false table__tr--stickyHeader_true"
+      >
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <label
+            data-scope="checkbox"
+            data-part="root"
+            data-state="unchecked"
+            dir="ltr"
+            id="checkbox::r1j9:"
+            for="checkbox::r1j9::input"
+            data-size="md"
+            class="checkbox__root checkbox__root--size_sm"
+            ><div
+              data-scope="checkbox"
+              data-part="control"
+              data-state="unchecked"
+              dir="ltr"
+              id="checkbox::r1j9::control"
+              aria-hidden="true"
+              class="checkbox__control checkbox__control--size_sm"
+            >
+              <div
+                data-scope="checkbox"
+                data-part="indicator"
+                data-state="unchecked"
+                dir="ltr"
+                hidden=""
+                class="checkbox__indicator checkbox__indicator--size_sm"
+              >
+                <svg
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  style="width: 100%; height: 100%"
+                >
+                  <polyline points="2,6 5,9 10,3"></polyline>
+                </svg>
+              </div>
+            </div>
+            <input
+              id="checkbox::r1j9::input"
+              type="checkbox"
+              aria-labelledby="checkbox::r1j9::label"
+              aria-invalid="false"
+              value="on"
+              style="
+                border: 0px;
+                clip: rect(0px, 0px, 0px, 0px);
+                height: 1px;
+                margin: -1px;
+                overflow: hidden;
+                padding: 0px;
+                position: absolute;
+                width: 1px;
+                white-space: nowrap;
+                overflow-wrap: normal;
+              "
+          /></label>
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          337
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          2
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Agua
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          -
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          50cl
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Plástico
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          8°C
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <div style="display: flex; gap: var(--spacing-1)">
+            <button
+              class="button button--size_xs button--variant_ghost button--colorScheme_default"
+              aria-label="Edit order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-pencil-line icon icon-name--edit icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="edit"
+              >
+                <path d="M13 21h8"></path>
+                <path d="m15 5 4 4"></path>
+                <path
+                  d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+                ></path>
+              </svg></button
+            ><button
+              class="button button--size_xs button--variant_ghost button--colorScheme_danger"
+              aria-label="Delete order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-trash2 lucide-trash-2 icon icon-name--trash icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="trash"
+              >
+                <path d="M10 11v6"></path>
+                <path d="M14 11v6"></path>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                <path d="M3 6h18"></path>
+                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+      <tr
+        class="table__tr table__tr--size_md table__tr--striped_true table__tr--bordered_false table__tr--stickyHeader_true"
+      >
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <label
+            data-scope="checkbox"
+            data-part="root"
+            data-state="unchecked"
+            dir="ltr"
+            id="checkbox::r1jb:"
+            for="checkbox::r1jb::input"
+            data-size="md"
+            class="checkbox__root checkbox__root--size_sm"
+            ><div
+              data-scope="checkbox"
+              data-part="control"
+              data-state="unchecked"
+              dir="ltr"
+              id="checkbox::r1jb::control"
+              aria-hidden="true"
+              class="checkbox__control checkbox__control--size_sm"
+            >
+              <div
+                data-scope="checkbox"
+                data-part="indicator"
+                data-state="unchecked"
+                dir="ltr"
+                hidden=""
+                class="checkbox__indicator checkbox__indicator--size_sm"
+              >
+                <svg
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  style="width: 100%; height: 100%"
+                >
+                  <polyline points="2,6 5,9 10,3"></polyline>
+                </svg>
+              </div>
+            </div>
+            <input
+              id="checkbox::r1jb::input"
+              type="checkbox"
+              aria-labelledby="checkbox::r1jb::label"
+              aria-invalid="false"
+              value="on"
+              style="
+                border: 0px;
+                clip: rect(0px, 0px, 0px, 0px);
+                height: 1px;
+                margin: -1px;
+                overflow: hidden;
+                padding: 0px;
+                position: absolute;
+                width: 1px;
+                white-space: nowrap;
+                overflow-wrap: normal;
+              "
+          /></label>
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          338
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          4
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Agua
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          -
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          50cl
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Vidrio
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          7°C
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <div style="display: flex; gap: var(--spacing-1)">
+            <button
+              class="button button--size_xs button--variant_ghost button--colorScheme_default"
+              aria-label="Edit order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-pencil-line icon icon-name--edit icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="edit"
+              >
+                <path d="M13 21h8"></path>
+                <path d="m15 5 4 4"></path>
+                <path
+                  d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+                ></path>
+              </svg></button
+            ><button
+              class="button button--size_xs button--variant_ghost button--colorScheme_danger"
+              aria-label="Delete order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-trash2 lucide-trash-2 icon icon-name--trash icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="trash"
+              >
+                <path d="M10 11v6"></path>
+                <path d="M14 11v6"></path>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                <path d="M3 6h18"></path>
+                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+      <tr
+        class="table__tr table__tr--size_md table__tr--striped_true table__tr--bordered_false table__tr--stickyHeader_true"
+      >
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <label
+            data-scope="checkbox"
+            data-part="root"
+            data-state="unchecked"
+            dir="ltr"
+            id="checkbox::r1jd:"
+            for="checkbox::r1jd::input"
+            data-size="md"
+            class="checkbox__root checkbox__root--size_sm"
+            ><div
+              data-scope="checkbox"
+              data-part="control"
+              data-state="unchecked"
+              dir="ltr"
+              id="checkbox::r1jd::control"
+              aria-hidden="true"
+              class="checkbox__control checkbox__control--size_sm"
+            >
+              <div
+                data-scope="checkbox"
+                data-part="indicator"
+                data-state="unchecked"
+                dir="ltr"
+                hidden=""
+                class="checkbox__indicator checkbox__indicator--size_sm"
+              >
+                <svg
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  style="width: 100%; height: 100%"
+                >
+                  <polyline points="2,6 5,9 10,3"></polyline>
+                </svg>
+              </div>
+            </div>
+            <input
+              id="checkbox::r1jd::input"
+              type="checkbox"
+              aria-labelledby="checkbox::r1jd::label"
+              aria-invalid="false"
+              value="on"
+              style="
+                border: 0px;
+                clip: rect(0px, 0px, 0px, 0px);
+                height: 1px;
+                margin: -1px;
+                overflow: hidden;
+                padding: 0px;
+                position: absolute;
+                width: 1px;
+                white-space: nowrap;
+                overflow-wrap: normal;
+              "
+          /></label>
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          339
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          5
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Agua
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          -
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          1.25 Litros
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Plástico
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          6°C
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <div style="display: flex; gap: var(--spacing-1)">
+            <button
+              class="button button--size_xs button--variant_ghost button--colorScheme_default"
+              aria-label="Edit order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-pencil-line icon icon-name--edit icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="edit"
+              >
+                <path d="M13 21h8"></path>
+                <path d="m15 5 4 4"></path>
+                <path
+                  d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+                ></path>
+              </svg></button
+            ><button
+              class="button button--size_xs button--variant_ghost button--colorScheme_danger"
+              aria-label="Delete order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-trash2 lucide-trash-2 icon icon-name--trash icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="trash"
+              >
+                <path d="M10 11v6"></path>
+                <path d="M14 11v6"></path>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                <path d="M3 6h18"></path>
+                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+      <tr
+        class="table__tr table__tr--size_md table__tr--striped_true table__tr--bordered_false table__tr--stickyHeader_true"
+      >
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <label
+            data-scope="checkbox"
+            data-part="root"
+            data-state="unchecked"
+            dir="ltr"
+            id="checkbox::r1jf:"
+            for="checkbox::r1jf::input"
+            data-size="md"
+            class="checkbox__root checkbox__root--size_sm"
+            ><div
+              data-scope="checkbox"
+              data-part="control"
+              data-state="unchecked"
+              dir="ltr"
+              id="checkbox::r1jf::control"
+              aria-hidden="true"
+              class="checkbox__control checkbox__control--size_sm"
+            >
+              <div
+                data-scope="checkbox"
+                data-part="indicator"
+                data-state="unchecked"
+                dir="ltr"
+                hidden=""
+                class="checkbox__indicator checkbox__indicator--size_sm"
+              >
+                <svg
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  style="width: 100%; height: 100%"
+                >
+                  <polyline points="2,6 5,9 10,3"></polyline>
+                </svg>
+              </div>
+            </div>
+            <input
+              id="checkbox::r1jf::input"
+              type="checkbox"
+              aria-labelledby="checkbox::r1jf::label"
+              aria-invalid="false"
+              value="on"
+              style="
+                border: 0px;
+                clip: rect(0px, 0px, 0px, 0px);
+                height: 1px;
+                margin: -1px;
+                overflow: hidden;
+                padding: 0px;
+                position: absolute;
+                width: 1px;
+                white-space: nowrap;
+                overflow-wrap: normal;
+              "
+          /></label>
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          340
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          1
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Agua
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          -
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          1.25 Litros
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Vidrio
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          6°C
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <div style="display: flex; gap: var(--spacing-1)">
+            <button
+              class="button button--size_xs button--variant_ghost button--colorScheme_default"
+              aria-label="Edit order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-pencil-line icon icon-name--edit icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="edit"
+              >
+                <path d="M13 21h8"></path>
+                <path d="m15 5 4 4"></path>
+                <path
+                  d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+                ></path>
+              </svg></button
+            ><button
+              class="button button--size_xs button--variant_ghost button--colorScheme_danger"
+              aria-label="Delete order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-trash2 lucide-trash-2 icon icon-name--trash icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="trash"
+              >
+                <path d="M10 11v6"></path>
+                <path d="M14 11v6"></path>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                <path d="M3 6h18"></path>
+                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+      <tr
+        class="table__tr table__tr--size_md table__tr--striped_true table__tr--bordered_false table__tr--stickyHeader_true"
+      >
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <label
+            data-scope="checkbox"
+            data-part="root"
+            data-state="unchecked"
+            dir="ltr"
+            id="checkbox::r1jh:"
+            for="checkbox::r1jh::input"
+            data-size="md"
+            class="checkbox__root checkbox__root--size_sm"
+            ><div
+              data-scope="checkbox"
+              data-part="control"
+              data-state="unchecked"
+              dir="ltr"
+              id="checkbox::r1jh::control"
+              aria-hidden="true"
+              class="checkbox__control checkbox__control--size_sm"
+            >
+              <div
+                data-scope="checkbox"
+                data-part="indicator"
+                data-state="unchecked"
+                dir="ltr"
+                hidden=""
+                class="checkbox__indicator checkbox__indicator--size_sm"
+              >
+                <svg
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  style="width: 100%; height: 100%"
+                >
+                  <polyline points="2,6 5,9 10,3"></polyline>
+                </svg>
+              </div>
+            </div>
+            <input
+              id="checkbox::r1jh::input"
+              type="checkbox"
+              aria-labelledby="checkbox::r1jh::label"
+              aria-invalid="false"
+              value="on"
+              style="
+                border: 0px;
+                clip: rect(0px, 0px, 0px, 0px);
+                height: 1px;
+                margin: -1px;
+                overflow: hidden;
+                padding: 0px;
+                position: absolute;
+                width: 1px;
+                white-space: nowrap;
+                overflow-wrap: normal;
+              "
+          /></label>
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          341
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          5
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Agua
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          -
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          1 Litro
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Plástico
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          7°C
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <div style="display: flex; gap: var(--spacing-1)">
+            <button
+              class="button button--size_xs button--variant_ghost button--colorScheme_default"
+              aria-label="Edit order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-pencil-line icon icon-name--edit icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="edit"
+              >
+                <path d="M13 21h8"></path>
+                <path d="m15 5 4 4"></path>
+                <path
+                  d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+                ></path>
+              </svg></button
+            ><button
+              class="button button--size_xs button--variant_ghost button--colorScheme_danger"
+              aria-label="Delete order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-trash2 lucide-trash-2 icon icon-name--trash icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="trash"
+              >
+                <path d="M10 11v6"></path>
+                <path d="M14 11v6"></path>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                <path d="M3 6h18"></path>
+                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+      <tr
+        class="table__tr table__tr--size_md table__tr--striped_true table__tr--bordered_false table__tr--stickyHeader_true"
+      >
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <label
+            data-scope="checkbox"
+            data-part="root"
+            data-state="unchecked"
+            dir="ltr"
+            id="checkbox::r1jj:"
+            for="checkbox::r1jj::input"
+            data-size="md"
+            class="checkbox__root checkbox__root--size_sm"
+            ><div
+              data-scope="checkbox"
+              data-part="control"
+              data-state="unchecked"
+              dir="ltr"
+              id="checkbox::r1jj::control"
+              aria-hidden="true"
+              class="checkbox__control checkbox__control--size_sm"
+            >
+              <div
+                data-scope="checkbox"
+                data-part="indicator"
+                data-state="unchecked"
+                dir="ltr"
+                hidden=""
+                class="checkbox__indicator checkbox__indicator--size_sm"
+              >
+                <svg
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  style="width: 100%; height: 100%"
+                >
+                  <polyline points="2,6 5,9 10,3"></polyline>
+                </svg>
+              </div>
+            </div>
+            <input
+              id="checkbox::r1jj::input"
+              type="checkbox"
+              aria-labelledby="checkbox::r1jj::label"
+              aria-invalid="false"
+              value="on"
+              style="
+                border: 0px;
+                clip: rect(0px, 0px, 0px, 0px);
+                height: 1px;
+                margin: -1px;
+                overflow: hidden;
+                padding: 0px;
+                position: absolute;
+                width: 1px;
+                white-space: nowrap;
+                overflow-wrap: normal;
+              "
+          /></label>
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          342
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          5
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Agua
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          -
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          1 Litro
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Vidrio
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          5°C
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <div style="display: flex; gap: var(--spacing-1)">
+            <button
+              class="button button--size_xs button--variant_ghost button--colorScheme_default"
+              aria-label="Edit order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-pencil-line icon icon-name--edit icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="edit"
+              >
+                <path d="M13 21h8"></path>
+                <path d="m15 5 4 4"></path>
+                <path
+                  d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+                ></path>
+              </svg></button
+            ><button
+              class="button button--size_xs button--variant_ghost button--colorScheme_danger"
+              aria-label="Delete order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-trash2 lucide-trash-2 icon icon-name--trash icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="trash"
+              >
+                <path d="M10 11v6"></path>
+                <path d="M14 11v6"></path>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                <path d="M3 6h18"></path>
+                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+      <tr
+        class="table__tr table__tr--size_md table__tr--striped_true table__tr--bordered_false table__tr--stickyHeader_true"
+      >
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <label
+            data-scope="checkbox"
+            data-part="root"
+            data-state="unchecked"
+            dir="ltr"
+            id="checkbox::r1jl:"
+            for="checkbox::r1jl::input"
+            data-size="md"
+            class="checkbox__root checkbox__root--size_sm"
+            ><div
+              data-scope="checkbox"
+              data-part="control"
+              data-state="unchecked"
+              dir="ltr"
+              id="checkbox::r1jl::control"
+              aria-hidden="true"
+              class="checkbox__control checkbox__control--size_sm"
+            >
+              <div
+                data-scope="checkbox"
+                data-part="indicator"
+                data-state="unchecked"
+                dir="ltr"
+                hidden=""
+                class="checkbox__indicator checkbox__indicator--size_sm"
+              >
+                <svg
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  style="width: 100%; height: 100%"
+                >
+                  <polyline points="2,6 5,9 10,3"></polyline>
+                </svg>
+              </div>
+            </div>
+            <input
+              id="checkbox::r1jl::input"
+              type="checkbox"
+              aria-labelledby="checkbox::r1jl::label"
+              aria-invalid="false"
+              value="on"
+              style="
+                border: 0px;
+                clip: rect(0px, 0px, 0px, 0px);
+                height: 1px;
+                margin: -1px;
+                overflow: hidden;
+                padding: 0px;
+                position: absolute;
+                width: 1px;
+                white-space: nowrap;
+                overflow-wrap: normal;
+              "
+          /></label>
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          343
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          3
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Agua
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          -
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          75cl
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Vidrio
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          5°C
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <div style="display: flex; gap: var(--spacing-1)">
+            <button
+              class="button button--size_xs button--variant_ghost button--colorScheme_default"
+              aria-label="Edit order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-pencil-line icon icon-name--edit icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="edit"
+              >
+                <path d="M13 21h8"></path>
+                <path d="m15 5 4 4"></path>
+                <path
+                  d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+                ></path>
+              </svg></button
+            ><button
+              class="button button--size_xs button--variant_ghost button--colorScheme_danger"
+              aria-label="Delete order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-trash2 lucide-trash-2 icon icon-name--trash icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="trash"
+              >
+                <path d="M10 11v6"></path>
+                <path d="M14 11v6"></path>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                <path d="M3 6h18"></path>
+                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+      <tr
+        class="table__tr table__tr--size_md table__tr--striped_true table__tr--bordered_false table__tr--stickyHeader_true"
+      >
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <label
+            data-scope="checkbox"
+            data-part="root"
+            data-state="unchecked"
+            dir="ltr"
+            id="checkbox::r1jn:"
+            for="checkbox::r1jn::input"
+            data-size="md"
+            class="checkbox__root checkbox__root--size_sm"
+            ><div
+              data-scope="checkbox"
+              data-part="control"
+              data-state="unchecked"
+              dir="ltr"
+              id="checkbox::r1jn::control"
+              aria-hidden="true"
+              class="checkbox__control checkbox__control--size_sm"
+            >
+              <div
+                data-scope="checkbox"
+                data-part="indicator"
+                data-state="unchecked"
+                dir="ltr"
+                hidden=""
+                class="checkbox__indicator checkbox__indicator--size_sm"
+              >
+                <svg
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  style="width: 100%; height: 100%"
+                >
+                  <polyline points="2,6 5,9 10,3"></polyline>
+                </svg>
+              </div>
+            </div>
+            <input
+              id="checkbox::r1jn::input"
+              type="checkbox"
+              aria-labelledby="checkbox::r1jn::label"
+              aria-invalid="false"
+              value="on"
+              style="
+                border: 0px;
+                clip: rect(0px, 0px, 0px, 0px);
+                height: 1px;
+                margin: -1px;
+                overflow: hidden;
+                padding: 0px;
+                position: absolute;
+                width: 1px;
+                white-space: nowrap;
+                overflow-wrap: normal;
+              "
+          /></label>
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          344
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          2
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Agua
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          -
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          75cl
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Plástico
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          3°C
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <div style="display: flex; gap: var(--spacing-1)">
+            <button
+              class="button button--size_xs button--variant_ghost button--colorScheme_default"
+              aria-label="Edit order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-pencil-line icon icon-name--edit icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="edit"
+              >
+                <path d="M13 21h8"></path>
+                <path d="m15 5 4 4"></path>
+                <path
+                  d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+                ></path>
+              </svg></button
+            ><button
+              class="button button--size_xs button--variant_ghost button--colorScheme_danger"
+              aria-label="Delete order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-trash2 lucide-trash-2 icon icon-name--trash icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="trash"
+              >
+                <path d="M10 11v6"></path>
+                <path d="M14 11v6"></path>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                <path d="M3 6h18"></path>
+                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+      <tr
+        class="table__tr table__tr--size_md table__tr--striped_true table__tr--bordered_false table__tr--stickyHeader_true"
+      >
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <label
+            data-scope="checkbox"
+            data-part="root"
+            data-state="unchecked"
+            dir="ltr"
+            id="checkbox::r1jp:"
+            for="checkbox::r1jp::input"
+            data-size="md"
+            class="checkbox__root checkbox__root--size_sm"
+            ><div
+              data-scope="checkbox"
+              data-part="control"
+              data-state="unchecked"
+              dir="ltr"
+              id="checkbox::r1jp::control"
+              aria-hidden="true"
+              class="checkbox__control checkbox__control--size_sm"
+            >
+              <div
+                data-scope="checkbox"
+                data-part="indicator"
+                data-state="unchecked"
+                dir="ltr"
+                hidden=""
+                class="checkbox__indicator checkbox__indicator--size_sm"
+              >
+                <svg
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  style="width: 100%; height: 100%"
+                >
+                  <polyline points="2,6 5,9 10,3"></polyline>
+                </svg>
+              </div>
+            </div>
+            <input
+              id="checkbox::r1jp::input"
+              type="checkbox"
+              aria-labelledby="checkbox::r1jp::label"
+              aria-invalid="false"
+              value="on"
+              style="
+                border: 0px;
+                clip: rect(0px, 0px, 0px, 0px);
+                height: 1px;
+                margin: -1px;
+                overflow: hidden;
+                padding: 0px;
+                position: absolute;
+                width: 1px;
+                white-space: nowrap;
+                overflow-wrap: normal;
+              "
+          /></label>
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          345
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          5
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Agua
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          -
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          1.5 Litros
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Vidrio
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          8°C
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <div style="display: flex; gap: var(--spacing-1)">
+            <button
+              class="button button--size_xs button--variant_ghost button--colorScheme_default"
+              aria-label="Edit order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-pencil-line icon icon-name--edit icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="edit"
+              >
+                <path d="M13 21h8"></path>
+                <path d="m15 5 4 4"></path>
+                <path
+                  d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+                ></path>
+              </svg></button
+            ><button
+              class="button button--size_xs button--variant_ghost button--colorScheme_danger"
+              aria-label="Delete order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-trash2 lucide-trash-2 icon icon-name--trash icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="trash"
+              >
+                <path d="M10 11v6"></path>
+                <path d="M14 11v6"></path>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                <path d="M3 6h18"></path>
+                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+      <tr
+        class="table__tr table__tr--size_md table__tr--striped_true table__tr--bordered_false table__tr--stickyHeader_true"
+      >
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <label
+            data-scope="checkbox"
+            data-part="root"
+            data-state="unchecked"
+            dir="ltr"
+            id="checkbox::r1jr:"
+            for="checkbox::r1jr::input"
+            data-size="md"
+            class="checkbox__root checkbox__root--size_sm"
+            ><div
+              data-scope="checkbox"
+              data-part="control"
+              data-state="unchecked"
+              dir="ltr"
+              id="checkbox::r1jr::control"
+              aria-hidden="true"
+              class="checkbox__control checkbox__control--size_sm"
+            >
+              <div
+                data-scope="checkbox"
+                data-part="indicator"
+                data-state="unchecked"
+                dir="ltr"
+                hidden=""
+                class="checkbox__indicator checkbox__indicator--size_sm"
+              >
+                <svg
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  style="width: 100%; height: 100%"
+                >
+                  <polyline points="2,6 5,9 10,3"></polyline>
+                </svg>
+              </div>
+            </div>
+            <input
+              id="checkbox::r1jr::input"
+              type="checkbox"
+              aria-labelledby="checkbox::r1jr::label"
+              aria-invalid="false"
+              value="on"
+              style="
+                border: 0px;
+                clip: rect(0px, 0px, 0px, 0px);
+                height: 1px;
+                margin: -1px;
+                overflow: hidden;
+                padding: 0px;
+                position: absolute;
+                width: 1px;
+                white-space: nowrap;
+                overflow-wrap: normal;
+              "
+          /></label>
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          346
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          2
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Agua
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          -
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          1.5 Litros
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Plástico
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          8°C
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <div style="display: flex; gap: var(--spacing-1)">
+            <button
+              class="button button--size_xs button--variant_ghost button--colorScheme_default"
+              aria-label="Edit order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-pencil-line icon icon-name--edit icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="edit"
+              >
+                <path d="M13 21h8"></path>
+                <path d="m15 5 4 4"></path>
+                <path
+                  d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+                ></path>
+              </svg></button
+            ><button
+              class="button button--size_xs button--variant_ghost button--colorScheme_danger"
+              aria-label="Delete order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-trash2 lucide-trash-2 icon icon-name--trash icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="trash"
+              >
+                <path d="M10 11v6"></path>
+                <path d="M14 11v6"></path>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                <path d="M3 6h18"></path>
+                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+      <tr
+        class="table__tr table__tr--size_md table__tr--striped_true table__tr--bordered_false table__tr--stickyHeader_true"
+      >
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <label
+            data-scope="checkbox"
+            data-part="root"
+            data-state="unchecked"
+            dir="ltr"
+            id="checkbox::r1jt:"
+            for="checkbox::r1jt::input"
+            data-size="md"
+            class="checkbox__root checkbox__root--size_sm"
+            ><div
+              data-scope="checkbox"
+              data-part="control"
+              data-state="unchecked"
+              dir="ltr"
+              id="checkbox::r1jt::control"
+              aria-hidden="true"
+              class="checkbox__control checkbox__control--size_sm"
+            >
+              <div
+                data-scope="checkbox"
+                data-part="indicator"
+                data-state="unchecked"
+                dir="ltr"
+                hidden=""
+                class="checkbox__indicator checkbox__indicator--size_sm"
+              >
+                <svg
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  style="width: 100%; height: 100%"
+                >
+                  <polyline points="2,6 5,9 10,3"></polyline>
+                </svg>
+              </div>
+            </div>
+            <input
+              id="checkbox::r1jt::input"
+              type="checkbox"
+              aria-labelledby="checkbox::r1jt::label"
+              aria-invalid="false"
+              value="on"
+              style="
+                border: 0px;
+                clip: rect(0px, 0px, 0px, 0px);
+                height: 1px;
+                margin: -1px;
+                overflow: hidden;
+                padding: 0px;
+                position: absolute;
+                width: 1px;
+                white-space: nowrap;
+                overflow-wrap: normal;
+              "
+          /></label>
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          347
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          3
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Agua
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          -
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          50cl
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Vidrio
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          7°C
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <div style="display: flex; gap: var(--spacing-1)">
+            <button
+              class="button button--size_xs button--variant_ghost button--colorScheme_default"
+              aria-label="Edit order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-pencil-line icon icon-name--edit icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="edit"
+              >
+                <path d="M13 21h8"></path>
+                <path d="m15 5 4 4"></path>
+                <path
+                  d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+                ></path>
+              </svg></button
+            ><button
+              class="button button--size_xs button--variant_ghost button--colorScheme_danger"
+              aria-label="Delete order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-trash2 lucide-trash-2 icon icon-name--trash icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="trash"
+              >
+                <path d="M10 11v6"></path>
+                <path d="M14 11v6"></path>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                <path d="M3 6h18"></path>
+                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+      <tr
+        class="table__tr table__tr--size_md table__tr--striped_true table__tr--bordered_false table__tr--stickyHeader_true"
+      >
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <label
+            data-scope="checkbox"
+            data-part="root"
+            data-state="unchecked"
+            dir="ltr"
+            id="checkbox::r1jv:"
+            for="checkbox::r1jv::input"
+            data-size="md"
+            class="checkbox__root checkbox__root--size_sm"
+            ><div
+              data-scope="checkbox"
+              data-part="control"
+              data-state="unchecked"
+              dir="ltr"
+              id="checkbox::r1jv::control"
+              aria-hidden="true"
+              class="checkbox__control checkbox__control--size_sm"
+            >
+              <div
+                data-scope="checkbox"
+                data-part="indicator"
+                data-state="unchecked"
+                dir="ltr"
+                hidden=""
+                class="checkbox__indicator checkbox__indicator--size_sm"
+              >
+                <svg
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  style="width: 100%; height: 100%"
+                >
+                  <polyline points="2,6 5,9 10,3"></polyline>
+                </svg>
+              </div>
+            </div>
+            <input
+              id="checkbox::r1jv::input"
+              type="checkbox"
+              aria-labelledby="checkbox::r1jv::label"
+              aria-invalid="false"
+              value="on"
+              style="
+                border: 0px;
+                clip: rect(0px, 0px, 0px, 0px);
+                height: 1px;
+                margin: -1px;
+                overflow: hidden;
+                padding: 0px;
+                position: absolute;
+                width: 1px;
+                white-space: nowrap;
+                overflow-wrap: normal;
+              "
+          /></label>
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          348
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          3
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Agua
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          -
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          50cl
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          Plástico
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          7°C
+        </td>
+        <td
+          class="table__td table__td--size_md table__td--striped_true table__td--bordered_false table__td--stickyHeader_true"
+        >
+          <div style="display: flex; gap: var(--spacing-1)">
+            <button
+              class="button button--size_xs button--variant_ghost button--colorScheme_default"
+              aria-label="Edit order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-pencil-line icon icon-name--edit icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="edit"
+              >
+                <path d="M13 21h8"></path>
+                <path d="m15 5 4 4"></path>
+                <path
+                  d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+                ></path>
+              </svg></button
+            ><button
+              class="button button--size_xs button--variant_ghost button--colorScheme_danger"
+              aria-label="Delete order"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-trash2 lucide-trash-2 icon icon-name--trash icon icon-sm"
+                aria-hidden="true"
+                data-icon-name="trash"
+              >
+                <path d="M10 11v6"></path>
+                <path d="M14 11v6"></path>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                <path d="M3 6h18"></path>
+                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

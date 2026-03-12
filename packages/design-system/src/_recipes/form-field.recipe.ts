@@ -32,9 +32,12 @@
  * </div>
  * ```
  */
-import { sva } from '../../styled-system/css';
+import { defineSlotRecipe } from '@pandacss/dev';
 
-export const formFieldRecipe = sva({
+export const formFieldRecipe = defineSlotRecipe({
+  className: 'form-field',
+  description: 'Form field wrapper — label + control + helper/error text',
+
   slots: ['root', 'label', 'requiredIndicator', 'helperText', 'errorText'],
 
   base: {
@@ -44,7 +47,6 @@ export const formFieldRecipe = sva({
       gap: '1.5',
       width: '100%',
     },
-
     label: {
       display: 'inline-flex',
       alignItems: 'center',
@@ -53,52 +55,46 @@ export const formFieldRecipe = sva({
       color: 'fg.muted',
       userSelect: 'none',
     },
-
     requiredIndicator: {
       color: 'fg.error',
       fontWeight: 'bold',
       lineHeight: '1',
+      // Visually hidden from screen readers — caller provides aria-required
+      ariaHidden: 'true',
     },
-
     helperText: {
       color: 'fg.subtle',
       lineHeight: 'normal',
     },
-
     errorText: {
-      'display': 'flex',
-      'alignItems': 'center',
-      'gap': '1',
-      'fontWeight': 'semibold',
-      'color': 'fg.error',
-      'lineHeight': 'normal',
-
-      '& svg': {
-        flexShrink: 0,
-      },
+      display: 'flex',
+      alignItems: 'center',
+      gap: '1',
+      fontWeight: 'semibold',
+      color: 'fg.error',
+      lineHeight: 'normal',
+      '& svg': { flexShrink: 0 },
     },
   },
 
   variants: {
     size: {
       sm: {
-        root: { gap: '1' },
-        label: { fontSize: 'xs' },
+        root:       { gap: '1' },
+        label:      { fontSize: 'xs' },
         helperText: { fontSize: 'xs' },
-        errorText: { fontSize: 'xs' },
+        errorText:  { fontSize: 'xs' },
       },
-
       md: {
-        label: { fontSize: 'sm' },
+        label:      { fontSize: 'sm' },
         helperText: { fontSize: 'xs' },
-        errorText: { fontSize: 'sm' },
+        errorText:  { fontSize: 'sm' },
       },
-
       lg: {
-        root: { gap: '2' },
-        label: { fontSize: 'md' },
+        root:       { gap: '2' },
+        label:      { fontSize: 'md' },
         helperText: { fontSize: 'sm' },
-        errorText: { fontSize: 'sm' },
+        errorText:  { fontSize: 'sm' },
       },
     },
   },

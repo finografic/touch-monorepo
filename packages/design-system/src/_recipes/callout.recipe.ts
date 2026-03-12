@@ -11,9 +11,12 @@
  * </div>
  * ```
  */
-import { cva } from '../../styled-system/css';
+import { sva } from '../../styled-system/css';
 
-export const calloutRecipe = cva({
+export const calloutRecipe = sva({
+  className: 'callout',
+  // description: 'Status message banner for errors, warnings, success, and info',
+
   base: {
     display: 'flex',
     alignItems: 'center',

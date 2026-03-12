@@ -21,14 +21,18 @@
  * <p  className={textRecipe({ variant: 'body', color: 'muted' })}>Subtitle</p>
  * ```
  */
-import { cva } from '../../styled-system/css';
+import { sva } from '../../styled-system/css';
 
-export const textRecipe = cva({
+export const textRecipe = sva({
+  className: 'text',
+  // description: 'Typography scale — headings, body, caption, overline',
+
   base: {
     margin: '0',
   },
 
   variants: {
+    // ── Variant ───────────────────────────────────────────────────────
     variant: {
       'h1': { fontSize: '3xl', fontWeight: 'bold', lineHeight: 'tight' },
       'h2': { fontSize: '2xl', fontWeight: 'bold', lineHeight: 'tight' },
@@ -46,7 +50,6 @@ export const textRecipe = cva({
         fontWeight: 'normal',
         lineHeight: 'normal',
       },
-
       'overline': {
         fontSize: 'xs',
         fontWeight: 'semibold',
@@ -56,6 +59,7 @@ export const textRecipe = cva({
       },
     },
 
+    // ── Color ─────────────────────────────────────────────────────────
     color: {
       default: { color: 'fg' },
       muted: { color: 'fg.muted' },
@@ -67,6 +71,7 @@ export const textRecipe = cva({
       info: { color: 'fg.info' },
     },
 
+    // ── Truncate ──────────────────────────────────────────────────────
     truncate: {
       true: {
         overflow: 'hidden',

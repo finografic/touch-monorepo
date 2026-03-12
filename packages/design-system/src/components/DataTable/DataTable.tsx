@@ -1,16 +1,4 @@
 import {
-  type ColumnFiltersState,
-  type RowSelectionState,
-  type SortingState,
-  type Updater,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from '@tanstack/react-table';
-import {
   ArrowDownIcon,
   ArrowUpIcon,
   ChevronLeftIcon,
@@ -19,13 +7,27 @@ import {
   DoubleArrowLeftIcon,
   DoubleArrowRightIcon,
 } from '@workspace/icons';
+
+import {
+  type ColumnFiltersState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  type RowSelectionState,
+  type SortingState,
+  type Updater,
+  useReactTable,
+} from '@tanstack/react-table';
 import type { ReactNode } from 'react';
 import { useState } from 'react';
 
+import { tableRecipe } from '../../recipes/table.recipe';
 import { Spinner } from '../spinner';
-
-import type { DataTableColumn } from './DataTable.column';
-import type { DataTableClassNames, DataTableProps } from './DataTable.types';
+// import type { DataTableColumn } from './DataTable.column';
+// import type { DataTableClasames, DataTableProps } from './DataTable.types';
+import type { DataTableProps } from './DataTable.types';
 
 interface SortIconProps {
   sorted: 'asc' | 'desc' | false;
@@ -43,11 +45,11 @@ function SortIcon({ sorted, className }: SortIconProps) {
 }
 
 interface PaginationProps {
-  className?: string;
-  disabled?: boolean;
+  'className'?: string;
+  'disabled'?: boolean;
   'aria-label': string;
-  onClick: () => void;
-  children: ReactNode;
+  'onClick': () => void;
+  'children': ReactNode;
 }
 
 function PaginationButton({ className, disabled, children, ...rest }: PaginationProps) {
@@ -79,11 +81,7 @@ export function DataTable<TData>({
   const controlledRowSelection: RowSelectionState = selectedRows
     ? Object.fromEntries(
         selectedRows.map((row, index) => {
-          const id =
-            getRowId?.(row, index) ??
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            ((row as any).id as string | undefined) ??
-            String(index);
+          const id = getRowId?.(row, index) ?? ((row as any).id as string | undefined) ?? String(index);
           return [id, true];
         }),
       )
@@ -92,16 +90,11 @@ export function DataTable<TData>({
   const effectiveRowSelection = isSelectionControlled ? controlledRowSelection : internalRowSelection;
 
   const handleRowSelectionChange = (updater: Updater<RowSelectionState>) => {
-    const next =
-      typeof updater === 'function' ? updater(effectiveRowSelection) : updater;
+    const next = typeof updater === 'function' ? updater(effectiveRowSelection) : updater;
 
     if (isSelectionControlled && onSelectionChange) {
       const nextSelected = data.filter((row, index) => {
-        const id =
-          getRowId?.(row, index) ??
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          ((row as any).id as string | undefined) ??
-          String(index);
+        const id = getRowId?.(row, index) ?? ((row as any).id as string | undefined) ?? String(index);
         return Boolean(next[id]);
       });
       onSelectionChange(nextSelected);
@@ -133,7 +126,10 @@ export function DataTable<TData>({
     getRowId,
   });
 
-  const { table: tableClasses, filterInput, paginationButton } = classNames as DataTableClassNames;
+  // const { table: tableClasses, filterInput, paginationButton } = classNames as DataTableClassNames;
+
+  const styles = tableRecipe({ size: 'md' });
+  const { filterInput, paginationButton } = classNames;
 
   const headerGroups = table.getHeaderGroups();
   const allColumns = table.getAllColumns();
@@ -144,13 +140,13 @@ export function DataTable<TData>({
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-3)' }}>
-      <div className={tableClasses.root}>
-        <table className={tableClasses.table}>
-          {caption ? <caption className={tableClasses.caption}>{caption}</caption> : null}
+      <div className={styles.root}>
+        <table className={styles.table}>
+          {caption ? <caption className={styles.caption}>{caption}</caption> : null}
 
-          <thead className={tableClasses.thead}>
+          <thead className={styles.thead}>
             {headerGroups.map((headerGroup) => (
-              <tr key={headerGroup.id} className={tableClasses.headerRow}>
+              <tr key={headerGroup.id} className={styles.headerRow}>
                 {headerGroup.headers.map((header) => {
                   const canSort = header.column.getCanSort();
                   const canFilter = header.column.getCanFilter();
@@ -158,11 +154,10 @@ export function DataTable<TData>({
                   return (
                     <th
                       key={header.id}
-                      className={tableClasses.th}
+                      className={styles.th}
                       data-sortable={canSort ? 'true' : undefined}
                       style={{
-                        width:
-                          header.getSize() !== 150 ? `${header.getSize()}px` : undefined,
+                        width: header.getSize() !== 150 ? `${header.getSize()}px` : undefined,
                       }}
                     >
                       <div
@@ -175,14 +170,11 @@ export function DataTable<TData>({
                       >
                         {header.isPlaceholder
                           ? null
-                          : flexRender(
-                              header.column.columnDef.header,
-                              header.getContext(),
-                            )}
+                          : flexRender(header.column.columnDef.header, header.getContext())}
                         {canSort && (
                           <SortIcon
                             sorted={header.column.getIsSorted() as 'asc' | 'desc' | false}
-                            className={tableClasses.sortIcon}
+                            className={styles.sortIcon}
                           />
                         )}
                       </div>
@@ -191,9 +183,7 @@ export function DataTable<TData>({
                         <input
                           className={filterInput}
                           value={(header.column.getFilterValue() as string) ?? ''}
-                          onChange={(event) =>
-                            header.column.setFilterValue(event.target.value)
-                          }
+                          onChange={(event) => header.column.setFilterValue(event.target.value)}
                           placeholder="Filter…"
                           onClick={(event) => event.stopPropagation()}
                           style={{
@@ -209,11 +199,11 @@ export function DataTable<TData>({
             ))}
           </thead>
 
-          <tbody className={tableClasses.tbody}>
+          <tbody className={styles.tbody}>
             {isLoading ? (
-              <tr className={tableClasses.tr}>
+              <tr className={styles.tr}>
                 <td
-                  className={tableClasses.td}
+                  className={styles.td}
                   colSpan={allColumns.length || 1}
                   style={{
                     textAlign: 'center',
@@ -224,11 +214,8 @@ export function DataTable<TData>({
                 </td>
               </tr>
             ) : !hasRows ? (
-              <tr className={tableClasses.tr}>
-                <td
-                  className={tableClasses.emptyState ?? tableClasses.td}
-                  colSpan={allColumns.length || 1}
-                >
+              <tr className={styles.tr}>
+                <td className={styles.emptyState ?? styles.td} colSpan={allColumns.length || 1}>
                   {emptyMessage}
                 </td>
               </tr>
@@ -236,11 +223,11 @@ export function DataTable<TData>({
               rowModel.rows.map((row) => (
                 <tr
                   key={row.id}
-                  className={tableClasses.tr}
+                  className={styles.tr}
                   data-selected={row.getIsSelected() ? 'true' : undefined}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <td key={cell.id} className={tableClasses.td}>
+                    <td key={cell.id} className={styles.td}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </td>
                   ))}
@@ -262,9 +249,8 @@ export function DataTable<TData>({
         }}
       >
         <span>
-          {table.getFilteredSelectedRowModel().rows.length > 0 && (
-            `${table.getFilteredSelectedRowModel().rows.length} of `
-          )}
+          {table.getFilteredSelectedRowModel().rows.length > 0 &&
+            `${table.getFilteredSelectedRowModel().rows.length} of `}
           {table.getFilteredRowModel().rows.length} row(s)
         </span>
 
@@ -319,4 +305,3 @@ export function DataTable<TData>({
     </div>
   );
 }
-

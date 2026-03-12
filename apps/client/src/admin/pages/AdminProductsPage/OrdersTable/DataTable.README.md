@@ -40,4 +40,3 @@ These overrides are **scoped to the Orders page** so other tables using `tableRe
 - `OrdersTable/` — current, atomised implementation using the shared design‑system `DataTable` component.
 
 The route `AdminOrdersListPage` now imports from `./OrdersTable`, so v2 is the default going forward.
-

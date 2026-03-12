@@ -11,9 +11,12 @@
  * </span>
  * ```
  */
-import { cva } from '../../styled-system/css';
+import { sva } from '../../styled-system/css';
 
-export const badgeRecipe = cva({
+export const badgeRecipe = sva({
+  className: 'badge',
+  // description: 'Inline status indicator or label',
+
   base: {
     display: 'inline-flex',
     alignItems: 'center',
@@ -49,9 +52,9 @@ export const badgeRecipe = cva({
       solid: {
         color: 'fg.inverted',
       },
-
-      soft: {},
-
+      soft: {
+        // background set by colorScheme compound variants
+      },
       outline: {
         bg: 'transparent',
         borderWidth: 'light',
@@ -70,20 +73,21 @@ export const badgeRecipe = cva({
   },
 
   compoundVariants: [
+    // Solid
     { variant: 'solid', colorScheme: 'primary', css: { bg: 'primary' } },
     { variant: 'solid', colorScheme: 'success', css: { bg: 'success' } },
     { variant: 'solid', colorScheme: 'warning', css: { bg: 'warning', color: 'fg' } },
     { variant: 'solid', colorScheme: 'danger', css: { bg: 'danger' } },
     { variant: 'solid', colorScheme: 'info', css: { bg: 'info' } },
     { variant: 'solid', colorScheme: 'neutral', css: { bg: 'neutral', color: 'fg.inverted' } },
-
+    // Soft
     { variant: 'soft', colorScheme: 'primary', css: { bg: 'accent.subtle', color: 'accent.fg' } },
     { variant: 'soft', colorScheme: 'success', css: { bg: 'bg.success', color: 'fg.success' } },
     { variant: 'soft', colorScheme: 'warning', css: { bg: 'bg.warning', color: 'fg.warning' } },
     { variant: 'soft', colorScheme: 'danger', css: { bg: 'bg.error', color: 'fg.error' } },
     { variant: 'soft', colorScheme: 'info', css: { bg: 'bg.info', color: 'fg.info' } },
     { variant: 'soft', colorScheme: 'neutral', css: { bg: 'bg.muted', color: 'fg.muted' } },
-
+    // Outline
     { variant: 'outline', colorScheme: 'primary', css: { borderColor: 'accent.solid', color: 'accent.fg' } },
     {
       variant: 'outline',

@@ -41,18 +41,19 @@
  * </Popover.Root>
  * ```
  */
-import { sva } from '../../styled-system/css';
+import { defineSlotRecipe } from '@pandacss/dev';
 
-export const popoverRecipe = sva({
+export const popoverRecipe = defineSlotRecipe({
+  className: 'popover',
+  description: 'Popover — interactive floating panel',
+
   slots: ['trigger', 'positioner', 'content', 'title', 'description', 'closeTrigger', 'arrow', 'arrowTip'],
 
   base: {
     trigger: {},
-
     positioner: {
       zIndex: 'popover',
     },
-
     content: {
       position: 'relative',
       bg: 'bg.panel',
@@ -64,10 +65,9 @@ export const popoverRecipe = sva({
       padding: '4',
       maxW: '20rem',
       width: 'max-content',
-      _open: { animation: 'scale-in 120ms ease' },
+      _open:   { animation: 'scale-in 120ms ease' },
       _closed: { animation: 'scale-out 120ms ease' },
     },
-
     title: {
       fontSize: 'sm',
       fontWeight: 'semibold',
@@ -75,13 +75,11 @@ export const popoverRecipe = sva({
       paddingRight: '6',
       marginBottom: '1',
     },
-
     description: {
       fontSize: 'sm',
       color: 'fg.muted',
       lineHeight: 'normal',
     },
-
     closeTrigger: {
       position: 'absolute',
       top: '3',
@@ -89,19 +87,14 @@ export const popoverRecipe = sva({
       cursor: 'pointer',
       color: 'fg.muted',
       borderRadius: 'sm',
-      _hover: {
-        color: 'fg',
-        bg: 'bg.subtle',
-      },
+      _hover: { color: 'fg', bg: 'bg.subtle' },
       _focusVisible: {
         outline: '2px solid',
         outlineColor: 'accent.focusRing',
         outlineOffset: '2px',
       },
     },
-
     arrow: {},
-
     arrowTip: {
       bg: 'bg.panel',
       borderTopWidth: '1px',

@@ -32,18 +32,19 @@
  * </Tooltip.Root>
  * ```
  */
-import { sva } from '../../styled-system/css';
+import { defineSlotRecipe } from '@pandacss/dev';
 
-export const tooltipRecipe = sva({
+export const tooltipRecipe = defineSlotRecipe({
+  className: 'tooltip',
+  description: 'Tooltip — non-interactive floating label',
+
   slots: ['trigger', 'positioner', 'content', 'arrow', 'arrowTip'],
 
   base: {
     trigger: {},
-
     positioner: {
       zIndex: 'tooltip',
     },
-
     content: {
       bg: 'bg.inverted',
       color: 'fg.inverted',
@@ -54,18 +55,10 @@ export const tooltipRecipe = sva({
       borderRadius: 'md',
       maxW: '16rem',
       lineHeight: 'tight',
-
-      _open: {
-        animation: 'fade-in 120ms ease',
-      },
-
-      _closed: {
-        animation: 'fade-out 120ms ease',
-      },
+      _open:   { animation: 'fade-in 120ms ease' },
+      _closed: { animation: 'fade-out 120ms ease' },
     },
-
     arrow: {},
-
     arrowTip: {
       bg: 'bg.inverted',
     },

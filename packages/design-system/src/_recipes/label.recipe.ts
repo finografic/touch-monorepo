@@ -18,9 +18,12 @@
  * </label>
  * ```
  */
-import { cva } from '../../styled-system/css';
+import { sva } from '../../styled-system/css';
 
-export const labelRecipe = cva({
+export const labelRecipe = sva({
+  className: 'label',
+  // description: 'Form field label',
+
   base: {
     display: 'inline-flex',
     alignItems: 'center',

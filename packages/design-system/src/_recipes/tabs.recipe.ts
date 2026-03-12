@@ -63,7 +63,7 @@ export const tabsRecipe = defineSlotRecipe({
       transitionProperty: 'color, border-color',
       transitionDuration: 'fast',
       _selected: { color: 'accent.solid' },
-      _hover: { color: 'fg' },
+      _hover:    { color: 'fg' },
       _disabled: { opacity: 0.55, cursor: 'not-allowed', pointerEvents: 'none' },
       _focusVisible: {
         outline: '2px solid',
@@ -122,19 +122,19 @@ export const tabsRecipe = defineSlotRecipe({
     },
     size: {
       sm: {
-        trigger: { px: '3', py: '1.5', fontSize: 'xs' },
-        content: { pt: '3' },
-        list: { p: '0.5' },
+        trigger: { px: '3',  py: '1.5', fontSize: 'xs' },
+        content:  { pt: '3' },
+        list:     { p: '0.5' },
       },
       md: {
-        trigger: { px: '4', py: '2', fontSize: 'sm' },
-        content: { pt: '4' },
-        list: { p: '1' },
+        trigger: { px: '4',  py: '2',   fontSize: 'sm' },
+        content:  { pt: '4' },
+        list:     { p: '1' },
       },
       lg: {
-        trigger: { px: '5', py: '3', fontSize: 'md' },
-        content: { pt: '5' },
-        list: { p: '1' },
+        trigger: { px: '5',  py: '3',   fontSize: 'md' },
+        content:  { pt: '5' },
+        list:     { p: '1' },
       },
     },
   },

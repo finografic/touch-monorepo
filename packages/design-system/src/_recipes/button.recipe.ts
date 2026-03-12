@@ -34,9 +34,12 @@
  * </ark.button>
  * ```
  */
-import { cva } from '../../styled-system/css';
+import { sva } from '../../styled-system/css';
 
-export const buttonRecipe = cva({
+export const buttonRecipe = sva({
+  className: 'button',
+  // description: 'Interactive button — size × variant × colorScheme',
+
   base: {
     'display': 'inline-flex',
     'appearance': 'none',
@@ -59,31 +62,28 @@ export const buttonRecipe = cva({
     'transitionProperty': 'background-color, border-color, color, box-shadow, transform',
     'transitionDuration': 'normal',
     'transitionTimingFunction': 'default',
-
     '_disabled': {
       opacity: 0.55,
       cursor: 'not-allowed',
       pointerEvents: 'none',
     },
-
     '_loading': {
       cursor: 'wait',
       opacity: 0.7,
       pointerEvents: 'none',
     },
-
     '_focusVisible': {
       outline: '2px solid',
       outlineColor: 'accent.focusRing',
       outlineOffset: '2px',
     },
-
     '& svg': {
       flexShrink: 0,
     },
   },
 
   variants: {
+    // ── Size ──────────────────────────────────────────────────────────
     size: {
       xs: {
         'h': '7',
@@ -127,6 +127,9 @@ export const buttonRecipe = cva({
       },
     },
 
+    // ── Variant ───────────────────────────────────────────────────────
+    // All color references use `colorPalette.*` — resolved per colorScheme
+    // at codegen time. See colorScheme variant below.
     variant: {
       solid: {
         bg: 'colorPalette.base',
@@ -203,6 +206,11 @@ export const buttonRecipe = cva({
       },
     },
 
+    // ── Color scheme ──────────────────────────────────────────────────
+    // Sets colorPalette to the matching token group. The variant styles
+    // above reference colorPalette.* — Panda resolves each combination
+    // to the correct palette at codegen, generating static CSS for all
+    // 8 × 5 = 40 variant/color combinations automatically.
     colorScheme: {
       default: { colorPalette: 'neutral' },
       primary: { colorPalette: 'primary' },
@@ -214,6 +222,10 @@ export const buttonRecipe = cva({
       grey: { colorPalette: 'grey' },
     },
 
+    // ── Icon-only ─────────────────────────────────────────────────────
+    // Removes horizontal padding so the button collapses to a square.
+    // minW already equals h in every size variant, so the result is
+    // exactly h × h with no extra space around the icon.
     iconOnly: {
       true: {
         paddingInline: '0',
@@ -222,6 +234,7 @@ export const buttonRecipe = cva({
   },
 
   compoundVariants: [
+    // warning.base (amber-500) is too light for white text — override to dark fg
     {
       variant: 'solid',
       colorScheme: 'warning',

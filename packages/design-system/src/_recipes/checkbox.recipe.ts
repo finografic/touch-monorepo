@@ -27,9 +27,12 @@
  * </Checkbox.Root>
  * ```
  */
-import { sva } from '../../styled-system/css';
+import { defineSlotRecipe } from '@pandacss/dev';
 
-export const checkboxRecipe = sva({
+export const checkboxRecipe = defineSlotRecipe({
+  className: 'checkbox',
+  description: 'Checkbox with label — accessible toggle with indeterminate state',
+
   slots: ['root', 'control', 'indicator', 'label'],
 
   base: {
@@ -44,7 +47,6 @@ export const checkboxRecipe = sva({
         cursor: 'not-allowed',
       },
     },
-
     control: {
       display: 'inline-flex',
       alignItems: 'center',
@@ -58,80 +60,55 @@ export const checkboxRecipe = sva({
       color: 'transparent',
       transitionProperty: 'background-color, border-color, color',
       transitionDuration: 'normal',
-
       _checked: {
         bg: 'accent.solid',
         borderColor: 'accent.solid',
         color: 'white',
       },
-
       _indeterminate: {
         bg: 'accent.solid',
         borderColor: 'accent.solid',
         color: 'white',
       },
-
       _hover: {
         borderColor: 'accent.emphasized',
       },
-
       _disabled: {
         bg: 'bg.subtle',
         borderColor: 'border.muted',
       },
-
       _focusVisible: {
         outline: '2px solid',
         outlineColor: 'accent.focusRing',
         outlineOffset: '2px',
       },
     },
-
     indicator: {
-      '& svg': {
-        flexShrink: 0,
-      },
+      '& svg': { flexShrink: 0 },
     },
-
     label: {
       color: 'fg',
       lineHeight: 'normal',
-      _disabled: {
-        color: 'fg.subtle',
-      },
+      _disabled: { color: 'fg.subtle' },
     },
   },
 
   variants: {
     size: {
       sm: {
-        control: { width: '4', height: '4' },
-        indicator: {
-          'width': '2.5',
-          'height': '2.5',
-          '& svg': { w: '2.5', h: '2.5' },
-        },
-        label: { fontSize: 'sm' },
+        control:   { width: '4',   height: '4' },
+        indicator: { width: '2.5', height: '2.5', '& svg': { w: '2.5', h: '2.5' } },
+        label:     { fontSize: 'sm' },
       },
-
       md: {
-        control: { width: '5', height: '5' },
-        indicator: {
-          'width': '3',
-          'height': '3',
-          '& svg': { w: '3', h: '3' },
-        },
-        label: { fontSize: 'md' },
+        control:   { width: '5',   height: '5' },
+        indicator: { width: '3',   height: '3',   '& svg': { w: '3',   h: '3' } },
+        label:     { fontSize: 'md' },
       },
-
       lg: {
-        control: { width: '6', height: '6' },
-        indicator: {
-          'width': '4',
-          'height': '4',
-          '& svg': { w: '4', h: '4' },
-        },
-        label: { fontSize: 'lg' },
+        control:   { width: '6',   height: '6' },
+        indicator: { width: '4',   height: '4',   '& svg': { w: '4',   h: '4' } },
+        label:     { fontSize: 'lg' },
       },
     },
   },

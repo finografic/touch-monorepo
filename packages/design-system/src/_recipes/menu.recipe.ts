@@ -37,31 +37,24 @@
  * </Menu.Root>
  * ```
  */
-import { sva } from '../../styled-system/css';
+import { defineSlotRecipe } from '@pandacss/dev';
 
-export const menuRecipe = sva({
+export const menuRecipe = defineSlotRecipe({
+  className: 'menu',
+  description: 'Dropdown menu — accessible context/dropdown menu',
+
   slots: [
-    'root',
-    'trigger',
-    'positioner',
-    'content',
+    'root', 'trigger', 'positioner', 'content',
     'separator',
-    'item',
-    'itemText',
-    'itemIndicator',
-    'itemGroup',
-    'itemGroupLabel',
+    'item', 'itemText', 'itemIndicator', 'itemGroup', 'itemGroupLabel',
   ],
 
   base: {
     root: {},
-
     trigger: {},
-
     positioner: {
       zIndex: 'dropdown',
     },
-
     content: {
       bg: 'bg.panel',
       borderWidth: 'light',
@@ -71,17 +64,15 @@ export const menuRecipe = sva({
       boxShadow: 'md',
       minW: '10rem',
       padding: '1',
-      _open: { animation: 'fade-in 120ms ease' },
+      _open:   { animation: 'fade-in 120ms ease' },
       _closed: { animation: 'fade-out 120ms ease' },
     },
-
     separator: {
       height: '1px',
       bg: 'border.subtle',
       marginBlock: '1',
       marginInline: '-1',
     },
-
     item: {
       display: 'flex',
       alignItems: 'center',
@@ -93,27 +84,16 @@ export const menuRecipe = sva({
       cursor: 'pointer',
       color: 'fg',
       userSelect: 'none',
-      _highlighted: {
-        bg: 'accent.subtle',
-        color: 'accent.fg',
-      },
-      _disabled: {
-        opacity: 0.55,
-        cursor: 'not-allowed',
-        pointerEvents: 'none',
-      },
+      _highlighted: { bg: 'accent.subtle', color: 'accent.fg' },
+      _disabled:    { opacity: 0.55, cursor: 'not-allowed', pointerEvents: 'none' },
     },
-
     itemText: {
       flex: '1',
     },
-
     itemIndicator: {
       color: 'accent.solid',
     },
-
     itemGroup: {},
-
     itemGroupLabel: {
       fontSize: 'xs',
       fontWeight: 'semibold',

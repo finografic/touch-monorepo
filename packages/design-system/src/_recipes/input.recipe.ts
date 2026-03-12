@@ -10,9 +10,12 @@
  * <input className={inputRecipe({ size: 'md', leadingIcon: true })} type="text" />
  * ```
  */
-import { cva } from '../../styled-system/css';
+import { sva } from '../../styled-system/css';
 
-export const inputRecipe = cva({
+export const inputRecipe = sva({
+  className: 'input',
+  // description: 'Form input field with size variants',
+
   base: {
     display: 'flex',
     width: '100%',
@@ -26,21 +29,17 @@ export const inputRecipe = cva({
     outline: 0,
     transitionProperty: 'border-color, box-shadow',
     transitionDuration: 'normal',
-
     _placeholder: {
       color: 'fg.subtle',
     },
-
     _focusVisible: {
       borderColor: 'accent.solid',
       boxShadow: '0 0 0 1px var(--colors-accent-focus-ring)',
     },
-
     _disabled: {
       opacity: 0.55,
       cursor: 'not-allowed',
     },
-
     _invalid: {
       borderColor: 'border.error',
       _focusVisible: {
@@ -68,16 +67,15 @@ export const inputRecipe = cva({
       },
     },
 
+    // ── Icon slot padding ──────────────────────────────────────────────
+    // Use when an icon is absolutely positioned inside the input wrapper.
+    // Shifts the matching side's padding to prevent text/icon overlap.
+    // (Not needed when using the InputField compound — it uses flexbox.)
     leadingIcon: {
-      true: {
-        paddingInlineStart: '8',
-      },
+      true: { paddingInlineStart: '8' },
     },
-
     trailingIcon: {
-      true: {
-        paddingInlineEnd: '8',
-      },
+      true: { paddingInlineEnd: '8' },
     },
   },
 

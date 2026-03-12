@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import type { DataTableClassNames, DataTableColumn } from '@workspace/design-system/components';
 import { DataTable } from '@workspace/design-system/components';
 
-import { button, checkbox, input, table as tableRecipe } from 'styled-system/recipes';
+import { button, checkbox, input, table } from 'styled-system/recipes';
 
 import { useAppConfig } from 'providers/AppConfigProvider';
 
@@ -24,10 +24,10 @@ export interface OrdersTableProps {
   selectedOrders?: OrderReadableWithIndex[];
 }
 
-const tableClassesRecipe = tableRecipe({ size: 'md', striped: true, stickyHeader: true });
-const filterClassesRecipe = input({ size: 'sm' });
-const paginationClassesRecipe = button({ size: 'xs', variant: 'ghost' });
-const checkboxClassesRecipe = checkbox({ size: 'sm' });
+const cssTable = table({ size: 'md', striped: true, stickyHeader: true });
+const cssFilter = input({ size: 'sm' });
+const cssPagination = button({ size: 'xs', variant: 'ghost' });
+const cssCheckbox = checkbox({ size: 'sm' });
 
 export const OrdersTable: React.FC<OrdersTableProps> = ({
   orders,
@@ -49,26 +49,26 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
 
   const classNames: DataTableClassNames = {
     table: {
-      root: tableClassesRecipe.root,
-      table: tableClassesRecipe.table,
-      thead: tableClassesRecipe.thead,
-      tbody: tableClassesRecipe.tbody,
-      tfoot: tableClassesRecipe.tfoot,
-      headerRow: tableClassesRecipe.headerRow,
-      tr: tableClassesRecipe.tr,
-      th: tableClassesRecipe.th,
-      td: tableClassesRecipe.td,
-      sortIcon: tableClassesRecipe.sortIcon,
-      emptyState: tableClassesRecipe.emptyState,
-      caption: tableClassesRecipe.caption,
+      root: cssTable.root,
+      table: cssTable.table,
+      thead: cssTable.thead,
+      tbody: cssTable.tbody,
+      tfoot: cssTable.tfoot,
+      headerRow: cssTable.headerRow,
+      tr: cssTable.tr,
+      th: cssTable.th,
+      td: cssTable.td,
+      sortIcon: cssTable.sortIcon,
+      emptyState: cssTable.emptyState,
+      caption: cssTable.caption,
     },
-    filterInput: filterClassesRecipe,
-    paginationButton: paginationClassesRecipe,
+    filterInput: cssFilter,
+    paginationButton: cssPagination,
     checkbox: {
-      root: checkboxClassesRecipe.root,
-      control: checkboxClassesRecipe.control,
-      indicator: checkboxClassesRecipe.indicator,
-      label: checkboxClassesRecipe.label,
+      root: cssCheckbox.root,
+      control: cssCheckbox.control,
+      indicator: cssCheckbox.indicator,
+      label: cssCheckbox.label,
     },
   };
 
