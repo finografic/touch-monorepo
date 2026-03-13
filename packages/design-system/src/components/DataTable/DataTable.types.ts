@@ -1,5 +1,5 @@
 import type { CheckboxFieldClassNames } from '../../forms/checkbox';
-import type { DataTableColumn } from './DataTable.column';
+import type { DataTableColumn } from './datatable.column';
 
 export interface DataTableTableClassNames {
   root?: string;
