@@ -27,7 +27,7 @@ import { tableRecipe } from '../../recipes/table.recipe';
 import { Spinner } from '../spinner';
 // import type { DataTableColumn } from './DataTable.column';
 // import type { DataTableClasames, DataTableProps } from './DataTable.types';
-import type { DataTableProps } from './datatable.types';
+import type { DataTableProps } from './data-table.types';
 
 interface SortIconProps {
   sorted: 'asc' | 'desc' | false;
@@ -305,3 +305,4 @@ export function DataTable<TData>({
     </div>
   );
 }
+

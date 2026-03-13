@@ -12,8 +12,8 @@ export type {
   DataTableColumn,
   DataTableProps,
   DataTableTableClassNames,
-} from './datatable';
-export { DataTable } from './datatable';
+} from './data-table';
+export { DataTable } from './data-table';
 
 // ── Ark UI primitives (re-exported for consistent imports) ───────────────────
 // Use these when you need full composition control.
