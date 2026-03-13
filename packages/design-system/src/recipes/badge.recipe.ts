@@ -11,7 +11,7 @@
  * </span>
  * ```
  */
-import { cva } from '../../styled-system/css';
+import { cva, type RecipeVariantProps } from '../../styled-system/css';
 
 export const badgeRecipe = cva({
   base: {
@@ -106,3 +106,5 @@ export const badgeRecipe = cva({
     colorScheme: 'neutral',
   },
 });
+
+export type BadgeVariants = RecipeVariantProps<typeof badgeRecipe>;

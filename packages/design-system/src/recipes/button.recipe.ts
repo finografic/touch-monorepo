@@ -34,7 +34,7 @@
  * </ark.button>
  * ```
  */
-import { cva } from '../../styled-system/css';
+import { cva, type RecipeVariantProps } from '../../styled-system/css';
 
 export const buttonRecipe = cva({
   base: {
@@ -235,3 +235,5 @@ export const buttonRecipe = cva({
     colorScheme: 'default',
   },
 });
+
+export type ButtonVariants = RecipeVariantProps<typeof buttonRecipe>;
