@@ -19,6 +19,7 @@
  * ```
  */
 import type { RecipeProps } from 'src/types/recipes.types';
+
 import { cva } from '../../styled-system/css';
 
 export const labelRecipe = cva({

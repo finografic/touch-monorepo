@@ -1,4 +1,4 @@
-import type { CheckboxFieldClassNames } from '../checkbox';
+import type { CheckboxFieldClassNames } from '../../forms/checkbox';
 import type { DataTableColumn } from './DataTable.column';
 
 export interface DataTableTableClassNames {
@@ -55,4 +55,3 @@ export interface DataTableProps<TData> {
    */
   onSelectionChange?: (rows: TData[]) => void;
 }
-
