@@ -32,6 +32,8 @@
  * </div>
  * ```
  */
+import type { RecipeProps } from 'src/types/recipes.types';
+
 import { sva } from '../../styled-system/css';
 
 export const formFieldRecipe = sva({
@@ -107,3 +109,5 @@ export const formFieldRecipe = sva({
     size: 'md',
   },
 });
+
+export type FormFieldRecipeProps = RecipeProps<typeof formFieldRecipe>;

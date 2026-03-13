@@ -27,6 +27,8 @@
  * </Checkbox.Root>
  * ```
  */
+import type { RecipeProps } from 'src/types/recipes.types';
+
 import { sva } from '../../styled-system/css';
 
 export const checkboxRecipe = sva({
@@ -140,3 +142,5 @@ export const checkboxRecipe = sva({
     size: 'md',
   },
 });
+
+export type CheckboxRecipeProps = RecipeProps<typeof checkboxRecipe>;

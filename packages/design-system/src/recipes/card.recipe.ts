@@ -12,6 +12,8 @@
  * <div className={card({ size: 'lg', variant: 'elevated' })}>...</div>
  * ```
  */
+import type { RecipeProps } from 'src/types/recipes.types';
+
 import { cva } from '../../styled-system/css';
 
 export const cardRecipe = cva({
@@ -42,3 +44,5 @@ export const cardRecipe = cva({
     variant: 'outlined',
   },
 });
+
+export type CardRecipeProps = RecipeProps<typeof cardRecipe>;

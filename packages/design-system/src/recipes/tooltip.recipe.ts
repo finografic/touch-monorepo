@@ -32,6 +32,7 @@
  * </Tooltip.Root>
  * ```
  */
+import type { RecipeProps } from 'src/types/recipes.types';
 import { sva } from '../../styled-system/css';
 
 export const tooltipRecipe = sva({
@@ -71,3 +72,5 @@ export const tooltipRecipe = sva({
     },
   },
 });
+
+export type TooltipRecipeProps = RecipeProps<typeof tooltipRecipe>;

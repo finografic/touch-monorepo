@@ -41,6 +41,8 @@
  * </Popover.Root>
  * ```
  */
+import type { RecipeProps } from 'src/types/recipes.types';
+
 import { sva } from '../../styled-system/css';
 
 export const popoverRecipe = sva({
@@ -110,3 +112,5 @@ export const popoverRecipe = sva({
     },
   },
 });
+
+export type PopoverRecipeProps = RecipeProps<typeof popoverRecipe>;

@@ -37,6 +37,8 @@
  * </Menu.Root>
  * ```
  */
+import type { RecipeProps } from 'src/types/recipes.types';
+
 import { sva } from '../../styled-system/css';
 
 export const menuRecipe = sva({
@@ -125,3 +127,4 @@ export const menuRecipe = sva({
     },
   },
 });
+export type MenuRecipeProps = RecipeProps<typeof menuRecipe>;

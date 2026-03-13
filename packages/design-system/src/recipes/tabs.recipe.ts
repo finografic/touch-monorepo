@@ -32,11 +32,13 @@
  * </Tabs.Root>
  * ```
  */
-import { defineSlotRecipe } from '@pandacss/dev';
+import type { RecipeProps } from 'src/types/recipes.types';
 
-export const tabsRecipe = defineSlotRecipe({
+import { sva } from '../../styled-system/css';
+
+export const tabsRecipe = sva({
   className: 'tabs',
-  description: 'Tabs — accessible tab panel',
+  // description: 'Tabs — accessible tab panel',
 
   slots: ['root', 'list', 'trigger', 'content', 'indicator'],
 
@@ -144,3 +146,5 @@ export const tabsRecipe = defineSlotRecipe({
     size: 'md',
   },
 });
+
+export type TabsRecipeProps = RecipeProps<typeof tabsRecipe>;

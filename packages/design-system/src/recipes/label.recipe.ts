@@ -18,6 +18,7 @@
  * </label>
  * ```
  */
+import type { RecipeProps } from 'src/types/recipes.types';
 import { cva } from '../../styled-system/css';
 
 export const labelRecipe = cva({
@@ -46,3 +47,5 @@ export const labelRecipe = cva({
     size: 'md',
   },
 });
+
+export type LabelRecipeProps = RecipeProps<typeof labelRecipe>;

@@ -11,6 +11,8 @@
  * </div>
  * ```
  */
+import type { RecipeProps } from 'src/types/recipes.types';
+
 import { cva } from '../../styled-system/css';
 
 export const calloutRecipe = cva({
@@ -56,3 +58,5 @@ export const calloutRecipe = cva({
     status: 'info',
   },
 });
+
+export type CalloutRecipeProps = RecipeProps<typeof calloutRecipe>;

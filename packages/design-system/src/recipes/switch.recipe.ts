@@ -16,6 +16,8 @@
  * </Switch.Root>
  * ```
  */
+import type { RecipeProps } from 'src/types/recipes.types';
+
 import { cva } from '../../styled-system/css';
 
 export const switchRecipe = cva({
@@ -98,3 +100,5 @@ export const switchRecipe = cva({
     size: 'md',
   },
 });
+
+export type SwitchRecipeProps = RecipeProps<typeof switchRecipe>;

@@ -21,6 +21,8 @@
  * <p  className={textRecipe({ variant: 'body', color: 'muted' })}>Subtitle</p>
  * ```
  */
+import type { RecipeProps } from 'src/types/recipes.types';
+
 import { cva } from '../../styled-system/css';
 
 export const textRecipe = cva({
@@ -81,3 +83,5 @@ export const textRecipe = cva({
     color: 'default',
   },
 });
+
+export type TextRecipeProps = RecipeProps<typeof textRecipe>;

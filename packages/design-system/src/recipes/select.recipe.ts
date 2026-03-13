@@ -55,6 +55,8 @@
  * </Select.Root>
  * ```
  */
+import type { RecipeProps } from 'src/types/recipes.types';
+
 import { sva } from '../../styled-system/css';
 
 export const selectRecipe = sva({
@@ -275,3 +277,5 @@ export const selectRecipe = sva({
     size: 'md',
   },
 });
+
+export type SelectRecipeProps = RecipeProps<typeof selectRecipe>;

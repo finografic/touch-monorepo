@@ -10,6 +10,8 @@
  * <input className={inputRecipe({ size: 'md', leadingIcon: true })} type="text" />
  * ```
  */
+import type { RecipeProps } from 'src/types/recipes.types';
+
 import { cva } from '../../styled-system/css';
 
 export const inputRecipe = cva({
@@ -85,3 +87,5 @@ export const inputRecipe = cva({
     size: 'md',
   },
 });
+
+export type InputRecipeProps = RecipeProps<typeof inputRecipe>;

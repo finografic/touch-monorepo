@@ -63,6 +63,8 @@
  * Selected row convention:
  *   data-selected="true" on <tr> → accent highlight
  */
+import type { RecipeProps } from 'src/types/recipes.types';
+
 import { sva } from '../../styled-system/css';
 
 export const tableRecipe = sva({
@@ -144,3 +146,5 @@ export const tableRecipe = sva({
     },
   },
 });
+
+export type TableRecipeProps = RecipeProps<typeof tableRecipe>;

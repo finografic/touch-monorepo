@@ -47,6 +47,8 @@
  * </Dialog.Root>
  * ```
  */
+import type { RecipeProps } from 'src/types/recipes.types';
+
 import { sva } from '../../styled-system/css';
 
 export const dialogRecipe = sva({
@@ -177,3 +179,5 @@ export const dialogRecipe = sva({
     size: 'md',
   },
 });
+
+export type DialogRecipeProps = RecipeProps<typeof dialogRecipe>;
