@@ -1,17 +1,17 @@
 // export { Checkbox } from './Checkbox';
-export type { FieldBoxProps } from './FieldBox';
-export { FieldBox } from './FieldBox';
-export type { InputFieldRootProps, InputFieldSlotProps } from './InputField';
-export { InputField, InputFieldRoot, InputFieldSlot } from './InputField';
-export type { RadioGroupRootPropsDS } from './RadioGroup';
-export { RadioGroup } from './RadioGroup';
-export type { SelectOption } from './Select/select.types';
-export type { SelectProps } from './Select/SelectDefault';
+export type { FieldBoxProps } from './_v1/FieldBox';
+export { FieldBox } from './_v1/FieldBox';
+export type { InputFieldRootProps, InputFieldSlotProps } from './_v1/InputField';
+export { InputField, InputFieldRoot, InputFieldSlot } from './_v1/InputField';
+export type { RadioGroupRootPropsDS } from './_v1/RadioGroup';
+export { RadioGroup } from './_v1/RadioGroup';
+export type { SelectOption } from './_v1/Select/select.types';
+export type { SelectProps } from './_v1/Select/SelectDefault';
 // export { Select } from './Select/SelectDefault';
-export type { SelectSearchableProps } from './Select/SelectSearchable';
-export { SelectSearchable } from './Select/SelectSearchable';
-export type { SliderRootPropsDS } from './Slider';
-export { Slider } from './Slider';
+export type { SelectSearchableProps } from './_v1/Select/SelectSearchable';
+export { SelectSearchable } from './_v1/Select/SelectSearchable';
+export type { SliderRootPropsDS } from './_v1/Slider';
+export { Slider } from './_v1/Slider';
 
 // ======================================================================== //
 // NEW: MOVED FROM components TO forms

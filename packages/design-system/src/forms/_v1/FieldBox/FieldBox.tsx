@@ -111,7 +111,11 @@ export function FieldBox({
         {label && (
           <span className="ds-fieldbox__label">
             {label}
-            {required && <span className="ds-fieldbox__required" aria-hidden="true">*</span>}
+            {required && (
+              <span className="ds-fieldbox__required" aria-hidden="true">
+                *
+              </span>
+            )}
           </span>
         )}
 
@@ -133,12 +137,7 @@ export function FieldBox({
   // ── Full Ark Field path: Field.Input / Field.Textarea ─────────────────────────
   // Label is programmatically linked to the input via Ark Field context.
   return (
-    <Field.Root
-      invalid={showError}
-      required={required}
-      className={rootClasses}
-      onBlur={handleBlur}
-    >
+    <Field.Root invalid={showError} required={required} className={rootClasses} onBlur={handleBlur}>
       {label && (
         <Field.Label className="ds-fieldbox__label">
           {label}
@@ -148,9 +147,7 @@ export function FieldBox({
 
       {children}
 
-      {showHint && (
-        <Field.HelperText className="ds-fieldbox__helper">{hint}</Field.HelperText>
-      )}
+      {showHint && <Field.HelperText className="ds-fieldbox__helper">{hint}</Field.HelperText>}
       {showDebouncedWarning && !showError && message && (
         <Field.HelperText className="ds-fieldbox__message ds-fieldbox__message--warning">
           {message}
