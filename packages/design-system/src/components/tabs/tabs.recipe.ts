@@ -1,42 +1,13 @@
 /**
- * Tabs Recipe (Slot Recipe)
+ * Tabs Slot Recipe
  *
- * Styling for Ark UI's Tabs compound component.
- * Ark handles all a11y: tablist/tab/tabpanel roles,
- * arrow-key navigation, aria-selected, aria-controls.
- *
- * Slots:
- *   root      — outer container (tab bar + panels stacked)
- *   list      — the row of tab triggers
- *   trigger   — a single tab button
- *   content   — a single tab panel
- *   indicator — optional animated underline/pill indicator
- *
- * Variants:
- *   variant: line (default) | enclosed
- *   size:    sm | md (default) | lg
- *
- * Usage:
- * ```tsx
- * import { Tabs } from '@workspace/design-system/components';
- * // cls from consuming app: tabsRecipe({ variant: 'line', size: 'md' })
- *
- * <Tabs.Root defaultValue="one" className={cls.root}>
- *   <Tabs.List className={cls.list}>
- *     <Tabs.Trigger value="one" className={cls.trigger}>One</Tabs.Trigger>
- *     <Tabs.Trigger value="two" className={cls.trigger}>Two</Tabs.Trigger>
- *     <Tabs.Indicator className={cls.indicator} />
- *   </Tabs.List>
- *   <Tabs.Content value="one" className={cls.content}>Panel one</Tabs.Content>
- *   <Tabs.Content value="two" className={cls.content}>Panel two</Tabs.Content>
- * </Tabs.Root>
- * ```
+ * Slots:    root | list | trigger | content | indicator
+ * Variants: variant (line | enclosed) · size (sm | md | lg)
  */
 import { sva } from '@styled-system/css';
 
 export const tabsRecipe = sva({
   className: 'tabs',
-  // description: 'Tabs — accessible tab panel',
 
   slots: ['root', 'list', 'trigger', 'content', 'indicator'],
 

@@ -32,8 +32,6 @@
  */
 import { Menu as ArkMenu } from '@ark-ui/react';
 
-import type { MenuVariants } from './menu.types';
-
 // Re-export all Ark Menu parts
 export const Menu = ArkMenu;
 export type { MenuOpenChangeDetails, MenuSelectionDetails } from '@ark-ui/react';
