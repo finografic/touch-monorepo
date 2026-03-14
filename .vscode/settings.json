@@ -26,6 +26,10 @@
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "[markdown]": {
+    "editor.defaultFormatter": "dprint.dprint",
+    "editor.formatOnSave": true
+  },
   "files.trimTrailingWhitespace": true,
   "files.insertFinalNewline": true,
   "eslint.workingDirectories": [
@@ -205,11 +209,13 @@
   // ============================================================================
   "markdownlint.config": {
     "default": true,
+    "MD013": { "line_length": 120, "tables": false },
     "MD025": false, // Allow multiple top-level headings (useful for TODO files)
     "MD026": false, // Allow trailing punctuation in headings ':'
     "MD040": false, // Don't require language for code blocks
     "MD041": false // Don't require first line to be a top-level heading
   },
+
   "markdown-preview-enhanced.scrollSync": false
   // "markdown.styles": [".vscode/markdown-github-light.css"]
 }
