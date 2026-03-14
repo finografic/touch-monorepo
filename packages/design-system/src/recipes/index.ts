@@ -5,7 +5,7 @@ export { cardRecipe } from './card.recipe';
 export { dialogRecipe } from '../components/dialog/dialog.recipe';
 export { menuRecipe } from '../components/menu/menu.recipe';
 export { popoverRecipe } from '../components/popover/popover.recipe';
-export { tableRecipe } from './table.recipe';
+export { tableRecipe } from '../components/data-table/data-table.recipe';
 export { tabsRecipe } from '../components/tabs/tabs.recipe';
 export { textRecipe } from './text.recipe';
 export { toastRecipe } from '../components/toast/toast.recipe';

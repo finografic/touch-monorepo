@@ -23,10 +23,8 @@ import {
 import type { ReactNode } from 'react';
 import { useState } from 'react';
 
-import { tableRecipe } from '../../recipes/table.recipe';
 import { Spinner } from '../spinner';
-// import type { DataTableColumn } from './DataTable.column';
-// import type { DataTableClasames, DataTableProps } from './DataTable.types';
+import { tableRecipe } from './data-table.recipe';
 import type { DataTableProps } from './data-table.types';
 
 interface SortIconProps {

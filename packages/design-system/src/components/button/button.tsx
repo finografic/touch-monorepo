@@ -1,30 +1,16 @@
 /**
  * Button Component
  *
- * Typed wrapper around ark.button. Provides the React interface;
- * styling comes from `buttonRecipe` applied via `className`.
+ * Accessible button built on `ark.button`. Styling via `buttonRecipe`
+ * — pass `className={buttonRecipe({ variant, colorScheme, size })}`.
  *
  * Usage:
  * ```tsx
  * import { Button } from '@workspace/design-system/components';
- * import { buttonRecipe } from '@workspace/design-system/recipes'; // generated in consuming app
+ * import { buttonRecipe } from '@workspace/design-system/recipes';
  *
- * <Button
- *   className={buttonRecipe({ variant: 'solid', colorScheme: 'primary', size: 'md' })}
- *   onClick={handleSave}
- * >
- *   <SaveIcon />
+ * <Button className={buttonRecipe({ variant: 'solid', colorScheme: 'primary' })}>
  *   Save
- * </Button>
- * ```
- *
- * Icon-only button (use aria-label):
- * ```tsx
- * <Button
- *   className={buttonRecipe({ variant: 'ghost', size: 'sm' })}
- *   aria-label="Delete row"
- * >
- *   <TrashIcon />
  * </Button>
  * ```
  */

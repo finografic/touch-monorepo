@@ -1,38 +1,13 @@
 /**
  * Button Recipe
  *
- * Panda CSS defineRecipe() for buttons.
+ * Variants: size (xs|sm|md|lg|xl) · variant (solid|subtle|outline|ghost|link)
+ *           colorScheme (default|primary|secondary|success|warning|danger|info|grey)
+ *           iconOnly (boolean)
  *
- * All CSS is generated STATICALLY at build time (panda codegen).
- * At runtime, buttonRecipe({ variant, colorScheme, size }) returns only
- * a string of pre-existing class names — no CSS is created or injected.
- *
- * Architecture: colorPalette
- * ─────────────────────────────────────────────────────────────────────
- * The `colorScheme` variant sets `colorPalette` to the matching token
- * group (e.g. 'primary'). The `variant` styles then reference
- * `colorPalette.*` shade names, which Panda resolves to the correct
- * palette at codegen time — so the variant styles are written once and
- * work for all 8 color schemes with no compound variants.
- *
- * The only compound variant needed is warning+solid (amber base is too
- * light for white text — needs dark fg instead).
- *
- * Sizes:  xs · sm · md · lg · xl                   default: md
- * Variants: solid · subtle · outline · ghost · link  default: outline
- * Colors: default · primary · secondary · success · warning · danger · info · grey
- *         default: default
- * Booleans: iconOnly (square, no padding) · (loading / disabled via data attrs)
- *
- * Usage:
- * ```tsx
- * import { ark } from '@ark-ui/react';
- * import { buttonRecipe } from '@workspace/design-system/recipes';
- *
- * <ark.button className={buttonRecipe({ size: 'md', variant: 'solid', colorScheme: 'primary' })}>
- *   Click me
- * </ark.button>
- * ```
+ * Architecture: `colorScheme` sets `colorPalette` — all variant styles
+ * reference `colorPalette.*` tokens, so they work across all color schemes
+ * with no compound variants (except warning+solid which needs dark fg).
  */
 import { cva } from '@styled-system/css';
 
