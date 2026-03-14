@@ -21,8 +21,16 @@
     "paths": {
       "@styled-system/*": ["./styled-system/*"],
       "@tanstack/*": ["node_modules/@tanstack/*"],
+      "components/*": ["./src/components/*"],
+      "forms/*": ["./src/forms/*"],
+      "grid/*": ["./src/grid/*"],
       "internals/*": ["./src/internals/*"],
-      "types/*": ["./src/types/*"]
+      "palette/*": ["./src/palette/*"],
+      "recipes/*": ["./src/recipes/*"],
+      "styles/*": ["./src/styles/*"],
+      "tokens/*": ["./src/tokens/*"],
+      "types/*": ["./src/types/*"],
+      "viewport/*": ["./src/viewport/*"]
     }
   },
   "include": ["src"],
