@@ -11,7 +11,14 @@ import tseslint from 'typescript-eslint';
 
 const config: Linter.Config[] = [
   {
-    ignores: ['**/node_modules/**', '**/dist/**', '**/.cursor/**', '**/*.min.*', '**/*.map'],
+    ignores: [
+      '**/node_modules/**',
+      '**/styled-system/**',
+      '**/dist/**',
+      '**/.cursor/**',
+      '**/*.min.*',
+      '**/*.map',
+    ],
   },
 
   js.configs.recommended,
@@ -68,7 +75,7 @@ const config: Linter.Config[] = [
       '@typescript-eslint/no-redeclare': 'warn',
       '@typescript-eslint/consistent-type-imports': [
         'error',
-        { fixStyle: 'separate-type-imports' },
+        { prefer: 'type-imports', fixStyle: 'separate-type-imports' },
       ],
 
       'stylistic/semi': ['error'],
@@ -80,11 +87,14 @@ const config: Linter.Config[] = [
       'stylistic/comma-dangle': ['error', 'only-multiline'],
       'stylistic/object-property-newline': ['error', { allowAllPropertiesOnSameLine: true }],
       'stylistic/arrow-spacing': ['error', { before: true, after: true }],
-      'stylistic/type-annotation-spacing': ['error', {
-        before: false,
-        after: true,
-        overrides: { arrow: { before: true, after: true } },
-      }],
+      'stylistic/type-annotation-spacing': [
+        'error',
+        {
+          before: false,
+          after: true,
+          overrides: { arrow: { before: true, after: true } },
+        },
+      ],
 
       'simple-import-sort/imports': [
         'error',
@@ -112,13 +122,7 @@ const config: Linter.Config[] = [
 
   {
     files: ['**/*.md'],
-    ignores: [
-      'node_modules/**',
-      'dist/**',
-      '.cursor/**',
-      '.github/instructions/**',
-      '_templates/**/*.md',
-    ],
+    ignores: ['node_modules/**', 'dist/**', '.cursor/**', '.github/instructions/**', '_templates/**/*.md'],
     languageOptions: {
       parser: markdownlintParser,
     },
