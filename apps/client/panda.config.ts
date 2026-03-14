@@ -55,7 +55,6 @@ export default defineConfig({
   // ======================================================================== //
   // NEW: https://panda-css.com/docs/references/config
 
-  watch: true,
   syntax: 'object-literal',
   // syntax: 'template-literal',
   shorthands: true,
