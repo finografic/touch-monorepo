@@ -3,7 +3,7 @@
  *
  * Slots:    root | positioner | content | separator | item | itemText | itemIndicator | itemGroup | itemGroupLabel | arrow | arrowTip | indicator
  */
-import { sva } from '@styled-system/css';
+import { sva } from '../../../styled-system/css';
 
 export const menuRecipe = sva({
   className: 'menu',

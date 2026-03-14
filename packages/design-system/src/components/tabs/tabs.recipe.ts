@@ -4,7 +4,7 @@
  * Slots:    root | list | trigger | content | indicator
  * Variants: variant (line | enclosed) · size (sm | md | lg)
  */
-import { sva } from '@styled-system/css';
+import { sva } from '../../../styled-system/css';
 
 export const tabsRecipe = sva({
   className: 'tabs',

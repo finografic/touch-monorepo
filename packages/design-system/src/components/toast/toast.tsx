@@ -36,7 +36,7 @@
  * ```
  */
 import { createToaster, Toast as ArkToast, Toaster } from '@ark-ui/react';
-import { createStyleContext } from '@styled-system/jsx';
+import { createStyleContext } from '../../../styled-system/jsx';
 
 import { toastRecipe } from './toast.recipe';
 

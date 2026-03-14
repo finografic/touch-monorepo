@@ -41,7 +41,7 @@
         "@workspace/i18n#build",
         "@workspace/config#build"
       ],
-      "outputs": ["dist/**", "styled-system/**"]
+      "outputs": ["dist/**"]
     },
     "@workspace/server#build": {
       "dependsOn": [

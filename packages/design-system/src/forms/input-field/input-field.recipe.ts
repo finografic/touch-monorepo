@@ -10,7 +10,7 @@
  * slot element. The input's padding adjusts via `hasLeadingSlot` /
  * `hasTrailingSlot` compound variants on Root.
  */
-import { sva } from '@styled-system/css';
+import { sva } from '../../../styled-system/css';
 
 export const inputFieldRecipe = sva({
   className: 'input-field',

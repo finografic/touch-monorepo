@@ -4,7 +4,7 @@
  * Slots:    root · label · control · input · incrementTrigger · decrementTrigger · prefix · suffix
  * Variants: size (sm | md | lg)
  */
-import { sva } from '@styled-system/css';
+import { sva } from '../../../styled-system/css';
 
 export const inputNumberRecipe = sva({
   className: 'input-number',

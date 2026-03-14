@@ -3,7 +3,7 @@
  *
  * Variants: size (sm | md | lg)
  */
-import { cva } from '@styled-system/css';
+import { cva } from '../../../styled-system/css';
 
 export const labelRecipe = cva({
   base: {

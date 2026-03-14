@@ -31,7 +31,7 @@
  * ```
  */
 import { Menu as ArkMenu } from '@ark-ui/react';
-import { createStyleContext } from '@styled-system/jsx';
+import { createStyleContext } from '../../../styled-system/jsx';
 
 import { menuRecipe } from './menu.recipe';
 

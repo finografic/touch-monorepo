@@ -4,7 +4,7 @@
  * Slots:    root | title | description | closeTrigger | actionTrigger
  * Variants: status (info | success | warning | error)
  */
-import { sva } from '@styled-system/css';
+import { sva } from '../../../styled-system/css';
 
 export const toastRecipe = sva({
   className: 'toast',

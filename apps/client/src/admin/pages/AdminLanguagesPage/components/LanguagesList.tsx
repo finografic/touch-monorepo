@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch } from '@workspace/design-system/forms';
+import { SwitchField as Switch } from '@workspace/design-system/forms';
 import type { LanguageInfo } from '@workspace/i18n/types';
 import { LockIcon, TrashIcon } from '@workspace/icons';
 
@@ -61,7 +61,16 @@ export const LanguagesList: React.FC<LanguagesListProps> = ({ languages, onDelet
                 )}
 
                 <Flex className="col col-active">
-                  <Switch.Root
+                  <Switch
+                    checked={language.isActive ?? true}
+                    disabled={language.isDefault || isLoading}
+                    onCheckedChange={() => {
+                      if (language.id && !language.isDefault) {
+                        handleToggleActive(language.id, language.isActive ?? true);
+                      }
+                    }}
+                  />
+                  {/* <Switch.Root
                     checked={language.isActive ?? true}
                     disabled={language.isDefault || isLoading}
                     onCheckedChange={() => {
@@ -74,7 +83,7 @@ export const LanguagesList: React.FC<LanguagesListProps> = ({ languages, onDelet
                       <Switch.Thumb className="switch-thumb" />
                     </Switch.Control>
                     <Switch.HiddenInput />
-                  </Switch.Root>
+                  </Switch.Root> */}
                 </Flex>
 
                 <Flex align="center" className="col col-delete">

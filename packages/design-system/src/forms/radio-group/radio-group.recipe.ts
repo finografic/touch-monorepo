@@ -4,7 +4,7 @@
  * Slots:    root · label · item · itemControl · indicator · itemText · itemDescription
  * Variants: size (sm | md | lg) · variant (default | card)
  */
-import { sva } from '@styled-system/css';
+import { sva } from '../../../styled-system/css';
 
 export const radioGroupRecipe = sva({
   className: 'radio-group',

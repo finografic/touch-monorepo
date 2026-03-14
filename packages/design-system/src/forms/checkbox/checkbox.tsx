@@ -1,7 +1,7 @@
 import { CheckIcon, MinusIcon } from '@workspace/icons';
 
 import { Checkbox as ArkCheckbox } from '@ark-ui/react';
-import { createStyleContext } from '@styled-system/jsx';
+import { createStyleContext } from '../../../styled-system/jsx';
 import { forwardRef, type ReactNode } from 'react';
 import type { FieldError } from 'react-hook-form';
 

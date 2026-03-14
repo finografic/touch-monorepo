@@ -5,7 +5,7 @@
  *
  * Apply to Switch.Control. Target Switch.Thumb with `.switch-thumb` class.
  */
-import { cva } from '@styled-system/css';
+import { cva } from '../../../styled-system/css';
 
 export const switchRecipe = cva({
   base: {

@@ -17,22 +17,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "verbatimModuleSyntax": true,
-    "baseUrl": ".",
-    "paths": {
-      "@styled-system/*": ["./styled-system/*"],
-      "@tanstack/*": ["node_modules/@tanstack/*"],
-      "components/*": ["./src/components/*"],
-      "forms/*": ["./src/forms/*"],
-      "grid/*": ["./src/grid/*"],
-      "internals/*": ["./src/internals/*"],
-      "palette/*": ["./src/palette/*"],
-      "recipes/*": ["./src/recipes/*"],
-      "styles/*": ["./src/styles/*"],
-      "tokens/*": ["./src/tokens/*"],
-      "types/*": ["./src/types/*"],
-      "viewport/*": ["./src/viewport/*"]
-    }
   },
   "include": ["src"],
-  "exclude": ["node_modules", "dist", "styled-system"]
+  "exclude": ["node_modules", "dist"]
 }

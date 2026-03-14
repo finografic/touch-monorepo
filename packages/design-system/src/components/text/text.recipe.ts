@@ -5,7 +5,7 @@
  *           color (default | muted | subtle | inverted | error | success | warning | info)
  *           truncate (boolean)
  */
-import { cva } from '@styled-system/css';
+import { cva } from '../../../styled-system/css';
 
 export const textRecipe = cva({
   base: { margin: '0' },

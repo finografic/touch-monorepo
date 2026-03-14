@@ -26,7 +26,7 @@
  * ```
  */
 import { Tooltip as ArkTooltip } from '@ark-ui/react';
-import { createStyleContext } from '@styled-system/jsx';
+import { createStyleContext } from '../../../styled-system/jsx';
 
 import { tooltipRecipe } from './tooltip.recipe';
 

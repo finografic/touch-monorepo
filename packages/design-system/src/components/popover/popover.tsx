@@ -30,7 +30,7 @@
  * ```
  */
 import { Popover as ArkPopover } from '@ark-ui/react';
-import { createStyleContext } from '@styled-system/jsx';
+import { createStyleContext } from '../../../styled-system/jsx';
 
 import { popoverRecipe } from './popover.recipe';
 

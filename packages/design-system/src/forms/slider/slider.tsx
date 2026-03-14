@@ -1,5 +1,5 @@
 import { Slider as ArkSlider } from '@ark-ui/react';
-import { createStyleContext } from '@styled-system/jsx';
+import { createStyleContext } from '../../../styled-system/jsx';
 
 import { sliderRecipe } from './slider.recipe';
 

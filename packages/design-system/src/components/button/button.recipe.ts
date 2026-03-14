@@ -9,7 +9,7 @@
  * reference `colorPalette.*` tokens, so they work across all color schemes
  * with no compound variants (except warning+solid which needs dark fg).
  */
-import { cva } from '@styled-system/css';
+import { cva } from '../../../styled-system/css';
 
 export const buttonRecipe = cva({
   base: {

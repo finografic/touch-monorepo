@@ -5,7 +5,7 @@
  *           positioner · content · list · item · itemText · itemIndicator · emptyState · addNew
  * Variants: size (sm | md | lg)
  */
-import { sva } from '@styled-system/css';
+import { sva } from '../../../styled-system/css';
 
 export const selectSearchableRecipe = sva({
   className: 'select-searchable',
