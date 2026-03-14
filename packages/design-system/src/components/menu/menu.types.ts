@@ -1,5 +1,4 @@
-import type { RecipeProps } from '../../types/recipes.types';
-import { menuRecipe } from './menu.recipe';
+import type { RecipeProps } from 'types/recipes.types';
+import type { menuRecipe } from './menu.recipe';
 
-export type MenuRecipeProps = RecipeProps<typeof menuRecipe>;
-
+export type MenuVariants = RecipeProps<typeof menuRecipe>;

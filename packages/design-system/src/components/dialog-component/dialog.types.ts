@@ -2,10 +2,10 @@ import type { DialogRootProps } from '@ark-ui/react';
 import type { Dialog as ArkDialog } from '@ark-ui/react';
 import type React from 'react';
 
-import type { RecipeProps } from '../../types/recipes.types';
+import type { RecipeProps } from 'types/recipes.types';
 import type { dialogRecipe } from './dialog.recipe';
 
-export type DialogRecipeProps = RecipeProps<typeof dialogRecipe>;
+export type DialogVariants = RecipeProps<typeof dialogRecipe>;
 
 // ── Size scale ────────────────────────────────────────────────────────────────
 

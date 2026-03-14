@@ -19,7 +19,9 @@
     "verbatimModuleSyntax": true,
     "baseUrl": ".",
     "paths": {
-      "@tanstack/*": ["node_modules/@tanstack/*"]
+      "@styled-system/*": ["./styled-system/*"],
+      "@tanstack/*": ["node_modules/@tanstack/*"],
+      "types/*": ["./src/types/*"]
     }
   },
   "include": ["src"],

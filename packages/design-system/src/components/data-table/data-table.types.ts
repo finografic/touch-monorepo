@@ -55,4 +55,3 @@ export interface DataTableProps<TData> {
    */
   onSelectionChange?: (rows: TData[]) => void;
 }
-
