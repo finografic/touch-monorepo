@@ -1,49 +1,12 @@
 /**
- * Popover Recipe (Slot Recipe)
+ * Popover Slot Recipe
  *
- * Styling for Ark UI's Popover compound component.
- * Ark handles all a11y: dialog role, focus trap (optional),
- * aria-expanded, aria-controls, Escape to close.
- *
- * Slots:
- *   trigger      — button that opens the popover
- *   positioner   — floating positioner (Ark-managed)
- *   content      — the popover panel
- *   title        — optional heading inside the panel
- *   description  — optional body text
- *   closeTrigger — × dismiss button
- *   arrow        — the arrow container (Ark-managed)
- *   arrowTip     — the visible arrow triangle
- *
- * Usage:
- * ```tsx
- * import { Popover } from '@workspace/design-system/components';
- * // cls from consuming app: popoverRecipe()
- *
- * <Popover.Root>
- *   <Popover.Trigger className={cls.trigger} asChild>
- *     <button>More info</button>
- *   </Popover.Trigger>
- *   <Popover.Positioner className={cls.positioner}>
- *     <Popover.Content className={cls.content}>
- *       <Popover.Arrow className={cls.arrow}>
- *         <Popover.ArrowTip className={cls.arrowTip} />
- *       </Popover.Arrow>
- *       <Popover.Title className={cls.title}>Settings</Popover.Title>
- *       <Popover.Description className={cls.description}>
- *         Adjust your preferences below.
- *       </Popover.Description>
- *       <Popover.CloseTrigger className={cls.closeTrigger} asChild>
- *         <button aria-label="Close"><XIcon /></button>
- *       </Popover.CloseTrigger>
- *     </Popover.Content>
- *   </Popover.Positioner>
- * </Popover.Root>
- * ```
+ * Slots:    trigger | positioner | content | title | description | closeTrigger | arrow | arrowTip
  */
 import { sva } from '@styled-system/css';
 
 export const popoverRecipe = sva({
+  className: 'popover',
   slots: ['trigger', 'positioner', 'content', 'title', 'description', 'closeTrigger', 'arrow', 'arrowTip'],
 
   base: {

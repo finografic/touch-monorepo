@@ -1,48 +1,14 @@
 /**
- * Menu Recipe (Slot Recipe)
+ * Menu Slot Recipe
  *
- * Styling for Ark UI's Menu compound component.
- * Ark handles all a11y: menu/menuitem roles, keyboard navigation,
- * arrow keys, Home/End, typeahead, Escape to close.
- *
- * Slots:
- *   root           — (no visual style)
- *   trigger        — button that opens the menu
- *   positioner     — floating positioner (Ark-managed)
- *   content        — the dropdown panel
- *   separator      — horizontal divider between groups
- *   item           — a single menu row
- *   itemText       — the item's label text
- *   itemIndicator  — checkmark for checkbox/radio items
- *   itemGroup      — groups items together
- *   itemGroupLabel — the group heading
- *
- * Usage:
- * ```tsx
- * import { Menu } from '@workspace/design-system/components';
- * // cls from consuming app: menuRecipe()
- *
- * <Menu.Root>
- *   <Menu.Trigger className={cls.trigger} asChild>
- *     <button>Options <ChevronDownIcon /></button>
- *   </Menu.Trigger>
- *   <Menu.Positioner className={cls.positioner}>
- *     <Menu.Content className={cls.content}>
- *       <Menu.Item value="edit"  className={cls.item}><Menu.ItemText className={cls.itemText}>Edit</Menu.ItemText></Menu.Item>
- *       <Menu.Item value="copy" className={cls.item}><Menu.ItemText className={cls.itemText}>Copy</Menu.ItemText></Menu.Item>
- *       <Menu.Separator className={cls.separator} />
- *       <Menu.Item value="delete" className={cls.item}><Menu.ItemText className={cls.itemText}>Delete</Menu.ItemText></Menu.Item>
- *     </Menu.Content>
- *   </Menu.Positioner>
- * </Menu.Root>
- * ```
+ * Slots:    root | positioner | content | separator | item | itemText | itemIndicator | itemGroup | itemGroupLabel | arrow | arrowTip | indicator
  */
 import { sva } from '@styled-system/css';
 
 export const menuRecipe = sva({
+  className: 'menu',
   slots: [
     'root',
-    'trigger',
     'positioner',
     'content',
     'separator',
@@ -51,12 +17,13 @@ export const menuRecipe = sva({
     'itemIndicator',
     'itemGroup',
     'itemGroupLabel',
+    'arrow',
+    'arrowTip',
+    'indicator',
   ],
 
   base: {
     root: {},
-
-    trigger: {},
 
     positioner: {
       zIndex: 'dropdown',
@@ -123,5 +90,9 @@ export const menuRecipe = sva({
       px: '3',
       py: '1.5',
     },
+
+    arrow: {},
+    arrowTip: {},
+    indicator: {},
   },
 });

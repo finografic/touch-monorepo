@@ -21,6 +21,7 @@
     "paths": {
       "@styled-system/*": ["./styled-system/*"],
       "@tanstack/*": ["node_modules/@tanstack/*"],
+      "internals/*": ["./src/internals/*"],
       "types/*": ["./src/types/*"]
     }
   },

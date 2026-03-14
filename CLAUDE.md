@@ -24,21 +24,43 @@ Rules are canonical in `.github/instructions/` and shared across Claude Code, Cu
 
 ## Session Memory
 
-Claude Code maintains a lightweight session log at `.claude/memory.md` (gitignored).
+Claude Code maintains a lightweight session log at
+`.claude/memory.md` (gitignored).
 
-**On session start:** Read `.claude/memory.md` if it exists. Use it to understand recent context. If a `## Current Session` block exists, a previous session ended abruptly — resume or finish that work first.
+**On session start:** Read `.claude/memory.md` if it exists.
+Use it to understand recent context. If a `## Current Session`
+block exists, a previous session ended abruptly — resume or
+finish that work first.
 
-**On task start:** Write a `## Current Session` block at the top of the file with:
+**On task start:** Write a `## Current Session` block at the
+top of the file with:
 
 - Date
 - Brief description of the task
 - A checklist of planned steps (`- [ ]` / `- [x]`)
 
-Update the checklist as work progresses (check off items, add new ones if scope changes).
+**During the session — write early and often. Do not defer.**
 
-**On session end (or after significant work):** Collapse the `## Current Session` block into a normal `## <date>` entry (a 2-4 line summary), and move it below the previous sessions. Keep only the **last 5 session entries** (delete older ones when appending).
+- After completing any checklist item: mark it `- [x]`
+  in memory.md immediately.
+- After discovering new steps: append them to the checklist
+  right away.
+- Every ~20–30 minutes of active work: re-save the current
+  checklist state even if nothing major changed.
+- After a git commit: update the checklist to reflect what
+  was just committed. Commits are milestone markers — treat
+  them as mandatory checkpoint triggers.
 
-Keep only the **last 5 sessions** in the file (delete older entries when appending). Each entry should be 2-4 lines max — this is a breadcrumb trail, not a journal.
+The goal: a machine shutdown should lose at most one small
+task worth of context, never an entire session.
+
+**On session end:** Collapse the `## Current Session` block
+into a normal `## <date>` entry (a 2-4 line summary), and
+move it below the previous sessions.
+
+Keep only the **last 5 sessions** in the file (delete older
+entries when appending). Each entry should be 2-4 lines max
+— this is a breadcrumb trail, not a journal.
 
 ## Handoff Document
 

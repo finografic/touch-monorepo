@@ -24,7 +24,7 @@
  * ```
  */
 import { Tabs as ArkTabs } from '@ark-ui/react';
-import { createSlotRecipeContext } from 'src/system/create-slot-recipe-context';
+import { createSlotRecipeContext } from 'internals/create-slot-recipe-context';
 
 import { tabsRecipe } from './tabs.recipe';
 

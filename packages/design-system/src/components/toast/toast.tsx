@@ -1,19 +1,14 @@
 /**
  * Toast Component
  *
- * Typed wrapper around Ark UI Toast.
- * Ark handles: placement, stacking, auto-dismiss timers, aria roles.
- *
- * Styling comes from `toastRecipe` applied per slot.
+ * Styled wrapper around Ark UI Toast using `createSlotRecipeContext`.
+ * Ark handles placement, stacking, auto-dismiss timers, and a11y (role="status").
  *
  * Setup (once in app root):
  * ```tsx
  * import { createToaster, Toaster } from '@workspace/design-system/components';
  *
- * export const toaster = createToaster({
- *   placement: 'top-end',
- *   gap: 8,
- * });
+ * export const toaster = createToaster({ placement: 'top-end', gap: 8 });
  *
  * // In your root component:
  * <Toaster toaster={toaster} />
@@ -21,32 +16,18 @@
  *
  * Fire a toast anywhere:
  * ```tsx
- * import { toaster } from './toaster'; // your singleton
- *
- * toaster.create({
- *   title: 'Saved',
- *   description: 'Settings saved successfully.',
- *   type: 'success',       // 'info' | 'success' | 'warning' | 'error'
- *   duration: 4000,        // ms, default 5000
- * });
+ * toaster.create({ title: 'Saved', description: 'Settings saved.', type: 'success' });
  * ```
  *
- * Custom Toaster with recipe styles:
+ * Custom render with styled Toast parts:
  * ```tsx
- * import { Toast, Toaster, createToaster } from '@workspace/design-system/components';
- * // cls from consuming app's generated: toastRecipe({ status: 'success' })
- *
  * <Toaster
  *   toaster={toaster}
  *   render={(toast) => (
- *     <Toast.Root key={toast.id} className={cls.root}>
- *       <Toast.Title className={cls.title}>{toast.title}</Toast.Title>
- *       {toast.description && (
- *         <Toast.Description className={cls.description}>
- *           {toast.description}
- *         </Toast.Description>
- *       )}
- *       <Toast.CloseTrigger className={cls.closeTrigger} asChild>
+ *     <Toast.Root key={toast.id} status={toast.type}>
+ *       <Toast.Title>{toast.title}</Toast.Title>
+ *       {toast.description && <Toast.Description>{toast.description}</Toast.Description>}
+ *       <Toast.CloseTrigger asChild>
  *         <button aria-label="Dismiss"><XIcon /></button>
  *       </Toast.CloseTrigger>
  *     </Toast.Root>
@@ -54,4 +35,20 @@
  * />
  * ```
  */
-export { createToaster, Toast, Toaster } from '@ark-ui/react';
+import { createToaster, Toast as ArkToast, Toaster } from '@ark-ui/react';
+import { createSlotRecipeContext } from 'internals/create-slot-recipe-context';
+
+import { toastRecipe } from './toast.recipe';
+
+const { withProvider, withContext } = createSlotRecipeContext(toastRecipe);
+
+export { createToaster, Toaster };
+
+export const Toast = {
+  Root: withProvider(ArkToast.Root, 'root'),
+  Title: withContext(ArkToast.Title, 'title'),
+  Description: withContext(ArkToast.Description, 'description'),
+  CloseTrigger: withContext(ArkToast.CloseTrigger, 'closeTrigger'),
+  ActionTrigger: withContext(ArkToast.ActionTrigger, 'actionTrigger'),
+  Context: ArkToast.Context, // render prop
+};

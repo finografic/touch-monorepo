@@ -1,37 +1,13 @@
 /**
- * Toast Recipe (Slot Recipe)
+ * Toast Slot Recipe
  *
- * Styling for Ark UI's Toast compound component.
- * Ark handles placement, stacking, auto-dismiss timers, and a11y (role="status").
- *
- * Slots:
- *   root         — individual toast container
- *   title        — toast heading
- *   description  — optional body text
- *   closeTrigger — dismiss button
- *   actionTrigger — optional call-to-action button
- *
- * Usage:
- * ```tsx
- * import { Toaster, createToaster } from '@workspace/design-system/components';
- * // cls from consuming app's generated: toastRecipe({ status: 'success' })
- *
- * const toaster = createToaster({ placement: 'top-end', gap: 8 });
- *
- * // In app root:
- * <Toaster toaster={toaster} />
- *
- * // To fire a toast:
- * toaster.create({
- *   title: 'Saved',
- *   description: 'Your settings were saved.',
- *   type: 'success',
- * });
- * ```
+ * Slots:    root | title | description | closeTrigger | actionTrigger
+ * Variants: status (info | success | warning | error)
  */
 import { sva } from '@styled-system/css';
 
 export const toastRecipe = sva({
+  className: 'toast',
   slots: ['root', 'title', 'description', 'closeTrigger', 'actionTrigger'],
 
   base: {
@@ -73,9 +49,7 @@ export const toastRecipe = sva({
       cursor: 'pointer',
       color: 'fg.subtle',
       borderRadius: 'xs',
-      _hover: {
-        color: 'fg',
-      },
+      _hover: { color: 'fg' },
       _focusVisible: {
         outline: '2px solid',
         outlineColor: 'accent.focusRing',
@@ -88,52 +62,27 @@ export const toastRecipe = sva({
       fontWeight: 'semibold',
       color: 'accent',
       cursor: 'pointer',
-      _hover: {
-        color: 'accent.fg',
-      },
+      _hover: { color: 'accent.fg' },
     },
   },
 
   variants: {
     status: {
       info: {
-        root: {
-          borderLeftWidth: '4px',
-          borderLeftColor: 'border.info',
-        },
-        title: {
-          color: 'fg.info',
-        },
+        root: { borderLeftWidth: '4px', borderLeftColor: 'border.info' },
+        title: { color: 'fg.info' },
       },
-
       success: {
-        root: {
-          borderLeftWidth: '4px',
-          borderLeftColor: 'border.success',
-        },
-        title: {
-          color: 'fg.success',
-        },
+        root: { borderLeftWidth: '4px', borderLeftColor: 'border.success' },
+        title: { color: 'fg.success' },
       },
-
       warning: {
-        root: {
-          borderLeftWidth: '4px',
-          borderLeftColor: 'border.warning',
-        },
-        title: {
-          color: 'fg.warning',
-        },
+        root: { borderLeftWidth: '4px', borderLeftColor: 'border.warning' },
+        title: { color: 'fg.warning' },
       },
-
       error: {
-        root: {
-          borderLeftWidth: '4px',
-          borderLeftColor: 'border.error',
-        },
-        title: {
-          color: 'fg.error',
-        },
+        root: { borderLeftWidth: '4px', borderLeftColor: 'border.error' },
+        title: { color: 'fg.error' },
       },
     },
   },

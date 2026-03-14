@@ -1,55 +1,13 @@
 /**
- * Dialog Recipe (Slot Recipe)
+ * Dialog Slot Recipe
  *
- * Styling for Ark UI's Dialog compound component.
- * Ark handles all a11y: focus trap, scroll lock, Escape to close,
- * aria-modal, aria-labelledby, aria-describedby.
- *
- * Slots:
- *   backdrop     — full-viewport dimmed overlay
- *   positioner   — centers the content panel
- *   content      — the dialog panel
- *   header       — optional header row (title + close button)
- *   title        — Dialog.Title text
- *   description  — Dialog.Description text
- *   body         — scrollable body content area
- *   footer       — optional footer row (actions)
- *   closeTrigger — the × dismiss button
- *
- * Usage:
- * ```tsx
- * import { Dialog } from '@workspace/design-system/components';
- * // cls from consuming app's generated: dialogRecipe({ size: 'md' })
- *
- * <Dialog.Root open={isOpen} onOpenChange={({ open }) => setIsOpen(open)}>
- *   <Dialog.Backdrop className={cls.backdrop} />
- *   <Dialog.Positioner className={cls.positioner}>
- *     <Dialog.Content className={cls.content}>
- *       <Dialog.Header className={cls.header}>
- *         <Dialog.Title className={cls.title}>Confirm</Dialog.Title>
- *         <Dialog.CloseTrigger className={cls.closeTrigger} asChild>
- *           <button aria-label="Close"><XIcon /></button>
- *         </Dialog.CloseTrigger>
- *       </Dialog.Header>
- *       <Dialog.Body className={cls.body}>
- *         <Dialog.Description className={cls.description}>
- *           Are you sure?
- *         </Dialog.Description>
- *       </Dialog.Body>
- *       <Dialog.Footer className={cls.footer}>
- *         <Dialog.CloseTrigger asChild>
- *           <button>Cancel</button>
- *         </Dialog.CloseTrigger>
- *         <button>Confirm</button>
- *       </Dialog.Footer>
- *     </Dialog.Content>
- *   </Dialog.Positioner>
- * </Dialog.Root>
- * ```
+ * Slots:    backdrop | positioner | content | header | title | description | body | footer | closeTrigger
+ * Variants: size (sm | md | lg | xl | full)
  */
 import { sva } from '@styled-system/css';
 
 export const dialogRecipe = sva({
+  className: 'dialog',
   slots: [
     'backdrop',
     'positioner',
@@ -161,14 +119,9 @@ export const dialogRecipe = sva({
       md: { content: { maxW: '32rem' } },
       lg: { content: { maxW: '48rem' } },
       xl: { content: { maxW: '64rem' } },
-
       full: {
         positioner: { padding: '0' },
-        content: {
-          maxW: 'full',
-          maxH: 'full',
-          borderRadius: 'none',
-        },
+        content: { maxW: 'full', maxH: 'full', borderRadius: 'none' },
       },
     },
   },

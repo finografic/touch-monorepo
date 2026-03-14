@@ -1,29 +1,29 @@
 /**
  * Menu Component
  *
- * Typed wrapper around Ark UI Menu.
+ * Styled wrapper around Ark UI Menu using `createSlotRecipeContext`.
  * Ark handles all a11y: menu/menuitem roles, keyboard navigation,
  * arrow keys, Home/End, typeahead, Escape to close.
  *
- * Styling comes from `menuRecipe` applied per slot via `className`.
+ * Recipe variant props are accepted directly on `Menu.Root` —
+ * no manual recipe call or className threading needed.
  *
  * Usage:
  * ```tsx
  * import { Menu } from '@workspace/design-system/components';
- * // cls from consuming app: menuRecipe()
  *
  * <Menu.Root>
  *   <Menu.Trigger asChild>
  *     <button>Options</button>
  *   </Menu.Trigger>
- *   <Menu.Positioner className={cls.positioner}>
- *     <Menu.Content className={cls.content}>
- *       <Menu.Item value="edit" className={cls.item}>
- *         <Menu.ItemText className={cls.itemText}>Edit</Menu.ItemText>
+ *   <Menu.Positioner>
+ *     <Menu.Content>
+ *       <Menu.Item value="edit">
+ *         <Menu.ItemText>Edit</Menu.ItemText>
  *       </Menu.Item>
- *       <Menu.Separator className={cls.separator} />
- *       <Menu.Item value="delete" className={cls.item}>
- *         <Menu.ItemText className={cls.itemText}>Delete</Menu.ItemText>
+ *       <Menu.Separator />
+ *       <Menu.Item value="delete">
+ *         <Menu.ItemText>Delete</Menu.ItemText>
  *       </Menu.Item>
  *     </Menu.Content>
  *   </Menu.Positioner>
@@ -31,7 +31,32 @@
  * ```
  */
 import { Menu as ArkMenu } from '@ark-ui/react';
+import { createSlotRecipeContext } from 'internals/create-slot-recipe-context';
 
-// Re-export all Ark Menu parts
-export const Menu = ArkMenu;
-export type { MenuOpenChangeDetails, MenuSelectionDetails } from '@ark-ui/react';
+import { menuRecipe } from './menu.recipe';
+
+const { withProvider, withContext } = createSlotRecipeContext(menuRecipe);
+
+export const Menu = {
+  Root: withProvider(ArkMenu.Root, 'root'),
+  RootProvider: withProvider(ArkMenu.RootProvider, 'root'),
+  Positioner: withContext(ArkMenu.Positioner, 'positioner'),
+  Content: withContext(ArkMenu.Content, 'content'),
+  Separator: withContext(ArkMenu.Separator, 'separator'),
+  Item: withContext(ArkMenu.Item, 'item'),
+  ItemText: withContext(ArkMenu.ItemText, 'itemText'),
+  ItemIndicator: withContext(ArkMenu.ItemIndicator, 'itemIndicator'),
+  ItemGroup: withContext(ArkMenu.ItemGroup, 'itemGroup'),
+  ItemGroupLabel: withContext(ArkMenu.ItemGroupLabel, 'itemGroupLabel'),
+  CheckboxItem: withContext(ArkMenu.CheckboxItem, 'item'),
+  RadioItem: withContext(ArkMenu.RadioItem, 'item'),
+  RadioItemGroup: withContext(ArkMenu.RadioItemGroup, 'itemGroup'),
+  Arrow: withContext(ArkMenu.Arrow, 'arrow'),
+  ArrowTip: withContext(ArkMenu.ArrowTip, 'arrowTip'),
+  Indicator: withContext(ArkMenu.Indicator, 'indicator'),
+  ContextTrigger: ArkMenu.ContextTrigger, // right-click context menu trigger, no recipe slot
+  Context: ArkMenu.Context, // render prop
+  ItemContext: ArkMenu.ItemContext, // render prop
+};
+
+export type { MenuHighlightChangeDetails, MenuOpenChangeDetails, MenuSelectionDetails } from '@ark-ui/react';

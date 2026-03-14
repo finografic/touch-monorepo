@@ -8,7 +8,7 @@ import {
   useContext,
 } from 'react';
 
-import type { RecipeProps } from '../types/recipes.types';
+import type { RecipeProps } from 'types/recipes.types';
 
 /** Map of slot name → generated className string produced by a Panda `sva()` recipe. */
 type SlotStyles = Record<string, string>;
