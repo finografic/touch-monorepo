@@ -2,7 +2,7 @@ export { badgeRecipe } from './badge.recipe';
 export { buttonRecipe } from '../components/button/button.recipe';
 export { calloutRecipe } from './callout.recipe';
 export { cardRecipe } from './card.recipe';
-export { dialogRecipe } from '../components/dialog-component/dialog.recipe';
+export { dialogRecipe } from '../components/dialog/dialog.recipe';
 export { menuRecipe } from '../components/menu/menu.recipe';
 export { popoverRecipe } from '../components/popover/popover.recipe';
 export { tableRecipe } from './table.recipe';
