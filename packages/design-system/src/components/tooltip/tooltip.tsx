@@ -1,7 +1,7 @@
 /**
  * Tooltip Component
  *
- * Styled wrapper around Ark UI Tooltip using `createSlotRecipeContext`.
+ * Styled wrapper around Ark UI Tooltip using `createStyleContext`.
  * Ark handles all a11y: tooltip role, aria-describedby,
  * hover/focus show/hide, configurable open/close delay.
  *
@@ -26,16 +26,15 @@
  * ```
  */
 import { Tooltip as ArkTooltip } from '@ark-ui/react';
-import { createSlotRecipeContext } from 'internals/create-slot-recipe-context';
+import { createStyleContext } from '@styled-system/jsx';
 
 import { tooltipRecipe } from './tooltip.recipe';
 
-const { withProvider, withContext } = createSlotRecipeContext(tooltipRecipe);
+const { withRootProvider, withContext } = createStyleContext(tooltipRecipe);
 
 export const Tooltip = {
-  // Root has no recipe slot — used only to provide recipe context to children.
-  Root: withProvider(ArkTooltip.Root),
-  RootProvider: withProvider(ArkTooltip.RootProvider),
+  Root: withRootProvider(ArkTooltip.Root),
+  RootProvider: withRootProvider(ArkTooltip.RootProvider),
   Trigger: withContext(ArkTooltip.Trigger, 'trigger'),
   Positioner: withContext(ArkTooltip.Positioner, 'positioner'),
   Content: withContext(ArkTooltip.Content, 'content'),

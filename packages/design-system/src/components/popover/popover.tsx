@@ -1,7 +1,7 @@
 /**
  * Popover Component
  *
- * Styled wrapper around Ark UI Popover using `createSlotRecipeContext`.
+ * Styled wrapper around Ark UI Popover using `createStyleContext`.
  * Ark handles all a11y: dialog role, optional focus trap,
  * aria-expanded, aria-controls, Escape to close, click-outside to dismiss.
  *
@@ -30,16 +30,15 @@
  * ```
  */
 import { Popover as ArkPopover } from '@ark-ui/react';
-import { createSlotRecipeContext } from 'internals/create-slot-recipe-context';
+import { createStyleContext } from '@styled-system/jsx';
 
 import { popoverRecipe } from './popover.recipe';
 
-const { withProvider, withContext } = createSlotRecipeContext(popoverRecipe);
+const { withRootProvider, withContext } = createStyleContext(popoverRecipe);
 
 export const Popover = {
-  // Root has no recipe slot — used only to provide recipe context to children.
-  Root: withProvider(ArkPopover.Root),
-  RootProvider: withProvider(ArkPopover.RootProvider),
+  Root: withRootProvider(ArkPopover.Root),
+  RootProvider: withRootProvider(ArkPopover.RootProvider),
   Trigger: withContext(ArkPopover.Trigger, 'trigger'),
   Anchor: ArkPopover.Anchor, // positioning anchor, no recipe slot
   Positioner: withContext(ArkPopover.Positioner, 'positioner'),

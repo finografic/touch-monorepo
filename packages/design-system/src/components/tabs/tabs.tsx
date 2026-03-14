@@ -1,7 +1,7 @@
 /**
  * Tabs Component
  *
- * Styled wrapper around Ark UI Tabs using `createSlotRecipeContext`.
+ * Styled wrapper around Ark UI Tabs using `createStyleContext`.
  * Ark handles all a11y: tablist/tab/tabpanel roles,
  * arrow-key navigation, aria-selected, aria-controls.
  *
@@ -24,11 +24,11 @@
  * ```
  */
 import { Tabs as ArkTabs } from '@ark-ui/react';
-import { createSlotRecipeContext } from 'internals/create-slot-recipe-context';
+import { createStyleContext } from '@styled-system/jsx';
 
 import { tabsRecipe } from './tabs.recipe';
 
-const { withProvider, withContext } = createSlotRecipeContext(tabsRecipe);
+const { withProvider, withContext } = createStyleContext(tabsRecipe);
 
 export const Tabs = {
   Root: withProvider(ArkTabs.Root, 'root'),

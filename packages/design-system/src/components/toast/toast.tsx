@@ -1,7 +1,7 @@
 /**
  * Toast Component
  *
- * Styled wrapper around Ark UI Toast using `createSlotRecipeContext`.
+ * Styled wrapper around Ark UI Toast using `createStyleContext`.
  * Ark handles placement, stacking, auto-dismiss timers, and a11y (role="status").
  *
  * Setup (once in app root):
@@ -36,11 +36,11 @@
  * ```
  */
 import { createToaster, Toast as ArkToast, Toaster } from '@ark-ui/react';
-import { createSlotRecipeContext } from 'internals/create-slot-recipe-context';
+import { createStyleContext } from '@styled-system/jsx';
 
 import { toastRecipe } from './toast.recipe';
 
-const { withProvider, withContext } = createSlotRecipeContext(toastRecipe);
+const { withProvider, withContext } = createStyleContext(toastRecipe);
 
 export { createToaster, Toaster };
 

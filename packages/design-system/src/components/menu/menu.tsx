@@ -1,7 +1,7 @@
 /**
  * Menu Component
  *
- * Styled wrapper around Ark UI Menu using `createSlotRecipeContext`.
+ * Styled wrapper around Ark UI Menu using `createStyleContext`.
  * Ark handles all a11y: menu/menuitem roles, keyboard navigation,
  * arrow keys, Home/End, typeahead, Escape to close.
  *
@@ -31,11 +31,11 @@
  * ```
  */
 import { Menu as ArkMenu } from '@ark-ui/react';
-import { createSlotRecipeContext } from 'internals/create-slot-recipe-context';
+import { createStyleContext } from '@styled-system/jsx';
 
 import { menuRecipe } from './menu.recipe';
 
-const { withProvider, withContext } = createSlotRecipeContext(menuRecipe);
+const { withProvider, withContext } = createStyleContext(menuRecipe);
 
 export const Menu = {
   Root: withProvider(ArkMenu.Root, 'root'),
