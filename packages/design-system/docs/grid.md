@@ -10,6 +10,7 @@ import { Row, Col, Container } from '@workspace/design-system/grid';
 ```
 
 The CSS is already imported once in `apps/client/src/main.tsx`:
+
 ```ts
 import '@workspace/design-system/grid/grid.css';
 ```

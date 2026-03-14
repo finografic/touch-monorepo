@@ -170,7 +170,7 @@ Any time the style values themselves are computed from JS variables (not just ch
 
 Use `css()` when the styles are static and reference tokens. Use `cva()` when you have a finite set of variant combinations. Use Emotion when the actual CSS values are computed from runtime state. And when a component has both — static layout plus dynamic behavior — use both, as in the hybrid example.
 
-Yes, panda’s cva method i will be using for sure for variants… 
+Yes, panda’s cva method i will be using for sure for variants…
 
 Most dynamic styling I do tends to be via className assignment.. this is a more classic approach, but has the advantage of being framework-agnostic..
 

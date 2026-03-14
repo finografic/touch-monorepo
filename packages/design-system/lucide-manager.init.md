@@ -252,6 +252,7 @@ but require the changes marked below.
 ### 1. `src/config/loadConfig.ts` — NEW FILE
 
 Write a config-loader that:
+
 - Accepts an optional `startDir` (defaults to `process.cwd()`)
 - Walks up the directory tree looking for `lucide-manager.config.json`
 - Throws a descriptive error if not found (with hint to create the config file)
@@ -276,6 +277,7 @@ It only writes `icons.ts` and `index.ts`.
 ### 4. `bin/lucide-manager.js` — NEW FILE
 
 Small CLI shim. Reads `process.argv[2]` for the command:
+
 - `dev` → starts Vite programmatically (or via `execa`/`child_process`)
 - `generate` → runs `generate-icons-ts.ts` via `tsx`
 
@@ -288,6 +290,7 @@ Small CLI shim. Reads `process.argv[2]` for the command:
 ### 6. Remaining files — COPY AS-IS from initial-files
 
 These require no changes beyond the package rename in any internal references:
+
 - `src/App.tsx`
 - `src/main.tsx`
 - `src/components/CategorySidebar.tsx`
@@ -329,6 +332,7 @@ It exports two things the generated `icons.ts` depends on:
   forwarded ref
 
 When implementing `generate-icons-ts.ts`, read `icons.utils.ts` to confirm:
+
 - The exact import path (`'./icons.utils'`)
 - The exact call signature of `createIconWrapper` so the generated registry
   code matches what the host package actually exports
