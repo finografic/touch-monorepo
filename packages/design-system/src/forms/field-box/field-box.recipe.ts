@@ -4,7 +4,7 @@
  * Slots:    root · label · requiredIndicator · helperText · errorText · warningText
  * Variants: size (sm | md | lg)
  */
-import { sva } from '../../../styled-system/css';
+import { sva } from '@styled-system/css';
 
 export const fieldBoxRecipe = sva({
   className: 'field-box',

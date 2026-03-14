@@ -3,7 +3,7 @@
  *
  * Variants: status (error | warning | success | info)
  */
-import { cva } from '../../../styled-system/css';
+import { cva } from '@styled-system/css';
 
 export const calloutRecipe = cva({
   base: {

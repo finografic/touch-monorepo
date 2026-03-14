@@ -3,7 +3,7 @@
  *
  * Base: continuous spin animation via the `spin` Panda keyframe.
  */
-import { cva } from '../../../styled-system/css';
+import { cva } from '@styled-system/css';
 
 export const spinnerRecipe = cva({
   base: {

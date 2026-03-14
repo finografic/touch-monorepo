@@ -14,10 +14,6 @@
       "types": "./dist/tokens/index.d.ts",
       "import": "./dist/tokens/index.js"
     },
-    "./recipes": {
-      "types": "./dist/recipes/index.d.ts",
-      "import": "./dist/recipes/index.js"
-    },
     "./components": {
       "types": "./dist/components/index.d.ts",
       "import": "./dist/components/index.js"

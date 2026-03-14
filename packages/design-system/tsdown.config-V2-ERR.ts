@@ -3,7 +3,7 @@ import { defineConfig } from 'tsdown';
 const browserEntries = {
   'index': 'src/index.ts',
   'tokens/index': 'src/tokens/index.ts',
-  // 'recipes/index': 'src/recipes/index.ts',
+  'recipes/index': 'src/recipes/index.ts',
   'components/index': 'src/components/index.ts',
   'grid/index': 'src/grid/index.ts',
   'forms/index': 'src/forms/index.ts',
@@ -24,7 +24,6 @@ export default defineConfig([
     platform: 'browser',
     dts: true,
     sourcemap: true,
-    unbundle: true,
     deps: {
       neverBundle: ['react', 'react-dom', '@ark-ui/react', '@workspace/icons'],
     },
@@ -35,6 +34,5 @@ export default defineConfig([
     platform: 'node',
     dts: true,
     sourcemap: true,
-    unbundle: true,
   },
 ]);

@@ -9,7 +9,7 @@
  * Sort state via `data-sort="asc|desc|false"` on the sortIcon slot.
  * Selection state via `data-selected="true"` on tr.
  */
-import { sva } from '../../../styled-system/css';
+import { sva } from '@styled-system/css';
 
 import type { RecipeProps } from '../../types/recipes.types';
 

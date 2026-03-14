@@ -4,7 +4,7 @@
  * Slots:    root · label · valueText · control · track · range · thumb · markerGroup · marker
  * Variants: size (sm | md | lg) · orientation (horizontal | vertical)
  */
-import { sva } from '../../../styled-system/css';
+import { sva } from '@styled-system/css';
 
 export const sliderRecipe = sva({
   className: 'slider',

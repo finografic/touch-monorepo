@@ -5,7 +5,7 @@
  *           content · list · item · itemText · itemIndicator · itemGroup · itemGroupLabel · clearTrigger
  * Variants: size (sm | md | lg)
  */
-import { sva } from '../../../styled-system/css';
+import { sva } from '@styled-system/css';
 
 export const selectRecipe = sva({
   className: 'select',

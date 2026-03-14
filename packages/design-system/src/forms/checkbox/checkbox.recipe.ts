@@ -4,7 +4,7 @@
  * Slots:    root · control · indicator · label · description · errorText
  * Variants: size (sm | md | lg)
  */
-import { sva } from '../../../styled-system/css';
+import { sva } from '@styled-system/css';
 
 export const checkboxRecipe = sva({
   className: 'checkbox',

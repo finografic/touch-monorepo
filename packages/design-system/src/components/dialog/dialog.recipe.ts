@@ -4,7 +4,7 @@
  * Slots:    backdrop | positioner | content | header | title | description | body | footer | closeTrigger
  * Variants: size (sm | md | lg | xl | full)
  */
-import { sva } from '../../../styled-system/css';
+import { sva } from '@styled-system/css';
 
 export const dialogRecipe = sva({
   className: 'dialog',

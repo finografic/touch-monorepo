@@ -3,7 +3,7 @@
  *
  * Slots:    trigger | positioner | content | title | description | closeTrigger | arrow | arrowTip
  */
-import { sva } from '../../../styled-system/css';
+import { sva } from '@styled-system/css';
 
 export const popoverRecipe = sva({
   className: 'popover',

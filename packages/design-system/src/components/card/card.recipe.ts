@@ -3,7 +3,7 @@
  *
  * Variants: size (sm | md | lg) · variant (elevated | outlined)
  */
-import { cva } from '../../../styled-system/css';
+import { cva } from '@styled-system/css';
 
 export const cardRecipe = cva({
   base: {
