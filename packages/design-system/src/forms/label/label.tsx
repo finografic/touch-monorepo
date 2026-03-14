@@ -3,7 +3,7 @@ import { forwardRef, type LabelHTMLAttributes } from 'react';
 import { labelRecipe } from './label.recipe';
 import type { LabelVariants } from './label.types';
 
-export interface LabelProps extends LabelVariants, LabelHTMLAttributes<HTMLLabelElement> {}
+export type LabelProps = LabelVariants & LabelHTMLAttributes<HTMLLabelElement>;
 
 export const Label = forwardRef<HTMLLabelElement, LabelProps>(
   ({ size, className, children, ...props }, ref) => {

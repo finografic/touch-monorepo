@@ -7,7 +7,7 @@ import type { FieldError } from 'react-hook-form';
 import { inputNumberRecipe } from './input-number.recipe';
 import type { InputNumberVariants } from './input-number.types';
 
-export interface InputNumberProps extends InputNumberVariants {
+export type InputNumberProps = InputNumberVariants & {
   // ── Value ────────────────────────────────────────────────────────────────
   value?: number;
   defaultValue?: number;
@@ -46,7 +46,7 @@ export interface InputNumberProps extends InputNumberVariants {
   readOnly?: boolean;
   placeholder?: string;
   className?: string;
-}
+};
 
 export const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(
   (

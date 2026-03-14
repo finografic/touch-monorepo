@@ -3,7 +3,7 @@ import { forwardRef, type HTMLAttributes } from 'react';
 import { calloutRecipe } from './callout.recipe';
 import type { CalloutVariants } from './callout.types';
 
-export interface CalloutProps extends CalloutVariants, HTMLAttributes<HTMLDivElement> {}
+export type CalloutProps = CalloutVariants & HTMLAttributes<HTMLDivElement>;
 
 export const Callout = forwardRef<HTMLDivElement, CalloutProps>(
   ({ status, className, children, ...props }, ref) => {

@@ -3,7 +3,7 @@ import type { selectSearchableRecipe } from './select-searchable.recipe';
 
 export type SelectSearchableVariants = RecipeProps<typeof selectSearchableRecipe>;
 
-export interface SelectSearchableProps extends SelectSearchableVariants {
+export type SelectSearchableProps = SelectSearchableVariants & {
   options: Array<{ value: string; label?: string; description?: string; category?: string; disabled?: boolean }>;
   value?: string;
   onSelect: (value: string) => void;
@@ -19,4 +19,4 @@ export interface SelectSearchableProps extends SelectSearchableVariants {
   /** Soft cap on visible items before the list scrolls. Default: 20 */
   windowSize?: number;
   className?: string;
-}
+};

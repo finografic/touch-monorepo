@@ -12,7 +12,7 @@ export const Switch = ArkSwitch;
 
 // ── SwitchField — convenience wrapper ────────────────────────────────────────
 
-export interface SwitchFieldProps extends SwitchVariants {
+export type SwitchFieldProps = SwitchVariants & {
   label?: ReactNode;
   description?: ReactNode;
   error?: FieldError | string;
@@ -23,7 +23,7 @@ export interface SwitchFieldProps extends SwitchVariants {
   disabled?: boolean;
   className?: string;
   controlClassName?: string;
-}
+};
 
 export const SwitchField = forwardRef<HTMLLabelElement, SwitchFieldProps>(
   (

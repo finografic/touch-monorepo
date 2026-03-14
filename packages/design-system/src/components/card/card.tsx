@@ -3,7 +3,7 @@ import { forwardRef, type HTMLAttributes } from 'react';
 import { cardRecipe } from './card.recipe';
 import type { CardVariants } from './card.types';
 
-export interface CardProps extends CardVariants, HTMLAttributes<HTMLDivElement> {}
+export type CardProps = CardVariants & HTMLAttributes<HTMLDivElement>;
 
 export const Card = forwardRef<HTMLDivElement, CardProps>(
   ({ size, variant, className, children, ...props }, ref) => {

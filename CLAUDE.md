@@ -14,6 +14,11 @@ Rules are canonical in `.github/instructions/` and shared across Claude Code, Cu
 - [Variable Naming](/.github/instructions/07-variable-naming.instructions.md)
 - [README Standards](/.github/instructions/08-readme-standards.instructions.md)
 
+## Markdown Tables
+
+- Padded pipes: one space on each side of every `|`, including the separator row.
+- Align column widths so all cells in the same column are equal width.
+
 ## Project-Specific
 
 - Do not include `Co-Authored-By` lines in commit messages.

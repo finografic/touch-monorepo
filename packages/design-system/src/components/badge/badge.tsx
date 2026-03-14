@@ -3,7 +3,7 @@ import { forwardRef, type HTMLAttributes } from 'react';
 import { badgeRecipe } from './badge.recipe';
 import type { BadgeVariants } from './badge.types';
 
-export interface BadgeProps extends BadgeVariants, HTMLAttributes<HTMLSpanElement> {}
+export type BadgeProps = BadgeVariants & HTMLAttributes<HTMLSpanElement>;
 
 export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
   ({ variant, colorScheme, size, className, children, ...props }, ref) => {

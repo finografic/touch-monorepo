@@ -16,21 +16,21 @@ Each folder contains exactly four files:
 
 ## Component inventory
 
-| Component    | Recipe type | Ark UI | createStyleContext | Notes |
-|---|---|---|---|---|
-| `badge`      | `cva`  | —       | —   | `<span>` wrapper |
-| `button`     | `cva`  | `ark.button` | — | Self-applies recipe |
-| `callout`    | `cva`  | —       | —   | `<div role="alert">` wrapper |
-| `card`       | `cva`  | —       | —   | `<div>` wrapper |
-| `data-table` | `sva`  | —       | —   | TanStack Table; slot classes via `classNames` prop |
-| `dialog`     | `sva`  | yes     | yes | `withProvider` + `withContext` |
-| `menu`       | `sva`  | yes     | yes | `withProvider` + `withContext` |
-| `popover`    | `sva`  | yes     | yes | `withRootProvider` + `withContext` |
-| `spinner`    | `cva`  | —       | —   | SVG; self-applies recipe via `className` |
-| `tabs`       | `sva`  | yes     | yes | `withProvider` + `withContext` |
-| `text`       | `cva`  | —       | —   | Polymorphic; element inferred from `variant` |
-| `toast`      | `sva`  | yes     | yes | `withProvider` + `withContext` |
-| `tooltip`    | `sva`  | yes     | yes | `withRootProvider` + `withContext` |
+| Component    | Recipe type | Ark UI       | createStyleContext | Notes                                              |
+| ------------ | ----------- | ------------ | ------------------ | -------------------------------------------------- |
+| `badge`      | `cva`       | —            | —                  | `<span>` wrapper                                   |
+| `button`     | `cva`       | `ark.button` | —                  | Self-applies recipe                                |
+| `callout`    | `cva`       | —            | —                  | `<div role="alert">` wrapper                       |
+| `card`       | `cva`       | —            | —                  | `<div>` wrapper                                    |
+| `data-table` | `sva`       | —            | —                  | TanStack Table; slot classes via `classNames` prop |
+| `dialog`     | `sva`       | yes          | yes                | `withProvider` + `withContext`                     |
+| `menu`       | `sva`       | yes          | yes                | `withProvider` + `withContext`                     |
+| `popover`    | `sva`       | yes          | yes                | `withRootProvider` + `withContext`                 |
+| `spinner`    | `cva`       | —            | —                  | SVG; self-applies recipe via `className`           |
+| `tabs`       | `sva`       | yes          | yes                | `withProvider` + `withContext`                     |
+| `text`       | `cva`       | —            | —                  | Polymorphic; element inferred from `variant`       |
+| `toast`      | `sva`       | yes          | yes                | `withProvider` + `withContext`                     |
+| `tooltip`    | `sva`       | yes          | yes                | `withRootProvider` + `withContext`                 |
 
 ## Patterns
 

@@ -6,7 +6,7 @@ import { useFormContext } from 'react-hook-form';
 import { fieldBoxRecipe } from './field-box.recipe';
 import type { FieldBoxVariants } from './field-box.types';
 
-export interface FieldBoxProps extends FieldBoxVariants {
+export type FieldBoxProps = FieldBoxVariants & {
   /** RHF field name — wires to useFormContext for auto error/warning state */
   name?: string;
   label?: ReactNode;
@@ -17,7 +17,7 @@ export interface FieldBoxProps extends FieldBoxVariants {
   className?: string;
   /** Explicit error — used when not inside an RHF FormProvider */
   error?: FieldError | string;
-}
+};
 
 function deriveValidationState(opts: {
   error: FieldError | undefined;

@@ -18,6 +18,28 @@
 4. Organized sections (H2/H3)
 5. Clear, concise content with examples when helpful
 
+## Markdown Tables
+
+- Use padded pipe style — one space on each side of every `|`, including the header separator row.
+- Align column widths so all cells in the same column are padded to equal width.
+- dprint (markdown plugin) enforces this on save.
+
+**Correct:**
+
+```markdown
+| Component | Recipe type | Notes            |
+| --------- | ----------- | ---------------- |
+| `badge`   | `cva`       | `<span>` wrapper |
+```
+
+**Incorrect:**
+
+```markdown
+| Component | Recipe type | Notes |
+|---|---|---|
+| `badge` | `cva` | `<span>` wrapper |
+```
+
 ## Comments vs Docs
 
 - Use JSDoc for inline code.

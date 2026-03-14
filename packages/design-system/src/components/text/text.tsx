@@ -3,9 +3,9 @@ import { type HTMLAttributes } from 'react';
 import { textRecipe } from './text.recipe';
 import type { TextElement, TextVariants } from './text.types';
 
-export interface TextProps extends TextVariants, HTMLAttributes<HTMLElement> {
+export type TextProps = TextVariants & HTMLAttributes<HTMLElement> & {
   as?: TextElement;
-}
+};
 
 const variantToElement: Record<NonNullable<TextVariants['variant']>, TextElement> = {
   h1: 'h1',

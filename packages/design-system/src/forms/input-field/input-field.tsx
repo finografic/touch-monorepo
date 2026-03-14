@@ -42,13 +42,12 @@ InputFieldSlot.displayName = 'InputField.Slot';
 
 // ── InputField.Root ───────────────────────────────────────────────────────────
 
-export interface InputFieldRootProps
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'>,
-    InputFieldVariants {
-  /** Decoration slots — InputField.Slot with side="left" | "right" */
-  children?: ReactNode;
-  invalid?: boolean;
-}
+export type InputFieldRootProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> &
+  InputFieldVariants & {
+    /** Decoration slots — InputField.Slot with side="left" | "right" */
+    children?: ReactNode;
+    invalid?: boolean;
+  };
 
 export const InputFieldRoot = forwardRef<HTMLInputElement, InputFieldRootProps>(
   ({ children, className, size = 'md', invalid, disabled, ...inputProps }, ref) => {

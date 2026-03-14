@@ -31,7 +31,7 @@ export interface CheckboxFieldClassNames {
   errorText?: string;
 }
 
-export interface CheckboxFieldProps extends CheckboxVariants {
+export type CheckboxFieldProps = CheckboxVariants & {
   /** Label text beside the checkbox */
   label?: ReactNode;
   /** Helper text below the label */
@@ -48,7 +48,7 @@ export interface CheckboxFieldProps extends CheckboxVariants {
   indicator?: ReactNode;
   /** Per-slot class overrides */
   classNames?: CheckboxFieldClassNames;
-}
+};
 
 export const CheckboxField = forwardRef<HTMLLabelElement, CheckboxFieldProps>(
   (
