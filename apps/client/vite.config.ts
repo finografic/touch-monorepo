@@ -95,6 +95,10 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
     resolve: {
       extensions: ['.tsx', '.ts', '.jsx', '.js', '.mjs', '.cjs', '.json'],
       alias: {
+        // DS dist files import from @styled-system/* (panda path aliases).
+        // Redirect them to the CLIENT's styled-system so they share one instance.
+        '@styled-system/css': resolve(__dirname, 'styled-system/css'),
+        '@styled-system/jsx': resolve(__dirname, 'styled-system/jsx'),
         '@workspace/core/types': resolve(WORKSPACE_ROOT, 'packages/core/src/types'),
         '@workspace/core/types/utils': resolve(WORKSPACE_ROOT, 'packages/core/src/types/utils'),
         '@workspace/i18n': resolve(WORKSPACE_ROOT, 'packages/i18n/src/index.ts'),

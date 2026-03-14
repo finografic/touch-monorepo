@@ -1,3 +1,5 @@
+export * from '../components/dialog';
+export type { DialogContentPropsDS, DialogRootPropsDS, DialogSize } from '../components/dialog/dialog.types';
 export * from './checkbox';
 export * from './field-box';
 export * from './input-field';

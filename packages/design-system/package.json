@@ -3,45 +3,45 @@
   "type": "module",
   "version": "0.0.1",
   "private": true,
-  "main": "./dist/index.mjs",
-  "types": "./dist/index.d.mts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.mts",
-      "import": "./dist/index.mjs"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
     },
     "./tokens": {
-      "types": "./dist/tokens/index.d.mts",
-      "import": "./dist/tokens/index.mjs"
+      "types": "./dist/tokens/index.d.ts",
+      "import": "./dist/tokens/index.js"
     },
     "./recipes": {
-      "types": "./dist/recipes/index.d.mts",
-      "import": "./dist/recipes/index.mjs"
+      "types": "./dist/recipes/index.d.ts",
+      "import": "./dist/recipes/index.js"
     },
     "./components": {
-      "types": "./dist/components/index.d.mts",
-      "import": "./dist/components/index.mjs"
+      "types": "./dist/components/index.d.ts",
+      "import": "./dist/components/index.js"
     },
     "./styles/reset.css": "./src/styles/reset.css",
     "./styles/keyframes.css": "./src/styles/keyframes.css",
     "./styles/global.css": "./src/styles/global.css",
     "./grid": {
-      "types": "./dist/grid/index.d.mts",
-      "import": "./dist/grid/index.mjs"
+      "types": "./dist/grid/index.d.ts",
+      "import": "./dist/grid/index.js"
     },
     "./grid/grid.css": "./src/grid/grid.css",
     "./forms": {
-      "types": "./dist/forms/index.d.mts",
-      "import": "./dist/forms/index.mjs"
+      "types": "./dist/forms/index.d.ts",
+      "import": "./dist/forms/index.js"
     },
     "./forms/forms.css": "./src/forms/forms.css",
     "./viewport": {
-      "types": "./dist/viewport/index.d.mts",
-      "import": "./dist/viewport/index.mjs"
+      "types": "./dist/viewport/index.d.ts",
+      "import": "./dist/viewport/index.js"
     },
     "./palette/colors": {
-      "types": "./dist/palette/colors.palette.d.mts",
-      "import": "./dist/palette/colors.palette.mjs"
+      "types": "./dist/palette/colors.palette.d.ts",
+      "import": "./dist/palette/colors.palette.js"
     },
     "./panda.preset": {
       "types": "./dist/panda.preset.d.mts",

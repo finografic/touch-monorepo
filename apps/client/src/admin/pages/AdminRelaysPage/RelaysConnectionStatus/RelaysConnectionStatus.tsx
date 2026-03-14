@@ -1,7 +1,7 @@
 import React from 'react';
+import { Switch } from '@workspace/design-system/forms';
 
 import { Flex } from 'styled-system/jsx';
-import { Switch } from '@workspace/design-system/components';
 import { badge, dsSwitch } from 'styled-system/recipes';
 import { Button } from 'components/Button';
 import { Loader } from 'components/Loader/Loader';
@@ -59,7 +59,13 @@ export const RelaysConnectionStatus: React.FC = () => {
           <Button onClick={() => enableStatesPolling()} variant="solid" color="info">
             🔄 Retry Connection
           </Button>
-          <span className={badge({ variant: 'soft', colorScheme: statesPollingEnabled ? 'success' : 'danger', size: 'lg' })}>
+          <span
+            className={badge({
+              variant: 'soft',
+              colorScheme: statesPollingEnabled ? 'success' : 'danger',
+              size: 'lg',
+            })}
+          >
             Polling: {statesPollingEnabled ? 'Active' : 'Disabled'}
           </span>
         </Flex>
@@ -75,19 +81,27 @@ export const RelaysConnectionStatus: React.FC = () => {
     <Flex justify="space-between" align="center">
       <Flex direction="column" gap={2}>
         <Flex align="center" gap={3} className="status-buttons">
-          <span className={badge({ variant: 'soft', colorScheme: relayStatus?.connected ? 'success' : 'danger', size: 'lg' })}>
+          <span
+            className={badge({
+              variant: 'soft',
+              colorScheme: relayStatus?.connected ? 'success' : 'danger',
+              size: 'lg',
+            })}
+          >
             {relayStatus?.connected ? 'Connected' : 'Disconnected'}
           </span>
-          <span className={badge({ variant: 'soft', colorScheme: statesPollingEnabled ? 'success' : 'danger', size: 'lg' })}>
+          <span
+            className={badge({
+              variant: 'soft',
+              colorScheme: statesPollingEnabled ? 'success' : 'danger',
+              size: 'lg',
+            })}
+          >
             Polling: {statesPollingEnabled ? 'Active' : 'Disabled'}
           </span>
 
-          {relayStatus?.port && (
-            <span>Port: {relayStatus.port}</span>
-          )}
-          {relayStatus?.error && (
-            <span>Error: {relayStatus.error}</span>
-          )}
+          {relayStatus?.port && <span>Port: {relayStatus.port}</span>}
+          {relayStatus?.error && <span>Error: {relayStatus.error}</span>}
         </Flex>
       </Flex>
       <Flex align="center" gap={3}>

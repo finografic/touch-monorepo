@@ -1,17 +1,17 @@
 import React from 'react';
+import { Switch } from '@workspace/design-system/forms';
 import type { LanguageInfo } from '@workspace/i18n/types';
+import { LockIcon, TrashIcon } from '@workspace/icons';
 
-import { Flex } from 'styled-system/jsx';
-import { Button } from 'components/Button';
-import { Switch } from '@workspace/design-system/components';
-import { card, dsSwitch } from 'styled-system/recipes';
 import clsx from 'clsx';
+import { Flex } from 'styled-system/jsx';
+import { card, dsSwitch } from 'styled-system/recipes';
+import { Button } from 'components/Button';
 
 import { useToggleSupportedLanguageActive } from 'queries/supported-languages';
 
 import { canDeleteLanguage } from 'utils/i18n/language.utils';
 import { LanguageItem } from './LanguageItem';
-import { LockIcon, TrashIcon } from '@workspace/icons';
 
 interface LanguagesListProps {
   languages: LanguageInfo[];

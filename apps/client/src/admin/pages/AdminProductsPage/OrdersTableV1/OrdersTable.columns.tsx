@@ -1,4 +1,4 @@
-import { CheckboxField } from '@workspace/design-system/components';
+import { CheckboxField } from '@workspace/design-system/forms';
 import { EditIcon, TrashIcon } from '@workspace/icons';
 
 import type { ColumnDef } from '@tanstack/react-table';

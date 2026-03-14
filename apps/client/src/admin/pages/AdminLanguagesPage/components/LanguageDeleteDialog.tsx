@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dialog } from '@workspace/design-system/forms';
+import { Dialog } from '@workspace/design-system/components';
 import type { LanguageInfo } from '@workspace/i18n/types';
 
 import { Flex } from 'styled-system/jsx';
@@ -37,12 +37,14 @@ export const LanguageDeleteDialog: React.FC<LanguageDeleteDialogProps> = ({
           <Dialog.Body>
             <Dialog.Description className="ds-dialog__description--visible">
               Are you sure you want to delete <strong>{language.label}</strong> ({language.code})?
-              <br /><br />
+              <br />
+              <br />
               This will:
               <br />• Remove the language from the supported languages list
               <br />• Delete all translation columns for this language from the database
               <br />• Permanently remove all translations for this language
-              <br /><br />
+              <br />
+              <br />
               <span style={{ color: 'var(--colors-danger-dark)', fontWeight: 700 }}>
                 This action cannot be undone.
               </span>

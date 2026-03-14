@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { Switch } from '@workspace/design-system/components';
+import { Switch } from '@workspace/design-system/forms';
 import { MinusIcon, PlusIcon } from '@workspace/icons';
 
 import clsx from 'clsx';

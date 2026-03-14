@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { Tabs } from '@workspace/design-system/components';
-import { Dialog } from '@workspace/design-system/forms';
+import { Dialog, Tabs } from '@workspace/design-system/components';
 import { CloseIcon } from '@workspace/icons';
 
 import clsx from 'clsx';

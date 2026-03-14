@@ -5,11 +5,11 @@
 
 ok, have have "finished" my DS package....
 
-But am running into some MAJOR issues now....  
+But am running into some MAJOR issues now....
 
 Mainly, when i go to rebuild the entire monorepo, CLIENT build fails... and always related the DS...
 
-The only difference should be that i have more components exported....  
+The only difference should be that i have more components exported....
 
 Though, there have been some others changes to client and DS package config files, so ithe real issue COULD be any of THESE:
 
@@ -17,7 +17,7 @@ apps/client/panda.config.ts
 apps/client/tsconfig.json
 apps/client/vite.config.ts
 
-ackages/design-system/package.json
+packages/design-system/package.json
 packages/design-system/panda.config.ts
 packages/design-system/tsconfig.json
 packages/design-system/tsdown.config.ts
