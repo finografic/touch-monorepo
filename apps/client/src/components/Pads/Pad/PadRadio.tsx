@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { RadioGroup } from '@workspace/design-system/forms/primitives';
 
+import { RadioGroup } from '@ark-ui/react';
 import clsx from 'clsx';
 
 import { useLayoutUi } from 'providers/LayoutUiProvider';

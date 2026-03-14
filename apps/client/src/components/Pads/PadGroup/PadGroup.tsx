@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { RadioGroup } from '@workspace/design-system/forms/primitives';
+
+import { RadioGroup } from '@ark-ui/react';
 
 import type { PadType, PadUI } from 'types/pads.types';
 import { PAD_TYPE } from 'types/pads.types';

@@ -1,6 +1,6 @@
 import * as React from 'react';
+import { Checkbox } from '@ark-ui/react';
 
-import { Checkbox } from '@workspace/design-system/forms/primitives';
 import clsx from 'clsx';
 
 import { useLayoutUi } from 'providers/LayoutUiProvider';
