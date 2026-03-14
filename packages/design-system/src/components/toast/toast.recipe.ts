@@ -29,9 +29,7 @@
  * });
  * ```
  */
-import type { RecipeProps } from 'src/types/recipes.types';
-
-import { sva } from '../../../styled-system/css';
+import { sva } from '@styled-system/css';
 
 export const toastRecipe = sva({
   slots: ['root', 'title', 'description', 'closeTrigger', 'actionTrigger'],
@@ -144,5 +142,3 @@ export const toastRecipe = sva({
     status: 'info',
   },
 });
-
-export type ToastRecipeProps = RecipeProps<typeof toastRecipe>;

@@ -55,4 +55,3 @@
  * ```
  */
 export { createToaster, Toast, Toaster } from '@ark-ui/react';
-

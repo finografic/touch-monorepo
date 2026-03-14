@@ -18,4 +18,3 @@ Spinner.displayName = 'Spinner';
 
 export type { SpinnerProps };
 export { Spinner };
-

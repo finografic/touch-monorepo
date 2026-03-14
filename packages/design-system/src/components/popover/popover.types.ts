@@ -1,5 +1,4 @@
-import type { RecipeProps } from '../../types/recipes.types';
-import { popoverRecipe } from './popover.recipe';
+import type { RecipeProps } from 'types/recipes.types';
+import type { popoverRecipe } from './popover.recipe';
 
-export type PopoverRecipeProps = RecipeProps<typeof popoverRecipe>;
-
+export type PopoverVariants = RecipeProps<typeof popoverRecipe>;

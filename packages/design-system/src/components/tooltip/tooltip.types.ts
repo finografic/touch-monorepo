@@ -1,5 +1,4 @@
-import type { RecipeProps } from '../../types/recipes.types';
-import { tooltipRecipe } from './tooltip.recipe';
+import type { RecipeProps } from 'types/recipes.types';
+import type { tooltipRecipe } from './tooltip.recipe';
 
-export type TooltipRecipeProps = RecipeProps<typeof tooltipRecipe>;
-
+export type TooltipVariants = RecipeProps<typeof tooltipRecipe>;

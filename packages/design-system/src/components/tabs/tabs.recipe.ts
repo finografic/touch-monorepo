@@ -32,9 +32,7 @@
  * </Tabs.Root>
  * ```
  */
-import type { RecipeProps } from 'src/types/recipes.types';
-
-import { sva } from '../../../styled-system/css';
+import { sva } from '@styled-system/css';
 
 export const tabsRecipe = sva({
   className: 'tabs',
@@ -146,5 +144,3 @@ export const tabsRecipe = sva({
     size: 'md',
   },
 });
-
-export type TabsRecipeProps = RecipeProps<typeof tabsRecipe>;
