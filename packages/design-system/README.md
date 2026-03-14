@@ -261,12 +261,14 @@ import { Row, Col, Container } from '@workspace/design-system/grid';
 
 ## Development
 
-```bash
-# Codegen (regenerates styled-system/)
-pnpm panda:codegen
+### DS package (`packages/design-system/`)
 
-# Build (codegen + tsdown)
+```bash
+# Build — panda codegen + tsdown (run after any source change)
 pnpm build
+
+# Panda codegen only — regenerates styled-system/ without bundling
+pnpm panda:codegen
 
 # Type check
 pnpm typecheck
@@ -277,6 +279,20 @@ pnpm panda:studio
 # Panda MCP server (for Claude Code / Cursor)
 pnpm panda:mcp
 ```
+
+### After a DS change — update the client
+
+Any change to tokens or recipes requires the client to regenerate its `styled-system/`:
+
+```bash
+# From apps/client/
+pnpm panda:codegen
+```
+
+The client's `panda.config.ts` extends `@workspace/design-system/panda.preset` and
+scans DS source files directly — stale codegen means missing or incorrect CSS.
+
+> **Build order:** `pnpm build` (DS) → `pnpm panda:codegen` (client) → `pnpm build` (client)
 
 ---
 
