@@ -1,5 +1,4 @@
 import type { RecipeProps } from 'types/recipes.types';
-
 import type { textRecipe } from './text.recipe';
 
 export type TextVariants = RecipeProps<typeof textRecipe>;

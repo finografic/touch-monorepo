@@ -102,19 +102,12 @@ export const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(
         invalid={Boolean(errorMessage)}
         className={[cls.root, className].filter(Boolean).join(' ')}
       >
-        {label && (
-          <ArkNumberInput.Label className={cls.label}>{label}</ArkNumberInput.Label>
-        )}
+        {label && <ArkNumberInput.Label className={cls.label}>{label}</ArkNumberInput.Label>}
 
         <ArkNumberInput.Control className={cls.control}>
           {prefix && <span className={cls.prefix}>{prefix}</span>}
 
-          <ArkNumberInput.Input
-            ref={ref}
-            onBlur={onBlur}
-            placeholder={placeholder}
-            className={cls.input}
-          />
+          <ArkNumberInput.Input ref={ref} onBlur={onBlur} placeholder={placeholder} className={cls.input} />
 
           {suffix && <span className={cls.suffix}>{suffix}</span>}
 
@@ -131,7 +124,10 @@ export const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(
         </ArkNumberInput.Control>
 
         {errorMessage && (
-          <span role="alert" style={{ fontSize: 'var(--font-sizes-sm)', color: 'var(--colors-fg-error)', fontWeight: 600 }}>
+          <span
+            role="alert"
+            style={{ fontSize: 'var(--font-sizes-sm)', color: 'var(--colors-fg-error)', fontWeight: 600 }}
+          >
             {errorMessage}
           </span>
         )}

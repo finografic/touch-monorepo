@@ -2,9 +2,9 @@ import { Field } from '@ark-ui/react';
 import {
   Children,
   forwardRef,
-  isValidElement,
   type HTMLAttributes,
   type InputHTMLAttributes,
+  isValidElement,
   type ReactNode,
 } from 'react';
 
@@ -77,11 +77,17 @@ export const InputFieldRoot = forwardRef<HTMLInputElement, InputFieldRootProps>(
       >
         {leadingSlots.map((slot, i) =>
           isValidElement(slot)
-            ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              (slot as any).type === InputFieldSlot
+            ? (slot as any).type === InputFieldSlot
               ? // clone to inject recipe class
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                { ...(slot as any), props: { ...(slot as any).props, className: [cls.slot, (slot as any).props.className].filter(Boolean).join(' ') }, key: i }
+
+                {
+                  ...(slot as any),
+                  props: {
+                    ...(slot as any).props,
+                    className: [cls.slot, (slot as any).props.className].filter(Boolean).join(' '),
+                  },
+                  key: i,
+                }
               : slot
             : slot,
         )}
@@ -94,8 +100,14 @@ export const InputFieldRoot = forwardRef<HTMLInputElement, InputFieldRootProps>(
         />
         {trailingSlots.map((slot, i) =>
           isValidElement(slot)
-            ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              { ...(slot as any), props: { ...(slot as any).props, className: [cls.slot, (slot as any).props.className].filter(Boolean).join(' ') }, key: i }
+            ? {
+                ...(slot as any),
+                props: {
+                  ...(slot as any).props,
+                  className: [cls.slot, (slot as any).props.className].filter(Boolean).join(' '),
+                },
+                key: i,
+              }
             : slot,
         )}
       </div>

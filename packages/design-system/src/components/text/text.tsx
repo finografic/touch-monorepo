@@ -25,7 +25,7 @@ export function Text({ as, variant = 'body', color, truncate, className, childre
   const Tag = as ?? variantToElement[variant];
   const cls = textRecipe({ variant, color, truncate });
   return (
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     <Tag className={className ? `${cls} ${className}` : cls} {...(props as any)}>
       {children}
     </Tag>

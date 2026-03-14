@@ -1,5 +1,5 @@
 import { Field } from '@ark-ui/react';
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { type ReactNode, useEffect, useRef, useState } from 'react';
 import type { FieldError } from 'react-hook-form';
 import { useFormContext } from 'react-hook-form';
 
@@ -121,7 +121,9 @@ export function FieldBox({
     <span className={cls.label}>
       {label}
       {required && (
-        <span className={cls.requiredIndicator} aria-hidden="true">*</span>
+        <span className={cls.requiredIndicator} aria-hidden="true">
+          *
+        </span>
       )}
     </span>
   );
@@ -129,11 +131,11 @@ export function FieldBox({
   const feedbackNode = (
     <>
       {showHint && <span className={cls.helperText}>{hint}</span>}
-      {showDebouncedWarning && !showError && message && (
-        <span className={cls.warningText}>{message}</span>
-      )}
+      {showDebouncedWarning && !showError && message && <span className={cls.warningText}>{message}</span>}
       {showError && message && (
-        <span className={cls.errorText} role="alert">{message}</span>
+        <span className={cls.errorText} role="alert">
+          {message}
+        </span>
       )}
     </>
   );
@@ -152,9 +154,7 @@ export function FieldBox({
         {showDebouncedWarning && !showError && message && (
           <Field.HelperText className={cls.warningText}>{message}</Field.HelperText>
         )}
-        {showError && message && (
-          <Field.ErrorText className={cls.errorText}>{message}</Field.ErrorText>
-        )}
+        {showError && message && <Field.ErrorText className={cls.errorText}>{message}</Field.ErrorText>}
       </Field.Root>
     );
   }
@@ -176,9 +176,6 @@ function hasArkFieldInput(children: ReactNode): boolean {
   if (!children) return false;
   const { Children, isValidElement } = require('react');
   return Children.toArray(children).some(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (child: any) =>
-      isValidElement(child) &&
-      (child.type === Field.Input || child.type === Field.Textarea),
+    (child: any) => isValidElement(child) && (child.type === Field.Input || child.type === Field.Textarea),
   );
 }
