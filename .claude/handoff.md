@@ -31,7 +31,13 @@ No CLI. `panda codegen && panda cssgen` runs before every client dev/build.
 
 ## Decisions
 
-1. Use tsdown (not tsup) for design-system build; outputs `.mjs`/`.d.mts` (2026-02-26)
+1. DS build: `panda codegen && tsdown`; tsdown split into browser + node configs; `panda.preset` must use `platform: 'node'` (2026-03-14)
+2. DS exports map uses `.js`/`.d.ts` (not `.mjs`/`.d.mts`) for all browser entries; only `panda.preset` stays `.mjs`/`.d.mts` (2026-03-14)
+3. Client Vite config must alias `@styled-system/css` and `@styled-system/jsx` → `./styled-system/` so DS dist and client share one Panda instance (2026-03-14)
+4. DS tsconfig `paths` reduced to only `@styled-system/*`; all other internal imports use relative paths (2026-03-14)
+5. `Dialog` re-exported from `@workspace/design-system/forms` (lives in `components/dialog/`, available from both sub-paths) (2026-03-14)
+6. Sub-path rule: `forms` = all input components (Switch, Checkbox, InputField, Select, Slider, RadioGroup, Dialog); `components` = everything else (Tabs, Menu, Toast, Tooltip, Popover, Button, Badge, Card, Spinner) (2026-03-14)
+7. Use tsdown (not tsup) for design-system build; outputs `.mjs`/`.d.mts` (2026-02-26)
 2. Emotion co-existence — `.styles.ts` files not rewritten yet; Panda added alongside (2026-02-26)
 3. Dark mode via `[data-theme="dark"]` in Panda, matches EmotionThemeProvider (2026-02-26)
 4. `panda cssgen` (no PostCSS) — compatible with lightningcss Vite transformer (2026-02-26)
@@ -47,8 +53,8 @@ No CLI. `panda codegen && panda cssgen` runs before every client dev/build.
 
 ## Status
 
-Phase 6f complete. Radix Themes package removed, all Radix CSS vars replaced with Panda
-design-system tokens across 14+ files. styles/ flattened and pruned. forms.config.ts
-transparency token names fixed. All form inputs already use DS InputField (Ark UI).
-Next: Phase 6g CSS custom property audit (DevTools), then Emotion removal.
+DS build pipeline fully working as of 2026-03-14 — first clean build success (clean → install → build → dev).
+Five interacting root causes fixed (see `DS_FIXES_DEBUGGING.md` for full detail).
+All DS components build correctly; client imports from correct sub-paths.
+Emotion removal (~100 `.styles.ts` files) and Phase 6g CSS audit are the next planned steps.
 Pre-existing TS errors remain (~91) from unrelated modules (relays, translations, auth).
