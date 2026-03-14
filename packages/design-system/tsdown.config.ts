@@ -8,7 +8,6 @@ export default defineConfig({
     'components/index': 'src/components/index.ts',
     'grid/index': 'src/grid/index.ts',
     'forms/index': 'src/forms/index.ts',
-    'forms/primitives': 'src/forms/primitives.ts',
     'viewport/index': 'src/viewport/index.ts',
     'palette/colors': 'src/palette/colors.palette.ts',
     'panda.preset': 'src/panda.preset.ts',
