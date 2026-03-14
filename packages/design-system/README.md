@@ -3,6 +3,10 @@
 Token-driven design system built on **Ark UI** and **Panda CSS**.
 
 > **Key links:** [Ark UI](https://ark-ui.com) · [Panda CSS](https://panda-css.com) · [Zag.js](https://zagjs.com)
+>
+> **🤖 AI-ready:** A **Panda CSS MCP server** is pre-configured for this package — giving Claude Code,
+> Cursor, and other MCP-compatible agents live access to tokens, recipes, and slot schemas.
+> Run `pnpm panda:mcp` from `packages/design-system/` to start it.
 
 ---
 
