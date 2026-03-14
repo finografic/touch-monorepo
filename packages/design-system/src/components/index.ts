@@ -3,8 +3,16 @@ export type { SpinnerProps } from './spinner';
 export { Spinner } from './spinner';
 
 // ── Styled wrappers (recipe-ready) ───────────────────────────────────────────
+export type { BadgeProps } from './badge';
+export { Badge } from './badge';
 export type { ButtonProps } from './button';
 export { Button } from './button';
+export type { CalloutProps } from './callout';
+export { Callout } from './callout';
+export type { CardProps } from './card';
+export { Card } from './card';
+export type { TextProps } from './text';
+export { Text } from './text';
 
 // Data table — TanStack Table + tableRecipe
 export type {

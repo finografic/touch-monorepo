@@ -1,34 +1,14 @@
 /**
  * Text Recipe
  *
- * Typography scale for headings, body text, captions, and overlines.
- * Sizes are tuned for application UI — not editorial/marketing scale.
- *
- * Reference: apps/client/src/styles/fonts/typography.contants.ts
- *
- *   V1 → V2 mapping
- *   h1 (xxxl 1.875rem) → 3xl
- *   h2 (xxl  1.5rem)   → 2xl
- *   h3 (xl   1.25rem)  → xl
- *   body (md 1rem)     → md
- *   caption (xs 0.75rem) → xs
- *
- * Usage:
- * ```tsx
- * import { textRecipe } from '@workspace/design-system/recipes';
- *
- * <h1 className={textRecipe({ variant: 'h1' })}>Page Title</h1>
- * <p  className={textRecipe({ variant: 'body', color: 'muted' })}>Subtitle</p>
- * ```
+ * Variants: variant (h1–h6 | body | body-lg | body-sm | caption | overline)
+ *           color (default | muted | subtle | inverted | error | success | warning | info)
+ *           truncate (boolean)
  */
-import type { RecipeProps } from 'src/types/recipes.types';
-
-import { cva } from '../../styled-system/css';
+import { cva } from '@styled-system/css';
 
 export const textRecipe = cva({
-  base: {
-    margin: '0',
-  },
+  base: { margin: '0' },
 
   variants: {
     variant: {
@@ -38,17 +18,10 @@ export const textRecipe = cva({
       'h4': { fontSize: 'lg', fontWeight: 'semibold', lineHeight: 'snug' },
       'h5': { fontSize: 'md', fontWeight: 'semibold', lineHeight: 'snug' },
       'h6': { fontSize: 'sm', fontWeight: 'semibold', lineHeight: 'snug' },
-
       'body-lg': { fontSize: 'lg', fontWeight: 'normal', lineHeight: 'normal' },
       'body': { fontSize: 'md', fontWeight: 'normal', lineHeight: 'normal' },
       'body-sm': { fontSize: 'sm', fontWeight: 'normal', lineHeight: 'normal' },
-
-      'caption': {
-        fontSize: 'xs',
-        fontWeight: 'normal',
-        lineHeight: 'normal',
-      },
-
+      'caption': { fontSize: 'xs', fontWeight: 'normal', lineHeight: 'normal' },
       'overline': {
         fontSize: 'xs',
         fontWeight: 'semibold',
@@ -70,11 +43,7 @@ export const textRecipe = cva({
     },
 
     truncate: {
-      true: {
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        whiteSpace: 'nowrap',
-      },
+      true: { overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' },
     },
   },
 
@@ -83,5 +52,3 @@ export const textRecipe = cva({
     color: 'default',
   },
 });
-
-export type TextRecipeProps = RecipeProps<typeof textRecipe>;

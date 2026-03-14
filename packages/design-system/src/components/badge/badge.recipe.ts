@@ -1,17 +1,9 @@
 /**
  * Badge Recipe
  *
- * Replaces Radix Themes <Badge> with a Panda CSS recipe.
- * Minimal, semantic, no wrapper elements needed.
- *
- * Usage:
- * ```tsx
- * <span className={badgeRecipe({ variant: 'soft', color: 'info' })}>
- *   3 columns × 4 rows
- * </span>
- * ```
+ * Variants: size (sm | md | lg) · variant (solid | soft | outline) · colorScheme
  */
-import { cva, type RecipeVariantProps } from '../../styled-system/css';
+import { cva } from '@styled-system/css';
 
 export const badgeRecipe = cva({
   base: {
@@ -25,38 +17,15 @@ export const badgeRecipe = cva({
 
   variants: {
     size: {
-      sm: {
-        fontSize: 'xs',
-        paddingInline: '2',
-        paddingBlock: '0.5',
-        gap: '1',
-      },
-      md: {
-        fontSize: 'sm',
-        paddingInline: '3',
-        paddingBlock: '1',
-        gap: '1.5',
-      },
-      lg: {
-        fontSize: 'md',
-        paddingInline: '4',
-        paddingBlock: '1.5',
-        gap: '2',
-      },
+      sm: { fontSize: 'xs', paddingInline: '2', paddingBlock: '0.5', gap: '1' },
+      md: { fontSize: 'sm', paddingInline: '3', paddingBlock: '1', gap: '1.5' },
+      lg: { fontSize: 'md', paddingInline: '4', paddingBlock: '1.5', gap: '2' },
     },
 
     variant: {
-      solid: {
-        color: 'fg.inverted',
-      },
-
+      solid: { color: 'fg.inverted' },
       soft: {},
-
-      outline: {
-        bg: 'transparent',
-        borderWidth: 'light',
-        borderStyle: 'solid',
-      },
+      outline: { bg: 'transparent', borderWidth: 'light', borderStyle: 'solid' },
     },
 
     colorScheme: {
@@ -85,16 +54,8 @@ export const badgeRecipe = cva({
     { variant: 'soft', colorScheme: 'neutral', css: { bg: 'bg.muted', color: 'fg.muted' } },
 
     { variant: 'outline', colorScheme: 'primary', css: { borderColor: 'accent.solid', color: 'accent.fg' } },
-    {
-      variant: 'outline',
-      colorScheme: 'success',
-      css: { borderColor: 'border.success', color: 'fg.success' },
-    },
-    {
-      variant: 'outline',
-      colorScheme: 'warning',
-      css: { borderColor: 'border.warning', color: 'fg.warning' },
-    },
+    { variant: 'outline', colorScheme: 'success', css: { borderColor: 'border.success', color: 'fg.success' } },
+    { variant: 'outline', colorScheme: 'warning', css: { borderColor: 'border.warning', color: 'fg.warning' } },
     { variant: 'outline', colorScheme: 'danger', css: { borderColor: 'border.error', color: 'fg.error' } },
     { variant: 'outline', colorScheme: 'info', css: { borderColor: 'border.info', color: 'fg.info' } },
     { variant: 'outline', colorScheme: 'neutral', css: { borderColor: 'border', color: 'fg.muted' } },
@@ -106,5 +67,3 @@ export const badgeRecipe = cva({
     colorScheme: 'neutral',
   },
 });
-
-export type BadgeVariants = RecipeVariantProps<typeof badgeRecipe>;

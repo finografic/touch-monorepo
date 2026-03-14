@@ -1,20 +1,9 @@
 /**
  * Card Recipe
  *
- * Simple bordered/shadowed content container.
- * Replaces Radix Themes <Card>.
- *
- * Usage:
- * ```tsx
- * import { card } from 'styled-system/recipes';
- *
- * <div className={card()}>...</div>
- * <div className={card({ size: 'lg', variant: 'elevated' })}>...</div>
- * ```
+ * Variants: size (sm | md | lg) · variant (elevated | outlined)
  */
-import type { RecipeProps } from 'src/types/recipes.types';
-
-import { cva } from '../../styled-system/css';
+import { cva } from '@styled-system/css';
 
 export const cardRecipe = cva({
   base: {
@@ -44,5 +33,3 @@ export const cardRecipe = cva({
     variant: 'outlined',
   },
 });
-
-export type CardRecipeProps = RecipeProps<typeof cardRecipe>;

@@ -1,12 +1,12 @@
-export { badgeRecipe } from './badge.recipe';
+export { badgeRecipe } from '../components/badge/badge.recipe';
 export { buttonRecipe } from '../components/button/button.recipe';
-export { calloutRecipe } from './callout.recipe';
-export { cardRecipe } from './card.recipe';
+export { calloutRecipe } from '../components/callout/callout.recipe';
+export { cardRecipe } from '../components/card/card.recipe';
 export { dialogRecipe } from '../components/dialog/dialog.recipe';
 export { menuRecipe } from '../components/menu/menu.recipe';
 export { popoverRecipe } from '../components/popover/popover.recipe';
 export { tableRecipe } from '../components/data-table/data-table.recipe';
 export { tabsRecipe } from '../components/tabs/tabs.recipe';
-export { textRecipe } from './text.recipe';
+export { textRecipe } from '../components/text/text.recipe';
 export { toastRecipe } from '../components/toast/toast.recipe';
 export { tooltipRecipe } from '../components/tooltip/tooltip.recipe';
