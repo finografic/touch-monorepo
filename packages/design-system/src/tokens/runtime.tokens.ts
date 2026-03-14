@@ -30,7 +30,8 @@ const _border = {
 } as const;
 
 export const layout = {
-  fontSize: textStyles.body.md.value.fontSize,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  fontSize: (textStyles.body as any).md.value.fontSize as string,
   padding: spacingTokens['4'].value, // 1rem
   borderWidth: _border.width.default, // 2px
   borderRadius: _border.radius.md, // 1rem

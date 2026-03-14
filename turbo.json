@@ -41,7 +41,7 @@
         "@workspace/i18n#build",
         "@workspace/config#build"
       ],
-      "outputs": ["dist/**"]
+      "outputs": ["dist/**", "styled-system/**"]
     },
     "@workspace/server#build": {
       "dependsOn": [
@@ -61,7 +61,7 @@
         "@workspace/icons#build",
         "@workspace/design-system#build"
       ],
-      "outputs": ["dist/**"]
+      "outputs": ["dist/**", "styled-system/**"]
     },
     "dev": {
       "cache": false,
