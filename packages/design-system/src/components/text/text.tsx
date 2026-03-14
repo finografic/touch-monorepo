@@ -7,7 +7,7 @@ export type TextProps = TextVariants & HTMLAttributes<HTMLElement> & {
   as?: TextElement;
 };
 
-const variantToElement: Record<NonNullable<TextVariants['variant']>, TextElement> = {
+const variantToElement: Record<string, TextElement> = {
   h1: 'h1',
   h2: 'h2',
   h3: 'h3',
