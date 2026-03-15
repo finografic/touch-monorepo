@@ -1,8 +1,9 @@
-import { css } from '@emotion/react';
-
 import { colors } from '@finografic/design-system/tokens';
 
+import { css } from '@emotion/react';
+
 export const styles = css`
+  border: 1px solid red !important;
   display: flex;
   justify-content: center;
   align-items: center;

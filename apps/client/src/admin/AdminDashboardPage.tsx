@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-
 import { Card } from '@finografic/design-system/components';
 import { colors } from '@finografic/design-system/tokens';
+
 import { getAdminDashboardCards } from 'admin/config/admin.routes.selectors';
 import { Box, Flex } from 'styled-system/jsx';
 import { SectionHeader } from 'components/SectionHeader/SectionHeader';

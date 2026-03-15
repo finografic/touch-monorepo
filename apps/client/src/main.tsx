@@ -15,9 +15,12 @@ import App from './App';
 import i18n from './i18n.config.ts';
 import './theme.css';
 import 'styled-system/styles.css'; // NOTE: Panda CSS — design-system tokens + recipes + keyframes
-import './styles/icons.css';
+import './styles/css/icons.css';
 import '@finografic/design-system/grid/grid.css';
 import '@finografic/design-system/forms/forms.css';
+// import '@finografic/design-system/components/dialog/dialog.css';
+// import '@finografic/design-system/components/generic-dialog.css';
+import './styles/css/dialog-V2.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

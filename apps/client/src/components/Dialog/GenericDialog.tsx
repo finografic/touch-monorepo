@@ -1,10 +1,9 @@
 import React, { useCallback, useState } from 'react';
-import { Dialog, Tabs } from '@finografic/design-system/components';
+import { Button, Dialog, Tabs } from '@finografic/design-system/components';
 import { CloseIcon } from '@finografic/icons';
 
 import clsx from 'clsx';
 import { Flex } from 'styled-system/jsx';
-import { Button } from 'components/Button';
 import type { DialogConfig } from 'components/Dialog/GenericDialog.types';
 
 import { styles } from './GenericDialog.styles';
@@ -72,12 +71,12 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({
           </Dialog.Header>
 
           {/* Accessible description for screen readers */}
-          <Dialog.Description>
-            {config.title} —{' '}
-            {hasTabs
-              ? 'Navigate between tabs to access different sections'
-              : config.description || 'Dialog content'}
-          </Dialog.Description>
+          {config.description && (
+            <Dialog.Description>
+              {config.title} —{' '}
+              {hasTabs ? 'Navigate between tabs to access different sections' : config.description || ' '}
+            </Dialog.Description>
+          )}
 
           {/* MAIN ============================================================= */}
 
@@ -123,8 +122,8 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({
                 )}
                 {config.footer.primaryButton && (
                   <Button
-                    variant={config.footer.primaryButton.variant ?? 'outline'}
-                    colorScheme={config.footer.primaryButton.colorScheme ?? 'default'}
+                    variant={config.footer.primaryButton.variant ?? 'solid'}
+                    colorScheme={config.footer.primaryButton.colorScheme ?? 'primary'}
                     size="lg"
                     onClick={config.footer.primaryButton.onClick}
                   >

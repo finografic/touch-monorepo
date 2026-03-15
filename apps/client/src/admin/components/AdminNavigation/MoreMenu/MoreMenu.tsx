@@ -29,7 +29,7 @@ export const MoreMenu: React.FC<MoreButtonProps> = ({
 
   return (
     <div css={styles}>
-      <Menu.Root open={isOpen} onOpenChange={({ open }) => onOpenChange(open)}>
+      {/* <Menu.Root open={isOpen} onOpenChange={({ open }) => onOpenChange(open)}>
         <Menu.Trigger asChild>
           <button type="button" className={`nav-button more-button ${className}`}>
             {t('ui.buttons.more')}
@@ -59,7 +59,7 @@ export const MoreMenu: React.FC<MoreButtonProps> = ({
             ))}
           </Menu.Content>
         </Menu.Positioner>
-      </Menu.Root>
+      </Menu.Root> */}
     </div>
   );
 };

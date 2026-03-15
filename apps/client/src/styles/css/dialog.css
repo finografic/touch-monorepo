@@ -1,0 +1,233 @@
+/* ============================================================================
+   Design System — Dialogs
+   Styles for Dialog (Ark UI based).
+   Import once at app entry: @workspace/design-system/styles/dialogs.css
+   ============================================================================ */
+
+
+/* ── Backdrop ───────────────────────────────────────────────────────────────── */
+
+.ds-dialog__backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-index-overlay, 1300);
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+}
+
+.ds-dialog__backdrop[data-state="open"] {
+  animation: ds-dialog-backdrop-in 200ms ease;
+}
+
+.ds-dialog__backdrop[data-state="closed"] {
+  animation: ds-dialog-backdrop-out 150ms ease;
+}
+
+@keyframes ds-dialog-backdrop-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes ds-dialog-backdrop-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* ── Positioner — centers the panel ─────────────────────────────────────────── */
+
+.ds-dialog__positioner {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-index-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+/* ── Content panel ───────────────────────────────────────────────────────────── */
+
+.ds-dialog__content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--colors-bg-panel, var(--colors-bg));
+  border: 1px solid var(--colors-border);
+  border-radius: 0.75rem;
+  padding: var(--spacing-2) var(--spacing-4);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
+  min-height: 240px;
+  max-height: calc(100vh - 2rem);
+  width: 100%;
+  overflow: hidden;
+  outline: none;
+  /* border: 1px solid red !important; */
+}
+
+/* Size scale */
+.ds-dialog__content[data-size="xs"] {
+  max-width: 20rem;
+}
+.ds-dialog__content[data-size="sm"] {
+  max-width: 28rem;
+}
+.ds-dialog__content[data-size="md"] {
+  max-width: 35rem;
+}
+.ds-dialog__content[data-size="lg"] {
+  max-width: 42rem;
+}
+.ds-dialog__content[data-size="xl"] {
+  max-width: 50rem;
+}
+
+.ds-dialog__content[data-size="cover"] {
+  max-width: 95vw;
+  max-height: 95vh;
+  height: 95vh;
+}
+
+.ds-dialog__content[data-size="full"] {
+  max-width: 100vw;
+  max-height: 100vh;
+  width: 100vw;
+  height: 100vh;
+  border-radius: 0;
+  border: none;
+}
+
+/* Positioner adjustments for full/cover */
+.ds-dialog__positioner:has(.ds-dialog__content[data-size="full"]),
+.ds-dialog__positioner:has(.ds-dialog__content[data-size="cover"]) {
+  padding: 0;
+  align-items: center;
+}
+
+/* Open/close animations */
+.ds-dialog__content[data-state="open"] {
+  animation: ds-dialog-in 200ms ease-out;
+}
+
+.ds-dialog__content[data-state="closed"] {
+  animation: ds-dialog-out 150ms ease-in;
+}
+
+@keyframes ds-dialog-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes ds-dialog-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+/* ── Header ──────────────────────────────────────────────────────────────────── */
+
+.ds-dialog__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  padding: 1.25rem 1.5rem 0;
+  gap: 0.75rem;
+}
+
+.ds-dialog__title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--colors-fg);
+  margin: 0;
+  flex: 1;
+}
+
+.ds-dialog__close-trigger {
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+/* ── Description (visually hidden by default — for screen readers) ─────────── */
+
+.ds-dialog__description {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Use .ds-dialog__description--visible to show inline */
+.ds-dialog__description--visible {
+  position: static;
+  width: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+  font-size: 0.875rem;
+  color: var(--colors-fg-muted);
+  padding: 0 1.5rem;
+}
+
+/* ── Body — scrollable content area ─────────────────────────────────────────── */
+
+.ds-dialog__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: var(--spacing-8, 2rem);
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--colors-border) transparent;
+}
+
+.ds-dialog__body::-webkit-scrollbar {
+  width: 6px;
+}
+.ds-dialog__body::-webkit-scrollbar-track {
+  background: transparent;
+}
+.ds-dialog__body::-webkit-scrollbar-thumb {
+  background: var(--colors-border);
+  border-radius: 3px;
+}
+
+/* ── Footer ──────────────────────────────────────────────────────────────────── */
+
+.ds-dialog__footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  flex-shrink: 0;
+  padding: 1rem 1.5rem 1.25rem;
+  border-top: 1px solid var(--colors-border);
+}

@@ -1,0 +1,233 @@
+/* ============================================================================
+   Design System — Dialogs (V2 — Ark UI class names aligned with dialog.css)
+   Styles for Dialog (Ark UI based).
+   Import once at app entry: @workspace/design-system/styles/dialogs.css
+   ============================================================================ */
+
+/* Dialog Component — class names match dialog.css */
+
+.ds-dialog__backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  z-index: var(--z-index-overlay, 1300);
+
+  &[data-state='open'] {
+    animation: ds-dialog-backdrop-in 0.15s ease-out;
+  }
+
+  &[data-state='closed'] {
+    animation: ds-dialog-backdrop-out 0.1s ease-in;
+  }
+}
+
+.ds-dialog__positioner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-index-modal);
+  padding: 1rem;
+  overflow-y: auto;
+  overscroll-behavior-y: none;
+  scrollbar-gutter: stable both-edges;
+}
+
+.ds-dialog__content {
+  --px: var(--spacing-4);
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  width: 24rem;
+  max-width: calc(100vw - 2rem);
+  max-height: calc(100vh - 2rem);
+  padding: var(--spacing-2) var(--spacing-4);
+  border-radius: 0.75rem;
+  border: 1px solid var(--colors-border);
+  background: var(--colors-bg-panel, var(--colors-bg));
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
+  outline: 0;
+  transition: transform 0.1s ease-in-out;
+  translate: calc(-1 * var(--scrollbar-width, 0px) / 2) 0;
+
+  &[data-has-nested] {
+    transform: scale(calc(1 - var(--nested-layer-count) * 0.05));
+  }
+
+  &[data-state='open'] {
+    animation: ds-dialog-in 0.15s ease-out;
+  }
+
+  &[data-state='closed'] {
+    animation: ds-dialog-out 0.1s ease-in;
+  }
+}
+
+.ds-dialog__title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.75rem;
+  color: var(--colors-fg);
+}
+
+.ds-dialog__description {
+  margin: 0.25rem 0 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--colors-fg-muted);
+}
+
+.ds-dialog__body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.ds-dialog__close-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--colors-fg);
+  transition: background-color 0.15s ease;
+
+  & svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  &:hover {
+    background: var(--colors-bg-muted, rgba(0, 0, 0, 0.06));
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--colors-focus-ring, currentColor);
+    outline-offset: -1px;
+  }
+}
+
+.ds-dialog__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+/* Scroll styles for dialog scroll examples */
+
+.ds-dialog__scroll-container {
+  flex: 1;
+  min-height: 0;
+  margin: 1rem calc(-1 * var(--px)) 0;
+  padding: 0 var(--px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--colors-border) transparent;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--colors-border);
+    border-radius: 4px;
+
+    &:hover {
+      background-color: var(--colors-fg-muted);
+    }
+  }
+}
+
+.ds-dialog__scroll-section {
+  & h3 {
+    margin: 0 0 0.25rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--colors-fg);
+  }
+
+  & p {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--colors-fg-muted);
+  }
+}
+
+/* Outside scroll positioner variant */
+
+.ds-dialog__positioner--outside-scroll {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-index-modal);
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  pointer-events: auto;
+}
+
+@keyframes ds-dialog-backdrop-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes ds-dialog-backdrop-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes ds-dialog-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes ds-dialog-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}

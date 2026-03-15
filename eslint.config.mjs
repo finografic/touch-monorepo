@@ -42,6 +42,7 @@ export default fino({
         caughtErrorsIgnorePattern: '^_',
       },
     ],
+    'ts/consistent-type-imports': [ERROR, { prefer: 'type-imports', fixStyle: 'separate-type-imports' }],
   },
   ignorePatterns: ['**/.inlang/**', '**/*.template'],
 });

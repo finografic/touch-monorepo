@@ -1,10 +1,11 @@
 import type { FC } from 'react';
 import React, { useCallback, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { sleep } from '@workspace/core';
 import { UserLockIcon } from '@finografic/icons';
+import { sleep } from '@workspace/core';
 
-import { type DialogConfig, GenericDialog } from 'components/Dialog';
+import type { DialogConfig } from 'components/Dialog';
+import { GenericDialog } from 'components/Dialog';
 import { useToast } from 'components/Toast/ToastContext';
 
 import { useAuth } from 'providers/AuthProvider/AuthContext';
@@ -81,17 +82,12 @@ export const AuthLoginDialog: FC<AuthLoginDialogProps> = () => {
   );
 
   const config: DialogConfig = {
-    title: '',
-    size: '3',
+    title: 'LOGIN',
+    size: 'sm',
     minWidth: '350px',
     maxWidth: '400px',
     minHeight: '280px',
     maxHeight: '60vh',
-    theme: {
-      accentColor: 'blue',
-      grayColor: 'sand',
-      scaling: '110%',
-    },
     tabs: [
       // {
       //   id: 'user',

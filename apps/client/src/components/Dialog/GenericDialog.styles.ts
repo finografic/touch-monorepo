@@ -221,28 +221,6 @@ export const styles = css`
       button {
         font-size: 1.5rem;
       }
-
-      /* display: none !important; */
-      /* border: 1px solid red; */
-
-      /* button {
-        ${stylesSmallButton}
-        border: ${button.border.width} solid ${button.color.default};
-        padding: 1.5rem 1rem;
-        font-size: 1.2rem;
-        font-weight: 500;
-        background-color: ${colors.background};
-        color: ${colors.text};
-
-        border-color: ${colors.primary};
-        background-color: ${colors.background};
-
-        &:hover {
-          color: ${colors.primary};
-          border-color: ${colors.primary};
-          background-color: ${button.color.hover};
-        }
-      } */
     }
 
     /* Data List View Styles - Moved to individual components */
