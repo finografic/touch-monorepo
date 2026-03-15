@@ -23,6 +23,7 @@ Rule Files
 - Modern TS Patterns: [.github/instructions/06-modern-typescript-patterns.instructions.md](.github/instructions/06-modern-typescript-patterns.instructions.md)
 - Variable Naming: [.github/instructions/07-variable-naming.instructions.md](.github/instructions/07-variable-naming.instructions.md)
 - README Standards: [.github/instructions/08-readme-standards.instructions.md](.github/instructions/08-readme-standards.instructions.md)
+- Design System: [.github/instructions/09](.github/instructions/09-design-system.instructions.md)
 
 Maintenance
 
