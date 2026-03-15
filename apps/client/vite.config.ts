@@ -53,9 +53,21 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
        */
       host: '0.0.0.0',
 
+      /**
+       * Watch / HMR: Vite watches by default. If updates never reach the browser:
+       * 1. Diagnostic: on save, does the terminal show "[vite] hmr update" or "page reload"?
+       *    - Yes → watcher works; problem is HMR delivery (try server.hmr below).
+       *    - No → watcher not firing (try polling, or clear node_modules/.vite and restart).
+       * 2. With host: '0.0.0.0', the HMR WebSocket can fail when using a LAN URL; pinning
+       *    hmr.host/clientPort forces the browser to connect to localhost.
+       * 3. Polling (usePolling) is for WSL2/Docker/network drives; if you're on native
+       *    macOS and watch used to work, try removing the watch block entirely.
+       */
+      // Uncomment if terminal shows HMR updates but browser never refreshes:
+      // hmr: { host: 'localhost', port: envClient.CLIENT_PORT ?? 3000 },
       watch: {
         usePolling: true,
-        interval: 1000,
+        interval: 500,
       },
 
       /**

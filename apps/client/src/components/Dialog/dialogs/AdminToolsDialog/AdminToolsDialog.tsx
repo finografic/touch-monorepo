@@ -137,31 +137,28 @@ export const AdminToolsDialog = ({ isOpen, onClose }: AdminToolsDialogProps) => 
 
   const config: DialogConfig = {
     title: 'Admin Tools',
-    size: '4',
+    size: 'lg',
     maxWidth: '50vw',
     maxHeight: '85vh',
     minWidth: '600px',
     minHeight: '66vh',
-    theme: {
-      appearance: 'dark',
-      accentColor: 'blue',
-      grayColor: 'sand',
-      scaling: '110%',
-    },
     tabs,
     footer: {
-      primaryButton: {
-        label: 'OK',
-        onClick: onClose,
-        variant: 'soft',
-        color: 'gray',
-      },
-      secondaryButton: {
-        label: `Toggle ${viewMode === 'json' ? 'List' : 'JSON'} View`,
-        onClick: () => setViewMode(viewMode === 'json' ? 'list' : 'json'),
-        variant: 'soft',
-        color: 'gray',
-      },
+      isRTL: false,
+      buttons: [
+        {
+          children: `Toggle ${viewMode === 'json' ? 'List' : 'JSON'} View`,
+          onClick: () => setViewMode(viewMode === 'json' ? 'list' : 'json'),
+          variant: 'subtle',
+          colorScheme: 'grey',
+        },
+        {
+          children: 'OK',
+          onClick: onClose,
+          variant: 'subtle',
+          colorScheme: 'grey',
+        },
+      ],
     },
   };
 

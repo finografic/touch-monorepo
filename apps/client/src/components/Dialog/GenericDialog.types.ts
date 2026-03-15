@@ -1,5 +1,5 @@
 import type React from 'react';
-import type { DialogSize } from '@finografic/design-system/components';
+import type { ButtonProps, DialogSize } from '@finografic/design-system/components';
 
 export interface TabConfig {
   id: string;
@@ -21,17 +21,8 @@ export interface DialogConfig {
   minWidth?: string;
   minHeight?: string;
   footer?: {
-    primaryButton?: {
-      label: string;
-      onClick: () => void;
-      variant?: 'solid' | 'subtle' | 'outline' | 'ghost' | 'link';
-      colorScheme?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info' | 'grey';
-    };
-    secondaryButton?: {
-      label: string;
-      onClick: () => void;
-      variant?: 'solid' | 'subtle' | 'outline' | 'ghost' | 'link';
-      colorScheme?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info' | 'grey';
-    };
-  };
+    isRTL: boolean;
+    isFilled?: boolean;
+    buttons?: ButtonProps[];
+  } | null;
 }

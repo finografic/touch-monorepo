@@ -1,9 +1,8 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { Button, Dialog, Tabs } from '@finografic/design-system/components';
 import { CloseIcon } from '@finografic/icons';
 
 import clsx from 'clsx';
-import { Flex } from 'styled-system/jsx';
 import type { DialogConfig } from 'components/Dialog/GenericDialog.types';
 
 import { styles } from './GenericDialog.styles';
@@ -26,6 +25,10 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({
   onTabChange,
 }) => {
   const [activeTab, setActiveTab] = useState(defaultTab || config.tabs[0]?.id || '');
+
+  const footerButtons = useMemo(() => config.footer?.buttons ?? [], [config.footer?.buttons]);
+  const isLeftToRight = !(config.footer?.isRTL ?? false);
+  const isFilled = config.footer?.isFilled ?? false;
 
   const hasTabs = config.tabs.length > 1;
   const currentTab = config.tabs.find((tab) => tab.id === activeTab) || config.tabs[0];
@@ -51,7 +54,7 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({
       <Dialog.Backdrop />
       <Dialog.Positioner>
         <Dialog.Content
-          size={config.size || 'md'}
+          size={config.size ?? 'md'}
           className={clsx('dialog-content', className)}
           css={styles}
           style={dynamicStyles}
@@ -109,28 +112,17 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({
 
           {config.footer && (
             <Dialog.Footer className="footer">
-              <Flex justify="end" gap={4} width="100%">
-                {config.footer.secondaryButton && (
-                  <Button
-                    variant={config.footer.secondaryButton.variant ?? 'outline'}
-                    colorScheme={config.footer.secondaryButton.colorScheme ?? 'default'}
-                    size="lg"
-                    onClick={config.footer.secondaryButton.onClick}
-                  >
-                    {config.footer.secondaryButton.label}
-                  </Button>
+              <div
+                className={clsx(
+                  'footer-buttons-wrapper',
+                  !isLeftToRight && 'footer-buttons-rtl',
+                  isFilled && 'footer-buttons-filled',
                 )}
-                {config.footer.primaryButton && (
-                  <Button
-                    variant={config.footer.primaryButton.variant ?? 'solid'}
-                    colorScheme={config.footer.primaryButton.colorScheme ?? 'primary'}
-                    size="lg"
-                    onClick={config.footer.primaryButton.onClick}
-                  >
-                    {config.footer.primaryButton.label}
-                  </Button>
-                )}
-              </Flex>
+              >
+                {(isLeftToRight ? footerButtons : [...footerButtons].reverse()).map((btn, i) => (
+                  <Button key={i} {...btn} />
+                ))}
+              </div>
             </Dialog.Footer>
           )}
         </Dialog.Content>

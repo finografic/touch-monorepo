@@ -23,12 +23,14 @@ export const LanguageDialog = ({ isOpen, onClose }: LanguageDialogProps) => {
       },
     ],
     footer: {
-      primaryButton: {
-        label: 'OK',
-        onClick: onClose,
-        // variant: 'outline',
-        colorScheme: 'default',
-      },
+      isRTL: false,
+      buttons: [
+        {
+          children: 'OK',
+          onClick: onClose,
+          colorScheme: 'default',
+        },
+      ],
     },
   };
 

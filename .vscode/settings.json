@@ -30,6 +30,19 @@
     "editor.defaultFormatter": "dprint.dprint",
     "editor.formatOnSave": true
   },
+  "[css]": {
+    "editor.defaultFormatter": "stylelint.vscode-stylelint",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.stylelint": "explicit"
+    }
+  },
+  "[postcss]": {
+    "editor.defaultFormatter": "stylelint.vscode-stylelint",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.stylelint": "explicit"
+    }
+  },
+
   "files.trimTrailingWhitespace": true,
   "files.insertFinalNewline": true,
   "eslint.workingDirectories": [
@@ -216,6 +229,12 @@
     "MD041": false // Don't require first line to be a top-level heading
   },
 
-  "markdown-preview-enhanced.scrollSync": false
+  "markdown-preview-enhanced.scrollSync": false,
   // "markdown.styles": [".vscode/markdown-github-light.css"]
+
+  // ============================================================================
+  // Markdownlint Settings
+  // ============================================================================
+  "stylelint.validate": ["css", "postcss", "javascriptreact", "typescriptreact"],
+  "stylelint.customSyntax": "sugarss"
 }

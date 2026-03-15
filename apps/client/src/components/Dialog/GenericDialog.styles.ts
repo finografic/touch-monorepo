@@ -211,16 +211,29 @@ export const styles = css`
 
     .footer {
       flex-shrink: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 0; /* Remove margin */
-      padding: 1.5rem 0rem; /* Add padding for spacing */
+      margin: 0;
+      padding: 1.5rem 0 0;
       background: transparent;
+    }
 
-      button {
-        font-size: 1.5rem;
-      }
+    .footer-buttons-wrapper {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .footer-buttons-wrapper.footer-buttons-rtl {
+      flex-direction: row-reverse;
+    }
+
+    .footer-buttons-wrapper.footer-buttons-filled {
+      width: 100%;
+    }
+
+    .footer-buttons-wrapper button {
+      font-size: 1.5rem;
     }
 
     /* Data List View Styles - Moved to individual components */

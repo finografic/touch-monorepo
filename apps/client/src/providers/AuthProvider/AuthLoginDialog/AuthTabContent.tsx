@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { Button } from '@finografic/design-system/components';
 
 import { Input } from 'forms/Input/Input';
-import { Button } from 'components/Button';
 
 import { useAuth } from 'providers/AuthProvider';
 
@@ -70,7 +70,14 @@ export const AuthLoginTabContent: React.FC<AuthLoginTabContentProps> = ({
 
           {error && <div className="error">{error}</div>}
 
-          <Button type="submit" disabled={isLoading} size="md" color="info" className="submit-button">
+          <Button
+            type="submit"
+            disabled={isLoading}
+            size="md"
+            variant="subtle"
+            color="info"
+            className="submit-button"
+          >
             {isLoading ? 'Loading...' : 'Sign In'}
           </Button>
         </form>
