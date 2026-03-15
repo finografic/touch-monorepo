@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { Switch } from '@finografic/design-system/forms';
+import { Badge } from '@finografic/design-system/components';
+import { SwitchField } from '@finografic/design-system/forms';
 import { MinusIcon, PlusIcon } from '@finografic/icons';
 
 import clsx from 'clsx';
 import { Flex } from 'styled-system/jsx';
-import { badge, dsSwitch } from 'styled-system/recipes';
 import { useDebouncedCallback } from 'use-debounce';
 import { Button } from 'components/Button';
 import { useToast } from 'components/Toast';
@@ -259,12 +259,10 @@ export const AdminSlotsConfigPage: React.FC = () => {
                   showPowerSlot={showPowerSlotInPreview}
                 />
                 <Flex gap={4} align="center" mt="-4" pb={4}>
-                  <span
-                    className={`${badge({ variant: 'soft', colorScheme: 'info', size: 'lg' })} dimesions-badge`}
-                  >
+                  <Badge variant="soft" colorScheme="info" size="lg" className="dimesions-badge">
                     {numActiveColumns} columns × {effectiveRows} rows = {gridSlotsCount} grid slots + 1
                     special slot
-                  </span>
+                  </Badge>
                 </Flex>
               </Flex>
               <Flex direction="column" justify="space-between" gap={4}>
@@ -300,7 +298,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
                       const isLoading = fullConfig === undefined;
                       return (
                         <Flex key={param} align="center" gap={2} mt={2}>
-                          <Switch.Root
+                          <SwitchField
                             checked={isActive}
                             onCheckedChange={async ({ checked }) => {
                               if (!fullConfig?.id) return;
@@ -317,12 +315,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
                             }}
                             disabled={updateSlotSpecialMutation.isPending || isLoading}
                             className={className}
-                          >
-                            <Switch.Control className={dsSwitch({ size: 'md' })}>
-                              <Switch.Thumb className="switch-thumb" />
-                            </Switch.Control>
-                            <Switch.HiddenInput />
-                          </Switch.Root>
+                          />
                           <label htmlFor={param}>{label}</label>
                         </Flex>
                       );

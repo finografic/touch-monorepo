@@ -23,7 +23,10 @@ export default defineConfig({
    * won't be generated. With pnpm workspaces, @finografic/design-system
    * resolves to the installed package.
    */
-  include: ['./src/**/*.{ts,tsx}', './node_modules/@finografic/design-system/src/**/*.{ts,tsx}'],
+  include: [
+    './src/**/*.{ts,tsx}',
+    // './node_modules/@finografic/design-system/src/**/*.{ts,tsx}'
+  ],
   exclude: [],
 
   /**

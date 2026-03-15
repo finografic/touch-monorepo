@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Col, Row } from '@finografic/design-system/grid';
+import { InfoCircledIcon } from '@finografic/icons';
 import type { LanguageInfo } from '@workspace/i18n/types';
 
 import { useQueryClient } from '@tanstack/react-query';
@@ -25,7 +26,6 @@ import { AdminPageLayout, AdminSection } from '../..';
 import { LanguageDeleteDialog } from './components/LanguageDeleteDialog';
 import { LanguagesList, LanguagesListSelected, LaungaugeDataStats } from './components';
 import { convertSearchResultToLanguageInfo } from './languages.utils';
-import { InfoCircledIcon } from '@finografic/icons';
 import { styles } from './AdminLanguagesPage.styles';
 
 // Interface for the search component results (matches LanguageOption from SearchableLanguageInput)

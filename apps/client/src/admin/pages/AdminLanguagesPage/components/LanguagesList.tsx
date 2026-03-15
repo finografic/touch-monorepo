@@ -1,11 +1,11 @@
 import React from 'react';
+import { Card } from '@finografic/design-system/components';
 import { SwitchField as Switch } from '@finografic/design-system/forms';
-import type { LanguageInfo } from '@workspace/i18n/types';
 import { LockIcon, TrashIcon } from '@finografic/icons';
+import type { LanguageInfo } from '@workspace/i18n/types';
 
 import clsx from 'clsx';
 import { Flex } from 'styled-system/jsx';
-import { card, dsSwitch } from 'styled-system/recipes';
 import { Button } from 'components/Button';
 
 import { useToggleSupportedLanguageActive } from 'queries/supported-languages';
@@ -40,7 +40,7 @@ export const LanguagesList: React.FC<LanguagesListProps> = ({ languages, onDelet
         const isLoading = toggleActiveMutation.isPending;
 
         return (
-          <div key={language.id || language.code} className={`${card()} language-item`}>
+          <Card key={language.id || language.code} className="language-item">
             <Flex className="language-item-row">
               <LanguageItem language={language} />
 
@@ -70,20 +70,6 @@ export const LanguagesList: React.FC<LanguagesListProps> = ({ languages, onDelet
                       }
                     }}
                   />
-                  {/* <Switch.Root
-                    checked={language.isActive ?? true}
-                    disabled={language.isDefault || isLoading}
-                    onCheckedChange={() => {
-                      if (language.id && !language.isDefault) {
-                        handleToggleActive(language.id, language.isActive ?? true);
-                      }
-                    }}
-                  >
-                    <Switch.Control className={dsSwitch({ size: 'md' })}>
-                      <Switch.Thumb className="switch-thumb" />
-                    </Switch.Control>
-                    <Switch.HiddenInput />
-                  </Switch.Root> */}
                 </Flex>
 
                 <Flex align="center" className="col col-delete">
@@ -109,7 +95,7 @@ export const LanguagesList: React.FC<LanguagesListProps> = ({ languages, onDelet
                 </Flex>
               </Flex>
             </Flex>
-          </div>
+          </Card>
         );
       })}
     </Flex>

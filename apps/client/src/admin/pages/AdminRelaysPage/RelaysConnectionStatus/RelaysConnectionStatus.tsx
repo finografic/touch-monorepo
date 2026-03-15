@@ -1,8 +1,8 @@
 import React from 'react';
-import { Switch } from '@finografic/design-system/forms';
+import { Badge } from '@finografic/design-system/components';
+import { SwitchField } from '@finografic/design-system/forms';
 
 import { Flex } from 'styled-system/jsx';
-import { badge, dsSwitch } from 'styled-system/recipes';
 import { Button } from 'components/Button';
 import { Loader } from 'components/Loader/Loader';
 
@@ -59,15 +59,9 @@ export const RelaysConnectionStatus: React.FC = () => {
           <Button onClick={() => enableStatesPolling()} variant="solid" color="info">
             🔄 Retry Connection
           </Button>
-          <span
-            className={badge({
-              variant: 'soft',
-              colorScheme: statesPollingEnabled ? 'success' : 'danger',
-              size: 'lg',
-            })}
-          >
+          <Badge variant="soft" colorScheme={statesPollingEnabled ? 'success' : 'danger'} size="lg">
             Polling: {statesPollingEnabled ? 'Active' : 'Disabled'}
-          </span>
+          </Badge>
         </Flex>
       </Flex>
     );
@@ -81,24 +75,12 @@ export const RelaysConnectionStatus: React.FC = () => {
     <Flex justify="space-between" align="center">
       <Flex direction="column" gap={2}>
         <Flex align="center" gap={3} className="status-buttons">
-          <span
-            className={badge({
-              variant: 'soft',
-              colorScheme: relayStatus?.connected ? 'success' : 'danger',
-              size: 'lg',
-            })}
-          >
+          <Badge variant="soft" colorScheme={relayStatus?.connected ? 'success' : 'danger'} size="lg">
             {relayStatus?.connected ? 'Connected' : 'Disconnected'}
-          </span>
-          <span
-            className={badge({
-              variant: 'soft',
-              colorScheme: statesPollingEnabled ? 'success' : 'danger',
-              size: 'lg',
-            })}
-          >
+          </Badge>
+          <Badge variant="soft" colorScheme={statesPollingEnabled ? 'success' : 'danger'} size="lg">
             Polling: {statesPollingEnabled ? 'Active' : 'Disabled'}
-          </span>
+          </Badge>
 
           {relayStatus?.port && <span>Port: {relayStatus.port}</span>}
           {relayStatus?.error && <span>Error: {relayStatus.error}</span>}
@@ -108,16 +90,10 @@ export const RelaysConnectionStatus: React.FC = () => {
         {/* Global relay functionality toggle */}
         <Flex gap={2} align="center" pr={2}>
           <span>Relay Functionality</span>
-          <Switch.Root
+          <SwitchField
             checked={isRelayFunctionalityEnabled}
             onCheckedChange={() => toggleRelayFunctionality()}
-            style={{ outline: 'none' }}
-          >
-            <Switch.Control className={dsSwitch({ size: 'md' })}>
-              <Switch.Thumb className="switch-thumb" />
-            </Switch.Control>
-            <Switch.HiddenInput />
-          </Switch.Root>
+          />
         </Flex>
 
         <Button
