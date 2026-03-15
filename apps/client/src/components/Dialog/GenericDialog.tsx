@@ -1,4 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
+import type { ButtonProps } from '@finografic/design-system/components';
 import { Button, Dialog, Tabs } from '@finografic/design-system/components';
 import { CloseIcon } from '@finografic/icons';
 
@@ -29,6 +30,16 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({
   const footerButtons = useMemo(() => config.footer?.buttons ?? [], [config.footer?.buttons]);
   const isLeftToRight = !(config.footer?.isRTL ?? false);
   const isFilled = config.footer?.isFilled ?? false;
+
+  const footer = useMemo(() => {
+    return config.footer
+      ? {
+          isRTL: config.footer.isRTL ?? true,
+          isFilled: config.footer.isFilled ?? false,
+          buttons: config.footer.buttons ?? [],
+        }
+      : null;
+  }, [config?.footer]);
 
   const hasTabs = config.tabs.length > 1;
   const currentTab = config.tabs.find((tab) => tab.id === activeTab) || config.tabs[0];
@@ -110,18 +121,20 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({
 
           {/* FOOTER =========================================================== */}
 
-          {config.footer && (
+          {footer && (
             <Dialog.Footer className="footer">
               <div
                 className={clsx(
                   'footer-buttons-wrapper',
-                  !isLeftToRight && 'footer-buttons-rtl',
-                  isFilled && 'footer-buttons-filled',
+                  footer.isRTL && 'footer-buttons-rtl',
+                  footer.isFilled && 'footer-buttons-filled',
                 )}
               >
-                {(isLeftToRight ? footerButtons : [...footerButtons].reverse()).map((btn, i) => (
-                  <Button key={i} {...btn} />
-                ))}
+                {(footer.isRTL ? footer.buttons : [...footer.buttons].reverse()).map(
+                  (props: ButtonProps, i) => (
+                    <Button key={i} {...props} />
+                  ),
+                )}
               </div>
             </Dialog.Footer>
           )}

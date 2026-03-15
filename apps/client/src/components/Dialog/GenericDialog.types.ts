@@ -21,8 +21,8 @@ export interface DialogConfig {
   minWidth?: string;
   minHeight?: string;
   footer?: {
-    isRTL: boolean;
+    isRTL?: boolean;
     isFilled?: boolean;
-    buttons?: ButtonProps[];
+    buttons: ButtonProps[];
   } | null;
 }
