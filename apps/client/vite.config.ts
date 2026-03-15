@@ -93,6 +93,9 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
     },
 
     resolve: {
+      // Force linked packages (pnpm link) to share a single instance of
+      // React and Ark UI — prevents "invalid hook call" / multiple copies.
+      dedupe: ['react', 'react-dom', '@ark-ui/react'],
       extensions: ['.tsx', '.ts', '.jsx', '.js', '.mjs', '.cjs', '.json'],
       alias: {
         // DS dist files import from @styled-system/* (panda path aliases).
@@ -153,6 +156,17 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
     },
 
     optimizeDeps: {
+      // DS packages are pnpm-linked locals — exclude from pre-bundling so
+      // Vite always reads from dist/ directly and picks up rebuilds immediately.
+      exclude: [
+        '@finografic/design-system',
+        '@finografic/design-system/components',
+        '@finografic/design-system/forms',
+        '@finografic/design-system/grid',
+        '@finografic/design-system/tokens',
+        '@finografic/design-system/recipes',
+        '@finografic/design-system/viewport',
+      ],
       include: [
         'react/jsx-runtime',
         '@workspace/core',

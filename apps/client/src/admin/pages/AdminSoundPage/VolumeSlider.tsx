@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-
 import { Slider } from '@finografic/design-system/forms';
+
 import { Flex } from 'styled-system/jsx';
 import { useDebouncedCallback } from 'use-debounce';
 
@@ -28,10 +28,10 @@ export const VolumeSlider: React.FC = () => {
     >
       <span>Volume</span>
       <Slider.Root
-        value={displayVolume}
-        onValueChange={(newVolume) => {
-          setDisplayVolume(newVolume);
-          handleVolumeChange(newVolume);
+        value={[displayVolume]}
+        onValueChange={({ value }) => {
+          setDisplayVolume(value[0]);
+          handleVolumeChange(value[0]);
         }}
         min={0}
         max={100}

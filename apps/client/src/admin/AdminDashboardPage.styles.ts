@@ -1,6 +1,6 @@
-import { css } from '@emotion/react';
+import { colors, layout } from '@finografic/design-system/tokens';
 
-import { colors } from '@finografic/design-system/tokens';
+import { css } from '@emotion/react';
 
 export const styles = css`
   .admin-dashboard {
@@ -24,31 +24,23 @@ export const styles = css`
     margin: 2rem auto;
 
     .admin-card {
-      border: 1px solid ${colors.greyXXXLight};
-      padding: 0.5rem 0.5rem;
-      padding: 0 0.5rem;
+      border: ${layout.borderWidth} solid ${colors.greyXLight};
+      border-radius: ${layout.borderRadius};
+      padding: 0.5rem;
       min-height: 80px;
-      transition: all 0.2s ease;
+      transition: all 200ms ease;
 
       &:hover {
-        border: 1px solid ${colors.greyXLight};
-        transform: translateY(-1px);
-        box-shadow: var(--shadow-4);
-        .card-icon-box {
-          transform: scale(1.05);
-          transform-origin: center;
-        }
-      }
-
-      &:active {
-        transform: translateY(0);
+        border: ${layout.borderWidth} solid ${colors.greyLighter};
+        box-shadow: var(--shadows-base-md);
+        transition: all 200ms ease;
       }
 
       .card-header {
         margin: 0;
         .section-header-title {
           font-size: 1.125rem;
-          margin: 0 0 0.3rem 0;
+          margin: 0.25rem 0 0.33rem 0;
           line-height: 1;
         }
 

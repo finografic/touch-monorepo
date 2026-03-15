@@ -5,8 +5,8 @@
 svg[width][height].icon {
   /* NORMALIZED sizing - forces all icon libraries to same visual size */
   /* 20px - sweet spot between 15px and 24px */
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.75rem;
+  height: 1.75rem;
   display: inline-block;
   flex-shrink: 0;
   color: currentColor;
@@ -47,26 +47,26 @@ svg.icon.icon-contextual {
 /* Size variants */
 svg[width][height].icon.icon-sm,
 svg.icon.icon-sm {
-  width: 0.875rem;
-  height: 0.875rem;
-}
-
-svg[width][height].icon.icon-md,
-svg.icon.icon-md {
   width: 1rem;
   height: 1rem;
 }
 
-svg[width][height].icon.icon-lg,
-svg.icon.icon-lg {
+svg[width][height].icon.icon-md,
+svg.icon.icon-md {
   width: 1.25rem;
   height: 1.25rem;
 }
 
-svg[width][height].icon.icon-xl,
-svg.icon.icon-xl {
+svg[width][height].icon.icon-lg,
+svg.icon.icon-lg {
   width: 1.5rem;
   height: 1.5rem;
+}
+
+svg[width][height].icon.icon-xl,
+svg.icon.icon-xl {
+  width: 1.75rem;
+  height: 1.75rem;
 }
 
 /* Loading state */

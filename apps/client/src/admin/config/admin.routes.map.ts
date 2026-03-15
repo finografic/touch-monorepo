@@ -1,5 +1,15 @@
 import type React from 'react';
 import { Outlet } from 'react-router-dom';
+import {
+  CoffeeIcon,
+  EditIcon,
+  GridIcon,
+  LanguageIcon,
+  ListIcon,
+  VolumeIcon,
+  ZapIcon,
+} from '@finografic/icons';
+import type { AuthRoles } from '@workspace/shared/auth';
 
 import { AdminLanguagesPage, PublicLanguagesPage } from 'admin/pages/AdminLanguagesPage';
 import { AdminModePage } from 'admin/pages/AdminModePage/AdminModePage';
@@ -10,18 +20,6 @@ import { AdminSlotsConfigPage } from 'admin/pages/AdminSlotsConfigPage/AdminSlot
 import { AdminSoundPage, PublicSoundPage } from 'admin/pages/AdminSoundPage';
 import { TranslationsPage } from 'admin/pages/Translations/TranslationsPage';
 import { TranslationsProductPage } from 'admin/pages/Translations/TranslationsProductPage';
-
-import {
-  CoffeeIcon,
-  EditIcon,
-  GridIcon,
-  LanguageIcon,
-  ListIcon,
-  VolumeIcon,
-  ZapIcon,
-} from '@finografic/icons';
-
-import type { AuthRoles } from '@workspace/shared/auth';
 
 export type { AuthRoles };
 
@@ -37,7 +35,7 @@ export interface AdminRouteConfig extends AdminRouteBase {
   hasNav?: Partial<Record<AuthRoles, boolean>>;
   hasCard?: Partial<Record<AuthRoles, boolean>>;
   icon?: React.ComponentType<any>;
-  color?: 'blue' | 'green' | 'indigo' | 'orange' | 'purple' | string;
+  color?: 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info' | string;
   children?: AdminRouteConfig[]; // Sub-routes for nested routes (e.g., items/new, items/:id)
 }
 
@@ -64,7 +62,7 @@ export const ADMIN_ROUTE_CONFIGS: AdminRouteConfig[] = [
     hasNav: { public: false, admin: true },
     hasCard: { public: false, admin: true },
     icon: ListIcon,
-    color: 'blue',
+    color: 'primary',
   },
   {
     id: 'slots',
@@ -76,7 +74,7 @@ export const ADMIN_ROUTE_CONFIGS: AdminRouteConfig[] = [
     hasNav: { public: false, admin: true },
     hasCard: { public: false, admin: true },
     icon: GridIcon,
-    color: 'orange',
+    color: 'warning',
   },
   {
     id: 'relays',
@@ -88,7 +86,7 @@ export const ADMIN_ROUTE_CONFIGS: AdminRouteConfig[] = [
     hasNav: { public: true, admin: true },
     hasCard: { public: true, admin: true },
     icon: ZapIcon,
-    color: 'green',
+    color: 'success',
   },
   {
     id: 'mode',
@@ -100,7 +98,7 @@ export const ADMIN_ROUTE_CONFIGS: AdminRouteConfig[] = [
     hasNav: { public: true, admin: true },
     hasCard: { public: true, admin: true },
     icon: CoffeeIcon,
-    color: 'blue',
+    color: 'primary',
   },
   {
     id: 'sound',
@@ -112,7 +110,7 @@ export const ADMIN_ROUTE_CONFIGS: AdminRouteConfig[] = [
     hasNav: { public: true, admin: true },
     hasCard: { public: true, admin: true },
     icon: VolumeIcon,
-    color: 'crimson',
+    color: 'danger',
   },
 
   // AUTHENTICATED ENTRIES (only visible as admin) ========================== //
@@ -126,7 +124,7 @@ export const ADMIN_ROUTE_CONFIGS: AdminRouteConfig[] = [
     hasNav: { public: false, admin: true },
     hasCard: { public: false, admin: true },
     icon: EditIcon,
-    color: 'purple',
+    color: 'secondary',
   },
   // TRANSLATIONS LABELS GROUP (dropdown with 3 children) ================== //
   {
@@ -139,7 +137,7 @@ export const ADMIN_ROUTE_CONFIGS: AdminRouteConfig[] = [
     hasNav: { public: false, admin: true },
     hasCard: { public: false, admin: true },
     icon: EditIcon,
-    color: 'purple',
+    color: 'secondary',
     children: [
       {
         id: 'translations_ui',
@@ -178,6 +176,6 @@ export const ADMIN_ROUTE_CONFIGS: AdminRouteConfig[] = [
     hasNav: { public: true, admin: true },
     hasCard: { public: true, admin: true },
     icon: LanguageIcon,
-    color: 'green',
+    color: 'success',
   },
 ];

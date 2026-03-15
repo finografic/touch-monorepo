@@ -1,9 +1,10 @@
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Box, Flex } from 'styled-system/jsx';
-import { card } from 'styled-system/recipes';
+import { Card } from '@finografic/design-system/components';
+import { colors } from '@finografic/design-system/tokens';
 import { getAdminDashboardCards } from 'admin/config/admin.routes.selectors';
+import { Box, Flex } from 'styled-system/jsx';
 import { SectionHeader } from 'components/SectionHeader/SectionHeader';
 
 import { usePageTransition } from 'hooks/usePageTransition';
@@ -49,9 +50,10 @@ export const AdminDashboardPage: React.FC = () => {
       <div className="admin-dashboard" css={styles}>
         <div className="admin-cards" style={{ ['--cols' as any]: gridColumns }}>
           {adminCards.map((adminCard, i) => (
-            <div
+            <Card
               key={`${adminCard.id}-${i}`}
-              className={`${card({ size: 'lg' })} admin-card`}
+              size="lg"
+              className="admin-card"
               onClick={() => handleCardClick(adminCard.path)}
               style={{
                 cursor: isTransitioning ? 'wait' : 'pointer',
@@ -63,7 +65,10 @@ export const AdminDashboardPage: React.FC = () => {
                 <Flex>
                   <Box
                     className="card-icon-box"
-                    style={{ color: `var(--${adminCard.color}-9)`, backgroundColor: `var(--${adminCard.color}-3)` }}
+                    style={{
+                      color: colors[adminCard.color as keyof typeof colors] as string,
+                      backgroundColor: colors[`${adminCard.color}XLight` as keyof typeof colors] as string,
+                    }}
                   >
                     {React.cloneElement(adminCard.icon)}
                   </Box>
@@ -77,7 +82,7 @@ export const AdminDashboardPage: React.FC = () => {
                   />
                 </Flex>
               </Flex>
-            </div>
+            </Card>
           ))}
         </div>
       </div>
