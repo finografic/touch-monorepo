@@ -1,11 +1,11 @@
 import React, { forwardRef, useCallback, useRef, useState } from 'react';
 
-import { InputField } from '@workspace/design-system/forms';
+import { InputField } from '@finografic/design-system/forms';
 import clsx from 'clsx';
 import { DropdownPortal } from 'forms/SelectSearchable/DropdownPortal';
 
 import type { SelectOption } from 'types/models/select-option.model';
-import { ChevronDownIcon } from '@workspace/icons';
+import { ChevronDownIcon } from '@finografic/icons';
 import { styles, stylesDropdown } from './SelectCustom.styles';
 
 interface SelectCustomProps {

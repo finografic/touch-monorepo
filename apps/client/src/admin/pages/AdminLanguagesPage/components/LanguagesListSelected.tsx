@@ -7,7 +7,7 @@ import { callout, card } from 'styled-system/recipes';
 import { Button } from 'components/Button';
 
 import { LanguageItem } from './LanguageItem';
-import { InfoCircledIcon, TrashIcon } from '@workspace/icons';
+import { InfoCircledIcon, TrashIcon } from '@finografic/icons';
 
 interface LanguagesListSelectedProps {
   selectedLanguages: LanguageInfo[];

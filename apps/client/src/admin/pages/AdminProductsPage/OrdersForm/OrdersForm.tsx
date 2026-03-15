@@ -1,9 +1,9 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { FieldBox } from '@workspace/design-system/forms';
-// import { Select } from '@workspace/design-system/forms';
-import { Col, Row } from '@workspace/design-system/grid';
+import { FieldBox } from '@finografic/design-system/forms';
+// import { Select } from '@finografic/design-system/forms';
+import { Col, Row } from '@finografic/design-system/grid';
 import { MIN_TEMP_DIFFERENCE, TEMP_CONSUME_DEFAULT, TEMP_FREEZE_DEFAULT } from '@workspace/shared/constants';
 
 import { standardSchemaResolver } from '@hookform/resolvers/standard-schema';

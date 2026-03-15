@@ -1,6 +1,6 @@
 import React from 'react';
-import { Col, Row } from '@workspace/design-system/grid';
-import { RadioIcon } from '@workspace/icons';
+import { Col, Row } from '@finografic/design-system/grid';
+import { RadioIcon } from '@finografic/icons';
 
 import { getRelaySlotType } from 'admin/utils/relays.utils';
 import clsx from 'clsx';

@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react';
 import { useState } from 'react';
-import { Col, Row } from '@workspace/design-system/grid';
+import { Col, Row } from '@finografic/design-system/grid';
 
 import { styles } from './DevColumns.styles';
 

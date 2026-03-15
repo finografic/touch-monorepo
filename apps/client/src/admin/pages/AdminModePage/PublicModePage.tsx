@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { AdminPageLayout, AdminSection } from 'admin/components';
-import { FieldBox } from '@workspace/design-system/forms';
+import { FieldBox } from '@finografic/design-system/forms';
 import { SelectCustom } from 'forms/SelectCustom';
 import { Flex } from 'styled-system/jsx';
 import { useToast } from 'components/Toast';

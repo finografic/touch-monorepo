@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Spinner } from '@workspace/design-system/components';
+import { Spinner } from '@finografic/design-system/components';
 
 import { PadAction } from 'components/Pads/PadAction/PadAction';
 

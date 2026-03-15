@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from 'components/Button';
 
 import type { Theme } from 'types/ui.types';
-import { HomeIcon, ShieldCheckIcon } from '@workspace/icons';
+import { HomeIcon, ShieldCheckIcon } from '@finografic/icons';
 
 export const AdminToggleButton: React.FC = () => {
   const navigate = useNavigate();

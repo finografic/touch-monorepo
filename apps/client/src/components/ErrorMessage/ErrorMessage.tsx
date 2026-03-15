@@ -1,7 +1,7 @@
 import type { ErrorResponse } from '@workspace/core/types';
 import { getErrorMessage } from '@workspace/shared/utils/api.utils';
 
-import { ExclamationTriangleIcon } from '@workspace/icons';
+import { ExclamationTriangleIcon } from '@finografic/icons';
 
 interface ErrorMessageProps {
   error: ErrorResponse;

@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import { useTimers } from 'providers/TimersProvider';
 import { TimersContext } from 'providers/TimersProvider/TimersContext';
 
-import { CountdownTimerIcon } from '@workspace/icons';
+import { CountdownTimerIcon } from '@finografic/icons';
 
 export const MockSessionTimer = () => {
   const { recall } = useTimers();

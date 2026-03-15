@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Menu } from '@workspace/design-system/components';
-import { ChevronDownIcon } from '@workspace/icons';
+import { Menu } from '@finografic/design-system/components';
+import { ChevronDownIcon } from '@finografic/icons';
 
 import type { NavItem } from 'types/nav.types';
 import { styles } from './MoreMenu.styles';

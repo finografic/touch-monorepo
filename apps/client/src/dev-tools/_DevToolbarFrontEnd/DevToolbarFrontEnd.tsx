@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { LockIcon, RefreshIcon, TextAlignTopIcon } from '@workspace/icons';
+import { LockIcon, RefreshIcon, TextAlignTopIcon } from '@finografic/icons';
 
 import { Flex } from 'styled-system/jsx';
 

@@ -16,8 +16,8 @@ import i18n from './i18n.config.ts';
 import './theme.css';
 import 'styled-system/styles.css'; // NOTE: Panda CSS — design-system tokens + recipes + keyframes
 import './styles/icons.css';
-import '@workspace/design-system/grid/grid.css';
-import '@workspace/design-system/forms/forms.css';
+import '@finografic/design-system/grid/grid.css';
+import '@finografic/design-system/forms/forms.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

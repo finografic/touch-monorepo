@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 
 import { Box, Flex } from 'styled-system/jsx';
 import { Button } from 'components/Button';
-import { FieldBox } from '@workspace/design-system/forms';
+import { FieldBox } from '@finografic/design-system/forms';
 import { SelectCustom } from 'forms/SelectCustom';
 import { useToast } from 'components/Toast';
 
@@ -10,7 +10,7 @@ import { useUpdateSoundSettings } from 'queries/sounds';
 
 import { playSoundByPath, stopAllAudio } from 'utils/soundCache.utils';
 import type { SoundFile, SoundSettings, SoundType } from 'types/sounds.types';
-import { VolumeIcon, VolumeOffIcon } from '@workspace/icons';
+import { VolumeIcon, VolumeOffIcon } from '@finografic/icons';
 import { styles } from './SoundConfigurationSection.styles';
 
 interface SoundConfigurationSectionProps {

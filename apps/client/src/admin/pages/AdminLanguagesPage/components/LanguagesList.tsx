@@ -1,7 +1,7 @@
 import React from 'react';
-import { SwitchField as Switch } from '@workspace/design-system/forms';
+import { SwitchField as Switch } from '@finografic/design-system/forms';
 import type { LanguageInfo } from '@workspace/i18n/types';
-import { LockIcon, TrashIcon } from '@workspace/icons';
+import { LockIcon, TrashIcon } from '@finografic/icons';
 
 import clsx from 'clsx';
 import { Flex } from 'styled-system/jsx';

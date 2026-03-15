@@ -1,4 +1,4 @@
-import { colors } from '@workspace/design-system/tokens';
+import { colors } from '@finografic/design-system/tokens';
 
 export const COL_CHEVRON_WIDTH = '70px'; // has no effect (??)..
 export const COL_SLUG_WIDTH = '200px';

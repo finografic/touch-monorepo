@@ -8,7 +8,7 @@ import { OrdersFormDevTools } from '../OrderFormDevTools/OrdersFormDevTools';
 import { PROFILE_ITEM_VALUES_EMPTY } from '../orders-form.utils';
 import type { OrdersFormValues } from '../OrdersForm.schema';
 import { TimesRepeaterTable } from '../TimesRepeaterTable';
-import { ChevronDownIcon, ChevronLeftIcon } from '@workspace/icons';
+import { ChevronDownIcon, ChevronLeftIcon } from '@finografic/icons';
 import { styles } from './ProfilesPanel.styles';
 
 interface ProfilesPanelProps {

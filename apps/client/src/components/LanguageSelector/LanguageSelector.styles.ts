@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { colors, layout, radiiTokens } from '@workspace/design-system/tokens';
+import { colors, layout, radiiTokens } from '@finografic/design-system/tokens';
 
 export const styles = css`
   /* Trigger button styling (closed state) */

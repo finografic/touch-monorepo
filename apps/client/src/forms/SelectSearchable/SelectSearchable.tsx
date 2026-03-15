@@ -1,13 +1,13 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { InputField } from '@workspace/design-system/forms';
-import { colors } from '@workspace/design-system/tokens';
+import { InputField } from '@finografic/design-system/forms';
+import { colors } from '@finografic/design-system/tokens';
 import {
   CheckCircleIcon,
   ChevronDownIcon,
   Cross2Icon,
   MagnifyingGlassIcon,
   PlusIcon,
-} from '@workspace/icons';
+} from '@finografic/icons';
 
 import { AddNewButton } from 'forms/SelectSearchable/AddNewButton';
 import { matchSorter } from 'match-sorter';

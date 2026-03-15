@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { MoonIcon, SunIcon } from '@workspace/icons';
+import { MoonIcon, SunIcon } from '@finografic/icons';
 
 import clsx from 'clsx';
 import { Button } from 'components/Button/Button';

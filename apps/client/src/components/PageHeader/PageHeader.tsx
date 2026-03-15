@@ -3,7 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Flex } from 'styled-system/jsx';
-import { Container } from '@workspace/design-system/grid';
+import { Container } from '@finografic/design-system/grid';
 import { LucideArrowRightSquare } from 'lucide-react';
 
 import { useContent } from 'providers/ContentProvider/ContentContext';

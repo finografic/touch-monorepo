@@ -1,10 +1,10 @@
 import type { FC } from 'react';
 
-import { InputField } from '@workspace/design-system/forms';
+import { InputField } from '@finografic/design-system/forms';
 import clsx from 'clsx';
 import { useDebouncedCallback } from 'use-debounce';
 
-import { MagnifyingGlassIcon } from '@workspace/icons';
+import { MagnifyingGlassIcon } from '@finografic/icons';
 import { styles } from './SearchBar.styles';
 
 interface SearchBarProps {

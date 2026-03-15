@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import { stylesPad, stylesPadBasic } from 'components/Pads/Pad/PadBasic.styles';
 
-import { colors, layout } from '@workspace/design-system/tokens';
+import { colors, layout } from '@finografic/design-system/tokens';
 import { stylesButtonBase } from 'components/Button/button-base.styles';
 
 /**

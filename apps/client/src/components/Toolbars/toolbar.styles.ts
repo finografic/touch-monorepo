@@ -1,5 +1,5 @@
-import { colors, layout } from '@workspace/design-system/tokens';
-import { min } from '@workspace/design-system/viewport';
+import { colors, layout } from '@finografic/design-system/tokens';
+import { min } from '@finografic/design-system/viewport';
 
 import { css } from '@emotion/react';
 import { styles as stylesButton } from 'components/ButtonControl/ButtonControl.styles';

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { LanguageIcon } from '@workspace/icons';
+import { LanguageIcon } from '@finografic/icons';
 
 import clsx from 'clsx';
 import { Flex } from 'styled-system/jsx';

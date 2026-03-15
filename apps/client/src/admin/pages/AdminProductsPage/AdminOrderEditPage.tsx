@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Spinner } from '@workspace/design-system/components';
+import { Spinner } from '@finografic/design-system/components';
 
 import { OrdersForm } from 'admin/pages/AdminProductsPage/OrdersForm';
 import { Flex } from 'styled-system/jsx';

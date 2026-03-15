@@ -4,7 +4,7 @@ import { Box, Flex } from 'styled-system/jsx';
 import { Button } from 'components/Button';
 import clsx from 'clsx';
 
-import { PanelBottomCloseIcon, PanelBottomOpenIcon } from '@workspace/icons';
+import { PanelBottomCloseIcon, PanelBottomOpenIcon } from '@finografic/icons';
 import { styles } from './DrawerBar.styles';
 
 interface DrawerBarProps {

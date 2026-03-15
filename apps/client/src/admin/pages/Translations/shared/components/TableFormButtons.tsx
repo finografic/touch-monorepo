@@ -5,7 +5,7 @@ import { Flex } from 'styled-system/jsx';
 import { useDebouncedCallback } from 'use-debounce';
 import { Button } from 'components/Button';
 
-import { ChevronLeftIcon, ChevronRightIcon, EyeOffIcon, EyeOnIcon, PlusIcon } from '@workspace/icons';
+import { ChevronLeftIcon, ChevronRightIcon, EyeOffIcon, EyeOnIcon, PlusIcon } from '@finografic/icons';
 import { styles } from './TableFormButtons.styles';
 
 // ============================================================================

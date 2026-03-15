@@ -1,4 +1,4 @@
-import { colors } from '@workspace/design-system/tokens';
+import { colors } from '@finografic/design-system/tokens';
 
 import { RELAY_SLOT_COLORS, type RelayConfig } from 'types/relays.types';
 import { SlotSpecial, SlotType } from 'types/slots.types';

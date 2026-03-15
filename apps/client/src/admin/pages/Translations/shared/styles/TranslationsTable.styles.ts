@@ -1,4 +1,4 @@
-import { colors } from '@workspace/design-system/tokens';
+import { colors } from '@finografic/design-system/tokens';
 
 import { css } from '@emotion/react';
 import { forms } from 'forms/forms.config';

@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 
 import type { ToastVariant } from './Toast.types';
-import { colors } from '@workspace/design-system/tokens';
+import { colors } from '@finografic/design-system/tokens';
 
 // Helper function to get variant-specific colors
 const getVariantColor = (variant: ToastVariant): string => {

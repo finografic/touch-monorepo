@@ -1,5 +1,5 @@
 import React from 'react';
-import { AddIcon } from '@workspace/icons';
+import { AddIcon } from '@finografic/icons';
 
 import { Button } from 'components/Button';
 

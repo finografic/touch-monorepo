@@ -1,4 +1,4 @@
-import { Spinner } from '@workspace/design-system/components';
+import { Spinner } from '@finografic/design-system/components';
 
 interface LoaderProps {
   message?: string;

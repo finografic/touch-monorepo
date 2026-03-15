@@ -1,7 +1,7 @@
 import { type FC, useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-// import { Tabs } from '@workspace/design-system/components';
+// import { Tabs } from '@finografic/design-system/components';
 import { usePageTransition } from 'hooks/usePageTransition';
 
 import type { NavItem } from 'types/nav.types';

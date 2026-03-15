@@ -10,7 +10,7 @@ import '@testing-library/jest-dom/vitest';
 import { ThemeToggleButton } from './ThemeToggleButton';
 
 // Mock the icon components
-vi.mock('@workspace/icons', () => ({
+vi.mock('@finografic/icons', () => ({
   MoonIcon: () => <div data-testid="moon-icon">Moon</div>,
   SunIcon: () => <div data-testid="sun-icon">Sun</div>,
 }));

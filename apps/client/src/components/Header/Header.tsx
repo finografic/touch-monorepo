@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
 import React, { useEffect, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Col, Container, Row } from '@workspace/design-system/grid';
-import type { BreakpointMap } from '@workspace/design-system/viewport';
+import { Col, Container, Row } from '@finografic/design-system/grid';
+import type { BreakpointMap } from '@finografic/design-system/viewport';
 import type { AuthRoles, AuthSessionData, AuthUser } from '@workspace/shared/auth';
 
 import clsx from 'clsx';

@@ -20,8 +20,8 @@ import { DEFAULT_SHOW_KEY_COLUMN_PRODUCT } from '../../shared/constants/translat
 import { ExpandedSubtypeRow } from './components/TranslationsRowExpanded';
 import { useTranslationsTableForm } from './hooks/useTranslationsTableForm';
 import { useTranslationsTableHandlers } from './hooks/useTranslationsTableHandlers';
-import { colors } from '@workspace/design-system/tokens';
-import { ChevronDownIcon, ChevronRightIcon } from '@workspace/icons';
+import { colors } from '@finografic/design-system/tokens';
+import { ChevronDownIcon, ChevronRightIcon } from '@finografic/icons';
 import { styles } from '../../shared/styles/TranslationsTable.styles';
 
 interface TranslationsTableExpandableProps {

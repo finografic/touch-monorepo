@@ -19,7 +19,7 @@ import {
   ListIcon,
   VolumeIcon,
   ZapIcon,
-} from '@workspace/icons';
+} from '@finografic/icons';
 
 import type { AuthRoles } from '@workspace/shared/auth';
 

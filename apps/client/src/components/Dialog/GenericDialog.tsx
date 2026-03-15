@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
-import { Dialog, Tabs } from '@workspace/design-system/components';
-import { CloseIcon } from '@workspace/icons';
+import { Dialog, Tabs } from '@finografic/design-system/components';
+import { CloseIcon } from '@finografic/icons';
 
 import clsx from 'clsx';
 import { Flex } from 'styled-system/jsx';

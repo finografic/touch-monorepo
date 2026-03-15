@@ -1,4 +1,4 @@
-import type { ScreenClass } from '@workspace/design-system/viewport';
+import type { ScreenClass } from '@finografic/design-system/viewport';
 
 export type SizeUI = Extract<ScreenClass, 'sm' | 'md' | 'lg'>;
 

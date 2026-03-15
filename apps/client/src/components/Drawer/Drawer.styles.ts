@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { layout } from '@workspace/design-system/tokens';
+import { layout } from '@finografic/design-system/tokens';
 
 export const styles = css`
   .list-drawer {

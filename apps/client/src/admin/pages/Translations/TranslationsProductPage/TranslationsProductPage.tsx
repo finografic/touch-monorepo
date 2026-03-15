@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Spinner, Tabs } from '@workspace/design-system/components';
+import { Spinner, Tabs } from '@finografic/design-system/components';
 
 import { useQueryClient } from '@tanstack/react-query';
 import { Flex } from 'styled-system/jsx';

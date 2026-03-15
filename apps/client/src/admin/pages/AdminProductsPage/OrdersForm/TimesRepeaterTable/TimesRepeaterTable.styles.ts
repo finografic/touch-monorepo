@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { colors, fontTokens, layout } from '@workspace/design-system/tokens';
+import { colors, fontTokens, layout } from '@finografic/design-system/tokens';
 
 export const styles = css`
   width: 100%;

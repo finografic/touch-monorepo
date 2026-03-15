@@ -2,7 +2,7 @@ import React from 'react';
 
 import { callout } from 'styled-system/recipes';
 
-import { ExclamationTriangleIcon } from '@workspace/icons';
+import { ExclamationTriangleIcon } from '@finografic/icons';
 import { styles } from './NoItems.styles';
 
 interface NoItemsProps {

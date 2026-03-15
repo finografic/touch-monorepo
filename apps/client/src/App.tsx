@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
-import { Spinner } from '@workspace/design-system/components';
+import { Spinner } from '@finografic/design-system/components';
 
 import { Global } from '@emotion/react';
 import { SnoozeTimer } from 'components/Timers/SnoozeTimer';

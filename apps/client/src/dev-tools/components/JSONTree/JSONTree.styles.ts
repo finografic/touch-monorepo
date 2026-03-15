@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-// import { colors } from '@workspace/design-system/tokens';
+// import { colors } from '@finografic/design-system/tokens';
 
 export const styles = css`
   ul {

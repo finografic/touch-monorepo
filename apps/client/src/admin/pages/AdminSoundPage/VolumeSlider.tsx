@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Slider } from '@workspace/design-system/forms';
+import { Slider } from '@finografic/design-system/forms';
 import { Flex } from 'styled-system/jsx';
 import { useDebouncedCallback } from 'use-debounce';
 

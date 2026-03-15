@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import React, { useCallback, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { sleep } from '@workspace/core';
-import { UserLockIcon } from '@workspace/icons';
+import { UserLockIcon } from '@finografic/icons';
 
 import { type DialogConfig, GenericDialog } from 'components/Dialog';
 import { useToast } from 'components/Toast/ToastContext';

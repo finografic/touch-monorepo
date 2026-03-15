@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Col, Row } from '@workspace/design-system/grid';
+import { Col, Row } from '@finografic/design-system/grid';
 
 import { Box, Flex } from 'styled-system/jsx';
 import { getRelaySlotType } from 'admin/utils/relays.utils';

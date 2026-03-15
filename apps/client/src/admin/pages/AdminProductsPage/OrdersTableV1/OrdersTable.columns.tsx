@@ -1,5 +1,5 @@
-import { CheckboxField } from '@workspace/design-system/forms';
-import { EditIcon, TrashIcon } from '@workspace/icons';
+import { CheckboxField } from '@finografic/design-system/forms';
+import { EditIcon, TrashIcon } from '@finografic/icons';
 
 import type { ColumnDef } from '@tanstack/react-table';
 import { button, checkbox } from 'styled-system/recipes';

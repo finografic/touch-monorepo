@@ -1,6 +1,6 @@
 import type React from 'react';
 
-import type { DialogSize } from '@workspace/design-system/forms';
+import type { DialogSize } from '@finografic/design-system/forms';
 
 export interface TabConfig {
   id: string;

@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
-import type { DataTableClassNames, DataTableColumn } from '@workspace/design-system/components';
-import { DataTable } from '@workspace/design-system/components';
+import type { DataTableClassNames, DataTableColumn } from '@finografic/design-system/components';
+import { DataTable } from '@finografic/design-system/components';
 
 import { button, checkbox, input, table } from 'styled-system/recipes';
 

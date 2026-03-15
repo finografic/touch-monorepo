@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { InputField } from '@workspace/design-system/forms';
-import { colors } from '@workspace/design-system/tokens';
-import { ChevronDownIcon, ChevronUpIcon, ExclamationTriangleIcon } from '@workspace/icons';
+import { InputField } from '@finografic/design-system/forms';
+import { colors } from '@finografic/design-system/tokens';
+import { ChevronDownIcon, ChevronUpIcon, ExclamationTriangleIcon } from '@finografic/icons';
 
 import { useOptionalFormMiddleware } from 'forms/FormMiddleware';
 import { Button } from 'components/Button';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dialog } from '@workspace/design-system/components';
+import { Dialog } from '@finografic/design-system/components';
 import type { LanguageInfo } from '@workspace/i18n/types';
 
 import { Flex } from 'styled-system/jsx';

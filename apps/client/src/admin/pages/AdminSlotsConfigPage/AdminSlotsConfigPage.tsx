@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { Switch } from '@workspace/design-system/forms';
-import { MinusIcon, PlusIcon } from '@workspace/icons';
+import { Switch } from '@finografic/design-system/forms';
+import { MinusIcon, PlusIcon } from '@finografic/icons';
 
 import clsx from 'clsx';
 import { Flex } from 'styled-system/jsx';

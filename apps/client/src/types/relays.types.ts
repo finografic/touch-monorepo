@@ -1,5 +1,5 @@
 import { SlotSpecial, SlotType } from 'types/slots.types';
-import type { ColorsKey } from '@workspace/design-system/tokens';
+import type { ColorsKey } from '@finografic/design-system/tokens';
 
 export interface RelayConfig {
   id: string;

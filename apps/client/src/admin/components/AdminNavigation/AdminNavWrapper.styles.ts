@@ -1,5 +1,5 @@
-import { colors, layout } from '@workspace/design-system/tokens';
-import { BREAKPOINTS, min } from '@workspace/design-system/viewport';
+import { colors, layout } from '@finografic/design-system/tokens';
+import { BREAKPOINTS, min } from '@finografic/design-system/viewport';
 
 import { css } from '@emotion/react';
 

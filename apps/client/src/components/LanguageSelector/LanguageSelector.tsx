@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import type { LanguageSelectorProps, RegionLocale } from '@workspace/config/i18n';
 
-import { RadioGroup } from '@workspace/design-system/forms';
+import { RadioGroup } from '@finografic/design-system/forms';
 import { Flex } from 'styled-system/jsx';
 import clsx from 'clsx';
 

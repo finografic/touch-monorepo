@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch } from '@workspace/design-system/forms';
+import { Switch } from '@finografic/design-system/forms';
 
 import { Flex } from 'styled-system/jsx';
 import { badge, dsSwitch } from 'styled-system/recipes';

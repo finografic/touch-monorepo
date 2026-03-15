@@ -1,4 +1,4 @@
-import { colors } from '@workspace/design-system/tokens';
+import { colors } from '@finografic/design-system/tokens';
 
 // ======================================================================== //
 // FORM CONFIGURATION - Single source of truth for form styling

@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
-import { InputField } from '@workspace/design-system/forms';
+import { InputField } from '@finografic/design-system/forms';
 import { card } from 'styled-system/recipes';
 import { matchSorter } from 'match-sorter';
 
-import { ChevronDownIcon, MagnifyingGlassIcon } from '@workspace/icons';
+import { ChevronDownIcon, MagnifyingGlassIcon } from '@finografic/icons';
 import { styles } from './SearchableLanguageInput.styles';
 
 interface LanguageOption {

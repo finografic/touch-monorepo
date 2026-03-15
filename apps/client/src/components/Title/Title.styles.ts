@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { colors, layout } from '@workspace/design-system/tokens';
+import { colors, layout } from '@finografic/design-system/tokens';
 
 export const styles = css`
   /* Header content styling - layout handled by Layout.styles.ts */

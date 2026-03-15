@@ -1,4 +1,4 @@
-import { layout } from '@workspace/design-system/tokens';
+import { layout } from '@finografic/design-system/tokens';
 
 import { css } from '@emotion/react';
 import { padProps } from 'components/Pads/Pad/PadBasic.styles';

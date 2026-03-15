@@ -1,11 +1,11 @@
-import { designSystemPreset } from '@workspace/design-system/panda.preset';
+import { designSystemPreset } from '@finografic/design-system/panda.preset';
 
 import { defineConfig } from '@pandacss/dev';
 
 export default defineConfig({
   /**
    * Disable Panda's built-in preflight — client already has
-   * @workspace/design-system/styles/reset.css imported in theme.css.
+   * @finografic/design-system/styles/reset.css imported in theme.css.
    */
   preflight: false,
 
@@ -20,10 +20,10 @@ export default defineConfig({
    *
    * Include design-system src so Panda extracts styles used in DS component
    * files (components/, forms/, etc.). Without it, CSS for those components
-   * won't be generated. With pnpm workspaces, @workspace/design-system
-   * resolves to the local package.
+   * won't be generated. With pnpm workspaces, @finografic/design-system
+   * resolves to the installed package.
    */
-  include: ['./src/**/*.{ts,tsx}', './node_modules/@workspace/design-system/src/**/*.{ts,tsx}'],
+  include: ['./src/**/*.{ts,tsx}', './node_modules/@finografic/design-system/src/**/*.{ts,tsx}'],
   exclude: [],
 
   /**

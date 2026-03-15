@@ -7,7 +7,7 @@ import {
   ChevronsUpDownIcon,
   DoubleArrowLeftIcon,
   DoubleArrowRightIcon,
-} from '@workspace/icons';
+} from '@finografic/icons';
 
 import {
   type ColumnFiltersState,

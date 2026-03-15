@@ -57,9 +57,7 @@
         "@workspace/core#build",
         "@workspace/shared#build",
         "@workspace/i18n#build",
-        "@workspace/config#build",
-        "@workspace/icons#build",
-        "@workspace/design-system#build"
+        "@workspace/config#build"
       ],
       "outputs": ["dist/**", "styled-system/**"]
     },
