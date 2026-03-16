@@ -189,7 +189,7 @@
   margin: 0;
   overflow: visible;
   clip: auto;
-  white-space: normal;
+          white-space: normal;
   font-size: 0.875rem;
   color: var(--colors-fg-muted);
   padding: 0 1.5rem;

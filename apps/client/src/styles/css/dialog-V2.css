@@ -4,7 +4,77 @@
    Import once at app entry: @workspace/design-system/styles/dialogs.css
    ============================================================================ */
 
-/* Dialog Component — class names match dialog.css */
+.Root {
+   display: inline-flex;
+   align-items: center;
+   justify-content: center;
+   gap: 0.5rem;
+   padding-inline: 1rem;
+   padding-block: 0.5rem;
+   font-size: 0.875rem;
+   font-weight: 500;
+   font-family: inherit;
+   line-height: 1.25rem;
+   border-radius: 0.375rem;
+
+   user-select: none;
+   white-space: nowrap;
+   transition:
+     background 150ms,
+     border-color 150ms,
+     color 150ms;
+
+   & svg {
+     width: 1em;
+     height: 1em;
+   }
+
+   &:has(> svg:only-child) {
+     padding-inline: 0.625rem !important;
+   }
+
+   background: transparent;
+   border: 1px solid var(--demo-border-emphasized);
+   color: var(--demo-neutral-fg);
+
+   &:is(:hover, [aria-expanded='true']):not(:disabled, [data-disabled]) {
+     background: var(--demo-neutral-subtle);
+   }
+
+   &:focus-visible {
+     outline: 2px solid var(--demo-coral-focus-ring);
+     outline-offset: -1px;
+   }
+
+   &:is(:disabled, [data-disabled]) {
+     opacity: 0.5;
+     filter: grayscale(100%);
+   }
+
+   /* Surface: outline + coral text */
+   &[data-variant='surface'] {
+     border-color: var(--demo-border-emphasized);
+     color: var(--demo-coral-fg);
+   }
+
+   /* Solid: solid bg + contrast text */
+   &[data-variant='solid'] {
+     background: var(--demo-coral-solid);
+     border-color: var(--demo-coral-solid);
+     color: var(--demo-coral-contrast);
+
+     &:hover {
+       background: var(--demo-coral-fg);
+       border-color: var(--demo-coral-fg);
+     }
+
+     &:focus-visible {
+       outline-offset: 2px;
+     }
+  }
+}
+
+/* ── Overlay + Positioner ──────────────-------------─────────────────────── */
 
 .ds-dialog__backdrop {
   position: fixed;
@@ -21,6 +91,7 @@
     animation: ds-dialog-backdrop-out 0.1s ease-in;
   }
 }
+/* NOTE: container to which className may be applied */
 
 .ds-dialog__positioner {
   display: flex;
@@ -33,39 +104,22 @@
   overflow-y: auto;
   overscroll-behavior-y: none;
   scrollbar-gutter: stable both-edges;
+  border: 2px solid red;
 }
 
-.ds-dialog__content {
-  --px: var(--spacing-4);
-
+.ds-dialog__positioner--outside-scroll {
   display: flex;
-  flex-direction: column;
   align-items: flex-start;
-  position: relative;
-  width: 24rem;
-  max-width: calc(100vw - 2rem);
-  max-height: calc(100vh - 2rem);
-  padding: var(--spacing-2) var(--spacing-4);
-  border-radius: 0.75rem;
-  border: 1px solid var(--colors-border);
-  background: var(--colors-bg-panel, var(--colors-bg));
-  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
-  outline: 0;
-  transition: transform 0.1s ease-in-out;
-  translate: calc(-1 * var(--scrollbar-width, 0px) / 2) 0;
-
-  &[data-has-nested] {
-    transform: scale(calc(1 - var(--nested-layer-count) * 0.05));
-  }
-
-  &[data-state='open'] {
-    animation: ds-dialog-in 0.15s ease-out;
-  }
-
-  &[data-state='closed'] {
-    animation: ds-dialog-out 0.1s ease-in;
-  }
+  justify-content: center;
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-index-modal);
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  pointer-events: auto;
 }
+
+/* ── Header + Title ────────────────────-------------─────────────────────── */
 
 .ds-dialog__title {
   margin: 0;
@@ -80,15 +134,6 @@
   font-size: 0.875rem;
   line-height: 1.5;
   color: var(--colors-fg-muted);
-}
-
-.ds-dialog__body {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 100%;
-  gap: 0.75rem;
-  margin-top: 1.25rem;
 }
 
 .ds-dialog__close-trigger {
@@ -122,14 +167,55 @@
   }
 }
 
-.ds-dialog__footer {
+/* ── Container ──────────────────────────────────────────────────────────────────── */
+
+.ds-dialog__content {
+  --px: var(--spacing-4);
+
   display: flex;
-  justify-content: flex-end;
-  gap: 0.75rem;
-  margin-top: 1.5rem;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  width: 24rem;
+  max-width: calc(100vw - 2rem);
+  max-height: calc(100vh - 2rem);
+  padding: var(--spacing-2) var(--spacing-4);
+  border-radius: 0.75rem;
+  border: 1px solid var(--colors-border);
+  background: var(--colors-bg-panel, var(--colors-bg));
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
+  outline: 0;
+  transition: transform 0.1s ease-in-out;
+  translate: calc(-1 * var(--scrollbar-width, 0px) / 2) 0;
+
+  &[data-has-nested] {
+    transform: scale(calc(1 - var(--nested-layer-count) * 0.05));
+  }
+
+  &[data-state='open'] {
+    animation: ds-dialog-in 0.15s ease-out;
+  }
+
+  &[data-state='closed'] {
+    animation: ds-dialog-out 0.1s ease-in;
+  }
 }
 
-/* Scroll styles for dialog scroll examples */
+.ds-dialog__content[data-size="xs"] {
+  max-width: 20rem;
+}
+.ds-dialog__content[data-size="sm"] {
+  max-width: 28rem;
+}
+.ds-dialog__content[data-size="md"] {
+  max-width: 35rem;
+}
+.ds-dialog__content[data-size="lg"] {
+  max-width: 42rem;
+}
+.ds-dialog__content[data-size="xl"] {
+  max-width: 50rem;
+}
 
 .ds-dialog__scroll-container {
   flex: 1;
@@ -155,7 +241,6 @@
   &::-webkit-scrollbar-thumb {
     background-color: var(--colors-border);
     border-radius: 4px;
-
     &:hover {
       background-color: var(--colors-fg-muted);
     }
@@ -178,19 +263,41 @@
   }
 }
 
-/* Outside scroll positioner variant */
+/* ── Body — scrollable content area ─────────────────────────────────────────── */
 
-.ds-dialog__positioner--outside-scroll {
+.ds-dialog__body {
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
-  justify-content: center;
-  position: fixed;
-  inset: 0;
-  z-index: var(--z-index-modal);
-  overflow-y: auto;
-  overscroll-behavior-y: contain;
-  pointer-events: auto;
+  width: 100%;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
 }
+
+/* TODO: REPEATED BELOW ?? */
+
+.ds-dialog__body::-webkit-scrollbar {
+  width: 6px;
+}
+.ds-dialog__body::-webkit-scrollbar-track {
+  background: transparent;
+}
+.ds-dialog__body::-webkit-scrollbar-thumb {
+  background: var(--colors-border);
+  border-radius: 3px;
+}
+
+/* ── Footer ──────────────────────────────────────────────────────────────── */
+
+.ds-dialog__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  border: 2px solid red;
+}
+
+/* ── Animations ────────────────────────────────────────────────────────────── */
 
 @keyframes ds-dialog-backdrop-in {
   from {

@@ -171,7 +171,7 @@ export const KeypadLoginTabContent: React.FC<KeypadLoginTabContentProps> = ({
             type="submit"
             disabled={isLoading || password.length === 0}
             size="md"
-            palette="info"
+            colorScheme="info"
             className="submit-button"
           >
             {isLoading ? 'Loading...' : 'Sign In'}
