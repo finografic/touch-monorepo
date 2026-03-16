@@ -116,7 +116,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
    */
   const syncGridAndAltVisibility = useCallback(
     async (newLevel: GridLevel) => {
-      const isVisible = newLevel >= 2;
+      const isVisible = newLevel >= 3;
       const gridConfig = gridSpecialConfig?.data;
       const altConfig = altSpecialConfig?.data;
       const updates: Array<{
@@ -166,7 +166,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
   );
 
   const handleAddColumn = async () => {
-    if (gridLevel < 3) {
+    if (gridLevel < 4) {
       const prevLevel = gridLevel;
       const newLevel = (prevLevel + 1) as GridLevel;
       const { columns: prevCols, rows: prevRows } = getGridDimensions(prevLevel);
@@ -222,9 +222,9 @@ export const AdminSlotsConfigPage: React.FC = () => {
   const gridSlotsCount = numActiveColumns * effectiveRows;
 
   // Match main app: special slots visible at levels 2–3 (≥3 columns) AND switch ON
-  const showSpecialSlotInPreview = gridLevel >= 2 && gridSpecialConfig?.data?.isActive === true;
+  const showSpecialSlotInPreview = gridLevel >= 3 && gridSpecialConfig?.data?.isActive === true;
 
-  const showSpecialAltSlotInPreview = gridLevel >= 2 && altSpecialConfig?.data?.isActive === true;
+  const showSpecialAltSlotInPreview = gridLevel >= 3 && altSpecialConfig?.data?.isActive === true;
   const altSlotNumber = altSpecialConfig?.data?.data.slot_number ?? ALT_SLOT_NUMBER;
 
   const showPowerSlotInPreview = powerSpecialConfig?.data?.isActive === true;
@@ -368,7 +368,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
                   variant="outline"
                   color="success"
                   onClick={handleAddColumn}
-                  disabled={gridLevel === 3}
+                  disabled={gridLevel === 4}
                 >
                   <Flex justify="start" align="center" width="180px" gap={4} ml={4}>
                     <PlusIcon />

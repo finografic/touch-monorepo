@@ -12,21 +12,23 @@ export const ALT_SLOT_NUMBER = 16;
 export const getEffectiveRows = (columns: number): number => (columns < 3 ? 2 : NUM_ROWS_DEFAULT);
 
 // ─── Grid Level System ───────────────────────────────────────────────────────
-// Four discrete grid sizes stepped through by Add/Remove Column buttons.
-//   Level 0 → Small   2×2  ( 4 grid slots + 1 special)
-//   Level 1 → Medium  2×3  ( 6 grid slots + 1 special)
-//   Level 2 → Large   3×3  ( 9 grid slots + 1 special)
-//   Level 3 → XLarge  4×3  (12 grid slots + 1 special)
-// Special slots (grid overlay, alt) are only visible at levels 2–3 (≥3 columns).
+// Five discrete grid sizes stepped through by Add/Remove Column buttons.
+//   Level 0 → XSmall  1×2  ( 2 grid slots + 1 special)
+//   Level 1 → Small   2×2  ( 4 grid slots + 1 special)
+//   Level 2 → Medium  2×3  ( 6 grid slots + 1 special)
+//   Level 3 → Large   3×3  ( 9 grid slots + 1 special)
+//   Level 4 → XLarge  4×3  (12 grid slots + 1 special)
+// Special slots (grid overlay, alt) are only visible at levels 3–4 (≥3 columns).
 // ─────────────────────────────────────────────────────────────────────────────
 
-export type GridLevel = 0 | 1 | 2 | 3;
+export type GridLevel = 0 | 1 | 2 | 3 | 4;
 
 const GRID_LEVEL_DIMENSIONS: Record<GridLevel, { columns: number; rows: number }> = {
-  0: { columns: 2, rows: 2 },
-  1: { columns: 2, rows: 3 },
-  2: { columns: 3, rows: 3 },
-  3: { columns: 4, rows: 3 },
+  0: { columns: 1, rows: 2 },
+  1: { columns: 2, rows: 2 },
+  2: { columns: 2, rows: 3 },
+  3: { columns: 3, rows: 3 },
+  4: { columns: 4, rows: 3 },
 };
 
 /** Returns { columns, rows } for the given level. */
@@ -36,17 +38,19 @@ export const getGridDimensions = (level: GridLevel): { columns: number; rows: nu
 /** Derives the appropriate level from active slot count (the ALT slot is excluded). */
 export const getGridLevelFromSlotCount = (activeSlotCount: number): GridLevel => {
   const gridSlots = Math.max(0, activeSlotCount - 1); // exclude special/alt slot
-  if (gridSlots <= 4) return 0;
-  if (gridSlots <= 6) return 1;
-  if (gridSlots <= 9) return 2;
-  return 3;
+  if (gridSlots <= 2) return 0;
+  if (gridSlots <= 4) return 1;
+  if (gridSlots <= 6) return 2;
+  if (gridSlots <= 9) return 3;
+  return 4;
 };
 
 export const GRID_LEVEL_NAMES: Record<GridLevel, string> = {
-  0: 'Small (2×2)',
-  1: 'Medium (2×3)',
-  2: 'Large (3×3)',
-  3: 'XLarge (4×3)',
+  0: 'XSmall (1×2)',
+  1: 'Small (2×2)',
+  2: 'Medium (2×3)',
+  3: 'Large (3×3)',
+  4: 'XLarge (4×3)',
 };
 
 export const INITIAL_SLOT_ITEM: SelectedSlotItem = {
