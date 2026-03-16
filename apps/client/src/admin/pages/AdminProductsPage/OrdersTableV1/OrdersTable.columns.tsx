@@ -10,7 +10,7 @@ import type { OrderReadableWithIndex } from '../hooks/useOrdersFilter';
 
 const checkClasses = checkbox({ size: 'sm' });
 const editClasses = button({ size: 'xs', variant: 'ghost' });
-const deleteClasses = button({ size: 'xs', variant: 'ghost', colorScheme: 'danger' });
+const deleteClasses = button({ size: 'xs', variant: 'ghost', palette: 'danger' });
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 

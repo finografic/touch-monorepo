@@ -1,6 +1,6 @@
-import { css } from '@emotion/react';
-
 import { colors } from '@finografic/design-system/tokens';
+
+import { css } from '@emotion/react';
 import { forms } from 'forms/forms.config';
 
 export const styles = css`
@@ -16,7 +16,7 @@ export const styles = css`
     display: none;
   }
 
-  .submit-button {
+  /* .submit-button {
     width: 100%;
     color: ${colors.white};
 
@@ -25,7 +25,7 @@ export const styles = css`
       border-color: ${colors.infoDark};
       color: ${colors.white};
     }
-  }
+  } */
   .error {
     color: ${colors.danger};
     font-size: 0.875rem;

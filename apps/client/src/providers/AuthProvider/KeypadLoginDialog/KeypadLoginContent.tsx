@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Button } from '@finografic/design-system/components';
 import { KEY_PRESS } from '@workspace/core';
 import { useKeyPress } from '@workspace/core/hooks';
 
 import clsx from 'clsx';
-import { Button } from 'components/Button';
 
 import { NumericKeypad } from './NumericKeypad';
 import { styles } from './KeypadLoginDialog.styles';
@@ -171,7 +171,7 @@ export const KeypadLoginTabContent: React.FC<KeypadLoginTabContentProps> = ({
             type="submit"
             disabled={isLoading || password.length === 0}
             size="md"
-            color="info"
+            palette="info"
             className="submit-button"
           >
             {isLoading ? 'Loading...' : 'Sign In'}

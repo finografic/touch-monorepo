@@ -27,10 +27,6 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({
 }) => {
   const [activeTab, setActiveTab] = useState(defaultTab || config.tabs[0]?.id || '');
 
-  const footerButtons = useMemo(() => config.footer?.buttons ?? [], [config.footer?.buttons]);
-  const isLeftToRight = !(config.footer?.isRTL ?? false);
-  const isFilled = config.footer?.isFilled ?? false;
-
   const footer = useMemo(() => {
     return config.footer
       ? {

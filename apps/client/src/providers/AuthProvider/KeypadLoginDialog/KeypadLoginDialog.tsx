@@ -91,7 +91,6 @@ export const KeypadLoginDialog: FC<KeypadLoginDialogProps> = () => {
     maxWidth: '270px',
     minHeight: '500px',
     maxHeight: '540px',
-
     tabs: [
       {
         id: 'admin',

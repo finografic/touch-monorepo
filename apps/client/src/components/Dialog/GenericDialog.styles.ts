@@ -98,7 +98,7 @@ export const styles = css`
 
       overflow: hidden;
 
-      padding: 0 0 1.5rem 0;
+      padding: 0 0 1.15rem 0;
 
       .rt-TabsRoot[data-orientation='horizontal'] {
         display: contents;

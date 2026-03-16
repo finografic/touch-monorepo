@@ -1,7 +1,7 @@
 /**
  * Badge Recipe
  *
- * Variants: size (sm | md | lg) · variant (solid | soft | outline) · colorScheme
+ * Variants: size (sm | md | lg) · variant (solid | soft | outline) · palette
  */
 import { cva } from '@styled-system/css';
 
@@ -28,7 +28,7 @@ export const badgeRecipe = cva({
       outline: { bg: 'transparent', borderWidth: 'light', borderStyle: 'solid' },
     },
 
-    colorScheme: {
+    palette: {
       primary: {},
       success: {},
       warning: {},
@@ -39,31 +39,31 @@ export const badgeRecipe = cva({
   },
 
   compoundVariants: [
-    { variant: 'solid', colorScheme: 'primary', css: { bg: 'primary' } },
-    { variant: 'solid', colorScheme: 'success', css: { bg: 'success' } },
-    { variant: 'solid', colorScheme: 'warning', css: { bg: 'warning', color: 'fg' } },
-    { variant: 'solid', colorScheme: 'danger', css: { bg: 'danger' } },
-    { variant: 'solid', colorScheme: 'info', css: { bg: 'info' } },
-    { variant: 'solid', colorScheme: 'neutral', css: { bg: 'neutral', color: 'fg.inverted' } },
+    { variant: 'solid', palette: 'primary', css: { bg: 'primary' } },
+    { variant: 'solid', palette: 'success', css: { bg: 'success' } },
+    { variant: 'solid', palette: 'warning', css: { bg: 'warning', color: 'fg' } },
+    { variant: 'solid', palette: 'danger', css: { bg: 'danger' } },
+    { variant: 'solid', palette: 'info', css: { bg: 'info' } },
+    { variant: 'solid', palette: 'neutral', css: { bg: 'neutral', color: 'fg.inverted' } },
 
-    { variant: 'soft', colorScheme: 'primary', css: { bg: 'accent.subtle', color: 'accent.fg' } },
-    { variant: 'soft', colorScheme: 'success', css: { bg: 'bg.success', color: 'fg.success' } },
-    { variant: 'soft', colorScheme: 'warning', css: { bg: 'bg.warning', color: 'fg.warning' } },
-    { variant: 'soft', colorScheme: 'danger', css: { bg: 'bg.error', color: 'fg.error' } },
-    { variant: 'soft', colorScheme: 'info', css: { bg: 'bg.info', color: 'fg.info' } },
-    { variant: 'soft', colorScheme: 'neutral', css: { bg: 'bg.muted', color: 'fg.muted' } },
+    { variant: 'soft', palette: 'primary', css: { bg: 'accent.subtle', color: 'accent.fg' } },
+    { variant: 'soft', palette: 'success', css: { bg: 'bg.success', color: 'fg.success' } },
+    { variant: 'soft', palette: 'warning', css: { bg: 'bg.warning', color: 'fg.warning' } },
+    { variant: 'soft', palette: 'danger', css: { bg: 'bg.error', color: 'fg.error' } },
+    { variant: 'soft', palette: 'info', css: { bg: 'bg.info', color: 'fg.info' } },
+    { variant: 'soft', palette: 'neutral', css: { bg: 'bg.muted', color: 'fg.muted' } },
 
-    { variant: 'outline', colorScheme: 'primary', css: { borderColor: 'accent.solid', color: 'accent.fg' } },
-    { variant: 'outline', colorScheme: 'success', css: { borderColor: 'border.success', color: 'fg.success' } },
-    { variant: 'outline', colorScheme: 'warning', css: { borderColor: 'border.warning', color: 'fg.warning' } },
-    { variant: 'outline', colorScheme: 'danger', css: { borderColor: 'border.error', color: 'fg.error' } },
-    { variant: 'outline', colorScheme: 'info', css: { borderColor: 'border.info', color: 'fg.info' } },
-    { variant: 'outline', colorScheme: 'neutral', css: { borderColor: 'border', color: 'fg.muted' } },
+    { variant: 'outline', palette: 'primary', css: { borderColor: 'accent.solid', color: 'accent.fg' } },
+    { variant: 'outline', palette: 'success', css: { borderColor: 'border.success', color: 'fg.success' } },
+    { variant: 'outline', palette: 'warning', css: { borderColor: 'border.warning', color: 'fg.warning' } },
+    { variant: 'outline', palette: 'danger', css: { borderColor: 'border.error', color: 'fg.error' } },
+    { variant: 'outline', palette: 'info', css: { borderColor: 'border.info', color: 'fg.info' } },
+    { variant: 'outline', palette: 'neutral', css: { borderColor: 'border', color: 'fg.muted' } },
   ],
 
   defaultVariants: {
     size: 'md',
     variant: 'soft',
-    colorScheme: 'neutral',
+    palette: 'neutral',
   },
 });

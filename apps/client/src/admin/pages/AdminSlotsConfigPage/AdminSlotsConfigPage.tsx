@@ -259,7 +259,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
                   showPowerSlot={showPowerSlotInPreview}
                 />
                 <Flex gap={4} align="center" mt="-4" pb={4}>
-                  <Badge variant="soft" colorScheme="info" size="lg" className="dimesions-badge">
+                  <Badge variant="soft" palette="info" size="lg" className="dimesions-badge">
                     {numActiveColumns} columns × {effectiveRows} rows = {gridSlotsCount} grid slots + 1
                     special slot
                   </Badge>

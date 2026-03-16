@@ -6,8 +6,8 @@ import type { BadgeVariants } from './badge.types';
 export type BadgeProps = BadgeVariants & HTMLAttributes<HTMLSpanElement>;
 
 export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
-  ({ variant, colorScheme, size, className, children, ...props }, ref) => {
-    const cls = badgeRecipe({ variant, colorScheme, size });
+  ({ variant, palette, size, className, children, ...props }, ref) => {
+    const cls = badgeRecipe({ variant, palette, size });
     return (
       <span ref={ref} className={className ? `${cls} ${className}` : cls} {...props}>
         {children}

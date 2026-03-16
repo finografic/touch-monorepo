@@ -2,14 +2,14 @@
  * Button Component
  *
  * Accessible button built on `ark.button`. Styling via `buttonRecipe`
- * — pass `className={buttonRecipe({ variant, colorScheme, size })}`.
+ * — pass `className={buttonRecipe({ variant, palette, size })}`.
  *
  * Usage:
  * ```tsx
  * import { Button } from '@workspace/design-system/components';
  * import { buttonRecipe } from '@workspace/design-system/recipes';
  *
- * <Button className={buttonRecipe({ variant: 'solid', colorScheme: 'primary' })}>
+ * <Button className={buttonRecipe({ variant: 'solid', palette: 'primary' })}>
  *   Save
  * </Button>
  * ```
@@ -27,7 +27,7 @@ export type ButtonProps = ComponentPropsWithoutRef<'button'> &
     /** Visual variant — solid · subtle · outline · ghost · link. Default: outline */
     variant?: 'solid' | 'subtle' | 'outline' | 'ghost' | 'link';
     /** Color scheme. Default: default */
-    colorScheme?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info' | 'grey';
+    palette?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info' | 'grey';
     /** Loading state — disables the button and sets aria-busy */
     loading?: boolean;
     /** Icon element rendered before children (or after, see iconPosition) */
@@ -41,7 +41,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     {
       size = 'md',
       variant = 'outline',
-      colorScheme = 'default',
+      palette = 'default',
       loading = false,
       icon,
       iconPosition = 'left',
@@ -59,7 +59,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         aria-busy={loading || undefined}
         data-size={size}
         data-variant={variant}
-        data-color-scheme={colorScheme}
+        data-color-scheme={palette}
         data-loading={loading || undefined}
         className={className}
         {...props}

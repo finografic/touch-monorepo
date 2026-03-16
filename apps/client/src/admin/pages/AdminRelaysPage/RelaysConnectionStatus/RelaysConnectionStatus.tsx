@@ -59,7 +59,7 @@ export const RelaysConnectionStatus: React.FC = () => {
           <Button onClick={() => enableStatesPolling()} variant="solid" color="info">
             🔄 Retry Connection
           </Button>
-          <Badge variant="soft" colorScheme={statesPollingEnabled ? 'success' : 'danger'} size="lg">
+          <Badge variant="soft" palette={statesPollingEnabled ? 'success' : 'danger'} size="lg">
             Polling: {statesPollingEnabled ? 'Active' : 'Disabled'}
           </Badge>
         </Flex>
@@ -75,10 +75,10 @@ export const RelaysConnectionStatus: React.FC = () => {
     <Flex justify="space-between" align="center">
       <Flex direction="column" gap={2}>
         <Flex align="center" gap={3} className="status-buttons">
-          <Badge variant="soft" colorScheme={relayStatus?.connected ? 'success' : 'danger'} size="lg">
+          <Badge variant="soft" palette={relayStatus?.connected ? 'success' : 'danger'} size="lg">
             {relayStatus?.connected ? 'Connected' : 'Disconnected'}
           </Badge>
-          <Badge variant="soft" colorScheme={statesPollingEnabled ? 'success' : 'danger'} size="lg">
+          <Badge variant="soft" palette={statesPollingEnabled ? 'success' : 'danger'} size="lg">
             Polling: {statesPollingEnabled ? 'Active' : 'Disabled'}
           </Badge>
 
