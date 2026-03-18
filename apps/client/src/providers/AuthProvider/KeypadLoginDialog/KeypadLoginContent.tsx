@@ -165,13 +165,17 @@ export const KeypadLoginTabContent: React.FC<KeypadLoginTabContentProps> = ({
             </div>
           </div>
 
-          <NumericKeypad onDigitPress={handleDigitPress} disabled={isLoading} activeKey={activeKey} />
+          <NumericKeypad
+            onDigitPress={handleDigitPress}
+            disabled={isLoading}
+            activeKey={activeKey}
+          />
 
           <Button
             type="submit"
             disabled={isLoading || password.length === 0}
             size="md"
-            colorScheme="info"
+            palette="info"
             className="submit-button"
           >
             {isLoading ? 'Loading...' : 'Sign In'}

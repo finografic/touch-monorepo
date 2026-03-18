@@ -91,7 +91,10 @@ export default fino({
     'import/no-unused-modules': OFF,
     'import/no-unresolved': OFF,
 
-
+    // TODO: REMOVE `ConditionalExpression` WHEN oxfmt IS ADDED TO
+    'stylistic/indent': [WARN, 2, { SwitchCase: 1, ignoredNodes: ['ConditionalExpression'] }],
+    'stylistic/no-multiple-empty-lines': [ERROR, { max: 1, maxBOF: 0, maxEOF: 1 }],
+    'stylistic/no-multi-spaces': [WARN, { exceptions: { Property: true } }],
 
     // Import sorting rules
     'simple-import-sort/imports': [

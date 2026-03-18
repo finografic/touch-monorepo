@@ -1,40 +1,56 @@
 {
   // IMPORTANT: ESLint must run BEFORE Prettier to preserve blank lines between import groups
   // Order: ESLint fixes imports (adds blank lines) → Prettier formats (preserves them)
+  "npm.packageManager": "pnpm",
+  "editor.formatOnSave": true,
+  "eslint.enable": true,
+  "eslint.useFlatConfig": true,
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+  "stylelint.enable": true,
+  "stylelint.validate": ["css"],
+  "css.validate": false,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit", // Run ESLint FIRST (sorts imports, adds blank lines)
     "source.organizeImports": "never" // Disable built-in organize imports
   },
   // "editor.formatOnSave": true, // Run Prettier AFTER ESLint (formats but preserves blank lines)
   // "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "eslint.enable": true,
   "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "dprint.dprint"
   },
+  // "[typescript]": {
+  //   "editor.defaultFormatter": "esbenp.prettier-vscode"
+  // },
+  // "[typescriptreact]": {
+  //   "editor.defaultFormatter": "esbenp.prettier-vscode"
+  // },
   "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "dprint.dprint"
   },
   "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "dprint.dprint"
   },
   "[javascriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "dprint.dprint"
   },
   "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "dprint.dprint"
   },
   "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "dprint.dprint"
   },
   "[markdown]": {
     "editor.defaultFormatter": "dprint.dprint",
     "editor.formatOnSave": true
   },
+  // "[css]": {
+  //   "editor.defaultFormatter": "stylelint.vscode-stylelint",
+  //   "editor.codeActionsOnSave": {
+  //     "source.fixAll.stylelint": "explicit"
+  //   }
+  // },
   "[css]": {
-    "editor.defaultFormatter": "stylelint.vscode-stylelint",
-    "editor.codeActionsOnSave": {
-      "source.fixAll.stylelint": "explicit"
-    }
+    "editor.defaultFormatter": "dprint.dprint"
   },
   "[postcss]": {
     "editor.defaultFormatter": "stylelint.vscode-stylelint",
@@ -50,11 +66,8 @@
       "mode": "auto"
     }
   ],
-  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
   "eslint.nodePath": null,
   "eslint.runtime": "node",
-  "npm.packageManager": "pnpm",
-  "eslint.useFlatConfig": true,
   "eslint.execArgv": null,
   "eslint.nodeEnv": null,
   "terminal.integrated.env.osx": {
@@ -235,6 +248,6 @@
   // ============================================================================
   // Markdownlint Settings
   // ============================================================================
-  "stylelint.validate": ["css", "postcss", "javascriptreact", "typescriptreact"],
+  // "stylelint.validate": ["css", "postcss", "javascriptreact", "typescriptreact"],
   "stylelint.customSyntax": "sugarss"
 }
