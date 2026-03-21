@@ -30,10 +30,10 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({
   const footer = useMemo(() => {
     return config.footer
       ? {
-          isRTL: config.footer.isRTL ?? true,
-          isFilled: config.footer.isFilled ?? false,
-          buttons: config.footer.buttons ?? [],
-        }
+        isRTL: config.footer.isRTL ?? true,
+        isFilled: config.footer.isFilled ?? false,
+        buttons: config.footer.buttons ?? [],
+      }
       : null;
   }, [config?.footer]);
 
@@ -71,7 +71,7 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({
           <Dialog.Header className={clsx('dialog-header', { 'has-title': hasTitle })}>
             <Dialog.Title className={hasTitle ? undefined : 'sr-only'}>
               {config.title || 'Dialog'}
-              {config.subtitle && <span className="subtitle"> {config.subtitle}</span>}
+              {config.subtitle && <span className="subtitle">{config.subtitle}</span>}
             </Dialog.Title>
             <Dialog.CloseTrigger asChild>
               <Button variant="ghost" size="sm" className="close-button" aria-label="Close dialog">
@@ -81,38 +81,42 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({
           </Dialog.Header>
 
           {/* Accessible description for screen readers */}
+
           {config.description && (
             <Dialog.Description>
-              {config.title} —{' '}
-              {hasTabs ? 'Navigate between tabs to access different sections' : config.description || ' '}
+              {config.title} — {hasTabs
+                ? 'Navigate between tabs to access different sections'
+                : config.description || ' '}
             </Dialog.Description>
           )}
 
           {/* MAIN ============================================================= */}
 
           <Dialog.Body className="dialog-main">
-            {hasTabs ? (
-              <Tabs.Root value={activeTab} onValueChange={({ value }) => handleTabChange(value)}>
-                <Tabs.List>
-                  {config.tabs.map((tab) => (
-                    <Tabs.Trigger key={tab.id} value={tab.id} disabled={tab.disabled}>
-                      {tab.icon ? tab.icon : null} {tab.label}
-                    </Tabs.Trigger>
-                  ))}
-                </Tabs.List>
-                <div className="dialog-content">
-                  {config.tabs.map((tab) => (
-                    <Tabs.Content key={tab.id} value={tab.id}>
-                      {tab.content}
-                    </Tabs.Content>
-                  ))}
+            {hasTabs
+              ? (
+                <Tabs.Root value={activeTab} onValueChange={({ value }) => handleTabChange(value)}>
+                  <Tabs.List>
+                    {config.tabs.map((tab) => (
+                      <Tabs.Trigger key={tab.id} value={tab.id} disabled={tab.disabled}>
+                        {tab.icon ? tab.icon : null} {tab.label}
+                      </Tabs.Trigger>
+                    ))}
+                  </Tabs.List>
+                  <div className="dialog-content">
+                    {config.tabs.map((tab) => (
+                      <Tabs.Content key={tab.id} value={tab.id}>
+                        {tab.content}
+                      </Tabs.Content>
+                    ))}
+                  </div>
+                </Tabs.Root>
+              )
+              : (
+                <div className="dialog-content" style={{ marginTop: '1.5rem' }}>
+                  {currentTab?.content}
                 </div>
-              </Tabs.Root>
-            ) : (
-              <div className="dialog-content" style={{ marginTop: '1.5rem' }}>
-                {currentTab?.content}
-              </div>
-            )}
+              )}
           </Dialog.Body>
 
           {/* FOOTER =========================================================== */}
@@ -127,9 +131,7 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({
                 )}
               >
                 {(footer.isRTL ? footer.buttons : [...footer.buttons].reverse()).map(
-                  (props: ButtonProps, i) => (
-                    <Button key={i} {...props} />
-                  ),
+                  (props: ButtonProps, i) => <Button key={i} {...props} />,
                 )}
               </div>
             </Dialog.Footer>
