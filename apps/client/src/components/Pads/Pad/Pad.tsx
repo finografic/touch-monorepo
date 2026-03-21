@@ -1,6 +1,7 @@
 import type { FC, ReactNode } from 'react';
 import { memo } from 'react';
 
+import type { Interpolation, Theme } from '@emotion/react';
 import isEqual from 'lodash/isEqual';
 
 import type { PadUI } from 'types/pads.types';
@@ -14,6 +15,8 @@ export interface PadProps extends PadUI {
   className?: string;
   children?: ReactNode;
   onSelect?: ({ filterKey, pad }: { filterKey: FilterKey; pad: PadUI }) => void;
+  /** Merged after base pad styles (e.g. `PadSlot.styles`). */
+  css?: Interpolation<Theme>;
 }
 
 const Pad: FC<PadProps> = (props) => {

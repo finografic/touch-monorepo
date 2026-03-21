@@ -39,6 +39,7 @@ export const stylesButtonBase = css`
     border-color: ${colors.defaultLight};
     background-color: transparent;
     user-select: none;
+    pointer-events: none;
     cursor: not-allowed;
 
     /* Ensure hover states don't override */

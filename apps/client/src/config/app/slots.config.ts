@@ -1,4 +1,4 @@
-import type { SlotConfiguration, SlotItem } from 'types/slot-config.types';
+import type { SlotItem } from 'types/slot-config.types';
 import { type SelectedSlotItem, SlotSpecial, SlotType } from 'types/slots.types';
 
 export const NUM_ROWS_DEFAULT = 3; // Standard grid (3+ columns)
@@ -7,6 +7,18 @@ export const MIN_COLUMNS = 1; // Allow 1×2 or 2×2 smaller layouts
 export const MAX_COLUMNS = 4;
 
 export const ALT_SLOT_NUMBER = 16;
+
+/**
+ * Main-page slot kind for UI / selection: relay slots use {@link SlotType};
+ * the ALT relay (default slot 16) always uses {@link SlotSpecial.ALT} regardless of API shape.
+ */
+export function resolveMainPageSlotType(
+  slotNumber: number,
+  slotType: SlotType,
+): SlotType | SlotSpecial {
+  if (slotNumber === ALT_SLOT_NUMBER) return SlotSpecial.ALT;
+  return slotType;
+}
 
 /** When columns < 3 we use 2 rows (1×2 or 2×2); when >= 3 we use NUM_ROWS_DEFAULT. */
 export const getEffectiveRows = (columns: number): number => (columns < 3 ? 2 : NUM_ROWS_DEFAULT);

@@ -8,7 +8,7 @@ import { useGetSlotSpecialConfig } from 'queries/app-configuration/useGetSlotSpe
 import { mapGridByColumns } from 'utils/grid.utils';
 import type { SlotConfiguration } from 'types/slot-config.types';
 import { SlotSpecial, SlotType } from 'types/slots.types';
-import { ALT_SLOT_NUMBER, NUM_ROWS_DEFAULT } from 'config/app/slots.config';
+import { ALT_SLOT_NUMBER, NUM_ROWS_DEFAULT, resolveMainPageSlotType } from 'config/app/slots.config';
 import { resolveSlotGridLayout } from './utils/slot-grid-layout';
 import { styles } from './MainSlotGrid.styles';
 
@@ -104,7 +104,7 @@ const MainSlotGridComponent: React.FC<MainSlotGridProps> = ({
             {layout.showAltInPrimary && (
               <PadSlot
                 key={`alt-${altSlotNumber}`}
-                slotType={SlotType.C}
+                slotType={SlotSpecial.ALT}
                 slotNumber={altSlotNumber}
                 variant="large"
                 className="pad-special-alt"
@@ -118,7 +118,7 @@ const MainSlotGridComponent: React.FC<MainSlotGridProps> = ({
             <div className="slot-item-special">
               <PadSlot
                 key={`alt-${altSlotNumber}`}
-                slotType={SlotType.C}
+                slotType={SlotSpecial.ALT}
                 slotNumber={altSlotNumber}
                 variant="large"
                 className="pad-special-alt"

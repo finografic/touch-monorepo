@@ -7,14 +7,15 @@ import { Timer } from 'components/Timers/Timer';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { useTimers } from 'providers/TimersProvider';
 
-import type { FilterKey, SlotType } from 'types/slots.types';
+import type { FilterKey, SlotSpecial, SlotType } from 'types/slots.types';
 import { ROUTE_FILTER_KEYS } from 'config/app';
 import { ALT_SLOT_NUMBER } from 'config/app/slots.config';
 import { PadSlotToggle } from './PadSlotToggle';
 import { styles } from './PadSlot.styles';
 
 export interface PadMenuProps {
-  slotType: SlotType;
+  /** Relay type, or {@link SlotSpecial.ALT} for the ALT pad — drives `item-type-*` class. */
+  slotType: SlotType | SlotSpecial;
   slotNumber: number;
   className?: string;
   variant?: 'large' | 'default';

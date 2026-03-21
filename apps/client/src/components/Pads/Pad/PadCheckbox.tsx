@@ -24,6 +24,7 @@ export const PadCheckbox: React.FC<PadProps> = ({
   type,
   filterApiKey,
   metadata,
+  css: slotCss,
   ...rest
 }) => {
   const { togglePad } = useLayoutUi();
@@ -31,7 +32,7 @@ export const PadCheckbox: React.FC<PadProps> = ({
   return (
     <Checkbox.Root
       className={clsx('pad', PAD_TYPE.CHECKBOX, { checked: isChecked, disabled }, className)}
-      css={padStyles}
+      css={slotCss ? [padStyles, slotCss] : padStyles}
       id={id}
       checked={isChecked}
       disabled={disabled}

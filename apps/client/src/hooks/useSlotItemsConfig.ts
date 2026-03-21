@@ -4,7 +4,7 @@ import type { ErrorResponse } from '@workspace/core/api';
 import { useGetSlotConfigurations } from 'queries/slot-configurations';
 
 import type { SlotConfiguration, SlotItem } from 'types/slot-config.types';
-import { DEFAULT_SLOTS_CONFIG } from 'config/app/slots.config';
+import { DEFAULT_SLOTS_CONFIG, resolveMainPageSlotType } from 'config/app/slots.config';
 
 interface SlotItemsConfigReturn {
   items: SlotItem[];
@@ -32,7 +32,7 @@ export const useSlotItemsConfig = (options?: { onlyActive?: boolean }): SlotItem
       .sort((a, b) => a.slotNumber - b.slotNumber)
       .map((cfg) => ({
         slotNumber: cfg.slotNumber,
-        slotType: cfg.slotType,
+        slotType: resolveMainPageSlotType(cfg.slotNumber, cfg.slotType),
         isActive: cfg.isActive,
       }));
 

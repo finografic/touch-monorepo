@@ -14,7 +14,12 @@ import { useTimers } from 'providers/TimersProvider';
 import { useGetSlotSpecialConfig } from 'queries/app-configuration';
 import { useGetDefaultMode } from 'queries/modes/useGetDefaultMode';
 
-import { ALT_SLOT_NUMBER, getGridDimensions, getGridLevelFromSlotCount } from 'config/app/slots.config';
+import {
+  ALT_SLOT_NUMBER,
+  getGridDimensions,
+  getGridLevelFromSlotCount,
+  resolveMainPageSlotType,
+} from 'config/app/slots.config';
 import { MainSlotGrid } from './MainSlotGrid/MainSlotGrid';
 import type { SlotMeta } from './MainPage.types';
 import { useMainPageConfig } from './useMainPageConfig';
@@ -102,7 +107,7 @@ export function MainPage() {
                 const orderConfig = slotsConfig.find((config) => config.slotNumber === slotNumber);
                 if (orderConfig) {
                   return {
-                    slotType: orderConfig.slotType,
+                    slotType: resolveMainPageSlotType(slotNumber, orderConfig.slotType),
                     slotNumber,
                     isChecked: true,
                     status: 'idle' as const,
