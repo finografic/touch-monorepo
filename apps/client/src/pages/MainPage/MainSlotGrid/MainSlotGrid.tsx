@@ -77,7 +77,12 @@ const MainSlotGridComponent: React.FC<MainSlotGridProps> = ({
           const slot = layout.regularSlots.get(slotNumber);
 
           return slot ? (
-            <PadSlot key={slot.slotNumber} slotType={slot.slotType} slotNumber={slot.slotNumber} />
+            <PadSlot
+              key={slot.slotNumber}
+              slotType={slot.slotType}
+              slotNumber={slot.slotNumber}
+              mutualExclusionAltSlotNumber={altSlotNumber}
+            />
           ) : null;
         })}
       </div>
@@ -92,6 +97,7 @@ const MainSlotGridComponent: React.FC<MainSlotGridProps> = ({
                 slotNumber={layout.primarySpecialSlot.slotNumber}
                 variant="large"
                 className="pad-special-grid"
+                mutualExclusionAltSlotNumber={altSlotNumber}
               />
             )}
 
@@ -103,6 +109,7 @@ const MainSlotGridComponent: React.FC<MainSlotGridProps> = ({
                 variant="large"
                 className="pad-special-alt"
                 interactive={true}
+                mutualExclusionAltSlotNumber={altSlotNumber}
               />
             )}
           </div>
@@ -116,6 +123,7 @@ const MainSlotGridComponent: React.FC<MainSlotGridProps> = ({
                 variant="large"
                 className="pad-special-alt"
                 interactive={true}
+                mutualExclusionAltSlotNumber={altSlotNumber}
               />
             </div>
           )}

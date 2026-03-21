@@ -1,14 +1,9 @@
 # =============================================================================
-# TOUCH MONOREPO - SELECTIVE GITIGNORE
-# =============================================================================
-
-# =============================================================================
 # BUILD ARTIFACTS
 # =============================================================================
 
 # Production deployment build artifacts (regenerated each build)
 deployments/
-
 
 # Build outputs (regenerated each build)
 dist/
@@ -76,7 +71,8 @@ data/uploads/
 # =============================================================================
 
 # IDE
-.cursor/chats
+.cursor/chats/
+.cursor/hooks/
 .claude/
 !.claude/settings.json
 .idea/
@@ -148,17 +144,15 @@ Desktop.ini
 # =============================================================================
 
 .cursor/chats/
+.cursor/hooks/
 .cursor/screenshots/
 
 # =============================================================================
 # CLAUDE CODE
 # =============================================================================
 
-# Local permissions (machine-specific paths, personal preferences)
-.claude/settings.local.json
-
-# Session memory (ephemeral breadcrumbs, not shared)
-.claude/memory.md
+.claude/
+!.claude/settings.json
 
 # =============================================================================
 # WEB SERVER DEFAULT FOLDERS

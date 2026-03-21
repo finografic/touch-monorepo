@@ -9,6 +9,7 @@ import { useTimers } from 'providers/TimersProvider';
 
 import type { FilterKey, SlotType } from 'types/slots.types';
 import { ROUTE_FILTER_KEYS } from 'config/app';
+import { ALT_SLOT_NUMBER } from 'config/app/slots.config';
 import { PadSlotToggle } from './PadSlotToggle';
 import { styles } from './PadSlot.styles';
 
@@ -19,6 +20,11 @@ export interface PadMenuProps {
   variant?: 'large' | 'default';
   /** When false, renders as a non-interactive div (no type cycling). Used for e.g. slot_special_alt. */
   interactive?: boolean;
+  /**
+   * Slot number used as the ALT pad for mutual exclusion (ALT vs all other free slots).
+   * Must match `MainSlotGrid` / config; defaults to {@link ALT_SLOT_NUMBER}.
+   */
+  mutualExclusionAltSlotNumber?: number;
 }
 
 export const PadSlot: React.FC<PadMenuProps> = ({
@@ -27,11 +33,17 @@ export const PadSlot: React.FC<PadMenuProps> = ({
   className,
   variant = 'default',
   interactive = true,
+  mutualExclusionAltSlotNumber = ALT_SLOT_NUMBER,
 }) => {
   const { timers } = useTimers();
   const { selectedSlots, toggleMainPageSlot } = useLayoutUi();
 
   const isChecked = selectedSlots.some((selectedSlot) => selectedSlot.slotNumber === slotNumber);
+
+  const hasAltSelected = selectedSlots.some((s) => s.slotNumber === mutualExclusionAltSlotNumber);
+  const hasNonAltSelected = selectedSlots.some((s) => s.slotNumber !== mutualExclusionAltSlotNumber);
+  const isAltSlot = slotNumber === mutualExclusionAltSlotNumber;
+  const mutualExclusionDisabled = isAltSlot ? hasNonAltSelected : hasAltSelected;
 
   const timer = timers.find((t) => t.slotNumber === slotNumber);
   const hasTimer = timer && (timer.status === 'processing' || timer.status === 'completed');
@@ -50,13 +62,8 @@ export const PadSlot: React.FC<PadMenuProps> = ({
   );
 
   const handleSelect = React.useCallback(() => {
-    console.log('%c PadSlot handleSelect', 'color:red', slotNumber, slotType, isChecked, status);
     toggleMainPageSlot({ slotType, slotNumber, isChecked, status });
-  }, [slotNumber, toggleMainPageSlot]);
-
-  const handleTimerComplete = React.useCallback(() => {
-    console.log(`PadSlot Timer ${slotNumber}: completed - do nothing (from component handler)`);
-  }, [slotNumber]);
+  }, [slotType, slotNumber, isChecked, status, toggleMainPageSlot]);
 
   if (!interactive) {
     return (
@@ -68,18 +75,20 @@ export const PadSlot: React.FC<PadMenuProps> = ({
 
   if (hasTimer) {
     const isIdleSlotChecked = selectedSlots.some((slot) => slot.status === 'idle');
+    const cursorBlocked = isIdleSlotChecked || mutualExclusionDisabled;
 
     return (
-      <div style={{ cursor: isIdleSlotChecked ? 'not-allowed' : 'auto' }}>
+      <div style={{ cursor: cursorBlocked ? 'not-allowed' : 'auto' }}>
         <PadSlotToggle
           css={styles}
           slotType={slotType}
           slotNumber={slotNumber}
           status={status}
           isChecked={isChecked}
+          disabled={mutualExclusionDisabled}
           className={clsx(mergedClassNames)}
         >
-          <Timer key={`timer-${slotNumber}`} slotNumber={slotNumber} onComplete={handleTimerComplete} />
+          <Timer key={`timer-${slotNumber}`} slotNumber={slotNumber} />
         </PadSlotToggle>
       </div>
     );
@@ -94,6 +103,7 @@ export const PadSlot: React.FC<PadMenuProps> = ({
       value={{ id: String(slotNumber), slotType }}
       filterKey={ROUTE_FILTER_KEYS.main as FilterKey}
       isChecked={isChecked}
+      disabled={mutualExclusionDisabled}
       className={mergedClassNames}
       onSelect={handleSelect}
     />

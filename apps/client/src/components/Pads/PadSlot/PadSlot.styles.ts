@@ -111,6 +111,25 @@ export const styles = css`
         border-color: ${colors.secondaryXDark};
         background-color: ${colors.secondaryLighter};
       }
+      /* Mutual exclusion: pad-special-alt sets cursor:default, which overrode base disabled styles */
+     &.disabled,
+      &[data-disabled='true'],
+      &[aria-disabled='true'] {
+        pointer-events: none;
+        cursor: not-allowed;
+        transform: none;
+        opacity: 0.55;
+        color: ${colors.defaultLight};
+        border-color: ${colors.defaultLight};
+        background-color: transparent;
+        &:hover,
+        &:active {
+          color: ${colors.defaultLight};
+          border-color: ${colors.defaultLight};
+          background-color: transparent;
+          transform: none;
+        }
+      }
     }
 
     /* ====================================================================== */

@@ -11,7 +11,10 @@ import { Button } from 'components/Button';
 import { useToast } from 'components/Toast';
 
 import { useGetSlotSpecialConfig, useUpdateSlotSpecialConfig } from 'queries/app-configuration';
-import { useBulkUpdateSlotConfigurations, useGetSlotConfigurations } from 'queries/slot-configurations';
+import {
+  useBulkUpdateSlotConfigurations,
+  useGetSlotConfigurations,
+} from 'queries/slot-configurations';
 
 import type { SlotSpecialParam } from 'types/app-configuration.types';
 import type { SlotType } from 'types/slots.types';
@@ -178,8 +181,9 @@ export const AdminSlotsConfigPage: React.FC = () => {
       const updatedSlots = slots.map((slot) => {
         const n = slot.slotNumber;
         if (n <= prevLastIndex) return { ...slot };
-        if (n > prevLastIndex && n < newLastIndex)
+        if (n > prevLastIndex && n < newLastIndex) {
           return { ...slot, isActive: true, slotType: 'B' as SlotType };
+        }
         if (n === newLastIndex) return { ...slot, isActive: true, slotType: 'C' as SlotType };
         return { ...slot, isActive: false, slotType: 'B' as SlotType };
       });
@@ -213,7 +217,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
   // SlotGrid change handler - uses debouncing for rapid slot clicks
   const handleGridConfigChange = (slotNumber: number, newConfig: Partial<SlotConfigFormValue>) => {
     const updatedSlots = slots.map((slot) =>
-      slot.slotNumber === slotNumber ? { ...slot, ...newConfig } : slot,
+      slot.slotNumber === slotNumber ? { ...slot, ...newConfig } : slot
     );
     setValue('slots', updatedSlots, { shouldDirty: true });
     debouncedSave(updatedSlots);
@@ -241,7 +245,9 @@ export const AdminSlotsConfigPage: React.FC = () => {
         >
           <AdminSection
             title="Slot Grid Layout Preview"
-            subtitle={`${GRID_LEVEL_NAMES[gridLevel]} — ${numActiveColumns} columns × ${effectiveRows} rows`}
+            subtitle={`${
+              GRID_LEVEL_NAMES[gridLevel]
+            } — ${numActiveColumns} columns × ${effectiveRows} rows`}
             className={clsx('admin-slot-config')}
             isLoading={isLoading}
             variant="border-solid"
@@ -260,8 +266,8 @@ export const AdminSlotsConfigPage: React.FC = () => {
                 />
                 <Flex gap={4} align="center" mt="-4" pb={4}>
                   <Badge variant="soft" palette="info" size="lg" className="dimesions-badge">
-                    {numActiveColumns} columns × {effectiveRows} rows = {gridSlotsCount} grid slots + 1
-                    special slot
+                    {numActiveColumns} columns × {effectiveRows} rows = {gridSlotsCount}{' '}
+                    grid slots + 1 special slot
                   </Badge>
                 </Flex>
               </Flex>
@@ -288,18 +294,18 @@ export const AdminSlotsConfigPage: React.FC = () => {
                         },
                       ] as const
                     ).map(({ param, label, className }) => {
-                      const fullConfig =
-                        param === 'special_grid'
-                          ? gridSpecialConfig?.data
-                          : param === 'special_power'
-                            ? powerSpecialConfig?.data
-                            : altSpecialConfig?.data;
+                      const fullConfig = param === 'special_grid'
+                        ? gridSpecialConfig?.data
+                        : param === 'special_power'
+                        ? powerSpecialConfig?.data
+                        : altSpecialConfig?.data;
                       const isActive = fullConfig?.isActive ?? false;
                       const isLoading = fullConfig === undefined;
                       return (
                         <Flex key={param} align="center" gap={2} mt={2}>
                           <SwitchField
                             checked={isActive}
+                            colorScheme="primary"
                             onCheckedChange={async ({ checked }) => {
                               if (!fullConfig?.id) return;
                               try {

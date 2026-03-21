@@ -6,6 +6,7 @@ import { subscribeWithSelector } from 'zustand/middleware';
 import { useShallow } from 'zustand/react/shallow';
 import type { SlotMeta } from 'pages/MainPage/MainPage.types';
 
+import { ALT_SLOT_NUMBER } from 'config/app/slots.config';
 import { parsePadConfig } from 'utils/pads.utils';
 import type { DataEntry, Dataset } from 'types/data.types';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
@@ -98,9 +99,24 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
                 (selectedSlot) => selectedSlot.slotNumber === slot.slotNumber,
               );
 
-              return isCurrentlySelected
-                ? { selectedSlots: selectedSlots.filter(({ slotNumber }) => slotNumber !== slot.slotNumber) }
-                : { selectedSlots: [...selectedSlots, { ...slot, isChecked: true }] };
+              if (isCurrentlySelected) {
+                return {
+                  selectedSlots: selectedSlots.filter(({ slotNumber }) => slotNumber !== slot.slotNumber),
+                };
+              }
+
+              // ALT slot (16) is mutually exclusive with all other free slots
+              const alt = ALT_SLOT_NUMBER;
+              const hasAltSelected = selectedSlots.some((s) => s.slotNumber === alt);
+              const hasNonAltSelected = selectedSlots.some((s) => s.slotNumber !== alt);
+              if (slot.slotNumber === alt && hasNonAltSelected) {
+                return state;
+              }
+              if (slot.slotNumber !== alt && hasAltSelected) {
+                return state;
+              }
+
+              return { selectedSlots: [...selectedSlots, { ...slot, isChecked: true }] };
             });
           },
           setSelectedSlots: (slots: SlotMeta[]) => {
