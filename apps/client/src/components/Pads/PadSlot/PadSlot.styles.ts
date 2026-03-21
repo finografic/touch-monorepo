@@ -34,7 +34,6 @@ export const styles = css`
       &.checked,
       &.selected,
       &.active,
-      &.selected.checking-blocked,
       &[data-state='checked'],
       &[aria-checked='true'] {
         color: ${colors.defaultDark};
@@ -53,7 +52,6 @@ export const styles = css`
       &.checked,
       &.selected,
       &.active,
-      &.selected.checking-blocked,
       &[data-state='checked'],
       &[aria-checked='true'] {
         color: ${colors.infoXDark};
@@ -72,7 +70,6 @@ export const styles = css`
       &.checked,
       &.selected,
       &.active,
-      &.selected.checking-blocked,
       &[data-state='checked'],
       &[aria-checked='true'] {
         color: ${colors.dangerXDark};
@@ -93,7 +90,6 @@ export const styles = css`
       &.checked,
       &.selected,
       &.active,
-      &.selected.checking-blocked,
       &[data-state='checked'],
       &[aria-checked='true'] {
         color: ${colors.secondaryXDark};
@@ -133,14 +129,6 @@ export const styles = css`
         cursor: wait;
         &:hover {
         }
-      }
-      &.checking-blocked {
-        cursor: not-allowed;
-        pointer-events: none;
-        color: ${colors.success};
-        border-color: ${colors.success};
-        background-color: transparent;
-        transform: none;
       }
     }
 

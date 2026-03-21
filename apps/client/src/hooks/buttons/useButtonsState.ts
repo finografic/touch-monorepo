@@ -7,6 +7,7 @@ import { useOrders } from 'providers/OrdersProvider';
 import { useTimers } from 'providers/TimersProvider';
 
 import { BUTTON_TYPE } from 'types/button.types';
+import { ALT_SLOT_NUMBER } from 'config/app/slots.config';
 import { ALTERNATIVE_PATHS, PATHS } from 'config/routes';
 import type { OperationActionType } from './button.types';
 
@@ -36,6 +37,8 @@ export const useButtonsState = ({
   const completedTimers = timers.filter((timer) => timer.status === 'completed');
   const hasCompletedTimers = completedTimers.length > 0;
   const hasSelectedItems = selectedSlots.length > 0;
+  /** ALT relay (default slot 16) is mutually exclusive with product flow; only time flow is allowed. */
+  const hasAltSlotSelected = selectedSlots.some((s) => s.slotNumber === ALT_SLOT_NUMBER);
 
   // Combined pending state
   const isPending = isMainPagePending || isTimeFlowPending || isProductFlowPending;
@@ -82,9 +85,11 @@ export const useButtonsState = ({
           // Enable only if there are selected IDLE orders
           return numAvailableSelected === 0 || location.pathname !== PATHS.main || isPending;
         case BUTTON_TYPE.PROGRAM_PRODUCT:
+          if (hasAltSlotSelected) return true;
           // Enable only if there are selected IDLE orders
           return numAvailableSelected === 0 || location.pathname !== PATHS.main || isPending;
         case BUTTON_TYPE.REPEAT_SELECTION: {
+          if (hasAltSlotSelected) return true;
           // Check if recall config is active (exists and not expired)
           const hasActiveRecall = recallConfig !== null && !isRecallExpired;
           const allSelectedBlocked = numAnySelected > 0 && numAvailableSelected === 0; // all selected are processing/completed
@@ -118,6 +123,7 @@ export const useButtonsState = ({
       profile?.temperatureProfiles?.length,
       recallConfig,
       isRecallExpired,
+      hasAltSlotSelected,
     ],
   );
 
