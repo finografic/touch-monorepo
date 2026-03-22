@@ -38,32 +38,6 @@
         "minutes": "Min",
         "seconds": "Seg"
       }
-    },
-    "orders": {
-      "title": "Pedidos",
-      "description": "Gestionar pedidos de bebidas",
-      "new": "Nuevo pedido",
-      "active": "Pedidos activos",
-      "completed": "Pedidos completados"
-    },
-    "components": {
-      "temperatureControl": {
-        "initial": "Establece el tiempo de preparación especificando minutos y segundos",
-        "target": "Temperatura objetivo",
-        "current": "Temperatura actual",
-        "cooling": "Enfriando",
-        "heating": "Calentando",
-        "maintaining": "Volúmenes"
-      },
-      "orderStatus": {
-        "pending": "Subtipos de bebidas",
-        "processing": "Tipos de bebidas",
-        "cooling": "Enfriando",
-        "heating": "Calentando",
-        "ready": "Listo",
-        "completed": "Tipos de contenedores",
-        "cancelled": "Cancelado"
-      }
     }
   }
 }

@@ -38,32 +38,6 @@
           "final": "Final temperature"
         }
       }
-    },
-    "orders": {
-      "title": "Orders",
-      "description": "Manage beverage orders",
-      "new": "New Order",
-      "active": "Active Orders",
-      "completed": "Completed Orders"
-    },
-    "components": {
-      "temperatureControl": {
-        "initial": "Set preparation time by specifying minutes and seconds",
-        "target": "Target Temperature",
-        "current": "Current Temperature",
-        "cooling": "Cooling",
-        "heating": "Heating",
-        "maintaining": "Volumes"
-      },
-      "orderStatus": {
-        "pending": "Drink Subtypes",
-        "processing": "Drink Types",
-        "cooling": "Cooling",
-        "heating": "Heating",
-        "ready": "Ready",
-        "completed": "Container Types",
-        "cancelled": "Cancelled"
-      }
     }
   }
 }

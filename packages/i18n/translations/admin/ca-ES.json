@@ -14,7 +14,7 @@
         "description": "Resum del sistema"
       },
       "translations": {
-        "title": "Traduccions de productes",
+        "title": "Traduccions de d'etiquetes",
         "description": "Editar traduccions per contingut de base de dades",
         "tabs": {
           "pages": "Pàgines",

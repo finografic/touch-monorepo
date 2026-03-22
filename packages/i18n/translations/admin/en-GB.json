@@ -14,7 +14,7 @@
         "description": "System Overview"
       },
       "translations": {
-        "title": "Product Translations",
+        "title": "App Translations",
         "description": "Edit translations for database content",
         "tabs": {
           "pages": "Pages",

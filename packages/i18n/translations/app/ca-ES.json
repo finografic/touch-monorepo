@@ -38,32 +38,6 @@
           "final": "Temperatura de finalització"
         }
       }
-    },
-    "orders": {
-      "title": "Comandes",
-      "description": "Gestionar comandes de begudes",
-      "new": "Nova comanda",
-      "active": "Comandes actives",
-      "completed": "Comandes completades"
-    },
-    "components": {
-      "temperatureControl": {
-        "initial": "Estableix el temps de preparació especificant minuts i segons",
-        "target": "Temperatura objectiu",
-        "current": "Temperatura actual",
-        "cooling": "Refredant",
-        "heating": "Escalfant",
-        "maintaining": "Volums"
-      },
-      "orderStatus": {
-        "pending": "Subtipus de begudes",
-        "processing": "Tipus de begudes",
-        "cooling": "Refredant",
-        "heating": "Escalfant",
-        "ready": "Llest",
-        "completed": "Tipus de contenidors",
-        "cancelled": "Cancel·lat"
-      }
     }
   }
 }
