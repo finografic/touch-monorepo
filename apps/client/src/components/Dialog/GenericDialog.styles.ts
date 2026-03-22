@@ -98,7 +98,7 @@ export const styles = css`
 
       overflow: hidden;
 
-      padding: 0 0 1.15rem 0;
+      padding: 0 1.5rem 1.15rem 1.5rem;
     }
 
     /* DIALOG CONTENT ======================================================= */
@@ -208,7 +208,7 @@ export const styles = css`
     .footer {
       flex-shrink: 0;
       margin: 0;
-      padding: 1.5rem 0 0;
+      padding: 1.5rem 1.5rem 1.5rem;
       background: transparent;
     }
 

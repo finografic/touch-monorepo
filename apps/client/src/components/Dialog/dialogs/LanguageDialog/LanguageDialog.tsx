@@ -29,6 +29,7 @@ export const LanguageDialog = ({ isOpen, onClose }: LanguageDialogProps) => {
           children: 'OK',
           onClick: onClose,
           palette: 'default',
+          variant: 'solid',
         },
       ],
     },
