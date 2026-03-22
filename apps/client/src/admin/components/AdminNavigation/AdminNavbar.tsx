@@ -18,6 +18,7 @@ export const AdminNavbar: FC<AdminNavbarProps> = ({ navItems }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const navItemsRef = useRef<(HTMLButtonElement | null)[]>([]);
   const moreButtonRef = useRef<HTMLDivElement>(null);
+  const prevContainerWidthRef = useRef<number>(Infinity);
 
   const [visibleCount, setVisibleCount] = useState(navItems.length);
   const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
@@ -26,9 +27,15 @@ export const AdminNavbar: FC<AdminNavbarProps> = ({ navItems }) => {
     if (!containerRef.current) return;
 
     const containerWidth = containerRef.current.offsetWidth;
+    const isWidening = containerWidth > prevContainerWidthRef.current;
+    prevContainerWidthRef.current = containerWidth;
 
     const moreButtonElement = moreButtonRef.current?.querySelector('button');
     const moreWidth = moreButtonElement?.offsetWidth ?? 120;
+
+    // Base buffer (1rem) applied in both directions so items never touch the edges.
+    // Extra clearance when widening prevents items from popping back in too early.
+    const buffer = isWidening ? 56 : 16;
 
     let totalWidthUsed = 0;
     let fitCount = navItems.length;
@@ -39,7 +46,7 @@ export const AdminNavbar: FC<AdminNavbarProps> = ({ navItems }) => {
 
       totalWidthUsed += navItemElement.offsetWidth;
 
-      if (totalWidthUsed + moreWidth > containerWidth) {
+      if (totalWidthUsed + moreWidth + buffer > containerWidth) {
         fitCount = i;
         break;
       }
