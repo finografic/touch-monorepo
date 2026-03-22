@@ -108,6 +108,7 @@ export const styles = css`
       flex-direction: column;
       flex: 1;
 
+      width: 100%;
       height: 100%;
       min-height: 0;
 
@@ -205,12 +206,12 @@ export const styles = css`
 
     /* DIALOG FOOTER ======================================================== */
 
-    .footer {
+    /* .footer {
       flex-shrink: 0;
       margin: 0;
       padding: 1.5rem 1.5rem 1.5rem;
       background: transparent;
-    }
+    } */
 
     .footer-buttons-wrapper {
       display: flex;

@@ -90,6 +90,7 @@ export const LanguageSelector = ({ onLanguageChange }: LanguageSelectorProps) =>
               value={language.code}
               className={clsx('language-radio', language.code === currentLanguageCode ? 'checked' : '')}
             >
+              <RadioGroup.ItemHiddenInput />
               <Flex direction="column" width="100%">
                 <Flex align="center" gap={4} mb={1}>
                   <img
