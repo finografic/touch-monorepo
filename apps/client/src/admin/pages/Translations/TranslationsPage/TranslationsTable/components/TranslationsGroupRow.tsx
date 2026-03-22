@@ -2,8 +2,10 @@ import React from 'react';
 import type { RegionLocale } from '@workspace/config/i18n.config';
 import type { I18nTranslationsDomain } from '@workspace/i18n/types';
 
+import { isPagesTableGroup } from '../../../shared/constants/translationsTable.constants';
 import type { TranslationsFormItem } from '../../../shared/types/translations.types';
-import type { UserRoleDisplayConfig } from '../utils/pageSegmentRole';
+import type { UserRoleDisplayConfig } from '../utils/roles.utils';
+import { DividerRowByDomain } from './DividerRowByDomain';
 import { DividerRowByPage } from './DividerRowByPage';
 
 interface TranslationsGroupRowOptions {
@@ -16,14 +18,14 @@ interface TranslationsGroupRowOptions {
   supportedLanguages: RegionLocale[];
   showKeyColumn: boolean;
   pageGrouping: Map<number, string> | null;
+  domainSubGrouping?: Map<number, string> | null;
   rows: React.ReactNode[];
   userRole?: UserRoleDisplayConfig;
 }
 
 /**
- * Passive function that pushes a divider row into the rows array when a new page group starts.
- * Centralizes all the logic for determining when to show page dividers.
- * Used within the translations table to visually separate page sections.
+ * Pushes divider rows into `rows` before the current field when a new page group
+ * or domain sub-group starts. No-op for non-pages groups.
  */
 export const addTranslationsGroupRow = ({
   domain,
@@ -35,19 +37,15 @@ export const addTranslationsGroupRow = ({
   supportedLanguages,
   showKeyColumn,
   pageGrouping,
+  domainSubGrouping,
   rows,
   userRole,
 }: TranslationsGroupRowOptions): void => {
-  const hasGrouping = group === 'pages' && domain;
-
-  if (!hasGrouping || !pageGrouping) {
-    return;
-  }
+  if (!isPagesTableGroup(group) || !domain || !pageGrouping) return;
 
   const currentPage = pageGrouping.get(index);
   const previousPage = index > 0 ? pageGrouping.get(index - 1) : null;
 
-  // If this is the first item of a new page group, push a divider row
   if (currentPage && currentPage !== previousPage && currentPage !== '_other') {
     rows.push(
       <DividerRowByPage
@@ -60,37 +58,49 @@ export const addTranslationsGroupRow = ({
       />,
     );
   }
+
+  if (domainSubGrouping) {
+    const currentDomainGroup = domainSubGrouping.get(index) ?? null;
+    const previousDomainGroup = index > 0 ? (domainSubGrouping.get(index - 1) ?? null) : null;
+
+    if (currentDomainGroup && currentDomainGroup !== previousDomainGroup) {
+      const separatorIndex = currentDomainGroup.indexOf(':::');
+      const pageName = currentDomainGroup.slice(0, separatorIndex);
+      const segment = currentDomainGroup.slice(separatorIndex + 3);
+
+      rows.push(
+        <DividerRowByDomain
+          key={`domain-divider-${currentDomainGroup}-${fieldKey}`}
+          domain={domain}
+          pageName={pageName}
+          segment={segment}
+          supportedLanguages={supportedLanguages}
+          showKeyColumn={showKeyColumn}
+          userRole={userRole}
+        />,
+      );
+    }
+  }
 };
 
-/**
- * Computes the page grouping map from items and fields.
- * Centralizes the logic for extracting page names from translation keys.
- */
+/** Maps each field index to the page segment name extracted from its translation key. */
 export const computePageGrouping = (
   hasGrouping: boolean,
   items: TranslationsFormItem[],
   fields: TranslationsFormItem[],
 ): Map<number, string> | null => {
-  if (!hasGrouping) {
-    return null;
-  }
+  if (!hasGrouping) return null;
 
-  // Map field index to page name (deduplicated)
   const fieldIndexToPage = new Map<number, string>();
 
   items.forEach((item) => {
     const fieldIndex = fields.findIndex((field) => field.id === item.id || field.key === item.key);
     if (fieldIndex === -1) return;
 
-    // Extract page name from key: "admin.pages.dashboard.title" -> "dashboard"
     const keyParts = item.key.split('.');
     const pagesIndex = keyParts.indexOf('pages');
-    if (pagesIndex >= 0 && pagesIndex < keyParts.length - 1) {
-      const pageName = keyParts[pagesIndex + 1];
-      // Only set if not already set for this index (deduplication)
-      if (!fieldIndexToPage.has(fieldIndex)) {
-        fieldIndexToPage.set(fieldIndex, pageName);
-      }
+    if (pagesIndex >= 0 && pagesIndex < keyParts.length - 1 && !fieldIndexToPage.has(fieldIndex)) {
+      fieldIndexToPage.set(fieldIndex, keyParts[pagesIndex + 1]);
     }
   });
 

@@ -67,7 +67,7 @@ export const EMPTY_ROW_PLACEHOLDER = '--';
 #### Form Field Defaults
 
 ```typescript
-export const DEFAULT_SHOW_KEY_COLUMN = false; // For TranslationsPage
+export const DEFAULT_SHOW_KEY_COLUMN = true; // For TranslationsPage
 export const DEFAULT_SHOW_KEY_COLUMN_PRODUCT = true; // For TranslationsProductPage
 ```
 

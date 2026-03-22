@@ -13,6 +13,8 @@ import { GET_TRANSLATIONS_QUERYKEY } from 'queries/translations';
 
 import type { TranslationsModel } from 'types/models/translations.model';
 import type { TranslationsSection } from '../../shared/types/translations.types';
+import { sortPageItemsWithDomainsGrouped } from '../utils/domain.utils';
+import { sortPageSectionByNavOrder } from '../utils/page-sections.utils';
 import { TranslationsDto } from '../utils/translations.dto';
 
 export interface UseUiTranslationData {
@@ -34,88 +36,56 @@ export const useGetTranslations = ({
   const supportedLanguages = appConfig.supportedLanguages as RegionLocale[];
   const queryClient = useQueryClient();
 
-  // NOTE: invalidate queries when location changes - force data refresh when route changes
+  // Invalidate on route change so navigating between domains always refetches
   useEffect(() => {
     queryClient.invalidateQueries({ queryKey: [...GET_TRANSLATIONS_QUERYKEY, domain] });
   }, [location.pathname, domain, queryClient]);
 
-  // Fetch translations based on domain (domain)
-  // Use domain-specific endpoint: /api/i18n/translations/:domain
-  // Returns array format (same as /translations/:domain) for CMS compatibility
-  // Include location.pathname in queryKey to force refetch on route change
   const { data: translations, isLoading: translationsLoading } = useQuery({
     queryKey: [...GET_TRANSLATIONS_QUERYKEY, domain, location.pathname],
     queryFn: async () => {
       try {
-        // Fetch from domain-specific endpoint (returns array format)
-        const data = await api.get<TranslationsModel[]>(`/i18n/translations/${domain}`);
-        // Return raw data - transformation happens in mapItems where we have supportedLanguages
-        return data;
+        return await api.get<TranslationsModel[]>(`/i18n/translations/${domain}`);
       } catch (error) {
         throw transformFetchError(error);
       }
     },
-    refetchOnMount: true, // Always refetch when component mounts (route changes)
-    staleTime: 0, // Always consider data stale to force refetch
+    refetchOnMount: true, // Always refetch on mount so route changes get fresh data
+    staleTime: 0,
   });
 
   const sections = useMemo<TranslationsSection[]>(() => {
-    // Don't wait for supportedLanguages - we can create sections without them
-    // The DTO transformation will handle empty languages gracefully
-    if (!translations || !Array.isArray(translations) || translations.length === 0) {
-      return [];
-    }
+    if (!translations?.length) return [];
 
-    const mapItems = (items: any[]) => {
-      // Always use DTO transformation - it handles empty languages gracefully
-      // If languages aren't loaded yet, use empty array (DTO will still work)
-      const languagesToUse = supportedLanguages && supportedLanguages.length > 0 ? supportedLanguages : [];
-      return items.map((item) => TranslationsDto.fromApi(item, languagesToUse));
-    };
+    const activeLanguages = supportedLanguages?.length ? supportedLanguages : [];
+    const mapItems = (items: any[]) =>
+      items.map((item) => TranslationsDto.fromApi(item, activeLanguages));
 
-    // Filter items by section prefix
-    // For admin/app domains, keys are structured as: domain.pages.*, domain.components.*, etc.
-    // For ui domain, keys are structured as: buttons.*, tables.*, time.* (no domain prefix)
-    const filterByPrefix = (group: string) => {
-      // Admin/App domains: keys are domain.group.* (e.g., admin.pages.*, app.components.*)
-      return translations.filter((item) => item.key?.startsWith(`${domain}.${group}.`));
-    };
+    const filterByPrefix = (group: string) =>
+      translations.filter((item) => item.key?.startsWith(`${domain}.${group}.`));
 
     const result = groups.map((group) => {
-      const filteredItems = filterByPrefix(group);
+      let sortedItems = filterByPrefix(group);
 
-      // For 'pages' group, sort items by page name and put .title entries first
-      let sortedItems = filteredItems;
       if (group === 'pages') {
-        // Group items by page name (e.g., dashboard, items, languages)
-        const itemsByPage = new Map<string, typeof filteredItems>();
+        const itemsByPage = new Map<string, typeof sortedItems>();
 
-        filteredItems.forEach((item) => {
-          // Extract page name from key: admin.pages.dashboard.title -> dashboard
+        sortedItems.forEach((item) => {
           const keyParts = item.key.split('.');
           const pagesIndex = keyParts.indexOf('pages');
-          const pageName =
-            pagesIndex >= 0 && pagesIndex < keyParts.length - 1 ? keyParts[pagesIndex + 1] : '_other';
+          const pageName = pagesIndex >= 0 && pagesIndex < keyParts.length - 1
+            ? keyParts[pagesIndex + 1]
+            : '_other';
 
-          if (!itemsByPage.has(pageName)) {
-            itemsByPage.set(pageName, []);
-          }
+          if (!itemsByPage.has(pageName)) itemsByPage.set(pageName, []);
           itemsByPage.get(pageName)!.push(item);
         });
 
-        // Sort items within each page group: .title entries first, then others
-        const sortedPages: typeof filteredItems = [];
-        const pageNames = Array.from(itemsByPage.keys()).sort();
-
-        pageNames.forEach((pageName) => {
-          const pageItems = itemsByPage.get(pageName)!;
-          // Sort: .title entries first, then others (maintain original order for non-title)
-          const titleItems = pageItems.filter((item) => item.key.endsWith('.title'));
-          const otherItems = pageItems.filter((item) => !item.key.endsWith('.title'));
-          sortedPages.push(...titleItems, ...otherItems);
+        const orderedPages: typeof sortedItems = [];
+        sortPageSectionByNavOrder(domain, Array.from(itemsByPage.keys())).forEach((pageName) => {
+          orderedPages.push(...sortPageItemsWithDomainsGrouped(itemsByPage.get(pageName)!, domain, pageName));
         });
-
-        sortedItems = sortedPages;
+        sortedItems = orderedPages;
       }
 
       return {
@@ -126,24 +96,9 @@ export const useGetTranslations = ({
       };
     });
 
-    // Ensure 'pages' section is first if it exists
+    // Ensure 'pages' section always appears first
     const pagesIndex = result.findIndex((section) => section.group === 'pages');
-    if (pagesIndex > 0) {
-      const pagesSection = result.splice(pagesIndex, 1)[0];
-      result.unshift(pagesSection);
-    }
-
-    // Debug logging (remove in production)
-    if (process.env.NODE_ENV === 'development') {
-      console.log('[useGetTranslations]', {
-        domain,
-        groups,
-        translationsCount: translations.length,
-        sectionsCount: result.length,
-        sectionsWithItems: result.filter((s) => s.items.length > 0).length,
-        sampleKeys: translations.slice(0, 150).map((t) => t.key),
-      });
-    }
+    if (pagesIndex > 0) result.unshift(result.splice(pagesIndex, 1)[0]);
 
     return result;
   }, [translations, supportedLanguages, domain, groups]);

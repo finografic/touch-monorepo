@@ -2,6 +2,9 @@
 
 ## Learned User Preferences
 
+- **Variable naming:** Follow `.github/instructions/07-variable-naming.instructions.md` (full words, no cryptic abbreviations; descriptive result names). Prefer names that explain domain meaning (e.g. translation key paths), not opaque `rest`/`ra`/`rb` unless paired with a clear comment.
+- **Translation “domains” subtree:** Prefer **`domain`** singular for the i18n/product concept and **`domainMembers`** (plural) for variables that hold the relative path / sort slice under `domains.*` (never `domainsRest` / vague `rest`). Use singular `domainMember` only when a name must refer to one member explicitly.
+- **Formatting:** Put an empty line before every `return` in a multi-statement block so returns stay visually separated from the logic above.
 - Document Panda token keys and how recipes reference them in token source files (e.g. `spacing.tokens.ts`), not in individual recipe files, unless the recipe needs a one-off note.
 - Prefer fetching supported languages from the API or shared runtime state over hardcoded `DEFAULT_SUPPORTED_LANGUAGES`-style lists when new locales must work without redeploying generated config.
 - Admin route IDs used for i18n keys should match the key namespace in translation assets (e.g. `items` vs `products`) so navbar and pages resolve the same keys.

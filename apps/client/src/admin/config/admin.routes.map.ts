@@ -1,5 +1,6 @@
 import type React from 'react';
 import { Outlet } from 'react-router-dom';
+import type { I18nTranslationsDomain } from '@workspace/i18n/types';
 import {
   CoffeeIcon,
   EditIcon,
@@ -39,6 +40,14 @@ export interface AdminRouteConfig extends AdminRouteBase {
   children?: AdminRouteConfig[]; // Sub-routes for nested routes (e.g., items/new, items/:id)
 }
 
+/**
+ * Translation domains where the `pages` group is split into separate
+ * "Páginas (admin)" / "Páginas (public)" role tabs.
+ * All other domains render `pages` as a single unsplit section.
+ */
+export const TRANSLATION_DOMAINS_WITH_ROLE_SPLIT: readonly I18nTranslationsDomain[] = ['admin'];
+
+/** Single source of truth for admin shell: nav, cards, and (via `getAdminPageSegmentsNavOrder`) `admin.pages.*` i18n segment order. */
 export const ADMIN_ROUTE_CONFIGS: AdminRouteConfig[] = [
   // DASHBOARD (accessible to all - index route) ============================ //
   {

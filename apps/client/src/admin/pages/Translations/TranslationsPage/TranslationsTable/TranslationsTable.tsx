@@ -9,11 +9,12 @@ import { Flex } from 'styled-system/jsx';
 import { useDebouncedCallback } from 'use-debounce';
 
 import { TableFormButtons } from '../../shared/components/TableFormButtons';
-import { DEFAULT_SHOW_KEY_COLUMN } from '../../shared/constants/translationsTable.constants';
+import { isPagesTableGroup, isTranslationRowBlocked } from '../../shared/constants/translationsTable.constants';
 import type { TranslationsFormItem } from '../../shared/types/translations.types';
 import { addTranslationsGroupRow, computePageGrouping } from './components/TranslationsGroupRow';
 import { TranslationsRow } from './components/TranslationsRow';
-import type { UserRoleDisplayConfig } from './utils/pageSegmentRole';
+import type { UserRoleDisplayConfig } from './utils/roles.utils';
+import { computeDomainSubGrouping } from '../utils/domain.utils';
 import { useTranslationsTableForm } from './hooks/useTranslationsTableForm';
 import { useTranslationsTableHandlers } from './hooks/useTranslationsTableHandlers';
 import { styles } from '../../shared/styles/TranslationsTable.styles';
@@ -24,7 +25,9 @@ interface TranslationsTableProps {
   items: TranslationsFormItem[];
   supportedLanguages: RegionLocale[];
   canAddNew: boolean;
-  onSave?: ({ items }: { items: TranslationsFormItem[] }) => Promise<{ savedItems: TranslationsFormItem[] }>;
+  onSave?: (
+    { items }: { items: TranslationsFormItem[] },
+  ) => Promise<{ savedItems: TranslationsFormItem[] }>;
   onDelete?: (itemId: string) => Promise<{ success: boolean; deletedId: string }>;
   isSaving?: boolean;
   isDeleting?: boolean;
@@ -50,7 +53,7 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
 }) => {
   const initialItemsRef = useRef<TranslationsFormItem[]>(items);
   const [editingRowIndex, setEditingRowIndex] = useState<number | null>(null);
-  const hasGrouping = group === 'pages' && domain;
+  const hasGrouping = isPagesTableGroup(group) && Boolean(domain);
 
   useEffect(
     function initialItemsState() {
@@ -75,12 +78,16 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
     isItemEmpty,
   } = useTranslationsTableForm({ items, supportedLanguages });
 
-  // Group items by page when group is 'pages'
-  // Keys are in format: domain.pages.{pageName}.{rest}
-  // We extract {pageName} to group items and track which field indices belong to which page
-  const pageGrouping = useMemo(() => {
-    return computePageGrouping(Boolean(hasGrouping), items, fields);
-  }, [hasGrouping, items, fields]);
+  const pageGrouping = useMemo(
+    () => computePageGrouping(Boolean(hasGrouping), items, fields),
+    [hasGrouping, items, fields],
+  );
+
+  // Proxy sub-groups for domains.{segment}.* clusters within a page (display only)
+  const domainSubGrouping = useMemo(
+    () => computeDomainSubGrouping(items, fields, pageGrouping, domain),
+    [items, fields, pageGrouping, domain],
+  );
 
   // ======================================================================== //
   // Shared Handlers
@@ -153,12 +160,15 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
 
           <tbody>
             {fields.map((field, index) => {
-              const rows: React.ReactNode[] = [];
-              // useFieldArray provides fieldId for React keys
-              const fieldKey = (field as any).fieldId || field.id || `field-${index}`;
-              const itemKey = field.key || field.id || ''; // translation key from the field
+              // Skip rows whose values are all non-translatable (symbols, interpolation placeholders)
+              if (isTranslationRowBlocked(watchedItems[index] ?? field, languageKeys)) {
+                return null;
+              }
 
-              // Add page divider row if needed (centralized logic)
+              const rows: React.ReactNode[] = [];
+              const fieldKey = (field as any).fieldId || field.id || `field-${index}`;
+              const itemKey = field.key || field.id || '';
+
               addTranslationsGroupRow({
                 domain,
                 group,
@@ -169,6 +179,7 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
                 supportedLanguages,
                 showKeyColumn,
                 pageGrouping,
+                domainSubGrouping,
                 rows,
                 userRole,
               });

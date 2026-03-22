@@ -3,6 +3,28 @@ import type { AdminRouteConfig, AuthRoles } from './admin.routes.map';
 import { ADMIN_ROUTE_CONFIGS } from './admin.routes.map';
 
 /**
+ * Ordered `admin.pages.{segment}.*` segments for CMS / translations UI, derived from
+ * {@link ADMIN_ROUTE_CONFIGS} in declaration order:
+ * - Top-level routes with `hasNav.admin`
+ * - After each route id, appends `{id}_public` when both `element.public` and `element.admin`
+ *   are non-null (separate i18n copy for the public-facing shell vs admin-only routes).
+ */
+export function getAdminPageSegmentsNavOrder(): string[] {
+  const segments: string[] = [];
+  for (const route of ADMIN_ROUTE_CONFIGS) {
+    if (!route.hasNav?.admin) continue;
+    segments.push(route.id);
+    if (route.element.public != null && route.element.admin != null) {
+      segments.push(`${route.id}_public`);
+    }
+  }
+  return segments;
+}
+
+/** Cached order for `admin` domain page-group sorting (see `getAdminPageSegmentsNavOrder`). */
+export const ADMIN_PAGE_SEGMENTS_NAV_ORDER: readonly string[] = getAdminPageSegmentsNavOrder();
+
+/**
  * Routes accessible for a given role
  */
 export const getAdminRoutesByRole = (role: AuthRoles = 'public'): AdminRouteConfig[] => {

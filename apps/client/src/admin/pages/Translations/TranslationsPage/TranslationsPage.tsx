@@ -14,8 +14,10 @@ import type { I18nDomainGroupKey } from '../shared/types/translations.types';
 import { useDeleteTranslations } from './hooks/useDeleteTranslations';
 import { useGetTranslations } from './hooks/useGetTranslations';
 import { useSaveTranslations } from './hooks/useSaveTranslations';
+import { splitPagesIntoTopLevelSections } from './utils/page-sections.utils';
 import { TranslationsTable } from './TranslationsTable';
 import { styles } from '../shared/styles/TranslationsPage.styles';
+import { translationsTabLabel } from 'admin/pages/Translations/TranslationsPage/utils/tabs.utils';
 
 export const TranslationsPage: React.FC = () => {
   const { t } = useTranslation();
@@ -29,17 +31,25 @@ export const TranslationsPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<I18nDomainGroupKey>();
   const [showKeyColumn, setShowKeyColumn] = useState<boolean>(DEFAULT_SHOW_KEY_COLUMN);
 
-  const { isLoading, supportedLanguages, sections } = useGetTranslations({ domain, groups });
+  const { isLoading, supportedLanguages, sections: sectionsRaw } = useGetTranslations({
+    domain,
+    groups,
+  });
+
+  const sections = useMemo(
+    () => splitPagesIntoTopLevelSections(sectionsRaw, domain),
+    [sectionsRaw, domain],
+  );
 
   useEffect(
     function updateActiveTab() {
       if (
-        sections && sections.length > 0 && !sections.some((section) => section.group === activeTab)
+        sections.length > 0 && !sections.some((section) => section.group === activeTab)
       ) {
         setActiveTab(sections[0].group as I18nDomainGroupKey);
       }
     },
-    [groups, activeTab],
+    [sections, activeTab],
   );
 
   const activeSection = useMemo(
@@ -50,8 +60,6 @@ export const TranslationsPage: React.FC = () => {
   const { save, isLoading: isSaving } = useSaveTranslations({ domain, supportedLanguages });
   const { deleteItem, isDeleting } = useDeleteTranslations({ domain });
 
-  // Show loading if: data is loading, mutations are pending, or we don't have sections yet
-  // if (isLoading || isSaving || isDeleting || sections.length === 0 || !activeSection) {
   if (isLoading || sections.length === 0 || !activeSection) {
     return (
       <AdminPageLayout
@@ -77,7 +85,7 @@ export const TranslationsPage: React.FC = () => {
         <Tabs.List>
           {sections.map((section) => (
             <Tabs.Trigger key={section.group} value={section.group}>
-              {t(`admin.pages.translations.tabs.${section.group}`, { defaultValue: section.group })}
+              {translationsTabLabel(section, t)}
             </Tabs.Trigger>
           ))}
         </Tabs.List>
@@ -89,11 +97,11 @@ export const TranslationsPage: React.FC = () => {
                 group={section.group}
                 items={section.items}
                 supportedLanguages={supportedLanguages}
-                userRole={
-                  section.group === 'pages'
-                    ? { display: true, default: 'admin' }
-                    : undefined
-                }
+                userRole={section.group === 'pages_admin'
+                  ? { display: true, default: 'admin' }
+                  : section.group === 'pages_public'
+                  ? { display: true }
+                  : undefined}
                 canAddNew={false}
                 onSave={async ({ items }) => await save({ items })}
                 onDelete={async (itemId) => {

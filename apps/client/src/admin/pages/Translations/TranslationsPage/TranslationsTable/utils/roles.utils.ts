@@ -69,3 +69,10 @@ export function parsePageSegmentFromPagesKey(fullKey: string, domain: string): s
   if (dot === -1) return rest;
   return rest.slice(0, dot);
 }
+
+/** Keys under `*.pages.*_public.*` (public-facing page copy). */
+export function isPublicPagesRoleKey(key: string, domain: string): boolean {
+  const segment = parsePageSegmentFromPagesKey(key, domain);
+  if (!segment) return false;
+  return parseRoleFromPageSegment(segment) === 'public';
+}

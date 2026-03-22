@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import type { RegionLocale } from '@workspace/config/i18n.config';
 
-import { appendRoleLabelToPageTitle, type UserRoleDisplayConfig } from '../utils/pageSegmentRole';
+import { appendRoleLabelToPageTitle, type UserRoleDisplayConfig } from '../utils/roles.utils';
 
 interface PageDividerRowProps {
   pageName: string;

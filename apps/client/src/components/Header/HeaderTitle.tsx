@@ -17,7 +17,7 @@ export const HeaderTitle: React.FC = () => {
   return (
     <Flex direction="column" justify="end" align="center">
       <h1>
-        {isAdminArea ? t('admin.labels.title') : t('app.labels.title')}
+        {isAdminArea ? t('admin.metadata.title') : t('app.metadata.title')}
         <span className="title-subtitle">({currentLanguage})</span>
       </h1>
     </Flex>

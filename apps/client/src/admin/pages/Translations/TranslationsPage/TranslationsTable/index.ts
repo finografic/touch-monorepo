@@ -1,2 +1,2 @@
 export { TranslationsTable } from './TranslationsTable';
-export type { UserRoleDisplayConfig } from './utils/pageSegmentRole';
+export type { UserRoleDisplayConfig } from './utils/roles.utils';
