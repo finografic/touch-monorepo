@@ -8,7 +8,7 @@ import { stylesAppContent1024x600 } from '../styles/project.app.1024x600.styles'
 import { stylesAdminContent } from '../styles/project.styles';
 
 export const styles = css`
-  ${stylesAdminContent}
+  /* ${stylesAdminContent} */
 
   /* ADMIN-APP-LAYOUT ======================================================= */
 
@@ -237,6 +237,7 @@ export const styles = css`
     }
 
     /* Reduce paragraph spacing */
+    /* Reduce paragraph spacing */
     p {
       font-size: 1rem; /* Reduced from 1.2rem */
       padding-bottom: 1rem; /* Reduced from 2rem */
@@ -249,7 +250,7 @@ export const styles = css`
 
     /* Shared compact styles from project.app.1024x600 */
     /* ${stylesAppContent1024x600} */
-    ${stylesAppContent800x480}
+    /* ${stylesAppContent800x480} */
 
     &[data-touch="true"] {
       header.app-header {

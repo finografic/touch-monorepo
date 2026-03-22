@@ -1,8 +1,6 @@
 import React from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 import type { RegionLocale } from '@workspace/config/i18n.config';
-import type { I18nTranslationsDomain } from '@workspace/i18n/types';
-
 import clsx from 'clsx';
 import { Input } from 'forms/Input/Input';
 
@@ -10,8 +8,6 @@ import { TranslationsDeleteButton } from '../../../shared/components/Translation
 import { TranslationsRowCell } from '../../../shared/components/TranslationsRowCell';
 
 interface TranslationsRowProps {
-  domain: I18nTranslationsDomain;
-  group: string;
   translationKey: string; // The dot-notation key (e.g., "admin.pages.dashboard.title")
   index: number; // Keep for rendering/display purposes
   onDelete: (key: string) => Promise<void>;
@@ -25,8 +21,6 @@ interface TranslationsRowProps {
 }
 
 export const TranslationsRow: React.FC<TranslationsRowProps> = ({
-  domain,
-  group,
   translationKey,
   index,
   onDelete,
@@ -65,6 +59,10 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
     'row-dirty': isDirty,
   });
 
+  // Path tail only in the key column; role labels are on page group headers.
+  const keyFragment = String(keyField.value).split('.').slice(3).join('.')
+    || String(keyField.value).split('.').slice(2).join('.');
+
   /* -----------------------------
      Render
   ------------------------------ */
@@ -81,10 +79,7 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
     >
       {/* KEY */}
       <td className="col-key">
-        <pre>
-          {String(keyField.value).split('.').slice(3).join('.') ||
-            String(keyField.value).split('.').slice(2).join('.')}
-        </pre>
+        <pre>{keyFragment}</pre>
         <Input
           value={keyField.value || ''}
           type="hidden"
@@ -107,9 +102,14 @@ export const TranslationsRow: React.FC<TranslationsRowProps> = ({
 
       {/* DELETE */}
       <td className="col-actions">
-        {canAddNew ? (
-          <TranslationsDeleteButton onDelete={() => onDelete(translationKey)} isDeleting={isDeleting} />
-        ) : null}
+        {canAddNew
+          ? (
+            <TranslationsDeleteButton
+              onDelete={() => onDelete(translationKey)}
+              isDeleting={isDeleting}
+            />
+          )
+          : null}
       </td>
     </tr>
   );

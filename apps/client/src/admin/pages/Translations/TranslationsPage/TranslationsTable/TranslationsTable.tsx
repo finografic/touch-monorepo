@@ -13,6 +13,7 @@ import { DEFAULT_SHOW_KEY_COLUMN } from '../../shared/constants/translationsTabl
 import type { TranslationsFormItem } from '../../shared/types/translations.types';
 import { addTranslationsGroupRow, computePageGrouping } from './components/TranslationsGroupRow';
 import { TranslationsRow } from './components/TranslationsRow';
+import type { UserRoleDisplayConfig } from './utils/pageSegmentRole';
 import { useTranslationsTableForm } from './hooks/useTranslationsTableForm';
 import { useTranslationsTableHandlers } from './hooks/useTranslationsTableHandlers';
 import { styles } from '../../shared/styles/TranslationsTable.styles';
@@ -29,6 +30,8 @@ interface TranslationsTableProps {
   isDeleting?: boolean;
   showKeyColumn: boolean;
   setShowKeyColumn: (showKeyColumn: boolean) => void;
+  /** When set with `display: true`, page rows/group headers show `(admin)` / `(public)` from segment + optional `default`. */
+  userRole?: UserRoleDisplayConfig;
 }
 
 export const TranslationsTable: React.FC<TranslationsTableProps> = ({
@@ -43,6 +46,7 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
   isDeleting = false,
   showKeyColumn,
   setShowKeyColumn,
+  userRole,
 }) => {
   const initialItemsRef = useRef<TranslationsFormItem[]>(items);
   const [editingRowIndex, setEditingRowIndex] = useState<number | null>(null);
@@ -166,14 +170,13 @@ export const TranslationsTable: React.FC<TranslationsTableProps> = ({
                 showKeyColumn,
                 pageGrouping,
                 rows,
+                userRole,
               });
 
               rows.push(
                 <TranslationsRow
                   key={`row-${fieldKey}`}
                   translationKey={itemKey}
-                  domain={domain}
-                  group={group}
                   index={index}
                   onDelete={canAddNew ? handleDelete : undefined}
                   supportedLanguages={supportedLanguages}

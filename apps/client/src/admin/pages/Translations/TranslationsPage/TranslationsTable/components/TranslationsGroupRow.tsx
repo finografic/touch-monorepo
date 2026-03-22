@@ -3,6 +3,7 @@ import type { RegionLocale } from '@workspace/config/i18n.config';
 import type { I18nTranslationsDomain } from '@workspace/i18n/types';
 
 import type { TranslationsFormItem } from '../../../shared/types/translations.types';
+import type { UserRoleDisplayConfig } from '../utils/pageSegmentRole';
 import { DividerRowByPage } from './DividerRowByPage';
 
 interface TranslationsGroupRowOptions {
@@ -16,6 +17,7 @@ interface TranslationsGroupRowOptions {
   showKeyColumn: boolean;
   pageGrouping: Map<number, string> | null;
   rows: React.ReactNode[];
+  userRole?: UserRoleDisplayConfig;
 }
 
 /**
@@ -34,6 +36,7 @@ export const addTranslationsGroupRow = ({
   showKeyColumn,
   pageGrouping,
   rows,
+  userRole,
 }: TranslationsGroupRowOptions): void => {
   const hasGrouping = group === 'pages' && domain;
 
@@ -53,6 +56,7 @@ export const addTranslationsGroupRow = ({
         domain={domain}
         supportedLanguages={supportedLanguages}
         showKeyColumn={showKeyColumn}
+        userRole={userRole}
       />,
     );
   }

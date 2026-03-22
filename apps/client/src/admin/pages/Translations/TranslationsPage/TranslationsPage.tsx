@@ -23,17 +23,19 @@ export const TranslationsPage: React.FC = () => {
   const pageTitleKey = `admin.pages.translations.domains.${domain}.title`;
 
   // Extract groups and deduplicate
-  const groups = [...new Set(flattenTranslations(domain, translations).map(({ key }) => key.split('.')[1]))];
+  const groups = [
+    ...new Set(flattenTranslations(domain, translations).map(({ key }) => key.split('.')[1])),
+  ];
   const [activeTab, setActiveTab] = useState<I18nDomainGroupKey>();
   const [showKeyColumn, setShowKeyColumn] = useState<boolean>(DEFAULT_SHOW_KEY_COLUMN);
-
-  log('translations:', 'blue', translations);
 
   const { isLoading, supportedLanguages, sections } = useGetTranslations({ domain, groups });
 
   useEffect(
     function updateActiveTab() {
-      if (sections && sections.length > 0 && !sections.some((section) => section.group === activeTab)) {
+      if (
+        sections && sections.length > 0 && !sections.some((section) => section.group === activeTab)
+      ) {
         setActiveTab(sections[0].group as I18nDomainGroupKey);
       }
     },
@@ -79,7 +81,6 @@ export const TranslationsPage: React.FC = () => {
             </Tabs.Trigger>
           ))}
         </Tabs.List>
-
         {sections.map((section) => (
           <Tabs.Content key={section.group} value={section.group}>
             <AdminSection title={section.title} description={t(section.description)}>
@@ -88,6 +89,11 @@ export const TranslationsPage: React.FC = () => {
                 group={section.group}
                 items={section.items}
                 supportedLanguages={supportedLanguages}
+                userRole={
+                  section.group === 'pages'
+                    ? { display: true, default: 'admin' }
+                    : undefined
+                }
                 canAddNew={false}
                 onSave={async ({ items }) => await save({ items })}
                 onDelete={async (itemId) => {
