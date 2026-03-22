@@ -1,6 +1,6 @@
 {
   "admin": {
-    "labels": {
+    "metadata": {
       "title": "Panel d'administració",
       "description": "Gestionar configuracions del sistema, traduccions i configuracions"
     },
@@ -14,11 +14,9 @@
         "description": "Resum del sistema"
       },
       "translations": {
-        "title": "Traduccions de d'etiquetes",
-        "description": "Editar traduccions per contingut de base de dades",
         "tabs": {
           "pages": "Pàgines",
-          "labels": "Etiquetes",
+          "metadata": "Metadades",
           "components": "Components",
           "orders": "Comandes",
           "items": "Productes",

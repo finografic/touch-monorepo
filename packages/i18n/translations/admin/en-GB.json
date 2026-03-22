@@ -1,6 +1,6 @@
 {
   "admin": {
-    "labels": {
+    "metadata": {
       "title": "Administration Panel",
       "description": "Manage system settings, translations, and configurations"
     },
@@ -14,11 +14,9 @@
         "description": "System Overview"
       },
       "translations": {
-        "title": "App Translations",
-        "description": "Edit translations for database content",
         "tabs": {
           "pages": "Pages",
-          "labels": "Labels",
+          "metadata": "Metadata",
           "components": "Components",
           "orders": "Orders",
           "items": "Products",

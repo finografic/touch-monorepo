@@ -1,6 +1,6 @@
 {
   "admin": {
-    "labels": {
+    "metadata": {
       "title": "Panel de administración",
       "description": "Gestionar configuraciones del sistema, traducciones y configuraciones"
     },
@@ -14,11 +14,9 @@
         "description": "Resumen del sistema"
       },
       "translations": {
-        "title": "Idioma de etiquetas",
-        "description": "Editar traducciones para contenido de base de datos",
         "tabs": {
           "pages": "Páginas",
-          "labels": "Etiquetas",
+          "metadata": "Metadatos",
           "components": "Componentes",
           "orders": "Pedidos",
           "items": "Productos",
@@ -39,7 +37,7 @@
           },
           "admin": {
             "title": "Idioma del administrador",
-            "description": "Páginas, títulos, subtítulos, etiquetas, etc."
+            "description": "Títulos de páginas, subtítulos, etiquetas, etc."
           }
         }
       },
