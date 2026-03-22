@@ -9,7 +9,7 @@ import { findOrderByNumber } from 'utils/context.utils';
 import type { OrderFilters } from 'types/filters.types';
 import type { FlowTypeValue } from 'types/flow.types';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
-import type { FilterKey, SlotType } from 'types/slots.types';
+import type { FilterKey, RelaySlotKind } from 'types/slots.types';
 import { INITIAL_SLOT_ITEM, ORDER_FIELD_KEYS } from 'config/app';
 import type { OrdersStore, OrdersValues } from './OrdersContext.types';
 
@@ -77,7 +77,8 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
                   if (value === undefined) {
                     delete updatedFilters[key as FilterKey];
                   } else {
-                    (updatedFilters as Partial<Record<FilterKey, unknown>>)[key as FilterKey] = value;
+                    (updatedFilters as Partial<Record<FilterKey, unknown>>)[key as FilterKey] =
+                      value;
                   }
                 });
 
@@ -96,7 +97,7 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
             });
             set({ orders: updatedOrders });
           },
-          toggleSlot: ({ slotType, slotNumber }: { slotType: SlotType; slotNumber: number }) => {
+          toggleSlot: ({ slotType, slotNumber }: { slotType: RelaySlotKind; slotNumber: number }) => {
             const { orders } = get();
             const existingOrder = findOrderByNumber(orders, slotNumber);
 
@@ -106,10 +107,9 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
                 ...orders,
                 {
                   ...INITIAL_SLOT_ITEM,
-                  id:
-                    typeof crypto !== 'undefined' && crypto.randomUUID
-                      ? crypto.randomUUID()
-                      : `order-${slotNumber}`,
+                  id: typeof crypto !== 'undefined' && crypto.randomUUID
+                    ? crypto.randomUUID()
+                    : `order-${slotNumber}`,
                   slotType,
                   slotNumber,
                   isSelected: true,
@@ -150,13 +150,15 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
           fetchOrdersReadable: async () => {
             try {
               // Fetch client returns data directly (unwraps ApiResponse)
-              const data = await api.get<OrderReadableModel[] | { data: OrderReadableModel[] }>('/orders-readable');
+              const data = await api.get<OrderReadableModel[] | { data: OrderReadableModel[] }>(
+                '/orders-readable',
+              );
               // Handle both response formats for safety
               const readableOrders = Array.isArray(data)
                 ? data
                 : Array.isArray((data as any)?.data)
-                  ? (data as any).data
-                  : [];
+                ? (data as any).data
+                : [];
               set({ ordersReadable: readableOrders });
             } catch (error) {
               console.error('Failed to fetch orders readable data:', error);

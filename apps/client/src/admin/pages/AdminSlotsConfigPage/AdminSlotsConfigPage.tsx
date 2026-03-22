@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Badge } from '@finografic/design-system/components';
-import { SwitchField } from '@finografic/design-system/forms';
+import { SwitchDS } from '@finografic/design-system/forms';
 import { MinusIcon, PlusIcon } from '@finografic/icons';
 
+import { getQueryErrorMessage } from '@workspace/core/api';
 import clsx from 'clsx';
 import { Flex } from 'styled-system/jsx';
 import { useDebouncedCallback } from 'use-debounce';
@@ -17,7 +18,7 @@ import {
 } from 'queries/slot-configurations';
 
 import type { SlotSpecialParam } from 'types/app-configuration.types';
-import type { SlotType } from 'types/slots.types';
+import type { SlotSpecial, SlotType } from 'types/slots.types';
 import {
   ALT_SLOT_NUMBER,
   getGridDimensions,
@@ -30,6 +31,7 @@ import { AdminPageLayout } from '../..';
 import { AdminSection } from '../../components/AdminSection/AdminSection';
 import { SlotGrid } from './SlotGrid/SlotGrid';
 import { styles } from './AdminSlotsConfigPage.styles';
+import { getSpecialSlotSwitchPalette, relayConfigForSpecialSlot } from 'utils/slots.utils';
 
 // Types for form values
 interface SlotConfigFormValue {
@@ -240,7 +242,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
           title="Slot Configuration"
           subtitle="Main page grid layout"
           isLoading={isLoading}
-          error={error ? error.message : undefined}
+          error={getQueryErrorMessage(error)}
           styles={styles}
         >
           <AdminSection
@@ -301,12 +303,23 @@ export const AdminSlotsConfigPage: React.FC = () => {
                         : altSpecialConfig?.data;
                       const isActive = fullConfig?.isActive ?? false;
                       const isLoading = fullConfig === undefined;
+                      /** Same synthetic relay row as main preview / {@link getSlotColor}. */
+                      const relayPreview = relayConfigForSpecialSlot(param);
+
                       return (
-                        <Flex key={param} align="center" gap={2} mt={2}>
-                          <SwitchField
+                        <Flex
+                          key={param}
+                          align="center"
+                          gap={2}
+                          mt={2}
+                          title={`Relay slot ${relayPreview.slotNumber} (type ${relayPreview.slotType})`}
+                        >
+                          <SwitchDS
+                            size="md"
+                            palette={getSpecialSlotSwitchPalette(param)}
+                            label={label}
                             checked={isActive}
-                            colorScheme="primary"
-                            onCheckedChange={async ({ checked }) => {
+                            onChange={async (checked) => {
                               if (!fullConfig?.id) return;
                               try {
                                 await updateSlotSpecialMutation.mutateAsync({
@@ -322,7 +335,6 @@ export const AdminSlotsConfigPage: React.FC = () => {
                             disabled={updateSlotSpecialMutation.isPending || isLoading}
                             className={className}
                           />
-                          <label htmlFor={param}>{label}</label>
                         </Flex>
                       );
                     })}

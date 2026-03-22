@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card } from '@finografic/design-system/components';
-import { SwitchField as Switch } from '@finografic/design-system/forms';
+import { SwitchDS } from '@finografic/design-system/forms';
 import { LockIcon, TrashIcon } from '@finografic/icons';
 import type { LanguageInfo } from '@workspace/i18n/types';
 
@@ -19,7 +19,9 @@ interface LanguagesListProps {
   canDelete: boolean;
 }
 
-export const LanguagesList: React.FC<LanguagesListProps> = ({ languages, onDeleteLanguage, canDelete }) => {
+export const LanguagesList: React.FC<LanguagesListProps> = (
+  { languages, onDeleteLanguage, canDelete },
+) => {
   const toggleActiveMutation = useToggleSupportedLanguageActive();
 
   const handleToggleActive = async (languageId: string, currentIsActive: boolean) => {
@@ -61,10 +63,13 @@ export const LanguagesList: React.FC<LanguagesListProps> = ({ languages, onDelet
                 )}
 
                 <Flex className="col col-active">
-                  <Switch
+                  <SwitchDS
+                    size="md"
+                    palette="success"
+                    label={language.code}
                     checked={language.isActive ?? true}
                     disabled={language.isDefault || isLoading}
-                    onCheckedChange={() => {
+                    onChange={() => {
                       if (language.id && !language.isDefault) {
                         handleToggleActive(language.id, language.isActive ?? true);
                       }
@@ -82,13 +87,11 @@ export const LanguagesList: React.FC<LanguagesListProps> = ({ languages, onDelet
                     onClick={() => onDeleteLanguage(language.code)}
                     disabled={!isDeletable}
                     size="sm"
-                    title={
-                      !isDeletable
-                        ? language.isDefault
-                          ? 'Cannot delete default language'
-                          : 'Cannot delete when only one language remains'
-                        : 'Delete language'
-                    }
+                    title={!isDeletable
+                      ? language.isDefault
+                        ? 'Cannot delete default language'
+                        : 'Cannot delete when only one language remains'
+                      : 'Delete language'}
                   >
                     {isDeletable ? <TrashIcon /> : <LockIcon />}
                   </Button>

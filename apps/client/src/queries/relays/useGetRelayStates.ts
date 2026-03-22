@@ -3,6 +3,7 @@ import type { ErrorResponse } from '@workspace/core/api';
 
 import type { UseQueryResult } from '@tanstack/react-query';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { isRelayNetworkLikeError } from 'api/relay-query.utils';
 import { RelaysEndpoints, type RelayState } from 'api/endpoints';
 
 import { useAppConfig } from 'providers/AppConfigProvider';
@@ -37,14 +38,7 @@ export const useGetRelayStates = (): UseQueryResult<RelayState[], ErrorResponse>
   // Monitor for network errors and disable polling
   useEffect(() => {
     if (query.error) {
-      const error = query.error as ErrorResponse;
-      // Check if it's a network error (server down, connection refused, etc.)
-      if (
-        error.message?.includes('Network Error') ||
-        error.message?.includes('RPC Request Failed') ||
-        error.message?.includes('ECONNREFUSED') ||
-        error.message?.includes('fetch')
-      ) {
+      if (isRelayNetworkLikeError(query.error)) {
         setHasNetworkError(true);
         setIsPollingEnabled(false);
       }

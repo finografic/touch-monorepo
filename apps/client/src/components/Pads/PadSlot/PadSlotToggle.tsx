@@ -6,11 +6,11 @@ import type { SlotStatus } from 'pages/MainPage/MainPage.types';
 
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 
-import type { SlotSpecial, SlotType } from 'types/slots.types';
+import type { RelaySlotKind } from 'types/slots.types';
 import type { PadMenuBaseProps } from './PadSlot.types';
 
 export interface PadSlotToggleProps extends PadMenuBaseProps {
-  slotType: SlotType | SlotSpecial;
+  slotType: RelaySlotKind;
   status: SlotStatus;
   isChecked: boolean;
   /** When true, clicks do not toggle selection (e.g. ALT vs other slots mutual exclusion). */

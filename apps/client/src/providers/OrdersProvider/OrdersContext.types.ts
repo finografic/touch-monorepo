@@ -4,7 +4,7 @@ import type { CreateSettersType } from '@finografic/zustand-context-creator';
 import type { OrderFilters } from 'types/filters.types';
 import type { FlowTypeValue } from 'types/flow.types';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
-import type { SelectedSlotItem, SlotType } from 'types/slots.types';
+import type { RelaySlotKind, SelectedSlotItem } from 'types/slots.types';
 import type { OrdersKeys, SETTER_PREFIX } from './OrdersContext';
 
 export interface OrdersValues {
@@ -26,7 +26,7 @@ export type OrdersActions = OrdersSetters & {
   setFilters: (filters: OrderFilters) => void;
   // setOrderFilters: (filters: OrderFilters) => void;
   setOrdersFilter: ({ slotNumber, filter }: { slotNumber: number; filter: Partial<OrderFilters> }) => void;
-  toggleSlot: ({ slotType, slotNumber }: { slotType: SlotType; slotNumber: number }) => void;
+  toggleSlot: ({ slotType, slotNumber }: { slotType: RelaySlotKind; slotNumber: number }) => void;
   setOrdersSession: ({
     slotNumbers,
     session,

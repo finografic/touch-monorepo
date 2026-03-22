@@ -132,6 +132,36 @@ export const styles = css`
       }
     }
 
+    /*
+     * Pressed while timer runs: full slot-type palette (matches checked), not green timer + mixed bg.
+     * status-processing alone wins on color/border; these compound selectors override on :active.
+     */
+    &.status-processing.item-type-A:active:not(.disabled) {
+      color: ${colors.defaultDark};
+      border-color: ${colors.defaultDark};
+      background-color: ${colors.defaultXXLight};
+    }
+    &.status-processing.item-type-B:active:not(.disabled) {
+      color: ${colors.infoXDark};
+      border-color: ${colors.infoXDark};
+      background-color: ${colors.infoLighter};
+    }
+    &.status-processing.item-type-C:active:not(.disabled) {
+      color: ${colors.dangerXDark};
+      border-color: ${colors.dangerXDark};
+      background-color: ${colors.dangerLighter};
+    }
+    &.status-processing.item-type-Alt:active:not(.disabled) {
+      color: ${colors.secondaryXDark};
+      border-color: ${colors.secondaryXDark};
+      background-color: ${colors.secondaryLighter};
+    }
+    &.status-processing.pad-special-grid:active:not(.disabled) {
+      color: ${colors.dangerXDark};
+      border-color: ${colors.dangerXDark};
+      background-color: ${colors.dangerLighter};
+    }
+
     /* COMPLETED TIMERS */
 
     &.status-completed {

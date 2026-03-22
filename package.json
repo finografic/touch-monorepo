@@ -27,6 +27,8 @@
     "scripts": "tsx scripts/src/script-runner/script-runner.ts",
     "md.date-tags": "tsx scripts/src/add-md-date-tags.ts",
     "·········· PACKAGES": "··················································",
+    "update.design-system": "pnpm --filter @workspace/client update.design-system",
+    "update.icons": "pnpm --filter @workspace/client update.icons",
     "update.project-scripts": "pnpm update @finografic/project-scripts --latest --recursive",
     "update.eslint-config": "pnpm update @finografic/eslint-config --latest --recursive",
     "update.zustand-context": "pnpm --filter @workspace/client update.zustand-context",

@@ -1,5 +1,5 @@
 import type { ValidGridSize } from 'types/menu.types';
-import type { SlotSpecial, SlotType } from 'types/slots.types';
+import type { RelaySlotKind } from 'types/slots.types';
 import type { NUM_GRID_ITEMS } from 'config/app';
 
 export type MenuGridSize = typeof NUM_GRID_ITEMS;
@@ -18,8 +18,8 @@ export function createMenuConfig<Size extends ValidGridSize>(config: MenuGridCon
 export type SlotStatus = 'idle' | 'processing' | 'completed';
 
 export interface SlotMeta {
-  /** Relay type, or {@link SlotSpecial.ALT} for the ALT pad (default slot 16). */
-  slotType: SlotType | SlotSpecial;
+  /** Relay kind (A/B/C or e.g. ALT for slot 16). */
+  slotType: RelaySlotKind;
   slotNumber: number;
   isChecked: boolean;
   status: SlotStatus;

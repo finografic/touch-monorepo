@@ -6,7 +6,7 @@ import { ALT_SLOT_NUMBER, NUM_RELAYS } from 'config/app/slots.config';
 import { SlotButton } from './SlotButton';
 import { styles } from './SlotGrid.styles';
 
-interface SlotConfig {
+export interface SlotConfig {
   slotNumber: number;
   slotType: SlotType;
   isActive: boolean;
@@ -55,7 +55,8 @@ const SlotGridComponent: React.FC<SlotGridProps> = ({
   }, [overflowSlots, activeSlots]);
 
   const regularSlots = useMemo(
-    () => activeSlots.filter((config) => config !== chosenLastSlot && config.slotNumber !== NUM_RELAYS),
+    () =>
+      activeSlots.filter((config) => config !== chosenLastSlot && config.slotNumber !== NUM_RELAYS),
     [activeSlots, chosenLastSlot],
   );
 
@@ -118,7 +119,9 @@ const SlotGridComponent: React.FC<SlotGridProps> = ({
     }
 
     if (!showSpecialSlot && showSpecialAltSlot) {
-      return <SlotButton slotNumber={ALT_SLOT_NUMBER} slotType="C" label="(alt)" color="secondary" />;
+      return (
+        <SlotButton slotNumber={ALT_SLOT_NUMBER} slotType="C" label="(alt)" color="secondary" />
+      );
     }
 
     return null;

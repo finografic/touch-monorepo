@@ -16,4 +16,6 @@ export const RELAY_SLOT_COLORS: Record<SlotType | SlotSpecial, ColorsKey> = {
   [SlotType.C]: 'dangerLight',
   [SlotSpecial.ENF]: 'success',
   [SlotSpecial.MTO]: 'defaultLight',
+  [SlotSpecial.ALT]: 'secondaryLight',
+  [SlotSpecial.POWER]: 'success',
 };

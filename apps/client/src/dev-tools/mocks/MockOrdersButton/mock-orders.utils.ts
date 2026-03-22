@@ -1,7 +1,7 @@
 import type { SlotMeta } from 'pages/MainPage/MainPage.types';
 
 import type { SlotItem } from 'types/slot-config.types';
-import type { SlotSpecial, SlotType } from 'types/slots.types';
+import type { RelaySlotKind } from 'types/slots.types';
 import { MOCK_SELECTED_SLOTS_TEMPLATE } from 'dev-tools/mocks/MockOrdersButton/mock-orders.data';
 
 /**
@@ -34,7 +34,7 @@ export function generateSmartMockSlots(
     .map((config) => config.slotNumber);
 
   // Create a map of slotNumber -> slotType for quick lookup (only for active slots)
-  const slotTypeMap = new Map<number, SlotType | SlotSpecial>();
+  const slotTypeMap = new Map<number, RelaySlotKind>();
   configsToUse.forEach((config) => {
     slotTypeMap.set(config.slotNumber, config.slotType);
   });

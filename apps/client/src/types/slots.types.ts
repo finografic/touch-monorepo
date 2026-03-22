@@ -35,9 +35,12 @@ export enum SlotSpecial {
   POWER = 'Power',
 }
 
+/** Physical relay classification: A/B/C or a special slot (e.g. ALT). Aligns with {@link SlotItem}. */
+export type RelaySlotKind = SlotType | SlotSpecial;
+
 // Base properties that every order has
 export interface OrderBaseProps {
-  slotType: SlotType;
+  slotType: RelaySlotKind;
   slotNumber: number;
   isSelected: boolean;
   filters: OrderFilters;
@@ -49,7 +52,7 @@ export type OrderStatus = 'idle' | 'processing' | 'completed' | 'error' | 'pendi
 export interface SelectedSlotItem {
   id: string; // Unique order ID from backend
   slotNumber: number;
-  slotType: SlotType;
+  slotType: RelaySlotKind;
   isSelected: boolean;
   filters?: OrderFilters;
   session?: {

@@ -1,5 +1,5 @@
 import type { SlotItem } from 'types/slot-config.types';
-import { type SelectedSlotItem, SlotSpecial, SlotType } from 'types/slots.types';
+import { type SelectedSlotItem, type RelaySlotKind, SlotSpecial, SlotType } from 'types/slots.types';
 
 export const NUM_ROWS_DEFAULT = 3; // Standard grid (3+ columns)
 export const NUM_RELAYS = 16; // Always 16 total slots
@@ -12,10 +12,7 @@ export const ALT_SLOT_NUMBER = 16;
  * Main-page slot kind for UI / selection: relay slots use {@link SlotType};
  * the ALT relay (default slot 16) always uses {@link SlotSpecial.ALT} regardless of API shape.
  */
-export function resolveMainPageSlotType(
-  slotNumber: number,
-  slotType: SlotType,
-): SlotType | SlotSpecial {
+export function resolveMainPageSlotType(slotNumber: number, slotType: SlotType): RelaySlotKind {
   if (slotNumber === ALT_SLOT_NUMBER) return SlotSpecial.ALT;
   return slotType;
 }

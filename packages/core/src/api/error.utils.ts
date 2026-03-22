@@ -53,6 +53,17 @@ export function isErrorResponse(data: unknown): data is ErrorResponse {
 }
 
 /**
+ * Human-readable message from React Query `error` (API {@link ErrorResponse}, `Error`, or unknown).
+ */
+export function getQueryErrorMessage(error: unknown): string | undefined {
+  if (error == null) return undefined;
+  if (isErrorResponse(error)) return error.error.message;
+  if (error instanceof Error) return error.message;
+  if (typeof error === 'string') return error;
+  return undefined;
+}
+
+/**
  * Transforms fetch errors to ApplicationError format
  * Compatible with FetchError, standard Error objects, and any error with status/data
  */

@@ -9,7 +9,7 @@ export type {
   HttpError,
   TimeoutError,
 } from './error.types';
-export { isRetryableError, transformFetchError } from './error.utils';
+export { getQueryErrorMessage, isErrorResponse, isRetryableError, transformFetchError } from './error.utils';
 export type { FetchRequestConfig, FetchResponse } from './fetch.types';
 export { FetchError } from './fetch.types';
 export { buildUrl, normalizeResponse } from './fetch.utils';
