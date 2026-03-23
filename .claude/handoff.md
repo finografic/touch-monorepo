@@ -53,8 +53,10 @@ No CLI. `panda codegen && panda cssgen` runs before every client dev/build.
 
 ## Status
 
-DS build pipeline fully working as of 2026-03-14 — first clean build success (clean → install → build → dev).
-Five interacting root causes fixed (see `DS_FIXES_DEBUGGING.md` for full detail).
-All DS components build correctly; client imports from correct sub-paths.
+DS build pipeline fully working. All DS components build correctly; client imports from correct sub-paths.
+OrdersTable row-selection checkboxes working: CheckboxField in header (select-all) + each row cell.
+Checkbox recipe fixed (success-light color, overflow:hidden, icon sizing, indeterminate toggle).
+Client `src/styles/css/Checkbox.css` holds Ark data-attribute overrides as immediate fix; DS rebuild
+will make the recipe changes permanent (run `pnpm build.design-system` from monorepo root).
 Emotion removal (~100 `.styles.ts` files) and Phase 6g CSS audit are the next planned steps.
 Pre-existing TS errors remain (~91) from unrelated modules (relays, translations, auth).
