@@ -1,4 +1,4 @@
-import { CheckboxField } from '@finografic/design-system/forms';
+import { Checkbox } from '@finografic/design-system/forms';
 import { EditIcon, TrashIcon } from '@finografic/icons';
 
 import type { ColumnDef } from '@tanstack/react-table';
@@ -39,13 +39,11 @@ export function createOrdersColumns(
       id: 'select',
       header: ({ table }) => (
         <CheckboxField
-          checked={
-            table.getIsAllPageRowsSelected()
-              ? true
-              : table.getIsSomePageRowsSelected()
-                ? 'indeterminate'
-                : false
-          }
+          checked={table.getIsAllPageRowsSelected()
+            ? true
+            : table.getIsSomePageRowsSelected()
+            ? 'indeterminate'
+            : false}
           onCheckedChange={({ checked }) => table.toggleAllPageRowsSelected(!!checked)}
           size="sm"
         />
@@ -113,14 +111,14 @@ export function createOrdersColumns(
             onClick={() => actions.onClickEdit(row.original.id)}
             aria-label="Edit order"
           >
-            <EditIcon className="icon icon-sm" />
+            <EditIcon className="icon icon-md" />
           </button>
           <button
             className={deleteClasses}
             onClick={() => actions.onClickDelete(row.original.id)}
             aria-label="Delete order"
           >
-            <TrashIcon className="icon icon-sm" />
+            <TrashIcon className="icon icon-md" />
           </button>
         </div>
       ),
