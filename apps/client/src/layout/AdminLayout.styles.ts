@@ -250,7 +250,7 @@ export const styles = css`
 
     /* Shared compact styles from project.app.1024x600 */
     /* ${stylesAppContent1024x600} */
-    /* ${stylesAppContent800x480} */
+    ${stylesAppContent800x480}
 
     &[data-touch="true"] {
       header.app-header {

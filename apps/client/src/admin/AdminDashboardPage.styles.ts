@@ -88,5 +88,11 @@ export const styles = css`
     & + div {
       padding-top: 0;
     }
+
+    @media (max-width: 1024px) and (max-height: 600px) {
+      .admin-cards {
+        margin-top: 0.25rem;
+      }
+    }
   }
 `;

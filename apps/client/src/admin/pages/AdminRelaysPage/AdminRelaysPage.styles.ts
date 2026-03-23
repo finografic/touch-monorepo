@@ -12,4 +12,8 @@ export const styles = css`
   .error {
     color: ${colors.danger};
   }
+
+  .admin-section > .admin-section-content {
+    margin-top: 0;
+  }
 `;

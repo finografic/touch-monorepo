@@ -32,9 +32,11 @@ export const PublicRelaysPage: React.FC = () => {
       description={'admin.pages.relays_public.description'}
       styles={styles}
     >
-      <AdminSection title="Connection Status" variant="border-solid">
+      {
+        /* <AdminSection title="Connection Status" variant="border-solid">
         <RelaysConnectionStatus />
-      </AdminSection>
+      </AdminSection> */
+      }
       <AdminSection title="Desescarche" variant="border-solid">
         <Box className="admin-relay-control">
           <Flex direction="column" gap={2} style={{ marginTop: '-1rem' }}>
