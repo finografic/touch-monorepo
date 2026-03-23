@@ -206,12 +206,7 @@ export const styles = css`
 
     /* DIALOG FOOTER ======================================================== */
 
-    /* .footer {
-      flex-shrink: 0;
-      margin: 0;
-      padding: 1.5rem 1.5rem 1.5rem;
-      background: transparent;
-    } */
+
 
     .footer-buttons-wrapper {
       display: flex;
@@ -230,7 +225,7 @@ export const styles = css`
     }
 
     .footer-buttons-wrapper button {
-      font-size: 1.5rem;
+      font-size: 1rem;
     }
 
     /* Data List View Styles - Moved to individual components */

@@ -90,7 +90,9 @@ export const AdminOrdersListPage: React.FC = () => {
 
     try {
       // Delete all selected orders sequentially
-      const deletePromises = selectedOrders.map((order) => deleteOrderMutation.mutateAsync(order.id));
+      const deletePromises = selectedOrders.map((order) =>
+        deleteOrderMutation.mutateAsync(order.id)
+      );
       await Promise.all(deletePromises);
 
       toast({
@@ -129,20 +131,22 @@ export const AdminOrdersListPage: React.FC = () => {
       }
     >
       <AdminSection isLoading={isLoading} variant="none">
-        {error ? (
-          <Flex direction="column" gap={4} align="center" justify="center" p={6}>
-            <span>Error loading orders: {error.message}</span>
-          </Flex>
-        ) : (
-          <OrdersTable
-            orders={filteredOrders}
-            emptyMessage="No orders found. Try adjusting your filters."
-            onClickEdit={handleEditOrder}
-            onClickDelete={handleDeleteOrder}
-            selectedOrders={selectedOrders}
-            onSelectionChange={setSelectedOrders}
-          />
-        )}
+        {error
+          ? (
+            <Flex direction="column" gap={4} align="center" justify="center" p={6}>
+              <span>Error loading orders: {error.message}</span>
+            </Flex>
+          )
+          : (
+            <OrdersTable
+              orders={filteredOrders}
+              emptyMessage="No orders found. Try adjusting your filters."
+              onClickEdit={handleEditOrder}
+              onClickDelete={handleDeleteOrder}
+              selectedOrders={selectedOrders}
+              onSelectionChange={setSelectedOrders}
+            />
+          )}
       </AdminSection>
     </AdminPageLayout>
   );

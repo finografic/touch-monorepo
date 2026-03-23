@@ -1,3 +1,3 @@
 {
-  "recommendations": ["inlang.vs-code-extension", "dprint.dprint", "@stylistic/stylelint-plugin"]
+  "recommendations": ["inlang.vs-code-extension", "dprint.dprint", "stylelint.vscode-stylelint"]
 }

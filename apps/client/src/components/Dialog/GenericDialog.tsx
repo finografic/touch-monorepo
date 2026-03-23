@@ -131,7 +131,9 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({
                 )}
               >
                 {(footer.isRTL ? footer.buttons : [...footer.buttons].reverse()).map(
-                  (props: ButtonProps, i) => <Button key={i} {...props} />,
+                  (props: ButtonProps, i) => (
+                    <Button key={i} size="md" palette="default" variant="solid" {...props} />
+                  ),
                 )}
               </div>
             </Dialog.Footer>

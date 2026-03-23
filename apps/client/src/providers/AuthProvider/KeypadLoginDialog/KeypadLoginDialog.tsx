@@ -88,7 +88,7 @@ export const KeypadLoginDialog: FC<KeypadLoginDialogProps> = () => {
     title: '',
     size: 'sm',
     minWidth: '220px',
-    maxWidth: '270px',
+    maxWidth: '300px',
     minHeight: '500px',
     maxHeight: '540px',
     tabs: [

@@ -77,7 +77,6 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
       data={orders}
       columns={columns}
       classNames={classNames}
-      caption="Orders"
       emptyMessage={emptyMessage}
       pageSize={50}
       getRowId={(row) => row.id}

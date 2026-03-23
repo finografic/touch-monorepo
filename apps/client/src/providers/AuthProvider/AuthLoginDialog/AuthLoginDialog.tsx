@@ -32,7 +32,9 @@ export const AuthLoginDialog: FC<AuthLoginDialogProps> = () => {
   const [activeTab, setActiveTab] = useState('admin');
 
   const isBlockingAccess = useMemo(
-    () => isLoginDialogOpen && !location.pathname.startsWith('/admin') && location.pathname !== '/admin',
+    () =>
+      isLoginDialogOpen && !location.pathname.startsWith('/admin')
+      && location.pathname !== '/admin',
     [isLoginDialogOpen, location.pathname],
   );
 
@@ -89,22 +91,6 @@ export const AuthLoginDialog: FC<AuthLoginDialogProps> = () => {
     minHeight: '280px',
     maxHeight: '60vh',
     tabs: [
-      // {
-      //   id: 'user',
-      //   label: 'user',
-      //   icon: <UserIcon />,
-      //   content: (
-      //     <AuthLoginTabContent
-      //       activeTab={activeTab}
-      //       email={DEFAULT_USER_EMAIL}
-      //       password={password}
-      //       onPasswordChange={setPassword}
-      //       onSubmit={handleSubmit}
-      //       isLoading={isLoading}
-      //       error={error}
-      //     />
-      //   ),
-      // },
       {
         id: 'admin',
         label: 'Admin',
