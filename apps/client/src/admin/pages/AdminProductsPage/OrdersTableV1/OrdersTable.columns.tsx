@@ -38,7 +38,7 @@ export function createOrdersColumns(
     {
       id: 'select',
       header: ({ table }) => (
-        <CheckboxField
+        <Checkbox
           checked={table.getIsAllPageRowsSelected()
             ? true
             : table.getIsSomePageRowsSelected()
@@ -49,7 +49,7 @@ export function createOrdersColumns(
         />
       ),
       cell: ({ row }) => (
-        <CheckboxField
+        <Checkbox
           checked={row.getIsSelected()}
           onCheckedChange={({ checked }) => row.toggleSelected(!!checked)}
           size="sm"
