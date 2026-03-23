@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import type { DataTableClassNames, DataTableColumn } from '@finografic/design-system/components';
 import { DataTable } from '@finografic/design-system/components';
 
-import { button, checkbox, input, table } from 'styled-system/recipes';
+import { button, input, table } from 'styled-system/recipes';
 
 import { useAppConfig } from 'providers/AppConfigProvider';
 
@@ -27,7 +27,6 @@ export interface OrdersTableProps {
 const cssTable = table({ size: 'md', striped: true, stickyHeader: true });
 const cssFilter = input({ size: 'sm' });
 const cssPagination = button({ size: 'xs', variant: 'ghost' });
-const cssCheckbox = checkbox({ size: 'sm' });
 
 export const OrdersTable: React.FC<OrdersTableProps> = ({
   orders,
@@ -64,12 +63,6 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
     },
     filterInput: cssFilter,
     paginationButton: cssPagination,
-    checkbox: {
-      root: cssCheckbox.root,
-      control: cssCheckbox.control,
-      indicator: cssCheckbox.indicator,
-      label: cssCheckbox.label,
-    },
   };
 
   return (

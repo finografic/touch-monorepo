@@ -2,13 +2,12 @@ import { CheckboxField } from '@finografic/design-system/forms';
 import { EditIcon, TrashIcon } from '@finografic/icons';
 
 import type { ColumnDef } from '@tanstack/react-table';
-import { button, checkbox } from 'styled-system/recipes';
+import { button } from 'styled-system/recipes';
 
 import type { OrderReadableWithIndex } from '../hooks/useOrdersFilter';
 
 // ── Recipe instances — stable strings, computed once ──────────────────────────
 
-const checkClasses = checkbox({ size: 'sm' });
 const editClasses = button({ size: 'xs', variant: 'ghost' });
 const deleteClasses = button({ size: 'xs', variant: 'ghost', palette: 'danger' });
 
@@ -48,14 +47,14 @@ export function createOrdersColumns(
                 : false
           }
           onCheckedChange={({ checked }) => table.toggleAllPageRowsSelected(!!checked)}
-          classNames={checkClasses}
+          size="sm"
         />
       ),
       cell: ({ row }) => (
         <CheckboxField
           checked={row.getIsSelected()}
           onCheckedChange={({ checked }) => row.toggleSelected(!!checked)}
-          classNames={checkClasses}
+          size="sm"
         />
       ),
       enableSorting: false,
