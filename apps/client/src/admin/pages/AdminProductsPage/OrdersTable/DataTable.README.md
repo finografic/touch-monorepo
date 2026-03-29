@@ -1,42 +1,26 @@
-# Orders DataTable (Design System v2)
+# Orders `DataTable` (design system)
 
-This folder contains the **v2 Orders table**, built on top of the new design‑system `DataTable` component and PandaCSS recipes.
+This folder is the **orders list table** for admin: a thin wrapper around `@finografic/design-system` **`DataTable`**, with PandaCSS recipes for table / filter inputs / pagination controls.
 
-## Structure
+## Layout
 
-- `OrdersTable.tsx` — feature wrapper around `DataTable`:
-  - Wires in:
-    - Orders domain hooks (`useOrdersFilter`, `useTableLabelMappings`, `useAppConfig`)
-    - Orders column factory (`createOrdersColumns`)
-    - Controlled row selection (`selectedOrders` / `onSelectionChange`)
-  - Supplies all visual chrome via recipes:
-    - `tableRecipe({ size: 'sm', striped: true, stickyHeader: true })`
-    - `input({ size: 'sm' })` for per‑column filters
-    - `button({ size: 'xs', variant: 'ghost' })` for pagination
-    - `checkbox({ size: 'sm' })` for row selection
+| File | Role |
+| ---- | ---- |
+| `OrdersTable.tsx` | Wires `DataTable`, `useTableHeaders()` (i18n column titles), `useTableLabelMappings`, and `createOrdersColumns`. |
+| `orders-table.columns.tsx` | TanStack-style `ColumnDef` factory (selection, data columns, actions). |
+| `orders-table.types.ts` | `ColumnKey`, `ColumnSearchState` — shared with `hooks/useOrdersFilter`. |
+| `useTableLabelMappings.ts` | Value→label resolution for mode, drink types, volumes, etc. |
+| `index.ts` | Exports `OrdersTable` + types for consumers (`AdminOrdersListPage`, `useOrdersFilter`). |
+| `mocks/` | Optional examples (`TabList.EXAMPLE.tsx`, column filter examples) — not imported by routes. |
 
-## Styling model
+Legacy **`OrdersTableV1/`** (duplicate TanStack-only table) has been removed; column logic lives here next to the DS wrapper.
 
-All layout and color comes from **design‑system tokens + recipes**:
+## Styling
 
-- `tableRecipe` controls:
-  - Header, body, and footer paddings
-  - Row height, striping, hover, and selected states
-  - Sort icon wrapper and empty state layout
-- `inputRecipe` controls filter inputs inside header cells.
-- `buttonRecipe` and `checkboxRecipe` style action buttons and selection checkboxes.
+Recipes: `table({ size, striped, stickyHeader })`, `input` for header filters, `button` for pagination — see `OrdersTable.tsx` `classNames` mapping.
 
-For Orders specifically, we add a few **page‑local tweaks** in `AdminOrdersPage.styles.ts`:
+Page-specific typography tweaks (if any) stay in the parent page styles file, not here.
 
-- Slightly smaller header typography and tighter table typography.
-- Consistent 0.5rem × 0.75rem cell padding (header + body).
-- Larger action icons with 0.25rem vertical button padding.
+## Design system
 
-These overrides are **scoped to the Orders page** so other tables using `tableRecipe` are unaffected.
-
-## Versioning
-
-- `OrdersTableV1/` — original TanStack Table + recipes implementation (kept for reference).
-- `OrdersTable/` — current, atomised implementation using the shared design‑system `DataTable` component.
-
-The route `AdminOrdersListPage` now imports from `./OrdersTable`, so v2 is the default going forward.
+For `DataTable` API, props, and DS changelog, see the design-system package README at the monorepo sibling **`@finografic/design-system`** (not vendored in this repo path in every clone).

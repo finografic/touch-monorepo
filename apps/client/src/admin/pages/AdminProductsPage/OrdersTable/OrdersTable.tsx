@@ -2,18 +2,14 @@ import React, { useMemo } from 'react';
 import type { DataTableClassNames, DataTableColumn } from '@finografic/design-system/components';
 import { DataTable } from '@finografic/design-system/components';
 
+import { useTableHeaders } from 'admin/hooks/useTableHeaders';
 import { button, input, table } from 'styled-system/recipes';
 
 import { useAppConfig } from 'providers/AppConfigProvider';
 
 import type { OrderReadableWithIndex } from '../hooks/useOrdersFilter';
-import type { ColumnKey } from '../OrdersTableV1/OrdersTable';
-import { createOrdersColumns } from '../OrdersTableV1/OrdersTable.columns';
-import { useTableLabelMappings } from '../OrdersTableV1/useTableLabelMappings';
-
-export interface ColumnSearchState {
-  [key: string]: string;
-}
+import { createOrdersColumns } from './orders-table.columns';
+import { useTableLabelMappings } from './useTableLabelMappings';
 
 export interface OrdersTableProps {
   orders: OrderReadableWithIndex[];
@@ -38,13 +34,14 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
 }) => {
   const { currentLanguage } = useAppConfig();
   const { getLabel } = useTableLabelMappings(currentLanguage);
+  const { getHeader } = useTableHeaders();
 
   const columns = useMemo<DataTableColumn<OrderReadableWithIndex>[]>(() => {
-    return createOrdersColumns(getLabel, (field: string) => field as ColumnKey, {
+    return createOrdersColumns(getLabel, getHeader, {
       onClickEdit,
       onClickDelete,
     });
-  }, [getLabel, onClickEdit, onClickDelete]);
+  }, [getLabel, getHeader, onClickEdit, onClickDelete]);
 
   const classNames: DataTableClassNames = {
     table: {

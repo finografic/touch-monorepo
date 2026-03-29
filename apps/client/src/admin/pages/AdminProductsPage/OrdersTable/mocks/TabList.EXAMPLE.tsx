@@ -12,8 +12,9 @@
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
+import type { ColumnDef } from '@tanstack/react-table';
+
 import {
-  type ColumnDef,
   type ColumnKey,
   type ColumnSearchState,
   OrdersTable,
