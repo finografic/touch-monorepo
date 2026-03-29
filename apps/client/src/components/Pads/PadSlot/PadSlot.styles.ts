@@ -86,7 +86,8 @@ export const styles = css`
       color: ${colors.secondary};
       border-color: ${colors.secondary};
       background-color: transparent;
-      cursor: default;
+      display: flex;
+      /* cursor: default; */
       &.checked,
       &.selected,
       &.active,
@@ -98,6 +99,11 @@ export const styles = css`
       }
       &:active {
         background-color: ${colors.secondaryLight};
+      }
+      &.disabled  {
+        color: ${colors.secondaryLight};
+        border-color: ${colors.secondaryLight};
+         filter: grayscale(0.15);
       }
     }
 

@@ -43,6 +43,10 @@ export const styles = css`
     width: 180px;
   }
 
+  .slot-item-alt {
+    pointer-events: none;
+  }
+
   .slot-legend {
     display: block;
     padding: 3rem 1.5rem;

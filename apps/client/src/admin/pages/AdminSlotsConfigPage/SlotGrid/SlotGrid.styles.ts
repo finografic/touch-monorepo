@@ -46,10 +46,6 @@ export const styles = css`
     display: flex;
   }
 
-  .slot-item-alt {
-    pointer-events: none;
-  }
-
   .slot-item-power {
     display: flex;
     flex-direction: column;
