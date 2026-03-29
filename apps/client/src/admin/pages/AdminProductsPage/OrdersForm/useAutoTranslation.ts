@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
 import { useAppConfig } from 'providers/AppConfigProvider';
-import { useContent } from 'providers/ContentProvider/ContentContext';
 
 // ============================================================================
 // Types
@@ -162,7 +161,10 @@ export const useAutoTranslation = (options: AutoTranslationOptions = {}) => {
    * This is useful for form submissions where you want to fill one language
    * and leave others for manual translation later
    */
-  const createTranslationTemplate = (text: string, fillCurrentLanguage = true): AutoTranslationResult => {
+  const createTranslationTemplate = (
+    text: string,
+    fillCurrentLanguage = true,
+  ): AutoTranslationResult => {
     const result: AutoTranslationResult = {};
 
     for (const lang of targetLanguages) {

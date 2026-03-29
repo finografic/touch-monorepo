@@ -6,7 +6,7 @@ import { Flex } from 'styled-system/jsx';
 import { Container } from '@finografic/design-system/grid';
 import { LucideArrowRightSquare } from 'lucide-react';
 
-import { useContent } from 'providers/ContentProvider/ContentContext';
+import { useMetadata } from 'providers/MetadataProvider/MetadataContext';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 
 import { ROUTE_FILTER_KEYS } from 'config/app';
@@ -18,11 +18,11 @@ const isPageSubtitleVisible = false;
 
 export const PageHeader: React.FC = () => {
   const { t } = useTranslation();
-  const { title } = useContent();
+  const { title } = useMetadata();
   const { route } = useRouteConfig();
 
   const getPageTitle = () => {
-    // If ContentProvider has a title set, use it (for admin pages, etc.)
+    // If Metadata has a title set, use it (for admin pages, etc.)
     if (title) {
       return title;
     }

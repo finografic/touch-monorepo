@@ -1,21 +1,20 @@
-import { useEffect, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useEffect } from 'react';
 
-import { useContent } from 'providers/ContentProvider/ContentContext';
+import { useMetadata } from 'providers/MetadataProvider/MetadataContext';
+import { useDocumentTitle } from 'hooks/useDocumentTitle';
 
 /**
- * Hook to set page title in ContentContext (for use in page components)
+ * Hook to set page title in Metadata (for use in page components)
  * This will automatically trigger document title update via useDocumentTitleSync
  *
  * @param titleKey - i18n key for the page title (e.g., "pages.main.title")
- *
  */
 export function usePageTitleKey(titleKey: string) {
-  const { setContentTitle } = useContent();
+  const { setMetadataTitle } = useMetadata();
 
   useEffect(() => {
-    setContentTitle(titleKey);
-  }, [titleKey, setContentTitle]);
+    setMetadataTitle(titleKey);
+  }, [titleKey, setMetadataTitle]);
 }
 
 /**
@@ -23,14 +22,13 @@ export function usePageTitleKey(titleKey: string) {
  * This will automatically trigger document title update via useDocumentTitleSync
  *
  * @param titleText - Direct title text (already translated)
- *
  */
 export function usePageTitleText(titleText: string) {
-  const { setContentTitle } = useContent();
+  const { setMetadataTitle } = useMetadata();
 
   useEffect(() => {
-    setContentTitle(titleText);
-  }, [titleText, setContentTitle]);
+    setMetadataTitle(titleText);
+  }, [titleText, setMetadataTitle]);
 }
 
 /**

@@ -12,7 +12,6 @@ import { UserToolbar } from 'components/Toolbars';
 import { useIsTouch } from 'hooks/useIsTouch';
 import { AdminProvider } from 'providers/AdminProvider/AdminProvider';
 import { useAppConfig } from 'providers/AppConfigProvider';
-import { ContentProvider } from 'providers/ContentProvider';
 import { FiltersProvider } from 'providers/FiltersProvider';
 import { LayoutUiProvider } from 'providers/LayoutUiProvider/LayoutUiProvider';
 import { OrdersProvider } from 'providers/OrdersProvider/OrdersProvider';
@@ -46,34 +45,32 @@ export const Layout: FC = () => {
         <PaginationProvider>
           <LayoutUiProvider>
             <AdminProvider>
-              <ContentProvider>
-                <DevProvider>
-                  <div
-                    id="layout"
-                    data-pathname={dataPathname}
-                    data-touch={isTouch}
-                    css={styles}
-                  >
-                    <Header titleAlign="center" toolbarAlign="right" toolbar={<UserToolbar />} />
-                    <main>
-                      <div className="main-content">
-                        <section>
-                          {/* <PageHeader /> */}
-                          <div className="page-content" role="main">
-                            <Suspense fallback={<Loader message={t('ui.states.loading')} />}>
-                              <Outlet />
-                            </Suspense>
-                          </div>
-                          <nav className="page-navigation">
-                            <FrontEndNavigation />
-                          </nav>
-                        </section>
-                      </div>
-                    </main>
-                    <Footer />
-                  </div>
-                </DevProvider>
-              </ContentProvider>
+              <DevProvider>
+                <div
+                  id="layout"
+                  data-pathname={dataPathname}
+                  data-touch={isTouch}
+                  css={styles}
+                >
+                  <Header titleAlign="center" toolbarAlign="right" toolbar={<UserToolbar />} />
+                  <main>
+                    <div className="main-content">
+                      <section>
+                        {/* <PageHeader /> */}
+                        <div className="page-content" role="main">
+                          <Suspense fallback={<Loader message={t('ui.states.loading')} />}>
+                            <Outlet />
+                          </Suspense>
+                        </div>
+                        <nav className="page-navigation">
+                          <FrontEndNavigation />
+                        </nav>
+                      </section>
+                    </div>
+                  </main>
+                  <Footer />
+                </div>
+              </DevProvider>
             </AdminProvider>
           </LayoutUiProvider>
         </PaginationProvider>

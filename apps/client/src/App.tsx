@@ -9,6 +9,7 @@ import { ToastProvider } from 'components/Toast/ToastContext';
 
 import { AppConfigProvider } from 'providers/AppConfigProvider';
 import { AuthProviderWithInitialization } from 'providers/AuthProvider';
+import { MetadataProvider } from 'providers/MetadataProvider';
 import { SessionProvider } from 'providers/SessionProvider/SessionProvider';
 import { TimersProvider } from 'providers/TimersProvider';
 import { ErrorBoundary } from 'routes/components/ErrorBoundary';
@@ -21,10 +22,11 @@ import { cssGlobal } from './styles/global.styles';
 const AppBaseLayout = () => (
   <ErrorBoundary>
     <Global styles={cssGlobal} />
-      <AppConfigProvider>
-        <ToastProvider>
-          <AuthProviderWithInitialization>
-            <SessionProvider>
+    <AppConfigProvider>
+      <ToastProvider>
+        <AuthProviderWithInitialization>
+          <SessionProvider>
+            <MetadataProvider>
               <TimersProvider>
                 <Toaster />
                 <Suspense fallback={<Spinner />}>
@@ -32,10 +34,11 @@ const AppBaseLayout = () => (
                 </Suspense>
                 <SnoozeTimer shouldDebounce={false} />
               </TimersProvider>
-            </SessionProvider>
-          </AuthProviderWithInitialization>
-        </ToastProvider>
-      </AppConfigProvider>
+            </MetadataProvider>
+          </SessionProvider>
+        </AuthProviderWithInitialization>
+      </ToastProvider>
+    </AppConfigProvider>
   </ErrorBoundary>
 );
 
@@ -51,12 +54,12 @@ const App = () => {
       children: isInitialized
         ? [...routesData.routes]
         : [
-            {
-              id: 'pending-routes',
-              path: '*',
-              element: <Spinner size={16} />,
-            },
-          ],
+          {
+            id: 'pending-routes',
+            path: '*',
+            element: <Spinner size={16} />,
+          },
+        ],
     },
   ]);
 

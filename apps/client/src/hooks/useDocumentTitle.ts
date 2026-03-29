@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { useContent } from 'providers/ContentProvider/ContentContext';
+import { useMetadata } from 'providers/MetadataProvider/MetadataContext';
 
 /**
  * Custom hook to manage document title with optional app suffix
@@ -44,14 +44,14 @@ export function useDocumentTitle(
 }
 
 /**
- * Hook that automatically syncs ContentContext title to document title
+ * Hook that automatically syncs Metadata title to document title
  * Uses i18n translations and integrates with your existing content management
  *
  * This should be used in Layout components, not individual pages
  *
  */
 export function useDocumentTitleSync() {
-  const { title } = useContent();
+  const { title } = useMetadata();
   const { t } = useTranslation();
 
   const translatedTitle = title ? t(title) : '';

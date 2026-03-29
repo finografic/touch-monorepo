@@ -15,7 +15,6 @@ export interface LayoutUiValues {
   [LayoutUiKeys.numPads]: number;
   [LayoutUiKeys.pads]: PadUI[];
   [LayoutUiKeys.padsFiltered]: PadUI[];
-  [LayoutUiKeys.selectedSlots]: SlotMeta[];
   [LayoutUiKeys.mainPageIsSelectMode]: boolean;
 }
 
@@ -30,9 +29,6 @@ type LayoutUiActions = LayoutUiSetters & {
   ) => void;
   updatePadState: (filterKey: FilterKey, updater: (pads: PadUI[]) => PadUI[]) => void;
   togglePad: (filterKey: FilterKey, padId: string, type: PadType) => void;
-  // MainPage selection actions
-  toggleMainPageSlot: (slot: SlotMeta) => void;
-  setSelectedSlots: (slots: SlotMeta[]) => void;
   handleRouteChange?: (params: HandleRouteChangeParams) => void;
 };
 
@@ -44,3 +40,12 @@ export interface LayoutUiProviderProps {
 export interface LayoutUiStore extends LayoutUiValues {
   actions: LayoutUiActions;
 }
+
+/** Slot selection is stored on Metadata and merged in `useLayoutUi` so it survives Admin navigation. */
+export type LayoutUiSlotSelection = {
+  selectedSlots: SlotMeta[];
+  toggleMainPageSlot: (slot: SlotMeta) => void;
+  setSelectedSlots: (slots: SlotMeta[]) => void;
+};
+
+export type LayoutUiReturn = (Omit<LayoutUiStore, 'actions'> & LayoutUiActions) & LayoutUiSlotSelection;

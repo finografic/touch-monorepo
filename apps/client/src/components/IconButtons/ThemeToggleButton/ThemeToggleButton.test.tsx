@@ -3,7 +3,7 @@ import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 
-import { ContentProvider } from 'providers/ContentProvider';
+import { AppConfigProvider } from 'providers/AppConfigProvider';
 
 import '@testing-library/jest-dom/vitest';
 
@@ -16,7 +16,7 @@ vi.mock('@finografic/icons', () => ({
 }));
 
 const TestWrapper = ({ children }: { children: React.ReactNode }) => (
-  <ContentProvider>{children}</ContentProvider>
+  <AppConfigProvider>{children}</AppConfigProvider>
 );
 
 describe('themeToggle', () => {

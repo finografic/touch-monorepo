@@ -4,16 +4,15 @@ import type { RegionLocale } from '@workspace/i18n';
 import { createStore, type StoreApi, useStore } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 import { useShallow } from 'zustand/react/shallow';
-import type { SlotMeta } from 'pages/MainPage/MainPage.types';
-
-import { ALT_SLOT_NUMBER } from 'config/app/slots.config';
 import { parsePadConfig } from 'utils/pads.utils';
 import type { DataEntry, Dataset } from 'types/data.types';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { PadConfig, PadType, PadUI } from 'types/pads.types';
 import type { FilterKey } from 'types/slots.types';
+import { MetadataContext } from 'providers/MetadataProvider/MetadataContext';
+
 import type { HandleRouteChangeParams } from './layout-ui-utils.types';
-import type { LayoutUiStore, LayoutUiValues } from './LayoutUiContext.types';
+import type { LayoutUiReturn, LayoutUiStore, LayoutUiValues } from './LayoutUiContext.types';
 
 export const DISPLAY_NAME = 'LayoutUi';
 export const SETTER_PREFIX = 'Ui';
@@ -23,7 +22,6 @@ export enum LayoutUiKeys {
   numPads = 'numPads',
   pads = 'pads',
   padsFiltered = 'padsFiltered',
-  selectedSlots = 'selectedSlots',
   mainPageIsSelectMode = 'mainPageIsSelectMode',
 }
 
@@ -32,7 +30,6 @@ export const defaultValue: LayoutUiValues = {
   numPads: 0,
   pads: [],
   padsFiltered: [],
-  selectedSlots: [],
   mainPageIsSelectMode: false,
 };
 
@@ -91,37 +88,6 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
               return { pads };
             });
           },
-          // MainPage selection actions
-          toggleMainPageSlot: (slot: SlotMeta) => {
-            set((state) => {
-              const selectedSlots = state.selectedSlots;
-              const isCurrentlySelected = selectedSlots.some(
-                (selectedSlot) => selectedSlot.slotNumber === slot.slotNumber,
-              );
-
-              if (isCurrentlySelected) {
-                return {
-                  selectedSlots: selectedSlots.filter(({ slotNumber }) => slotNumber !== slot.slotNumber),
-                };
-              }
-
-              // ALT slot (16) is mutually exclusive with all other free slots
-              const alt = ALT_SLOT_NUMBER;
-              const hasAltSelected = selectedSlots.some((s) => s.slotNumber === alt);
-              const hasNonAltSelected = selectedSlots.some((s) => s.slotNumber !== alt);
-              if (slot.slotNumber === alt && hasNonAltSelected) {
-                return state;
-              }
-              if (slot.slotNumber !== alt && hasAltSelected) {
-                return state;
-              }
-
-              return { selectedSlots: [...selectedSlots, { ...slot, isChecked: true }] };
-            });
-          },
-          setSelectedSlots: (slots: SlotMeta[]) => {
-            set({ selectedSlots: slots });
-          },
           handleRouteChange: ({
             filterKey,
             loaderData,
@@ -171,19 +137,38 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
   );
 });
 
-type LayoutUiReturn = Omit<LayoutUiStore, 'actions'> & LayoutUiStore['actions'];
-
 export const useLayoutUi = (): LayoutUiReturn => {
   const store = LayoutUiContext.useContext();
   if (!store) {
     throw new Error(`use${SETTER_PREFIX} must be used within a ${DISPLAY_NAME}Provider`);
   }
 
-  return useStore<StoreApi<LayoutUiStore>, LayoutUiReturn>(
+  const layoutSlice = useStore<StoreApi<LayoutUiStore>, Omit<LayoutUiStore, 'actions'> & LayoutUiStore['actions']>(
     store,
     useShallow(({ actions, ...state }) => ({
       ...state,
       ...actions,
     })),
   );
+
+  const metadataStore = MetadataContext.useContext();
+  if (!metadataStore) {
+    throw new Error('useLayoutUi must be used within a MetadataProvider');
+  }
+
+  const { selectedSlots, toggleSlot, setSelectedSlots } = useStore(
+    metadataStore,
+    useShallow((state) => ({
+      selectedSlots: state.selectedSlots,
+      toggleSlot: state.actions.toggleSlot,
+      setSelectedSlots: state.actions.setSelectedSlots,
+    })),
+  );
+
+  return {
+    ...layoutSlice,
+    selectedSlots,
+    toggleMainPageSlot: toggleSlot,
+    setSelectedSlots,
+  };
 };

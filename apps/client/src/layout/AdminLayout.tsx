@@ -14,7 +14,6 @@ import { useIsTouch } from 'hooks/useIsTouch';
 import { AdminProvider } from 'providers/AdminProvider/AdminProvider';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
-import { ContentProvider } from 'providers/ContentProvider';
 import { getPathnameClassName } from 'routes/utils/routes.utils';
 
 import { DevProvider } from 'dev-tools/providers/DevProvider/DevProvider';
@@ -38,15 +37,14 @@ export const AdminLayout: FC = () => {
 
   return (
     <AdminProvider>
-      <ContentProvider>
-        <DevProvider>
-          <div
-            id="admin-layout"
-            data-pathname={dataPathname}
-            data-touch={isTouch}
-            data-authenticated={isAuthenticated}
-            css={styles}
-          >
+      <DevProvider>
+        <div
+          id="admin-layout"
+          data-pathname={dataPathname}
+          data-touch={isTouch}
+          data-authenticated={isAuthenticated}
+          css={styles}
+        >
             <Header titleAlign="left" toolbarAlign="right" toolbar={<UserToolbar variant="dark" />} />
             <AdminNavigation />
             <main id="layout-main">
@@ -65,9 +63,8 @@ export const AdminLayout: FC = () => {
             </main>
             <Footer />
             <nav className="page-navigation">{/* optional navigation */}</nav>
-          </div>
-        </DevProvider>
-      </ContentProvider>
+        </div>
+      </DevProvider>
     </AdminProvider>
   );
 };

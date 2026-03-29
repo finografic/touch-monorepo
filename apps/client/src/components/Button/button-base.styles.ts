@@ -30,7 +30,6 @@ export const stylesButtonBase = css`
     background-color: ${colors.infoLighter};
   }
 
-  /* Override Radix UI disabled styles */
   :disabled,
   &.disabled,
   &[data-disabled='true'] {
@@ -42,7 +41,6 @@ export const stylesButtonBase = css`
     pointer-events: none;
     cursor: not-allowed;
 
-    /* Ensure hover states don't override */
     :hover,
     :active {
       color: ${colors.defaultLight};
