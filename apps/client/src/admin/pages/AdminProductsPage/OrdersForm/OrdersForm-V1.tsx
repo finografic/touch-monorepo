@@ -23,8 +23,7 @@ import {
   type OrdersFormValues as MiddlewareOrdersFormValues,
 } from 'forms/FormMiddleware/OrdersFormFieldConfigs';
 import { SelectCustom as Select } from 'forms/SelectCustom';
-// import { SelectSearchable } from 'forms/SelectSearchable/SelectSearchable';
-import { SelectSearchable } from '@finografic/design-system/forms';
+import { SelectSearchable } from 'forms/SelectSearchable/SelectSearchable';
 import { TemperatureInputField } from 'forms/TemperatureInputField';
 import { useToast } from 'components/Toast';
 

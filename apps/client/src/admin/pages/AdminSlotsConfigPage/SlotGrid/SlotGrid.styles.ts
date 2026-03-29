@@ -43,7 +43,11 @@ export const styles = css`
     border-radius: ${layout.borderRadius};
     row-gap: 1.5rem;
     height: 350px;
-    /* min-width: 100px; */
+    display: flex;
+  }
+
+  .slot-item-alt {
+    pointer-events: none;
   }
 
   .slot-item-power {

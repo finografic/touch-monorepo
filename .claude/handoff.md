@@ -54,7 +54,7 @@ No CLI. `panda codegen && panda cssgen` runs before every client dev/build.
 ## Status
 
 DS build pipeline fully working. All DS components build correctly; client imports from correct sub-paths.
-OrdersTable row-selection checkboxes working: CheckboxField in header (select-all) + each row cell.
+OrdersTable row-selection checkboxes working: ChecboxDS in header (select-all) + each row cell.
 Checkbox recipe fixed (success-light color, overflow:hidden, icon sizing, indeterminate toggle).
 Client `src/styles/css/Checkbox.css` holds Ark data-attribute overrides as immediate fix; DS rebuild
 will make the recipe changes permanent (run `pnpm build.design-system` from monorepo root).

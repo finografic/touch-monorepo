@@ -1,4 +1,4 @@
-import { Checkbox } from '@finografic/design-system/forms';
+import { CheckboxDS } from '@finografic/design-system/forms';
 import { EditIcon, TrashIcon } from '@finografic/icons';
 
 import type { ColumnDef } from '@tanstack/react-table';
@@ -38,7 +38,7 @@ export function createOrdersColumns(
     {
       id: 'select',
       header: ({ table }) => (
-        <Checkbox
+        <CheckboxDS
           checked={table.getIsAllPageRowsSelected()
             ? true
             : table.getIsSomePageRowsSelected()
@@ -49,7 +49,7 @@ export function createOrdersColumns(
         />
       ),
       cell: ({ row }) => (
-        <Checkbox
+        <CheckboxDS
           checked={row.getIsSelected()}
           onCheckedChange={({ checked }) => row.toggleSelected(!!checked)}
           size="sm"

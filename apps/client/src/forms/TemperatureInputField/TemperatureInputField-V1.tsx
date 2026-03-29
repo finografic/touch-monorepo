@@ -2,8 +2,7 @@ import React from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 
 import clsx from 'clsx';
-// import { InputNumber } from 'primereact/inputnumber';
-import { InputNumber } from '@finografic/design-system/forms';
+import { InputNumber } from 'primereact/inputnumber';
 
 import {
   DEFAULT_TEMP_MAX,
@@ -69,7 +68,7 @@ export const TemperatureInputField: React.FC<TemperatureInputFieldProps> = ({
       <InputNumber
         id={field.name}
         value={field.value}
-        onChange={(e) => {
+        onValueChange={(e) => {
           field.onChange(e.value);
           if (onChange) {
             onChange(e.value);
@@ -77,16 +76,16 @@ export const TemperatureInputField: React.FC<TemperatureInputFieldProps> = ({
         }}
         onBlur={field.onBlur}
         locale={locale}
-        showStepper
-        //  buttonLayout="stacked"
+        showButtons
+        buttonLayout="stacked"
         step={step}
         min={min}
         max={max}
-        precision={1}
-        // maxFractionDigits={1}
+        minFractionDigits={1}
+        maxFractionDigits={1}
         placeholder={placeholder}
         disabled={disabled}
-        // style={{ width: '100%' }}
+        style={{ width: '100%' }}
       />
       <span className="p-inputgroup-addon">°C</span>
     </div>

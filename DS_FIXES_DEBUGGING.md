@@ -82,6 +82,7 @@ Also added `_prepare: "panda codegen"` as a script alias for convenience (not us
 The `paths` array had 11 entries mapping bare module aliases (e.g. `components/*`, `forms/*`, `types/*`) to `./src/` subdirectories. These were used throughout DS source files instead of relative imports. While TypeScript understood them, tsdown's `unbundle` mode does **not** resolve `tsconfig.json` path aliases — it transpiles files individually like `tsc`, leaving alias strings verbatim in the output. When Vite processed the DS `dist/` during the client build, it saw unresolvable bare imports like `types/recipes.types`.
 
 **The fix:**
+
 - Removed all bare-module path aliases
 - Replaced them with relative imports throughout `src/` (`../../types/recipes.types`, etc.)
 - Kept only `@styled-system/*` → `./styled-system/*` because that alias is also declared in the client's Vite config (see Fix 5), making it a shared contract rather than an internal shortcut
@@ -156,18 +157,19 @@ export type { DialogContentPropsDS, DialogRootPropsDS, DialogSize } from '../com
 **What was wrong:**
 Several client files were importing components from the wrong DS sub-path after the DS refactor reorganised what lives in `components/` vs `forms/`:
 
-| File | Wrong import | Correct import |
-| ---- | ------------ | -------------- |
-| `GenericDialog.tsx` | `Dialog` from `forms`, `Tabs` from `components` separately | Both from `components` |
-| `LanguageDeleteDialog.tsx` | `Dialog` from `forms` | `Dialog` from `components` |
-| `LanguagesList.tsx` | `Switch` (compound) from `components` | `SwitchField` from `forms` |
-| `RelaysConnectionStatus.tsx` | `Switch` from `components` | `Switch` from `forms` |
-| `AdminSlotsConfigPage.tsx` | `Switch` from `components` | `Switch` from `forms` |
-| `OrdersTable.columns.tsx` | `CheckboxField` from `components` | `CheckboxField` from `forms` |
+| File                         | Wrong import                                               | Correct import             |
+| ---------------------------- | ---------------------------------------------------------- | -------------------------- |
+| `GenericDialog.tsx`          | `Dialog` from `forms`, `Tabs` from `components` separately | Both from `components`     |
+| `LanguageDeleteDialog.tsx`   | `Dialog` from `forms`                                      | `Dialog` from `components` |
+| `LanguagesList.tsx`          | `Switch` (compound) from `components`                      | `SwitchField` from `forms` |
+| `RelaysConnectionStatus.tsx` | `Switch` from `components`                                 | `Switch` from `forms`      |
+| `AdminSlotsConfigPage.tsx`   | `Switch` from `components`                                 | `Switch` from `forms`      |
+| `OrdersTable.columns.tsx`    | `ChecboxDS` from `components`                              | `ChecboxDS` from `forms`   |
 
 **Rule of thumb established:**
+
 - `@workspace/design-system/components` — layout, feedback, navigation, composition: Button, Badge, Card, Tabs, Menu, Popover, Toast, Tooltip, DataTable, Spinner, Dialog
-- `@workspace/design-system/forms` — all input/form components: Checkbox, CheckboxField, InputField, RadioGroup, Select, SelectSearchable, Slider, Switch, SwitchField
+- `@workspace/design-system/forms` — all input/form components: Checkbox, ChecboxDS, InputField, RadioGroup, Select, SelectSearchable, Slider, Switch, SwitchField
 
 ---
 
@@ -187,14 +189,14 @@ Removed `styled-system/**` from DS build outputs. The `@workspace/client#build` 
 
 These files were created during debugging and are not part of the final solution:
 
-| File | Purpose |
-| ---- | ------- |
-| `packages/design-system/tsdown.config-V1.ts` | Earlier single-config attempt with `platform: 'neutral'` and `@styled-system/*` in `neverBundle` |
-| `packages/design-system/tsdown.config-V2-ERR.ts` | Split config without `unbundle: true` — caused `@styled-system/*` unresolved errors |
-| `packages/design-system/package-V1.json` | Package snapshot before export map extension fix |
-| `packages/design-system/package-V2-ERR.json` | Package snapshot mid-debugging |
-| `TROUBLESHOOTING - ChatGPT.md` | Notes from external debugging session |
-| `TROUBLESHOOTING - Claude.ai.md` | Notes from external debugging session |
+| File                                             | Purpose                                                                                          |
+| ------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
+| `packages/design-system/tsdown.config-V1.ts`     | Earlier single-config attempt with `platform: 'neutral'` and `@styled-system/*` in `neverBundle` |
+| `packages/design-system/tsdown.config-V2-ERR.ts` | Split config without `unbundle: true` — caused `@styled-system/*` unresolved errors              |
+| `packages/design-system/package-V1.json`         | Package snapshot before export map extension fix                                                 |
+| `packages/design-system/package-V2-ERR.json`     | Package snapshot mid-debugging                                                                   |
+| `TROUBLESHOOTING - ChatGPT.md`                   | Notes from external debugging session                                                            |
+| `TROUBLESHOOTING - Claude.ai.md`                 | Notes from external debugging session                                                            |
 
 ---
 

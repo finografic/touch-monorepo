@@ -25,7 +25,7 @@ pnpm panda:mcp   # from packages/design-system/
 ```ts
 import { Button, Badge, Dialog, ... }  from '@workspace/design-system/components';
 import { Select, SelectDefault, SelectSearchable, InputField, InputNumber,
-         Checkbox, CheckboxField, RadioGroup, Slider, Switch, SwitchField,
+         Checkbox, ChecboxDS, RadioGroup, Slider, Switch, SwitchField,
          FieldBox, Label }             from '@workspace/design-system/forms';
 import { buttonRecipe, selectRecipe, ... } from '@workspace/design-system/recipes';
 import { colors }                      from '@workspace/design-system/tokens';
@@ -59,7 +59,7 @@ Use `FieldBox` to add label/hint/error layout around any control:
 ```tsx
 <FieldBox name="email" label="Email" hint="We'll never share this">
   <InputField.Root {...field} />
-</FieldBox>
+</FieldBox>;
 ```
 
 `FieldBox` auto-wires to `useFormContext()` when inside a `<FormProvider>`.

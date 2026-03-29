@@ -24,7 +24,7 @@
   }
 }
 
-/* Icon size by size variant (data-size set on the root by CheckboxField) */
+/* Icon size by size variant (data-size set on the root by ChecboxDS) */
 [data-scope='checkbox'][data-size='sm'] [data-part='control'] svg {
   width: 0.625rem;
   height: 0.625rem;

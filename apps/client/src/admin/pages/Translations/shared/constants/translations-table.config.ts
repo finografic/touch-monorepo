@@ -13,6 +13,6 @@ export const TD_PADDING = '0.5rem 2rem 0.6rem 2.2rem';
 export const TD_FONT_SIZE = '0.95rem';
 export const TD_FONT_WEIGHT = 600;
 
-export const TABLE_HEAD_COLOR = colors.infoXXXLight;
+export const TABLE_HEAD_COLOR = colors.infoLight;
 export const TABLE_BORDER_COLOR = colors.greyXXXLight;
 export const TABLE_BORDER = `1px solid ${TABLE_BORDER_COLOR}`;

@@ -28,17 +28,17 @@ export const styles = css`
 
     /* item-type-A/B/C: state-based styling only (no :hover — touch screens get stuck) */
     &.item-type-A {
-      color: ${colors.defaultXLight};
-      border-color: ${colors.defaultXLight};
+      color: ${colors.defaultLight};
+      border-color: ${colors.defaultLight};
       background-color: transparent;
       &.checked,
       &.selected,
       &.active,
       &[data-state='checked'],
       &[aria-checked='true'] {
-        color: ${colors.defaultDark};
-        border-color: ${colors.defaultDark};
-        background-color: ${colors.defaultXXLight};
+        color: ${colors.defaultXDark};
+        border-color: ${colors.defaultXDark};
+        background-color: ${colors.defaultLight};
       }
       &:active {
         background-color: ${colors.defaultXLight};
@@ -83,8 +83,8 @@ export const styles = css`
 
     /* ALT relay slot (SlotSpecial.ALT) — class item-type-Alt from enum value Alt */
     &.item-type-Alt {
-      color: ${colors.secondaryLight};
-      border-color: ${colors.secondaryLight};
+      color: ${colors.secondary};
+      border-color: ${colors.secondary};
       background-color: transparent;
       cursor: default;
       &.checked,

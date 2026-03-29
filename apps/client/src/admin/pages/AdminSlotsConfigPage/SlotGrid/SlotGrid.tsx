@@ -138,7 +138,15 @@ const SlotGridComponent: React.FC<SlotGridProps> = ({
   const secondarySpecialSlot = useMemo(() => {
     if (!(showSpecialSlot && showSpecialAltSlot)) return null;
 
-    return <SlotButton slotNumber={ALT_SLOT_NUMBER} slotType="C" label="(alt)" color="secondary" />;
+    return (
+      <SlotButton
+        slotNumber={ALT_SLOT_NUMBER}
+        className="slot-item-alt"
+        slotType="C"
+        label="(alt)"
+        color="secondary"
+      />
+    );
   }, [showSpecialSlot, showSpecialAltSlot, altSlotNumber]);
 
   return (
