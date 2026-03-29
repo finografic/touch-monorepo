@@ -24,10 +24,12 @@ export const SessionAndTimers = () => {
 
   return (
     <div id="dev-filter-results" css={styles}>
-      {/* <div className="filters">
+      {
+        /* <div className="filters">
         <h4>selectedSlots: {selectedSlots.length}:</h4>
         <pre>{JSON.stringify(selectedSlots, null, 2)}</pre>
-      </div> */}
+      </div> */
+      }
       <div className="filters">
         <h4>SELECTED SLOTS: {selectedSlots.length}:</h4>
         <pre>{JSON.stringify({ selectedSlots }, null, 2)}</pre>
@@ -38,7 +40,7 @@ export const SessionAndTimers = () => {
       </div>
 
       <div className="filters">
-        <h4>snooze:</h4>
+        <h4>snooze*:</h4>
         <pre>{JSON.stringify({ snooze }, null, 2)}</pre>
       </div>
       {showRecallInfo && (
@@ -47,16 +49,28 @@ export const SessionAndTimers = () => {
           <pre>{JSON.stringify({ recall }, null, 2)}</pre>
         </div>
       )}
-      {/* <div className="filters">
+      {
+        /* <div className="filters">
         <h4>orders: {orders.length}:</h4>
         <pre>{JSON.stringify(orders, null, 2)}</pre>
-      </div> */}
-      {/* <div className="filters">
+      </div> */
+      }
+      {
+        /* <div className="filters">
         <h4>Filters ({Object.keys(filters).length}):</h4>
         <pre>{JSON.stringify(filters?.temperature, null, 2)}</pre>
-      </div> */}
+      </div> */
+      }
+
       <div className="filters">
-        {previousSessions.length ? <h4>Sessions (previous) {Number(previousSessions.length)}:</h4> : null}
+        <h4>XXXX ({Object.entries(sessions).length}):</h4>
+        <pre>{JSON.stringify(activeSession, null, 2)}</pre>
+      </div>
+
+      <div className="filters">
+        {previousSessions.length
+          ? <h4>Sessions (previous) {Number(previousSessions.length)}:</h4>
+          : null}
         <h4>Session ({Object.keys(activeSession).length}):</h4>
         <pre>{JSON.stringify(activeSession, null, 2)}</pre>
       </div>

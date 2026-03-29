@@ -8,10 +8,10 @@ That's the low-level layer, and it's fine.
 ## What GenericDialog needs
 
 1. DS Dialog styled component (forms/Dialog/) — same compound structure with .ds-dialog__* CSS classes. The components/ version has no styling at all. The
-  forms/ version bakes in the panel look (backdrop, centered card, shadow, header/body/footer layout).
+   forms/ version bakes in the panel look (backdrop, centered card, shadow, header/body/footer layout).
 2. VisuallyHidden — Radix import. Replace with a one-liner utility in the DS: <span className="sr-only"> + CSS. Or add a tiny VisuallyHidden component.
 3. GenericDialog stays client-side — it's inherently app-specific (useAppConfig, tab config, your DialogConfig type). But it migrates to use DS Dialog
-instead of Radix.
+   instead of Radix.
 
 ## Type cleanup in DialogConfig
 
@@ -27,7 +27,7 @@ Ark: onOpenChange={({ open }) => ...} — needs to unwrap the object. One-line f
 
 # Portal container
 
-Radix has container={portalContainer} on Dialog.Content. Ark's Dialog.Positioner portals to document.body by default — no prop needed. The radix-portal-container lookup can go away.
+Radix has container={portalContainer} on Dialog.Content. Ark's Dialog.Positioner portals to document.body by default — no prop needed.
 
 # Recommended steps
 
@@ -35,6 +35,6 @@ Radix has container={portalContainer} on Dialog.Content. Ark's Dialog.Positioner
 2. Add VisuallyHidden to DS (tiny, reusable across Dialog + future uses)
 3. Migrate GenericDialog — swap imports, fix onOpenChange, drop container, clean DialogConfig types
 4. Migrate LanguageDeleteDialog — uses AlertDialog which maps to a Dialog variant (Ark has no separate AlertDialog — same Dialog with role="alertdialog"
-on Content)
+   on Content)
 
 Want to start building, or any changes to this approach first?

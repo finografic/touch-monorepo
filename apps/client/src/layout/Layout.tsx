@@ -71,7 +71,6 @@ export const Layout: FC = () => {
                       </div>
                     </main>
                     <Footer />
-                    <div id="radix-portal-container" />
                   </div>
                 </DevProvider>
               </ContentProvider>

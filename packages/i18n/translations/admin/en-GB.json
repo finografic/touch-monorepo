@@ -87,7 +87,7 @@
       },
       "slots": {
         "title": "Grid",
-        "description": "Configure MainPage grid layout and slot types"
+        "description": "Configure grid layout and slot types"
       },
       "sound": {
         "title": "Sound Management",

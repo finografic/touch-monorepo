@@ -22,6 +22,11 @@ export const styles = css`
     border-radius: ${layout.borderRadius};
   }
 
+  button {
+      box-shadow: none!important;
+      cursor: pointer;
+    }
+
   .slot-grid-item {
     button {
       cursor: pointer;

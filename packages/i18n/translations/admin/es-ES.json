@@ -86,8 +86,8 @@
         "description": "Seleccionar idioma por defecto"
       },
       "slots": {
-        "title": "Grid",
-        "description": "Configure MainPage grid layout and slot types"
+        "title": "Cuadrícula",
+        "description": "Configuración de la cuadrícula y tipos de ranuras"
       },
       "sound": {
         "title": "Gestión de sonidos",

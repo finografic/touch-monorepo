@@ -56,17 +56,23 @@ export const styles = css`
     }
 
     &.border-solid {
-      border: ${layout.borderWidth} solid ${colors.greyXXXLight};
+      border: ${layout.borderWidth} solid ${colors.transparent};
       padding: var(--spacing-5);
       border-radius: ${layout.borderRadius};
     }
 
-    &.has-error {
-      border: ${layout.borderWidth} solid ${colors.dangerLight};
-    }
-
     &:not(.border-solid) {
       margin-top: 0;
+    }
+
+    ${min['2xl']} {
+      &.border-solid {
+        border: ${layout.borderWidth} solid ${colors.greyXXLight};
+      }
+    }
+
+    &.has-error {
+      border: ${layout.borderWidth} solid ${colors.dangerLight};
     }
 
     padding-bottom: 2.25rem !important;
@@ -92,13 +98,7 @@ export const styles = css`
       .admin-section-content {
         padding: var(--spacing-6) var(--spacing-7)!important;
         margin: var(--spacing-6) calc(-1 * var(--spacing-6)) 0;
-        /* background: pink; */
-        /* margin: 0.5rem 0; */
       }
     }
-
-    /* Ensure overflow is visible for paginated tables */
-    /* overflow: visible; */
-    /* min-height: 0; */
   }
 `;

@@ -32,8 +32,8 @@ import { AdminSection } from '../../components/AdminSection/AdminSection';
 import { SlotGrid } from './SlotGrid/SlotGrid';
 import { styles } from './AdminSlotsConfigPage.styles';
 import { getSpecialSlotSwitchPalette, relayConfigForSpecialSlot } from 'utils/slots.utils';
+import { useTranslation } from 'react-i18next';
 
-// Types for form values
 interface SlotConfigFormValue {
   slotNumber: number;
   slotType: SlotType;
@@ -47,6 +47,7 @@ interface SlotConfigForm {
 }
 
 export const AdminSlotsConfigPage: React.FC = () => {
+  const { t } = useTranslation();
   const { data: slotConfigs, isLoading, error } = useGetSlotConfigurations();
   const bulkUpdateMutation = useBulkUpdateSlotConfigurations();
   const { toast } = useToast();
@@ -239,8 +240,8 @@ export const AdminSlotsConfigPage: React.FC = () => {
     <>
       <FormProvider {...methods}>
         <AdminPageLayout
-          title="Slot Configuration"
-          subtitle="Main page grid layout"
+          title={t('admin.pages.slots.title')}
+          subtitle={t('admin.pages.slots.description')}
           isLoading={isLoading}
           error={getQueryErrorMessage(error)}
           styles={styles}

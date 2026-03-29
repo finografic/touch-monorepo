@@ -86,8 +86,8 @@
         "description": "Seleccionar idioma per defecte"
       },
       "slots": {
-        "title": "Graella",
-        "description": "Configurar la disposició de la graella de la pàgina principal i tipus de ranures"
+        "title": "Quadrícula",
+        "description": "Configurar la disposició de la quadrícula i tipus de ranures"
       },
       "sound": {
         "title": "Gestió de Sons",
