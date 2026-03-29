@@ -83,8 +83,8 @@ export const styles = css`
 
     /* ALT relay slot (SlotSpecial.ALT) — class item-type-Alt from enum value Alt */
     &.item-type-Alt {
-      color: ${colors.secondary};
-      border-color: ${colors.secondary};
+      color: ${colors.secondaryLight};
+      border-color: ${colors.secondaryLight};
       background-color: transparent;
       display: flex;
       /* cursor: default; */
