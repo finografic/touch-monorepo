@@ -195,7 +195,7 @@ export const RelaysEndpoints = {
    */
   initialize: async (): Promise<{ success: boolean; message: string }> => {
     try {
-      return await api.post<{ success: boolean; message: string }>('/relay/initialize');
+      return await api.post<{ success: boolean; message: string }>('/relay/init');
     } catch (error) {
       throw transformFetchError(error);
     }

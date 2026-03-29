@@ -5,7 +5,7 @@ import { Flex } from 'styled-system/jsx';
 
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { useTimers } from 'providers/TimersProvider';
-import { useGetRelayStatus, useToggleRelay } from 'queries/relays';
+import { useRelayConnection, useToggleRelay } from 'queries/relays';
 import { useBulkUpdateSlotConfigurations } from 'queries/slot-configurations';
 
 import type { SelectOption } from 'types/models/select-option.model';
@@ -37,9 +37,8 @@ export const RelaysTable: React.FC<RelaysTableProps> = ({
   const { timers, defrost } = useTimers();
   const { isPowerEnabled, isRelayFunctionalityEnabled } = useAppConfig();
 
-  // Get connection status to determine if test buttons should be enabled
-  const { data: relayStatus } = useGetRelayStatus();
-  const isConnected = relayStatus?.connected ?? false;
+  // Get connection status from store to determine if test buttons should be enabled
+  const { connected: isConnected } = useRelayConnection();
 
   // Test buttons are enabled if: functionality enabled AND connected
   const canTest = isRelayFunctionalityEnabled && isConnected;

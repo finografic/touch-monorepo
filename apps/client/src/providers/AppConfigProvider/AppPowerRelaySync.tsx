@@ -10,7 +10,7 @@ import { useAppConfig } from './AppConfigContext';
 export const AppPowerRelaySync = () => {
   const { isPowerEnabled } = useAppConfig();
   const { data: slotConfigurations, isLoading } = useGetSlotConfigurations();
-  const toggleRelayMutation = useToggleRelay();
+  const { mutate: toggleRelay } = useToggleRelay();
 
   // Track previous state to avoid unnecessary API calls
   const prevPowerStateRef = useRef<boolean | null>(null);
@@ -36,7 +36,7 @@ export const AppPowerRelaySync = () => {
         prevPowerStateRef.current = isPowerEnabled;
 
         // Set initial relay state based on current isPowerEnabled
-        toggleRelayMutation.mutate({
+        toggleRelay({
           slotNumber: relayNumber,
           state: isPowerEnabled,
         });
@@ -47,13 +47,13 @@ export const AppPowerRelaySync = () => {
       if (prevPowerStateRef.current !== isPowerEnabled) {
         prevPowerStateRef.current = isPowerEnabled;
 
-        toggleRelayMutation.mutate({
+        toggleRelay({
           slotNumber: relayNumber,
           state: isPowerEnabled,
         });
       }
     },
-    [isPowerEnabled, relayNumber, toggleRelayMutation, isLoading, slotConfigurations],
+    [isPowerEnabled, relayNumber, toggleRelay, isLoading, slotConfigurations],
   );
 
   return null;

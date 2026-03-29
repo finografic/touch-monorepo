@@ -17,6 +17,7 @@ import { useRouteMetadata } from 'routes/providers/RouteMetadataContext';
 
 import 'primereact/resources/themes/lara-light-indigo/theme.css'; // theme
 import 'primereact/resources/primereact.min.css'; // core css
+import 'queries/relays/relay.store'; // bootstrap relay connection polling
 import { cssGlobal } from './styles/global.styles';
 
 const AppBaseLayout = () => (

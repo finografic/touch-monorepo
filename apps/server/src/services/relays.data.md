@@ -1,10 +1,12 @@
+# USB Relay — Hardware Enumeration Data
 
+Raw output from macOS USB enumeration tools, captured Dec 6, 2025.
+Two USBRelay8 boards connected simultaneously (Vendor `0x16c0`, Product `0x05df`).
+See also: `/docs/relays/hardware.md`
 
-📅 Dec 6, 2025
+---
 
-------------
-
-$ system_profiler SPUSBDataType
+## system_profiler SPUSBDataType
 
 
 
@@ -35,10 +37,9 @@ $ system_profiler SPUSBDataType
 
 
 
--------------------
+---
 
-
-$ ioreg -p IOUSB -l -w 0
+## ioreg -p IOUSB -l -w 0
 
 
 

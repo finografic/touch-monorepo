@@ -4,11 +4,9 @@ import { SwitchDS } from '@finografic/design-system/forms';
 
 import { Flex } from 'styled-system/jsx';
 import { Button } from 'components/Button';
-import { Loader } from 'components/Loader/Loader';
 
-import { getQueryErrorMessage, isRelayNetworkLikeError } from 'api/relay-query.utils';
 import { useAppConfig } from 'providers/AppConfigProvider';
-import { useGetRelayStates, useGetRelayStatus } from 'queries/relays';
+import { probeRelayConnection, useRelayConnection } from 'queries/relays';
 
 import { useRelayHandlers } from '../useRelayHandlers';
 
@@ -19,49 +17,28 @@ import { useRelayHandlers } from '../useRelayHandlers';
 export const RelaysConnectionStatus: React.FC = () => {
   const { handlers, mutations } = useRelayHandlers();
 
-  // Global relay functionality state from AppConfig
   const { isRelayFunctionalityEnabled, toggleRelayFunctionality } = useAppConfig();
 
-  // Call hooks directly - this component owns connection status!
-  const {
-    isLoading: isLoadingStates,
-    isPollingEnabled: statesPollingEnabled,
-    error: statesError,
-    enablePolling: enableStatesPolling,
-  } = useGetRelayStates();
-
-  const { data: relayStatus } = useGetRelayStatus();
+  // Reads from the vanilla relay.store — re-renders only on connection changes
+  const { connected, port, message, networkError } = useRelayConnection();
 
   // ========================================================================
-  // Loading State
+  // Network Error State (server unreachable)
   // ========================================================================
 
-  if (isLoadingStates) {
-    return <Loader message="Loading relay states..." />;
-  }
-
-  // ========================================================================
-  // Error State
-  // ========================================================================
-
-  if (statesError) {
-    const errorMessage = getQueryErrorMessage(statesError) ?? 'Unknown error';
-    const isNetworkError = isRelayNetworkLikeError(statesError);
-
+  if (networkError) {
     return (
       <Flex direction="column" gap={4} align="center" py={6}>
-        <span>{isNetworkError ? '🔴 Server Unavailable' : '⚠️ Connection Error'}</span>
+        <span>🔴 Server Unavailable</span>
         <span style={{ maxWidth: '600px' }}>
-          {isNetworkError
-            ? 'The development server appears to be stopped. Polling has been disabled to prevent conflicts.'
-            : `Error loading relay states: ${errorMessage}`}
+          The development server appears to be stopped. Connection probing will resume automatically.
         </span>
         <Flex gap={3} align="center">
-          <Button onClick={() => enableStatesPolling()} variant="solid" color="info">
+          <Button onClick={() => probeRelayConnection()} variant="solid" color="info">
             🔄 Retry Connection
           </Button>
-          <Badge variant="soft" palette={statesPollingEnabled ? 'success' : 'danger'} size="lg">
-            Polling: {statesPollingEnabled ? 'Active' : 'Disabled'}
+          <Badge variant="soft" palette="danger" size="lg">
+            Polling: Active
           </Badge>
         </Flex>
       </Flex>
@@ -76,19 +53,18 @@ export const RelaysConnectionStatus: React.FC = () => {
     <Flex justify="space-between" align="center">
       <Flex direction="column" gap={2}>
         <Flex align="center" gap={3} className="status-buttons">
-          <Badge variant="soft" palette={relayStatus?.connected ? 'success' : 'danger'} size="lg">
-            {relayStatus?.connected ? 'Connected' : 'Disconnected'}
+          <Badge variant="soft" palette={connected ? 'success' : 'danger'} size="lg">
+            {connected ? 'Connected' : 'Disconnected'}
           </Badge>
-          <Badge variant="soft" palette={statesPollingEnabled ? 'success' : 'danger'} size="lg">
-            Polling: {statesPollingEnabled ? 'Active' : 'Disabled'}
+          <Badge variant="soft" palette="success" size="lg">
+            Polling: Active
           </Badge>
 
-          {relayStatus?.port && <span>Port: {relayStatus.port}</span>}
-          {relayStatus?.message && <span>Message: {relayStatus.message}</span>}
+          {port && <span>Port: {port}</span>}
+          {message && <span>Message: {message}</span>}
         </Flex>
       </Flex>
       <Flex align="center" gap={3}>
-        {/* Global relay functionality toggle */}
         <Flex gap={2} align="center" pr={2}>
           <span>Relay Functionality</span>
           <SwitchDS
@@ -100,17 +76,16 @@ export const RelaysConnectionStatus: React.FC = () => {
         </Flex>
 
         <Button
-          onClick={() => handlers.reconnect(relayStatus)}
-          disabled={!isRelayFunctionalityEnabled || mutations.reconnect.isPending
-            || mutations.disconnect.isPending}
+          onClick={() => handlers.reconnect({ connected })}
+          disabled={!isRelayFunctionalityEnabled || mutations.reconnect.isPending || mutations.disconnect.isPending}
           variant="outline"
           size="sm"
         >
           {mutations.reconnect.isPending || mutations.disconnect.isPending
-            ? relayStatus?.connected
+            ? connected
               ? 'Disconnecting...'
               : 'Reconnecting...'
-            : relayStatus?.connected
+            : connected
             ? 'Disconnect'
             : 'Reconnect'}
         </Button>

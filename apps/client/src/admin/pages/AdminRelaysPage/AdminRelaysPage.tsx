@@ -32,21 +32,20 @@ export const AdminRelaysPage: React.FC = () => {
     isLoading: isLoadingSlotConfigurations,
   } = useGetSlotConfigurations();
 
-  // Initialize relay service on mount - only if relay functionality is enabled
-  const initializeRelayMutation = useInitializeRelay();
+  // Initialize relay service on mount - only if relay functionality is enabled.
+  // Destructure `mutate` so the effect dep is a stable function ref, not the
+  // full mutation result object (which changes on every render).
+  const { mutate: initializeRelay } = useInitializeRelay();
   useEffect(() => {
     if (isRelayFunctionalityEnabled) {
-      initializeRelayMutation.mutate();
+      initializeRelay();
     }
-  }, [isRelayFunctionalityEnabled, initializeRelayMutation]);
+  }, [isRelayFunctionalityEnabled, initializeRelay]);
 
   // Use custom hook for all relay handlers
   const { handlers, mutations } = useRelayHandlers();
 
-  // Use stable wrapper hook that only updates when isOn values actually change
-  // This prevents cascading re-renders throughout the page
-  // Note: useGetRelayStates is called in RelaysStatus component for status display
-  // React Query will deduplicate the calls automatically
+  // One-time read on mount; mutations invalidate the query key to refresh
   const { data: relayStates, isLoading: isLoadingStates } = useStableRelayStates();
 
   // Stabilize mutation pending state to prevent unnecessary re-renders

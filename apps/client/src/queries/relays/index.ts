@@ -1,18 +1,23 @@
-export type { DisconnectRelayResponse } from './useDisconnectRelay';
+export type {
+  BulkRelayResponse,
+  DisconnectRelayResponse,
+  ReconnectResponse,
+  RelayState,
+  RelayStatus,
+  ToggleRelayResponse,
+} from 'api/endpoints';
 export { useDisconnectRelay } from './useDisconnectRelay';
 export { useGetRelayState } from './useGetRelayState';
-export type { RelayState } from './useGetRelayStates';
 export { useGetRelayStates } from './useGetRelayStates';
 export { useGetRelayStatus } from './useGetRelayStatus';
 export { useInitializeRelay } from './useInitializeRelay';
-export type { ReconnectResponse } from './useReconnectRelay';
 export { useReconnectRelay } from './useReconnectRelay';
+export type { RelayConnectionState } from './relay.store';
+export { probeRelayConnection, relayConnectionStore } from './relay.store';
+export { useRelayConnection } from './useRelayConnection';
 export { useStableRelayStates } from './useStableRelayStates';
-export type { ToggleRelayResponse } from './useToggleRelay';
 export { useToggleRelay } from './useToggleRelay';
-export type { BulkRelayResponse as BulkRelayOffResponse } from './useTurnAllRelaysOff';
 export { useTurnAllRelaysOff } from './useTurnAllRelaysOff';
-export type { BulkRelayResponse as BulkRelayOnResponse } from './useTurnAllRelaysOn';
 export { useTurnAllRelaysOn } from './useTurnAllRelaysOn';
 
 export const GET_RELAY_STATUS_QUERYKEY = ['get-relay-status'] as const;

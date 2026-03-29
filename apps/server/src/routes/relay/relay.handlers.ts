@@ -122,9 +122,7 @@ export const getRelayStatus: AppHandler = async (context) => {
 
 export const turnAllRelaysOn: AppHandler = async (context) => {
   try {
-    for (let i = 1; i <= relayConfig.numRelays; i++) {
-      await USBRelayService.toggleRelay(i, true);
-    }
+    await USBRelayService.turnAllRelaysOn();
 
     return context.json({
       success: true,
@@ -145,9 +143,7 @@ export const turnAllRelaysOn: AppHandler = async (context) => {
 
 export const turnAllRelaysOff: AppHandler = async (context) => {
   try {
-    for (let i = 1; i <= relayConfig.numRelays; i++) {
-      await USBRelayService.toggleRelay(i, false);
-    }
+    await USBRelayService.turnAllRelaysOff();
 
     return context.json({
       success: true,
