@@ -1,6 +1,6 @@
 # Main pad / slot styling (inheritance)
 
-Single source for **relay slot** appearance: `PadSlot.styles.ts` (`styles`), merged **after** base checkbox chrome in `Pad.styles.ts` (`padStyles` → `stylesPad` → `stylesButtonBase`).
+Single source for **relay slot** appearance: `PadSlot.styles.ts` (`styles`), merged **after** base checkbox chrome in `PadBasic.styles.ts` (`padStyles` → `stylesPad` → `stylesButtonBase`).
 
 ## Mermaid: idle checkbox path (main grid pad)
 
@@ -13,7 +13,7 @@ flowchart TB
   R --> C["className: pad · checkbox · pad-slot · item-type-{A|B|C|Alt} · pad-large? · pad-special-*? · status-*"]
   R --> E["css: [ padStyles, PadSlot.styles ]"]
 
-  subgraph padStyles["padStyles (Pad.styles.ts)"]
+  subgraph padStyles["padStyles (PadBasic.styles.ts)"]
     P1["&.pad"]
     P2["stylesPad (PadBasic.styles.ts)"]
     P3["stylesButtonBase (button-base.styles.ts)"]

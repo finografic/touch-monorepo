@@ -1,3 +1,13 @@
+/**
+ * Pad styling — single module for shared pad tokens and Emotion chunks.
+ *
+ * | Export | Role |
+ * | ------ | ---- |
+ * | `padProps` | Width/height tokens for grid pads, large pads, specials (used by slot/power/grid scaling). |
+ * | `stylesPad` | Core checkbox/radio/button look: `stylesButtonBase` + pad typography + checked state. |
+ * | `padStyles` | Wraps `stylesPad` under `&.pad` + border-radius + `user-select` — what `PadCheckbox` / `PadRadio` / `PadButton` apply. Merge slot chrome **after** this: `[padStyles, PadSlot.styles]`. |
+ * | `stylesPadBasic` | Separate: numeric / time / temperature UIs (containers, value strip, step buttons) — not main-grid pads. |
+ */
 import { colors, layout } from '@finografic/design-system/tokens';
 
 import { css } from '@emotion/react';
@@ -27,10 +37,6 @@ export const stylesPad = css`
   padding: 0.4rem;
   text-align: center;
 
-  &.pad-slot {
-    border-radius: 50%;
-  }
-
   &.checked,
   &[data-state='checked'],
   &[aria-checked='true'] {
@@ -40,6 +46,16 @@ export const stylesPad = css`
   }
 
   /* Disabled styles inherited from stylesButtonBase */
+`;
+
+/** Applied to `Pad` variants (checkbox / radio / button) — merge with `PadSlot.styles` on main grid. */
+export const padStyles = css`
+  &.pad {
+    ${stylesPad}
+
+    border-radius: 8px;
+    user-select: none;
+  }
 `;
 
 /**

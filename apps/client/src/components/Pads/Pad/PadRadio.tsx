@@ -7,7 +7,7 @@ import { useLayoutUi } from 'providers/LayoutUiProvider';
 
 import { PAD_TYPE } from 'types/pads.types';
 import type { PadProps } from './Pad';
-import { padStyles } from './Pad.styles';
+import { padStyles } from './PadBasic.styles';
 
 export const PadRadio: React.FC<PadProps> = ({
   filterKey,

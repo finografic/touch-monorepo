@@ -46,7 +46,7 @@ Components that use `checked` / `selected` + `:hover` and may appear on the Pi f
 |------|------|--------|
 | **MainPageSlotGrid.styles.ts** | Power button on main page | **Fixed** — state-based selectors only |
 | **LanguageSelector.styles.ts** | Language radio in UserToolbar dialog | **Fixed** — state-based selectors only |
-| **PadPower.styles.ts** | Power pad | Unused — PadPower uses PadSlot.styles |
+| **PadSlot.styles.ts** (`&.power`) | Power pad on main grid | Success hover/checked (overrides button-base info hover) |
 
 ### Other Components (Admin / Forms — Lower Pi Priority)
 

@@ -86,8 +86,6 @@ export const styles = css`
       color: ${colors.secondaryLight};
       border-color: ${colors.secondaryLight};
       background-color: transparent;
-      /* display: flex; */
-      /* cursor: default; */
       &.checked,
       &.selected,
       &.active,
@@ -122,6 +120,35 @@ export const styles = css`
       }
     }
     /* pad-special-alt className = layout hook in MainSlotGrid; ALT colors use item-type-Alt. */
+
+    /* Power pad (PadPower): success/green — overrides stylesButtonBase :hover (info) and
+       stylesPad checked (info). The power class is on the same node as pad / pad-slot. */
+    &.power {
+      color: ${colors.successXLight};
+      border-color: ${colors.successXLight};
+      background-color: transparent;
+
+      &:hover {
+        color: ${colors.successDark};
+        border-color: ${colors.successDark};
+        /* background-color: ${colors.successLight}; */
+      }
+
+      &.checked,
+      &.selected,
+      &[data-state='checked'],
+      &[aria-checked='true'] {
+        color: ${colors.successDark};
+        border-color: ${colors.successDark};
+        background-color: ${colors.successXLight};
+      }
+
+      &:active:not(:disabled) {
+        color: ${colors.successDark};
+        border-color: ${colors.successDark};
+        background-color: ${colors.successLight};
+      }
+    }
 
     /* ====================================================================== */
 

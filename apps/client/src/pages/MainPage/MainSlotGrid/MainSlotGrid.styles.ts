@@ -72,14 +72,14 @@ export const styles = css`
         border-color: ${colors.successLight};
 
         /* State-based only (no :hover — touch screens get stuck) */
-        &.checked,
+        /* &.checked,
         &.selected,
         &[data-state='checked'],
         &[aria-checked='true'] {
           color: ${colors.successDark};
           border-color: ${colors.successDark};
           background-color: ${colors.successXXXLight};
-        }
+        } */
       }
     }
 
