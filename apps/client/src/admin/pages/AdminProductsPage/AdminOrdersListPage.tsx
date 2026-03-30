@@ -2,7 +2,8 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Flex } from 'styled-system/jsx';
-import { Button } from 'components/Button';
+// import { Button } from 'components/Button';
+import { Button } from '@finografic/design-system/components';
 import { useToast } from 'components/Toast';
 
 import { useDeleteOrder, useGetOrdersReadable } from 'queries/orders';
@@ -120,11 +121,11 @@ export const AdminOrdersListPage: React.FC = () => {
       headerActions={
         <Flex gap={2} align="center">
           {selectedOrders.length > 0 && (
-            <Button color="danger" onClick={handleDeleteSelected}>
+            <Button variant="solid" palette="danger" onClick={handleDeleteSelected}>
               Delete Selected ({selectedOrders.length})
             </Button>
           )}
-          <Button color="success" onClick={handleCreateNew}>
+          <Button variant="solid" palette="success" onClick={handleCreateNew}>
             + Create New
           </Button>
         </Flex>

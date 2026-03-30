@@ -4,7 +4,8 @@ import { Spinner } from '@finografic/design-system/components';
 
 import { OrdersForm } from 'admin/pages/AdminProductsPage/OrdersForm';
 import { Flex } from 'styled-system/jsx';
-import { Button } from 'components/Button';
+// import { Button } from 'components/Button';
+import { Button } from '@finografic/design-system/components';
 import { useToast } from 'components/Toast';
 
 import { useGetModes } from 'queries/modes';
@@ -83,32 +84,36 @@ export const AdminOrderEditPage: React.FC = () => {
       subtitle={subtitle}
       headerActions={
         <>
-          <Button variant="outline" color="default" onClick={() => navigate('/admin/items')}>
+          <Button variant="outline" palette="default" onClick={() => navigate('/admin/items')}>
             Cancelar
           </Button>
-          <Button color="success" type="submit" form="order-form">
+          <Button variant="solid" palette="success" type="submit" form="order-form">
             {isEditMode ? 'CONFIRM CHANGES' : 'GUARDAR'}
           </Button>
         </>
       }
     >
       <AdminSection isLoading={isLoading} variant="none">
-        {isLoading && isEditMode ? (
-          <Flex direction="column" gap={4} align="center" justify="center" p={6}>
-            <Spinner />
-            <span>Loading order data...</span>
-          </Flex>
-        ) : orderError ? (
-          <Flex direction="column" gap={4} align="center" justify="center" p={6}>
-            <span>Error loading order: {orderError.message}</span>
-          </Flex>
-        ) : (
-          <OrdersForm
-            onSubmit={handleSubmit}
-            orderData={isEditMode ? orderData : undefined}
-            isEditMode={isEditMode}
-          />
-        )}
+        {isLoading && isEditMode
+          ? (
+            <Flex direction="column" gap={4} align="center" justify="center" p={6}>
+              <Spinner />
+              <span>Loading order data...</span>
+            </Flex>
+          )
+          : orderError
+          ? (
+            <Flex direction="column" gap={4} align="center" justify="center" p={6}>
+              <span>Error loading order: {orderError.message}</span>
+            </Flex>
+          )
+          : (
+            <OrdersForm
+              onSubmit={handleSubmit}
+              orderData={isEditMode ? orderData : undefined}
+              isEditMode={isEditMode}
+            />
+          )}
       </AdminSection>
     </AdminPageLayout>
   );

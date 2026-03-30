@@ -9,7 +9,7 @@ import type { OrderReadableWithIndex } from '../hooks/useOrdersFilter';
 // ── Recipe instances — stable strings, computed once ──────────────────────────
 
 const editClasses = button({ size: 'xs', variant: 'ghost' });
-const deleteClasses = button({ size: 'xs', variant: 'ghost', palette: 'danger' });
+const deleteClasses = button({ size: 'xs', variant: 'ghost' });
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -44,14 +44,14 @@ export function createOrdersColumns(
             : table.getIsSomePageRowsSelected()
             ? 'indeterminate'
             : false}
-          onCheckedChange={({ checked }) => table.toggleAllPageRowsSelected(!!checked)}
+          onChange={(newChecked) => table.toggleAllPageRowsSelected(!!newChecked)}
           size="sm"
         />
       ),
       cell: ({ row }) => (
         <CheckboxDS
           checked={row.getIsSelected()}
-          onCheckedChange={({ checked }) => row.toggleSelected(!!checked)}
+          onChange={(newChecked) => row.toggleSelected(!!newChecked)}
           size="sm"
         />
       ),

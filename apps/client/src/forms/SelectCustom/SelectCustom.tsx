@@ -77,11 +77,13 @@ export const SelectCustom = forwardRef<HTMLInputElement, SelectCustomProps>(
       inputRef.current?.blur();
     };
 
-    const handleInputClick = () => {
-      if (!disabled) {
-        setIsOpen(true);
-        setFocusedIndex(-1);
+    const handleToggleOpen = () => {
+      if (disabled) {
+        return;
       }
+
+      setIsOpen((open) => !open);
+      setFocusedIndex(-1);
     };
 
     const handleCloseDropdown = () => {
@@ -140,7 +142,7 @@ export const SelectCustom = forwardRef<HTMLInputElement, SelectCustomProps>(
             ref={inputRef}
             value={displayText}
             readOnly
-            onClick={handleInputClick}
+            onClick={handleToggleOpen}
             onKeyDown={handleKeyDown}
             placeholder={placeholder}
             disabled={disabled}
@@ -148,8 +150,9 @@ export const SelectCustom = forwardRef<HTMLInputElement, SelectCustomProps>(
           >
             <InputField.Slot
               side="right"
+              interactive
               className={clsx('input-slot-right', isOpen && 'open')}
-              onClick={handleInputClick}
+              onClick={handleToggleOpen}
               onKeyDown={handleKeyDown}
               style={{
                 cursor: disabled ? 'not-allowed' : 'pointer',

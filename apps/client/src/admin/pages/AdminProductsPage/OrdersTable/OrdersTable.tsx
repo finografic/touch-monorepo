@@ -3,7 +3,7 @@ import type { DataTableClassNames, DataTableColumn } from '@finografic/design-sy
 import { DataTable } from '@finografic/design-system/components';
 
 import { useTableHeaders } from 'admin/hooks/useTableHeaders';
-import { button, input, table } from 'styled-system/recipes';
+import { button, table } from 'styled-system/recipes';
 
 import { useAppConfig } from 'providers/AppConfigProvider';
 
@@ -21,7 +21,6 @@ export interface OrdersTableProps {
 }
 
 const cssTable = table({ size: 'md', striped: true, stickyHeader: true });
-const cssFilter = input({ size: 'sm' });
 const cssPagination = button({ size: 'xs', variant: 'ghost' });
 
 export const OrdersTable: React.FC<OrdersTableProps> = ({
@@ -58,7 +57,6 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
       emptyState: cssTable.emptyState,
       caption: cssTable.caption,
     },
-    filterInput: cssFilter,
     paginationButton: cssPagination,
   };
 
