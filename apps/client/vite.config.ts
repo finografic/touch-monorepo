@@ -83,8 +83,8 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
 
       headers: {
         'Cache-Control': 'no-cache, no-store, must-revalidate',
-        'Pragma': 'no-cache',
-        'Expires': '0',
+        Pragma: 'no-cache',
+        Expires: '0',
       },
     },
 
@@ -97,7 +97,7 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
      * DO NOT use import.meta.env here.
      */
     define: {
-      'global': 'window',
+      global: 'window',
       'process.env': JSON.stringify({
         ...envClient,
         WORKSPACE_ROOT,
@@ -114,16 +114,21 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
         // Redirect them to the CLIENT's styled-system so they share one instance.
         '@styled-system/css': resolve(__dirname, 'styled-system/css'),
         '@styled-system/jsx': resolve(__dirname, 'styled-system/jsx'),
+        'styled-system/recipes': resolve(__dirname, 'src/styled-system/recipes.ts'),
         '@workspace/core/types': resolve(WORKSPACE_ROOT, 'packages/core/src/types'),
         '@workspace/core/types/utils': resolve(WORKSPACE_ROOT, 'packages/core/src/types/utils'),
         '@workspace/i18n': resolve(WORKSPACE_ROOT, 'packages/i18n/src/index.ts'),
-        '@workspace/i18n/generators': resolve(WORKSPACE_ROOT, 'packages/i18n/src/generators/index.ts'),
+        '@workspace/i18n/generators': resolve(
+          WORKSPACE_ROOT,
+          'packages/i18n/src/generators/index.ts',
+        ),
         // IMPORTANT: More specific first: /constants must match before bare @workspace/shared
-        '@workspace/shared/constants': resolve(WORKSPACE_ROOT, 'packages/shared/src/constants/index.ts'),
+        '@workspace/shared/constants': resolve(
+          WORKSPACE_ROOT,
+          'packages/shared/src/constants/index.ts',
+        ),
         // IMPORTANT: More specific first: /constants must match before bare @workspace/shared
         '@workspace/shared': resolve(WORKSPACE_ROOT, 'packages/shared/src/index.ts'),
-        'i18n/utils': resolve(__dirname, 'src/i18n/utils/index.ts'),
-        'messages': resolve(__dirname, '../messages'),
       },
     },
 

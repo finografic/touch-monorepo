@@ -8,7 +8,7 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 
-import { ToastProvider, ToastSystem, useToast } from './index';
+import { ToastProvider, Toaster, useToast } from './index';
 
 // Example 1: AdminLayout with Toast integration
 export const AdminLayoutWithToast: React.FC = () => {
@@ -23,7 +23,7 @@ export const AdminLayoutWithToast: React.FC = () => {
         </main>
 
         {/* Add Toast system */}
-        <ToastSystem />
+        <Toaster />
       </div>
     </ToastProvider>
   );
@@ -42,7 +42,7 @@ export const MainLayoutWithToast: React.FC = () => {
         <footer>Footer</footer>
 
         {/* Add Toast system */}
-        <ToastSystem />
+        <Toaster />
       </div>
     </ToastProvider>
   );

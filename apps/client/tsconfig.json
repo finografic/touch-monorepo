@@ -44,6 +44,8 @@
       "utils/*": ["./src/utils/*"],
       // Panda CSS generated output (gitignored, regenerated on build)
       "styled-system": ["./styled-system"],
+      // Must match before `styled-system/*` — recipe runtimes (see src/styled-system/recipes.ts)
+      "styled-system/recipes": ["./src/styled-system/recipes.ts"],
       "styled-system/*": ["./styled-system/*"],
       // Custom aliases for specific use cases
       "@workspace/i18n/flags/images": ["./src/components/LanguageSelector/languages/images"],

@@ -1,5 +1,8 @@
-import React, { createContext, useCallback, useContext, useState } from 'react';
+import React, { createContext, useCallback, useContext, useMemo } from 'react';
 
+import type { ReactNode } from 'react';
+
+import { appToaster } from './app-toaster';
 import type { Toast, ToastConfig, ToastContextValue } from './Toast.types';
 
 const ToastContext = createContext<ToastContextValue | undefined>(undefined);
@@ -18,59 +21,56 @@ const DEFAULT_DURATIONS = {
   info: 1500,
 } as const;
 
-export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [toasts, setToasts] = useState<Toast[]>([]);
+function toArkType(variant: ToastConfig['variant']): 'success' | 'error' | 'warning' | 'info' {
+  return variant;
+}
 
-  const generateId = useCallback(() => `toast-${Date.now()}-${Math.random()}`, []);
+export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const toast = useCallback((config: ToastConfig) => {
+    const message = config.message || DEFAULT_MESSAGES[config.variant];
+    const duration = config.duration ?? DEFAULT_DURATIONS[config.variant];
+
+    const title: ReactNode = config.icon ? (
+      <span style={{ display: 'inline-flex', gap: 8, alignItems: 'center' }}>
+        {config.icon}
+        <span>{message}</span>
+      </span>
+    ) : (
+      message
+    );
+
+    appToaster.create({
+      title,
+      description: config.subText,
+      duration,
+      type: toArkType(config.variant),
+      closable: true,
+      action: config.action
+        ? {
+            label: config.action.label,
+            onClick: config.action.onClick,
+          }
+        : undefined,
+    });
+  }, []);
 
   const dismiss = useCallback((id: string) => {
-    setToasts((prev) => prev.map((toast) => (toast.id === id ? { ...toast, open: false } : toast)));
-
-    setTimeout(() => {
-      setToasts((prev) => prev.filter((toast) => toast.id !== id));
-    }, 200);
+    appToaster.dismiss(id);
   }, []);
-
-  const toast = useCallback(
-    (config: ToastConfig) => {
-      const id = generateId();
-      const message = config.message || DEFAULT_MESSAGES[config.variant];
-      const duration = config.duration || DEFAULT_DURATIONS[config.variant];
-
-      const newToast: Toast = {
-        id,
-        open: true,
-        variant: config.variant,
-        message,
-        subText: config.subText,
-        icon: config.icon,
-        duration,
-        action: config.action,
-      };
-
-      setToasts((prev) => [...prev, newToast]);
-
-      setTimeout(() => {
-        dismiss(id);
-      }, duration);
-    },
-    [generateId, dismiss],
-  );
 
   const dismissAll = useCallback(() => {
-    setToasts((prev) => prev.map((toast) => ({ ...toast, open: false })));
-
-    setTimeout(() => {
-      setToasts([]);
-    }, 200);
+    appToaster.dismiss();
   }, []);
 
-  const value: ToastContextValue = {
-    toasts,
-    toast,
-    dismiss,
-    dismissAll,
-  };
+  const value: ToastContextValue = useMemo(
+    () => ({
+      toasts: [],
+      toast,
+      dismiss,
+      dismissAll,
+    }),
+    [toast, dismiss, dismissAll],
+  );
 
   return <ToastContext.Provider value={value}>{children}</ToastContext.Provider>;
 };
@@ -82,3 +82,5 @@ export const useToast = (): ToastContextValue => {
   }
   return context;
 };
+
+export type { Toast };
