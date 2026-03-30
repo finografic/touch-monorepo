@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 
 import { Flex } from 'styled-system/jsx';
-import { Button } from 'components/Button';
+import { Button } from '@finografic/design-system/components';
 import clsx from 'clsx';
 interface SlotButtonProps {
   slotNumber: number;

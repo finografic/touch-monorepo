@@ -2,7 +2,7 @@ import type { FC, ReactNode } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
 import { Box, Flex } from 'styled-system/jsx';
-import { Button } from 'components/Button';
+import { Button } from '@finografic/design-system/components';
 import { callout, card } from 'styled-system/recipes';
 
 import { ExclamationTriangleIcon, ReloadIcon } from '@finografic/icons';
@@ -43,7 +43,7 @@ const AdminErrorFallback: FC<ErrorFallbackProps> = ({ error, resetErrorBoundary 
           </div>
 
           <Flex gap={3} mt={4}>
-            <Button onClick={resetErrorBoundary} variant="outline" color="info">
+            <Button onClick={resetErrorBoundary} variant="outline" palette="info">
               <ReloadIcon width="16" height="16" />
               Try Again
             </Button>

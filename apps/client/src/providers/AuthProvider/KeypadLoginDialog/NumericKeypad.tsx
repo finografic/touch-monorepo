@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import clsx from 'clsx';
-import { Button } from 'components/Button';
+import { Button } from '@finografic/design-system/components';
 
 import { keypadStyles } from './KeypadLoginDialog.styles';
 
@@ -47,7 +47,7 @@ export const NumericKeypad: React.FC<NumericKeypadProps> = ({
               key={digit}
               type="button"
               variant="outline"
-              color="default"
+              palette="default"
               size="lg"
               onClick={() => handleKeyPress(digitStr)}
               disabled={disabled}

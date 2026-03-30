@@ -4,7 +4,7 @@ import type { LanguageInfo } from '@workspace/i18n/types';
 import clsx from 'clsx';
 import { Box, Flex } from 'styled-system/jsx';
 import { callout, card } from 'styled-system/recipes';
-import { Button } from 'components/Button';
+import { Button } from '@finografic/design-system/components';
 
 import { LanguageItem } from './LanguageItem';
 import { InfoCircledIcon, TrashIcon } from '@finografic/icons';
@@ -67,8 +67,8 @@ export const LanguagesListSelected: React.FC<LanguagesListSelectedProps> = ({
                   <Flex align="center" className="col col-delete">
                     <Button
                       className={clsx('button-delete')}
-                      variant="soft"
-                      color="warning"
+                      variant="subtle"
+                      palette="warning"
                       onClick={() => onRemoveLanguage(language.code, language.countryCode)}
                       disabled={isLoading}
                       title="Remove from selection"

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Flex } from 'styled-system/jsx';
-import { Button } from 'components/Button';
+import { Button } from '@finografic/design-system/components';
 
 import { useAppConfig } from 'providers/AppConfigProvider';
 
@@ -29,7 +29,7 @@ export const BulkRelayControls: React.FC<BulkRelayControlsProps> = ({ handlers, 
         onClick={handlers.turnAllOn}
         disabled={!isRelayFunctionalityEnabled || mutations.turnAllOn.isPending}
         variant="solid"
-        color="success"
+        palette="success"
         size="sm"
       >
         {mutations.turnAllOn.isPending ? 'Turning ON...' : 'All ON'}
@@ -38,7 +38,7 @@ export const BulkRelayControls: React.FC<BulkRelayControlsProps> = ({ handlers, 
         onClick={handlers.turnAllOff}
         disabled={!isRelayFunctionalityEnabled || mutations.turnAllOff.isPending}
         variant="solid"
-        color="danger"
+        palette="danger"
         size="sm"
       >
         {mutations.turnAllOff.isPending ? 'Turning OFF...' : 'All OFF'}
@@ -47,7 +47,7 @@ export const BulkRelayControls: React.FC<BulkRelayControlsProps> = ({ handlers, 
         onClick={handlers.resetAll}
         disabled={!isRelayFunctionalityEnabled || mutations.turnAllOff.isPending}
         variant="outline"
-        color="warning"
+        palette="warning"
         size="sm"
       >
         {mutations.turnAllOff.isPending ? 'Resetting...' : 'Reset All'}

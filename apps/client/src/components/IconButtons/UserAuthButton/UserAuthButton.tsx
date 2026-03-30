@@ -1,7 +1,7 @@
 import React from 'react';
 
 import clsx from 'clsx';
-import { Button } from 'components/Button';
+import { Button } from '@finografic/design-system/components';
 
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 
@@ -15,6 +15,7 @@ export const UserAuthButton: React.FC = () => {
     <div css={styles}>
       {isAuthenticated ? (
         <Button
+          variant="solid"
           className={clsx('button', 'button-auth', 'logged-in')}
           onClick={openConfirmLogout}
           aria-label="Log out"
@@ -24,6 +25,7 @@ export const UserAuthButton: React.FC = () => {
         </Button>
       ) : (
         <Button
+          variant="solid"
           className={clsx('button', 'button-auth', 'logged-out')}
           onClick={openLoginDialog}
           aria-label="Log in"

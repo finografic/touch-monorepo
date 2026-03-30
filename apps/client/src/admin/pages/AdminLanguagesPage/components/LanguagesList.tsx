@@ -1,13 +1,11 @@
 import React from 'react';
-import { Card } from '@finografic/design-system/components';
+import { Button, Card } from '@finografic/design-system/components';
 import { SwitchDS } from '@finografic/design-system/forms';
 import { LockIcon, TrashIcon } from '@finografic/icons';
 import type { LanguageInfo } from '@workspace/i18n/types';
 
 import clsx from 'clsx';
 import { Flex } from 'styled-system/jsx';
-import { Button } from 'components/Button';
-
 import { useToggleSupportedLanguageActive } from 'queries/supported-languages';
 
 import { canDeleteLanguage } from 'utils/i18n/language.utils';
@@ -82,8 +80,8 @@ export const LanguagesList: React.FC<LanguagesListProps> = (
                     className={clsx('button-delete', {
                       'is-disabled': !isDeletable,
                     })}
-                    variant="soft"
-                    color="danger"
+                    variant="subtle"
+                    palette="danger"
                     onClick={() => onDeleteLanguage(language.code)}
                     disabled={!isDeletable}
                     size="sm"

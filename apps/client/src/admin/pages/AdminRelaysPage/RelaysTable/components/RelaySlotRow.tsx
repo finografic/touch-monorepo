@@ -6,7 +6,7 @@ import { getRelaySlotType } from 'admin/utils/relays.utils';
 import clsx from 'clsx';
 import { SelectCustom } from 'forms/SelectCustom';
 import { Flex } from 'styled-system/jsx';
-import { Button } from 'components/Button';
+import { Button } from '@finografic/design-system/components';
 
 import { getSlotColor } from 'utils/slots.utils';
 import type { SelectOption } from 'types/models/select-option.model';
@@ -102,7 +102,7 @@ export const RelaySlotRow: React.FC<RelaySlotRowProps> = ({
                   })}
                   onClick={() => onRelayTest(config.relayNumber, config.slotNumber)}
                   variant="solid"
-                  color="success"
+                  palette="success"
                   size="sm"
                   disabled={!canTest || isRelayControlledByTimer(config.relayNumber, config.slotNumber)}
                 >

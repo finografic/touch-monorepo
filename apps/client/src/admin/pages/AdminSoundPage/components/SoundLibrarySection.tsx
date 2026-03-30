@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 
 import { Flex } from 'styled-system/jsx';
 import { callout } from 'styled-system/recipes';
-import { Button } from 'components/Button';
+import { Button } from '@finografic/design-system/components';
 import { useToast } from 'components/Toast';
 
 import { useRemoveSoundFile } from 'queries/sounds';
@@ -123,7 +123,7 @@ export const SoundLibrarySection: React.FC<SoundLibrarySectionProps> = ({
                   <Button
                     size="sm"
                     variant="outline"
-                    color="danger"
+                    palette="danger"
                     onClick={() => removeFile(file.id)}
                     disabled={removeMutation.isPending}
                   >

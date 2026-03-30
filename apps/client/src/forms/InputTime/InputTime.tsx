@@ -4,7 +4,7 @@ import { colors } from '@finografic/design-system/tokens';
 import { ChevronDownIcon, ChevronUpIcon, ExclamationTriangleIcon } from '@finografic/icons';
 
 import { useOptionalFormMiddleware } from 'forms/FormMiddleware';
-import { Button } from 'components/Button';
+import { Button } from '@finografic/design-system/components';
 
 import { formatTimeDuration, parseTimeDurationToSeconds } from 'utils/time.utils';
 import { STEP_BUTTON_VARIANT } from '../FormMiddleware/FormMiddleware.constants';

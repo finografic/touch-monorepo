@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import { Flex } from 'styled-system/jsx';
 import { useDebouncedCallback } from 'use-debounce';
-import { Button } from 'components/Button';
+import { Button } from '@finografic/design-system/components';
 
 import { ChevronLeftIcon, ChevronRightIcon, EyeOffIcon, EyeOnIcon, PlusIcon } from '@finografic/icons';
 import { styles } from './TableFormButtons.styles';
@@ -47,7 +47,7 @@ export const TableFormButtons: React.FC<TableFormButtonsProps> = ({
           className="button-toggle-key-column"
           type="button"
           variant="outline"
-          color="grey"
+          palette="grey"
           onClick={() => setShowKeyColumn(!showKeyColumn)}
           disabled={isAddNewDisabled || isSaving}
           size="md"
@@ -61,7 +61,7 @@ export const TableFormButtons: React.FC<TableFormButtonsProps> = ({
         <Button
           type="button"
           variant="outline"
-          color="grey"
+          palette="grey"
           onClick={onReset}
           disabled={!isDirty || isSaving}
           size="md"
@@ -73,7 +73,7 @@ export const TableFormButtons: React.FC<TableFormButtonsProps> = ({
         <Button
           type="button"
           variant="solid"
-          color="success"
+          palette="success"
           onClick={onSave}
           disabled={!isDirty || isSaving}
           size="md"
@@ -85,7 +85,7 @@ export const TableFormButtons: React.FC<TableFormButtonsProps> = ({
         <Button
           type="button"
           variant="solid"
-          color="info"
+          palette="info"
           onClick={debouncedAddNew}
           disabled={isAddNewDisabled || isSaving}
           size="md"

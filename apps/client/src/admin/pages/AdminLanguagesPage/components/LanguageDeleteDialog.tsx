@@ -1,10 +1,8 @@
 import React from 'react';
-import { Dialog } from '@finografic/design-system/components';
+import { Button, Dialog } from '@finografic/design-system/components';
 import type { LanguageInfo } from '@workspace/i18n/types';
 
 import { Flex } from 'styled-system/jsx';
-import { Button } from 'components/Button';
-
 interface LanguageDeleteDialogProps {
   language: LanguageInfo | null;
   isOpen: boolean;
@@ -54,13 +52,13 @@ export const LanguageDeleteDialog: React.FC<LanguageDeleteDialogProps> = ({
           <Dialog.Footer>
             <Flex gap={3} justify="end" width="100%">
               <Dialog.CloseTrigger asChild>
-                <Button variant="outline" color="grey" disabled={isLoading}>
+                <Button variant="outline" palette="grey" disabled={isLoading}>
                   Cancel
                 </Button>
               </Dialog.CloseTrigger>
               <Button
                 variant="solid"
-                color="danger"
+                palette="danger"
                 onClick={onConfirm}
                 loading={isLoading}
                 disabled={isLoading}

@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { Box, Flex } from 'styled-system/jsx';
 import { AdminPageLayout, AdminSection } from 'admin/components';
 import { DEFROST_SLOT_NUMBER } from 'admin/config/admin.slots.config';
-import { Button } from 'components/Button';
+import { Button } from '@finografic/design-system/components';
 import { DefrostTimer } from 'components/Timers/DefrostTimer';
 
 import { useTimers } from 'providers/TimersProvider';
@@ -46,7 +46,7 @@ export const PublicRelaysPage: React.FC = () => {
                 <Button
                   onClick={() => startDefrostTimer(DEFROST_SLOT_NUMBER, 600)}
                   variant="solid"
-                  color="success"
+                  palette="success"
                   size="sm"
                 >
                   Start
@@ -54,7 +54,7 @@ export const PublicRelaysPage: React.FC = () => {
                 <Button
                   onClick={() => stopDefrostTimer(DEFROST_SLOT_NUMBER)}
                   variant="outline"
-                  color="warning"
+                  palette="warning"
                   size="sm"
                 >
                   Stop

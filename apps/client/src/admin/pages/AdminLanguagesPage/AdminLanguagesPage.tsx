@@ -9,7 +9,7 @@ import { convertToLanguageOptions } from 'forms/SearchableLanguageInput/data/cur
 import { SearchableLanguageInputCurated } from 'forms/SearchableLanguageInput/SearchableLanguageInputCurated';
 import { Box, Flex } from 'styled-system/jsx';
 import { callout } from 'styled-system/recipes';
-import { Button } from 'components/Button';
+import { Button } from '@finografic/design-system/components';
 import { SectionHeader } from 'components/SectionHeader/SectionHeader';
 
 import {
@@ -324,7 +324,7 @@ export const AdminLanguagesPage: React.FC = () => {
               <Button
                 onClick={handleSaveLanguages}
                 size="lg"
-                color="success"
+                palette="success"
                 variant="solid"
                 loading={createLanguageMutation.isPending}
                 disabled={createLanguageMutation.isPending || selectedLanguages.length === 0}

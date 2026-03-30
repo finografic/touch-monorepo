@@ -3,7 +3,7 @@ import { LanguageIcon } from '@finografic/icons';
 
 import clsx from 'clsx';
 import { Flex } from 'styled-system/jsx';
-import { Button } from 'components/Button';
+import { Button } from '@finografic/design-system/components';
 import { LanguageDialog } from 'components/Dialog/dialogs/LanguageDialog';
 import { AdminToggleButton } from 'components/IconButtons/AdminToggleButton/AdminToggleButton';
 import { FullscreenToggleButton } from 'components/IconButtons/FullscreenToggleButton';
@@ -45,6 +45,7 @@ export const UserToolbar = ({ variant }: { variant?: 'light' | 'dark' }) => {
 
           <div className="button-box">
             <Button
+              variant="solid"
               className="button button-language"
               onClick={() => setIsLanguageDialogOpen(!isLanguageDialogOpen)}
             >

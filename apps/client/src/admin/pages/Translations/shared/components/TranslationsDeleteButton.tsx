@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Button } from 'components/Button';
+import { Button } from '@finografic/design-system/components';
 
 import { TrashIcon } from '@finografic/icons';
 
@@ -23,7 +23,7 @@ export const TranslationsDeleteButton: React.FC<TranslationsDeleteButtonProps> =
       aria-label="Delete"
       variant="ghost"
       size="md"
-      color="danger"
+      palette="danger"
       onClick={onDelete}
       disabled={isDeleting}
     >

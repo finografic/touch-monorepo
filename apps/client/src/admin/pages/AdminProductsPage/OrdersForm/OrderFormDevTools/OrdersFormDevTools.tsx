@@ -3,7 +3,7 @@ import type { UseFormReturn } from 'react-hook-form';
 
 import type { MockDataHandlers } from 'admin/pages/AdminProductsPage/OrdersForm/mock-orders.utils';
 import { useOrdersFormDevTools } from 'admin/pages/AdminProductsPage/OrdersForm/OrderFormDevTools/useOrdersFormDevTools';
-import { Button } from 'components/Button';
+import { Button } from '@finografic/design-system/components';
 
 import { useDev } from 'dev-tools/providers/DevProvider';
 import type { OrdersFormValues } from '../OrdersForm.schema';
@@ -61,7 +61,7 @@ export const OrdersFormDevTools: React.FC<OrdersFormDevToolsProps> = ({
             variant="ghost"
             size="md"
             onClick={handlers.handleMockPartial}
-            color="default"
+            palette="default"
           >
             📝 Mock Partial
           </Button>
@@ -70,11 +70,11 @@ export const OrdersFormDevTools: React.FC<OrdersFormDevToolsProps> = ({
             variant="ghost"
             size="md"
             onClick={handlers.handleMockTwoRows}
-            color="default"
+            palette="default"
           >
             🎲 Mock 2 Rows
           </Button>
-          <Button type="button" variant="ghost" size="md" onClick={handlers.handleMockAll} color="default">
+          <Button type="button" variant="ghost" size="md" onClick={handlers.handleMockAll} palette="default">
             📝 Mock All
           </Button>
           <Button
@@ -82,7 +82,7 @@ export const OrdersFormDevTools: React.FC<OrdersFormDevToolsProps> = ({
             variant="ghost"
             size="md"
             onClick={handlers.handleMockAllRows}
-            color="default"
+            palette="default"
           >
             🎲 Mock All Rows
           </Button>

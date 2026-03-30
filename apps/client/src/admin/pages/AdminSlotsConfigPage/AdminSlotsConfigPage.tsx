@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { Badge } from '@finografic/design-system/components';
+import { Badge, Button } from '@finografic/design-system/components';
 import { SwitchDS } from '@finografic/design-system/forms';
 import { MinusIcon, PlusIcon } from '@finografic/icons';
 
@@ -8,7 +8,6 @@ import { getQueryErrorMessage } from '@workspace/core/api';
 import clsx from 'clsx';
 import { Flex } from 'styled-system/jsx';
 import { useDebouncedCallback } from 'use-debounce';
-import { Button } from 'components/Button';
 import { useToast } from 'components/Toast';
 
 import { useGetSlotSpecialConfig, useUpdateSlotSpecialConfig } from 'queries/app-configuration';
@@ -374,7 +373,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
               <Flex gap={4}>
                 <Button
                   variant="outline"
-                  color="warning"
+                  palette="warning"
                   onClick={handleRemoveColumn}
                   disabled={gridLevel === 0}
                 >
@@ -385,7 +384,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
                 </Button>
                 <Button
                   variant="outline"
-                  color="success"
+                  palette="success"
                   onClick={handleAddColumn}
                   disabled={gridLevel === 4}
                 >

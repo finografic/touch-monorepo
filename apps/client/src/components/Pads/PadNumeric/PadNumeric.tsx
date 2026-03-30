@@ -2,7 +2,7 @@ import type { FC, ReactElement } from 'react';
 import { useCallback } from 'react';
 
 import clsx from 'clsx';
-import { Button } from 'components/Button';
+import { Button } from '@finografic/design-system/components';
 
 import { styles } from './PadNumeric.styles';
 
@@ -109,7 +109,7 @@ export const PadNumeric: FC<PadNumericProps> = ({
             onClick={handleIncrement}
             disabled={getIncrementedValue() === null}
             variant="outline"
-            color="default"
+            palette="default"
             size="sm"
           >
             +
@@ -124,7 +124,7 @@ export const PadNumeric: FC<PadNumericProps> = ({
             onClick={handleDecrement}
             disabled={getDecrementedValue() === null}
             variant="outline"
-            color="default"
+            palette="default"
             size="sm"
           >
             -

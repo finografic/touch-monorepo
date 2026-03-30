@@ -1,7 +1,7 @@
 import type { FC, ReactNode } from 'react';
 
 import { Box, Flex } from 'styled-system/jsx';
-import { Button } from 'components/Button';
+import { Button } from '@finografic/design-system/components';
 import clsx from 'clsx';
 
 import { PanelBottomCloseIcon, PanelBottomOpenIcon } from '@finografic/icons';

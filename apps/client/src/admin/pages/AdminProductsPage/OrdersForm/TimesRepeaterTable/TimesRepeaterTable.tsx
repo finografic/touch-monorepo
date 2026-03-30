@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 
-import { Button } from 'components/Button';
+import { Button } from '@finografic/design-system/components';
 
 import { useDev } from 'dev-tools/providers/DevProvider';
 import { RepeaterTableRow } from './RepeatersTableRow/RepeaterTableRow';
@@ -163,7 +163,7 @@ export const TimesRepeaterTable: React.FC<TimesRepeaterTableProps> = ({
             className="button-success"
             onClick={() => append(emptyRowValues)}
             disabled={!canAddRow}
-            color="success"
+            palette="success"
             variant="outline"
           >
             + Add Row

@@ -3,7 +3,7 @@ import type { FieldArrayWithId } from 'react-hook-form';
 
 import { InputTime } from 'forms/InputTime';
 import { TemperatureInputField } from 'forms/TemperatureInputField';
-import { Button } from 'components/Button';
+import { Button } from '@finografic/design-system/components';
 
 import { DeleteIcon, ShuffleIcon } from '@finografic/icons';
 import { styles } from './RepeaterTableRow.styles';
@@ -100,7 +100,7 @@ export const RepeaterTableRow: React.FC<RepeaterTableRowProps> = ({
             variant="outline"
             // variant="ghost"
             size="md"
-            color="info"
+            palette="info"
             onClick={() => onGenerateRandomValues(index)}
             className="random-button"
             title="Generate random values"
@@ -116,7 +116,7 @@ export const RepeaterTableRow: React.FC<RepeaterTableRowProps> = ({
             variant="outline"
             // variant="ghost"
             size="md"
-            color="danger"
+            palette="danger"
             onClick={() => onRemove(index)}
             className="button-delete"
           >

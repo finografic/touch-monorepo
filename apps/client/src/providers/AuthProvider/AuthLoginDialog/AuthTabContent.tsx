@@ -75,7 +75,7 @@ export const AuthLoginTabContent: React.FC<AuthLoginTabContentProps> = ({
             disabled={isLoading}
             size="md"
             variant="subtle"
-            color="info"
+            palette="info"
             className="submit-button"
           >
             {isLoading ? 'Loading...' : 'Sign In'}

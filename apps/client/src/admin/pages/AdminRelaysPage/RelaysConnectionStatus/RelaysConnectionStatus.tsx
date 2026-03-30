@@ -1,10 +1,8 @@
 import React from 'react';
-import { Badge } from '@finografic/design-system/components';
+import { Badge, Button } from '@finografic/design-system/components';
 import { SwitchDS } from '@finografic/design-system/forms';
 
 import { Flex } from 'styled-system/jsx';
-import { Button } from 'components/Button';
-
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { probeRelayConnection, useRelayConnection } from 'queries/relays';
 
@@ -34,7 +32,7 @@ export const RelaysConnectionStatus: React.FC = () => {
           The development server appears to be stopped. Connection probing will resume automatically.
         </span>
         <Flex gap={3} align="center">
-          <Button onClick={() => probeRelayConnection()} variant="solid" color="info">
+          <Button onClick={() => probeRelayConnection()} variant="solid" palette="info">
             🔄 Retry Connection
           </Button>
           <Badge variant="soft" palette="danger" size="lg">

@@ -3,7 +3,7 @@ import { InputField } from '@finografic/design-system/forms';
 import { colors } from '@finografic/design-system/tokens';
 import { ChevronDownIcon, ChevronUpIcon, ExclamationTriangleIcon } from '@finografic/icons';
 
-import { Button } from 'components/Button';
+import { Button } from '@finografic/design-system/components';
 
 import { useFormMiddleware } from '../FormMiddleware';
 import {

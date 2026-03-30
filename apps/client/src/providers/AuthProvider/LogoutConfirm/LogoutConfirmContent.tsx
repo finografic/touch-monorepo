@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Button } from 'components/Button';
+import { Button } from '@finografic/design-system/components';
 
 import { styles } from './LogoutConfirm.styles';
 
@@ -24,7 +24,7 @@ export const LogoutConfirmTabContent: React.FC<LogoutConfirmTabContentProps> = (
           onClick={onConfirm}
           disabled={isLoading}
           size="md"
-          color="info"
+          palette="info"
           fullWidth
           className="submit-button"
         >

@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import { MoonIcon, SunIcon } from '@finografic/icons';
 
 import clsx from 'clsx';
-import { Button } from 'components/Button/Button';
+import { Button } from '@finografic/design-system/components';
 
 import { useAppConfig } from 'providers/AppConfigProvider';
 
@@ -13,6 +13,7 @@ export const ThemeToggleButton: FC = () => {
 
   return (
     <Button
+      variant="solid"
       css={styles}
       className={clsx('button theme-toggle')}
       onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}

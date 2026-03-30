@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState, type FC } from 'react';
 
 import clsx from 'clsx';
-import { Button } from 'components/Button/Button';
+import { Button } from '@finografic/design-system/components';
 
 import { FullscreenIcon, MinimizeIcon } from '@finografic/icons';
 import { styles } from './FullscreenToggleButton.styles';
@@ -38,6 +38,7 @@ export const FullscreenToggleButton: FC = () => {
 
   return (
     <Button
+      variant="solid"
       css={styles}
       className={clsx('button fullscreen-toggle', { 'is-fullscreen': isFullscreen })}
       onClick={toggleFullscreen}

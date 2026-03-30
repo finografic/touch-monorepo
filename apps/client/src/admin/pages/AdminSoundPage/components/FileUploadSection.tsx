@@ -1,7 +1,7 @@
 import React, { useCallback, useRef, useState } from 'react';
 
 import { Flex } from 'styled-system/jsx';
-import { Button } from 'components/Button';
+import { Button } from '@finografic/design-system/components';
 import { useToast } from 'components/Toast';
 
 import { useUploadSoundFiles } from 'queries/sounds';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { Button } from 'components/Button';
+import { Button } from '@finografic/design-system/components';
 
 import type { Theme } from 'types/ui.types';
 import { HomeIcon, ShieldCheckIcon } from '@finografic/icons';
@@ -26,7 +26,7 @@ export const AdminToggleButton: React.FC = () => {
           <HomeIcon />
         </Button>
       ) : (
-        <Button className="button button-dialog" onClick={handleGotoAdmin}>
+        <Button variant="solid" className="button button-dialog" onClick={handleGotoAdmin}>
           <ShieldCheckIcon />
         </Button>
       )}

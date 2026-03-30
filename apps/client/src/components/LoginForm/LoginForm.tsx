@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { Input } from 'forms/Input/Input';
-import { Button } from 'components/Button';
+import { Button } from '@finografic/design-system/components';
 
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 

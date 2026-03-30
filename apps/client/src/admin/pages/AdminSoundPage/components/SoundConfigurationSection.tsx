@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 
 import { Box, Flex } from 'styled-system/jsx';
-import { Button } from 'components/Button';
+import { Button } from '@finografic/design-system/components';
 import { FieldBox } from '@finografic/design-system/forms';
 import { SelectCustom } from 'forms/SelectCustom';
 import { useToast } from 'components/Toast';
@@ -109,7 +109,7 @@ export const SoundConfigurationSection: React.FC<SoundConfigurationSectionProps>
               <Button
                 size="md"
                 variant="outline"
-                color="success"
+                palette="success"
                 onClick={() => testSound(soundSettings[soundType]!)}
                 className="test-button"
               >
@@ -119,7 +119,7 @@ export const SoundConfigurationSection: React.FC<SoundConfigurationSectionProps>
               <Button
                 size="md"
                 variant="outline"
-                color="warning"
+                palette="warning"
                 onClick={stopAllAudio}
                 className="test-button"
               >

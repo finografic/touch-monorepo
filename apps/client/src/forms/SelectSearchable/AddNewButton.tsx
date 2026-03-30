@@ -1,7 +1,7 @@
 import React from 'react';
 import { AddIcon } from '@finografic/icons';
 
-import { Button } from 'components/Button';
+import { Button } from '@finografic/design-system/components';
 
 interface SearchableSelectProps {
   handleAddNew: () => void;
@@ -15,7 +15,7 @@ export const AddNewButton: React.FC<SearchableSelectProps> = ({ handleAddNew, se
         type="button"
         variant="ghost"
         size="sm"
-        color="success"
+        palette="success"
         onClick={handleAddNew}
         className="button-delete"
       >
