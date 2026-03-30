@@ -14,7 +14,7 @@ export const styles = css`
   }
 
   .error {
-    color: var(--red-9);
+    color: ${colors.danger};
   }
 
   .dimesions-badge {
