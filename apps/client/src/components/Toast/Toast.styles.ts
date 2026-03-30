@@ -55,11 +55,11 @@ export const getToastRootStyles = (variant: ToastVariant) => {
     min-height: 56px;
 
     &[data-state='open'] {
-      animation: slideIn 200ms cubic-bezier(0.16, 1, 0.3, 1);
+      animation: slideIn 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     &[data-state='closed'] {
-      animation: hide 150ms ease-in;
+      animation: hide 150ms ease-in forwards;
     }
 
     @keyframes hide {
