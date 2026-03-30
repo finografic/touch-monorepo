@@ -3,7 +3,7 @@ import React, { memo } from 'react';
 
 import type { SerializedStyles } from '@emotion/react';
 import { Flex } from 'styled-system/jsx';
-import { callout } from 'styled-system/recipes';
+import { callout } from '@styled-system/recipes';
 import { Loader } from 'components/Loader/Loader';
 import { Title } from 'components/Title';
 

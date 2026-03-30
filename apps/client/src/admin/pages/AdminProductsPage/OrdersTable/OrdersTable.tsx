@@ -3,7 +3,7 @@ import type { DataTableClassNames, DataTableColumn } from '@finografic/design-sy
 import { DataTable } from '@finografic/design-system/components';
 
 import { useTableHeaders } from 'admin/hooks/useTableHeaders';
-import { button, table } from 'styled-system/recipes';
+import { button, table } from '@styled-system/recipes';
 
 import { useAppConfig } from 'providers/AppConfigProvider';
 

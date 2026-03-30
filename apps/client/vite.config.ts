@@ -110,11 +110,17 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
       dedupe: ['react', 'react-dom', '@ark-ui/react'],
       extensions: ['.tsx', '.ts', '.jsx', '.js', '.mjs', '.cjs', '.json'],
       alias: {
-        // DS dist files import from @styled-system/* (panda path aliases).
-        // Redirect them to the CLIENT's styled-system so they share one instance.
+        /**
+         * Panda `@styled-system/*` — must match `compilerOptions.paths` in tsconfig.json.
+         *
+         * - TS/IDE: use tsconfig paths only.
+         * - Vite/Rollup: keep these aliases too. `vite-tsconfig-paths` resolves paths for app
+         *   source, but imports inside **linked** `@finografic/design-system/dist/*` still need
+         *   explicit `resolve.alias` or the build fails with "failed to resolve @styled-system/css".
+         */
         '@styled-system/css': resolve(__dirname, 'styled-system/css'),
         '@styled-system/jsx': resolve(__dirname, 'styled-system/jsx'),
-        'styled-system/recipes': resolve(__dirname, 'src/styled-system/recipes.ts'),
+        '@styled-system/recipes': resolve(__dirname, 'src/styled-system/recipes.ts'),
         '@workspace/core/types': resolve(WORKSPACE_ROOT, 'packages/core/src/types'),
         '@workspace/core/types/utils': resolve(WORKSPACE_ROOT, 'packages/core/src/types/utils'),
         '@workspace/i18n': resolve(WORKSPACE_ROOT, 'packages/i18n/src/index.ts'),

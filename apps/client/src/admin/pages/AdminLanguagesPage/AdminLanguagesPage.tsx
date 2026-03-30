@@ -8,7 +8,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { convertToLanguageOptions } from 'forms/SearchableLanguageInput/data/curated-languages';
 import { SearchableLanguageInputCurated } from 'forms/SearchableLanguageInput/SearchableLanguageInputCurated';
 import { Box, Flex } from 'styled-system/jsx';
-import { callout } from 'styled-system/recipes';
+import { callout } from '@styled-system/recipes';
 import { Button } from '@finografic/design-system/components';
 import { SectionHeader } from 'components/SectionHeader/SectionHeader';
 

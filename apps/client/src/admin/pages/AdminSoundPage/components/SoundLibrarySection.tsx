@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 
 import { Flex } from 'styled-system/jsx';
-import { callout } from 'styled-system/recipes';
+import { callout } from '@styled-system/recipes';
 import { Button } from '@finografic/design-system/components';
 import { useToast } from 'components/Toast';
 

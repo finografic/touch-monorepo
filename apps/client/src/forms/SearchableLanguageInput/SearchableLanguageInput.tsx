@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import { InputField } from '@finografic/design-system/forms';
-import { card } from 'styled-system/recipes';
+import { card } from '@styled-system/recipes';
 import { matchSorter } from 'match-sorter';
 
 import type { Country } from '../../components/LanguageSelector/languages/country.types';

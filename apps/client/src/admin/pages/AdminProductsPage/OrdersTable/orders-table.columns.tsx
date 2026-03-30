@@ -2,7 +2,7 @@ import { CheckboxDS } from '@finografic/design-system/forms';
 import { EditIcon, TrashIcon } from '@finografic/icons';
 
 import type { ColumnDef } from '@tanstack/react-table';
-import { button } from 'styled-system/recipes';
+import { button } from '@styled-system/recipes';
 
 import type { OrderReadableWithIndex } from '../hooks/useOrdersFilter';
 

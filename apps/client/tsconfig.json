@@ -42,11 +42,14 @@
       "types": ["./src/types"],
       "types/*": ["./src/types/*"],
       "utils/*": ["./src/utils/*"],
-      // Panda CSS generated output (gitignored, regenerated on build)
+      // Panda CSS — generated under ./styled-system (gitignored). App code may use either
+      // `styled-system/jsx` or the same paths the DS bundle uses (`@styled-system/*`).
+      // Keep @styled-system/* in sync with panda.config outdir + src/styled-system/recipes.ts.
       "styled-system": ["./styled-system"],
-      // Must match before `styled-system/*` — recipe runtimes (see src/styled-system/recipes.ts)
-      "styled-system/recipes": ["./src/styled-system/recipes.ts"],
       "styled-system/*": ["./styled-system/*"],
+      "@styled-system/css": ["./styled-system/css"],
+      "@styled-system/jsx": ["./styled-system/jsx"],
+      "@styled-system/recipes": ["./src/styled-system/recipes.ts"],
       // Custom aliases for specific use cases
       "@workspace/i18n/flags/images": ["./src/components/LanguageSelector/languages/images"],
       "@workspace/i18n/flags/images/*": ["./src/components/LanguageSelector/languages/images/*"]

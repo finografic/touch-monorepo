@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Flex } from 'styled-system/jsx';
-import { card } from 'styled-system/recipes';
+import { card } from '@styled-system/recipes';
 
 interface OrdersSummaryCardsProps {
   totalOrders: number;

@@ -3,7 +3,7 @@ import type { LanguageInfo } from '@workspace/i18n/types';
 
 import clsx from 'clsx';
 import { Box, Flex } from 'styled-system/jsx';
-import { callout, card } from 'styled-system/recipes';
+import { callout, card } from '@styled-system/recipes';
 import { Button } from '@finografic/design-system/components';
 
 import { LanguageItem } from './LanguageItem';

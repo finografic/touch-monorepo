@@ -3,7 +3,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 
 import { Box, Flex } from 'styled-system/jsx';
 import { Button } from '@finografic/design-system/components';
-import { callout, card } from 'styled-system/recipes';
+import { callout, card } from '@styled-system/recipes';
 
 import { ExclamationTriangleIcon, ReloadIcon } from '@finografic/icons';
 
