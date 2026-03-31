@@ -40,6 +40,12 @@ cd apps/client && pnpm exec panda codegen && pnpm exec panda cssgen
 
 (`pnpm build` / `pnpm dev` scripts already run both where needed.)
 
+## Z-index (floating selects vs sticky UI)
+
+Semantic tokens live in `@finografic/design-system` (`zIndex` in `spacing.tokens.ts`): `dropdown` is intentionally **above** `sticky` (1100) so Select / Combobox / Menu positioners are not covered by sticky headers or the next form row. Legacy `forms.css` positioners use `var(--z-index-dropdown)`.
+
+**Also use `positioning={{ strategy: 'fixed', … }}`** on Ark `Select` / `Combobox` roots. The Zag default is `absolute`, which keeps the popup inside `overflow: hidden` ancestors so later rows paint on top. `fixed` anchors to the viewport so z-index and overflow behave correctly.
+
 ## Related files
 
 | File | Role |

@@ -6,7 +6,7 @@ This folder is the **orders list table** for admin: a thin wrapper around `@fino
 
 | File | Role |
 | ---- | ---- |
-| `OrdersTable.tsx` | Wires `DataTable`, `useTableHeaders()` (i18n column titles), `useTableLabelMappings`, and `createOrdersColumns`. |
+| `OrdersTable.tsx` | Wires `DataTable`, `useTableHeaders()` (`admin.pages.items.table.headers.${columnKey}`), `useTableLabelMappings`, and `createOrdersColumns`. |
 | `orders-table.columns.tsx` | TanStack-style `ColumnDef` factory (selection, data columns, actions). |
 | `orders-table.types.ts` | `ColumnKey`, `ColumnSearchState` — shared with `hooks/useOrdersFilter`. |
 | `useTableLabelMappings.ts` | Value→label resolution for mode, drink types, volumes, etc. |
