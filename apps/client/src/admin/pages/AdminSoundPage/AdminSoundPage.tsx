@@ -55,10 +55,15 @@ export const AdminSoundPage: React.FC = () => {
       isLoading={isLoadingFiles || isLoadingSettings || isLoadingActiveTabFiles}
       styles={styles}
     >
-      <Tabs.Root value={activeTab} onValueChange={(details) => setActiveTab(details.value as SoundType)}>
+      <Tabs.Root
+        value={activeTab}
+        variant="line"
+        onValueChange={(details) => setActiveTab(details.value as SoundType)}
+      >
         <Tabs.List>
           <Tabs.Trigger value="alarm">Alarm Sounds</Tabs.Trigger>
           <Tabs.Trigger value="finish">Finish Sounds</Tabs.Trigger>
+          <Tabs.Indicator />
         </Tabs.List>
 
         {/* ====================================================================== */}

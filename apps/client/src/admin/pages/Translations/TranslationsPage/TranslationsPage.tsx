@@ -80,6 +80,7 @@ export const TranslationsPage: React.FC = () => {
     <AdminPageLayout title={t(pageTitleKey)} styles={styles}>
       <Tabs.Root
         value={activeTab}
+        variant="line"
         onValueChange={(details) => setActiveTab(details.value as I18nDomainGroupKey)}
       >
         <Tabs.List>
@@ -88,6 +89,7 @@ export const TranslationsPage: React.FC = () => {
               {translationsTabLabel(section, t)}
             </Tabs.Trigger>
           ))}
+          <Tabs.Indicator />
         </Tabs.List>
         {sections.map((section) => (
           <Tabs.Content key={section.group} value={section.group}>

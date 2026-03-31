@@ -80,13 +80,18 @@ export const TranslationsProductPage: React.FC = () => {
 
   return (
     <AdminPageLayout title={t('admin.pages.translations_product.title')} styles={styles}>
-      <Tabs.Root value={activeTab} onValueChange={(details) => setActiveTab(details.value as SectionKey)}>
+      <Tabs.Root
+        value={activeTab}
+        variant="line"
+        onValueChange={(details) => setActiveTab(details.value as SectionKey)}
+      >
         <Tabs.List>
           {sortedSections.map((section) => (
             <Tabs.Trigger key={section.group} value={section.group}>
               {t(`admin.pages.translations_product.tabs.${section.group}`, { defaultValue: section.group })}
             </Tabs.Trigger>
           ))}
+          <Tabs.Indicator />
         </Tabs.List>
 
         {sortedSections.map((section) => (

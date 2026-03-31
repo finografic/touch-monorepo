@@ -102,6 +102,7 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({
                         {tab.icon ? tab.icon : null} {tab.label}
                       </Tabs.Trigger>
                     ))}
+                    <Tabs.Indicator />
                   </Tabs.List>
                   <div className="dialog-content">
                     {config.tabs.map((tab) => (
