@@ -30,7 +30,7 @@ export const styles = css`
 
     background-color: ${colors.white};
     color: ${colors.text};
-    overflow: hidden;
+    /* overflow: hidden; — removed: was clipping position:absolute select dropdowns */
   }
 
   .col-temperature-inputs {
