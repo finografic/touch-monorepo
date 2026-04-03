@@ -117,7 +117,7 @@ export default defineConfig({
   ],
   noExternal: [
     'hono', '@hono/*',               // Force bundle web framework
-    'drizzle-orm', 'zod',            // Database and validation
+    'drizzle-orm', 'valibot',        // Database and validation
     '@workspace/*',                   // All workspace packages
   ],
 });

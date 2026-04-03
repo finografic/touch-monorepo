@@ -71,7 +71,7 @@ DROP INDEX IF EXISTS drink_types_name_unique;
 
 - [ ] Update `apps/server/src/db/schemas/drink_types.schema.ts`
   - [ ] Change `name: text('name')` → `key: text('key')`
-  - [ ] Update Zod schema validations
+  - [ ] Update Valibot schema validations
 - [ ] Update `apps/server/src/db/schemas/drink_subtypes.schema.ts`
 - [ ] Update `apps/server/src/db/schemas/volumes.schema.ts`
 - [ ] Update `apps/server/src/db/schemas/container_types.schema.ts`

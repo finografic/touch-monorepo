@@ -7,7 +7,7 @@ This project requires senior-level expertise in:
 - TypeScript generics and type inference
 - React + Vite
 - RHF with resolvers and controlled/uncontrolled components
-- Zod schemas and Drizzle ORM
+- Valibot schemas and Drizzle ORM
 - Hono server routes and type-safe contracts
 - Monorepo structure using pnpm
 

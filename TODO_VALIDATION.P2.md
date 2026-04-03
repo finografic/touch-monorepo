@@ -1,7 +1,7 @@
 # Valibot, OpenAPI, and API contracts
 
 **Stack:** Valibot, `hono-openapi`, `drizzle-valibot`, Standard Schema on the client.  
-Zod and `@hono/zod-openapi` are fully removed from runtime code.
+The previous validator stack on the server is fully removed from runtime code.
 
 ---
 
@@ -13,7 +13,7 @@ Server and client are migrated. High-level checklist (historical):
 - DB schemas use `createInsertSchema` / `createSelectSchema` from `drizzle-valibot`.
 - Routes use `describeRoute`, `validator`, and `lib/openapi.helpers` (`json` / `jsonRequired`).
 - Client forms use `standardSchemaResolver` with Valibot schemas.
-- `zod` removed from `package.json` files and overrides; any remaining `zod` mention in tooling is dev-only (e.g. ESLint), not app runtime.
+- Validator packages updated in `package.json` and overrides; any stray mentions in third-party tooling are dev-only, not app runtime.
 
 **Code references (prefer these over copying old migration snippets):**
 

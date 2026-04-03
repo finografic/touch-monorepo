@@ -35,19 +35,12 @@ name: text('name').notNull().unique()
 key: text('key').notNull().unique()
 ```
 
-### 1.2 Zod Schema Updates
+### 1.2 Valibot schema updates
 
 **Files to Modify:**
 - All 4 schema files above (validation schemas reference `name`)
 
-**Changes:**
-```typescript
-// Before
-name: (schema) => schema.name.min(1).max(50)
-
-// After
-key: (schema) => schema.key.min(1).max(50)
-```
+**Changes:** Update field overrides from `name` to `key` in the Valibot insert/select schemas (same min/max rules as today).
 
 ### 1.3 Database View Updates
 

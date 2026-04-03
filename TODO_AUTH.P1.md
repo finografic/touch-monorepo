@@ -1,7 +1,7 @@
 # Auth.js — follow-ups
 
 **Stack:** Auth.js via `@hono/auth-js`, JWT sessions, credentials provider.  
-Legacy BetterAuth / Zod migration is complete; this file tracks only **remaining** improvements.
+Earlier auth + validation migrations are complete; this file tracks only **remaining** improvements.
 
 ---
 

@@ -16,7 +16,7 @@ When solving problems, consider modern approaches:
 - **Result types** for explicit error handling
 - **Discriminated unions** for state machines
 - **Type-level programming** for compile-time safety
-- **Runtime validation** (Zod) for external data
+- **Runtime validation** (Valibot) for external data
 - **Type utilities** (type-fest) for complex transformations
 
 ### ✅ DO: Balance Modern vs Simple
@@ -65,18 +65,21 @@ type Contrast = Brand<number, 'Contrast'>;
 
 ### When to Suggest Runtime Validation
 
-**YES** ✅ - Suggest Zod for:
+**YES** ✅ - Suggest Valibot for:
 
 ```typescript
+import * as v from 'valibot';
+
 // API responses
-const UserSchema = z.object({ id: z.number(), name: z.string() });
-const user = UserSchema.parse(apiResponse);
+const UserSchema = v.object({ id: v.string(), name: v.string() });
+const user = v.parse(UserSchema, apiResponse);
 
 // Form validation
-const schema = z.object({ email: z.string().email() });
+const emailSchema = v.pipe(v.string(), v.email());
 
 // Environment variables
-const env = z.object({ API_URL: z.string().url() }).parse(process.env);
+const EnvSchema = v.object({ API_URL: v.pipe(v.string(), v.url()) });
+const env = v.parse(EnvSchema, process.env);
 ```
 
 **NO** ❌ - Don't validate:
@@ -172,7 +175,7 @@ These libraries are **installed** and **should be suggested**:
 
 - ✅ **type-fest** - Use for advanced type utilities
 - ✅ **ts-extras** - Use for runtime utilities
-- ✅ **zod** (if installed) - Preferred for validation
+- ✅ **valibot** (if installed) — preferred for validation in this repo
 
 ### DIY Patterns (Zero Dependencies)
 
@@ -187,7 +190,7 @@ These patterns should be **suggested without hesitation**:
 
 - ❌ **fp-ts** - Too advanced, only if user asks
 - ❌ **Effect-TS** - Expert-level, only if user asks
-- ❌ **io-ts** - Prefer Zod unless FP is established pattern
+- ❌ **io-ts** — Prefer Valibot unless FP is an established pattern
 
 ---
 
@@ -335,13 +338,13 @@ import * as TE from 'fp-ts/TaskEither';
 **Good Response** ✅:
 
 ```typescript
+import * as v from 'valibot';
+
 async function fetchUser(id: number): Promise<User> {
   const response = await fetch(`/api/users/${id}`);
-  return response.json();
+  const json = await response.json();
+  return v.parse(UserSchema, json);
 }
-
-// Or with Zod validation:
-const result = UserSchema.safeParse(await response.json());
 ```
 
 **Explanation**: Stick to familiar patterns unless the user explicitly wants FP approaches.

@@ -173,7 +173,7 @@ All schemas include:
 - CUID-based primary keys
 - Active status flags
 - Creation and update timestamps
-- Zod validation schemas
+- Valibot validation schemas
 - Standard operations structure (select/insert/patch)
 
 ## Relationships
@@ -185,7 +185,7 @@ All schemas include:
 
 ## Validation
 
-Each schema includes Zod validation for:
+Each schema includes Valibot validation for:
 - Temperature ranges (-20°C to 40°C)
 - Time limits (up to 120 minutes for standard operations)
 - Required relationships and foreign keys

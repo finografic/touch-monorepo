@@ -124,7 +124,7 @@ Three app_configuration entries: `is_active` (column) is separate from visibilit
 | `slot_special_alt`  | `{ is_visible: false, slot_number: 15, relay_number: 15 }` | `special_alt`   |
 
 - **Interface:** `SlotSpecialConfig` in `apps/client/src/types/app-configuration.types.ts` (`is_visible`, `slot_number`, `relay_number`).
-- **Server schema:** `slotSpecialDataSchema` (Zod) in `apps/server/src/routes/app-configuration/app-configuration.routes.ts`.
+- **Server schema:** `slotSpecialDataSchema` (Valibot) in `apps/server/src/routes/app-configuration/app-configuration.routes.ts`.
 - **Client hooks:** `useGetSlotSpecialConfig('special_grid' | 'special_power' | 'special_alt')` and `useUpdateSlotSpecialConfig()` with `{ param, id, data }`. Use `SLOT_SPECIAL_CONFIG_KEYS` to map param → key.
 - **API:** Same GET-by-key and PATCH-by-id as other app config; key names are `slot_special_grid`, etc.
 

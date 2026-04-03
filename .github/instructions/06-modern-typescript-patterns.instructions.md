@@ -9,7 +9,7 @@ Encourage Copilot to propose modern TS patterns when they add clear value.
 - Branded types for distinct primitives.
 - Result types for explicit error handling.
 - Discriminated unions for state machines.
-- Runtime validation (Zod) for external data.
+- Runtime validation (Valibot) for external data.
 - Type utilities (type-fest) for complex transformations.
 
 ## Avoid

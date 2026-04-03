@@ -5,7 +5,7 @@
 This project requires extremely high accuracy for:
 - TypeScript type inference and generics
 - React (concurrent features, RHF, controlled/uncontrolled patterns)
-- Schema and validation tooling (Zod)
+- Schema and validation tooling (Valibot)
 - ORM correctness (Drizzle, SQLite)
 - Server frameworks with compile-time contracts (Hono)
 

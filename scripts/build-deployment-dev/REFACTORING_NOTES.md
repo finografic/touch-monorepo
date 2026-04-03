@@ -62,7 +62,7 @@ scripts/src/build-deployment/
 
 - Missing `npm-run-all` → `run-p: command not found`
 - Missing `@dotenvx/dotenvx` → Module resolution errors
-- Missing `drizzle-zod` → Import failures
+- Missing `drizzle-valibot` (or schema deps) → Import failures
 - 20+ other missing packages
 
 **Root Cause**: Manual dependency specification vs. dynamic dependency resolution

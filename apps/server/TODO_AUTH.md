@@ -9,8 +9,6 @@
 
 <https://authjs.dev/getting-started/adapters/drizzle>
 
-<https://authjs.dev/getting-started/migrate-to-better-auth>
-
 <https://authjs.dev/reference/drizzle-adapter/lib/utils>
 <https://authjs.dev/reference/core>
 <https://authjs.dev/getting-started/typescript#module-augmentation>

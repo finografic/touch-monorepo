@@ -14,7 +14,7 @@ Successfully implemented a new admin page for editing UI labels/translations fro
 - **Reusable Component**: `UiLabelSection` for multi-language editing
 - **Navigation Integration**: Added to admin navigation and dashboard
 - **Responsive Layout**: Matches existing translations page styling
-- **Form Validation**: Using React Hook Form + Zod schema
+- **Form Validation**: Using React Hook Form + Valibot schema
 - **Real-time Updates**: Live editing with form state management
 
 ### ✅ Technical Implementation
@@ -73,7 +73,7 @@ const translationData = {
 ### ✅ What Was Successfully Shared
 
 - **Styling Patterns**: Consistent with existing TranslationSection layout
-- **Form Architecture**: Same React Hook Form + Zod validation approach
+- **Form Architecture**: Same React Hook Form + Valibot validation approach
 - **UI Components**: Radix UI components (TextField, Grid, etc.)
 - **Layout Structure**: AdminContentLayout, AdminSection wrappers
 

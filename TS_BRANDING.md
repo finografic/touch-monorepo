@@ -370,7 +370,7 @@ If you need more advanced features:
 
 - **[ts-brand](https://github.com/kourge/ts-brand)** - Lightweight branding library
 - **[io-ts](https://github.com/gcanti/io-ts)** - Runtime type validation
-- **[zod](https://github.com/colinhacks/zod)** - Schema validation with branding
+- **[Valibot](https://valibot.dev/)** — schema validation with branding (via the same patterns as plain object types)
 - **[Effect-TS](https://www.effect.website/)** - Functional programming with branded types
 
 ---

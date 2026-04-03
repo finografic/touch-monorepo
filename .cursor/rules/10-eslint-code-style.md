@@ -64,7 +64,7 @@ The project uses `simple-import-sort` for consistent import ordering. Imports mu
 
 ```typescript
 // ❌ Incorrect - mixed groupings
-import { zodResolver } from '@hookform/resolvers/zod';
+import { standardSchemaResolver } from '@hookform/resolvers/standard-schema';
 import { useToast } from 'components/Toast';
 import { ORDER_FORM_SCHEMA } from 'admin/pages/...';
 import { useAppConfig } from 'providers/AppConfigProvider';
@@ -75,7 +75,7 @@ import { MIN_TEMP_DIFFERENCE } from 'config/app';
 
 ```typescript
 // ✅ Correct
-import { zodResolver } from '@hookform/resolvers/zod';
+import { standardSchemaResolver } from '@hookform/resolvers/standard-schema';
 
 import { useToast } from 'components/Toast';
 

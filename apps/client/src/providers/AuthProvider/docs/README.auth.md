@@ -2,7 +2,7 @@
 
 📅 Oct 16, 2025
 
-> **Complete guide** to authentication, session management, and route protection in the Touch Monorepo using BetterAuth with HttpOnly cookies.
+> **Complete guide** to authentication, session management, and route protection in the Touch Monorepo using **Auth.js** with HttpOnly cookies.
 
 ---
 
@@ -509,6 +509,7 @@ The reason you see the cookie in DevTools but not `document.cookie` is **by desi
 
 ## 📚 **Related Documentation**
 
-- **[BetterAuth Server Setup](../../server/src/lib/BETTER-AUTH.README.md)** - Server-side configuration
-- **[Auth Routes Documentation](../../server/src/routes/auth/BETTER-AUTH.routes.md)** - API endpoints reference
-- **[Auth Dialog Guard](../components/Dialog/dialogs/AuthLoginDialog/AuthDialogGuard.tsx)** - Route protection implementation
+- **Server:** `apps/server/src/lib/auth.ts` — Auth.js `AuthConfig`
+- **Routes:** `apps/server/src/routes/auth/` — `/api/auth/*` wiring
+- **Auth Dialog Guard:** `apps/client/src/components/Dialog/dialogs/AuthLoginDialog/AuthDialogGuard.tsx` — route protection
+- `docs/auth/AUTHENTICATION_SYSTEM.md` — high-level overview

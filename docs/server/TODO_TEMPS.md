@@ -38,7 +38,7 @@ Use this list when renaming constants/properties to align with DB key names. For
 | apps/client/src/admin/pages/Translations/TranslationsProductPage/hooks/useSaveProductTranslations.ts | defaultTempConsume, defaultTempFreeze | Create/update payloads for drink types & subtypes; clampTempConsume / clampTempFreeze |
 | apps/client/src/admin/pages/Translations/TranslationsProductPage/TranslationsTable/TranslationsTableExpandable.tsx | defaultTempConsume, defaultTempFreeze | Defaults when appending new subtype row (5, -2) |
 | apps/client/src/admin/pages/AdminProductsPage/OrdersForm/OrdersForm.tsx | defaultTempConsume, defaultTempFreeze | Form field names, initial values, setValue, validation |
-| apps/client/src/admin/pages/AdminProductsPage/OrdersForm/OrdersForm.schema.ts | defaultTempConsume, defaultTempFreeze | Zod schema field names and validation |
+| apps/client/src/admin/pages/AdminProductsPage/OrdersForm/OrdersForm.schema.ts | defaultTempConsume, defaultTempFreeze | Valibot schema field names and validation |
 | apps/client/src/admin/pages/AdminProductsPage/OrdersForm/orders-form.submission.ts | defaultTempConsume, defaultTempFreeze | Submission payload to API |
 | apps/client/src/admin/pages/AdminProductsPage/OrdersForm/useAddNewItemHandlers.ts | defaultTempConsume, defaultTempFreeze | Defaults when adding new order items |
 | apps/client/src/admin/pages/AdminProductsPage/OrdersForm/mock-orders.utils.ts | defaultTempFreeze, defaultTempConsume | Param name, setValue keys, mock payload |
@@ -86,16 +86,16 @@ Use this list when renaming constants/properties to align with DB key names. For
 
 ---
 
-## Server – default_temp_*(DB columns) and defaultTemp* (Zod/API)
+## Server – default_temp_*(DB columns) and defaultTemp* (Valibot/API)
 
 | File path | Variable name | Inferred usage |
 |-----------|---------------|----------------|
-| apps/server/src/db/schemas/drink_types.schema.ts | defaultTempConsume, defaultTempFreeze (Drizzle); integer('default_temp_consume'), integer('default_temp_freeze') | Table definition and Zod insert schema |
-| apps/server/src/db/schemas/drink_subtypes.schema.ts | defaultTempConsume, defaultTempFreeze (Drizzle); integer('default_temp_consume'), integer('default_temp_freeze') | Table definition and Zod insert schema |
-| apps/server/src/db/schemas/orders.schema.ts | defaultTempConsume, defaultTempFreeze (Drizzle); default_temp_consume, default_temp_freeze | Orders table and Zod; uses TEMPERATURE_RANGES |
+| apps/server/src/db/schemas/drink_types.schema.ts | defaultTempConsume, defaultTempFreeze (Drizzle); integer('default_temp_consume'), integer('default_temp_freeze') | Table definition and Valibot insert schema |
+| apps/server/src/db/schemas/drink_subtypes.schema.ts | defaultTempConsume, defaultTempFreeze (Drizzle); integer('default_temp_consume'), integer('default_temp_freeze') | Table definition and Valibot insert schema |
+| apps/server/src/db/schemas/orders.schema.ts | defaultTempConsume, defaultTempFreeze (Drizzle); default_temp_consume, default_temp_freeze | Orders table and Valibot; uses TEMPERATURE_RANGES |
 | apps/server/src/db/seeds/drink_types.seed.ts | defaultTempConsume, defaultTempFreeze | Seed data for drink_types and drink_subtypes |
 | apps/server/src/db/seeds/orders.seed.ts | defaultTempConsume, defaultTempFreeze | Seed payload; uses TEMPERATURE_RANGES |
-| apps/server/src/routes/orders/orders.routes.ts | defaultTempConsume, defaultTempFreeze | Zod schema for order body |
+| apps/server/src/routes/orders/orders.routes.ts | defaultTempConsume, defaultTempFreeze | Valibot schema for order body |
 | apps/server/src/routes/orders/orders.handlers.ts | defaultTempConsume, defaultTempFreeze; default_temp_consume AS defaultTempConsume, default_temp_freeze AS defaultTempFreeze | Select list alias DB → camelCase; read result |
 | apps/server/src/types/entities/order.entity.ts | default_temp_consume, default_temp_freeze | Entity type (DB column names) |
 | apps/server/src/types/entities/order-readable.entity.ts | default_temp_consume, default_temp_freeze | Readable view entity |
@@ -118,7 +118,7 @@ Use this list when renaming constants/properties to align with DB key names. For
 
 | File path | Variable name | Inferred usage |
 |-----------|---------------|----------------|
-| docs/ZOD_TO_STANDARD_SCHEMA_MIGRATION.md | defaultTempConsume, default_temp_consume | Example schema migration |
+| apps/server/src/db/schemas/drink_types.schema.ts (and related) | defaultTempConsume, default_temp_consume | Valibot / Drizzle schema sources |
 | docs/FormMiddleware-System.md | defaultTempConsume, defaultTempFreeze, DEFAULT_TEMP_MIN, DEFAULT_TEMP_MAX, TEMP_STEP, MIN_TEMP_DIFFERENCE | Form middleware examples |
 | apps/client/src/api/API_ENDPOINTS_AND_QUERIES_GUIDE.md | defaultTempConsume, defaultTempFreeze | API guide examples |
 | apps/client/src/pages/TemperaturePage/TEMPERATURE_SYSTEM_ANALYSIS.md | defaultTempConsume, defaultTempFreeze | Analysis doc |
