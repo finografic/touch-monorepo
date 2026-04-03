@@ -617,7 +617,7 @@ export const translationsEndpoints = {
 
 ## 🔗 Related Files
 
-- `TODO.MASTER.md` - Main roadmap (Phase 4 references this)
+- `TODO_MAINTENANCE.P3.md` — monorepo backlog (links here for API consolidation)
 - `apps/client/src/api/api.endpoints.ts` - Current `EndpointHelper`
 - `apps/client/src/api/endpoints/` - Current endpoint files
 - `.cursor/rules/` - Should be updated with endpoint guidelines
