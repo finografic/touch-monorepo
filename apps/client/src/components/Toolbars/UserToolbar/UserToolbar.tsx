@@ -62,9 +62,7 @@ export const UserToolbar = ({ variant }: { variant?: 'light' | 'dark' }) => {
           </div>
         </Flex>
       </div>
-      {isLanguageDialogOpen && (
-        <LanguageDialog isOpen={isLanguageDialogOpen} onClose={() => setIsLanguageDialogOpen(false)} />
-      )}
+      <LanguageDialog isOpen={isLanguageDialogOpen} onClose={() => setIsLanguageDialogOpen(false)} />
     </>
   );
 };

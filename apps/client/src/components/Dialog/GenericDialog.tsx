@@ -1,10 +1,12 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import type { ButtonProps } from '@finografic/design-system/components';
 import { Button, Dialog, Tabs } from '@finografic/design-system/components';
 import { CloseIcon } from '@finografic/icons';
 
 import clsx from 'clsx';
 import type { DialogConfig } from 'components/Dialog/GenericDialog.types';
+
+import { cleanupDialogBodyAttributes } from 'utils/ui.utils';
 
 import { styles } from './GenericDialog.styles';
 
@@ -56,14 +58,38 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({
     [onTabChange],
   );
 
+  // Run cleanup only when the dialog is actually closed (`isOpen` false). Do not use an empty-deps
+  // unmount effect: React Strict Mode runs that cleanup on the dev double-mount and strips scroll-lock
+  // while the dialog is opening.
+  // Important: do not name this effect `cleanupDialogBodyAttributes` — it would shadow the import and
+  // the timeouts would call the effect function instead of the util (runaway timers / slowdown).
+  useEffect(function updateBodyAttributes() {
+    if (!isOpen) {
+      const id = window.setTimeout(() => cleanupDialogBodyAttributes(), 0);
+      const idLater = window.setTimeout(() => cleanupDialogBodyAttributes(), 150);
+
+      return () => {
+        window.clearTimeout(id);
+        window.clearTimeout(idLater);
+      };
+    }
+  }, [isOpen]);
+
   return (
-    <Dialog.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>
+    <Dialog.Root
+      open={isOpen}
+      onOpenChange={(open) => {
+        if (!open) {
+          onClose();
+        }
+      }}
+    >
       <Dialog.Backdrop />
       <Dialog.Positioner>
         <Dialog.Content
-          size={config.size ?? 'md'}
-          className={clsx('dialog-content', className)}
+          className={clsx('dialog-content', className, config.size && `dialog-size-${config.size}`)}
           css={styles}
+          data-dialog-size={config.size ?? 'md'}
           style={dynamicStyles}
         >
           {/* HEADER =========================================================== */}
@@ -114,7 +140,10 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({
                 </Tabs.Root>
               )
               : (
-                <div className="dialog-content" style={{ marginTop: '1.5rem' }}>
+                <div
+                  className="dialog-content"
+                  style={{ marginTop: '2rem', marginBottom: '1.25rem' }}
+                >
                   {currentTab?.content}
                 </div>
               )}

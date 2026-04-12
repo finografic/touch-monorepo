@@ -57,10 +57,10 @@ export const styles = css`
       height: 4rem;
 
       > div {
-        width: 100%;
+        /* width: 100%;
         display: flex;
         flex-shrink: 0;
-        padding: 0;
+        padding: 0; */
 
         h1 {
           font-size: 2rem;
@@ -104,7 +104,7 @@ export const styles = css`
 
       overflow: hidden;
 
-      padding: 0 1.5rem 1.15rem 1.5rem;
+      padding: 0 1.5rem 0.25rem 1.5rem;
     }
 
     /* DIALOG CONTENT ======================================================= */

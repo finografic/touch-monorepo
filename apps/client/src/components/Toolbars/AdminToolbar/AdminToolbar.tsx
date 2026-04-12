@@ -31,9 +31,7 @@ export const AdminToolbar: React.FC = () => {
           )}
         </Flex>
       </div>
-      {isLanguageDialogOpen && (
-        <LanguageDialog isOpen={isLanguageDialogOpen} onClose={() => setIsLanguageDialogOpen(false)} />
-      )}
+      <LanguageDialog isOpen={isLanguageDialogOpen} onClose={() => setIsLanguageDialogOpen(false)} />
     </>
   );
 };

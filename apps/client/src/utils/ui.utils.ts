@@ -1,51 +1,32 @@
 /**
- * 🧹 Clean up Radix Dialog body attributes that may persist after dialog closes
+ * Remove modal/scroll-lock side effects that sometimes stay on `document` after
+ * Ark/Radix-style dialogs close (especially when the dialog unmounts in one step
+ * without an intermediate `open={false}` render).
  */
 export const cleanupDialogBodyAttributes = (): void => {
   const body = document.body;
+  const html = document.documentElement;
 
   if (body.style.pointerEvents === 'none') {
     body.style.pointerEvents = '';
   }
 
-  if (body.hasAttribute('data-scroll-locked')) {
-    body.removeAttribute('data-scroll-locked');
+  if (body.style.overflow === 'hidden') {
+    body.style.overflow = '';
   }
 
-  // Also check for data-aria-hidden attribute (sometimes added by Radix)
-  if (body.hasAttribute('data-aria-hidden')) {
-    body.removeAttribute('data-aria-hidden');
+  // Ark UI / design-system (current)
+  body.removeAttribute('data-scroll-lock');
+  body.removeAttribute('data-inert');
+  // Radix / older stacks
+  body.removeAttribute('data-scroll-locked');
+  body.removeAttribute('data-aria-hidden');
+
+  if (html.style.getPropertyValue('--scrollbar-width')) {
+    html.style.removeProperty('--scrollbar-width');
   }
 
-  // Log cleanup for debugging
   if (process.env.NODE_ENV === 'development') {
-    console.log('🧹 Cleaned up dialog body attributes');
+    console.log('🧹 Cleaned up dialog body / html scroll-lock attributes');
   }
-};
-
-/**
- * 🧹 Clean up Radix Dialog body attributes that may persist after dialog closes
- */
-export const setDialogOpenAttributes = (): void => {
-  /*
-  const body = document.body;
-
-  if (body.style.pointerEvents === 'none') {
-    body.style.pointerEvents = '';
-  }
-
-  if (body.hasAttribute('data-scroll-locked')) {
-    body.removeAttribute('data-scroll-locked');
-  }
-
-  // Also check for data-aria-hidden attribute (sometimes added by Radix)
-  if (body.hasAttribute('data-aria-hidden')) {
-    body.removeAttribute('data-aria-hidden');
-  }
-
-  // Log cleanup for debugging
-  if (process.env.NODE_ENV === 'development') {
-    console.log('🧹 Cleaned up dialog body attributes');
-  }
-  */
 };

@@ -48,7 +48,9 @@ export const AdminLanguagesPage: React.FC = () => {
   const [translatingLanguageCode, setTranslatingLanguageCode] = useState<string | null>(null);
 
   // Delete confirmation dialog state
-  const [deleteDialog, setDeleteDialog] = useState<{ isOpen: boolean; language: LanguageInfo | null }>({
+  const [deleteDialog, setDeleteDialog] = useState<
+    { isOpen: boolean; language: LanguageInfo | null }
+  >({
     isOpen: false,
     language: null,
   });
@@ -63,7 +65,10 @@ export const AdminLanguagesPage: React.FC = () => {
   const deleteLanguageMutation = useDeleteSupportedLanguage();
 
   // Poll translation status if a language is being translated
-  const translationStatus = useTranslationStatus(translatingLanguageCode, !!translatingLanguageCode);
+  const translationStatus = useTranslationStatus(
+    translatingLanguageCode,
+    !!translatingLanguageCode,
+  );
 
   // Handle translation status changes
   useEffect(() => {
@@ -75,7 +80,8 @@ export const AdminLanguagesPage: React.FC = () => {
       if (reloadTimeoutRef.current) clearTimeout(reloadTimeoutRef.current);
       setMessage({
         type: 'success',
-        text: `✅ Translation completed for ${translatingLanguageCode}! All translations are ready.`,
+        text:
+          `✅ Translation completed for ${translatingLanguageCode}! All translations are ready.`,
       });
       setTranslatingLanguageCode(null);
       queryClient.invalidateQueries({ queryKey: supportedLanguagesKeys.lists() });
@@ -87,7 +93,9 @@ export const AdminLanguagesPage: React.FC = () => {
       if (clearMessageTimeoutRef.current) clearTimeout(clearMessageTimeoutRef.current);
       setMessage({
         type: 'error',
-        text: `❌ Translation failed for ${translatingLanguageCode}: ${translationError || 'Unknown error'}`,
+        text: `❌ Translation failed for ${translatingLanguageCode}: ${
+          translationError || 'Unknown error'
+        }`,
       });
       setTranslatingLanguageCode(null);
       clearMessageTimeoutRef.current = setTimeout(() => {
@@ -95,7 +103,8 @@ export const AdminLanguagesPage: React.FC = () => {
         setMessage(null);
       }, 8000);
     } else if (status === 'in-progress' && progress) {
-      const progressText = `Translating ${progress.currentTable}... (${progress.completedTables}/${progress.totalTables} tables)`;
+      const progressText =
+        `Translating ${progress.currentTable}... (${progress.completedTables}/${progress.totalTables} tables)`;
       setMessage({
         type: 'success',
         text: `🔄 ${progressText}`,
@@ -119,9 +128,11 @@ export const AdminLanguagesPage: React.FC = () => {
     () =>
       supportedLanguagesData
         ? LanguagesDto.fromApi(
-            Array.isArray(supportedLanguagesData) ? supportedLanguagesData : supportedLanguagesData || [],
-            (flagCode) => getFlagUrl(flagCode, 'medium'),
-          )
+          Array.isArray(supportedLanguagesData)
+            ? supportedLanguagesData
+            : supportedLanguagesData || [],
+          (flagCode) => getFlagUrl(flagCode, 'medium'),
+        )
         : [],
     [supportedLanguagesData],
   );
@@ -129,7 +140,7 @@ export const AdminLanguagesPage: React.FC = () => {
   // Convert curated languages to the format expected by SearchableLanguageInput
   const { countries, curatedLanguageOptions } = useMemo(() => {
     const curatedLanguageOptions = convertToLanguageOptions((countryCode) =>
-      getFlagUrl(countryCode, 'medium'),
+      getFlagUrl(countryCode, 'medium')
     );
 
     const availableOptions = curatedLanguageOptions.filter(
@@ -137,7 +148,9 @@ export const AdminLanguagesPage: React.FC = () => {
         !(languages.map((lang) => lang.code) as string[]).includes(option.languageCode),
     );
 
-    const countries = [...new Set(availableOptions.map((option: LanguageOption) => option.countryCode))];
+    const countries = [
+      ...new Set(availableOptions.map((option: LanguageOption) => option.countryCode)),
+    ];
     return { countries, curatedLanguageOptions: availableOptions };
   }, [languages]);
 
@@ -166,20 +179,26 @@ export const AdminLanguagesPage: React.FC = () => {
     }
 
     try {
-      setMessage({ type: 'success', text: 'Deleting language and removing translation columns...' });
+      setMessage({
+        type: 'success',
+        text: 'Deleting language and removing translation columns...',
+      });
       await deleteLanguageMutation.mutateAsync(language.id);
 
       queryClient.invalidateQueries({ queryKey: supportedLanguagesKeys.lists() });
       setMessage({
         type: 'success',
-        text: `Language "${language.label}" deleted successfully! Translation columns have been removed from all tables.`,
+        text:
+          `Language "${language.label}" deleted successfully! Translation columns have been removed from all tables.`,
       });
       setTimeout(() => setMessage(null), 5000);
     } catch (error) {
       console.error('Error deleting language:', error);
       setMessage({
         type: 'error',
-        text: `Failed to delete language: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        text: `Failed to delete language: ${
+          error instanceof Error ? error.message : 'Unknown error'
+        }`,
       });
       setTimeout(() => setMessage(null), 5000);
     } finally {
@@ -197,7 +216,8 @@ export const AdminLanguagesPage: React.FC = () => {
 
     // Check if language is already selected
     const isAlreadySelected = selectedLanguages.some(
-      (selected) => selected.code === languageInfo.code && selected.countryCode === languageInfo.countryCode,
+      (selected) =>
+        selected.code === languageInfo.code && selected.countryCode === languageInfo.countryCode,
     );
 
     if (!isAlreadySelected) {
@@ -207,7 +227,7 @@ export const AdminLanguagesPage: React.FC = () => {
 
   const handleRemoveLanguage = (languageCode: string, countryCode?: string) => {
     setSelectedLanguages((prev) =>
-      prev.filter((lang) => !(lang.code === languageCode && lang.countryCode === countryCode)),
+      prev.filter((lang) => !(lang.code === languageCode && lang.countryCode === countryCode))
     );
   };
 
@@ -244,13 +264,16 @@ export const AdminLanguagesPage: React.FC = () => {
       // Show initial message - polling will update it with progress
       setMessage({
         type: 'success',
-        text: `✅ Successfully added ${selectedLanguages.length} language(s)! Generating translations... This may take a few minutes.`,
+        text:
+          `✅ Successfully added ${selectedLanguages.length} language(s)! Generating translations... This may take a few minutes.`,
       });
     } catch (error) {
       console.error('Error saving languages:', error);
       setMessage({
         type: 'error',
-        text: `Failed to save languages: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        text: `Failed to save languages: ${
+          error instanceof Error ? error.message : 'Unknown error'
+        }`,
       });
       setTranslatingLanguageCode(null);
       setTimeout(() => setMessage(null), 5000);
@@ -269,7 +292,10 @@ export const AdminLanguagesPage: React.FC = () => {
       <AdminSection>
         {/* Message Display */}
         {message && (
-          <div className={callout({ status: message.type === 'error' ? 'error' : 'success' })} role="alert">
+          <div
+            className={callout({ status: message.type === 'error' ? 'error' : 'success' })}
+            role="alert"
+          >
             <InfoCircledIcon />
             <span>{message.text}</span>
           </div>
@@ -329,7 +355,9 @@ export const AdminLanguagesPage: React.FC = () => {
                 loading={createLanguageMutation.isPending}
                 disabled={createLanguageMutation.isPending || selectedLanguages.length === 0}
               >
-                {createLanguageMutation.isPending ? 'Adding languages...' : 'Confirm: Add new languages'}
+                {createLanguageMutation.isPending
+                  ? 'Adding languages...'
+                  : 'Confirm: Add new languages'}
               </Button>
             </Col>
           </Row>
