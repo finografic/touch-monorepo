@@ -48,6 +48,7 @@ Rules are canonical in `.github/instructions/` and shared across Claude Code, Cu
 - Prefer fetching supported languages from the API or shared runtime state over hardcoded `DEFAULT_SUPPORTED_LANGUAGES`-style lists when new locales must work without redeploying generated config.
 - Admin route IDs used for i18n keys should match the key namespace in translation assets (e.g. `items` vs `products`) so navbar and pages resolve the same keys.
 - Root follow-up and maintenance trackers use `TODO_{CATEGORY}.{PRIORITY}.md` at the repo root (e.g. `TODO_AUTH.P1.md`, `TODO_MAINTENANCE.P3.md`).
+- Clearing all selected pad slots: use `setSelectedSlots([])` from `useMetadata()` or `useLayoutUi()` instead of adding extra one-off helpers on context.
 
 ## Learned Workspace Facts
 
@@ -58,8 +59,8 @@ Rules are canonical in `.github/instructions/` and shared across Claude Code, Cu
 - Client Vite: define more specific `resolve.alias` entries (e.g. `@workspace/foo/bar`) before the shorter `@workspace/foo` alias so subpaths do not resolve to `index.ts` + suffix paths.
 - Server production bundle: add each used `@workspace/*` package to tsup `noExternal` so deployment has no unresolved workspace imports; client uses aliases plus `optimizeDeps.include` as documented in `packages/WORKSPACE-RESOLUTION.md`.
 - Auth.js (JWT): the API may use an ephemeral JWT signing secret in development so sessions do not survive API restarts (`apps/server/src/lib/auth-secret.runtime.ts`, optional `AUTH_INVALIDATE_JWT_ON_SERVER_BOOT` to opt out in dev or force ephemeral in prod).
+- Client routing: `PATHS.main` is `/main` (main touch pad). The index route at `/` redirects to `PATHS.main`, so default startup lands on the pad; admin remains under `/admin`.
 - Slot grid layout on main vs admin: shared iteration uses `mapGridByColumns` in `apps/client/src/utils/grid.utils.ts`; column count should use the same `calculateColumns` helper as admin when deriving dimensions from active slot count.
 - Pad slot selection (`selectedSlots`, `toggleSlot`, `setSelectedSlots`) lives in **`MetadataProvider`** / **`MetadataContext`** (root-mounted in `App.tsx`); **`useLayoutUi`** merges that slice (`toggleMainPageSlot` aliases `toggleSlot`) so selection survives `/admin` when **`LayoutUiProvider`** unmounts. Prefer **`useLayoutUi()`** for slot APIs in main UI, or **`useMetadata()`** for direct access.
 - **`ADMIN_PAGE_SEGMENTS_NAV_ORDER`** (translations “Páginas” section order) is derived from **`ADMIN_ROUTE_CONFIGS`** in **`admin/config/admin.routes.selectors.ts`** rather than `admin.routes.map.ts`, to avoid circular imports with the translations route tree.
-- **`PadCheckbox`** merges optional `css` from `PadSlot` with `padStyles` (`[padStyles, slotCss]`) so slot-level Emotion rules apply on idle relay pads; **`PadSlotToggle`** accepts `css` for the timer wrapper.
 - TanStack Query **`useMutation`**: in `useEffect` deps, use the stable **`mutate`** function, not the full mutation result object — the object’s identity changes when `isPending` / error state updates and can retrigger the effect in a loop.

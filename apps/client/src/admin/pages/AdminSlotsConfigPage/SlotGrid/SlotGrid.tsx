@@ -151,7 +151,6 @@ const SlotGridComponent: React.FC<SlotGridProps> = ({
 
   return (
     <div css={styles}>
-      <h2>Columns: {columns} // Rows: {rows}</h2>
       <div className="slot-grid-container">
         <div
           className="slot-grid"

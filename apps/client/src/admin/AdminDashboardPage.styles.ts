@@ -3,6 +3,14 @@ import { colors, layout } from '@finografic/design-system/tokens';
 import { css } from '@emotion/react';
 
 export const styles = css`
+
+  .admin-page-header{
+    padding-bottom: 0!important;
+    h1{
+      text-align: center;
+    }
+  }
+
   .admin-dashboard {
     width: 100%;
     max-width: 1200px;
@@ -29,6 +37,10 @@ export const styles = css`
       padding: 0.5rem;
       min-height: 80px;
       transition: all 200ms ease;
+
+      & > div {
+        padding: 0;
+      }
 
       &:hover {
         border: ${layout.borderWidth} solid ${colors.greyLighter};

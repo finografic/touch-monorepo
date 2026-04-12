@@ -53,6 +53,9 @@ export const styles = css`
     /* DIALOG HEADER ======================================================== */
 
     .dialog-header {
+      min-height: 4rem;
+      height: 4rem;
+
       > div {
         width: 100%;
         display: flex;
@@ -70,9 +73,12 @@ export const styles = css`
       }
 
       .close-button {
-        transform: translate(0.5rem, 0rem) scale(0.9);
+        transform: translate(1rem, 0rem) scale(0.9);
+        padding: 1.25rem 0.5rem;
+        height: 3rem;
         outline: none;
         color: ${colors.textLight};
+
         &:hover {
           color: ${colors.warningLight};
           background-color: ${colors.warningLighter};
@@ -82,7 +88,7 @@ export const styles = css`
 
       &:not(.has-title) {
         position: absolute;
-        right: 1.5rem;
+        right: 0rem;
       }
     }
 

@@ -46,8 +46,8 @@ export const AdminDashboardPage: React.FC = () => {
   const gridColumns = adminCards.length === 1 ? 1 : 2;
 
   return (
-    <AdminPageLayout title={pageTitle} subtitle={pageDescription} align="center">
-      <div className="admin-dashboard" css={styles}>
+    <div className="admin-dashboard" css={styles}>
+      <AdminPageLayout title={pageTitle} subtitle={pageDescription} align="center">
         <div className="admin-cards" style={{ ['--cols' as any]: gridColumns }}>
           {adminCards.map((adminCard, i) => (
             <Card
@@ -67,7 +67,8 @@ export const AdminDashboardPage: React.FC = () => {
                     className="card-icon-box"
                     style={{
                       color: colors[adminCard.color as keyof typeof colors] as string,
-                      backgroundColor: colors[`${adminCard.color}XLight` as keyof typeof colors] as string,
+                      backgroundColor:
+                        colors[`${adminCard.color}XLight` as keyof typeof colors] as string,
                     }}
                   >
                     {React.cloneElement(adminCard.icon)}
@@ -85,7 +86,7 @@ export const AdminDashboardPage: React.FC = () => {
             </Card>
           ))}
         </div>
-      </div>
-    </AdminPageLayout>
+      </AdminPageLayout>
+    </div>
   );
 };
