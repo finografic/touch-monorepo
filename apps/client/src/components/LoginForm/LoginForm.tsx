@@ -32,7 +32,6 @@ export const LoginForm: React.FC<LoginFormProps> = ({
   const [error, setError] = useState('');
 
   const { signIn, signUp } = useAuth();
-  // const navigate = useNavigate();
   const location = useLocation();
 
   const redirectUrl = String(location.pathname.startsWith('/admin') ? '/admin' : PATHS.main);
