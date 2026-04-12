@@ -8,14 +8,14 @@ This document describes the **app-level configuration** feature: a small key/val
 
 **Table:** `app_configuration`
 
-| Column       | Type    | Description                                      |
-| ------------ | ------- | ------------------------------------------------ |
-| `id`         | text    | Primary key (CUID)                               |
-| `name`       | text    | Unique key (e.g. `grid_layout`)                   |
-| `is_active`  | integer | Boolean (0/1); used as toggle state               |
-| `data`       | text    | JSON object for optional config-specific fields  |
-| `created_at` | text    | Timestamp                                        |
-| `updated_at` | text    | Timestamp                                        |
+| Column       | Type    | Description                                     |
+| ------------ | ------- | ----------------------------------------------- |
+| `id`         | text    | Primary key (CUID)                              |
+| `name`       | text    | Unique key (e.g. `grid_layout`)                 |
+| `is_active`  | integer | Boolean (0/1); used as toggle state             |
+| `data`       | text    | JSON object for optional config-specific fields |
+| `created_at` | text    | Timestamp                                       |
+| `updated_at` | text    | Timestamp                                       |
 
 - **Migration:** `data/migrations/0001_app_configuration.sql`
 - **Schema (Drizzle):** `apps/server/src/db/schemas/app_configuration.schema.ts`
@@ -27,12 +27,12 @@ This document describes the **app-level configuration** feature: a small key/val
 
 **Base path:** `/app-configuration` (under API base path, e.g. `/api/app-configuration`)
 
-| Method | Path                        | Description                    |
-| ------ | --------------------------- | ------------------------------ |
-| GET    | `/app-configuration`        | List all app config entries    |
-| GET    | `/app-configuration/:id`    | Get one by CUID                |
+| Method | Path                           | Description                         |
+| ------ | ------------------------------ | ----------------------------------- |
+| GET    | `/app-configuration`           | List all app config entries         |
+| GET    | `/app-configuration/:id`       | Get one by CUID                     |
 | GET    | `/app-configuration/key/:name` | Get one by key (e.g. `grid_layout`) |
-| PATCH  | `/app-configuration/:id`    | Partial update (`isActive`, `data`) |
+| PATCH  | `/app-configuration/:id`       | Partial update (`isActive`, `data`) |
 
 **Implementation:**
 
@@ -50,12 +50,12 @@ This document describes the **app-level configuration** feature: a small key/val
 
 **Exports:** `appConfigurationEndpoints` (and re-exported from `api/endpoints/index.ts`)
 
-| Method      | Description                          |
-| ----------- | ------------------------------------ |
-| `getAll()`  | GET list                             |
-| `getById(id)` | GET by CUID                        |
-| `getByKey(name)` | GET by key (e.g. `'grid_layout'`) |
-| `update(id, { isActive?, data? })` | PATCH one entry              |
+| Method                             | Description                       |
+| ---------------------------------- | --------------------------------- |
+| `getAll()`                         | GET list                          |
+| `getById(id)`                      | GET by CUID                       |
+| `getByKey(name)`                   | GET by key (e.g. `'grid_layout'`) |
+| `update(id, { isActive?, data? })` | PATCH one entry                   |
 
 **Types:** `apps/client/src/types/app-configuration.types.ts` — `AppConfiguration`, `UpdateAppConfigurationRequest`, `SlotSpecialConfig` (`{ is_visible, slot_number, relay_number }`), `SlotSpecialParam` (`'special_grid' | 'special_power' | 'special_alt'`), `SLOT_SPECIAL_CONFIG_KEYS`, `SlotSpecialAppConfiguration`. Shared entity shape also exported from `config/app-configuration.entity.ts` as `AppConfigurationEntity`.
 
@@ -65,13 +65,13 @@ This document describes the **app-level configuration** feature: a small key/val
 
 **Folder:** `apps/client/src/queries/app-configuration/`
 
-| File                          | Hook                         | Purpose                          |
-| ----------------------------- | ---------------------------- | --------------------------------- |
-| `useGetAppConfigurations.ts`  | `useGetAppConfigurations()`  | Fetch all entries                 |
-| `useGetAppConfigurationByKey.ts` | `useGetAppConfigurationByKey(key)` | Fetch one by key (e.g. `'grid_layout'`) |
-| `useGetSlotSpecialConfig.ts`  | `useGetSlotSpecialConfig(param)` | Fetch one slot-special by param (`'special_grid' \| 'special_power' \| 'special_alt'`); returns typed `data: SlotSpecialConfig` |
-| `useUpdateAppConfiguration.ts` | `useUpdateAppConfiguration()` | PATCH mutation; invalidates list + detail |
-| `useUpdateSlotSpecialConfig.ts` | `useUpdateSlotSpecialConfig()` | PATCH a slot-special entry; pass `{ param, id, data }`; invalidates list + that param's detail |
+| File                             | Hook                               | Purpose                                                                                                                         |
+| -------------------------------- | ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `useGetAppConfigurations.ts`     | `useGetAppConfigurations()`        | Fetch all entries                                                                                                               |
+| `useGetAppConfigurationByKey.ts` | `useGetAppConfigurationByKey(key)` | Fetch one by key (e.g. `'grid_layout'`)                                                                                         |
+| `useGetSlotSpecialConfig.ts`     | `useGetSlotSpecialConfig(param)`   | Fetch one slot-special by param (`'special_grid' \| 'special_power' \| 'special_alt'`); returns typed `data: SlotSpecialConfig` |
+| `useUpdateAppConfiguration.ts`   | `useUpdateAppConfiguration()`      | PATCH mutation; invalidates list + detail                                                                                       |
+| `useUpdateSlotSpecialConfig.ts`  | `useUpdateSlotSpecialConfig()`     | PATCH a slot-special entry; pass `{ param, id, data }`; invalidates list + that param's detail                                  |
 
 **Query keys:** `APP_CONFIGURATION_QUERY_KEYS` in `index.ts` (all, list, detail(key)).
 
@@ -117,11 +117,11 @@ So the Admin switch directly controls what the main app shows: standard grid vs 
 
 Three app_configuration entries: `is_active` (column) is separate from visibility; `data` holds `{ is_visible, slot_number, relay_number }`. Use `data.is_visible` to control UI visibility; `is_active` can mean something else (e.g. enabled state).
 
-| Key                 | Default data                                              | Param (hooks)   |
-| ------------------- | --------------------------------------------------------- | ---------------- |
-| `slot_special_grid` | `{ is_visible: true, slot_number: 10, relay_number: 10 }` | `special_grid`  |
-| `slot_special_power`| `{ is_visible: true, slot_number: 14, relay_number: 14 }` | `special_power` |
-| `slot_special_alt`  | `{ is_visible: false, slot_number: 15, relay_number: 15 }` | `special_alt`   |
+| Key                  | Default data                                               | Param (hooks)   |
+| -------------------- | ---------------------------------------------------------- | --------------- |
+| `slot_special_grid`  | `{ is_visible: true, slot_number: 10, relay_number: 10 }`  | `special_grid`  |
+| `slot_special_power` | `{ is_visible: true, slot_number: 14, relay_number: 14 }`  | `special_power` |
+| `slot_special_alt`   | `{ is_visible: false, slot_number: 15, relay_number: 15 }` | `special_alt`   |
 
 - **Interface:** `SlotSpecialConfig` in `apps/client/src/types/app-configuration.types.ts` (`is_visible`, `slot_number`, `relay_number`).
 - **Server schema:** `slotSpecialDataSchema` (Valibot) in `apps/server/src/routes/app-configuration/app-configuration.routes.ts`.

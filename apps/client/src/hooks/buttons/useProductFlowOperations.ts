@@ -6,7 +6,6 @@ import createCuid from '@bugsnag/cuid';
 import { useRecallConfig } from 'hooks/useRecallConfig';
 import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';
 import { useFiltersContext } from 'providers/FiltersProvider';
-import { useFilters } from 'providers/FiltersProvider/useFilters';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
@@ -29,14 +28,12 @@ export const useProductFlowOperations = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { setPageCurrent } = usePagination();
-  const { orders, toggleSlot, setOrdersSession, profile } = useOrders();
+  const { orders, toggleSlot, setOrdersSession } = useOrders();
   const { createSession, assignOrdersToSession, currentSessionId, clearSession, completeSession } =
     useSession();
   const { addTimer, timers } = useTimers();
   const { selectedSlots, setSelectedSlots } = useLayoutUi();
   const { setFilter, clearFilters, filters } = useFiltersContext();
-  const { dataFiltered } = useFilters();
-  // const orderItemsConfig = useSlotItemsConfig();
   const { items: orderItemsConfig } = useSlotItemsConfig();
   const { saveRecallConfig } = useRecallConfig();
 
@@ -70,7 +67,9 @@ export const useProductFlowOperations = () => {
         throw new Error('Initial and final temperatures must be set');
       }
 
-      if (!temperatureFilter?.closestInitialTemperature || !temperatureFilter?.closestFinalTemperature) {
+      if (
+        !temperatureFilter?.closestInitialTemperature || !temperatureFilter?.closestFinalTemperature
+      ) {
         throw new Error('Closest initial and final temperatures must be calculated');
       }
 
@@ -317,7 +316,15 @@ export const useProductFlowOperations = () => {
     }
 
     navigate(PATHS.main, { replace: true });
-  }, [location.pathname, currentSessionId, orders, toggleSlot, navigate, clearSession, clearFilters]);
+  }, [
+    location.pathname,
+    currentSessionId,
+    orders,
+    toggleSlot,
+    navigate,
+    clearSession,
+    clearFilters,
+  ]);
 
   return {
     handleProgramProduct,

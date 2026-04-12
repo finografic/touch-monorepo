@@ -8,7 +8,7 @@ import { useGetSlotSpecialConfig } from 'queries/app-configuration/useGetSlotSpe
 import { mapGridByColumns } from 'utils/grid.utils';
 import type { SlotConfiguration } from 'types/slot-config.types';
 import { SlotSpecial, SlotType } from 'types/slots.types';
-import { ALT_SLOT_NUMBER, NUM_ROWS_DEFAULT, resolveMainPageSlotType } from 'config/app/slots.config';
+import { ALT_SLOT_NUMBER, NUM_ROWS_DEFAULT } from 'config/app/slots.config';
 import { resolveSlotGridLayout } from './utils/slot-grid-layout';
 import { styles } from './MainSlotGrid.styles';
 
@@ -32,9 +32,7 @@ const MainSlotGridComponent: React.FC<MainSlotGridProps> = ({
   showSpecialAltSlot = false,
   altSlotNumber = ALT_SLOT_NUMBER,
 }) => {
-  const slotSpecialGridConfig = useGetSlotSpecialConfig('special_grid');
   const slotSpecialPowerConfig = useGetSlotSpecialConfig('special_power');
-  const slotSpecialAltConfig = useGetSlotSpecialConfig('special_alt');
 
   /**
    * ------------------------------------------------------------------
@@ -76,64 +74,69 @@ const MainSlotGridComponent: React.FC<MainSlotGridProps> = ({
         {mapGridByColumns({ rows, columns }, (slotNumber) => {
           const slot = layout.regularSlots.get(slotNumber);
 
-          return slot ? (
-            <PadSlot
-              key={slot.slotNumber}
-              slotType={slot.slotType}
-              slotNumber={slot.slotNumber}
-              mutualExclusionAltSlotNumber={altSlotNumber}
-            />
-          ) : null;
+          return slot
+            ? (
+              <PadSlot
+                key={slot.slotNumber}
+                slotType={slot.slotType}
+                slotNumber={slot.slotNumber}
+                mutualExclusionAltSlotNumber={altSlotNumber}
+              />
+            )
+            : null;
         })}
       </div>
 
       <div className="slot-col-lg">
-        <div className="slot-special-row">
-          <div className="slot-item-special">
-            {layout.primarySpecialSlot && (
-              <PadSlot
-                key={layout.primarySpecialSlot.slotNumber}
-                slotType={SlotType.C}
-                slotNumber={layout.primarySpecialSlot.slotNumber}
-                variant="large"
-                className="pad-special-grid"
-                mutualExclusionAltSlotNumber={altSlotNumber}
-              />
-            )}
-
-            {layout.showAltInPrimary && (
-              <PadSlot
-                key={`alt-${altSlotNumber}`}
-                slotType={SlotSpecial.ALT}
-                slotNumber={altSlotNumber}
-                variant="large"
-                className="pad-special-alt"
-                interactive={true}
-                mutualExclusionAltSlotNumber={altSlotNumber}
-              />
-            )}
-          </div>
-
-          {layout.showSecondaryAlt && (
-            <div className="slot-item-special">
-              <PadSlot
-                key={`alt-${altSlotNumber}`}
-                slotType={SlotSpecial.ALT}
-                slotNumber={altSlotNumber}
-                variant="large"
-                className="pad-special-alt"
-                interactive={true}
-                mutualExclusionAltSlotNumber={altSlotNumber}
-              />
+        {[layout.primarySpecialSlot, layout.showAltInPrimary, layout.showSecondaryAlt].some(Boolean)
+          && (
+            <div className="slot-special-row">
+              {[layout.primarySpecialSlot, layout.showAltInPrimary].some(Boolean) && (
+                <div className="slot-item-special">
+                  {layout.primarySpecialSlot && (
+                    <PadSlot
+                      key={layout.primarySpecialSlot.slotNumber}
+                      slotType={SlotType.C}
+                      slotNumber={layout.primarySpecialSlot.slotNumber}
+                      variant="large"
+                      className="pad-special-grid"
+                      mutualExclusionAltSlotNumber={altSlotNumber}
+                    />
+                  )}
+                  {layout.showAltInPrimary && (
+                    <PadSlot
+                      key={`alt-${altSlotNumber}`}
+                      slotType={SlotSpecial.ALT}
+                      slotNumber={altSlotNumber}
+                      variant="large"
+                      className="pad-special-alt"
+                      interactive={true}
+                      mutualExclusionAltSlotNumber={altSlotNumber}
+                    />
+                  )}
+                </div>
+              )}
+              {layout.showSecondaryAlt && (
+                <div className="slot-item-special">
+                  <PadSlot
+                    key={`alt-${altSlotNumber}`}
+                    slotType={SlotSpecial.ALT}
+                    slotNumber={altSlotNumber}
+                    variant="large"
+                    className="pad-special-alt"
+                    interactive={true}
+                    mutualExclusionAltSlotNumber={altSlotNumber}
+                  />
+                </div>
+              )}
             </div>
           )}
-        </div>
 
         {/* Only render power pad when config has loaded and is visible */}
-        {slotSpecialPowerConfig.data?.isActive &&
-          slotSpecialPowerConfig.data.data?.is_visible && (
-            <PadPower key="pad-power" slotType={SlotSpecial.ENF} variant="large" />
-          )}
+        {slotSpecialPowerConfig.data?.isActive
+          && slotSpecialPowerConfig.data.data?.is_visible && (
+          <PadPower key="pad-power" slotType={SlotSpecial.ENF} variant="large" />
+        )}
       </div>
     </div>
   );

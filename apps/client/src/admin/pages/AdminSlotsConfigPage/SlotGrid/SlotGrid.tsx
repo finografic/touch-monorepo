@@ -151,6 +151,7 @@ const SlotGridComponent: React.FC<SlotGridProps> = ({
 
   return (
     <div css={styles}>
+      <h2>Columns: {columns} // Rows: {rows}</h2>
       <div className="slot-grid-container">
         <div
           className="slot-grid"
@@ -185,11 +186,12 @@ const SlotGridComponent: React.FC<SlotGridProps> = ({
 
             {showPowerSlot && (
               <SlotButton
+                key={`power-${rows}-${columns}`}
                 slotNumber={0}
                 slotType="C"
                 label="power"
                 color="power"
-                style={{ maxHeight: columns <= 2 ? '202px' : 'auto' }}
+                style={{ maxHeight: rows <= 2 ? '202px' : 'auto' }}
               />
             )}
           </div>
