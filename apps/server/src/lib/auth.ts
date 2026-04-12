@@ -1,16 +1,17 @@
-import type { AuthConfig } from '@hono/auth-js';
 import Credentials from '@auth/core/providers/credentials';
-import { eq } from 'drizzle-orm';
+import type { AuthConfig } from '@hono/auth-js';
 import { env } from 'env.server';
+import { eq } from 'drizzle-orm';
 
 import { db } from 'db';
-import { user } from '../db/schemas';
+import { runtimeAuthSecret } from 'lib/auth-secret.runtime';
 import { verifyPassword } from 'utils/password.utils';
+import { user } from '../db/schemas';
 
 export function getAuthConfig(): AuthConfig {
   return {
     basePath: '/api/auth',
-    secret: env.AUTH_SECRET,
+    secret: runtimeAuthSecret,
     providers: [
       Credentials({
         name: 'credentials',
@@ -82,7 +83,7 @@ export function getAuthConfig(): AuthConfig {
   };
 }
 
-export type Session = {
+export interface Session {
   user: {
     id: string;
     name: string;
@@ -91,4 +92,4 @@ export type Session = {
     role: 'public' | 'user' | 'admin';
   };
   expires: string;
-};
+}

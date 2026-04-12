@@ -47,6 +47,7 @@ Rules are canonical in `.github/instructions/` and shared across Claude Code, Cu
 - Document Panda token keys and how recipes reference them in token source files (e.g. `spacing.tokens.ts`), not in individual recipe files, unless the recipe needs a one-off note.
 - Prefer fetching supported languages from the API or shared runtime state over hardcoded `DEFAULT_SUPPORTED_LANGUAGES`-style lists when new locales must work without redeploying generated config.
 - Admin route IDs used for i18n keys should match the key namespace in translation assets (e.g. `items` vs `products`) so navbar and pages resolve the same keys.
+- Root follow-up and maintenance trackers use `TODO_{CATEGORY}.{PRIORITY}.md` at the repo root (e.g. `TODO_AUTH.P1.md`, `TODO_MAINTENANCE.P3.md`).
 
 ## Learned Workspace Facts
 
@@ -56,7 +57,7 @@ Rules are canonical in `.github/instructions/` and shared across Claude Code, Cu
 - Lucide-based icon wrappers: `IconProps` should extend `React.SVGProps<SVGSVGElement>` (not `unknown`) so `ComponentType<IconProps>` accepts Lucide `ForwardRefExoticComponent` types.
 - Client Vite: define more specific `resolve.alias` entries (e.g. `@workspace/foo/bar`) before the shorter `@workspace/foo` alias so subpaths do not resolve to `index.ts` + suffix paths.
 - Server production bundle: add each used `@workspace/*` package to tsup `noExternal` so deployment has no unresolved workspace imports; client uses aliases plus `optimizeDeps.include` as documented in `packages/WORKSPACE-RESOLUTION.md`.
-- Panda `satisfies SystemStyleObject` does not reliably reject invalid spacing token strings; token validation remains largely build/runtime, not strict TypeScript.
+- Auth.js (JWT): the API may use an ephemeral JWT signing secret in development so sessions do not survive API restarts (`apps/server/src/lib/auth-secret.runtime.ts`, optional `AUTH_INVALIDATE_JWT_ON_SERVER_BOOT` to opt out in dev or force ephemeral in prod).
 - Slot grid layout on main vs admin: shared iteration uses `mapGridByColumns` in `apps/client/src/utils/grid.utils.ts`; column count should use the same `calculateColumns` helper as admin when deriving dimensions from active slot count.
 - Pad slot selection (`selectedSlots`, `toggleSlot`, `setSelectedSlots`) lives in **`MetadataProvider`** / **`MetadataContext`** (root-mounted in `App.tsx`); **`useLayoutUi`** merges that slice (`toggleMainPageSlot` aliases `toggleSlot`) so selection survives `/admin` when **`LayoutUiProvider`** unmounts. Prefer **`useLayoutUi()`** for slot APIs in main UI, or **`useMetadata()`** for direct access.
 - **`ADMIN_PAGE_SEGMENTS_NAV_ORDER`** (translations “Páginas” section order) is derived from **`ADMIN_ROUTE_CONFIGS`** in **`admin/config/admin.routes.selectors.ts`** rather than `admin.routes.map.ts`, to avoid circular imports with the translations route tree.

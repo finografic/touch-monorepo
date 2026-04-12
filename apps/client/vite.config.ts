@@ -4,7 +4,7 @@ import { defineConfig, type UserConfig } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
 import { envClient } from './env.client';
-import { devCookieClearPlugin, logApiURL } from './vite.utils';
+import { logApiURL } from './vite.utils';
 
 export default defineConfig(({ mode }: UserConfig): UserConfig => {
   const WORKSPACE_ROOT = resolve(__dirname, '../..');
@@ -28,8 +28,6 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
           plugins: ['@emotion/babel-plugin'],
         },
       }),
-      // Safe to run in prod too (no-op there)
-      devCookieClearPlugin(),
     ].filter(Boolean),
 
     /**
