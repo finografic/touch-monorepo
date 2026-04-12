@@ -6,7 +6,7 @@
 - Do not reference `@workspace/*` — all imports and deps must use published package names.
 - Design System Usage: `.github/instructions/project/design-system-usage.instructions.md`
 
-## Rules — General
+## Rules — Global
 
 Rules are canonical in `.github/instructions/` and shared across Claude Code, Cursor, and GitHub Copilot.
 
