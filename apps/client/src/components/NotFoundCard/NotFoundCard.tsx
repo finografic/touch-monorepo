@@ -2,6 +2,7 @@ import type { ReactElement } from 'react';
 import { Col, Row } from '@finografic/design-system/grid';
 import { useTranslation } from 'react-i18next';
 
+import { PATHS } from 'config/routes/paths.constants';
 import { useNavigateState } from 'routes/hooks/useNavigateState';
 
 // import { Button } from 'components/Button';
@@ -16,7 +17,7 @@ export const NotFoundCard = (): ReactElement => {
   };
 
   const handleGoHome = () => {
-    navigate('/');
+    navigate(PATHS.main);
   };
 
   return (

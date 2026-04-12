@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Button } from '@finografic/design-system/components';
 
-import type { Theme } from 'types/ui.types';
+import { PATHS } from 'config/routes/paths.constants';
 import { HomeIcon, ShieldCheckIcon } from '@finografic/icons';
 
 export const AdminToggleButton: React.FC = () => {
@@ -12,7 +12,7 @@ export const AdminToggleButton: React.FC = () => {
   const isAdminPath = location.pathname.startsWith('/admin');
 
   const handleGotoAppMain = () => {
-    navigate('/');
+    navigate(PATHS.main);
   };
 
   const handleGotoAdmin = () => {

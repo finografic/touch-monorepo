@@ -1,4 +1,4 @@
-import { Outlet, type RouteObject } from 'react-router-dom';
+import { Navigate, Outlet, type RouteObject } from 'react-router-dom';
 
 import { AdminDashboardPage } from 'admin/AdminDashboardPage';
 import { AdminOrderEditPage } from 'admin/pages/AdminProductsPage/AdminOrderEditPage';
@@ -25,6 +25,10 @@ export const routes: RouteObject[] = [
     children: [
       {
         index: true,
+        element: <Navigate to={PATHS.main} replace />,
+      },
+      {
+        path: 'main',
         id: 'main',
         element: <MainPage />,
       },

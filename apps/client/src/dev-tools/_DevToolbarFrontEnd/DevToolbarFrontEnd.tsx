@@ -3,6 +3,7 @@ import { LockIcon, RefreshIcon, TextAlignTopIcon } from '@finografic/icons';
 
 import { Flex } from 'styled-system/jsx';
 
+import { PATHS } from 'config/routes/paths.constants';
 import { useKeyPressFrontEnd } from 'hooks/useKeyPressFrontEnd';
 import { useResetAppState } from 'hooks/useResetAppState';
 import { useAppConfig } from 'providers/AppConfigProvider';
@@ -55,7 +56,7 @@ export const DevToolbarFrontEnd = () => {
               className="button button-toggle-auth"
               onClick={() => {
                 resetAppState();
-                navigate('/');
+                navigate(PATHS.main);
                 window.location.reload();
               }}
             >

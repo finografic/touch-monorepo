@@ -12,7 +12,7 @@ export const DevPanelLeft = () => {
     return <DevOrderProfile />;
   }
 
-  if (['/', '/time'].includes(location.pathname)) {
+  if (['/main', '/time'].includes(location.pathname)) {
     return <SessionAndTimers />;
   }
 

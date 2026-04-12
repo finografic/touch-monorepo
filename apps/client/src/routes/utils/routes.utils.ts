@@ -20,7 +20,7 @@ export const getPathSlug = (pathname: string, customSlug?: string): string | und
 };
 
 export const getPathnameClassName = ({ pathname }: { pathname: string }): string => {
-  if (pathname === '/') {
+  if (pathname === '/main') {
     return 'main';
   }
 

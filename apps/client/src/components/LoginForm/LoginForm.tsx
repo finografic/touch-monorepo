@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { Input } from 'forms/Input/Input';
 import { Button } from '@finografic/design-system/components';
 
+import { PATHS } from 'config/routes/paths.constants';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 
 import { styles } from './LoginForm.styles';
@@ -34,7 +35,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
   // const navigate = useNavigate();
   const location = useLocation();
 
-  const redirectUrl = String(location.pathname.startsWith('/admin') ? '/admin' : '/');
+  const redirectUrl = String(location.pathname.startsWith('/admin') ? '/admin' : PATHS.main);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

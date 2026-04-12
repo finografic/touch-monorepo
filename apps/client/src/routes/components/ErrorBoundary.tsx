@@ -2,6 +2,8 @@ import React, { type ReactNode, useState } from 'react';
 import { ErrorBoundary as ReactErrorBoundary } from 'react-error-boundary';
 import { isRouteErrorResponse, Link, useRouteError } from 'react-router-dom';
 
+import { PATHS } from 'config/routes/paths.constants';
+
 import { styles } from './ErrorBoundary.styles';
 
 const ErrorFallback: React.FC = () => {
@@ -87,7 +89,7 @@ const ErrorFallback: React.FC = () => {
         {copied ? 'Copied!' : 'Copy error details'}
       </button>
       <br />
-      <Link to="/">Go back to main page</Link>
+      <Link to={PATHS.main}>Go back to main page</Link>
       {/* DEV ONLY: Show full error JSON */}
       {process.env.NODE_ENV === 'development' && error && (
         <details style={{ marginTop: '1em' }}>

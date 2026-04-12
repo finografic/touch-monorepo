@@ -3,7 +3,8 @@ import type { ConstMapOf } from '@workspace/core/types/utils';
 import type { FilterKey } from 'types/slots.types';
 
 export const PATHS: Partial<ConstMapOf<FilterKey | 'main', string>> = {
-  main: '/',
+  /** Main touch pad (root `/` redirects here on load) */
+  main: '/main',
   drinkType: '/drink-type',
   drinkSubtype: '/drink-type/:drinkTypeId',
   drinkVolume: '/drink-volume',
