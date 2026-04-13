@@ -26,7 +26,7 @@ export const Screensaver: FC<ScreensaverProps> = ({
   const [present, setPresent] = useState(false);
   const [opacity, setOpacity] = useState(0);
 
-  useEffect(() => {
+  useEffect(function updateVisibility() {
     if (visible) {
       setPresent(true);
       const frameId = requestAnimationFrame(() => {
@@ -62,7 +62,6 @@ export const Screensaver: FC<ScreensaverProps> = ({
 
   return createPortal(
     <div
-      id="___SCREENSAVER___"
       css={overlayStyles}
       style={overlayStyle}
       aria-hidden="true"

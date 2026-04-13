@@ -14,7 +14,9 @@ interface ListBoxSelectProps {
   soundFiles: SoundFile[];
 }
 
-export const ListBoxSelect: React.FC<ListBoxSelectProps> = ({ soundSettings, soundType, soundFiles }) => {
+export const ListBoxSelect: React.FC<ListBoxSelectProps> = (
+  { soundSettings, soundType, soundFiles },
+) => {
   const { toast } = useToast();
   const updateSettingsMutation = useUpdateSoundSettings();
 

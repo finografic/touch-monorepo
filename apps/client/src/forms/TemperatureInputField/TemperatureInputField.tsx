@@ -2,7 +2,6 @@ import React from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 
 import clsx from 'clsx';
-// import { InputNumber } from 'primereact/inputnumber';
 import { InputNumber } from '@finografic/design-system/forms';
 
 import {
@@ -59,34 +58,28 @@ export const TemperatureInputField: React.FC<TemperatureInputFieldProps> = ({
   const { control } = useFormContext();
 
   // Use useController hook instead of Controller component for cleaner code
-  const { field } = useController({
-    name,
-    control,
-  });
+  const { field } = useController({ name, control });
 
   return (
     <div className={clsx('p-inputgroup', { 'is-disabled': disabled })} css={styles}>
       <InputNumber
         id={field.name}
         value={field.value}
-        onChange={(e) => {
-          field.onChange(e.value);
+        onChange={(value) => {
+          field.onChange(Number(value));
           if (onChange) {
-            onChange(e.value);
+            onChange(Number(value));
           }
         }}
         onBlur={field.onBlur}
         locale={locale}
         showStepper
-        //  buttonLayout="stacked"
         step={step}
         min={min}
         max={max}
         precision={1}
-        // maxFractionDigits={1}
         placeholder={placeholder}
         disabled={disabled}
-        // style={{ width: '100%' }}
       />
       <span className="p-inputgroup-addon">°C</span>
     </div>
