@@ -4,6 +4,7 @@ import { Spinner } from '@finografic/design-system/components';
 
 import { Global } from '@emotion/react';
 import { SnoozeTimer } from 'components/Timers/SnoozeTimer';
+import { Screensaver } from 'components/Screensaver/Screensaver';
 import { Toaster } from 'components/Toast';
 import { ToastProvider } from 'components/Toast/ToastContext';
 
@@ -34,6 +35,7 @@ const AppBaseLayout = () => (
                   <Outlet />
                 </Suspense>
                 <SnoozeTimer shouldDebounce={false} />
+                <Screensaver />
               </TimersProvider>
             </MetadataProvider>
           </SessionProvider>

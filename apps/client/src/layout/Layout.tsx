@@ -6,7 +6,6 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { Footer } from 'components/Footer';
 import { FrontEndNavigation } from 'components/FrontEndNavigation/FrontEndNavigation';
 import { Header } from 'components/Header/Header';
-import { PageHeader } from 'components/PageHeader';
 import { UserToolbar } from 'components/Toolbars';
 
 import { useIsTouch } from 'hooks/useIsTouch';

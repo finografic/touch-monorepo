@@ -2,7 +2,6 @@ import type { FC } from 'react';
 import { Suspense, useEffect, useMemo } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 
-import { AdminScreensaver } from 'admin/components/AdminScreensaver/AdminScreensaver';
 import { AdminNavigation } from 'admin/components/AdminNavigation';
 import { AdminErrorBoundary } from 'components/ErrorBoundary/AdminErrorBoundary';
 import { Footer } from 'components/Footer/Footer';

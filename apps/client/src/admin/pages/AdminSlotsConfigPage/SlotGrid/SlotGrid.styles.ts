@@ -47,7 +47,7 @@ export const styles = css`
     padding: 1rem 0;
     border-radius: ${layout.borderRadius};
     row-gap: 1.5rem;
-    height: 342px;
+    height: 350px;
     display: flex;
   }
 
