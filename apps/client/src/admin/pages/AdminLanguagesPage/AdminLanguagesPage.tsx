@@ -247,6 +247,7 @@ export const AdminLanguagesPage: React.FC = () => {
           displayName: language.label,
           flagCode: language.countryCode?.toUpperCase() || null,
           isActive: true,
+          isDefault: language.isDefault ?? false,
           sortOrder: 0,
         };
 

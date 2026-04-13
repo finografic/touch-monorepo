@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import { Suspense, useEffect, useMemo } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 
+import { AdminScreensaver } from 'admin/components/AdminScreensaver/AdminScreensaver';
 import { AdminNavigation } from 'admin/components/AdminNavigation';
 import { AdminErrorBoundary } from 'components/ErrorBoundary/AdminErrorBoundary';
 import { Footer } from 'components/Footer/Footer';
@@ -24,7 +25,10 @@ export const AdminLayout: FC = () => {
   const location = useLocation();
   const isTouch = useIsTouch();
   const { isAuthenticated } = useAuth();
-  const dataPathname = useMemo(() => getPathnameClassName(location), [location.pathname, isAuthenticated]);
+  const dataPathname = useMemo(() => getPathnameClassName(location), [
+    location.pathname,
+    isAuthenticated,
+  ]);
 
   useEffect(function initializeLayoutTheme() {
     document.documentElement.setAttribute('data-theme', theme);
@@ -45,24 +49,24 @@ export const AdminLayout: FC = () => {
           data-authenticated={isAuthenticated}
           css={styles}
         >
-            <Header titleAlign="left" toolbarAlign="right" toolbar={<UserToolbar variant="dark" />} />
-            <AdminNavigation />
-            <main id="layout-main">
-              <div className="main-content">
-                <section>
-                  <PageHeader />
-                  <div className="page-content" role="main">
-                    <AdminErrorBoundary>
-                      <Suspense fallback={<Loader message="Loading..." />}>
-                        <Outlet />
-                      </Suspense>
-                    </AdminErrorBoundary>
-                  </div>
-                </section>
-              </div>
-            </main>
-            <Footer />
-            <nav className="page-navigation">{/* optional navigation */}</nav>
+          <Header titleAlign="left" toolbarAlign="right" toolbar={<UserToolbar variant="dark" />} />
+          <AdminNavigation />
+          <main id="layout-main">
+            <div className="main-content">
+              <section>
+                <PageHeader />
+                <div className="page-content" role="main">
+                  <AdminErrorBoundary>
+                    <Suspense fallback={<Loader message="Loading..." />}>
+                      <Outlet />
+                    </Suspense>
+                  </AdminErrorBoundary>
+                </div>
+              </section>
+            </div>
+          </main>
+          <Footer />
+          <nav className="page-navigation">{/* optional navigation */}</nav>
         </div>
       </DevProvider>
     </AdminProvider>

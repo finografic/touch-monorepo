@@ -132,7 +132,6 @@ export const styles = css`
       }
     }
   }
-
   > footer {
     width: 100%;
     height: ${layout.footer.height};
@@ -142,6 +141,10 @@ export const styles = css`
     align-items: center;
     background-color: ${colors.background};
     z-index: 2000;
+    /* TEMP: hide admin footer strip — it overlapped / wasted space at some breakpoints. display: none
+     * removes it from layout (main grows); Footer still mounts so RecallTimer hooks keep running. Revisit
+     * when footer layout is fixed. */
+    display: none;
 
     .footer-content {
       width: 100%;

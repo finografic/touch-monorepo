@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { Flex } from 'styled-system/jsx';
-import { LanguageDialog } from 'components/Dialog/dialogs/LanguageDialog';
 import { RecallTimer } from 'components/Timers/RecallTimer';
 
 import { useRecallConfig } from 'hooks/useRecallConfig';
@@ -13,7 +12,7 @@ import { styles } from './AdminToolbar.styles';
 
 export const AdminToolbar: React.FC = () => {
   const { theme } = useAppConfig();
-  const { isAdminToolsVisible, isLanguageDialogOpen, setIsLanguageDialogOpen } = useAdmin();
+  const { isAdminToolsVisible } = useAdmin();
 
   const { recallConfig, isRecallExpired } = useRecallConfig();
   const hasActiveTimer = recallConfig !== null && !isRecallExpired;
@@ -31,7 +30,6 @@ export const AdminToolbar: React.FC = () => {
           )}
         </Flex>
       </div>
-      <LanguageDialog isOpen={isLanguageDialogOpen} onClose={() => setIsLanguageDialogOpen(false)} />
     </>
   );
 };

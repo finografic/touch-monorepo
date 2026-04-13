@@ -30,28 +30,7 @@ export const styles = css`
   .navbar {
     padding: 0;
     overflow: visible;
-    /* display: flex;
-    justify-content: center;
-    align-items: center; */
-
     box-sizing: content-box;
-    /* padding: 0 3.5rem 0 3rem !important; */
-    /* margin-top: 24px;
-    margin-bottom: 0.75rem; */
-    /*
-
-    ${min.sm} {
-      max-width: 94vw;
-    }
-    ${min.md} {
-      max-width: 96vw;
-    }
-    ${min.lg} {
-      max-width: 96vw;
-    }
-    ${min.xl} {
-      max-width: ${BREAKPOINTS.xl + 200}px;
-    } */
   }
 
   .nav-items {
@@ -59,10 +38,10 @@ export const styles = css`
     display: flex;
     align-items: center;
     justify-content: center;
-    /* position: absolute; */
+
 
     div[role='tablist'] {
-      box-shadow: inset 0 -3px 0 0 ${colors.defaultXXLight};
+      border-bottom: 2px solid ${colors.defaultXXLight};
     }
   }
 
