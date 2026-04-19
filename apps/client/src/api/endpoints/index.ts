@@ -64,6 +64,11 @@ export { slotConfigurationsEndpoints } from './slot-configurations.endpoints';
 export { SoundsEndpoints, type UpdateSoundSettingsInput } from './sounds.endpoints';
 
 // ============================================================================
+// IMAGES
+// ============================================================================
+export { ImagesEndpoints } from './images.endpoints';
+
+// ============================================================================
 // SUPPORTED LANGUAGES
 // ============================================================================
 export { EndpointsSupportedLanguages } from './supported-languages.endpoints';

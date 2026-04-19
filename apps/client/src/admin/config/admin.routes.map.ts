@@ -21,6 +21,9 @@ import { AdminSlotsConfigPage } from 'admin/pages/AdminSlotsConfigPage/AdminSlot
 import { AdminSoundPage, PublicSoundPage } from 'admin/pages/AdminSoundPage';
 import { TranslationsPage } from 'admin/pages/Translations/TranslationsPage';
 import { TranslationsProductPage } from 'admin/pages/Translations/TranslationsProductPage';
+import { AdminImagesPage } from 'admin/pages/AdminImagesPage/AdminImagesPage';
+import { PublicImagesPage } from 'admin/pages/AdminImagesPage/PublicImagesPage';
+import { ImagesIcon } from 'lucide-react';
 
 export type { AuthRoles };
 
@@ -120,6 +123,19 @@ export const ADMIN_ROUTE_CONFIGS: AdminRouteConfig[] = [
     hasCard: { public: true, admin: true },
     icon: VolumeIcon,
     color: 'danger',
+  },
+
+  {
+    id: 'images',
+    path: '/admin/images',
+    element: {
+      public: PublicImagesPage,
+      admin: AdminImagesPage,
+    },
+    hasNav: { public: true, admin: true },
+    hasCard: { public: true, admin: true },
+    icon: ImagesIcon,
+    color: 'primary',
   },
 
   // AUTHENTICATED ENTRIES (only visible as admin) ========================== //

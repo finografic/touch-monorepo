@@ -97,6 +97,14 @@
         "title": "Gestión de sonido",
         "description": "Seleccionar sonido para eventos de alarma, y configurar volumen"
       },
+      "images": {
+        "title": "Biblioteca de imágenes",
+        "description": "Subir y elegir imágenes predeterminadas para productos y etiquetas"
+      },
+      "images_public": {
+        "title": "Biblioteca de imágenes",
+        "description": "Explorar imágenes subidas"
+      },
       "mode": {
         "title": "Modos",
         "description": "Gestionar modos de operación del sistema"

@@ -32,6 +32,7 @@ export const LOG_PATHS = {
 export const CONFIG_PATHS = {
   ROOT_DIR: paths.root,
   SOUND_SETTINGS: paths.uploads.path('sounds', '_settings.json'),
+  IMAGE_SETTINGS: paths.uploads.path('images', '_settings.json'),
 } as const;
 
 /**

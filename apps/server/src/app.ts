@@ -15,6 +15,7 @@ import index from 'routes/index.route';
 import orders from 'routes/orders';
 import relay from 'routes/relay';
 import slotConfigurations from 'routes/slot-configurations';
+import images from 'routes/images';
 import sounds from 'routes/sounds';
 import supportedLanguage from 'routes/supported-language';
 import translations from 'routes/translations';
@@ -70,6 +71,7 @@ const routes = [
   orders,
   supportedLanguage,
   sounds,
+  images,
   slotConfigurations,
   appConfiguration,
   translations,

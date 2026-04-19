@@ -103,6 +103,7 @@ export const routes: RouteObject[] = [
           { path: 'mode', element: null },
           { path: 'languages', element: null },
           { path: 'sound', element: null },
+          { path: 'images', element: null },
           { path: 'maintenance', element: null },
           {
             path: 'items',

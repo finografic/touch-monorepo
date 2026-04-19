@@ -97,6 +97,14 @@
         "title": "Sound Management",
         "description": "Select sound for alarm events, and configure volume"
       },
+      "images": {
+        "title": "Image library",
+        "description": "Upload and choose default images for products and labels"
+      },
+      "images_public": {
+        "title": "Image library",
+        "description": "Browse uploaded images"
+      },
       "mode": {
         "title": "Modes",
         "description": "Manage system operation modes"

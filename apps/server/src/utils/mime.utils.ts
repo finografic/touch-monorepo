@@ -31,6 +31,12 @@ export const getMimeType = ({
     case '.svg':
       mimeType = 'image/svg+xml';
       break;
+    case '.webp':
+      mimeType = 'image/webp';
+      break;
+    case '.gif':
+      mimeType = 'image/gif';
+      break;
     case '.ico':
       mimeType = 'image/x-icon';
       break;

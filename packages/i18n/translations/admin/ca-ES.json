@@ -97,6 +97,14 @@
         "title": "Gestió de so",
         "description": "Seleccionar so per a esdeveniments d'alarma i configurar volum"
       },
+      "images": {
+        "title": "Biblioteca d'imatges",
+        "description": "Pujar i triar imatges per defecte per a productes i etiquetes"
+      },
+      "images_public": {
+        "title": "Biblioteca d'imatges",
+        "description": "Explorar imatges pujades"
+      },
       "mode": {
         "title": "Modes",
         "description": "Gestionar modes d'operació del sistema"
