@@ -1,8 +1,8 @@
 import { envShared } from '@workspace/config/env.shared';
 
 import { initAuthConfig } from '@hono/auth-js';
-import pc from 'picocolors';
 import { cors } from 'hono/cors';
+import pc from 'picocolors';
 
 import appConfiguration from 'routes/app-configuration';
 import auth from 'routes/auth/auth.routes';
@@ -19,8 +19,8 @@ import sounds from 'routes/sounds';
 import supportedLanguage from 'routes/supported-language';
 import translations from 'routes/translations';
 import users from 'routes/users';
-import configureOpenAPI from 'lib/configure-open-api';
 import { getAuthConfig } from 'lib/auth';
+import configureOpenAPI from 'lib/configure-open-api';
 import createApp from 'lib/create-app';
 import { CLI } from 'utils/cli.utils';
 import { getMimeType } from 'utils/mime.utils';
@@ -89,7 +89,7 @@ app.get('*', async (c) => {
     return c.notFound();
   }
 
-  if (process.env['NODE_ENV'] !== 'production') {
+  if (process.env.NODE_ENV !== 'production') {
     return c.notFound();
   }
 
@@ -101,10 +101,9 @@ app.get('*', async (c) => {
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = pathModule.dirname(__filename);
 
-    let filePath =
-      path === '/' || path === ''
-        ? pathModule.join(__dirname, '../../../apps/client/dist/index.html')
-        : pathModule.join(__dirname, '../../../apps/client/dist', path);
+    let filePath = path === '/' || path === ''
+      ? pathModule.join(__dirname, '../../../apps/client/dist/index.html')
+      : pathModule.join(__dirname, '../../../apps/client/dist', path);
 
     try {
       await fs.access(filePath);

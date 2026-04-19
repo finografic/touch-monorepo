@@ -1,5 +1,5 @@
-import * as v from 'valibot';
 import { StatusCodes as HttpStatusCodes } from 'http-status-codes';
+import * as v from 'valibot';
 
 import { modeSchemas } from 'db/schemas/modes.schema';
 import { json, jsonRequired, route } from 'lib/openapi.helpers';

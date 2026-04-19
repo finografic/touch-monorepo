@@ -46,7 +46,7 @@ const IGNORE_PACKAGES_SERVER: string[] = [
 
   // TODO: LEAVE MY PACKAGES - ⚠️ THEY IN DEVELOPMENT
   // "@finografic/eslint-config": "9.0.8", (latest: v9.18.4)
-  // "@finografic/project-scripts": "8.12.0", (latest: v8.5.0)
+  // "@finografic/project-scripts": "1.3.3", (latest: v8.5.0)
   '@finografic/project-scripts',
   '@finografic/eslint-config',
 ];

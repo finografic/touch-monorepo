@@ -1,9 +1,13 @@
 // @ts-nocheck - Bypassing complex type inference issues throughout this file
+import {
+  ReasonPhrases as HttpStatusPhrases,
+  StatusCodes as HttpStatusCodes,
+} from 'http-status-codes';
+import { eq, inArray, or, sql } from 'drizzle-orm';
+
 import { db } from 'db';
 import { orders } from 'db/schemas/orders.schema';
 import { temperature_profiles } from 'db/schemas/temperature_profiles.schema';
-import { eq, inArray, or, sql } from 'drizzle-orm';
-import { StatusCodes as HttpStatusCodes, ReasonPhrases as HttpStatusPhrases } from 'http-status-codes';
 import { ERROR_CODES, ERROR_MESSAGES } from 'lib/valibot.errors';
 import type { AppHandler } from 'types/app.types';
 
@@ -219,7 +223,10 @@ export const cleanup: AppHandler = async (context) => {
     );
   }
 
-  const whereCondition = conditions.reduce((acc, condition) => (acc ? or(acc, condition) : condition));
+  const whereCondition = conditions.reduce((
+    acc,
+    condition,
+  ) => (acc ? or(acc, condition) : condition));
   const result = await db.delete(orders).where(whereCondition);
 
   return context.json(
