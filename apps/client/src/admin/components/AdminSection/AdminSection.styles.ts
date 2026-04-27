@@ -67,7 +67,7 @@ export const styles = css`
 
     ${min['2xl']} {
       &.border-solid {
-        border: ${layout.borderWidth} solid ${colors.greyXXLight};
+        border: ${layout.borderWidth} solid var(--colors-grey-xxxlight);
       }
     }
 

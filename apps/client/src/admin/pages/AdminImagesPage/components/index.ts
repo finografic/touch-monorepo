@@ -1,3 +1,3 @@
 export { FileUploadSection } from './FileUploadSection';
-export { ImagesConfigurationSection } from './ImagesConfigurationSection';
-export { ImagesLibrarySection } from './ImagesLibrarySection';
+export { SelectedImageSection } from './SelectedImageSection/SelectedImageSection';
+export { ImageLibrarySection } from './ImageLibrarySection/ImagesLibrarySection';

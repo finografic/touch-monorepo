@@ -25,43 +25,4 @@ export const styles = css`
       }
     }
   }
-
-  /* Volume slider styling */
-  .volume-control {
-    .volume-slider {
-      width: 100%;
-      max-width: 400px;
-
-      .ds-slider__track {
-        background-color: ${colors.greyLight};
-        height: 6px;
-        border-radius: 3px;
-      }
-
-      .ds-slider__range {
-        background-color: ${colors.infoDark};
-        height: 6px;
-        border-radius: 3px;
-      }
-
-      .ds-slider__thumb {
-        background-color: ${colors.infoDark};
-        border: 2px solid ${colors.white};
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
-        &:hover {
-          background-color: ${colors.infoXDark};
-          transform: scale(1.1);
-        }
-
-        &:focus {
-          outline: 2px solid ${colors.infoLight};
-          outline-offset: 2px;
-        }
-      }
-    }
-  }
 `;

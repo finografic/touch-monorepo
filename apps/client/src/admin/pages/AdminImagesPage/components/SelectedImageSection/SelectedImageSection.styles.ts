@@ -4,7 +4,7 @@ import { colors } from '@finografic/design-system/tokens';
 
 export const styles = css`
   /* Container for the entire section */
-  .sound-configuration-section {
+  .image-configuration-section {
     width: 100%;
   }
 
@@ -15,39 +15,39 @@ export const styles = css`
   }
 
   /* Enhance the overall layout */
-  .sound-config-row {
+  .image-config-row {
     align-items: center;
     gap: 1rem;
   }
 
-  .sound-label {
+  .image-label {
     min-width: 120px;
     flex-shrink: 0;
   }
 
-  .sound-select-container {
+  .image-select-container {
     flex: 1;
     min-width: 300px;
     max-width: 600px;
   }
 
-  .test-button {
+  .preview-button {
     flex-shrink: 0;
   }
 
   /* Responsive adjustments */
   @media (max-width: 768px) {
-    .sound-config-row {
+    .image-config-row {
       flex-direction: column;
       align-items: stretch;
       gap: 0.5rem;
     }
 
-    .sound-label {
+    .image-label {
       min-width: auto;
     }
 
-    .sound-select-container {
+    .image-select-container {
       min-width: auto;
     }
 

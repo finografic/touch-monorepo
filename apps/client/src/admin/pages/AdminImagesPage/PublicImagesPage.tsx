@@ -5,7 +5,7 @@ import { AdminPageLayout, AdminSection } from 'admin/components';
 
 import { useGetImageFiles, useGetImageSettings } from 'queries/images';
 
-import { ImagesConfigurationSection } from './components';
+import { SelectedImageSection } from './components';
 import { styles } from './AdminImagesPage.styles';
 
 export const PublicImagesPage: React.FC = () => {
@@ -26,7 +26,7 @@ export const PublicImagesPage: React.FC = () => {
       >
         <Row justify="space-between" align="center">
           <Col xs={12} lg={7}>
-            <ImagesConfigurationSection
+            <SelectedImageSection
               imageFiles={imageFiles}
               imageSettings={imageSettings}
               imageCategory="product"

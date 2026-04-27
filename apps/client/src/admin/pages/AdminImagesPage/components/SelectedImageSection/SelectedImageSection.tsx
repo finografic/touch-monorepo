@@ -12,15 +12,15 @@ import type { ImageCategory, ImageFile, ImageSettings } from 'types/images.types
 import { ExternalLink } from 'lucide-react';
 
 import { getImageFilePublicUrl } from 'utils/imageUrls';
-import { styles } from './ImagesConfigurationSection.styles';
+import { styles } from './SelectedImageSection.styles';
 
-interface ImagesConfigurationSectionProps {
+interface SelectedImageSectionProps {
   imageFiles: ImageFile[];
   imageSettings: ImageSettings;
   imageCategory: ImageCategory;
 }
 
-export const ImagesConfigurationSection: React.FC<ImagesConfigurationSectionProps> = ({
+export const SelectedImageSection: React.FC<SelectedImageSectionProps> = ({
   imageFiles,
   imageSettings,
   imageCategory,
@@ -64,14 +64,13 @@ export const ImagesConfigurationSection: React.FC<ImagesConfigurationSectionProp
     [imageFiles],
   );
 
-  const label =
-    imageCategory === 'product' ? 'Product image' : 'Label image';
+  const label = imageCategory === 'product' ? 'Product image' : 'Label image';
 
   return (
-    <div css={styles} className="sound-configuration-section">
+    <div css={styles} className="image-configuration-section">
       <Flex direction="column" gap={3}>
-        <Flex gap={4} align="center" className="sound-config-row">
-          <Box className="sound-select-container" pb={5}>
+        <Flex gap={4} align="center" className="image-config-row">
+          <Box className="image-select-container" pb={5}>
             <FieldBox name="image-selector" label={label}>
               <SelectCustom
                 value={imageSettings[imageCategory] || 'none'}
@@ -91,15 +90,24 @@ export const ImagesConfigurationSection: React.FC<ImagesConfigurationSectionProp
           {imageSettings[imageCategory] && (
             <Flex pt={5} gap={3} align="center">
               {(() => {
-                const selected = imageFiles.find((file) => file.id === imageSettings[imageCategory]);
-                const src = selected?.filePath ? getImageFilePublicUrl(selected.filePath) : undefined;
+                const selected = imageFiles.find((file) =>
+                  file.id === imageSettings[imageCategory]
+                );
+                const src = selected?.filePath
+                  ? getImageFilePublicUrl(selected.filePath)
+                  : undefined;
 
                 return src
                   ? (
                     <img
                       src={src}
                       alt=""
-                      style={{ maxHeight: '5rem', maxWidth: '8rem', objectFit: 'contain', borderRadius: 8 }}
+                      style={{
+                        maxHeight: '5rem',
+                        maxWidth: '8rem',
+                        objectFit: 'contain',
+                        borderRadius: 8,
+                      }}
                     />
                   )
                   : null;
@@ -109,7 +117,7 @@ export const ImagesConfigurationSection: React.FC<ImagesConfigurationSectionProp
                 variant="outline"
                 palette="success"
                 onClick={() => openPreview(imageSettings[imageCategory]!)}
-                className="test-button"
+                className="preview-button"
               >
                 <ExternalLink className="icon-speaker" size={18} aria-hidden />
                 Open
