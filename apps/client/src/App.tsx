@@ -35,7 +35,7 @@ const AppBaseLayout = () => (
                   <Outlet />
                 </Suspense>
                 <SnoozeTimer shouldDebounce={false} />
-                {/* <Screensaver /> */}
+                <Screensaver />
               </TimersProvider>
             </MetadataProvider>
           </SessionProvider>

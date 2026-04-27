@@ -1,8 +1,10 @@
 import type { CSSProperties, FC } from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import { ADMIN_SCREENSAVER_INACTIVITY_MS, ADMIN_SCREENSAVER_TRANSITION_MS } from 'config/app';
+import { useGetImageFiles, useGetImageSettings } from 'queries/images';
+import { getImageFilePublicUrl } from 'utils/imageUrls';
 
 import { useScreensaver } from './useScreensaver';
 import { overlayStyles } from './Screensaver.styles';
@@ -25,6 +27,25 @@ export const Screensaver: FC<ScreensaverProps> = ({
   const { visible } = useScreensaver(inactivityMs);
   const [present, setPresent] = useState(false);
   const [opacity, setOpacity] = useState(0);
+  const { data: imageSettings } = useGetImageSettings();
+  const { data: productImages } = useGetImageFiles('product');
+  const { data: labelImages } = useGetImageFiles('label');
+
+  const screensaverImageSrc = useMemo(() => {
+    const productSelected = imageSettings?.product
+      ? productImages?.find((image) => image.id === imageSettings.product)
+      : undefined;
+
+    if (productSelected?.filePath) {
+      return getImageFilePublicUrl(productSelected.filePath);
+    }
+
+    const labelSelected = imageSettings?.label
+      ? labelImages?.find((image) => image.id === imageSettings.label)
+      : undefined;
+
+    return labelSelected?.filePath ? getImageFilePublicUrl(labelSelected.filePath) : null;
+  }, [imageSettings, labelImages, productImages]);
 
   useEffect(function updateVisibility() {
     if (visible) {
@@ -67,7 +88,23 @@ export const Screensaver: FC<ScreensaverProps> = ({
       aria-hidden="true"
       role="presentation"
       data-screensaver=""
-    />,
+    >
+      {screensaverImageSrc && (
+        <img
+          src={screensaverImageSrc}
+          alt=""
+          style={{
+            position: 'absolute',
+            inset: 0,
+            margin: 'auto',
+            maxWidth: '90vw',
+            maxHeight: '90vh',
+            objectFit: 'contain',
+            pointerEvents: 'none',
+          }}
+        />
+      )}
+    </div>,
     document.body,
   );
 };
