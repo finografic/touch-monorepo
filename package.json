@@ -1,6 +1,6 @@
 {
   "name": "touch-monorepo",
-  "description": "ServiFresc",
+  "description": "Full-stack TypeScript monorepo for an IoT-connected product management and operational control system — React 18 + Hono + Drizzle ORM + SQLite, USB HID relay hardware integration, role-based Auth.js, i18n (EN/ES/CA), real-time timer and session management, and Raspberry Pi deployment tooling. pnpm workspaces + Turborepo.",
   "version": "0.1.1",
   "private": true,
   "author": {
