@@ -24,9 +24,10 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
-# Configuration variables
+# Configuration variables — override via environment before running:
+#   STATIC_IP=192.168.1.50 sudo -E ./05-configure-static-ip.sh
 INTERFACE="wlan0"
-STATIC_IP="192.168.1.31"
+STATIC_IP="${STATIC_IP:-192.168.1.50}"
 SUBNET_MASK="/24"
 CONFIG_FILE="/etc/dhcpcd.conf"
 BACKUP_FILE="/etc/dhcpcd.conf.backup"

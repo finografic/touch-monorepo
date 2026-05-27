@@ -93,4 +93,4 @@ deployment/
 The client uses `window.location.hostname` at runtime instead of baked-in environment variables. This means:
 
 - **localhost** access works out of the box
-- **LAN access** (e.g., `http://192.168.1.31:3000`) works automatically — the client detects the hostname from the browser URL and makes API calls to the same host on port 4040
+- **LAN access** (e.g., `http://<PI_IP_ADDRESS>:3000`) works automatically — the client detects the hostname from the browser URL and makes API calls to the same host on port 4040

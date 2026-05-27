@@ -77,11 +77,11 @@ Most routers have a web interface (usually `192.168.1.1` or `192.168.0.1`) that 
 
 ### Access URLs
 
-Once you have the IP address (let's say it's `192.168.1.31`):
+Once you have the IP address (replace `<PI_IP_ADDRESS>` below):
 
-- **Client (React App)**: `http://192.168.1.31:3000`
-- **API Server**: `http://192.168.1.31:4040`
-- **API Endpoint**: `http://192.168.1.31:4040/atouch`
+- **Client (React App)**: `http://<PI_IP_ADDRESS>:3000`
+- **API Server**: `http://<PI_IP_ADDRESS>:4040`
+- **API Endpoint**: `http://<PI_IP_ADDRESS>:4040/atouch`
 
 ### Configuration Changes Needed
 
@@ -120,7 +120,7 @@ API_PORT=4040
 API_HOST=0.0.0.0  # Optional, serve() binds to 0.0.0.0 by default
 
 # Client origin for CORS (important!)
-CLIENT_ORIGIN=http://192.168.1.31:3000
+CLIENT_ORIGIN=http://<PI_IP_ADDRESS>:3000
 # Or allow all origins in development:
 # CLIENT_ORIGIN=*
 
@@ -135,10 +135,10 @@ From your Mac terminal:
 
 ```bash
 # Test API server
-curl http://192.168.1.31:4040/atouch/health-check
+curl http://<PI_IP_ADDRESS>:4040/atouch/health-check
 
 # Test client (should return HTML)
-curl http://192.168.1.31:3000
+curl http://<PI_IP_ADDRESS>:3000
 ```
 
 ---
@@ -207,8 +207,8 @@ sudo systemctl enable smbd  # Enable on boot
 
 1. **Open Finder**
 2. **Press `Cmd + K`** (or Go → Connect to Server)
-3. **Enter**: `smb://192.168.1.31`
-4. **Authenticate** with username `touch` and password `1234` (or your Samba password)
+3. **Enter**: `smb://<PI_IP_ADDRESS>`
+4. **Authenticate** with your Pi username and Samba password
 5. **Select the share** you want to access
 
 ### Alternative: Connect via Terminal
@@ -218,13 +218,13 @@ sudo systemctl enable smbd  # Enable on boot
 mkdir -p ~/Public/touch
 
 # Mount using mount_smbfs (macOS native SMB client)
-sudo mount_smbfs //touch:1234@192.168.1.31/touch ~/Public/touch
+sudo mount_smbfs //<PI_USERNAME>:<PI_PASSWORD>@<PI_IP_ADDRESS>/touch ~/Public/touch
 ```
 
 Or with more options:
 
 ```bash
-sudo mount_smbfs -o uid=$(id -u),gid=$(id -g) //touch:1234@192.168.1.31/touch ~/Public/touch
+sudo mount_smbfs -o uid=$(id -u),gid=$(id -g) //<PI_USERNAME>:<PI_PASSWORD>@<PI_IP_ADDRESS>/touch ~/Public/touch
 ```
 
 ```bash
@@ -239,7 +239,7 @@ sudo umount ~/touch
 From the monorepo root:
 
 ```bash
-./scripts/deploy-to-pi.sh
+PI_HOST=<PI_IP_ADDRESS> ./scripts/deploy-to-pi.sh
 ```
 
 This script will:
@@ -251,7 +251,7 @@ This script will:
 5. **SSH**: Unzip
 6. **SSH**: `npm install`
 
-**Samba vs SSH**: Samba is file sharing only — it cannot execute commands. You **must use SSH** for `killall` and `rm -rf`. For passwordless deployment: `ssh-copy-id touch@192.168.1.31`
+**Samba vs SSH**: Samba is file sharing only — it cannot execute commands. You **must use SSH** for `killall` and `rm -rf`. For passwordless deployment: `ssh-copy-id <PI_USERNAME>@<PI_IP_ADDRESS>`
 
 ---
 
@@ -265,8 +265,7 @@ sudo systemctl enable ssh
 sudo systemctl start ssh
 
 # From Mac: Connect via SSH
-ssh touch@192.168.1.31
-# Password: 1234
+ssh <PI_USERNAME>@<PI_IP_ADDRESS>
 ```
 
 ---
@@ -346,9 +345,9 @@ sudo kill -9 <PID>
 | Service | Protocol | Port | URL Format |
 |---------|----------|------|------------|
 | Client (Vite) | HTTP | 3000 | `http://<PI_IP>:3000` |
-| API Server | HTTP | 4040 | `http://192.168.1.31:4040/api` |
+| API Server | HTTP | 4040 | `http://<PI_IP_ADDRESS>:4040/api` |
 | Samba | SMB | 445 | `smb://<PI_IP>` |
-| SSH | SSH | 22 | `ssh touch@192.168.1.31` |
+| SSH | SSH | 22 | `ssh <PI_USERNAME>@<PI_IP_ADDRESS>` |
 
 ---
 

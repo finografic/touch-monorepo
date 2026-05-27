@@ -1,31 +1,31 @@
-# Connect to Pi4 from macOS via samba
+# Connect to Raspberry Pi from macOS via Samba
 
-On macOS, use `mount_smbfs` instead of `mount -t cifs`. Correct syntax:
+On macOS, use `mount_smbfs` instead of `mount -t cifs`.
 
-[1 tool called]
+Replace `<PI_IP_ADDRESS>`, `<PI_USERNAME>`, and `<PI_PASSWORD>` with your Pi's network details.
+Use a strong password — do not reuse example values in production.
 
-Use this macOS syntax:
+## Command line (mount_smbfs)
 
 ```bash
 # Create mount point if it doesn't exist
 mkdir -p ~/Public/touch
 
 # Mount using mount_smbfs (macOS native SMB client)
-sudo mount_smbfs //touch:1234@192.168.1.31/touch ~/Public/touch
+sudo mount_smbfs //<PI_USERNAME>:<PI_PASSWORD>@<PI_IP_ADDRESS>/touch ~/Public/touch
 ```
 
-Or with more options:
+Or with ownership options:
 
 ```bash
-sudo mount_smbfs -o uid=$(id -u),gid=$(id -g) //touch:1234@192.168.1.31/touch ~/Public/touch
+sudo mount_smbfs -o uid=$(id -u),gid=$(id -g) //<PI_USERNAME>:<PI_PASSWORD>@<PI_IP_ADDRESS>/touch ~/Public/touch
 ```
 
 **Notes:**
 
 1. Use `mount_smbfs` instead of `mount -t cifs` on macOS
 2. Format: `//username:password@server/share`
-3. The IP address should be `192.168.1.31` (not 192.168.1.100)
-4. Make sure the share name matches what you configured in Samba
+3. Make sure the share name matches what you configured in Samba
 
 **To unmount:**
 
@@ -33,12 +33,12 @@ sudo mount_smbfs -o uid=$(id -u),gid=$(id -g) //touch:1234@192.168.1.31/touch ~/
 sudo umount ~/Public/touch
 ```
 
-**Alternative: Use Finder (easier)**
+## Finder (easier on macOS)
 
 1. Open Finder
 2. Press `Cmd + K` (or Go → Connect to Server)
-3. Enter: `smb://192.168.1.31`
-4. Authenticate with username `touch` and password `1234`
+3. Enter: `smb://<PI_IP_ADDRESS>`
+4. Authenticate with your Pi username and password
 5. Select the `touch` share
 
-Finder is usually easier on macOS. If you prefer command line, use `mount_smbfs` with the syntax above.
+Finder is usually easier on macOS. If you prefer the command line, use `mount_smbfs` with the syntax above.

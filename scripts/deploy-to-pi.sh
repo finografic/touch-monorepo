@@ -1,17 +1,24 @@
 #!/bin/bash
-# Deploy Touch app to Raspberry Pi
+# Deploy Touch app to Raspberry Pi over SSH.
 #
 # Prerequisites:
-# - SSH access: ssh touch@192.168.1.31 (password: 1234)
-# - For passwordless deployment: ssh-copy-id touch@192.168.1.31
+#   - SSH access to the Pi (password or key-based)
+#   - Optional: ssh-copy-id ${PI_USER}@${PI_HOST} for passwordless deploys
 #
-# Uses SSH ControlMaster so you only enter the password ONCE per run.
+# Configuration (environment variables):
+#   PI_USER     — SSH username (default: touch)
+#   PI_HOST     — Pi IP or hostname (required)
+#   PI_APP_DIR  — deploy directory on the Pi (default: /home/touch/Desktop/APP)
+#
+# Usage:
+#   PI_HOST=192.168.1.50 ./scripts/deploy-to-pi.sh
+#   PI_HOST=192.168.1.50 ./scripts/deploy-to-pi.sh path/to/deployment.zip
 
 set -e
 
-PI_USER="touch"
-PI_HOST="192.168.1.31"
-PI_APP_DIR="/home/touch/Desktop/APP"
+PI_USER="${PI_USER:-touch}"
+PI_HOST="${PI_HOST:?Set PI_HOST to your Raspberry Pi IP address or hostname}"
+PI_APP_DIR="${PI_APP_DIR:-/home/touch/Desktop/APP}"
 PI_NODE_BIN="/home/touch/.nvm/versions/node/v22.17.1/bin"
 DEPLOYMENTS_DIR="$(cd "$(dirname "$0")/.." && pwd)/deployments"
 

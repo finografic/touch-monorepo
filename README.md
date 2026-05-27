@@ -205,7 +205,7 @@ script builds a Linux ARM64 archive and deploys it over SSH.
 
 ```bash
 pnpm build.deployment   # build the archive
-pnpm dev.deploy.pi      # SSH deploy to the Pi
+pnpm dev.deploy.pi      # SSH deploy (set PI_HOST first)
 ```
 
 See `docs/ubuntu/` for Pi setup instructions (NVM, HID driver installation, Samba/SSH access).
