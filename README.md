@@ -244,4 +244,4 @@ is persisted per user.
 
 ## License
 
-Private — all rights reserved.
+[MIT](LICENSE) — portfolio / demonstration use. Hardware deployment and production operation are your responsibility.

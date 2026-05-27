@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 
 /**
- * Script to list all HID devices, specifically USBRelay8 devices
- * Run with: node scripts/list-hid-devices.js
+ * Debug utility: list connected HID devices and highlight USBRelay8 boards.
+ * Safe to run locally — prints vendor/product IDs and paths only (no secrets).
+ * Usage: node apps/server/scripts/list-hid-devices.js
  */
 
 import * as HID from 'node-hid';

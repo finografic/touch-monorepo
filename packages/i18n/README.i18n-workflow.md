@@ -13,7 +13,7 @@ This document explains how to efficiently update translations in the monorepo.
 pnpm dev
 
 # Terminal 2: When you change translations
-pnpm dev.i18n.update
+pnpm i18n.force
 
 # Back to Terminal 1: Restart dev server
 # Ctrl+C then: pnpm dev
@@ -23,7 +23,6 @@ pnpm dev.i18n.update
 
 ### **🏠 Root Package Scripts (Minimal orchestration):**
 
-- `dev.i18n.update` - Your main command (uses `i18n.force`)
 - `i18n.update` - Standard update → `pnpm --filter @workspace/i18n update`
 - `i18n.force` - Aggressive update → `pnpm --filter @workspace/i18n update.force`
 - `i18n.reset` - Clean + rebuild → `pnpm --filter @workspace/i18n clean && pnpm i18n.update`
@@ -43,11 +42,11 @@ pnpm dev.i18n.update
 
 ```bash
 # Quick update (recommended)
-pnpm dev.i18n.update
+pnpm i18n.force
 
 # Alternative methods
 pnpm i18n.update      # Standard update
-pnpm i18n.force       # Aggressive update (same as dev.i18n.update)
+pnpm i18n.force       # Aggressive update (recommended)
 pnpm i18n.reset       # Clean + rebuild everything
 
 # Client-only dev workflow
@@ -56,7 +55,6 @@ pnpm i18n.update.dev  # Update + start fresh client
 
 ## What Each Script Does
 
-- **`dev.i18n.update`**: Runs `i18n.force` (most aggressive)
 - **`i18n.force`**: Force builds i18n → Clears client cache + Vite cache → Force reinstalls
 - **`i18n.update`**: Standard build → Standard client refresh
 - **`i18n.refresh`**: Only updates client dependencies (no rebuild)
