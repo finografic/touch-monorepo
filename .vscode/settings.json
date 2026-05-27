@@ -49,6 +49,10 @@
   //     "source.fixAll.stylelint": "explicit"
   //   }
   // },
+  "[astro]": {
+    "editor.defaultFormatter": "astro-build.astro-vscode",
+    "editor.formatOnSave": true
+  },
   "[css]": {
     "editor.defaultFormatter": "dprint.dprint"
   },
@@ -194,10 +198,6 @@
   "diffEditor.ignoreTrimWhitespace": true,
   "diffEditor.renderSideBySide": false,
   "diffEditor.codeLens": false, // Disable code lens in diff view
-
-  // File explorer - don't show git status
-  "explorer.decorations.badges": false,
-  "explorer.decorations.colors": false,
 
   // ============================================================================
   // Problems Panel Settings - Disable auto-opening

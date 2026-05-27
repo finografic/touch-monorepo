@@ -141,7 +141,7 @@ Use this list when renaming constants/properties to align with DB key names. For
 
 | File path | Variable name | Inferred usage |
 |-----------|---------------|----------------|
-| .cursor/rules/10-eslint-code-style.md | MIN_TEMP_DIFFERENCE | Example import from config/app |
+| .cursor/rules/10-linting-code-style.md | MIN_TEMP_DIFFERENCE | Example import from config/app |
 
 ---
 

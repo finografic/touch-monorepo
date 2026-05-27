@@ -1,4 +1,4 @@
-# ESLint & Code Style Rules
+# Linting & Code Style Rules
 
 ## Import Sorting & Organization
 

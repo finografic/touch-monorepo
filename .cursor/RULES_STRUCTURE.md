@@ -10,17 +10,20 @@ This project uses a two-tier system for Cursor AI Assistant rules:
 ## File Organization
 
 ### `.cursorrules` (Root File)
+
 **Location**: `/Users/justin/repos-finografic/touch-monorepo/.cursorrules`
 
 **Purpose**: Global workspace guidelines that apply to ALL projects and ALL interactions
 
 **Content Categories**:
+
 - Server management policies
 - Development workflow principles
 - High-level project structure guidelines
 - Meta-instructions for how the AI should approach tasks
 
 **Example Rules**:
+
 ```
 - DO NOT start development servers
 - Always test APIs with curl before making changes
@@ -29,6 +32,7 @@ This project uses a two-tier system for Cursor AI Assistant rules:
 ```
 
 **When to Add Rules Here**:
+
 - ✅ Applies to the entire workspace/monorepo
 - ✅ Fundamental principles (DO/DON'T policies)
 - ✅ Infrastructure or process rules
@@ -40,16 +44,19 @@ This project uses a two-tier system for Cursor AI Assistant rules:
 ---
 
 ### `.cursor/rules/` (Folder with Numbered Files)
+
 **Location**: `/Users/justin/repos-finografic/touch-monorepo/.cursor/rules/`
 
 **Purpose**: Detailed, project-specific coding standards and patterns
 
 **Organization Pattern**:
+
 - Files are numbered with a prefix (00-, 01-, 02-, etc.)
 - Prefix indicates category/priority
 - Topics ordered logically
 
 **Current Files**:
+
 - `00-general.md` - General coding principles
 - `01-monorepo.md` - Monorepo-specific structure
 - `02-react-patterns.md` - React component patterns
@@ -60,10 +67,11 @@ This project uses a two-tier system for Cursor AI Assistant rules:
 - `07-typescript-patterns.md` - TypeScript best practices
 - `08-testing-patterns.md` - Testing conventions
 - `09-provider-context-patterns.md` - Context/provider patterns
-- `10-eslint-code-style.md` - **NEW** ESLint configuration rules
+- `10-linting-code-style.md` - **NEW** ESLint configuration rules
 - `90-project-architecture.md` - High-level architecture (numbered high for reference)
 
 **When to Add Rules Here**:
+
 - ✅ Specific to this project's codebase
 - ✅ Code style and patterns
 - ✅ Tool configurations (ESLint, Prettier, etc.)
@@ -92,9 +100,11 @@ This project uses a two-tier system for Cursor AI Assistant rules:
 ## File Naming Convention
 
 ### Root File
+
 - **Single file**: `.cursorrules` (no extension, hidden dotfile)
 
 ### Rule Folder Files
+
 - **Naming**: `NN-topic-name.md` where NN is a two-digit number
 - **Pattern**: Numbers indicate category/order
   - `00-09`: Foundational rules
@@ -104,6 +114,7 @@ This project uses a two-tier system for Cursor AI Assistant rules:
   - `90-99`: Reference/architecture
 
 ### Subdirectories in `.cursor/`
+
 - **`rules/`** - The main rules folder
 - **`chats/`** - Archived conversation summaries (auto-generated, don't edit)
 
@@ -112,6 +123,7 @@ This project uses a two-tier system for Cursor AI Assistant rules:
 ## Content Guidelines
 
 ### Rule File Structure
+
 Each rule file should have:
 
 1. **Main heading**: `# Topic Area`
@@ -121,6 +133,7 @@ Each rule file should have:
 5. **Guidelines**: When/why to apply the rule
 
 ### Example Template
+
 ```markdown
 # Feature Area
 
@@ -154,9 +167,10 @@ const example = () => { }
 4. **Applies contextually** - uses relevant rules for the current task
 
 When you ask me to:
+
 - ✅ "Create a new component" → I check `02-react-patterns.md`
 - ✅ "Fix the build" → I check `.cursorrules` for process rules
-- ✅ "Sort imports" → I check `10-eslint-code-style.md`
+- ✅ "Sort imports" → I check `10-linting-code-style.md`
 
 ---
 
@@ -172,14 +186,15 @@ When you ask me to:
 
 ## Recent Additions
 
-**`10-eslint-code-style.md`** (NEW)
+**`10-linting-code-style.md`** (NEW)
+
 - Import sorting rules for `simple-import-sort`
 - How to fix import order conflicts
 - JSX parentheses handling with Prettier
 - ESLint command reference
 
 This rule was added to standardize:
+
 - Import grouping across the project
 - How to handle ESLint auto-fix
 - Conflict resolution between linters and formatters
-

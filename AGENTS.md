@@ -13,7 +13,7 @@ Rules are canonical in `.github/instructions/` and shared across Claude Code, Cu
 - General: `.github/instructions/00-general.instructions.md`
 - File Naming: `.github/instructions/01-file-naming.instructions.md`
 - TypeScript: `.github/instructions/02-typescript-patterns.instructions.md`
-- ESLint & Style: `.github/instructions/04-eslint-code-style.instructions.md`
+- ESLint & Style: `.github/instructions/04-linting-code-style.instructions.md`
 - Documentation: `.github/instructions/05-documentation.instructions.md`
 - Modern TS Patterns: `.github/instructions/06-modern-typescript-patterns.instructions.md`
 - Variable Naming: `.github/instructions/07-variable-naming.instructions.md`
