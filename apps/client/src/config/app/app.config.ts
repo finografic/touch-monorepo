@@ -6,12 +6,6 @@ export const NUM_GRID_ITEMS: ValidGridSize = 10 as const; // Now 1-based: 1-9
 export const CONFIG_EXPIRY_TIME_MS = 3_600_000; // 1 hour
 export const SNOOZE_INTERVAL_MS = 120_000; // 2 minutes
 
-/** Default idle duration before the admin screensaver overlay appears (milliseconds). */
-/** Fade in/out duration for the admin screensaver overlay (milliseconds). */
-// export const ADMIN_SCREENSAVER_INACTIVITY_MS = 5_000 * 60; // 5 minutes
-export const ADMIN_SCREENSAVER_INACTIVITY_MS = 5_000; // 5 seconds
-export const ADMIN_SCREENSAVER_TRANSITION_MS = 300;
-
 export const POLLING_INTERVAL_1MS = 1_000; // 1 second
 export const POLLING_INTERVAL_MS = 1_000; // 1 second (UI update frequency)
 

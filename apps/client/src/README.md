@@ -309,6 +309,7 @@ Uncaught Error: Maximum update depth exceeded. This can happen when a component 
 ```
 
 This usually means:
+
 1. You need to add `useShallow` to a selector that returns an object
 2. You have a `store.subscribe()` call outside of `useEffect`
 3. You're creating new objects in selectors without proper memoization
@@ -371,4 +372,4 @@ Contributions are welcome! Please read our [contributing guidelines](CONTRIBUTIN
 
 ## License
 
-MIT © [finografic](https://github.com/finografic)
+MIT © [Justin Rankin](https://github.com/finografic)

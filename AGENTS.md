@@ -34,7 +34,7 @@ Rules are canonical in `.github/instructions/` and shared across Claude Code, Cu
 
 ## Git Policy
 
-- IMPORTANT: NEVER include `Co-Authored-By` lines in commit messages. Non-negotiable.
+- Do not include `Co-Authored-By` lines in commit messages.
 - `.github/instructions/10-git-policy.instructions.md` (see Commits and Releases sections)
 
 --
@@ -57,7 +57,6 @@ Rules are canonical in `.github/instructions/` and shared across Claude Code, Cu
 - In `packages/design-system` ESLint, include `globals.browser` with `globals.node` so `no-undef` accepts DOM types (`SVGSVGElement`, `HTMLDivElement`) in components consumed by the browser.
 - Lucide-based icon wrappers: `IconProps` should extend `React.SVGProps<SVGSVGElement>` (not `unknown`) so `ComponentType<IconProps>` accepts Lucide `ForwardRefExoticComponent` types.
 - Workspace resolution: client Vite should define more specific `resolve.alias` entries (e.g. `@workspace/foo/bar`) before the shorter `@workspace/foo` alias so subpaths do not resolve to `index.ts` + suffix paths; the server production bundle must add each used `@workspace/*` package to tsup `noExternal`. Client aliases and `optimizeDeps.include` vs server bundling are documented in `packages/WORKSPACE-RESOLUTION.md`.
-- Admin idle overlay: `Screensaver` is mounted from `AdminLayout`; default idle duration is **`ADMIN_SCREENSAVER_INACTIVITY_MS`** in **`apps/client/src/config/app/app.config.ts`** (override via the component `inactivityMs` prop).
 - Auth.js (JWT): the API may use an ephemeral JWT signing secret in development so sessions do not survive API restarts (`apps/server/src/lib/auth-secret.runtime.ts`, optional `AUTH_INVALIDATE_JWT_ON_SERVER_BOOT` to opt out in dev or force ephemeral in prod).
 - Touch pad routing and grid: default startup lands on `PATHS.main` (`/main`) via the `/` redirect; admin stays under `/admin`. Shared slot iteration uses `mapGridByColumns` in `apps/client/src/utils/grid.utils.ts`; column count should use the same `calculateColumns` helper as admin when deriving dimensions from active slot count.
 - Dialog CSS: keep dialog-related stylesheet imports in `apps/client/src/main.tsx` (e.g. `./styles/css/dialog-V2.css` and `@finografic/design-system` dialog CSS as required by the stack); removing them can break Ark/generic dialog layout (e.g. positioner off-screen or invisible).
