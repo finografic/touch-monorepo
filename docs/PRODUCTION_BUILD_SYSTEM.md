@@ -48,7 +48,7 @@ From the monorepo root:
 
 ```bash
 # Build production distribution
-pnpm build.production
+pnpm build:production
 ```
 
 This command executes the build script located at `scripts/src/build-production/build-production.ts`.
@@ -62,13 +62,13 @@ This command executes the build script located at `scripts/src/build-production/
 
 #### **Step 2: Client Build**
 
-- Runs `pnpm --filter @workspace/client build.production`
+- Runs `pnpm --filter @workspace/client build:production`
 - Uses Vite to create optimized static files
 - Outputs to `deployment/client/`
 
 #### **Step 3: Server Build**
 
-- Runs `pnpm --filter @workspace/server build.production`
+- Runs `pnpm --filter @workspace/server build:production`
 - Uses `tsup` with production configuration
 - Bundles all dependencies into single `index.cjs` file
 - Keeps only native modules (like `better-sqlite3`) external
@@ -263,7 +263,7 @@ npm install
 
 ```bash
 cd /path/to/monorepo
-pnpm build.production
+pnpm build:production
 ```
 
 ### Performance Optimization
@@ -381,7 +381,7 @@ Modify `apps/server/tsup.config.production.ts` to:
 
 When you make changes to the monorepo:
 
-1. **Rebuild**: `pnpm build.production`
+1. **Rebuild**: `pnpm build:production`
 2. **Deploy**: Copy new `deployment` to server
 3. **Restart**: Stop and start the production services
 
@@ -436,6 +436,6 @@ For issues with the production build system:
 1. Check this documentation
 2. Review the build script: `scripts/src/build-production/build-production.ts`
 3. Examine server bundle config: `apps/server/tsup.config.production.ts`
-4. Test with a fresh build: `pnpm build.production`
+4. Test with a fresh build: `pnpm build:production`
 
 The production build system is designed to be robust and self-contained. Most issues can be resolved by rebuilding the distribution or checking file permissions.

@@ -61,11 +61,11 @@ The tool automatically categorizes scripts based on naming patterns:
 
 - `dev`
 - `dev.server`
-- `dev.client`
+- `dev:client`
 - `db.reset.v3-RECOMMENDED`
-- `db.studio`
+- `db:studio`
 - `build`
-- `lint.fix`
+- `lint:fix`
 
 ### Recent Selections
 

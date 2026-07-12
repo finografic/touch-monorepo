@@ -15,13 +15,13 @@ A modular deployment system for creating cross-platform, standalone distribution
 
 ```bash
 # Interactive mode (prompts for options)
-pnpm build.deployment
+pnpm build:deployment
 
 # Platform-specific
-pnpm build.deployment --platform linux --arch arm64 --zip
+pnpm build:deployment --platform linux --arch arm64 --zip
 
 # Standalone with zip
-pnpm build.deployment --standalone --zip
+pnpm build:deployment --standalone --zip
 ```
 
 ## Source Structure

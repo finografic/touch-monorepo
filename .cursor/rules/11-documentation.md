@@ -36,7 +36,7 @@ The project includes an automated script to add/update date tags:
 
 ```bash
 # Run from monorepo root
-pnpm --filter @workspace/scripts md.date-tags
+pnpm --filter @workspace/scripts md:date-tags
 ```
 
 **The script will:**

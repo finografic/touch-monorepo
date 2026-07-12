@@ -30,11 +30,11 @@
 
 ## 2 · Root `package.json` Cleanup
 
-- [x] Removed dead scripts: `postinstall.disabled`, `postinstall.no`, `md.date-tags`, `lint.test-react`, `build.design-system`, `dev.i18n.update`, root `scripts`
+- [x] Removed dead scripts: `postinstall.disabled`, `postinstall.no`, `md:date-tags`, `lint.test-react`, `build.design-system`, `dev.i18n.update`, root `scripts`
 - [x] Removed Changesets publish scripts and `@changesets/cli` devDependency
 - [x] Removed root `peerDependencies`
 - [x] Fixed `author.url` → `https://github.com/finografic`
-- [x] Removed redundant `lint.fix.imports` (import sort lives in ESLint config / `lint.imports` on client)
+- [x] Removed redundant `lint.fix.imports` (import sort lives in ESLint config / `lint:imports` on client)
 
 ---
 
@@ -122,7 +122,7 @@
 - [x] No internal IPs / passwords in docs or deploy scripts
 - [x] `git remote` → GitHub
 - [ ] `pnpm install` from fresh clone (verify locally)
-- [ ] `pnpm db.reset && pnpm dev` from clean state (verify locally)
+- [ ] `pnpm db:reset && pnpm dev` from clean state (verify locally)
 - [x] README describes project and getting started
 - [x] Licence decision (MIT)
 

@@ -34,7 +34,7 @@ packages/i18n/src/translations/common/en.json
 packages/i18n/src/translations/app/en.json
 
 # 2. Update and restart
-pnpm i18n.force
+pnpm i18n:force
 # Ctrl+C and restart dev server
 
 # 3. Test in browser

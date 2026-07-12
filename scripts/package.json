@@ -26,8 +26,8 @@
   "scripts": {
     "========== DEV": "=======================================================",
     "watch": "tsup --format esm,cjs --watch",
-    "md.date-tags": "tsx ./src/add-md-date-tags.ts",
-    "eslint.config.inspect": "npx @eslint/config-inspector --config eslint.config.ts",
+    "md:date-tags": "tsx ./src/add-md-date-tags.ts",
+    "eslint:config:inspect": "npx @eslint/config-inspector --config eslint.config.ts",
     "·········· BUILD": "·····················································",
     "build": "tsup",
     "·········· HOOKS": "·····················································",

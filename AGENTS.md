@@ -28,7 +28,10 @@ Rules are canonical in `.github/instructions/` and shared across Claude Code, Cu
 ## Rules — Markdown Tables
 
 - Padded pipes: one space on each side of every `|`, including the separator row.
-- Align column widths so all cells in the same column are equal width.
+- **Do NOT manually align column widths or pad cells to equal width.** `oxfmt` (run automatically
+  by lint-staged on commit and by `pnpm format:fix`) fixes table alignment automatically. Spending
+  tokens counting characters and iterating on spacing is wasted effort — write the content, let the
+  formatter handle alignment.
 
 ---
 

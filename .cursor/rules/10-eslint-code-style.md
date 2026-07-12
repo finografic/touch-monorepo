@@ -54,7 +54,7 @@ The project uses `simple-import-sort` for consistent import ordering. Imports mu
 
 ### Import Sorting - How to Handle
 
-- **Automatic Fix**: Run `pnpm lint.fix -- path/to/file.tsx` to auto-sort imports
+- **Automatic Fix**: Run `pnpm lint:fix -- path/to/file.tsx` to auto-sort imports
 - **On Save**: Prettier runs on save; you may need to manually trigger ESLint fix for import sorting
 - **Manual Fix**: Group imports according to the categories above, separated by blank lines
 
@@ -121,13 +121,13 @@ return (
 ### Auto-fix specific file
 
 ```bash
-pnpm lint.fix -- path/to/file.tsx
+pnpm lint:fix -- path/to/file.tsx
 ```
 
 ### Auto-fix all TypeScript files in a directory
 
 ```bash
-pnpm lint.fix -- "src/**/*.tsx"
+pnpm lint:fix -- "src/**/*.tsx"
 ```
 
 ### Check without fixing
@@ -253,7 +253,7 @@ module.exports = {
 2. **Check Prettier config**: Verify `@ianvs/prettier-plugin-sort-imports` is in `plugins` array
 3. **Rebuild project**: `pnpm install` or full rebuild often fixes transient issues
 4. **Restart VS Code**: Sometimes plugins need a restart to reload
-5. **Check both systems**: Run `pnpm lint.fix` (ESLint) and `npx prettier --write` (Prettier)
+5. **Check both systems**: Run `pnpm lint:fix` (ESLint) and `npx prettier --write` (Prettier)
 
 ---
 
@@ -382,7 +382,7 @@ These rules conflict with `simple-import-sort` and cause it to stop working comp
 
 ## Best Practices
 
-1. **Don't manually fix import order** - Use `pnpm lint.fix` or let Prettier format on save
+1. **Don't manually fix import order** - Use `pnpm lint:fix` or let Prettier format on save
 2. **Don't add/remove JSX parentheses** - Let Prettier handle it
 3. **Group imports logically** - Follow the grouping rules above
 4. **Blank lines between import groups** - Improves readability (handled automatically)

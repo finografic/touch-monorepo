@@ -157,7 +157,7 @@ cp .env.example .env
 pnpm install
 
 # 3. Initialise the database (generate migrations, run them, seed)
-pnpm db.reset
+pnpm db:reset
 
 # 4. Start all apps in watch mode
 pnpm dev
@@ -182,16 +182,16 @@ Scripts are organised into sections in `package.json`. The most commonly used:
 | :---------------------------- | :----------------------------------------------------- |
 | `pnpm dev`                    | Start client, server, icons server, and Drizzle Studio |
 | `pnpm build`                  | Build all packages and apps via Turbo                  |
-| `pnpm db.reset`               | Drop DB, regenerate migrations, run them, and seed     |
-| `pnpm db.studio`              | Open Drizzle Studio                                    |
-| `pnpm db.migrations.generate` | Generate new Drizzle migration files                   |
-| `pnpm db.migrations.run`      | Apply pending migrations                               |
-| `pnpm i18n.update`            | Pull latest translations from the i18n package         |
-| `pnpm i18n.force`             | Force-regenerate all translation strings               |
+| `pnpm db:reset`               | Drop DB, regenerate migrations, run them, and seed     |
+| `pnpm db:studio`              | Open Drizzle Studio                                    |
+| `pnpm db:migrations:generate` | Generate new Drizzle migration files                   |
+| `pnpm db:migrations:run`      | Apply pending migrations                               |
+| `pnpm i18n:update`            | Pull latest translations from the i18n package         |
+| `pnpm i18n:force`             | Force-regenerate all translation strings               |
 | `pnpm lint`                   | ESLint across all workspaces                           |
-| `pnpm lint.fix`               | ESLint with auto-fix                                   |
+| `pnpm lint:fix`               | ESLint with auto-fix                                   |
 | `pnpm typecheck`              | `tsc --noEmit` at root                                 |
-| `pnpm build.deployment`       | Build a cross-platform deployment archive              |
+| `pnpm build:deployment`       | Build a cross-platform deployment archive              |
 | `pnpm reset`                  | Full clean → install → sync deps → build               |
 
 ---
@@ -204,8 +204,8 @@ The application targets a Raspberry Pi 4 running Ubuntu/Raspberry Pi OS with Nod
 script builds a Linux ARM64 archive and deploys it over SSH.
 
 ```bash
-pnpm build.deployment   # build the archive
-pnpm dev.deploy.pi      # SSH deploy (set PI_HOST first)
+pnpm build:deployment   # build the archive
+pnpm dev:deploy:pi      # SSH deploy (set PI_HOST first)
 ```
 
 See `docs/ubuntu/` for Pi setup instructions (NVM, HID driver installation, Samba/SSH access).

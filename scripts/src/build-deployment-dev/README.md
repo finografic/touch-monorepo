@@ -38,13 +38,13 @@ pnpm build.deployment.standalone
 
 ```bash
 # Custom platform and architecture
-pnpm build.deployment --platform windows --arch x64 --zip
+pnpm build:deployment --platform windows --arch x64 --zip
 
 # Standalone package with custom output
-pnpm build.deployment --standalone --zip --output-dir ./dist
+pnpm build:deployment --standalone --zip --output-dir ./dist
 
 # Universal deployment with Node.js included
-pnpm build.deployment --platform universal --include-node --zip
+pnpm build:deployment --platform universal --include-node --zip
 ```
 
 ## 📦 Deployment Structure
@@ -122,13 +122,13 @@ pnpm build.deployment.standalone
 
 ```bash
 # Windows ARM64 deployment
-pnpm build.deployment --platform windows --arch arm64 --zip
+pnpm build:deployment --platform windows --arch arm64 --zip
 
 # Linux standalone package
-pnpm build.deployment --platform linux --standalone --zip
+pnpm build:deployment --platform linux --standalone --zip
 
 # Universal deployment with custom output
-pnpm build.deployment --platform universal --zip --output-dir ./releases
+pnpm build:deployment --platform universal --zip --output-dir ./releases
 ```
 
 ## 🎯 Use Cases
@@ -147,7 +147,7 @@ pnpm build.deployment.windows
 
 ```bash
 # Create Linux standalone package
-pnpm build.deployment --platform linux --standalone --zip
+pnpm build:deployment --platform linux --standalone --zip
 
 # Result: touch-monorepo-linux-x64-2024-01-15T10-30-00.zip
 # Contains: setup.sh, start-server.sh, start-client.sh
@@ -246,7 +246,7 @@ pnpm build.deployment.universal
 
    ```bash
    pnpm install
-   pnpm build.deployment
+   pnpm build:deployment
    ```
 
 2. **Port Conflicts**
