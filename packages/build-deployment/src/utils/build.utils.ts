@@ -7,14 +7,38 @@ import { cp } from 'fs/promises';
 
 import type { BuildConfig } from '../build-deployment.types.js';
 
+/**
+ * `pnpm --filter <pkg> <script>` exits 0 (not an error) when the filtered
+ * package has no script by that name — it just prints this message and
+ * no-ops instead of building. Without this guard a renamed/typo'd script
+ * silently skips the build and a stale `dist/` gets packaged instead.
+ */
+function runWorkspaceBuildScript({ packageName, scriptName, cwd }: {
+  packageName: string;
+  scriptName: string;
+  cwd: string;
+}): void {
+  const output = execSync(`pnpm --filter ${packageName} ${scriptName}`, {
+    cwd,
+    encoding: 'utf8',
+  });
+
+  console.log(output);
+
+  if (output.includes('None of the selected packages has a')) {
+    throw new Error(`Script "${scriptName}" not found in ${packageName} — check package.json`);
+  }
+}
+
 /** Build the client app and copy output to the deployment directory. */
 export async function buildClient({ config }: { config: BuildConfig }): Promise<void> {
   console.log('🏗️  Building client application...');
 
   try {
-    execSync('pnpm --filter @workspace/client build.production', {
+    runWorkspaceBuildScript({
+      packageName: '@workspace/client',
+      scriptName: 'build:production',
       cwd: config.workspaceRoot,
-      stdio: 'inherit',
     });
 
     const clientBuildDir = join(config.clientDir, 'dist');
@@ -24,6 +48,7 @@ export async function buildClient({ config }: { config: BuildConfig }): Promise<
     console.log('✅ Client build copied to deployment');
   } catch (error) {
     console.error('❌ Client build failed:', error);
+    if (error && typeof error === 'object' && 'stdout' in error) console.error(String(error.stdout));
     throw error;
   }
 }
@@ -33,9 +58,10 @@ export async function buildServer({ config }: { config: BuildConfig }): Promise<
   console.log('🏗️  Building server application...');
 
   try {
-    execSync('pnpm --filter @workspace/server build.production', {
+    runWorkspaceBuildScript({
+      packageName: '@workspace/server',
+      scriptName: 'build:production',
       cwd: config.workspaceRoot,
-      stdio: 'inherit',
     });
 
     const serverBuildDir = join(config.serverDir, 'dist');
@@ -45,6 +71,7 @@ export async function buildServer({ config }: { config: BuildConfig }): Promise<
     console.log('✅ Server build copied to deployment');
   } catch (error) {
     console.error('❌ Server build failed:', error);
+    if (error && typeof error === 'object' && 'stdout' in error) console.error(String(error.stdout));
     throw error;
   }
 }
