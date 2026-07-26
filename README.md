@@ -49,6 +49,53 @@ relay on/off state internally and resets all relays to OFF on startup.
 
 ---
 
+## Relay Hardware in Detail
+
+Each dispensing slot is wired to a channel on a **USBRelay8** board (also sold as the **HW-554**, 8-channel
+12V USB HID relay module). One board gives 8 channels; the system supports **one or two boards connected at
+once**, for up to 16 independently controlled slots.
+
+<p align="center">
+  <img src="docs/images/HW-554_USB-relay-board.png" alt="HW-554 8-channel USB relay board" width="480" />
+</p>
+
+> Datasheet: [HW-554 / 200765 — 8 Channel 12V USB Control Switch](https://www.mantech.co.za/datasheets/products/HW-554-200765.pdf)
+
+The board enumerates over USB HID (`0x16c0` / `0x05df`) — no custom driver needed, `node-hid` talks to it
+directly. The server never has to guess which physical board is which: relays 1–8 always live on the first
+board, relays 9–16 on the second, and each relay is switched with a 9-byte HID feature report (`0xff`/`0xfd`
+for single-channel on/off, `0xfe`/`0xfc` for bulk all-on/all-off in one write). See
+[docs/relays/hardware.md](docs/relays/hardware.md) for the full protocol.
+
+### Mapping relays to slots
+
+A relay board only knows channel numbers — it has no concept of "slot 4" or "the left-hand tap." That mapping
+is configured in the admin UI, which lets an operator assign any physical relay number (1–16, across both
+boards) to any slot in the app:
+
+<p align="center">
+  <img src="docs/images/touch_admin--relay-mapping.png" alt="Admin UI for mapping app slots to physical relay numbers" width="640" />
+</p>
+
+The mapping is one-to-one and stored per slot (`slot_configurations.relayNumber`); unassigned slots stay
+`null` and are simply never sent a command. See [docs/relays/server.md](docs/relays/server.md) and
+[docs/relays/client.md](docs/relays/client.md) for how this flows through the API and admin page.
+
+### The relay in action
+
+On the front-of-house touchscreen (a Raspberry Pi 4 running the client in kiosk mode), starting a dispensing
+session starts a countdown timer for that slot **and switches its mapped relay ON** for the duration. When
+the timer reaches `00:00`, the relay is switched back **OFF** automatically:
+
+<p align="center">
+  <img src="docs/images/touch_main-touchscreen-ui.png" alt="Main touchscreen UI showing active countdown timers, each driving its mapped relay" width="640" />
+</p>
+
+In short: **admin UI decides *which* relay a slot controls, the main touchscreen UI decides *when* it's
+switched — timer running means relay on, timer at zero means relay off.**
+
+---
+
 ## Workspace Layout
 
 ```
