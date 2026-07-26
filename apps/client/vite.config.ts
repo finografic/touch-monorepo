@@ -105,6 +105,9 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
     resolve: {
       // Force linked packages (pnpm link) to share a single instance of
       // React and Ark UI — prevents "invalid hook call" / multiple copies.
+      // Linked DS may nest react@19 under its own node_modules; dedupe keeps
+      // the client on one copy. Do not alias react to an absolute path — that
+      // bypasses optimizeDeps and serves CJS via /@fs (blank screen).
       dedupe: ['react', 'react-dom', '@ark-ui/react'],
       extensions: ['.tsx', '.ts', '.jsx', '.js', '.mjs', '.cjs', '.json'],
       alias: {
@@ -189,7 +192,13 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
         '@finografic/design-system/viewport',
       ],
       include: [
+        // React must be pre-bundled: linked/excluded DS deps otherwise load React's
+        // CJS entry via /@fs, which has no ESM `default` export (blank screen).
+        'react',
+        'react-dom',
         'react/jsx-runtime',
+        'react/jsx-dev-runtime',
+        '@emotion/react',
         '@workspace/core',
         '@workspace/core/types',
         '@workspace/core/types/utils',
@@ -205,3 +214,4 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
     },
   };
 });
+

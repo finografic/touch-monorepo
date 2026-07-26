@@ -1,5 +1,6 @@
+import type { RegionLocale } from '@workspace/config/i18n.config';
+
 import { languagesCodeToKey } from 'admin/utils/language.utils';
-import type { RegionLocale } from 'node_modules/@workspace/i18n/dist/_tsup-dts-rollup';
 
 import type { TranslationsApiItem, TranslationsFormItem } from '../translationsProduct.types';
 
@@ -40,3 +41,4 @@ export const TranslationsDto = {
     translations: Object.fromEntries(languages.map((lang) => [lang, item[languagesCodeToKey(lang)] ?? ''])),
   }),
 };
+

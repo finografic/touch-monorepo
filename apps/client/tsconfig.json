@@ -50,6 +50,9 @@
       "@styled-system/css": ["./styled-system/css"],
       "@styled-system/jsx": ["./styled-system/jsx"],
       "@styled-system/recipes": ["./src/styled-system/recipes.ts"],
+      // Do NOT path-map `react` / `react-dom` here. vite-tsconfig-paths turns those into
+      // absolute /@fs file URLs, which bypass Vite optimizeDeps and serve React's CJS
+      // entry (no ESM default export → blank screen). Use vite resolve.dedupe instead.
       // Custom aliases for specific use cases
       "@workspace/i18n/flags/images": ["./src/components/LanguageSelector/languages/images"],
       "@workspace/i18n/flags/images/*": ["./src/components/LanguageSelector/languages/images/*"]
@@ -91,3 +94,5 @@
   ],
   "exclude": ["dist", "node_modules", "eslint--V1.config.mjs"]
 }
+
+
