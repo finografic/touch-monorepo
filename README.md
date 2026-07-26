@@ -2,9 +2,7 @@
 
 > Full-stack TypeScript monorepo for an IoT-connected product management and operational control system.
 
-A production-deployed application that manages physical beverage dispenser units through USB-connected relay
-hardware. Operators configure cooling profiles, track active sessions, manage orders, and control hardware state
-through a real-time web interface — all running on a Raspberry Pi at the edge.
+A production-deployed application that manages physical beverage dispenser units through USB-connected relay hardware. Operators configure cooling profiles, track active sessions, manage orders, and control hardware state through a real-time web interface, all running on a Raspberry Pi at the edge.
 
 ---
 
@@ -21,7 +19,7 @@ through a real-time web interface — all running on a Raspberry Pi at the edge.
 | Server        | Hono, `@hono/node-server`                                                         |
 | Database      | Drizzle ORM, better-sqlite3 (SQLite)                                              |
 | Auth          | Auth.js (`@auth/core` + `@auth/drizzle-adapter`)                                  |
-| Hardware      | USB HID relay boards (USBRelay8) via `node-hid` — up to 16 relays across 2 boards |
+| Hardware      | USB HID relay boards (USBRelay8) via `node-hid` (up to 16 relays across 2 boards) |
 | Logging       | Pino (structured, request-level)                                                  |
 | Env config    | Valibot-validated env, auto-resolved dotenv (`@workspace/config`)                 |
 | Build         | tsdown (server), Vite (client)                                                    |
@@ -44,55 +42,57 @@ via a relay board. Operators interact through the web UI to:
 - Administer users, languages, and translation strings
 - Monitor system health via API
 
-Hardware state is managed by the server: USB relay boards do not report current state, so the server tracks
-relay on/off state internally and resets all relays to OFF on startup.
+Hardware state is managed by the server: USB relay boards do not report current state, so the server tracks relay on/off state internally and resets all relays to OFF on startup.
 
 ---
 
 ## Relay Hardware in Detail
 
-Each dispensing slot is wired to a channel on a **USBRelay8** board (also sold as the **HW-554**, 8-channel
-12V USB HID relay module). One board gives 8 channels; the system supports **one or two boards connected at
-once**, for up to 16 independently controlled slots.
+Each dispensing slot is wired to a channel on a **USBRelay8** board (also sold as the **HW-554**, 8-channel 12V USB HID relay module). One board gives 8 channels; the system supports **one or two boards connected at once**, for up to 16 independently controlled slots.
 
 <p align="center">
   <img src="docs/images/HW-554_USB-relay-board.png" alt="HW-554 8-channel USB relay board" width="480" />
 </p>
 
-> Datasheet: [HW-554 / 200765 — 8 Channel 12V USB Control Switch](https://www.mantech.co.za/datasheets/products/HW-554-200765.pdf)
+> Datasheet: [HW-554 / 200765, 8 Channel 12V USB Control Switch](https://www.mantech.co.za/datasheets/products/HW-554-200765.pdf)
 
-The board enumerates over USB HID (`0x16c0` / `0x05df`) — no custom driver needed, `node-hid` talks to it
-directly. The server never has to guess which physical board is which: relays 1–8 always live on the first
-board, relays 9–16 on the second, and each relay is switched with a 9-byte HID feature report (`0xff`/`0xfd`
-for single-channel on/off, `0xfe`/`0xfc` for bulk all-on/all-off in one write). See
-[docs/relays/hardware.md](docs/relays/hardware.md) for the full protocol.
+The board enumerates over USB HID (`0x16c0` / `0x05df`), so no custom driver is needed; `node-hid` talks to it directly. The server never has to guess which physical board is which: relays 1–8 always live on the first board, relays 9–16 on the second, and each relay is switched with a 9-byte HID feature report (`0xff`/`0xfd` for single-channel on/off, `0xfe`/`0xfc` for bulk all-on/all-off in one write).
+
+See [docs/relays/hardware.md](docs/relays/hardware.md) for the full protocol.
 
 ### Mapping relays to slots
 
-A relay board only knows channel numbers — it has no concept of "slot 4" or "the left-hand tap." That mapping
-is configured in the admin UI, which lets an operator assign any physical relay number (1–16, across both
-boards) to any slot in the app:
+A relay board only knows channel numbers, it has no concept of "slot 4" or "the left-hand tap." That mapping is configured in the admin UI, which lets an operator assign any physical relay number (1–16, across both boards) to any slot in the app:
 
 <p align="center">
   <img src="docs/images/touch_admin--relay-mapping.png" alt="Admin UI for mapping app slots to physical relay numbers" width="640" />
 </p>
 
-The mapping is one-to-one and stored per slot (`slot_configurations.relayNumber`); unassigned slots stay
-`null` and are simply never sent a command. See [docs/relays/server.md](docs/relays/server.md) and
-[docs/relays/client.md](docs/relays/client.md) for how this flows through the API and admin page.
+The mapping is one-to-one and stored per slot (`slot_configurations.relayNumber`); unassigned slots stay `null` and are simply never sent a command. See [docs/relays/server.md](docs/relays/server.md) and [docs/relays/client.md](docs/relays/client.md) for how this flows through the API and admin page.
+
+### Grid assignment
+
+Relay assignment is only half the story: each slot also has to land somewhere on the grid the operator actually taps. The admin **Grid** page configures that layout: number of columns/rows, slot type per position (`Type A`/`B`/`C`/etc.), and the special slots (grid, alt, power) shown on the right:
+
+<p align="center">
+  <img src="docs/images/touch_admin--ui-pad-mapping.png" alt="Admin UI for configuring grid layout and slot types" width="640" />
+</p>
+
+That same layout, same slot numbers, same columns × rows, is what actually renders on the front-facing touchscreen (see below), just swapped from admin's square/labelled cells to the round pads operators tap.
+
+Grid layout and relay mapping are configured independently but share the same slot numbering, and both are read from `slot_configurations` at render time. The grid iteration itself (rows/columns to slot position) is driven by a single shared function, `mapGridByColumns` (`apps/client/src/utils/grid.utils.ts`), used by both the admin `SlotGrid` and the main page's `MainPageSlotGrid`, so admin and touchscreen never drift out of sync on *where* a slot appears; relay mapping separately decides *what hardware* it drives. See [apps/client/src/utils/grid.utils.README.md](apps/client/src/utils/grid.utils.README.md) for how column count is derived from active slot count.
 
 ### The relay in action
 
-On the front-of-house touchscreen (a Raspberry Pi 4 running the client in kiosk mode), starting a dispensing
-session starts a countdown timer for that slot **and switches its mapped relay ON** for the duration. When
-the timer reaches `00:00`, the relay is switched back **OFF** automatically:
+On the front-of-house touchscreen (a Raspberry Pi 4 running the client in kiosk mode), starting a dispensing session starts a countdown timer for that slot **and switches its mapped relay ON** for the duration. When the timer reaches `00:00`, the relay is switched back **OFF** automatically:
 
 <p align="center">
   <img src="docs/images/touch_main-touchscreen-ui.png" alt="Main touchscreen UI showing active countdown timers, each driving its mapped relay" width="640" />
 </p>
 
-In short: **admin UI decides *which* relay a slot controls, the main touchscreen UI decides *when* it's
-switched — timer running means relay on, timer at zero means relay off.**
+In short: **admin UI decides *which* relay a slot controls, the main touchscreen UI decides *when* it's switched: timer running means relay on, timer at zero means relay off.**
+
+The admin UI isn't limited to the Pi's own touchscreen, it's just a web app, so it can also be reached from a laptop or desktop over the local WiFi/network (e.g. `http://<PI_IP>:4040`), behind the normal password-protected admin login. See [docs/ubuntu/RASPBERRY_PI_NETWORK_ACCESS.md](docs/ubuntu/RASPBERRY_PI_NETWORK_ACCESS.md) for how to find the Pi's IP and connect.
 
 ---
 
@@ -109,7 +109,7 @@ touch-monorepo/
 │   ├── i18n/                # i18next config, translation generators, ISO codes
 │   ├── icons/               # Lucide-react icon registry wrapper
 │   └── build-deployment/    # CLI for cross-platform deployment archives
-├── config/                  # @workspace/config — env validation + db-setup config
+├── config/                  # @workspace/config: env validation + db-setup config
 ├── scripts/                 # Internal build scripts, script runner, utilities
 ├── deployments/             # Pi installation shell scripts (HID drivers, NVM, apt)
 ├── docs/                    # Architecture docs, relay docs, i18n docs, todo lists
@@ -123,7 +123,7 @@ touch-monorepo/
 
 ## Apps
 
-### `apps/client` — React 18 SPA
+### `apps/client` (React 18 SPA)
 
 Served by Vite on port **3000** in development. Proxies all `/api` requests to the server.
 
@@ -141,14 +141,14 @@ Served by Vite on port **3000** in development. Proxies all `/api` requests to t
 **Notable features:**
 
 - Real-time session timers with server-synchronised state
-- Form middleware system — reusable cross-cutting concerns for React Hook Form
+- Form middleware system, reusable cross-cutting concerns for React Hook Form
 - Smart fallback architecture for partial data states
 - TanStack Query for all server data with optimistic updates
 - Zustand for client-local UI state
 - Language switcher with per-user persistence (EN / ES / CA)
 - Panda CSS utility tokens + Emotion component styling via `@finografic/design-system`
 
-### `apps/server` — Hono API + Hardware
+### `apps/server` (Hono API + Hardware)
 
 Hono application served on port **4040** in development, built with `tsdown` for production.
 
@@ -169,8 +169,8 @@ Hono application served on port **4040** in development, built with `tsdown` for
 
 **Hardware startup sequence:**
 
-1. `pre-startup.ts` — detects connected USBRelay8 boards and resets all relays to OFF
-2. `usbrelay.service.ts` — manages relay state across up to 2 boards (16 relays)
+1. `pre-startup.ts`: detects connected USBRelay8 boards and resets all relays to OFF
+2. `usbrelay.service.ts`: manages relay state across up to 2 boards (16 relays)
 3. Relay routes expose per-relay toggle and bulk-reset endpoints to the client
 
 ---
@@ -192,13 +192,12 @@ Hono application served on port **4040** in development, built with `tsdown` for
 
 **Requirements:** Node ≥ 22.17.1, pnpm ≥ 10.17.1
 
-> A GitHub Personal Access Token is required to install `@finografic/*` packages from the GitHub Packages
-> registry. Add it to your `.env` file — the `.npmrc` loads it automatically.
+> A GitHub Personal Access Token is required to install `@finografic/*` packages from the GitHub Packages registry. Add it to your `.env` file; the `.npmrc` loads it automatically.
 
 ```bash
 # 1. Copy the environment template
 cp .env.example .env
-# Edit .env — set GITHUB_TOKEN and AUTH_SECRET at minimum
+# Edit .env: set GITHUB_TOKEN and AUTH_SECRET at minimum
 
 # 2. Install dependencies
 pnpm install
@@ -216,8 +215,7 @@ Drizzle Studio starts on `http://localhost:4983`.
 
 ### Hardware (optional)
 
-Connect a USBRelay8 board before starting. The server auto-detects and resets it on startup. Set
-`RELAY_ENABLED=true` and `RELAY_NUM_RELAYS=8` (or `16` for two boards) in your `.env`.
+Connect a USBRelay8 board before starting. The server auto-detects and resets it on startup. Set `RELAY_ENABLED=true` and `RELAY_NUM_RELAYS=8` (or `16` for two boards) in your `.env`.
 
 ---
 
@@ -247,8 +245,7 @@ Scripts are organised into sections in `package.json`. The most commonly used:
 
 ### Raspberry Pi
 
-The application targets a Raspberry Pi 4 running Ubuntu/Raspberry Pi OS with Node.js. The `deploy-to-pi.sh`
-script builds a Linux ARM64 archive and deploys it over SSH.
+The application targets a Raspberry Pi 4 running Ubuntu/Raspberry Pi OS with Node.js. The `deploy-to-pi.sh` script builds a Linux ARM64 archive and deploys it over SSH.
 
 ```bash
 pnpm build:deployment   # build the archive
@@ -259,8 +256,7 @@ See `docs/ubuntu/` for Pi setup instructions (NVM, HID driver installation, Samb
 
 ### Cross-Platform
 
-`packages/build-deployment` produces standalone zip archives for Linux (arm64, x64), Windows (x64), and
-macOS (x64, arm64) via the `pkg` bundler.
+`packages/build-deployment` produces standalone zip archives for Linux (arm64, x64), Windows (x64), and macOS (x64, arm64) via the `pkg` bundler.
 
 ---
 
@@ -268,9 +264,7 @@ macOS (x64, arm64) via the `pkg` bundler.
 
 Three supported languages: **English (en)**, **Spanish (es)**, **Catalan (ca)**.
 
-Translation strings are stored in the database and served dynamically by the API. The `@workspace/i18n`
-package contains generators for syncing translation keys and ISO language code utilities. Language preference
-is persisted per user.
+Translation strings are stored in the database and served dynamically by the API. The `@workspace/i18n` package contains generators for syncing translation keys and ISO language code utilities. Language preference is persisted per user.
 
 ---
 
@@ -278,17 +272,17 @@ is persisted per user.
 
 `docs/` contains detailed architecture documentation:
 
-- `API_ARCHITECTURE.md` — API design patterns and route conventions
-- `TIMER_AND_SESSION_SYSTEM.md` — Real-time session timer design
-- `FormMiddleware-System.md` — React Hook Form middleware pattern
-- `SMART_FALLBACK_ARCHITECTURE.md` — Partial data state handling
-- `PRODUCTION_BUILD_SYSTEM.md` — Build and deployment pipeline
-- `docs/relays/` — Relay hardware docs (README, hardware spec, server integration, client control)
-- `docs/i18n/` — i18n system design and generator docs
-- `docs/auth/` — Auth.js integration and session management
+- `API_ARCHITECTURE.md`: API design patterns and route conventions
+- `TIMER_AND_SESSION_SYSTEM.md`: Real-time session timer design
+- `FormMiddleware-System.md`: React Hook Form middleware pattern
+- `SMART_FALLBACK_ARCHITECTURE.md`: Partial data state handling
+- `PRODUCTION_BUILD_SYSTEM.md`: Build and deployment pipeline
+- `docs/relays/`: Relay hardware docs (README, hardware spec, server integration, client control)
+- `docs/i18n/`: i18n system design and generator docs
+- `docs/auth/`: Auth.js integration and session management
 
 ---
 
 ## License
 
-[MIT](LICENSE) — portfolio / demonstration use. Hardware deployment and production operation are your responsibility.
+[MIT](LICENSE), portfolio / demonstration use. Hardware deployment and production operation are your responsibility.
