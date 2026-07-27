@@ -65,7 +65,7 @@ See [docs/relays/hardware.md](docs/relays/hardware.md) for the full protocol.
 A relay board only knows channel numbers, it has no concept of "slot 4" or "the left-hand tap." That mapping is configured in the admin UI, which lets an operator assign any physical relay number (1–16, across both boards) to any slot in the app:
 
 <p align="center">
-  <img src="docs/images/touch_admin--relay-mapping.png" alt="Admin UI for mapping app slots to physical relay numbers" width="640" />
+  <img src="docs/images/touch_admin--relay-mapping.png" alt="Admin UI for mapping app slots to physical relay numbers"  />
 </p>
 
 The mapping is one-to-one and stored per slot (`slot_configurations.relayNumber`); unassigned slots stay `null` and are simply never sent a command. See [docs/relays/server.md](docs/relays/server.md) and [docs/relays/client.md](docs/relays/client.md) for how this flows through the API and admin page.
@@ -75,22 +75,22 @@ The mapping is one-to-one and stored per slot (`slot_configurations.relayNumber`
 Relay assignment is only half the story: each slot also has to land somewhere on the grid the operator actually taps. The admin **Grid** page configures that layout: number of columns/rows, slot type per position (`Type A`/`B`/`C`/etc.), and the special slots (grid, alt, power) shown on the right:
 
 <p align="center">
-  <img src="docs/images/touch_admin--ui-pad-mapping.png" alt="Admin UI for configuring grid layout and slot types" width="640" />
+  <img src="docs/images/touch_admin--ui-pad-mapping.png" alt="Admin UI for configuring grid layout and slot types" />
 </p>
 
 That same layout, same slot numbers, same columns × rows, is what actually renders on the front-facing touchscreen (see below), just swapped from admin's square/labelled cells to the round pads operators tap.
 
-Grid layout and relay mapping are configured independently but share the same slot numbering, and both are read from `slot_configurations` at render time. The grid iteration itself (rows/columns to slot position) is driven by a single shared function, `mapGridByColumns` (`apps/client/src/utils/grid.utils.ts`), used by both the admin `SlotGrid` and the main page's `MainPageSlotGrid`, so admin and touchscreen never drift out of sync on *where* a slot appears; relay mapping separately decides *what hardware* it drives. See [apps/client/src/utils/grid.utils.README.md](apps/client/src/utils/grid.utils.README.md) for how column count is derived from active slot count.
+Grid layout and relay mapping are configured independently but share the same slot numbering, and both are read from `slot_configurations` at render time. The grid iteration itself (rows/columns to slot position) is driven by a single shared function, `mapGridByColumns` (`apps/client/src/utils/grid.utils.ts`), used by both the admin `SlotGrid` and the main page's `MainPageSlotGrid`, so admin and touchscreen never drift out of sync on _where_ a slot appears; relay mapping separately decides _what hardware_ it drives. See [apps/client/src/utils/grid.utils.README.md](apps/client/src/utils/grid.utils.README.md) for how column count is derived from active slot count.
 
 ### The relay in action
 
 On the front-of-house touchscreen (a Raspberry Pi 4 running the client in kiosk mode), starting a dispensing session starts a countdown timer for that slot **and switches its mapped relay ON** for the duration. When the timer reaches `00:00`, the relay is switched back **OFF** automatically:
 
 <p align="center">
-  <img src="docs/images/touch_main-touchscreen-ui.png" alt="Main touchscreen UI showing active countdown timers, each driving its mapped relay" width="640" />
+  <img src="docs/images/touch_main-touchscreen-ui.png" alt="Main touchscreen UI showing active countdown timers, each driving its mapped relay"  />
 </p>
 
-In short: **admin UI decides *which* relay a slot controls, the main touchscreen UI decides *when* it's switched: timer running means relay on, timer at zero means relay off.**
+In short: **admin UI decides _which_ relay a slot controls, the main touchscreen UI decides _when_ it's switched: timer running means relay on, timer at zero means relay off.**
 
 The admin UI isn't limited to the Pi's own touchscreen, it's just a web app, so it can also be reached from a laptop or desktop over the local WiFi/network (e.g. `http://<PI_IP>:4040`), behind the normal password-protected admin login. See [docs/ubuntu/RASPBERRY_PI_NETWORK_ACCESS.md](docs/ubuntu/RASPBERRY_PI_NETWORK_ACCESS.md) for how to find the Pi's IP and connect.
 
